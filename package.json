@@ -1,0 +1,34 @@
+{
+  "name": "sqsoMobile",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint .",
+    "pep": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android"
+
+  },
+  "dependencies": {
+    "@aws-amplify/pushnotification": "^1.0.29",
+    "@react-native-community/async-storage": "^1.6.1",
+    "amazon-cognito-identity-js": "^3.0.14",
+    "aws-amplify": "^1.1.32",
+    "react": "16.8.6",
+    "react-native": "0.60.4"
+  },
+  "devDependencies": {
+    "@babel/core": "7.5.5",
+    "@babel/runtime": "7.5.5",
+    "@react-native-community/eslint-config": "0.0.3",
+    "babel-jest": "24.8.0",
+    "eslint": "6.1.0",
+    "jest": "24.8.0",
+    "jetifier": "^1.6.3",
+    "metro-react-native-babel-preset": "0.54.1",
+    "react-test-renderer": "16.8.6"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "750953848595",
+    "firebase_url": "https://superqso.firebaseio.com",
+    "project_id": "superqso",
+    "storage_bucket": "superqso.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750953848595:android:ac99f3900e9c6857",
+        "android_client_info": {
+          "package_name": "com.sqsomobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750953848595-o29ofs3tas6mv7jcbdnorn47j9mf7dr1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIbTnt5UNe7ttIlWcYNECKLxH5n0UPkd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750953848595-o29ofs3tas6mv7jcbdnorn47j9mf7dr1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
