@@ -54,56 +54,63 @@ PushNotification.onRegister(token => {
   }
 });
 
-signin = async () => {
-  await Auth.signIn("LU2FFF", "sabrina")
-    .then(() => {
-      console.log("entro!");
-      this.usernotfound = false;
-    })
-    .catch(err => {
-      console.log("error:", err.code);
-      console.log(err);
+class App extends React.Component {
+  async componentDidMount() {
+    PushNotification.onNotification(notification => {
+      console.log("antes imprimir");
+      console.log("in app notification", notification);
+      console.log("despues de imprimir");
     });
-};
+  }
+  signin = async () => {
+    await Auth.signIn("LU2FFF", "sabrina")
+      .then(() => {
+        console.log("entro!");
+        this.usernotfound = false;
+      })
+      .catch(err => {
+        console.log("error:", err.code);
+        console.log(err);
+      });
+  };
+  get = async () => {
+    const res = await AsyncStorage.getItem("identity");
+    console.log("identityID: " + res);
+  };
 
-get = async () => {
-  const res = await AsyncStorage.getItem("identity");
-  console.log("identityID: " + res);
-};
+  save = async () => {
+    await AsyncStorage.setItem("identity", "pepin");
+  };
+  render() {
+    return (
+      <Fragment>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}
+          >
+            <View>
+              <Text>Hola</Text>
 
-save = async () => {
-  await AsyncStorage.setItem("identity", "pepin");
-};
+              <TouchableOpacity onPress={() => this.signin()}>
+                <Text>LOGIN</Text>
+              </TouchableOpacity>
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
-        >
-          <View>
-            <Text>Hola</Text>
+              <TouchableOpacity onPress={() => this.save()}>
+                <Text>SET</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => this.signin()}>
-              <Text>LOGIN</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => this.save()}>
-              <Text>SET</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => this.get()}>
-              <Text>GET</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+              <TouchableOpacity onPress={() => this.get()}>
+                <Text>GET</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </Fragment>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   scrollView: {
