@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  Platform,
   TouchableOpacity
 } from "react-native";
 
@@ -54,13 +55,49 @@ PushNotification.onRegister(token => {
   }
 });
 
+PushNotification.onNotification(notification => {
+  console.log("antes imprimir");
+//   console.log("in app notification", notification);
+    if (Platform.OS==='android')
+    {   // console.log('AVATR: '+notification.data);
+    try {
+          console.log('paso por ANDROID')
+              let body = notification.data['pinpoint.jsonBody'];
+            // let body = notification._data['data.pinpoint.jsonBody'];
+            
+              let bodyJson = JSON.parse(body)
+            
+              console.log(bodyJson);
+              
+
+    } 
+    catch (e)
+        {   }
+ 
+    }else
+    {
+      try {
+        console.log('paso por IOS')
+        let bodyJson = notification._data.data.jsonBody;
+        
+        // let body = notification._data['data.pinpoint.jsonBody'];
+
+          // let bodyJson = JSON.parse(body)
+        
+          console.log(bodyJson);
+         
+        } 
+        catch (e)
+            {   }
+
+
+    }
+  console.log("despues de imprimir");
+});
+
 class App extends React.Component {
   async componentDidMount() {
-    PushNotification.onNotification(notification => {
-      console.log("antes imprimir");
-      console.log("in app notification", notification);
-      console.log("despues de imprimir");
-    });
+   
   }
   signin = async () => {
     await Auth.signIn("LU2FFF", "sabrina")
