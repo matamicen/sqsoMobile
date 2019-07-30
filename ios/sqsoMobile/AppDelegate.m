@@ -8,9 +8,11 @@
 #import "AppDelegate.h"
 #import <React/RCTPushNotificationManager.h>
 
+
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+@import Firebase;
 
 @implementation AppDelegate
 
@@ -28,6 +30,11 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  [FIRApp configure];
+  // [GADMobileAds configureWithApplicationID:@"ca-app-pub-7987914246691031~8295071692"];
+//  [GADMobileAds  configureWithApplicationID:@"ca-app-pub-1064314468310203~8912907965"];
+  [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
   return YES;
 }
 

@@ -29,7 +29,9 @@ target 'sqsoMobile' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'React-RCTPushNotification', :path => '../node_modules/react-native/Libraries/PushNotificationIOS'
 
-
+  pod 'Firebase/Core'
+  pod 'Firebase/AdMob'
+  
   target 'sqsoMobileTests' do
     inherit! :search_paths
     # Pods for testing
