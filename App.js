@@ -31,8 +31,11 @@ import Analytics from "@aws-amplify/analytics";
 
 import awsconfig from "./aws-exports";
 import AsyncStorage from "@react-native-community/async-storage";
-
+import { PushNotificationIOS } from 'react-native';
 import PushNotification from "@aws-amplify/pushnotification";
+// import firebase from 'react-native-firebase';
+import Adinter from './AdInter';
+import AdVideoReward from './AdVideoReward';
 
 Analytics.configure(awsconfig);
 
@@ -62,12 +65,14 @@ PushNotification.onNotification(notification => {
     {   // console.log('AVATR: '+notification.data);
     try {
           console.log('paso por ANDROID')
-              let body = notification.data['pinpoint.jsonBody'];
-            // let body = notification._data['data.pinpoint.jsonBody'];
+            //   let body = notification.data['pinpoint.jsonBody'];
+            // // let body = notification._data['data.pinpoint.jsonBody'];
             
-              let bodyJson = JSON.parse(body)
+            //   let bodyJson = JSON.parse(body)
             
-              console.log(bodyJson);
+            //   console.log(bodyJson);
+            console.log(notification);
+            
               
 
     } 
@@ -78,13 +83,15 @@ PushNotification.onNotification(notification => {
     {
       try {
         console.log('paso por IOS')
-        let bodyJson = notification._data.data.jsonBody;
+      //  let bodyJson = notification._data.data.jsonBody;
         
         // let body = notification._data['data.pinpoint.jsonBody'];
 
           // let bodyJson = JSON.parse(body)
         
-          console.log(bodyJson);
+        //  console.log(bodyJson);
+          console.log(notification);
+          notification.finish(PushNotificationIOS.FetchResult.NoData);
          
         } 
         catch (e)
@@ -111,8 +118,12 @@ class App extends React.Component {
       });
   };
   get = async () => {
-    const res = await AsyncStorage.getItem("identity");
+     res = await AsyncStorage.getItem("identity");
+    
     console.log("identityID: " + res);
+     res = await AsyncStorage.getItem("pushtoken");
+
+    console.log("pushtoken: " + res);
   };
 
   save = async () => {
@@ -128,6 +139,8 @@ class App extends React.Component {
             style={styles.scrollView}
           >
             <View>
+               <Adinter />  
+              {/* <AdVideoReward /> */}
               <Text>Hola</Text>
 
               <TouchableOpacity onPress={() => this.signin()}>

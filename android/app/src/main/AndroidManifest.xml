@@ -46,6 +46,10 @@
             </intent-filter>
         </receiver>
         <!-- [END Push notification config -->
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1064314468310203~8912907965"/>
     </application>
 
 </manifest>
