@@ -192,11 +192,15 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
+  - RNGestureHandler (1.3.0):
+    - React
   - RNImageCropPicker (0.25.0):
     - QBImagePickerController
     - React-Core
     - React-RCTImage
     - RSKImageCropper
+  - RNReanimated (1.2.0):
+    - React
   - RSKImageCropper (2.2.3)
   - yoga (0.60.4.React)
 
@@ -235,7 +239,9 @@ DEPENDENCIES:
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -324,8 +330,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNFirebase:
     :path: "../node_modules/react-native-firebase/ios"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -379,7 +389,9 @@ SPEC CHECKSUMS:
   RNAWSCognito: 74cf80de543287926699f64d7bc5f61e13008217
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
+  RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
+  RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 

@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
-
+import { connect } from 'react-redux';
 import firebase from "react-native-firebase";
+import {
+   
+    manageLocationPermissions
+    
+  } from "../../actions";
+  import VariosModales from "./VariosModales";
 
 
 class AdVideoReward extends Component {
@@ -71,7 +77,7 @@ class AdVideoReward extends Component {
               console.log("Advert video rewarded is ready to show.");
               this.videorewardLoaded = true;
             //  alert("video reward loaded!");
-                  this.advertVideoReward.show();
+             //     this.advertVideoReward.show();
            //       this.setState({ waitingModal: false, prevideorewarded: true });
 
             });
@@ -83,13 +89,16 @@ class AdVideoReward extends Component {
               );
               this.videorewardLoaded = false;
               this.usergotreward = true;
-   
-                //  if (this.props.closead==='newqso')
-                //  this.props.newqso();
-                //  if (this.props.closead==='sendmedia')
-                //  this.props.subos3();
-                //  if (this.props.closead==='scanqr')
-                //  this.props.showscanresults('qslScan');
+        //       if (this.closeAd==='newqso')
+        //          this.newqso_after_ad();
+        //   if (this.closeAd==='sendmedia')
+        //          this.subo_s3();
+                 if (this.props.closead==='newqso')
+                 this.props.newqso();
+                 if (this.props.closead==='sendmedia')
+                 this.props.subos3();
+                 if (this.props.closead==='scanqr')
+                 this.props.showscanresults('qslScan');
                 
 
 
@@ -105,13 +114,13 @@ class AdVideoReward extends Component {
               console.log("Se cerro el AD: ", event);
               this.videorewardLoaded = false;
              
-            //   if (this.props.closead==='linkqso' && this.usergotreward)
-            //      {
+              if (this.props.closead==='linkqso' && this.usergotreward)
+                 {
                  
-            //        this.props.linkqso();
-            //      }
-            //      else
-            //       this.props.notrewared();
+                   this.props.linkqso();
+                 }
+                 else
+                  this.props.notrewared();
            //   this.loadVideoReward();
               // if (!this.usergotreward)
               //      this.setState({notvideorewarded: true})
@@ -120,7 +129,7 @@ class AdVideoReward extends Component {
             this.advertVideoReward.on("onAdOpened", event => {
               console.log("se muestra el AD: ", event);
               this.videorewardLoaded = false;
-            //   this.props.manageLocationPermissions("adshowed", true);
+              this.props.manageLocationPermissions("adshowed", true);
               this.usergotreward = false;
               // this.loadVideoReward();
               // this.loadVideoReward();
@@ -152,7 +161,7 @@ class AdVideoReward extends Component {
 
         if (param==='no')
             
-        //    this.props.notrewared();
+           this.props.notrewared();
      
               console.log("no quiere ver video Reward:" + param);
         
@@ -169,26 +178,38 @@ class AdVideoReward extends Component {
           // Unable to show interstitial - not loaded yet.
          // es porque no encontro aun ad
           // entonces le doy el beneficio porque no es culpa suya
-            // console.log('no pudo cargar el AD de Inter');
-            // if (this.props.closead==='newqso')
-            // this.props.newqso();
-            // if (this.props.closead==='sendmedia')
-            // this.props.subos3();
-            // if (this.props.closead==='scanqr')
-            // this.props.showscanresults('qslScan');
-            // if (this.props.closead==='linkqso')
-            // this.props.linkqso();
+            console.log('no pudo cargar el AD de Inter');
+            if (this.props.closead==='newqso')
+            this.props.newqso();
+            if (this.props.closead==='sendmedia')
+            this.props.subos3();
+            if (this.props.closead==='scanqr')
+            this.props.showscanresults('qslScan');
+            if (this.props.closead==='linkqso')
+            this.props.linkqso();
       
             
         }
       }
 
-render() { console.log("RENDER adVideo SCREEN!" );
+render() { console.log("RENDER adInter SCREEN!" );
     
 
 return <View>
 
-
+<VariosModales
+            show={this.state.waitingModal}
+            modalType="waitingAdmodal"
+            closewaitingmodal={this.closeWaitingModal.bind()}
+         //   message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
+           
+          /> 
+  <VariosModales
+            show={this.state.prevideorewarded}
+            modalType="prevideorewarded"
+            sender={this.props.closead}
+            closeInternetModal={this.closeVariosModales.bind() }
+          /> 
 
 </View>; 
 } 
@@ -196,6 +217,17 @@ return <View>
 }
 
 
+ const mapStateToProps = state => {
+    return {  
+
+        
+     };
+};
 
 
-export default AdVideoReward;
+const mapDispatchToProps = {
+    
+    manageLocationPermissions
+   }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdVideoReward);

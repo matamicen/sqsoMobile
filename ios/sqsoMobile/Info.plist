@@ -59,5 +59,30 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Some description</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Some description</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Some description</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Some description</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We use your location to calculate the QSO distance.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We use your location to calculate the QSO distance.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your location to calculate the QSO distance.</string>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Some description</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Some description</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Some description</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Some description</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Some description</string>
 </dict>
 </plist>
