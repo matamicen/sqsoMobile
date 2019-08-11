@@ -161,6 +161,7 @@ return   <View style={{flex: 1}}>
                  //   onChangeText={(text) => {this.setState({text})}}
                     value={this.state.qra}
                     underlineColorAndroid="transparent"
+                    keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                 />
                 
                 </View>  

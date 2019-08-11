@@ -576,6 +576,7 @@ if (!this.usernotfound)
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
                   autoCapitalize="none"
+                  keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                   autoCorrect={false}
                   onSubmitEditing={() => this.passwordRef.focus()} 
                   style={styles.input}

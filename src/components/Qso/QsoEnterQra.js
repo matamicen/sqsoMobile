@@ -130,6 +130,7 @@ class QsoEnterQra extends Component {
                          this.setState({qra: text, size: 17}) 
                   }}
                     onSubmitEditing={() => this.addQra() }
+                    keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                     // underlineColorAndroid="transparent"
                      />
                      
