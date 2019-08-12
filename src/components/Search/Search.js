@@ -138,9 +138,9 @@ class Search extends Component {
    
 render() { console.log("RENDER qso Screen" );
 
-return   <View style={{flex: 1}}>
-       
-         
+return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
+      
+      
           <View style={{flex: 0.08, flexDirection: 'row', marginTop: Platform.OS === 'ios' ? 13 : 13, marginLeft: 6}}>
                 {/* <SearchHeader />  */}
                 <View  style={{flex: 0.2}}>
@@ -161,6 +161,7 @@ return   <View style={{flex: 1}}>
                  //   onChangeText={(text) => {this.setState({text})}}
                     value={this.state.qra}
                     underlineColorAndroid="transparent"
+                    keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                 />
                 
                 </View>  
@@ -210,7 +211,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 22,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
+   // backgroundColor: 'grey',
 },
 searchIcon: {
     padding: 10,
@@ -222,7 +224,7 @@ input: {
     paddingBottom: 10,
     borderRadius: 22,
     paddingLeft: 5,
-     backgroundColor: '#fff',
+     backgroundColor: '#f5f5f5',
    // backgroundColor: 'grey',
     marginRight: 10,
     marginTop:2,

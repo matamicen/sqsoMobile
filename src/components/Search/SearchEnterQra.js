@@ -201,7 +201,9 @@ class SearchEnterQra extends Component {
 
                       <TextInput style={{height: 40, width:90, fontSize: 16, marginTop: 8, color: 'white'}}
                     placeholder="search Qra" placeholderTextColor="white" value={this.state.qra}
-                    onChangeText={(text) => this.onChange(text)}  />
+                    onChangeText={(text) => this.onChange(text)}  
+                    
+                    />
                   
                    <TouchableOpacity  onPress={ () => this.searchQras() }>
                         <Image source={require('../../images/search.png')}  style={{width: 32, height: 32, marginTop: 3 } } 

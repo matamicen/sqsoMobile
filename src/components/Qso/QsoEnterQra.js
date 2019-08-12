@@ -102,8 +102,8 @@ class QsoEnterQra extends Component {
         paddingBottom: 5,
         borderRadius: 22,
         paddingLeft: 5,
-         backgroundColor: '#fff',
-       // backgroundColor: 'grey',
+         backgroundColor: '#f5f5f5',
+      //  backgroundColor: 'grey',
         marginRight: 5,
         marginTop:2,
         marginBottom: 2,
@@ -116,7 +116,7 @@ class QsoEnterQra extends Component {
 
     render() { console.log("RENDER Enter QRA" );
     
-              return <View style={{flexDirection: 'row'}}>  
+              return <View style={{flexDirection: 'row',  backgroundColor: '#fff'}}>  
                     
                  <View style={styles.searchSection}>
                    {/* <TextInput style={{height: 20, width:50, fontSize: 16, marginTop: 8}} */}
@@ -130,6 +130,7 @@ class QsoEnterQra extends Component {
                          this.setState({qra: text, size: 17}) 
                   }}
                     onSubmitEditing={() => this.addQra() }
+                    keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                     // underlineColorAndroid="transparent"
                      />
                      
@@ -165,7 +166,7 @@ class QsoEnterQra extends Component {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 22,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
    // backgroundColor: 'grey',
 },
 searchIcon: {
@@ -178,7 +179,7 @@ input: {
     paddingBottom: 5,
     borderRadius: 22,
     paddingLeft: 5,
-     backgroundColor: '#fff',
+     backgroundColor: '#f5f5f5',
    // backgroundColor: 'grey',
     marginRight: 10,
     marginTop:2,
