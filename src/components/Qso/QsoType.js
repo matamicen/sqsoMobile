@@ -115,7 +115,8 @@ class QsoType extends Component {
                     <View style={{
                       //  margin:20,
                           padding:15, 
-                          backgroundColor:  '#ffffff',
+                      //    backgroundColor:  '#ffffff',
+                          backgroundColor: '#f5f5f5',
                           top: 90,
                           left: 22,
                           right: 22,
