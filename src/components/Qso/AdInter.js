@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
-
+import { connect } from 'react-redux';
 import firebase from "react-native-firebase";
-
+import {
+   
+    manageLocationPermissions
+    
+  } from "../../actions";
+  import VariosModales from "./VariosModales";
 
 
 class AdInter extends Component {
@@ -71,9 +76,9 @@ class AdInter extends Component {
     
           this.advertInter.on("onAdLoaded", () => {
             console.log("JJJ Advert intersitial is ready to show.");
-              this.advertInter.show();
+            //   this.advertInter.show();
         //    this.setState({ waitingModal: false });
-         //   console.log('primero bajo el waitingModal');
+            console.log('primero bajo el waitingModal');
             
             this.intersitialLoaded = true;
         //    alert("intersitial loaded!");
@@ -93,14 +98,14 @@ class AdInter extends Component {
             console.log("Se cerro el AD: ", event);
             this.intersitialLoaded = false;
          //   this.props.newqso();
-            //   if (this.props.closead==='newqso')
-            //       this.props.newqso();
-            //   if (this.props.closead==='sendmedia')
-            //       this.props.subos3();
-            //   if (this.props.closead==='scanqr')
-            //       this.props.showscanresults('qslScan');
-            //   if (this.props.closead==='linkqso')
-            //      this.props.linkqso();
+              if (this.props.closead==='newqso')
+                  this.props.newqso();
+              if (this.props.closead==='sendmedia')
+                  this.props.subos3();
+              if (this.props.closead==='scanqr')
+                  this.props.showscanresults('qslScan');
+              if (this.props.closead==='linkqso')
+                 this.props.linkqso();
 
 
               
@@ -111,7 +116,7 @@ class AdInter extends Component {
           this.advertInter.on("onAdOpened", event => {
             console.log("se muestra el AD: ", event);
             this.intersitialLoaded = false;
-        //    this.props.manageLocationPermissions("adshowed", true);
+           this.props.manageLocationPermissions("adshowed", true);
     
             //    this.loadInter();
           });
@@ -156,15 +161,15 @@ closeWaitingModal = () =>{
     // Unable to show interstitial - not loaded yet.
    // es porque no encontro aun ad
     // entonces le doy el beneficio porque no es culpa suya
-    //   console.log('no pudo cargar el AD de Inter');
-    //   if (this.props.closead==='newqso')
-    //   this.props.newqso();
-    //   if (this.props.closead==='sendmedia')
-    //   this.props.subos3();
-    //   if (this.props.closead==='scanqr')
-    //   this.props.showscanresults('qslScan');
-    //   if (this.props.closead==='linkqso')
-    //   this.props.linkqso();
+      console.log('no pudo cargar el AD de Inter');
+      if (this.props.closead==='newqso')
+      this.props.newqso();
+      if (this.props.closead==='sendmedia')
+      this.props.subos3();
+      if (this.props.closead==='scanqr')
+      this.props.showscanresults('qslScan');
+      if (this.props.closead==='linkqso')
+      this.props.linkqso();
 
       
   }
@@ -175,7 +180,13 @@ render() { console.log("RENDER adInter SCREEN!" );
 
 return <View>
 
-
+<VariosModales
+            show={this.state.waitingModal}
+            modalType="waitingAdmodal"
+            closewaitingmodal={this.closeWaitingModal.bind()}
+          //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
+           
+          /> 
 
 </View>; 
 } 
@@ -183,6 +194,17 @@ return <View>
 }
 
 
- 
+ const mapStateToProps = state => {
+    return {  
 
-export default AdInter;
+        
+     };
+};
+
+
+const mapDispatchToProps = {
+    
+    manageLocationPermissions
+   }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdInter);
