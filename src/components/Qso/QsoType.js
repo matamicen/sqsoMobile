@@ -210,9 +210,9 @@ class QsoType extends Component {
                    </View>
 
 
-                    <TouchableHighlight  onPress={() => this.closeQsoTypeModal()} style={{ paddingTop: 4, paddingBottom: 4}}>
+                   <TouchableOpacity onPress={() => this.closeQsoTypeModal()} style={{ paddingTop: 4, paddingBottom: 4}}>
                       <Text style={{ color: '#999', fontSize: 18, textAlign: 'right'}}>Cancel</Text>
-                    </TouchableHighlight>
+                      </TouchableOpacity>
                    
                   
                     </View>

@@ -333,7 +333,9 @@ constructor(props) {
                     <View style={{
                       //  margin:20,
                           padding:20, 
-                          backgroundColor:  '#475788',
+                        //  backgroundColor:  '#475788',
+                         // backgroundColor: '#808080',
+                         backgroundColor:"rgba(0,0,0,0.85)",
                           top: 90,
                           left: 30,
                           right: 30,
@@ -379,7 +381,8 @@ constructor(props) {
   container: {
     padding: 5,
     flex: 1,
-    backgroundColor: '#3498db'
+   // backgroundColor: '#3498db'
+   backgroundColor: '#808080'
       },
   input: {
     height: 40,    
@@ -391,7 +394,8 @@ constructor(props) {
     borderRadius: 22
           },
   buttonContainer:{
-      backgroundColor: '#2980b9',
+     // backgroundColor: '#2980b9',
+      backgroundColor: '#696969',
       paddingVertical: 15,
       marginTop: 10,
       borderRadius: 22

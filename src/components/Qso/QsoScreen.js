@@ -1020,7 +1020,7 @@ class QsoScreen extends Component {
                 <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>EndQso</Text>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity style={{  width: 65,height:63 }} onPress={() => this.newQso()}>
+              <TouchableOpacity style={{  width: 70,height:63 }} onPress={() => this.newQso()}>
                 <Image
                   source={require("../../images/iaddcircle.png")}
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
