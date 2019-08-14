@@ -1964,8 +1964,16 @@ export const linkQsos = (json,jwtToken) => {
     
   }
   catch (error) {
+     // por las dudas si fallo por token expired
+      session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+
     console.log('Api qso-link catch error:', error);
     dispatch(fetchingApiFailure('linkQsos',error));
+
+    // envio mensaje de error para bajar el modal del LINKING QSO ya que queda colgada la APP
+    jsonError = {code: 1, message: 'We could not link the Qsos, please try again'}
+    dispatch(updateLinkQso(jsonError,'linkQsoError'));
     // Handle exceptions
   }    
   };

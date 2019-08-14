@@ -174,6 +174,22 @@ constructor(props) {
           this.newPass.focus();
         }
 
+        if (this.state.code.length<1)
+        {
+    
+          this.setState({errormessage: 'You must enter the code that you received in your email', confirmationcodeError: 1, indicator:0});
+          this.error = true;
+          this.code.focus();
+        }
+
+        // if (this.state.newPassword.length<6)
+        // {
+    
+        //   this.setState({errormessage: 'The Passwords must have 6 characters at least', confirmationcodeError: 1, indicator:0});
+        //   this.error = true;
+        //   this.newPass.focus();
+        // }
+
         if (!this.error){
           this.error = false;    
    
@@ -185,6 +201,7 @@ constructor(props) {
             })
             .catch(err => {
                 console.log(err);
+                console.log(err.code);
             if(err.code==='CodeMismatchException') 
                     this.setState({errormessage: 'The code is invalid, check your email and try again.',confirmationcodeError: 1, indicator:0});
             

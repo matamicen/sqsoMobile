@@ -121,7 +121,8 @@ not_rewarded  = () => {
 }
 
 closeScannedNotFoundModal = () => {
-  this.setState({ scannotfound: false}); 
+  this.setState({ scannotfound: false, linkCodes: false}); 
+  
   jsonError = {code: 0, message: " "}
   this.props.updateLinkQso(jsonError,'linkQsoError')
   
@@ -484,7 +485,8 @@ return   <View style={{flex: 1}}>
         <View style={{
                       //  margin:20,
                           padding:20, 
-                          backgroundColor:  '#475788',
+                      //    backgroundColor:  '#475788',
+                          backgroundColor:"rgba(0,0,0,0.85)",
                           top: 90,
                           left: 30,
                           right: 30,
@@ -498,10 +500,15 @@ return   <View style={{flex: 1}}>
                           }}>
 
                  {/* <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, left: 20}}>The Scanned QSO is not found</Text> */}
-                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, left: 20}}>{this.props.sqsoqsolinkcodes.message}</Text> 
-                 <TouchableOpacity  onPress={() =>  this.closeScannedNotFoundModal() } style={{top: 10}}>
-                          <Text style={{ color: '#999', fontSize: 18, fontWeight: 'bold', left: 100}}>OK</Text>
+               
+                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+
+                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, padding: 10}}>{this.props.sqsoqsolinkcodes.message}</Text> 
+                 <TouchableOpacity  onPress={() =>  this.closeScannedNotFoundModal() } style={{}}>
+                          <Text style={{ color: '#999', fontSize: 18, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
+
+                  </View>
 
                   </View>
              

@@ -273,11 +273,13 @@ return   (this.state.vari) ? <View style={{flex: 1}}>
         {/* <QsoHeader /> */}
       
         {/* {(this.props.sqsoqslscan.datetime) && */}
-        {(this.props.sqsoqslscanerror===0 && this.props.sqsoqslscan.type!=='SHARE') ? 
+        {(this.props.sqsoqslscanerror===0 && this.props.sqsoqslscan.type!=='SHARE') && 
          <QsoHeaderLink qra={this.props.sqsoqslscan.qra} mode={this.props.sqsoqslscan.mode} band={this.props.sqsoqslscan.band} type={this.props.sqsoqslscan.type}
          profilepic={this.props.sqsoqslscan.profilepic} avatarpic={this.props.sqsoqslscan.avatarpic} qras={this.props.sqsoqslscan.qras} datetime={this.props.sqsoqslscan.datetime} 
                                />
-                               :
+           }
+        
+         {(this.props.sqsoqslscanerror===0 && this.props.sqsoqslscan.type==='SHARE') &&                        
           <QsoHeaderLink qra={this.props.sqsoqslscan.original[0].qra} mode={this.props.sqsoqslscan.original[0].mode} band={this.props.sqsoqslscan.original[0].band} type={this.props.sqsoqslscan.original[0].type}
          profilepic={this.props.sqsoqslscan.original[0].profilepic} avatarpic={this.props.sqsoqslscan.original[0].avatarpic} qras={this.props.sqsoqslscan.qras} datetime={this.props.sqsoqslscan.original[0].datetime} 
                                />
