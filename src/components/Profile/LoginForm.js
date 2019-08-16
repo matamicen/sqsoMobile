@@ -14,6 +14,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
 import { hasAPIConnection, kinesis_catch } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
+import ConfirmSignUp from './ConfirmSignUp';
 
 // nuevo push
 import Analytics from '@aws-amplify/analytics';
@@ -62,7 +63,10 @@ constructor(props) {
      nointernet: false,
      showloginForm: false,
      mess: 'Loading ...',
-     nopushtoken: false
+     nopushtoken: false,
+     confirmSignup: false,
+     confirmationcodeError: 0,
+     color: 'red'
      
     }
   }
@@ -352,10 +356,20 @@ signIn = async () => {
       .catch(err => {console.log('error:', err.code);
                 console.log(err);
       
+
+             if  (err.code==='UserNotConfirmedException')  
+             {
+              this.setState({confirmSignup: true})
+
+             } 
+             else
+             {
              this.setState({ loginerror: 1, indicator: 0});
              this.usernotfound = true;
 
              kinesis_catch('#012',err,this.state.username.toUpperCase());
+
+            }
             
             
             })
@@ -531,6 +545,74 @@ if (!this.usernotfound)
 
   }
 
+  close_confirmSignup = () => {
+    this.setState({confirmSignup: false})
+  }
+
+  resendCode = async () => {
+    Keyboard.dismiss();
+    if (await hasAPIConnection())
+    {  
+  
+
+    this.setState({ indicator:1,confirmationcodeError:0 });
+
+   await Auth.resendSignUp(this.state.username.toUpperCase())
+                  .then(() => { console.log('Resend Ok!')
+                  this.setState({ errormessage2:'Your confirmation code has been sent!',color: 'blue',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
+                })
+                  .catch(err => {console.log('Error sending the confirmation code, try again.', err)
+                  this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
+                  kinesis_catch('#021',err,this.state.username.toUpperCase());
+                
+                });
+
+    this.setState({ heightindicator: 0,indicator:0 });
+  }else 
+  { this.close_confirmSignup();
+    this.setState({indicator: 0}); 
+    this.setState({nointernet: true});
+  }
+
+  }
+
+
+  confirmSignup = async (confirmationCode) => {
+    Keyboard.dismiss();
+
+ if (await hasAPIConnection())
+  {  
+    this.setState({confirmationcodeError: 0,heightindicator: 35,  indicator:1, buttonsEnabled: true});
+    
+    
+    
+ //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
+    Auth.confirmSignUp(this.state.username.toUpperCase(),confirmationCode)
+   .then(() => { console.log('SignUp confirmed ok!: ') 
+                 this.close_confirmSignup();
+                 this.signIn();
+             //    this.signInAfterConfirmed();
+                 // this.setState({indicator:0});
+    
+
+                 // this.props.navigation.navigate("AppNavigator2");
+                                  })
+   .catch (err => {console.log('SignUp confirmed error: ', err);
+   this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
+     confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
+     kinesis_catch('#026',err,this.state.username.toUpperCase());
+                  
+ })
+}else 
+{ this.close_confirmSignup();
+ this.setState({indicator: 0, heightindicator: 0}); 
+ this.setState({nointernet: true});
+}
+
+
+ }
+
+
   ForgotPassword = async () => {
 
     if (await hasAPIConnection())
@@ -686,6 +768,18 @@ if (!this.usernotfound)
 
                
                </Modal>
+
+               {(this.state.confirmSignup)    && 
+          <ConfirmSignUp
+          //  show={this.state.confirmSignup}
+          color={this.state.color}
+          confirmationcodeError={this.state.confirmationcodeError}
+           errormessage2={this.state.errormessage2}
+            close_confirmSignup={this.close_confirmSignup.bind()}
+            resendCode={this.resendCode.bind()}
+            confirmSignup={this.confirmSignup.bind()}
+          />
+        }
            
            </View>
            
