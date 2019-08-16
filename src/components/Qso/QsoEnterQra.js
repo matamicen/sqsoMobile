@@ -15,6 +15,8 @@ class QsoEnterQra extends Component {
 
     constructor(props) {
         super(props);
+
+        this.arrAux = [];
         
         this.state = {
        //   pickerSelection: 'Choose Band',
@@ -47,9 +49,12 @@ class QsoEnterQra extends Component {
           qra = {qra: this.state.qra.toUpperCase(), url: 'empty', sent: 'false', deleted: 'false', deletedSent: 'false', following: ''} 
     
           // hay que darle tiempo a que agregue el QRA al store asi despues chequea bien el onProgress
-          await this.props.addQra(qra);
+           this.props.addQra(qra);
+           this.arrAux[0] = '1';
+           this.arrAux[1] = '2';
+
           // update si el QSO esta onProress 
-          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.arrAux,this.props.mediafiles))
                   await this.props.onprogressTrue();
              else
                    this.props.onprogressFalse();

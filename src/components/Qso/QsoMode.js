@@ -30,9 +30,9 @@ class QsoMode extends Component {
      if (await hasAPIConnection())
      {
      if (this.props.mode!==value){ 
-         await this.props.setMode(value);
+          this.props.setMode(value);
 
-          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,value,this.props.qsoqras,this.props.mediafiles))
           await this.props.onprogressTrue();
      else
            this.props.onprogressFalse();
@@ -54,7 +54,7 @@ class QsoMode extends Component {
             }
             else
              {
-                qsoHeader = { "mode" : this.props.mode,
+                qsoHeader = { "mode" : value,
                               "band" : this.props.band,
                               "type" : this.props.qsotype,
                               "sqlrdsid" : this.props.sqlrdsid

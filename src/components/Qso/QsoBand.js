@@ -34,11 +34,13 @@ class QsoBand extends Component {
      {
      if (this.props.band!==value){    
                 console.log("pasa por setBand");
-                await this.props.setBand(value);
-                // console.log("imprime mediafiles");
-                // console.log(this.props.mediafiles)
-
-                if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+               
+                
+                 this.props.setBand(value);
+                
+                  
+                  
+                if (ONPROGRESS=updateOnProgress(this.props.qsotype,value,this.props.mode,this.props.qsoqras,this.props.mediafiles))
                 await this.props.onprogressTrue();
            else
                  this.props.onprogressFalse();
@@ -58,7 +60,7 @@ class QsoBand extends Component {
                     
                   }else {
                       qsoHeader = { "mode" : this.props.mode,
-                                    "band" : this.props.band,
+                                    "band" : value,
                                     "type" : this.props.qsotype,
                                     "sqlrdsid" : this.props.sqlrdsid
                                   }

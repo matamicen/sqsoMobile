@@ -571,9 +571,10 @@ class VariosModales extends Component {
 
                     <TextInput 
                       ref={message => this.message  = message }
+                      
                      // placeholder="message"
                      // underlineColorAndroid='transparent'
-                      placeholderTextColor="rgba(255,255,255,0.7)"
+                    //  placeholderTextColor="rgba(255,255,255,0.7)"
                       returnKeyType="next"
                       autoCapitalize="none"
                       autoCorrect={false}
@@ -870,9 +871,12 @@ const styles = StyleSheet.create({
   input: {
     height: 120,    
     width: 260,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+   // backgroundColor: 'black',
     //marginBottom: 12,
     color: '#FFF',
+  
+ 
     fontSize: 17,
     borderRadius: 22,
     paddingHorizontal: 10,

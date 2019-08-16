@@ -12,6 +12,7 @@ import { setQra, setUrlRdsS3,resetQso, followersAlreadyCalled, newqsoactiveFalse
    getUserInfo} from '../../actions';
 import { hasAPIConnection, kinesis_catch } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
+import ConfirmSignUp from './ConfirmSignUp';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -398,7 +399,7 @@ signUp = async () => {
 
   }
 
-  confirmSignup = async () => {
+  confirmSignup = async (confirmationCode) => {
      Keyboard.dismiss();
 
   if (await hasAPIConnection())
@@ -407,7 +408,8 @@ signUp = async () => {
      
      
      
-     Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
+  //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
+     Auth.confirmSignUp(this.state.qra.toUpperCase(),confirmationCode)
     .then(() => { console.log('SignUp confirmed ok!: ') 
                   this.close_confirmSignup();
                   this.signInAfterConfirmed();
@@ -958,7 +960,7 @@ signUp = async () => {
                     <View style={{
                       //  margin:20,
                           padding:20, 
-                          backgroundColor:  '#475788',
+                          backgroundColor:"#f8f8ff",
                           top: 170,
                           left: 30,
                           right: 30,
@@ -973,7 +975,7 @@ signUp = async () => {
                           
                    
                        <DatePickerIOS mode='date'
-                        style={{backgroundColor: '#475788'}}
+                        style={{ backgroundColor:"#f8f8ff"}}
                         date={this.state.chosenDate}
                         onDateChange={this.setDate}
                       />
@@ -993,62 +995,19 @@ signUp = async () => {
                
                </Modal>
 
+        
+        {(this.state.confirmSignup)    && 
+          <ConfirmSignUp
+          //  show={this.state.confirmSignup}
+          color={this.state.color}
+          confirmationcodeError={this.state.confirmationcodeError}
+           errormessage2={this.state.errormessage2}
+            close_confirmSignup={this.close_confirmSignup.bind()}
+            resendCode={this.resendCode.bind()}
+            confirmSignup={this.confirmSignup.bind()}
+          />
+        }
 
-  <Modal visible ={this.state.confirmSignup}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
-                    <View style={{
-                      //  margin:20,
-                          padding:20, 
-                 //         backgroundColor:  '#475788',
-                          backgroundColor:"rgba(0,0,0,0.85)",
-                          top: 90,
-                          left: 30,
-                          right: 30,
-                          position: 'absolute',
-                          borderBottomLeftRadius: 22,
-                          borderBottomRightRadius: 22,
-                          borderTopLeftRadius: 22,
-                          borderTopRightRadius: 22,
-
-                                                    
-                          alignItems: 'center'                      
-                          }}>
-                          
-                  <Text style={{ color: '#FFFFFF', fontSize: 18, padding: 10 }}>We have sent the confirmation code to your email. Please enter the code to activate the account.</Text>
-                  <TextInput 
-                  placeholder="confirmation code"
-                  onFocus={() => this.setState({ confirmationcodeError: 0})}
-                  underlineColorAndroid='transparent'
-                  placeholderTextColor="rgba(255,255,255,0.7)"
-                  returnKeyType="next"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.inputConfirmation}
-                  value={this.state.confirmationcode}
-                  onChangeText={(text) => this.setState({confirmationcode: text})} />
-
-                  <View style={{ justifyContent: 'space-around',   padding: 3,
-                        opacity: this.state.confirmationcodeError }}>
-                        <Text style={{ color: this.state.color, textAlign: 'center', fontSize: 16, width: 290 }}> {this.state.errormessage2}
-                        </Text>
-                   </View>
-
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-
-                    <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.close_confirmSignup()} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 14}}>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.resendCode() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5, alignItems: 'flex-start'}}>
-                      <Text style={{ color: '#999', fontSize: 14}}>Resend Code</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.confirmSignup() } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
-                      <Text style={{ color: 'white', fontSize: 18}}>CONFIRM</Text>
-                    </TouchableOpacity>
-                    </View>
-                    
-                    </View>
-
-               
-               </Modal>
 
                 <Modal visible ={this.state.pickerCountry} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,

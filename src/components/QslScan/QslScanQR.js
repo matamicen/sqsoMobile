@@ -122,6 +122,8 @@ class QslScanQR extends Component {
                             
                             if (!this.intersitialmustbeshown && !this.videorewardmustbeshown)
                                this.gotoQslScanScreen('qslScan');
+                                  
+                            
                           
 
               
