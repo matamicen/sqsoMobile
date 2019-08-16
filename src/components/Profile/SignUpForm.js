@@ -13,9 +13,14 @@ import { setQra, setUrlRdsS3,resetQso, followersAlreadyCalled, newqsoactiveFalse
 import { hasAPIConnection, kinesis_catch } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
+import CountryPicker, {
+  getAllCountries
+} from 'react-native-country-picker-modal'
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
+
+const NORTH_AMERICA = ['CA', 'MX', 'US']
 
 
 class SignUpForm extends Component {
@@ -25,6 +30,7 @@ class SignUpForm extends Component {
 //   }
 
 
+
 constructor(props) {
     super(props);
 
@@ -32,6 +38,9 @@ constructor(props) {
     this.error = false;
     this.qraAlreadySignUp = '';
     this.diffyears = 0;
+
+
+   
     
     this.state = {
    
@@ -61,10 +70,19 @@ constructor(props) {
      nointernet: false,
      pickerCountry: false,
      buttonsEnabled: false,
-     terms: false
+     terms: false,
+     cca2: 'US',
+     callingCode: '',
+     namec: '',
+     showFlag: false
+     
      
     };
+
+    
   }
+
+  
 
   componentDidMount() {
 
@@ -460,7 +478,7 @@ signUp = async () => {
         'birthdate': fechanac,
         'custom:firstName': this.state.firstname ,
         'custom:lastName': this.state.lastname,
-        'custom:country': this.state.country
+        'custom:country': this.state.cca2
       
         }
       })
@@ -502,6 +520,18 @@ signUp = async () => {
   toggleCountryPicker = () => {
    
     this.setState({ pickerCountry: !this.state.pickerCountry });
+}
+
+chooseCountry = () => {
+  this.setState({showFlag: true});
+  
+  setTimeout(() => {
+                
+    this.countryPicker.openModal();
+    
+   }
+  , 20);
+ 
 }
    
     render() { console.log("LoginForm Screen");
@@ -867,15 +897,15 @@ signUp = async () => {
             ref={birthdatedRef => this.birthdatedRef = birthdatedRef}> {this.state.birthdate}</Text>
                    
                     </TouchableOpacity>
-
-             <TouchableOpacity  style={styles.birthdateContainer} onPress={ () => this.toggleCountryPicker()} >
+                    
+                    {/* this.toggleCountryPicker() */}
+             <TouchableOpacity  style={styles.birthdateContainer} onPress={ () =>  this.chooseCountry()} >
             <Text  style={styles.birthdateText} 
             ref={countryRef => this.countryRef = countryRef}> {this.state.country}</Text>
 
              </TouchableOpacity>
 
-  
-               
+       
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}
                  placeholder="password"
@@ -930,6 +960,33 @@ signUp = async () => {
                   <Text style={styles.buttonText2} > </Text>
                   <Text style={styles.buttonText2} > </Text>
                   <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+             
+                
+                
+                  {   (this.state.showFlag) &&
+                
+                <CountryPicker
+              onChange={value => {
+                this.setState({ cca2: value.cca2, callingCode: value.callingCode, country: value.name })
+                console.log(value);
+                
+              }}
+              cca2={this.state.cca2}
+              translation="eng"
+              closeable="true"
+              filterable="true"
+              hideAlphabetFilter="true"
+              ref={ref => {this.countryPicker = ref}}
+            
+            />
+            
+          }
 
 
                  
