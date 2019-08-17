@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, SafeAreaView , AsyncStorage} from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 //import peopleReducer from './src/reducers/peopleReducer';
 import awsconfig from './src/aws-exports';
 import thunk from "redux-thunk"
@@ -12,18 +12,26 @@ import AppReducer from './src/reducers/AppReducer';
 import AppWithNavigationState2 from './src/components/MainNavigator';
 import PushNotification from '@aws-amplify/pushnotification';
 import {  kinesis_catch } from './src/helper';
+import reactotron from './ReactotronConfig';
+
 
 PushNotification.configure(awsconfig);
 
 // fin agregado nuevo
 
-const createStoreWithMidddleware = applyMiddleware(thunk)(createStore);
+
+
+if(__DEV__){
+  store = createStore(AppReducer, compose(applyMiddleware(thunk), reactotron.createEnhancer()));
+}
+else{
+    var createStoreWithMidddleware = applyMiddleware(thunk)(createStore);
+    store = createStoreWithMidddleware(AppReducer);
+}
 
 PushNotification.onRegister((token) => {
   console.log('in app registration App.js', token);
- // this.setState({token: token});
-  //  this.props.managePushToken(token,'','');
-  //  this.pushToken = token;
+ 
    try {
   //  await AsyncStorage.setItem('pushtoken', token);
   AsyncStorage.setItem('pushtoken', token);
@@ -39,14 +47,7 @@ PushNotification.onRegister((token) => {
 });
 
 
-//const store = createStoreWithMidddleware(peopleReducer);
-//const store = createStoreWithMidddleware(AppReducer);
-
 export default class App extends React.Component {
-
-   store = createStoreWithMidddleware(AppReducer);
-   //store = createStore(AppReducer);
-
 
 
   render() { console.disableYellowBox = true
@@ -54,7 +55,7 @@ export default class App extends React.Component {
 
     return (
     <SafeAreaView style={styles.safeArea}>
-      <Provider store={this.store}>
+      <Provider store={store}>
     
     <AppWithNavigationState2 />
       </Provider>
