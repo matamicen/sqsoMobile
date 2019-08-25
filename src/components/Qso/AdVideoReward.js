@@ -98,7 +98,8 @@ class AdVideoReward extends Component {
                  if (this.props.closead==='sendmedia')
                  this.props.subos3();
                  if (this.props.closead==='scanqr')
-                 this.props.showscanresults('qslScan');
+              //   this.props.showscanresults('qslScan');
+                 this.props.showscanresults();
                 
 
 

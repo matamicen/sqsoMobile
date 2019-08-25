@@ -258,15 +258,21 @@ class VariosModales extends Component {
                 </Text>
                 </View>
                 <View style={{ flex: 0.2, alignItems: "center" }}>
-                { (this.props.sender==='linkqso') ? 
+                { (this.props.sender==='linkqso') && 
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
                    You have to watch a video reward to link these Qsos. 
-                </Text>
-                :
+              </Text> 
+            }
+                 { (this.props.sender==='sendmedia') && 
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
                 You have to watch a video reward to send the media to the cloud. 
                 </Text>
                 }
+                 { (this.props.sender==='newqso') && 
+                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
+                 You have to watch a video reward to create a NewQso. 
+                 </Text>
+                 }
 
                 <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
                    {/* Became a PREMIUM member:  */}
@@ -343,15 +349,23 @@ class VariosModales extends Component {
                 </View>
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                
-                { (this.props.sender==='linkqso') ? 
+                { (this.props.sender==='linkqso') &&
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
                 Are you sure to not link theses Qsos ?  
                 </Text>
-                :
+                }
+                  { (this.props.sender==='sendmedia') &&
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
                 Are you sure to discard the media just created?  
                 </Text>
                 }
+                    { (this.props.sender==='newqso') &&
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
+                  Are you sure to not start a New Qso ? 
+                </Text>
+                }
+               
+                
 
                 <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
                    {/* Became a PREMIUM member:  */}
@@ -367,7 +381,7 @@ class VariosModales extends Component {
                 <View style={{ flex: 0.2, flexDirection: 'row'}}>
                   <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
 
-           { (this.props.sender==='linkqso') ? 
+                  { (this.props.sender==='linkqso') && 
                   <TouchableOpacity
                   onPress={() => {
                     this.setState({watchvideo: true})
@@ -376,7 +390,9 @@ class VariosModales extends Component {
                   
                   <Text style={{ color: "#999", fontSize: 15 }}>Don't link these Qsos.</Text>
                 </TouchableOpacity>
-             :
+                }
+
+            { (this.props.sender==='sendmedia') && 
                 <TouchableOpacity
                   onPress={() => {
                     this.setState({watchvideo: true})
@@ -388,11 +404,23 @@ class VariosModales extends Component {
 
              }
 
+        { (this.props.sender==='newqso') && 
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({watchvideo: true})
+                    this.props.closeInternetModal("no")
+                }}   >
+                  
+                  <Text style={{ color: "#999", fontSize: 15 }}>Don't start</Text>
+                </TouchableOpacity>
+
+             }
+
 
 
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
-           { (this.props.sender==='linkqso') ?      
+           { (this.props.sender==='linkqso') &&      
                  <TouchableOpacity
                   onPress={() => {
                     this.setState({watchvideo: true});
@@ -402,7 +430,8 @@ class VariosModales extends Component {
                 >
                   <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Links these Qsos.</Text>
                 </TouchableOpacity>
-                :
+           }
+                 { (this.props.sender==='sendmedia') &&      
                 <TouchableOpacity
                   onPress={() => {
                     this.setState({watchvideo: true});
@@ -411,6 +440,17 @@ class VariosModales extends Component {
                   
                 >
                   <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Send the media</Text>
+                </TouchableOpacity>
+                }
+                   { (this.props.sender==='newqso') &&      
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({watchvideo: true});
+                    this.props.closeInternetModal("yes");
+               }}
+                  
+                >
+                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Create a NewQso</Text>
                 </TouchableOpacity>
                 }
 
@@ -461,39 +501,49 @@ class VariosModales extends Component {
                 /> */}
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  Dear Ham:
+                  {/* Dear Ham: */}
+                  {this.props.userinfo.account_type.app_upgrade_t1}
                   
                 </Text>
                 </View>
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 5 }}>
-                   Enjoy superQso at full scale! 
+                   {/* Enjoy superQso at full scale!  */}
+                   {this.props.userinfo.account_type.app_upgrade_t2}
                 </Text>
                 <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
-                   Became a PREMIUM member: 
+                   {/* Became a PREMIUM member:  */}
+                   {this.props.userinfo.account_type.app_upgrade_t3}
                 </Text>
                 </View>
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                  Speed up the App
+                  {/* Speed up the App */}
+                  {this.props.userinfo.account_type.app_upgrade_t4}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                  No Mobile/Web PopUp Ads
+                  {/* No Mobile/Web PopUp Ads */}
+                  {this.props.userinfo.account_type.app_upgrade_t5}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                  10 audios & photos per QSO
+                  {/* 10 audios & photos per QSO */}
+                  {this.props.userinfo.account_type.app_upgrade_t6}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                  3 minutes audios recording
+                  {/* 3 minutes audios recording */}
+                  {this.props.userinfo.account_type.app_upgrade_t7}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                   Unlimited QR Scans 
+                   {/* Unlimited QR Scans  */}
+                   {this.props.userinfo.account_type.app_upgrade_t8}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
-                  Unlimited QsosLinks
+                  {/* Unlimited QsosLinks */}
+                  {this.props.userinfo.account_type.app_upgrade_t9}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
-                  Unlimited Web Navigation
+                  {/* Unlimited Web Navigation */}
+                  {this.props.userinfo.account_type.app_upgrade_t10}
                 </Text>
                 </View>
               { (this.state.showOkBePremium) && 

@@ -708,10 +708,13 @@ class QsoScreen extends Component {
    //  this.advertInter.show();
   // this.subo_s3();
 
+ 
   this.videorewardmustbeshown = false;
   this.intersitialmustbeshown = false;
 
   if (showIntersitial(this.props.userinfo,envio.type,this.props.mediafiles)) {
+    console.log('ess true showintersitial');
+    
     this.intersitialmustbeshown = true;
     this.closeAd = 'sendmedia';
     this.setState({showIntersitial:true});
@@ -720,6 +723,7 @@ class QsoScreen extends Component {
   }
 
   if (showVideoReward(this.props.userinfo,envio.type,this.props.mediafiles)) {
+    console.log('ess true showvideoreward');
     this.videorewardmustbeshown = true;
     this.closeAd = 'sendmedia';
     this.setState({showVideoReward:true});
