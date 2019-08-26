@@ -281,7 +281,8 @@ return   <View style={{flex: 1}}>
                   
 
 
-                  {(this.state.showIntersitial) && <AdInter showscanresults={this.gotoQslScanScreen.bind()}  closead={this.closeAd}  /> }
+                  {/* {(this.state.showIntersitial) && <AdInter showscanresults={this.gotoQslScanScreen.bind()}  closead={this.closeAd}  /> } */}
+                  {(this.state.showIntersitial) && <AdInter showscanresults={this.scanQr.bind()}  closead={this.closeAd}  /> }
                   {/* {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.gotoQslScanScreen.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> } */}
                   {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.scanQr.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
             </View>

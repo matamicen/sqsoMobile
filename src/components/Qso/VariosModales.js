@@ -263,6 +263,7 @@ class VariosModales extends Component {
                    You have to watch a video reward to link these Qsos. 
               </Text> 
             }
+
                  { (this.props.sender==='sendmedia') && 
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
                 You have to watch a video reward to send the media to the cloud. 
@@ -273,6 +274,12 @@ class VariosModales extends Component {
                  You have to watch a video reward to create a NewQso. 
                  </Text>
                  }
+
+                { (this.props.sender==='scanqr') && 
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
+                   You have to watch a video reward to Scan the QR. 
+              </Text> 
+                }
 
                 <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
                    {/* Became a PREMIUM member:  */}
@@ -364,6 +371,11 @@ class VariosModales extends Component {
                   Are you sure to not start a New Qso ? 
                 </Text>
                 }
+                       { (this.props.sender==='scanqr') &&
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
+                  Are you sure to not scan the Qr code ? 
+                </Text>
+                }
                
                 
 
@@ -416,6 +428,18 @@ class VariosModales extends Component {
 
              }
 
+          { (this.props.sender==='scanqr') && 
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({watchvideo: true})
+                    this.props.closeInternetModal("no")
+                }}   >
+                  
+                  <Text style={{ color: "#999", fontSize: 15 }}>Don't scan</Text>
+                </TouchableOpacity>
+
+             }
+
 
 
                  </View> 
@@ -451,6 +475,17 @@ class VariosModales extends Component {
                   
                 >
                   <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Create a NewQso</Text>
+                </TouchableOpacity>
+                }
+                   { (this.props.sender==='scanqr') &&      
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({watchvideo: true});
+                    this.props.closeInternetModal("yes");
+               }}
+                  
+                >
+                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Scan the QR Code</Text>
                 </TouchableOpacity>
                 }
 

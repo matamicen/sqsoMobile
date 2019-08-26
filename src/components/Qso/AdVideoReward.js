@@ -172,8 +172,11 @@ class AdVideoReward extends Component {
 
       
         this.setState({ waitingModal: false});
-        if (this.videorewardLoaded)
+        if (this.videorewardLoaded){
+          console.log("no llego a cargar el VideoReward de AdMob entonces dejo que el usuario disfrute de la accion");
+          
           this.setState({ prevideorewarded: true });
+        }
                    
         else {
           // Unable to show interstitial - not loaded yet.

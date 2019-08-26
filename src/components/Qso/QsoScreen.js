@@ -955,7 +955,7 @@ class QsoScreen extends Component {
                   fontWeight: "bold",
                   alignItems: "center",
                   fontSize: 16,
-                  color: "white",
+                  color: "#999",
                   marginBottom: 10
                 }}
               >
