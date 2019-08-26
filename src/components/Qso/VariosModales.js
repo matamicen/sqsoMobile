@@ -52,7 +52,7 @@ class VariosModales extends Component {
               this.setState({showOkBePremium: true});
               
             }
-            , 5000);
+            , 3000);
     
   }
 
