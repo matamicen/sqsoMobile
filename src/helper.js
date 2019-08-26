@@ -426,18 +426,22 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
             if (userInfo.monthly_links >= userInfo.account_type.app_qso_link_reward_from 
               && userInfo.monthly_links <= userInfo.account_type.app_qso_link_reward_to)
               {
-                 if (userInfo.monthly_links % userInfo.account_type.app_qso_link_reward_every === 0 || userInfo.monthly_links===userInfo.account_type.app_qso_link_reward_from )
-                 {  console.log('VideoReward LinkQSO es TRUE')
+                    
+                auxCurrentLinks = userInfo.monthly_links + userInfo.account_type.app_qso_link_reward_every - userInfo.account_type.app_qso_link_reward_from;
+                console.log(' auxCurrentLinks: '+auxCurrentLinks);
+    
+                if (auxCurrentLinks % userInfo.account_type.app_qso_link_reward_every === 0 || userInfo.monthly_links===userInfo.account_type.app_qso_link_reward_from)
+                {  console.log('videoimage LinkQso es TRUE')
                    return true;
                  }else
                  {
-                   console.log('VideoReward LinkQSO es FALSE')
+                   console.log('videoimage LinkQso es FALSE')
                    return false;
-     
+    
                  }
               }
               else {
-                console.log('es FALSE')
+                console.log('videoimage LinkQso es FALSE')
                 return false;
               }
              }
@@ -578,18 +582,22 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
           if (userInfo.monthly_links >= userInfo.account_type.app_qso_link_intersitial_from 
             && userInfo.monthly_links <= userInfo.account_type.app_qso_link_intersitial_to)
             {
-               if (userInfo.monthly_links % 2 === 0)
-               {  console.log('Intersitital LinkQSO es TRUE')
+                    
+              auxCurrentLinks = userInfo.monthly_links + userInfo.account_type.app_qso_link_intersitial_every - userInfo.account_type.app_qso_link_intersitial_from;
+              console.log(' auxCurrentLinks: '+auxCurrentLinks);
+  
+              if (auxCurrentLinks % userInfo.account_type.app_qso_link_intersitial_every === 0 || userInfo.monthly_links===userInfo.account_type.app_qso_link_intersitial_from)
+              {  console.log('intersitial LinkQso es TRUE')
                  return true;
                }else
                {
-                 console.log('Intersitital LinkQSO es FALSE')
+                 console.log('intersitial  LinkQso es FALSE')
                  return false;
-   
+  
                }
             }
             else {
-              console.log('es FALSE')
+              console.log('intersitial LinkQso es FALSE')
               return false;
             }
            }
