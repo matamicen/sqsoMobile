@@ -623,7 +623,7 @@ class VariosModales extends Component {
                 padding: 20,
              //   backgroundColor: "#475788",
                  backgroundColor:"rgba(0,0,0,0.85)",
-                top: 30,
+                top: 38,
                 left: 30,
                 right: 30,
                 position: "absolute",
