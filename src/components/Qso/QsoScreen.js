@@ -708,10 +708,13 @@ class QsoScreen extends Component {
    //  this.advertInter.show();
   // this.subo_s3();
 
+ 
   this.videorewardmustbeshown = false;
   this.intersitialmustbeshown = false;
 
   if (showIntersitial(this.props.userinfo,envio.type,this.props.mediafiles)) {
+    console.log('ess true showintersitial');
+    
     this.intersitialmustbeshown = true;
     this.closeAd = 'sendmedia';
     this.setState({showIntersitial:true});
@@ -720,6 +723,7 @@ class QsoScreen extends Component {
   }
 
   if (showVideoReward(this.props.userinfo,envio.type,this.props.mediafiles)) {
+    console.log('ess true showvideoreward');
     this.videorewardmustbeshown = true;
     this.closeAd = 'sendmedia';
     this.setState({showVideoReward:true});
@@ -951,7 +955,7 @@ class QsoScreen extends Component {
                   fontWeight: "bold",
                   alignItems: "center",
                   fontSize: 16,
-                  color: "white",
+                  color: "#999",
                   marginBottom: 10
                 }}
               >
@@ -959,7 +963,25 @@ class QsoScreen extends Component {
               </Text>
 
               <View style={{ flexDirection: "row", flex: 1 }}>
-                <TouchableHighlight
+
+              <View style={{ flex: 0.5 }}>
+                <TouchableOpacity
+                  onPress={() => this.CancelEndQsoModal()}
+                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4 }}
+                >
+                  <Text
+                    style={{
+                      color: "#999",
+                      fontWeight: "bold",
+                      fontSize: 14
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+                </View>
+                <View style={{ flex: 0.5 }}>
+                <TouchableOpacity
                   onPress={() => this.endQso()}
                   style={{
                     flex: 0.7,
@@ -970,29 +992,16 @@ class QsoScreen extends Component {
                 >
                   <Text
                     style={{
-                      color: "orange",
+                      color: "#FFFFFF",
                       fontWeight: "bold",
                       fontSize: 14
                     }}
                   >
                     End this {this.props.qsotype} mode
                   </Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
+                </View>
 
-                <TouchableHighlight
-                  onPress={() => this.CancelEndQsoModal()}
-                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4 }}
-                >
-                  <Text
-                    style={{
-                      color: "orange",
-                      fontWeight: "bold",
-                      fontSize: 14
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableHighlight>
               </View>
             </View>
           </Modal>

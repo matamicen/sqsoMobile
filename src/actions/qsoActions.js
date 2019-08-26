@@ -417,8 +417,15 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
      
     }
     catch (error) {
-      console.log('Api catch error:', error);
+      console.log('Api qsonew catch error :');
+      console.log(error);      
       dispatch(fetchingApiFailure('postQsoNew',error));
+
+      // por si sale por Token Expired, renuevo token y llamo a la API de nuevo
+      session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+      dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
+     
 
       // Handle exceptions
     }

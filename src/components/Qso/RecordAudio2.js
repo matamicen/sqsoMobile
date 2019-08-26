@@ -15,34 +15,7 @@ import {
   } from 'react-native';
 //  import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
-//import Amplify, { Auth, API, Storage } from 'aws-amplify'
-//import awsconfig from '../../aws-exports'
 
-//Amplify.configure(awsconfig);
-
-
-  // class Icon {
-  //   constructor(module, width, height) {
-  //     this.module = module;
-  //     this.width = width;
-  //     this.height = height;
-  //     Asset.fromModule(this.module).downloadAsync();
-  //   }
-  // }
-  
-  // const ICON_RECORD_BUTTON = new Icon(require('../assets/images/record_button.png'), 70, 119);
-  // const ICON_RECORDING = new Icon(require('../assets/images/record_icon.png'), 20, 14);
-  
-  // const ICON_PLAY_BUTTON = new Icon(require('../assets/images/play_button.png'), 34, 51);
-  // const ICON_PAUSE_BUTTON = new Icon(require('../assets/images/pause_button.png'), 34, 51);
-  // const ICON_STOP_BUTTON = new Icon(require('../assets/images/stop_button.png'), 22, 22);
-  
-  // const ICON_MUTED_BUTTON = new Icon(require('../assets/images/muted_button.png'), 67, 58);
-  // const ICON_UNMUTED_BUTTON = new Icon(require('../assets/images/unmuted_button.png'), 67, 58);
-  
-  // const ICON_TRACK_1 = new Icon(require('../assets/images/track_1.png'), 166, 5);
-  // const ICON_THUMB_1 = new Icon(require('../assets/images/thumb_1.png'), 18, 19);
-  // const ICON_THUMB_2 = new Icon(require('../assets/images/thumb_2.png'), 15, 19);
   
   const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
   const BACKGROUND_COLOR = '#FFF8ED';
@@ -177,8 +150,8 @@ class RecordAudio2 extends Component {
      
             // console.log('Seconds: '+this.state.secondsText + ' Minutes: '+this.state.minutes);
             // console.log('secondsInt : '+this.secondsAux);
-            if (this.secondsAux>9 && this.props.userinfo.subscription_type === 'FREE') this.stopRecording();
-              
+             if (this.secondsAux>this.props.userinfo.account_type.app_qso_audio_add_rec_time) this.stopRecording();
+        
                  
           }
 
@@ -575,7 +548,7 @@ cancelRecording = async () => {
                     </TouchableOpacity>
                  </View>
                  <View style={{ flex: 0.10, flexDirection: 'row', justifyContent: "center", marginTop: 5 }}>
-                   <Text style={{ fontSize: 10, color: 'white'}}>FREE user - Limited recording file size</Text>
+                 <Text style={{ fontSize: 10, color: 'white'}}>{this.props.userinfo.account_type.app_qso_audio_add_rec_time_text}</Text> 
                  </View>
                 
       

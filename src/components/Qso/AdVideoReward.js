@@ -98,7 +98,8 @@ class AdVideoReward extends Component {
                  if (this.props.closead==='sendmedia')
                  this.props.subos3();
                  if (this.props.closead==='scanqr')
-                 this.props.showscanresults('qslScan');
+              //   this.props.showscanresults('qslScan');
+                 this.props.showscanresults();
                 
 
 
@@ -171,8 +172,11 @@ class AdVideoReward extends Component {
 
       
         this.setState({ waitingModal: false});
-        if (this.videorewardLoaded)
+        if (this.videorewardLoaded){
+          console.log("no llego a cargar el VideoReward de AdMob entonces dejo que el usuario disfrute de la accion");
+          
           this.setState({ prevideorewarded: true });
+        }
                    
         else {
           // Unable to show interstitial - not loaded yet.

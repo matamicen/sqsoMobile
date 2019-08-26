@@ -142,9 +142,21 @@ const qsoReducer = (state = initialState, action) => {
                         {
                             ...state,
                             isFetchingUserInfo: false,
-                            userInfoApiErrorMessage: action.payload
+                            userInfoApiErrorMessage: action.payload,
+                            errorApiMessage: action.payload
                         });
                     return newStore;
+                }
+                else
+                {
+                    newStore = Object.assign({}, state,
+                        {
+                            ...state,
+                            isFetchingUserInfo: false,
+                            errorApiMessage: action.payload
+                        });
+                    return newStore;
+                    
                 }
 
                 return state;

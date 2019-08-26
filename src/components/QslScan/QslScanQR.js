@@ -35,6 +35,7 @@ class QslScanQR extends Component {
     this.intersitialmustbeshown = false;
     this.closeAd = null;
     this.gotrewarded = false;
+    this.qrToScan = '';
 
     this.state = {
       conta: 0,
@@ -80,13 +81,15 @@ class QslScanQR extends Component {
        //   .openURL(e.data)
        //   .catch(err => console.error('An error occured', err));
        //this.ScanQSL2(e);
-        this.setState({actindicatorfecthQslCard: true})
+       
+  //   this.setState({actindicatorfecthQslCard: true})
        console.log('el codigo Scaneado es: ' +e.data);
+       this.qrToScan = e.data;
      //  await this.props.getQslScan(e.data,this.scantype);
     
           if (this.scantype==='mainQsoLink' || this.scantype==='linkQso')
           {
-
+            this.setState({actindicatorfecthQslCard: true})
             await this.props.getQslScan(e.data,this.scantype,this.props.myqra, this.props.jwtToken);
             this.gotoQslScanScreen(this.scantype);
             this.setState({actindicatorfecthQslCard: false})
@@ -96,9 +99,9 @@ class QslScanQR extends Component {
           else
           {  
 
-             await this.props.getQslScan(e.data,'qslScan',this.props.myqra, this.props.jwtToken);
+           //  await this.props.getQslScan(e.data,'qslScan',this.props.myqra, this.props.jwtToken);
           //   this.gotoQslScanScreen('qslScan');
-             this.setState({actindicatorfecthQslCard: false, showCamera: false})
+        //     this.setState({actindicatorfecthQslCard: false, showCamera: false})
                             // showCamera: false})
 
                             
@@ -108,20 +111,26 @@ class QslScanQR extends Component {
                             if (showIntersitial(this.props.userinfo,'scanqr','')) {
                               this.intersitialmustbeshown = true;
                               this.closeAd = 'scanqr';
-                              this.setState({showIntersitial:true});
+                              this.setState({showIntersitial:true, showCamera: false});
                               
-                          
+                             
                             }
                           
                             if (showVideoReward(this.props.userinfo,'scanqr','')) {
                               this.videorewardmustbeshown = true;
                               this.closeAd = 'scanqr';
-                              this.setState({showVideoReward:true});
+                              this.setState({showVideoReward:true, showCamera: false});
                            
                             }
                             
-                            if (!this.intersitialmustbeshown && !this.videorewardmustbeshown)
-                               this.gotoQslScanScreen('qslScan');
+                            if (!this.intersitialmustbeshown && !this.videorewardmustbeshown){
+                              // this.setState({actindicatorfecthQslCard: true})
+                              // await this.props.getQslScan(e.data,'qslScan',this.props.myqra, this.props.jwtToken);
+                              // this.gotoQslScanScreen('qslScan');
+                              // this.setState({actindicatorfecthQslCard: false, showCamera: false})
+                              this.scanQr();
+                            }
+                               
                                   
                             
                           
@@ -130,8 +139,6 @@ class QslScanQR extends Component {
           }
 
 
-      
-  
   
          //   this.setState({scanQR: !this.state.scanQR})
 
@@ -139,6 +146,15 @@ class QslScanQR extends Component {
    
        //   this.setState({scanQR: !this.state.scanQR})
      }
+
+     scanQr = async () =>  {
+
+      this.setState({actindicatorfecthQslCard: true})
+      await this.props.getQslScan(this.qrToScan,'qslScan',this.props.myqra, this.props.jwtToken);
+      this.gotoQslScanScreen('qslScan');
+      this.setState({actindicatorfecthQslCard: false, showCamera: false})
+
+    }  
 
      onSuccess_test = async function() {
       // onSuccess(e) {
@@ -265,9 +281,10 @@ return   <View style={{flex: 1}}>
                   
 
 
-                  {(this.state.showIntersitial) && <AdInter showscanresults={this.gotoQslScanScreen.bind()}  closead={this.closeAd}  /> }
-                   {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.gotoQslScanScreen.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
-
+                  {/* {(this.state.showIntersitial) && <AdInter showscanresults={this.gotoQslScanScreen.bind()}  closead={this.closeAd}  /> } */}
+                  {(this.state.showIntersitial) && <AdInter showscanresults={this.scanQr.bind()}  closead={this.closeAd}  /> }
+                  {/* {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.gotoQslScanScreen.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> } */}
+                  {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.scanQr.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
             </View>
 
             }

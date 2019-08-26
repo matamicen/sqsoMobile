@@ -297,16 +297,22 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
   export const showVideoReward =  (userInfo,spot,mediafiles) => {
 
-// console.log('helper userinfo:' + userInfo)
-  //  console.log(userInfo)
-    console.log('monthly: '+userInfo.monthly_qso_new + ' from: '+userInfo.account_type.app_qso_new_reward_from + 'To: '+userInfo.account_type.app_qso_new_reward_to)
+
+    console.log('monthly: '+userInfo.monthly_qso_new + ' from: '+userInfo.account_type.app_qso_new_reward_from + 'To: '+userInfo.account_type.app_qso_new_reward_to + '  every:'+userInfo.account_type.app_qso_new_reward_every)
   
     if (spot==='newqso')
       if (userInfo.monthly_qso_new >= userInfo.account_type.app_qso_new_reward_from 
         && userInfo.monthly_qso_new <= userInfo.account_type.app_qso_new_reward_to)
         {
-          console.log('es TRUE')
-          return true;
+          auxQsoNew = userInfo.monthly_qso_new + userInfo.account_type.app_qso_new_reward_every - userInfo.account_type.app_qso_new_reward_from;
+          if (auxQsoNew % userInfo.account_type.app_qso_new_reward_every === 0 || userInfo.monthly_qso_new===userInfo.account_type.app_qso_new_reward_from)
+          {
+            console.log('es TRUE')
+            return true;
+          }else {
+            console.log('es FALSE')
+            return false;
+                }
         }
         else {
           console.log('es FALSE')
@@ -323,12 +329,25 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
           if (item.type==='audio')
               currentQty++;
          })
+
+       
         
         if (currentQty >= userInfo.account_type.app_qso_audio_add_reward_from 
               && currentQty <= userInfo.account_type.app_qso_audio_add_reward_to)
               {
-                console.log('es TRUE')
-                return true;
+             
+                auxCurrentQty = currentQty + userInfo.account_type.app_qso_audio_add_reward_every - userInfo.account_type.app_qso_audio_add_reward_from;
+                console.log(' auxCurrentQty: '+auxCurrentQty);
+                
+                if (auxCurrentQty % userInfo.account_type.app_qso_audio_add_reward_every === 0 || currentQty===userInfo.account_type.app_qso_audio_add_reward_from)
+                 {  console.log('videoaudio es TRUE')
+                    return true;
+                  }else
+                  {
+                    console.log('videoaudio es FALSE')
+                    return false;
+
+                  }
               }
               else {
                 console.log('es FALSE')
@@ -347,11 +366,24 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
            currentQty++;
       })
 
+     
+
               if (currentQty >= userInfo.account_type.app_qso_photo_add_reward 
                   && currentQty <= userInfo.account_type.app_qso_photo_add_reward_to)
                   {
-                    console.log('es TRUE')
-                    return true;
+                    
+                    auxCurrentQty = currentQty + userInfo.account_type.app_qso_photo_add_reward_every - userInfo.account_type.app_qso_photo_add_reward;
+                    console.log(' auxCurrentQty: '+auxCurrentQty);
+
+                    if (auxCurrentQty % userInfo.account_type.app_qso_photo_add_reward_every === 0 || currentQty===userInfo.account_type.app_qso_photo_add_reward)
+                    {  console.log('videoimage es TRUE')
+                       return true;
+                     }else
+                     {
+                       console.log('videoimage es FALSE')
+                       return false;
+   
+                     }
                   }
                   else {
                     console.log('es FALSE')
@@ -361,30 +393,58 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
        }
 
        if (spot==='scanqr')
+       {
+        console.log('VideoReward monthly Scans: '+userInfo.monthly_scans);
         if (userInfo.monthly_scans >= userInfo.account_type.app_qso_scan_reward_from 
           && userInfo.monthly_scans <= userInfo.account_type.app_qso_scan_reward_to)
           {
-            console.log('es TRUE')
-            return true;
+                    
+            auxCurrentScans = userInfo.monthly_scans + userInfo.account_type.app_qso_scan_reward_every - userInfo.account_type.app_qso_scan_reward_from;
+            console.log(' auxCurrentScans: '+auxCurrentScans);
+
+            if (auxCurrentScans % userInfo.account_type.app_qso_scan_reward_every === 0 || userInfo.monthly_scans===userInfo.account_type.app_qso_scan_reward_from)
+            {  console.log('videoimage es TRUE')
+               return true;
+             }else
+             {
+               console.log('videoimage es FALSE')
+               return false;
+
+             }
           }
           else {
             console.log('es FALSE')
             return false;
           }
+        }
 
 
           if (spot==='linkqso')
-            return true;
-          // if (userInfo.monthly_scans >= userInfo.account_type.app_qso_scan_reward_from 
-          //   && userInfo.monthly_scans <= userInfo.account_type.app_qso_scan_reward_to)
-          //   {
-          //     console.log('es TRUE')
-          //     return true;
-          //   }
-          //   else {
-          //     console.log('es FALSE')
-          //     return false;
-          //   }
+          {
+            console.log('VideoReward monthly QsoLinks: '+userInfo.monthly_links);
+            
+            if (userInfo.monthly_links >= userInfo.account_type.app_qso_link_reward_from 
+              && userInfo.monthly_links <= userInfo.account_type.app_qso_link_reward_to)
+              {
+                    
+                auxCurrentLinks = userInfo.monthly_links + userInfo.account_type.app_qso_link_reward_every - userInfo.account_type.app_qso_link_reward_from;
+                console.log(' auxCurrentLinks: '+auxCurrentLinks);
+    
+                if (auxCurrentLinks % userInfo.account_type.app_qso_link_reward_every === 0 || userInfo.monthly_links===userInfo.account_type.app_qso_link_reward_from)
+                {  console.log('videoimage LinkQso es TRUE')
+                   return true;
+                 }else
+                 {
+                   console.log('videoimage LinkQso es FALSE')
+                   return false;
+    
+                 }
+              }
+              else {
+                console.log('videoimage LinkQso es FALSE')
+                return false;
+              }
+             }
 
          
   
@@ -396,18 +456,21 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
  
     export const showIntersitial =  (userInfo,spot,mediafiles) => {
-    //  console.log('currentQty'+ currentQty)
-
-
-   //   console.log('helper userinfo:' + userInfo)
-  //    console.log(userInfo)
-      console.log('monthly: '+userInfo.monthly_qso_new + ' from: '+userInfo.account_type.app_qso_new_intersitial_from + 'To: '+userInfo.account_type.app_qso_new_intersitial_to)
+  
+     
   if (spot==='newqso')
       if (userInfo.monthly_qso_new >= userInfo.account_type.app_qso_new_intersitial_from 
           && userInfo.monthly_qso_new <= userInfo.account_type.app_qso_new_intersitial_to)
           {
-            console.log('es TRUE')
-            return true;
+            auxQsoNew = userInfo.monthly_qso_new + userInfo.account_type.app_qso_new_intersitial_every - userInfo.account_type.app_qso_new_intersitial_from;
+            if (auxQsoNew % userInfo.account_type.app_qso_new_intersitial_every === 0 || userInfo.monthly_qso_new===userInfo.account_type.app_qso_new_intersitial_from)
+            {
+              console.log('es TRUE')
+              return true;
+            }else {
+              console.log('es FALSE')
+              return false;
+                  }
           }
           else {
             console.log('es FALSE')
@@ -425,12 +488,24 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
           if (item.type==='audio')
               currentQty++;
          })
-        
+
+
         if (currentQty >= userInfo.account_type.app_qso_audio_add_intersitial_from 
               && currentQty <= userInfo.account_type.app_qso_audio_add_intersitial_to)
               {
-                console.log('es TRUE')
-                return true;
+             
+                auxCurrentQty = currentQty + userInfo.account_type.app_qso_audio_add_intersitial_every - userInfo.account_type.app_qso_audio_add_intersitial_from;
+                console.log(' auxCurrentQty: '+auxCurrentQty);
+                
+                if (auxCurrentQty % userInfo.account_type.app_qso_audio_add_intersitial_every === 0 || currentQty===userInfo.account_type.app_qso_audio_add_intersitial_from)
+                 {  console.log('videoaudio es TRUE')
+                    return true;
+                  }else
+                  {
+                    console.log('videoaudio es FALSE')
+                    return false;
+
+                  }
               }
               else {
                 console.log('es FALSE')
@@ -452,8 +527,19 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
               if (currentQty >= userInfo.account_type.app_qso_photo_add_intersitial 
                   && currentQty <= userInfo.account_type.app_qso_photo_add_intersitial_to)
                   {
-                    console.log('es TRUE')
-                    return true;
+                    
+                    auxCurrentQty = currentQty + userInfo.account_type.app_qso_photo_add_intersitial_every - userInfo.account_type.app_qso_photo_add_intersitial;
+                    console.log(' auxCurrentQty: '+auxCurrentQty);
+
+                    if (auxCurrentQty % userInfo.account_type.app_qso_photo_add_intersitial_every === 0 || currentQty===userInfo.account_type.app_qso_photo_add_intersitial)
+                    {  console.log('intersitial es TRUE')
+                       return true;
+                     }else
+                     {
+                       console.log('intersitial es FALSE')
+                       return false;
+   
+                     }
                   }
                   else {
                     console.log('es FALSE')
@@ -463,29 +549,59 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
        }
 
        if (spot==='scanqr')
+      {
+       console.log('Intersitial monthly Scans: '+userInfo.monthly_scans);
+       
        if (userInfo.monthly_scans >= userInfo.account_type.app_qso_scan_intersitial_from 
          && userInfo.monthly_scans <= userInfo.account_type.app_qso_scan_intersitial_to)
          {
-           console.log('es TRUE')
-           return true;
-         }
+                    
+          auxCurrentScans = userInfo.monthly_scans + userInfo.account_type.app_qso_scan_intersititial_every - userInfo.account_type.app_qso_scan_intersitial_from;
+          console.log(' auxCurrentScans: '+auxCurrentScans);
+
+          if (auxCurrentScans % userInfo.account_type.app_qso_scan_intersititial_every === 0 || userInfo.monthly_scans===userInfo.account_type.app_qso_scan_intersitial_from)
+          {  console.log('intersitial scanQr es TRUE')
+             return true;
+           }else
+           {
+             console.log('intersitial scanQr es FALSE')
+             return false;
+
+           }
+        }
          else {
-           console.log('es FALSE')
+           console.log('intersitial scanQr FALSE')
            return false;
          }
+        }
 
          if (spot==='linkqso')
-           return false;
-        //  if (userInfo.monthly_scans >= userInfo.account_type.app_qso_scan_intersitial_from 
-        //    && userInfo.monthly_scans <= userInfo.account_type.app_qso_scan_intersitial_to)
-        //    {
-        //      console.log('es TRUE')
-        //      return true;
-        //    }
-        //    else {
-        //      console.log('es FALSE')
-        //      return false;
-        //    }
+         {
+          console.log('Intersitial monthly QsoLinks: '+userInfo.monthly_links);
+          
+          if (userInfo.monthly_links >= userInfo.account_type.app_qso_link_intersitial_from 
+            && userInfo.monthly_links <= userInfo.account_type.app_qso_link_intersitial_to)
+            {
+                    
+              auxCurrentLinks = userInfo.monthly_links + userInfo.account_type.app_qso_link_intersitial_every - userInfo.account_type.app_qso_link_intersitial_from;
+              console.log(' auxCurrentLinks: '+auxCurrentLinks);
+  
+              if (auxCurrentLinks % userInfo.account_type.app_qso_link_intersitial_every === 0 || userInfo.monthly_links===userInfo.account_type.app_qso_link_intersitial_from)
+              {  console.log('intersitial LinkQso es TRUE')
+                 return true;
+               }else
+               {
+                 console.log('intersitial  LinkQso es FALSE')
+                 return false;
+  
+               }
+            }
+            else {
+              console.log('intersitial LinkQso es FALSE')
+              return false;
+            }
+           }
+   
   
 
         
