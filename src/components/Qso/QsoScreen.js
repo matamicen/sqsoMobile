@@ -42,7 +42,8 @@ import {
   actindicatorPostQsoNewTrue,
   postQsoNew,
   addMedia,
-  uploadMediaToS3
+  uploadMediaToS3,
+  welcomeUserFirstTime
 } from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
@@ -678,6 +679,7 @@ class QsoScreen extends Component {
   closeVariosModales = (param) => {
   //  this.setState({ nointernet: false, prevideorewarded: false });
     this.setState({ nointernet: false});
+    this.props.welcomeUserFirstTime(false);
     // if (param==='yes')
     // setTimeout(() => {
             
@@ -1076,6 +1078,13 @@ class QsoScreen extends Component {
         </View>
           {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
           {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
+          
+          {(this.props.welcomeuserfirsttime) && 
+            <VariosModales
+            show={true}
+            modalType="welcomefirsttime"
+            closeInternetModal={this.closeVariosModales.bind()}
+          /> }
       </View>
     );
   }
@@ -1110,7 +1119,8 @@ const mapStateToProps = state => {
    // sqlrdsid: state.sqso.currentQso.sqlrdsId,
     latitude: state.sqso.currentQso.latitude,
     longitude: state.sqso.currentQso.longitude,
-    mediafiles: state.sqso.currentQso.mediafiles
+    mediafiles: state.sqso.currentQso.mediafiles,
+    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime
   };
 };
 
@@ -1138,7 +1148,8 @@ const mapDispatchToProps = {
   actindicatorPostQsoNewTrue,
   postQsoNew,
   addMedia,
-  uploadMediaToS3
+  uploadMediaToS3,
+  welcomeUserFirstTime
 };
 
 export default connect(
