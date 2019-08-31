@@ -74,7 +74,9 @@ constructor(props) {
      cca2: 'US',
      callingCode: '',
      namec: '',
-     showFlag: false
+     showFlag: false,
+     terms: false,
+     privacy: false
      
      
     };
@@ -285,7 +287,8 @@ signUp = async () => {
 
           this.setState({ indicator: 0});  
         // Open Terms & Conditions
-        this.setState({terms: true});
+     //   this.setState({terms: true});
+         this.SignUpAfterTerms();
 
         }else
               {
@@ -456,14 +459,15 @@ signUp = async () => {
   }
 
   closeTerms = () => {
-    this.setState({terms: false}); 
+    this.setState({terms: false, privacy: false}); 
   }
 
-  TermsAccepted = () => {
-    this.setState({terms: false}); 
-    this.SignUpAfterTerms();
+  
+  // TermsAccepted = () => {
+  //   this.setState({terms: false}); 
+  //   this.SignUpAfterTerms();
 
-  }
+  // }
 
   SignUpAfterTerms = () => {
 
@@ -931,17 +935,27 @@ chooseCountry = () => {
                  autoCapitalize="none"
                  autoCorrect={false}
                  secureTextEntry
-                 style={styles.input} 
+                 style={styles.input2} 
                  value={this.state.passwordConfirm}
                  onChangeText={(text) => this.setState({passwordConfirm: text})}
                 
                  />
+                 {/* <View  style={{flex:1, flexDirection: "row"}}> */}
+                 <Text style={{ fontSize: 11}} >Al tocar "Registrarse y aceptar", confirmas que leiste la </Text>
+                 <View style={{flex:1, flexDirection: "row"}}>
+                 <TouchableOpacity onPress={ () => this.setState({privacy: true}) } > 
+                 <Text style={{ fontSize: 11, color: "blue"}} >politica de privacidad </Text></TouchableOpacity><Text style={{ fontSize: 11}} >y que aceptas las</Text>
+                 </View>
+                 <TouchableOpacity onPress={ () => this.setState({terms: true}) } > 
+                  <Text style={{ fontSize: 11, color: "blue"}} >condiciones de servicio</Text>
+                  </TouchableOpacity>
 
+                 {/* </View> */}
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signUp()} >
-                    <Text style={styles.buttonText}> SignUp </Text>
+                    <Text style={styles.buttonText}>SignUp and accept </Text>
                  </TouchableOpacity>
 
-                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
+                 <TouchableOpacity  style={{marginTop: 5}} onPress={ () => this.props.navigation.navigate("Root")} >
                     <Text style={styles.buttonText2} >Login Screen</Text>
                  </TouchableOpacity>
 
@@ -1107,8 +1121,9 @@ chooseCountry = () => {
 
 {/* </ScrollView>   */}
     <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-    {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()} termsaccepted={this.TermsAccepted.bind()}  /> }
-   
+    {/* {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()} termsaccepted={this.TermsAccepted.bind()}  /> } */}
+    {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()}   /> }
+    {(this.state.privacy) && <VariosModales show={true} modalType="privacy" closeterms={this.closeTerms.bind()}   /> }
             </View>
             
             
@@ -1152,12 +1167,22 @@ chooseCountry = () => {
     height: 38,    
     width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    marginBottom: 12,
+    marginBottom: 8,
     color: '#FFF',
     fontSize: 16,
     borderRadius: 22,
     paddingHorizontal: 10
           },
+          input2: {
+            height: 38,    
+            width: 270,
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            marginBottom: 5,
+            color: '#FFF',
+            fontSize: 16,
+            borderRadius: 22,
+            paddingHorizontal: 10
+                  },
           inputConfirmation: {
             height: 40,    
             width: 250,
@@ -1170,16 +1195,18 @@ chooseCountry = () => {
                   },
   buttonContainer:{
       backgroundColor: '#2980b9',
-      paddingVertical: 15,
+      paddingVertical: 5,
       borderRadius: 22,
       width: 270,
+      height: 36,
+      marginTop: 7
       },
   birthdateContainer:{
         backgroundColor: 'rgba(255,255,255,0.2)',
         paddingVertical: 10,
         height: 37,
         width: 270,
-        marginBottom: 12,
+        marginBottom: 8,
         paddingHorizontal: 8,
         borderRadius: 22
                },

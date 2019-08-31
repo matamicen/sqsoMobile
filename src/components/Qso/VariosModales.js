@@ -847,53 +847,28 @@ class VariosModales extends Component {
                      <Terms />
 
 
-                  <View style={{ flex:1, flexDirection: "row", marginLeft: 6, marginTop: 17}}>
-                      <View style={{ flex:0.2}}>
-                      <Image
-                          source={require("../../images/privacy2.png")}
-                          style={{ width: 45, height: 45 }}
-                          resizeMode="contain"
-                        /> 
-                      </View>
-                    <View style={{ flex:0.8}}>
-                          
-                    <Text style={{ color: "#FFFFFF", fontSize: 20, marginTop:5}}>
-                        Privacy Policy
-                        {/* Free User: You need to watch the Ad video to create a new qso. */}
-                      </Text>
-                      </View>
-                  </View>
-
-                 
-
-                     <Privacy />
 
                     </ScrollView>
 
                 </View>
 
-                <View style={{ flex: 0.2, flexDirection: 'row', marginTop: 10 }}>
-                    <View style={{ flex: 0.5 }}>
+                <View style={{ flex: 1, marginTop: 10, alignItems: "center" }}>
+                    {/* <View style={{ flex: 0.5 }}> */}
 
                     <TouchableOpacity
                       onPress={() => this.props.closeterms()}
                       style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                     >
-                      <Text style={{ color: "#999", fontSize: 16 }}>Reject</Text>
+                      <Text style={{ color: "#999", fontSize: 18 }}>Close</Text>
                     </TouchableOpacity>
-                   
-                    </View>
 
-                    <View style={{ flex: 0.5, alignItems: "flex-end" }}>
+                 </View>
+                   
+                    {/* </View> */}
+
+                    {/* <View style={{ flex: 0.5, alignItems: "flex-end" }}>
       
-                        {/* <TouchableOpacity
-                          onPress={() => { 
-                            this.setState({showform:false});
-                          }} 
-                          style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
-                        >
-                          <Text style={{ color: "#FFF", fontSize: 22 }}>Accept</Text>
-                        </TouchableOpacity> */}
+                      
 
         <TouchableOpacity disabled={ !this.state.termsaccepted }
                onPress={() => { 
@@ -904,9 +879,9 @@ class VariosModales extends Component {
                              <Text style={styles.buttonLabel}>Accept</Text>
           </TouchableOpacity>
 
-                    </View>
+                    </View> */}
 
-                </View>
+             
 
               </View>
             </View>
@@ -1022,6 +997,109 @@ class VariosModales extends Component {
 //         </View>
 
       );
+
+
+      if (this.props.modalType === "privacy")
+      return (
+        this.state.showform && 
+        <View>
+          <Modal
+            visible={this.state.show}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            <View
+              style={{
+                //  margin:20,
+                padding: 20,
+             //   backgroundColor: "#475788",
+                 backgroundColor:"rgba(0,0,0,0.85)",
+                top: 55,
+                left: 30,
+                right: 30,
+                position: "absolute",
+                borderBottomLeftRadius: 22,
+                borderBottomRightRadius: 22,
+                borderTopLeftRadius: 22,
+                borderTopRightRadius: 22
+
+                //  alignItems: 'center'
+              }}
+            >
+              <View style={{ flex: 1 }}>
+              <View style={{ flex: 0.2, alignItems: "center" }}>
+                
+
+                
+
+                   
+                </View>
+                <View style={{ flex: 0.6, margintTop: 6 }}>
+                   
+
+                    <ScrollView  style={styles.tcContainer}
+                    ref="scrollView1"
+                    onScroll={({nativeEvent}) => {
+                      if (isCloseToBottom(nativeEvent)) {
+                        console.log("scroll llego al fondo");
+                        
+                        this.setState({
+                          termsaccepted: true
+                        })
+                      }
+                    }}
+                    >
+
+              {/* <Text style={{ color: "#FFFFFF", fontSize: 16}}>
+                      
+                    </Text> */}
+                  <View style={{ flex:1, flexDirection: "row", marginLeft: 6}}>
+                  <View style={{ flex:0.2}}>
+                  <Image
+                       source={require("../../images/privacy2.png")}
+                      style={{ width: 45, height: 45}}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <View style={{ flex:0.8}}>
+                     <Text style={{ color: "#FFFFFF", fontSize: 20, marginTop: 5}}>
+                      Privacy Policy
+                      
+                    </Text>
+                  </View>
+                    </View>
+
+                    <Privacy />
+
+
+                    </ScrollView>
+
+                </View>
+
+                <View style={{ flex: 1, marginTop: 10, alignItems: "center" }}>
+                    {/* <View style={{ flex: 0.5 }}> */}
+
+                    <TouchableOpacity
+                      onPress={() => this.props.closeterms()}
+                      style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
+                    >
+                      <Text style={{ color: "#999", fontSize: 18 }}>Close</Text>
+                    </TouchableOpacity>
+
+                 </View>
+                   
+         
+
+             
+
+              </View>
+            </View>
+          </Modal>
+        </View>
+  
+
+      );
+
 
 
 
