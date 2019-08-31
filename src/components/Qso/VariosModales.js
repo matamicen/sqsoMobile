@@ -154,7 +154,7 @@ class VariosModales extends Component {
               padding: 20,
            //   backgroundColor: "#475788",
                backgroundColor:"rgba(0,0,0,0.85)",
-              top: 40,
+              top: 60,
               left: 30,
               right: 30,
               position: "absolute",
@@ -176,7 +176,7 @@ class VariosModales extends Component {
               <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to SuperQso!</Text>
               <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>You have 3 month of trial Premium Subscription!</Text>
               <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy SuperQso 59+100 !!!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10 }}>After the 3 month you can continue using SuperQso with the FREE subscription.</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using SuperQso with the FREE subscription.</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}

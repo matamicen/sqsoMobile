@@ -44,7 +44,7 @@ const initialState = {
     currentLocationPermission: false,
     adShowed: false,
     qsoScreenDidMountFirstTime: true,
-    welcomeUserFirstTime: true,
+    welcomeUserFirstTime: false,
 
     currentQso: {
         
