@@ -9,7 +9,7 @@ import awsconfig from '../../aws-exports';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 import { setQra, setUrlRdsS3,resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, postPushToken,
-   getUserInfo} from '../../actions';
+   getUserInfo, welcomeUserFirstTime} from '../../actions';
 import { hasAPIConnection, kinesis_catch } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
@@ -408,8 +408,9 @@ signUp = async () => {
 
 
     
+   console.log("antes de welcomeUserFirstTime");
    
-
+    this.props.welcomeUserFirstTime(true);
     this.setState({indicator: 0});
      this.props.navigation.navigate("AppNavigator2");
   
@@ -1254,7 +1255,8 @@ const mapDispatchToProps = {
   newqsoactiveFalse,
   setToken,
   postPushToken,
-  getUserInfo
+  getUserInfo,
+  welcomeUserFirstTime
   
   
    }

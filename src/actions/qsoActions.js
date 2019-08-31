@@ -22,7 +22,7 @@ import {FETCHING_API_REQUEST,
         SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, LINK_QSOS, SET_TOKEN,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
-        QSO_SCREEN_DIDMOUNT  } from './types';
+        QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -51,6 +51,13 @@ export const setStopAllAudios = (status) => {
         type: SET_STOPALLAUDIOS,
         payload: status
     };
+}
+
+export const welcomeUserFirstTime = (status) => {
+  return {
+      type: SET_WELCOME_USER_FIRST_TIME,
+      payload: status
+  };
 }
 
 

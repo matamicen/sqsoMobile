@@ -138,6 +138,58 @@ class VariosModales extends Component {
     {
       /* : */
     }
+
+    if (this.props.modalType === "welcomefirsttime")
+    return (
+      <View>
+        <Modal
+          visible={this.state.show}
+          transparent={true}
+          onRequestClose={() => console.log("Close was requested")}
+        >
+          <View
+      
+            style={{
+              //  margin:20,
+              padding: 20,
+           //   backgroundColor: "#475788",
+               backgroundColor:"rgba(0,0,0,0.85)",
+              top: 40,
+              left: 30,
+              right: 30,
+              position: "absolute",
+              borderBottomLeftRadius: 22,
+              borderBottomRightRadius: 22,
+              borderTopLeftRadius: 22,
+              borderTopRightRadius: 22
+
+              //  alignItems: 'center'
+            }}
+          >
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <Image
+                source={require("../../images/noInternet.png")}
+                style={{ width: 60, height: 60 }}
+                resizeMode="contain"
+              />
+
+              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to SuperQso!</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>You have 3 month of trial Premium Subscription!</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy SuperQso 59+100 !!!</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10 }}>After the 3 month you can continue using SuperQso with the FREE subscription.</Text>
+
+              <TouchableOpacity
+                onPress={() => this.props.closeInternetModal('nointernet')}
+                style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
+              >
+                <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+
     if (this.props.modalType === "nointernet")
       return (
         <View>
