@@ -8,11 +8,25 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import Terms from './Terms';
 import Privacy from './Privacy';
+
+
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
+
+const isCloseToBottom2 = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
 
 class VariosModales extends Component {
   constructor(props) {
@@ -25,7 +39,9 @@ class VariosModales extends Component {
       watchvideo: true,
       showform : true,
       contactMessage: ' ',
-      showOkBePremium: false
+      showOkBePremium: false,
+      termsaccepted: false,
+      privacyaccepted: false
     };
   }
 
@@ -33,6 +49,8 @@ class VariosModales extends Component {
     return { show: props.show
              };
   }
+
+  
 
   //   componentWillReceiveProps(nextProps) {
 
@@ -758,7 +776,7 @@ class VariosModales extends Component {
 
       if (this.props.modalType === "terms")
       return (
-        this.state.showform ? 
+        this.state.showform && 
         <View>
           <Modal
             visible={this.state.show}
@@ -785,105 +803,68 @@ class VariosModales extends Component {
             >
               <View style={{ flex: 1 }}>
               <View style={{ flex: 0.2, alignItems: "center" }}>
-                    <Image
-                      source={require("../../images/hands5.png")}
-                      style={{ width: 60, height: 60 }}
-                      resizeMode="contain"
-                    />
+                
 
-                    <Text style={{ color: "#FFFFFF", fontSize: 20}}>
-                      Terms & Conditions 
-                      {/* Free User: You need to watch the Ad video to create a new qso. */}
-                    </Text>
+                
+
+                   
                 </View>
                 <View style={{ flex: 0.6, margintTop: 6 }}>
                    
 
-                    <ScrollView style={{ height: 180}}>
-                  
+                    <ScrollView  style={styles.tcContainer}
+                    ref="scrollView1"
+                    onScroll={({nativeEvent}) => {
+                      if (isCloseToBottom(nativeEvent)) {
+                        console.log("scroll llego al fondo");
+                        
+                        this.setState({
+                          termsaccepted: true
+                        })
+                      }
+                    }}
+                    >
 
+              {/* <Text style={{ color: "#FFFFFF", fontSize: 16}}>
+                      
+                    </Text> */}
+                  <View style={{ flex:1, flexDirection: "row", marginLeft: 6}}>
+                  <View style={{ flex:0.2}}>
+                  <Image
+                      source={require("../../images/hands5.png")}
+                      style={{ width: 45, height: 45}}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <View style={{ flex:0.8}}>
+                     <Text style={{ color: "#FFFFFF", fontSize: 20, marginTop: 5}}>
+                       Terms & Conditions
+                      
+                    </Text>
+                  </View>
+                    </View>
 
                      <Terms />
 
-                    </ScrollView>
 
-                </View>
+                  <View style={{ flex:1, flexDirection: "row", marginLeft: 6, marginTop: 17}}>
+                      <View style={{ flex:0.2}}>
+                      <Image
+                          source={require("../../images/privacy2.png")}
+                          style={{ width: 45, height: 45 }}
+                          resizeMode="contain"
+                        /> 
+                      </View>
+                    <View style={{ flex:0.8}}>
+                          
+                    <Text style={{ color: "#FFFFFF", fontSize: 20, marginTop:5}}>
+                        Privacy Policy
+                        {/* Free User: You need to watch the Ad video to create a new qso. */}
+                      </Text>
+                      </View>
+                  </View>
 
-                <View style={{ flex: 0.2, flexDirection: 'row', marginTop: 10 }}>
-                    <View style={{ flex: 0.5 }}>
-
-                    <TouchableOpacity
-                      onPress={() => this.props.closeterms()}
-                      style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
-                    >
-                      <Text style={{ color: "#999", fontSize: 22 }}>Denied</Text>
-                    </TouchableOpacity>
-                   
-                    </View>
-
-                    <View style={{ flex: 0.5, alignItems: "flex-end" }}>
-      
-                        <TouchableOpacity
-                          onPress={() => { 
-                            this.setState({showform:false});
-                          }} 
-                          style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
-                        >
-                          <Text style={{ color: "#FFF", fontSize: 22 }}>Accept</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-
-              </View>
-            </View>
-          </Modal>
-        </View>
-        :
-        <View>
-          <Modal
-            visible={this.state.show}
-            transparent={true}
-            onRequestClose={() => console.log("Close was requested")}
-          >
-            <View
-              style={{
-                //  margin:20,
-                padding: 20,
-             //   backgroundColor: "#475788",
-                 backgroundColor:"rgba(0,0,0,0.85)",
-                top: 55,
-                left: 30,
-                right: 30,
-                position: "absolute",
-                borderBottomLeftRadius: 22,
-                borderBottomRightRadius: 22,
-                borderTopLeftRadius: 22,
-                borderTopRightRadius: 22
-
-                //  alignItems: 'center'
-              }}
-            >
-
-<View style={{ flex: 1 }}>
-              <View style={{ flex: 0.2, alignItems: "center" }}>
-                    <Image
-                      source={require("../../images/privacy2.png")}
-                      style={{ width: 60, height: 60 }}
-                      resizeMode="contain"
-                    />
-
-                    <Text style={{ color: "#FFFFFF", fontSize: 20}}>
-                      Privacy 
-                      {/* Free User: You need to watch the Ad video to create a new qso. */}
-                    </Text>
-                </View>
-                <View style={{ flex: 0.6, margintTop: 6 }}>
-                   
-
-                    <ScrollView style={{ height: 180}}>
-                  
-
+                 
 
                      <Privacy />
 
@@ -898,31 +879,147 @@ class VariosModales extends Component {
                       onPress={() => this.props.closeterms()}
                       style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                     >
-                      <Text style={{ color: "#999", fontSize: 22 }}>Denied</Text>
+                      <Text style={{ color: "#999", fontSize: 16 }}>Reject</Text>
                     </TouchableOpacity>
                    
                     </View>
 
                     <View style={{ flex: 0.5, alignItems: "flex-end" }}>
       
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                           onPress={() => { 
-                        
-                            this.props.termsaccepted();
+                            this.setState({showform:false});
                           }} 
                           style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
                         >
                           <Text style={{ color: "#FFF", fontSize: 22 }}>Accept</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+
+        <TouchableOpacity disabled={ !this.state.termsaccepted }
+               onPress={() => { 
+                        //    this.setState({showform:false});
+                            this.props.termsaccepted();
+                          }}
+                           style={ this.state.termsaccepted ? styles.button : styles.buttonDisabled }>
+                             <Text style={styles.buttonLabel}>Accept</Text>
+          </TouchableOpacity>
+
                     </View>
 
                 </View>
 
               </View>
-              
             </View>
           </Modal>
         </View>
+  
+  
+//         :
+//         <View>
+//           <Modal
+//             visible={this.state.show}
+//             transparent={true}
+//             onRequestClose={() => console.log("Close was requested")}
+//           >
+//             <View
+//               style={{
+//                 //  margin:20,
+//                 padding: 20,
+//              //   backgroundColor: "#475788",
+//                  backgroundColor:"rgba(0,0,0,0.85)",
+//                 top: 55,
+//                 left: 30,
+//                 right: 30,
+//                 position: "absolute",
+//                 borderBottomLeftRadius: 22,
+//                 borderBottomRightRadius: 22,
+//                 borderTopLeftRadius: 22,
+//                 borderTopRightRadius: 22
+
+//                 //  alignItems: 'center'
+//               }}
+//             >
+
+// <View style={{ flex: 1 }}>
+//               <View style={{ flex: 0.2, alignItems: "center" }}>
+//                     <Image
+//                       source={require("../../images/privacy2.png")}
+//                       style={{ width: 60, height: 60 }}
+//                       resizeMode="contain"
+//                     />
+
+//                     <Text style={{ color: "#FFFFFF", fontSize: 20}}>
+//                       Privacy 
+//                       {/* Free User: You need to watch the Ad video to create a new qso. */}
+//                     </Text>
+//                 </View>
+//                 <View style={{ flex: 0.6, margintTop: 6 }}>
+                   
+
+                   
+//                 <ScrollView  style={styles.tcContainer2}
+//                 ref="scrollView2"
+//                     // onScroll={({nativeEvent}) => {
+//                     //   if (isCloseToBottom2(nativeEvent)) {
+//                     //     console.log("scroll llego al fondo");
+                        
+//                     //     this.setState({
+//                     //       privacyaccepted: true
+//                     //     })
+//                     //   }
+//                     // }}
+//                     >
+                  
+
+
+//                      <Privacy />
+
+//                     </ScrollView>
+
+//                 </View>
+
+//                 <View style={{ flex: 0.2, flexDirection: 'row', marginTop: 10 }}>
+//                     <View style={{ flex: 0.5 }}>
+
+//                     <TouchableOpacity
+//                       onPress={() => this.props.closeterms()}
+//                       style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
+//                     >
+//                       <Text style={{ color: "#999", fontSize: 16 }}>Denied</Text>
+//                     </TouchableOpacity>
+                   
+//                     </View>
+
+//                     <View style={{ flex: 0.5, alignItems: "flex-end" }}>
+      
+//                         {/* <TouchableOpacity
+//                           onPress={() => { 
+                        
+//                             this.props.termsaccepted();
+//                           }} 
+//                           style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
+//                         >
+//                           <Text style={{ color: "#FFF", fontSize: 22 }}>Accept</Text>
+//                         </TouchableOpacity> */}
+
+//         <TouchableOpacity disabled={ !this.state.privacyaccepted }
+//                 onPress={() => { 
+                        
+//                   this.props.termsaccepted();
+//                 }}
+//                            style={ this.state.privacyaccepted ? styles.button : styles.buttonDisabled }>
+//                              <Text style={styles.buttonLabel}>Accept</Text>
+//           </TouchableOpacity>
+
+//                     </View>
+
+//                 </View>
+
+//               </View>
+              
+//             </View>
+//           </Modal>
+//         </View>
 
       );
 
@@ -932,6 +1029,8 @@ class VariosModales extends Component {
      return null;
   }
 }
+
+const { width , height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   faceImageStyle: {
@@ -967,6 +1066,35 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginTop: 5
           },
+
+          button:{
+            backgroundColor: '#136AC7',
+            borderRadius: 5,
+            padding: 10
+        },
+      
+        buttonDisabled:{
+          backgroundColor: '#999',
+          borderRadius: 5,
+          padding: 10
+       },
+      
+        buttonLabel:{
+            fontSize: 16,
+            color: '#FFF',
+            alignSelf: 'center'
+        },
+        tcContainer: {
+          marginTop: 15,
+          marginBottom: 15,
+          height: height * .4
+      },
+      tcContainer2: {
+        marginTop: 15,
+        marginBottom: 15,
+        height: height * .4
+    },
+      
 });
 
 const mapStateToProps = state => {

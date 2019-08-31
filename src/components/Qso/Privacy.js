@@ -28,7 +28,8 @@ render() { console.log("RENDER terms SCREEN!" );
 return <View>
 
 <Text style={{ color: "#FFFFFF", fontSize: 14, marginTop: 10, marginLeft:7}}>
-Welcome to Google!
+Privacy!!!!!!!
+
 Thanks for using our products and services (“Services”). The Services are provided by Google LLC (“Google”), located at 1600 Amphitheatre Parkway, Mountain View, CA 94043, United States.
 
 By using our Services, you are agreeing to these terms. Please read them carefully.
