@@ -175,8 +175,8 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
 
        </View>      
        <View style={{flex: 0.06, alignItems:"center"}}>
-         <Text style={{fontSize: 11, color:"grey"}}>We start to search automatically </Text>
-         <Text style={{fontSize: 11, color:"grey"}}>after the 4th digit entered</Text>
+         <Text style={{fontSize: 11, color:"grey"}}>We start to search automatically</Text>
+         <Text style={{fontSize: 11, color:"grey"}}>after the 4th digit</Text>
        </View>
 
        <View style={{flex: 0.86, width:this.width-25, marginBottom: 0}}>

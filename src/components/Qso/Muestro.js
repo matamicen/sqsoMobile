@@ -298,8 +298,10 @@ class Muestro extends Component {
         if ( Platform.OS === 'ios')
         {
 
-        nuevoWidthAvatar = this.widthAvatar / 21.0;
-        nuevoHeightAvatar = this.heightAvatar / 21.0;
+        // nuevoWidthAvatar = this.widthAvatar / 21.0;
+        // nuevoHeightAvatar = this.heightAvatar / 21.0;
+        nuevoWidthAvatar = this.widthAvatar / 7.0;
+        nuevoHeightAvatar = this.heightAvatar / 7.0;
         }else
         {
         nuevoWidthAvatar = this.widthAvatar / 6.0;
