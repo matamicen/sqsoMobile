@@ -169,14 +169,17 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
                      {/* <TouchableOpacity  style={{ marginTop: 5}} onPress={ () => this.switch()} >
                                 <Text style={styles.otherText} >Switch to Followers</Text>
                      </TouchableOpacity>  */}
-                     
-
+            
             </View>
 
 
        </View>      
+       <View style={{flex: 0.06, alignItems:"center"}}>
+         <Text style={{fontSize: 11, color:"grey"}}>We start to search automatically </Text>
+         <Text style={{fontSize: 11, color:"grey"}}>after the 4th digit entered</Text>
+       </View>
 
-       <View style={{flex: 0.92, width:this.width-25, marginBottom: 0}}>
+       <View style={{flex: 0.86, width:this.width-25, marginBottom: 0}}>
        {/* <FollowerList />  */}
             <View style={{ marginLeft: 15, height: 400, width: 300, marginBottom: 10, marginTop: 10}}>
 
