@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* sqsoMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* sqsoMobileTests.m */; };
 		3BDA8A393C3969645573A98E /* libPods-sqsoMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E58AD73E85589968DF9D0E /* libPods-sqsoMobileTests.a */; };
+		673381CE232C3525009E5299 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673381CD232C3525009E5299 /* StoreKit.framework */; };
 		674D70C022F0DB9D001547BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */; };
 		B9BE9F6267D01EAD59D25342 /* libPods-sqsoMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 810675BFAC246D9B49DADF10 /* libPods-sqsoMobile.a */; };
 		D860C1304493E9CA8A7B5D6E /* libPods-sqsoMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1018380BCFBAC0FC2C859C90 /* libPods-sqsoMobile-tvOSTests.a */; };
@@ -61,6 +62,7 @@
 		3275C02BA9038EB8E08C4676 /* Pods-sqsoMobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOSTests/Pods-sqsoMobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		429AB6FA6EEC08900BDCFDB5 /* Pods-sqsoMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOS/Pods-sqsoMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		54E58AD73E85589968DF9D0E /* libPods-sqsoMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		673381CD232C3525009E5299 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		678B016522EE53F500D17648 /* sqsoMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sqsoMobile.entitlements; path = sqsoMobile/sqsoMobile.entitlements; sourceTree = "<group>"; };
 		69AE634E09588643A3C642D4 /* Pods-sqsoMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile.release.xcconfig"; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9BE9F6267D01EAD59D25342 /* libPods-sqsoMobile.a in Frameworks */,
+				673381CE232C3525009E5299 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +147,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				673381CD232C3525009E5299 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				810675BFAC246D9B49DADF10 /* libPods-sqsoMobile.a */,
@@ -304,6 +308,9 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Push = {
