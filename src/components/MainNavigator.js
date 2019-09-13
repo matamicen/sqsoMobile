@@ -3,7 +3,7 @@ import { addNavigationHelpers, TabNavigator, createBottomTabNavigator, DrawerNav
    StackNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStore, combineReducers } from 'redux';
 import { connect } from 'react-redux';
-import { Platform  } from 'react-native';
+import { Platform, Dimensions  } from 'react-native';
 import QsoScreen from './Qso/QsoScreen';
 import SearchScreen from './Search/Search';
 import Notifications from './Notifications/Notification';
@@ -72,6 +72,29 @@ import {
     mode: 'modal'
 });
 */
+export function isIphoneXorAbove() {
+  const dimen = Dimensions.get('window');
+  return (
+    Platform.OS === 'ios' &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    ((dimen.height === 812 || dimen.width === 812) || (dimen.height === 896 || dimen.width === 896))
+  );
+}
+
+console.log('es iphoneX o mas: '+isIphoneXorAbove());
+//const majorVersionIOS = parseInt(Platform.Version, 10);
+// if (majorVersionIOS <= 9) {
+//   console.log('Es MENOR que 9 la version');
+//   console.log('version: '+ majorVersionIOS);
+//  // const varheight = 60;
+// }
+// else{
+//     console.log('Es MAYOR que 9 la version');
+//     console.log('version: '+ majorVersionIOS);
+//    // const varheight = 45;
+// }
+
 //  const AppNavigator2 = TabNavigator({
   const AppNavigator2 = createBottomTabNavigator({
     QsoScreen: { screen: QsoScreen, },
@@ -114,7 +137,10 @@ import {
      },
      style: {
       backgroundColor: 'white',
-      height: (Platform.OS==='ios') ? 45 : 60
+    //   height: (Platform.OS==='ios') ? 60 : 60
+    // funciona bien porque si en ANDROID sale con 60 y esta bien.
+       height: (Platform.OS==='ios' && isIphoneXorAbove()) ? 35 : 60
+    
   },
   inactiveTintColor: 'black',
   activeTintColor : 'black',

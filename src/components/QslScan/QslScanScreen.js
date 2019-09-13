@@ -23,7 +23,7 @@ class QslScanScreen extends Component {
       tabBarLabel: ' ',
 
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 19 : 7}}>
+        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7}}>
         <Image
             style={{ width: 28, height: 28, marginLeft: 17 }}
             source={require('../../images/qrcodescan.png')}/>

@@ -27,7 +27,7 @@ class InitialScreen extends Component {
       tabBarLabel: ' ',
 
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 13 : 2}}>
+        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 1 : 2}}>
         <Image
             style={{ width: 31, height: 31, marginLeft: 9 }}
             source={require('../../images/profile1.png')}/>

@@ -818,29 +818,34 @@ class CameraScreen extends React.Component {
 <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center', marginBottom: 12, height: 70 ,backgroundColor : 'rgba(0,0,0,0.45)'}}>
 
 
-<View style={{flex: 0.25, flexDirection: 'row', alignItems: 'center'}}>
+<View style={{flex: 0.40, flexDirection: 'row', alignItems: 'center'}}>
  
-<TouchableOpacity  style={{marginLeft: 10, width:50}} onPress={ () => this.toggleFlash2(this.state.flash) } >
+<View style={{flex: 0.5, alignItems: 'center'}}>
+{/* style={{marginLeft: 10, width:50}} */}
+<TouchableOpacity   onPress={ () => this.toggleFlash2(this.state.flash) } style={{height: 60, width:60, alignItems: 'center'}}>
       
-      <Image source={require('../../images/flash2.png')}  style={{width: 27, height: 27, marginLeft: 8, marginTop: 10  } } 
+      <Image source={require('../../images/flash2.png')}  style={{width: 27, height: 27, marginTop: 10  } } 
           resizeMode="contain" />
           <Text style={styles.flipText}> {this.state.flashtext} </Text>  
     </TouchableOpacity>
-
-  <TouchableOpacity onPress={ () => this.toggleFacing2() } style={{marginLeft: 20, height: 60, width:50}}>
+</View>
+<View style={{flex: 0.5, alignItems: 'center'}}>
+{/* style={{marginLeft: 20, height: 60, width:50}} */}
+  <TouchableOpacity onPress={ () => this.toggleFacing2() } style={{height: 60, width:60, alignItems: 'center'}}  >
        {/* <Text style={styles.flipText}> FLIP </Text> */}
-       <Image source={require('../../images/selfie2.png')}  style={{width: 35, height: 35, marginLeft: 6, marginTop: 10  } } 
+       <Image source={require('../../images/selfie2.png')}  style={{width: 35, height: 35, marginTop: 13  } } 
            resizeMode="contain" />
            {/* <Text style={styles.flipText}> selfie </Text>  */}
      </TouchableOpacity>
+ </View>
 
   </View> 
 
-<View style={{flex: 0.5, alignItems: 'center'}}> 
-  <TouchableOpacity  disabled={this.state.buttonStatus} style={{marginTop: 2 , width:75, height: 60}}
+<View style={{flex: 0.2, alignItems: 'center'}}> 
+  <TouchableOpacity  disabled={this.state.buttonStatus} style={{marginTop:2 , width:75, height: 70, alignItems: 'center'}}
       onPress={this.takePicture.bind(this)}
        >
-      <Image source={require('../../images/snap.png')}  style={{width: 41, height: 41, marginLeft: 14, marginTop: 8  } } 
+      <Image source={require('../../images/snap.png')}  style={{width: 41, height: 41, marginTop: 13  } } 
            resizeMode="contain" /> 
       {/* <Text style={{fontSize: 14}}> SNAP </Text> */}
   </TouchableOpacity>
@@ -849,12 +854,12 @@ class CameraScreen extends React.Component {
 
 </View>
 
-  <View style={{flex: 0.25, alignItems: 'flex-end'}}>
+  <View style={{flex: 0.40, alignItems: 'flex-end'}}>
 
-  <TouchableOpacity disabled={this.state.buttonStatus} style={{marginTop: 2, marginRight: 10, width:50, height: 60}}
+  <TouchableOpacity disabled={this.state.buttonStatus} style={{marginTop: 2, width:70, height: 60}}
       onPress={() => this.goBack()} >
       {/* style = {styles.capture2} */}
-      <Image source={require('../../images/exit.png')}  style={{width: 28, height: 28, marginLeft:10, marginTop: 13  } } 
+      <Image source={require('../../images/exit.png')}  style={{width: 28, height: 28, marginTop: 15, marginLeft: 18  } } 
            resizeMode="contain" /> 
       {/* <Text style={{fontSize: 14}}> Back </Text> */}
   </TouchableOpacity>

@@ -107,7 +107,7 @@ class QsoScreen extends Component {
 
   static navigationOptions = {
     tabBarLabel: " ",
-
+  //  13
 
     tabBarIcon: ({ tintColor }) => {
       return (
@@ -115,7 +115,7 @@ class QsoScreen extends Component {
           style={{
             width: 35,
             height: 20,
-            marginTop: Platform.OS === "ios" ? 13 : 5
+            marginTop: Platform.OS === "ios" ? 1 : 5
           }}
         >
           <Image

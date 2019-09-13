@@ -630,14 +630,15 @@ class VariosModales extends Component {
                   {/* No Mobile/Web PopUp Ads */}
                   {this.props.userinfo.account_type.app_upgrade_t5}
                 </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> 
                   {/* 10 audios & photos per QSO */}
-                  {this.props.userinfo.account_type.app_upgrade_t6}
+                  {this.props.userinfo.account_type.app_upgrade_t6} 
                 </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+              
+                {/* <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> */}
                   {/* 3 minutes audios recording */}
-                  {this.props.userinfo.account_type.app_upgrade_t7}
-                </Text>
+                  {/* {this.props.userinfo.account_type.app_upgrade_t7} */}
+                {/* </Text> */}
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
                    {/* Unlimited QR Scans  */}
                    {this.props.userinfo.account_type.app_upgrade_t8}
@@ -658,7 +659,7 @@ class VariosModales extends Component {
                    onPress={() => this.props.closewaitingmodal()}
                   
                  >
-                   <Text style={{ color: "#999", fontSize: 16 }}>Do not Upgrade</Text>
+                   <Text style={{ color: "#999", fontSize: 14 }}>Do not Upgrade</Text>
                  </TouchableOpacity>
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
@@ -666,7 +667,8 @@ class VariosModales extends Component {
                    onPress={() => this.props.closewaitingmodal()}
                   
                  >
-                   <Text style={{ color: "#FFFFFF", fontSize: 16 }}>Upgrade Premium</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>$9.99/month</Text>
                  </TouchableOpacity>
                  </View> 
 
