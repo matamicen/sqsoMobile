@@ -21,7 +21,7 @@ const config = {
   },
   AWSPinpoint: {
     // Amazon Pinpoint App Client ID
-    appId: 'b5a50c31fd004a20a1a2fe4f357c8e89',
+    appId: '3e67d1118562499dad5be6e0aef50eaf',
     // Amazon service region
     region: 'us-east-1',
     mandatorySignIn: false,
