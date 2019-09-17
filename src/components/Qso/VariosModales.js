@@ -716,7 +716,7 @@ class VariosModales extends Component {
                     />
 
                     <Text style={{ color: "#FFFFFF", fontSize: 20}}>
-                      Contact Us!
+                      Contact us
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
                 </View>
