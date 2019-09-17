@@ -53,7 +53,8 @@ class Search extends Component {
        qra: '',
        addfollowersModal: false,
        actindicatorfecthQras: false,
-       nointernet: false    
+       nointernet: false,
+       searching: false    
       };
       
    
@@ -90,10 +91,24 @@ class Search extends Component {
         this.entro = true;
         this.props.getQrasFromSearch(text.toUpperCase(),this.props.jwtToken);
         console.log("NO DA BOLA AWAIT");
+        this.setState({searching: true});
+        setTimeout(() => {      
+          this.setState({searching: false});
+         }
+        , 2000);
+
         // this.setState({actindicatorfecthQras: false})
       }else this.props.searchQrasLocal(text.toUpperCase(),long2);
 
-      if (long2>4) this.props.searchQrasLocal(text.toUpperCase(),long2);
+      if (long2>4) {
+        this.setState({searching: true});
+        setTimeout(() => {      
+          this.setState({searching: false});
+         }
+        , 500);
+
+        this.props.searchQrasLocal(text.toUpperCase(),long2);
+      }
        
 
       if (long2<4) { 
@@ -174,10 +189,19 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
 
 
        </View>      
+     
+        {!this.state.searching ? 
        <View style={{flex: 0.06, alignItems:"center"}}>
          <Text style={{fontSize: 11, color:"grey"}}>We start to search automatically</Text>
          <Text style={{fontSize: 11, color:"grey"}}>after the 4th digit</Text>
        </View>
+       :
+       <View style={{flex: 0.06, alignItems:"center"}}>
+       <Text style={{fontSize: 11, color:"grey"}}>Searching ...</Text>
+      
+     </View>
+     }
+
 
        <View style={{flex: 0.86, width:this.width-25, marginBottom: 0}}>
        {/* <FollowerList />  */}
