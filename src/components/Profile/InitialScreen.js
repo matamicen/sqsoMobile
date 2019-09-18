@@ -260,7 +260,7 @@ signOut = async () => {
 
              <View style={{flexDirection: 'row', flex: 0.15}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
-               <View style={{flex:0.18}}>
+               <View style={{flex:0.20}}>
                   <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
               </View>  
               <View style={{flex:0.15}}>
@@ -271,7 +271,7 @@ signOut = async () => {
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flex:0.40, alignItems: 'center'}}>
+                <View style={{flex:0.38, alignItems: 'center'}}>
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.openContactForm() }>
                   <Image source={require('../../images/email3.png')}  style={{width: 25, height: 23,  marginLeft: 17  } } 
                  resizeMode="contain" /> 

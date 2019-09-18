@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         padding: 2,
         fontWeight: 'bold',        
-        color: 'orange'        
+        color: '#333333'        
     },
     name2:{
       fontSize: 12,

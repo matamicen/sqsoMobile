@@ -176,7 +176,7 @@ class Qra extends Component {
                      {this.state.followstatus==="false" &&
 
                      <TouchableOpacity onPress={() => this.follow(this.props.qra,this.props.imageurl)} >
-                       <Text style={{ color: 'grey', fontSize: 17}}>Follow</Text>
+                       <Text style={{ color: 'white', fontSize: 17}}>Follow</Text>
                       </TouchableOpacity>
                         
                          
@@ -186,7 +186,7 @@ class Qra extends Component {
                        {this.state.followstatus==="true" &&
 
                         <TouchableOpacity  onPress={() => this.follow(this.props.qra)} >
-                          <Text style={{ color: 'grey', fontSize: 17}}>UnFollow</Text>
+                          <Text style={{ color: 'white', fontSize: 17}}>UnFollow</Text>
                         </TouchableOpacity>
                         
                       
@@ -200,7 +200,7 @@ class Qra extends Component {
                          <View style={{flex:0.2, flexDirection: 'row', justifyContent: "center"}}>
 
                         <TouchableOpacity   onPress={() => this.closeModaldeleteqra()} >
-                       <Text style={{ color: 'white', fontSize: 16}}>Cancel</Text>
+                       <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
                          </TouchableOpacity>
                         
 
