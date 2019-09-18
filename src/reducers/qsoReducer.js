@@ -464,6 +464,7 @@ const qsoReducer = (state = initialState, action) => {
           console.log('entro sqlrdsid reducer:' + JSON.stringify(action.update))
         const updatedItems5 = state.currentQso.mediafiles.map(item => {
           //  if(item.name === action.filename){
+             if(item.type !== 'profile')
             return { ...item, ...action.update }
           //  }
             return item

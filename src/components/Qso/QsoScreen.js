@@ -1011,16 +1011,27 @@ class QsoScreen extends Component {
         </View>
 
         <View style={{ flex: 0.58 }}>
-          {/* { this.props.sqsonewqsoactive ? */}
+        { !this.props.sqsonewqsoactive && 
+        <View  style={{alignItems:"center", alignContent:"center"}}>
+           <TouchableOpacity style={{  width: 80,height:63 }} onPress={() => this.newQso()}>
+                <Image
+                  source={require("../../images/iaddcircle.png")}
+                  style={{ width: 50, height: 50, marginLeft:9}}
+                  resizeMode="contain"
+                />
+                
+                <Text style={{ fontSize: 13, color: "black" }}>Start a Qso</Text>
+              </TouchableOpacity>
+              </View>
+             } 
 
           <MediaFiles />
-          {/* :
-                null } */}
+          
         </View>
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
           <View style={{ flex: 0.5, marginTop: 3, marginLeft: 5 }}>
-            {this.props.sqsonewqsoactive ? (
+            {this.props.sqsonewqsoactive && 
               <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                 <Image
                   source={require("../../images/removecircle.png")}
@@ -1030,17 +1041,8 @@ class QsoScreen extends Component {
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
                 <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>EndQso</Text>
               </TouchableOpacity>
-            ) : (
-              <TouchableOpacity style={{  width: 70,height:63 }} onPress={() => this.newQso()}>
-                <Image
-                  source={require("../../images/iaddcircle.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
-                  resizeMode="contain"
-                />
-                {/* <Text style={{ fontSize: 12, color: '#999'}}>NewQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 7 }}>NewQso</Text>
-              </TouchableOpacity>
-            )}
+            }
+        
           </View>
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}

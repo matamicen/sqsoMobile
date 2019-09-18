@@ -50,7 +50,9 @@ class QsoHeader extends Component {
                
                <View style={{flexDirection: 'row'}}>
                   {/* <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile_avatar.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
-                  <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
+                  { this.props.sqsonewqsoactive &&
+                  <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } /> 
+                  } 
                   { this.props.sqsonewqsoactive ?
                   <QsoType /> : null }
                     {/* { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ? */}
