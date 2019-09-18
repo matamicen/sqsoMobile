@@ -78,27 +78,29 @@ class User extends Component {
                     source={{ uri: this.props.imageurl }}
                       />
                     }
-
-                     {this.props.following==="FALSE" &&
-                     
-
+{/* this.props.qraLoggedIn===this.props.name */}
+                     {this.props.following==="FALSE" &&   
+                  this.props.qraLoggedIn!==this.props.name &&
                      <TouchableOpacity style={{ marginTop: 15, marginLeft: 20}} onPress={() => this.follow(this.props.name,this.props.following,this.props.imageurl)} >
-                       <Text style={{ color: 'grey', fontSize: 17}}>Follow  </Text>
+                       <Text style={{ color: 'grey', fontSize: 17}}>Follow </Text>
                       </TouchableOpacity>
-                        
-                         
+                     
                        }
 
                        {this.props.following==="TRUE" && 
-                      
+                           this.props.qraLoggedIn!==this.props.name &&
 
                         <TouchableOpacity style={{ marginTop: 15, marginLeft: 20 }} onPress={() => this.follow(this.props.name,this.props.following,this.props.imageurl)} >
                           <Text style={{ color: 'grey', fontSize: 17}}>UnFollow </Text>
-                        </TouchableOpacity>
-                      
-                         
-                        
+                        </TouchableOpacity>    
                         } 
+
+
+                        
+                        {  this.props.qraLoggedIn===this.props.name &&
+                          <Text style={{ marginTop: 15, marginLeft: 20, color: 'grey', fontSize: 17}}>You </Text>                   
+                        } 
+
                         </View>
                       
                       <Text style={styles.name2} >
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     },
     name2:{
         fontSize: 12,
-        marginLeft: 11,
+        marginLeft: 10,
         padding: 2,
         fontWeight: 'bold',        
         color: 'orange'        
@@ -181,7 +183,9 @@ const styles = StyleSheet.create({
 
 
  const mapStateToProps = state => {
-    return {  jwtToken: state.sqso.jwtToken };
+    return {  jwtToken: state.sqso.jwtToken,
+              qraLoggedIn: state.sqso.qra
+    };
 };
 
 
