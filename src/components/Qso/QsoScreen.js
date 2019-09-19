@@ -839,11 +839,13 @@ class QsoScreen extends Component {
             {/* </KeyboardAvoidingView > */}
           </Modal>
 
+      {(this.state.nointernet) && 
           <VariosModales
             show={this.state.nointernet}
             modalType="nointernet"
             closeInternetModal={this.closeVariosModales.bind()}
           />
+      }
 
         {/* <VariosModales
             show={this.state.notvideorewarded}

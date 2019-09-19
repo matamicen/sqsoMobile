@@ -714,9 +714,9 @@ if (!this.usernotfound)
  <Text style={styles.buttonText2} >  </Text>
    </View>
                </ScrollView>
-
+{(this.state.nointernet) && 
                <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-
+}
 
              </View> 
              :
@@ -724,9 +724,10 @@ if (!this.usernotfound)
                   <Text style={{ color: '#273c75', textAlign: 'center', fontSize: 18, marginTop: 30 }}> {this.state.mess}.
                         </Text>
                         {/* <Image source={require('../../images/loading.jpg')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
-                
+                        {(this.state.nointernet) && 
                         <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-             </View>
+                        }
+                        </View>
 
 
             }

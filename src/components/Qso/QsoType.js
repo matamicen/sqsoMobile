@@ -109,8 +109,10 @@ class QsoType extends Component {
                  
                  : null
                 }
+
+{(this.state.nointernet) && 
   <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-    
+}
 <Modal visible ={this.state.changeqsoModal}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{
                       //  margin:20,

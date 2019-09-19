@@ -179,7 +179,7 @@ render() { console.log("RENDER adInter SCREEN!" );
     
 
 return <View>
-
+{(this.state.waitingModal) && 
 <VariosModales
             show={this.state.waitingModal}
             modalType="waitingAdmodal"
@@ -187,6 +187,7 @@ return <View>
           //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
            
           /> 
+}
 
 </View>; 
 } 

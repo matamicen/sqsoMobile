@@ -332,9 +332,9 @@ signOut = async () => {
                  
                  
                  
-                 
+            {(this.state.nointernet) &&           
                  <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-              
+            }
                  {(this.state.contactus) && <ContactUs closecontactus={this.closeContactUs.bind()}  /> }
                 
             </View>

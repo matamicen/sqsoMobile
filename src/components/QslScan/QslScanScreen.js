@@ -257,9 +257,9 @@ return   <View style={{flex: 1}}>
        
       
        {/* <View style={{flex: 0.29, width: this.width-10, marginLeft: 3, marginRight: 3}}> */}
-
+    {(this.state.nointernet) && 
         <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-      
+    }
         {/* <QsoHeader /> */}
       
       
