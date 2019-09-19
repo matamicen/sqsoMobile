@@ -363,7 +363,11 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       dispatch(fetchingApiRequest('postQsoNew'));
       console.log("ejecuta llamada API Qso NEW");  
     try {
-       console.log("Antes1 QSO new" ); 
+       console.log("Antes1 QSO new" );
+       let tiempo1;
+       let tiempo2;
+       let resu;
+       let respuesta; 
         // session = await Auth.currentSession();
         // console.log("Su token Qso New es: " + session.idToken.jwtToken);
         let apiName = 'superqso';
@@ -377,7 +381,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
           
         }
 
-
+        tiempo1 = Date.now();
       respuesta =  await API.post(apiName, path, myInit);
       console.log("llamo api QsoNEW!");
       console.log(respuesta);
@@ -395,10 +399,9 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
        
         console.log("error es 0 y sqlrdsid: "+respuesta.body.message);
         let aux_sqlrdsid = respuesta.body.message.newqso;
-      if (bodyqsonew.type==='POST')
-         dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,false,false));
-      else
-        dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,true,true));
+
+ 
+   
         await dispatch(postQsoQras("ALL",respuesta.body.message.newqso, qsoqras,jwtToken));
           console.log('mediafiles length:'+mediafiles.length);
          
@@ -409,7 +412,12 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
             await dispatch(updateMedia('',update,'sqlrdsid'));
               mediafiles.map(x => {
                 console.log('entro MAP');
-               dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',jwtToken));
+                // no permito que se envie el profile porque este ya fue enviado por el usuario
+                // pudo haber pasado que el usuario empezo un QSO y luego cambio la foto de su profile
+                // entonces cuando sigue con su QSO y el sistema intenta enviar toda la media del QSO evito que 
+                // se envie el profile.
+              if (x.type!=='profile')
+                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',jwtToken));
                // console.log(x.url)
               //  <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
               //  status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
@@ -419,7 +427,17 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
       }
 
-      dispatch(actindicatorPostQsoNewFalse());
+       dispatch(actindicatorPostQsoNewFalse());
+
+     tiempo2 = Date.now();
+     resu = tiempo2 - tiempo1;
+     console.log('total ejecucion: '+ resu);
+
+     if (bodyqsonew.type==='POST')
+     dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,false,false));
+  else
+    dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,true,true));
+
 
      
     }
