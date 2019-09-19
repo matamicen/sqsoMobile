@@ -820,20 +820,22 @@ class Muestro extends Component {
             }
                    
         </View>
-
+{(this.state.notvideorewarded) && 
                 <VariosModales
                     show={this.state.notvideorewarded}
                     modalType="notvideorewarded"
                     message="Free User: You need to watch the Ad video to send this media."
                     closeInternetModal={this.closeVariosModales.bind()}
                   /> 
-
+}
+{(this.state.prereward) && 
               <VariosModales
                     show={this.state.prereward}
                     modalType="prereward"
                     message="Free User: We are going to show you a video reward, if you watch your media will be sent to the server"
                     closeInternetModal={this.closeVariosModales.bind()}
                   /> 
+}
 
          </View>
          

@@ -131,9 +131,9 @@ class User extends Component {
                     </View>
 
               </View>
-
+              {(this.state.nointernet) && 
               <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-
+              }
          
 
          </View>

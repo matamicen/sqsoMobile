@@ -90,9 +90,9 @@ render() { console.log("RENDER BePremium SCREEN!" );
 return   <View style={{flex: 1}}>
    
              
-
+{(this.state.nointernet) && 
         <VariosModales show={this.state.nointernet} modalType={'bepremium'} feature={this.freeparam} closeInternetModal={this.closeVariosModales.bind()} />
-      
+} 
        
        
     </View>

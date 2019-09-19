@@ -218,9 +218,9 @@ class Qra extends Component {
                 {/* </KeyboardAvoidingView > */}
                    
                       </Modal>
-
+{(this.state.nointernet) && 
                       <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-             
+}
 
             
 

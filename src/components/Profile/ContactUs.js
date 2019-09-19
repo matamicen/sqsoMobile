@@ -49,7 +49,7 @@ render() { console.log("RENDER contactUs SCREEN!" );
     
 
 return <View>
-
+{(this.state.waitingModal) && 
  <VariosModales
              show={this.state.waitingModal}
              modalType="contactus"
@@ -57,6 +57,7 @@ return <View>
              sendemail={this.send_email.bind()}
              closecontact={this.closecontactus.bind()}
            /> 
+}
 
 </View>; 
 } 

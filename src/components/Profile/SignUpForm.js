@@ -1121,7 +1121,9 @@ chooseCountry = () => {
 
 
 {/* </ScrollView>   */}
+{(this.state.nointernet) && 
     <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
+}
     {/* {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()} termsaccepted={this.TermsAccepted.bind()}  /> } */}
     {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()}   /> }
     {(this.state.privacy) && <VariosModales show={true} modalType="privacy" closeterms={this.closeTerms.bind()}   /> }
