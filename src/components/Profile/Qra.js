@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { QsoQraDelete, deleteQsoQra, followAdd, unfollow, getUserInfo } from '../../actions';
+import { followAdd, unfollow } from '../../actions';
 import { getDate, getFollowStatus, hasAPIConnection} from '../../helper';
 import PropTypes from 'prop-types';
 import VariosModales from '../Qso/VariosModales';
@@ -38,7 +38,8 @@ class Qra extends Component {
 
       onPressItem = async (url, qra) => {
         console.log('click QRA: '+ url + ' ' + qra);
-        if (this.props.following==='NOT_EXIST' && this.props.sqlrdsid.length===0)
+        // if (this.props.following==='NOT_EXIST' && this.props.sqlrdsid.length===0)
+        if (this.props.following==='NOT_EXIST')
            this.setState({ modaldeleteqra: true, followstatus: 'NOT_EXIST' });
          else{
         followstat = await getFollowStatus(this.props.followings, qra);
@@ -89,15 +90,15 @@ class Qra extends Component {
               
             }
 
-            delete = (qra) => {
-            // depende si el QSO esta Onprogress o si tiene un sqlrdsid creado borra llamando a la API o no.
-            if (this.props.sqlrdsid !== '')
-                 this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
-               else
-                 this.props.deleteQsoQra(qra);
+            // delete = (qra) => {
+            // // depende si el QSO esta Onprogress o si tiene un sqlrdsid creado borra llamando a la API o no.
+            // if (this.props.sqlrdsid !== '')
+            //      this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
+            //    else
+            //      this.props.deleteQsoQra(qra);
          
-             this.closeModaldeleteqra();
-              }
+            //  this.closeModaldeleteqra();
+            //   }
 
             
 
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
 
 
  const mapStateToProps = state => {
-    return { sqlrdsid: state.sqso.currentQso.sqlrdsId,
+    return { //sqlrdsid: state.sqso.currentQso.sqlrdsId,
              followings: state.sqso.currentQso.followings,
              jwtToken: state.sqso.jwtToken
     }
@@ -272,11 +273,11 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-  QsoQraDelete,
-  deleteQsoQra,
+ // QsoQraDelete,
+ // deleteQsoQra,
   followAdd,
-  unfollow,
-  getUserInfo
+  unfollow
+//  getUserInfo
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Qra);
