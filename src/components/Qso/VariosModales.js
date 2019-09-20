@@ -168,15 +168,15 @@ class VariosModales extends Component {
           >
             <View style={{ flex: 1, alignItems: "center" }}>
               <Image
-                source={require("../../images/noInternet.png")}
-                style={{ width: 60, height: 60 }}
+                source={require("../../images/SuperQSO_1.png")}
+                style={{ width: 80, height: 80 }}
                 resizeMode="contain"
               />
 
-              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to SuperQso!</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to SuperQSO!</Text>
               <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>You have 3 month of trial Premium Subscription!</Text>
               <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy SuperQso 59+100 !!!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using SuperQso with the FREE subscription.</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using SuperQSO with the FREE subscription.</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}
@@ -1068,6 +1068,7 @@ class VariosModales extends Component {
                 padding: 20,
              //   backgroundColor: "#475788",
                  backgroundColor:"rgba(0,0,0,0.85)",
+            
                 top: 55,
                 left: 30,
                 right: 30,

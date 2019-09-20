@@ -244,7 +244,7 @@ constructor(props) {
                <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding: 1,
                         opacity: this.state.indicator,   marginTop: 30 }} >
                   
-                    <ActivityIndicator  animating={true} size="large" color='orange' />
+                    <ActivityIndicator  animating={true} size="large" color='#8BD8BD' />
                     
                  </View>
                  <View style={{ justifyContent: 'space-around',   padding: 1,
@@ -368,9 +368,10 @@ constructor(props) {
                   
                    
                    <Text style={{ color: '#999', fontSize: 20}}>Your Password has been changed succesfull.</Text>
-                   <View style={{ marginTop: 15}}>
-                    <TouchableOpacity  onPress={() => this.closePasswordChanged()} style={styles.buttonContainer}>
-                      <Text style={styles.buttonText}>OK</Text>
+                   <View style={{ marginTop: 15,  alignItems: 'center',  justifyContent: 'center'}}>
+                    {/* <TouchableOpacity  onPress={() => this.closePasswordChanged()} style={styles.buttonContainer}> */}
+                    <TouchableOpacity  onPress={() => this.closePasswordChanged()} >
+                      <Text style={{color: 'white', fontSize: 18}}>OK</Text>
                     </TouchableOpacity >
                  </View>
         
@@ -400,7 +401,8 @@ constructor(props) {
     padding: 5,
     flex: 1,
    // backgroundColor: '#3498db'
-   backgroundColor: '#808080'
+   //backgroundColor: '#808080'
+   backgroundColor: '#243665'
       },
   input: {
     height: 40,    
@@ -413,7 +415,8 @@ constructor(props) {
           },
   buttonContainer:{
      // backgroundColor: '#2980b9',
-      backgroundColor: '#696969',
+    //  backgroundColor: '#696969',
+      backgroundColor: '#8BD8BD',
       paddingVertical: 15,
       marginTop: 10,
       borderRadius: 22
@@ -433,15 +436,16 @@ constructor(props) {
           },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF',
+   // color: '#FFFFFF',
+   color: '#243665',
     fontSize: 16,
-    fontWeight: '700'
+  //  fontWeight: '700'
            },
            buttonText2: {
             //     textAlign: 'center',
                  color: '#FFFFFF',
                  fontSize: 16,
-                 fontWeight: '700'
+          //       fontWeight: '700'
                 
                         },  
    activityindicator: {
