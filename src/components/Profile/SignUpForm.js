@@ -802,7 +802,7 @@ chooseCountry = () => {
           <View style={{   padding: 3, marginTop: 15, height: this.state.heightindicator,
                         opacity: this.state.indicator }} >
                   
-                    <ActivityIndicator  animating={true} size="large" color='orange' />
+                    <ActivityIndicator  animating={true} size="large" color='#8BD8BD' />
                   
                  </View>
                 
@@ -828,7 +828,7 @@ chooseCountry = () => {
            
            renderItem={({item}) =>     
              <View>
-                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>SignUp Form</Text>
+                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>Sign Up Form</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder="qra"
@@ -942,18 +942,24 @@ chooseCountry = () => {
                 
                  />
                  {/* <View  style={{flex:1, flexDirection: "row"}}> */}
-                 <Text style={{ fontSize: 11}} >Al tocar "Registrarse y aceptar", confirmas que leiste la </Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >By clicking "Sign Up and accept", you confirm that you</Text>
                  <View style={{flex:1, flexDirection: "row"}}>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >have read, understand and agree the </Text>
                  <TouchableOpacity onPress={ () => this.setState({privacy: true}) } > 
-                 <Text style={{ fontSize: 11, color: "blue"}} >politica de privacidad </Text></TouchableOpacity><Text style={{ fontSize: 11}} >y que aceptas las</Text>
+                 <Text style={{ fontSize: 11, color: "white"}} >privacy policy </Text></TouchableOpacity>
+                
                  </View>
+
+                 <View style={{flex:1, flexDirection: "row"}}>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >and the</Text>
                  <TouchableOpacity onPress={ () => this.setState({terms: true}) } > 
-                  <Text style={{ fontSize: 11, color: "blue"}} >condiciones de servicio</Text>
+                  <Text style={{ fontSize: 11, color: "white"}} > terms and conditions</Text>
                   </TouchableOpacity>
+                  </View>
 
                  {/* </View> */}
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signUp()} >
-                    <Text style={styles.buttonText}>SignUp and accept </Text>
+                    <Text style={styles.buttonText}>Sign Up and accept </Text>
                  </TouchableOpacity>
 
                  <TouchableOpacity  style={{marginTop: 5}} onPress={ () => this.props.navigation.navigate("Root")} >
@@ -1144,7 +1150,8 @@ chooseCountry = () => {
     
      flex: 1,
   //  backgroundColor: '#3498db',
-  backgroundColor: '#808080',
+ // backgroundColor: '#808080',
+  backgroundColor: '#243665',
     alignItems: 'center'
     
       },
@@ -1197,7 +1204,8 @@ chooseCountry = () => {
             paddingHorizontal: 10
                   },
   buttonContainer:{
-      backgroundColor: '#2980b9',
+   //   backgroundColor: '#2980b9',
+   backgroundColor: '#8BD8BD',
       paddingVertical: 5,
       borderRadius: 22,
       width: 270,
@@ -1222,15 +1230,16 @@ chooseCountry = () => {
           },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF',
+   // color: '#FFFFFF',
+    color: '#243665',
     fontSize: 16,
-    fontWeight: '700'
+  //  fontWeight: '700'
            },
            buttonText2: {
             //     textAlign: 'center',
                  color: '#FFFFFF',
                  fontSize: 16,
-                 fontWeight: '700',
+              //   fontWeight: '700',
                  marginLeft: 5
                 
                         },  

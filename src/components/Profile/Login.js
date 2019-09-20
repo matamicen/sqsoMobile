@@ -21,14 +21,18 @@ Login = () => {
     render() { console.log("Login Screen");
    
         return (
+            <View style={{ flex:1}}>
               <KeyboardAvoidingView behavior="padding"     style={styles.container}  >
                {/* <View style={styles.container}> */}
                 <View style={styles.logoContainer}> 
               
                 
                    {/* <Image source={require('../../images/Ham.png')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
-                   <Image source={require('../../images/desigual.png')}  style={{width: 250, height: 160, marginTop: 100  } }  />
-                  
+                   {/* <Image source={require('../../images/desigual.png')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
+                   <Image source={require('../../images/SuperQSO_1.png')}  
+                   style={{width: 190 , marginTop: 100 } } 
+                   resizeMode="contain" /> 
+        {/* 195 y 127 */}
                      {/* <Text style={styles.title}> superQso </Text> */}
                 </View>  
                    
@@ -41,6 +45,8 @@ Login = () => {
 
             {/* </View> */}
              </KeyboardAvoidingView> 
+
+             </View>
         );
        
      } 
@@ -53,14 +59,16 @@ Login = () => {
 
    // backgroundColor: '#3498db'
   // backgroundColor: '#696969'
-  backgroundColor: '#808080'
+ // backgroundColor: '#808080'
+  backgroundColor: '#243665'
       },
   logoContainer: {
     alignItems: 'center',  
+    justifyContent: 'center',
     
   
     
-    flex: 0.4,
+    flex: 0.30,
     justifyContent: 'center'
     
           },
@@ -83,8 +91,8 @@ Login = () => {
                 
                       },
  formContainer: {
-    flex: 1,
-    marginTop: 25
+    flex: 0.70,
+   // marginTop: 25
 
                
                

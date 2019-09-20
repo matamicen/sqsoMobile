@@ -638,7 +638,7 @@ if (!this.usernotfound)
                <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding:5,
                         opacity: this.state.indicator }} >
                   
-                    <ActivityIndicator   animating={true} size="large" color='orange' />
+                    <ActivityIndicator   animating={true} size="large" color='white' />
                     
                  </View>
                  <View style={{ justifyContent: 'space-around',   padding: 10,
@@ -690,7 +690,7 @@ if (!this.usernotfound)
                  <View style={{flex:1, flexDirection: 'row'}}>
                  <View style={{flex:0.4,  height: 45, alignItems: 'center'}}>
                  <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.SignUpForm()} >
-                    <Text style={styles.buttonText2} >SignUp</Text>
+                    <Text style={styles.buttonText2} >Sign Up</Text>
                  </TouchableOpacity>
                  </View>
                  <View style={{flex:0.6, height: 45, alignItems: 'center'}}>
@@ -781,7 +781,7 @@ if (!this.usernotfound)
             confirmSignup={this.confirmSignup.bind()}
           />
         }
-           
+   
            </View>
            
         );
@@ -811,14 +811,17 @@ if (!this.usernotfound)
           },
   buttonContainer:{
    //   backgroundColor: '#2980b9',
-   backgroundColor: '#696969',
+  // backgroundColor: '#696969',
+   backgroundColor: '#8BD8BD',
       paddingVertical: 15,
       borderRadius: 22,
       width: 280
+     
       },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF',
+   // color: '#FFFFFF',
+    color: '#243665',
     fontSize: 16,
     fontWeight: '700'
            },
@@ -827,7 +830,7 @@ if (!this.usernotfound)
             color: '#FFFFFF',
           
             fontSize: 16,
-            fontWeight: '700'
+           // fontWeight: '700'
            
                    },
    activityindicator: {
