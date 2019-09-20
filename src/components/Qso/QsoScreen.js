@@ -119,10 +119,12 @@ class QsoScreen extends Component {
           }}
         >
           <Image
-            style={{ width: 31, height: 31 }}
-            source={require("../../images/qsoicon3.png")}
+            style={{  width: 32, height: 32}}
+         //   source={require("../../images/qsoicon3.png")}
+            source={require("../../images/MicrofonoGris.png")}
+            resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>QSO</Text>
+          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 7 }}>QSO</Text>
         </View>
       );
     }
