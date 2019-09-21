@@ -7,6 +7,8 @@ import {
     
     
   } from "../../actions";
+  import {
+    hasAPIConnection } from "../../helper";
   import VariosModales from "../Qso/VariosModales";
 
 
@@ -17,7 +19,9 @@ class ContactUs extends Component {
     super(props);
     
     this.state = {
-       waitingModal: true
+       waitingModal: true,
+       contactusSent: false,
+       nointernet: false
       
     };
   }
@@ -29,11 +33,33 @@ class ContactUs extends Component {
      }
 
   send_email = async (from,message) => {
-       console.log('envia email');
-       console.log('mensaje escrito: ' + message);
-       
+    if (await hasAPIConnection()) {  
+        console.log('envia email');
+          console.log('mensaje escrito: ' + message);
+          this.setState({waitingModal: false});
+          
 
        this.props.postContactUs(from,message,this.props.jwtToken);
+       setTimeout(() => {
+                  
+        console.log('prevideoreward en true con delay de 50');
+        this.setState({ contactusSent: true });
+        
+      }
+      , 50);
+    }else
+    {
+      this.setState({waitingModal: false});
+      setTimeout(() => {
+                  
+        console.log('nointernet en true con delay de 50');
+        this.setState({ nointernet: true });
+        
+      }
+      , 50);
+
+    }
+
       
   }
 
@@ -43,6 +69,13 @@ class ContactUs extends Component {
     // close this component
     this.props.closecontactus();
 }
+
+closeVariosModales = (param) => {
+  
+  // this.setState({ nointernet: false});
+
+    this.closecontactus();
+  };
 
     
 render() { console.log("RENDER contactUs SCREEN!" );
@@ -58,6 +91,24 @@ return <View>
              closecontact={this.closecontactus.bind()}
            /> 
 }
+
+{(this.state.contactusSent) && 
+  <VariosModales
+              show={this.state.contactusSent}
+              modalType="contactusSent"
+              message=""
+            //  sendemail={this.send_email.bind()}
+              closecontact={this.closecontactus.bind()}
+            /> 
+ }
+
+{(this.state.nointernet) && 
+          <VariosModales
+            show={this.state.nointernet}
+            modalType="nointernet"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />
+      }
 
 </View>; 
 } 
