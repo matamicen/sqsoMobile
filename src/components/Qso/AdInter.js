@@ -150,8 +150,12 @@ closeWaitingModal = () =>{
   this.setState({waitingModal: false});
   if (this.intersitialLoaded)
       setTimeout(() => {
+
+       // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+      // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+        // Android no tiene problemas con esto.
                 
-        console.log('JJJ muestro inter con delay de 50');
+        console.log('muestro inter con delay de 50');
         this.advertInter.show();
         
       }

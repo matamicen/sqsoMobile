@@ -173,9 +173,17 @@ class AdVideoReward extends Component {
       
         this.setState({ waitingModal: false});
         if (this.videorewardLoaded){
-          console.log("no llego a cargar el VideoReward de AdMob entonces dejo que el usuario disfrute de la accion");
-          
-          this.setState({ prevideorewarded: true });
+         
+          // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+          // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+          // Android no tiene problemas con esto.
+          setTimeout(() => {
+                  
+              console.log('prevideoreward en true con delay de 50');
+              this.setState({ prevideorewarded: true });
+              
+            }
+            , 50);
         }
                    
         else {
@@ -200,7 +208,7 @@ render() { console.log("RENDER adInter SCREEN!" );
     
 
 return <View>
-{(this.state.waitingModal) && 
+ {(this.state.waitingModal) && 
 <VariosModales
             show={this.state.waitingModal}
             modalType="waitingAdmodal"
@@ -208,15 +216,15 @@ return <View>
          //   message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
            
           /> 
-}
-{(this.state.prevideorewarded) && 
+  } 
+{  (this.state.prevideorewarded) && 
   <VariosModales
             show={this.state.prevideorewarded}
             modalType="prevideorewarded"
             sender={this.props.closead}
             closeInternetModal={this.closeVariosModales.bind() }
           /> 
-}
+ }
 
 </View>; 
 } 
