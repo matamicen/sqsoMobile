@@ -156,14 +156,18 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         padding: 2,
         fontWeight: 'bold',        
-        color: 'orange'        
+        color: 'orange'  
+      
+       
     },
     name2:{
         fontSize: 12,
         marginLeft: 10,
         padding: 2,
         fontWeight: 'bold',        
-        color: 'orange'        
+     //   color: 'orange' 
+        color: '#243665'       
+              
     },
     status:{
       fontSize: 16,
