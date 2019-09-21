@@ -275,7 +275,7 @@ signOut = async () => {
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.openContactForm() }>
                   <Image source={require('../../images/email3.png')}  style={{width: 25, height: 23,  marginLeft: 17  } } 
                  resizeMode="contain" /> 
-                  <Text  style={{ fontSize: 14, color: '#999'}}>Contact Us</Text>             
+                  <Text  style={{ fontSize: 14, color: '#999'}}>Contact us</Text>             
                 </TouchableOpacity>
                 </View>
 

@@ -682,7 +682,7 @@ class VariosModales extends Component {
 
       if (this.props.modalType === "contactus")
       return (
-        this.state.showform ? 
+        this.state.showform && 
         <View>
           <Modal
             visible={this.state.show}
@@ -775,9 +775,14 @@ class VariosModales extends Component {
             </View>
           </Modal>
         </View>
-        :
+
+      );
+
+      if (this.props.modalType === "contactusSent")
+      return (
+        this.state.showform && 
         <View>
-          <Modal
+         <Modal
             visible={this.state.show}
             transparent={true}
             onRequestClose={() => console.log("Close was requested")}
@@ -825,8 +830,8 @@ class VariosModales extends Component {
             </View>
           </Modal>
         </View>
+      )
 
-      );
 
       if (this.props.modalType === "terms")
       return (
