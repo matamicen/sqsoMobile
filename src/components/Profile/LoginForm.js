@@ -721,7 +721,7 @@ if (!this.usernotfound)
              </View> 
              :
              <View style={styles.container}>
-                  <Text style={{ color: '#273c75', textAlign: 'center', fontSize: 18, marginTop: 30 }}> {this.state.mess}.
+                  <Text style={{ color: '#8BD8BD', textAlign: 'center', fontSize: 18, marginTop: 30 }}> {this.state.mess}.
                         </Text>
                         {/* <Image source={require('../../images/loading.jpg')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
                         {(this.state.nointernet) && 
