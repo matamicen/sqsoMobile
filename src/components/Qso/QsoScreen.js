@@ -1024,7 +1024,7 @@ class QsoScreen extends Component {
                   resizeMode="contain"
                 />
                 
-                <Text style={{ fontSize: 13, color: "black" }}>Start a Qso</Text>
+                <Text style={{ fontSize: 13,  color: '#243665',  fontWeight: 'bold' }}>Start a QSO</Text>
               </TouchableOpacity>
               </View>
              } 

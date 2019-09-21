@@ -90,7 +90,8 @@ return   <View style={{flex: 1}}>
 const styles = StyleSheet.create({
   FollowingsText: {
     //  textAlign: 'center',
-      color: 'orange',
+     // color: 'orange',
+      color: '#243665',      
       fontSize: 22,
       fontWeight: '700',
        flex:0.8

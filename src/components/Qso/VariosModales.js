@@ -70,7 +70,7 @@ class VariosModales extends Component {
               this.setState({showOkBePremium: true});
               
             }
-            , 3000);
+            , this.props.userinfo.account_type.app_waitingTimeAdMob);
     
   }
 
