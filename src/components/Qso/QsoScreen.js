@@ -1017,14 +1017,14 @@ class QsoScreen extends Component {
         <View style={{ flex: 0.58 }}>
         { !this.props.sqsonewqsoactive && 
         <View  style={{alignItems:"center", alignContent:"center"}}>
-           <TouchableOpacity style={{  width: 80,height:63 }} onPress={() => this.newQso()}>
+           <TouchableOpacity style={{  width: 110,height:100 }} onPress={() => this.newQso()}>
                 <Image
-                  source={require("../../images/iaddcircle.png")}
-                  style={{ width: 50, height: 50, marginLeft:9}}
+                  source={require("../../images/iaddcircleTurquesa.png")}
+                  style={{ width: 80, height: 80, alignItems:"center", alignContent:"center"}}
                   resizeMode="contain"
                 />
                 
-                <Text style={{ fontSize: 13,  color: '#243665',  fontWeight: 'bold' }}>Start a QSO</Text>
+                <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>Start a QSO</Text>
               </TouchableOpacity>
               </View>
              } 
