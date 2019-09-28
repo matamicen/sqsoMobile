@@ -15,18 +15,18 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="624"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SuperQSO - Logo01 - Horizontal" translatesAutoresizingMaskIntoConstraints="NO" id="ckS-Vp-soh">
-                    <rect key="frame" x="91" y="113" width="280" height="158"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SuperQSO - Logo02 - Horizontal" translatesAutoresizingMaskIntoConstraints="NO" id="Yau-0M-bFX">
+                    <rect key="frame" x="120" y="248" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.14117647058823529" green="0.21176470588235294" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-23.188405797101453" y="93.750000000000014"/>
         </view>
     </objects>
     <resources>
-        <image name="SuperQSO - Logo01 - Horizontal" width="1920" height="296"/>
+        <image name="SuperQSO - Logo02 - Horizontal" width="1920" height="296"/>
     </resources>
 </document>
