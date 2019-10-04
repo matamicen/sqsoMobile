@@ -1455,6 +1455,7 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       // lo esta siguiendo se refresca el token y se llama a la API de nuevo pot ultima vez.
        session = await Auth.currentSession();
        console.log("Su token es: " + session.idToken.jwtToken);
+       dispatch(setToken(session.idToken.jwtToken));
        dispatch(followAddSecondChance(qra, date,session.idToken.jwtToken,qra_avatar))
       // Handle exceptions
     }
@@ -1576,6 +1577,11 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       console.log('Api catch error unFollow :', error);
       dispatch(fetchingApiFailure('unfollow',error));
       // Handle exceptions
+
+      // por si se vencio el token lo actualizo para que no falle de nuevo
+      session = await Auth.currentSession();
+      console.log("Su token es: " + session.idToken.jwtToken);
+      dispatch(setToken(session.idToken.jwtToken));
     }
          
       
@@ -1778,6 +1784,11 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
       console.log('Api getQrasFromSearch catch error:', error);
       dispatch(fetchingApiFailure('getQrasFromSearch',error));
       // Handle exceptions
+
+      // por si se vencio el token lo actualizo para que no falle de nuevo
+            session = await Auth.currentSession();
+            console.log("Su token es: " + session.idToken.jwtToken);
+            dispatch(setToken(session.idToken.jwtToken));
     }    
     };
   };
@@ -1914,6 +1925,10 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
           console.log('Api get QSL Scan catch error:', error);
           dispatch(fetchingApiFailure('getQslScan',error));
           // Handle exceptions
+                // por si se vencio el token lo actualizo para que no falle de nuevo
+            session = await Auth.currentSession();
+            console.log("Su token es: " + session.idToken.jwtToken);
+            dispatch(setToken(session.idToken.jwtToken));
         }    
         };
       };
