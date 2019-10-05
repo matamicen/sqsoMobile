@@ -257,9 +257,9 @@ signUp = async () => {
           }
 
 
-         if (this.diffyears < 11)
+         if (this.diffyears < 13)
           {
-            this.setState({errormessage: 'You must be older than 11 years old to be a Ham.',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: 'You must be older than 13 years old use SuperQSO.',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
           //  this.birthdateRef.focus();
 
@@ -953,7 +953,7 @@ chooseCountry = () => {
                  <View style={{flex:1, flexDirection: "row"}}>
                  <Text style={{ fontSize: 11, color: '#8BD8BD'}} >and the</Text>
                  <TouchableOpacity onPress={ () => this.setState({terms: true}) } > 
-                  <Text style={{ fontSize: 11, color: "white"}} > terms and conditions</Text>
+                  <Text style={{ fontSize: 11, color: "white"}} > terms of service</Text>
                   </TouchableOpacity>
                   </View>
 

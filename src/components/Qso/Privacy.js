@@ -28,86 +28,108 @@ render() { console.log("RENDER terms SCREEN!" );
 return <View>
 
 <Text style={{ color: "#FFFFFF", fontSize: 14, marginTop: 10, marginLeft:7}}>
-Privacy!!!!!!!
 
-Thanks for using our products and services (“Services”). The Services are provided by Google LLC (“Google”), located at 1600 Amphitheatre Parkway, Mountain View, CA 94043, United States.
+<Text style={{fontSize: 16}}> 
+This policy explains what information we collect when you use SuperQSO sites, services, mobile applications, products, and content (“Services”). It also has information about how we store, use, transfer, and delete that information. Our aim is not just to comply with privacy law. It’s to earn your trust.
+{"\n\n"}
+</Text>
 
-By using our Services, you are agreeing to these terms. Please read them carefully.
-
-Our Services are very diverse, so sometimes additional terms or product requirements (including age requirements) may apply. Additional terms will be available with the relevant Services, and those additional terms become part of your agreement with us if you use those Services.
-
-Using our Services
-You must follow any policies made available to you within the Services.
-
-Don’t misuse our Services. For example, don’t interfere with our Services or try to access them using a method other than the interface and the instructions that we provide. You may use our Services only as permitted by law, including applicable export and re-export control laws and regulations. We may suspend or stop providing our Services to you if you do not comply with our terms or policies or if we are investigating suspected misconduct.
-
-Using our Services does not give you ownership of any intellectual property rights in our Services or the content you access. You may not use content from our Services unless you obtain permission from its owner or are otherwise permitted by law. These terms do not grant you the right to use any branding or logos used in our Services. Don’t remove, obscure, or alter any legal notices displayed in or along with our Services.
-
-Our Services display some content that is not Google’s. This content is the sole responsibility of the entity that makes it available. We may review content to determine whether it is illegal or violates our policies, and we may remove or refuse to display content that we reasonably believe violates our policies or the law. But that does not necessarily mean that we review content, so please don’t assume that we do.
-
-In connection with your use of the Services, we may send you service announcements, administrative messages, and other information. You may opt out of some of those communications.
-
-Some of our Services are available on mobile devices. Do not use such Services in a way that distracts you and prevents you from obeying traffic or safety laws.
-
-Your Google Account
-You may need a Google Account in order to use some of our Services. You may create your own Google Account, or your Google Account may be assigned to you by an administrator, such as your employer or educational institution. If you are using a Google Account assigned to you by an administrator, different or additional terms may apply and your administrator may be able to access or disable your account.
-
-To protect your Google Account, keep your password confidential. You are responsible for the activity that happens on or through your Google Account. Try not to reuse your Google Account password on third-party applications. If you learn of any unauthorized use of your password or Google Account, follow these instructions.
-
-Privacy and Copyright Protection
-Google’s privacy policies explain how we treat your personal data and protect your privacy when you use our Services. By using our Services, you agree that Google can use such data in accordance with our privacy policies.
-
-We respond to notices of alleged copyright infringement and terminate accounts of repeat infringers according to the process set out in the U.S. Digital Millennium Copyright Act.
-
-We provide information to help copyright holders manage their intellectual property online. If you think somebody is violating your copyrights and want to notify us, you can find information about submitting notices and Google’s policy about responding to notices in our Help Center.
-
-Your Content in our Services
-Some of our Services allow you to upload, submit, store, send or receive content. You retain ownership of any intellectual property rights that you hold in that content. In short, what belongs to you stays yours.
-
-When you upload, submit, store, send or receive content to or through our Services, you give Google (and those we work with) a worldwide license to use, host, store, reproduce, modify, create derivative works (such as those resulting from translations, adaptations or other changes we make so that your content works better with our Services), communicate, publish, publicly perform, publicly display and distribute such content. The rights you grant in this license are for the limited purpose of operating, promoting, and improving our Services, and to develop new ones. This license continues even if you stop using our Services (for example, for a business listing you have added to Google Maps). Some Services may offer you ways to access and remove content that has been provided to that Service. Also, in some of our Services, there are terms or settings that narrow the scope of our use of the content submitted in those Services. Make sure you have the necessary rights to grant us this license for any content that you submit to our Services.
-
-Our automated systems analyze your content (including emails) to provide you personally relevant product features, such as customized search results, tailored advertising, and spam and malware detection. This analysis occurs as the content is sent, received, and when it is stored.
-
-If you have a Google Account, we may display your Profile name, Profile photo, and actions you take on Google or on third-party applications connected to your Google Account (such as +1’s, reviews you write and comments you post) in our Services, including displaying in ads and other commercial contexts. We will respect the choices you make to limit sharing or visibility settings in your Google Account. For example, you can choose your settings so your name and photo do not appear in an ad.
-
-You can find more information about how Google uses and stores content in the privacy policy or additional terms for particular Services. If you submit feedback or suggestions about our Services, we may use your feedback or suggestions without obligation to you.
-
-About Software in our Services
-When a Service requires or includes downloadable software, this software may update automatically on your device once a new version or feature is available. Some Services may let you adjust your automatic update settings.
-
-Google gives you a personal, worldwide, royalty-free, non-assignable and non-exclusive license to use the software provided to you by Google as part of the Services. This license is for the sole purpose of enabling you to use and enjoy the benefit of the Services as provided by Google, in the manner permitted by these terms. You may not copy, modify, distribute, sell, or lease any part of our Services or included software, nor may you reverse engineer or attempt to extract the source code of that software, unless laws prohibit those restrictions or you have our written permission.
-
-Open source software is important to us. Some software used in our Services may be offered under an open source license that we will make available to you. There may be provisions in the open source license that expressly override some of these terms.
-
-Modifying and Terminating our Services
-We are constantly changing and improving our Services. We may add or remove functionalities or features, and we may suspend or stop a Service altogether.
-
-You can stop using our Services at any time, although we’ll be sorry to see you go. Google may also stop providing Services to you, or add or create new limits to our Services at any time.
-
-We believe that you own your data and preserving your access to such data is important. If we discontinue a Service, where reasonably possible, we will give you reasonable advance notice and a chance to get information out of that Service.
-
-Our Warranties and Disclaimers
-We provide our Services using a commercially reasonable level of skill and care and we hope that you will enjoy using them. But there are certain things that we don’t promise about our Services.
-
-Other than as expressly set out in these terms or additional terms, neither Google nor its suppliers or distributors make any specific promises about the Services. For example, we don’t make any commitments about the content within the Services, the specific functions of the Services, or their reliability, availability, or ability to meet your needs. We provide the Services “as is”.
-
-Some jurisdictions provide for certain warranties, like the implied warranty of merchantability, fitness for a particular purpose and non-infringement. To the extent permitted by law, we exclude all warranties.
-
-Liability for our Services
-When permitted by law, Google, and Google’s suppliers and distributors, will not be responsible for lost profits, revenues, or data, financial losses or indirect, special, consequential, exemplary, or punitive damages.
-
-To the extent permitted by law, the total liability of Google, and its suppliers and distributors, for any claims under these terms, including for any implied warranties, is limited to the amount you paid us to use the Services (or, if we choose, to supplying you the Services again).
-
-In all cases, Google, and its suppliers and distributors, will not be liable for any loss or damage that is not reasonably foreseeable.
-
-We recognize that in some countries, you might have legal rights as a consumer. If you are using the Services for a personal purpose, then nothing in these terms or any additional terms limits any consumer legal rights which may not be waived by contract.
-
-Business uses of our Services
-If you are using our Services on behalf of a business, that business accepts these terms. It will hold harmless and indemnify Google and its affiliates, officers, agents, and employees from any claim, suit or action arising from or related to the use of the Services or violation of these terms, including any liability or expense arising from claims, losses, damages, suits, judgments, litigation costs and attorneys’ fees.
+<Text style={{fontWeight: "bold",  fontSize: 16}}>
+Information We Collect & How We Use It
+{"\n\n"}
+</Text>
 
 
-                     
-                    </Text>
+The tracking we do at SuperQSO is to make our product work as well as possible. So, to give you the best possible experience in using SuperQSO, we collect information from your interactions with our Services. Some of this information, you actively tell us (such as your email address, which we use to track your account or communicate with you). Other information, we collect based on actions you take while using SuperQSO, such as what pages you view (including how much of a given page and for how long) and your use of product features (like follows, likes, QsoScans and QsoLinks). This information includes records of those interactions, your Internet Protocol address, information about your device (such as device or browser type), and referral information (how you got to a particular page).
+{"\n\n"}
+We use this information to:
+{"\n\n"}
+provide, test, improve, promote and personalize the Services
+fight spam and other forms of abuse
+generate aggregate, non-identifying information about how people use the Services
+Information Disclosure
+SuperQSO won’t transfer information about you to third parties for the purpose of providing or facilitating third-party advertising to you. We won’t sell information about you to a third-party.
+We may transfer your account information with third parties in some circumstances, including: (1) with your consent; (2) to a service provider or partner who meets our data protection standards; (3) with academic or non-profit researchers, with aggregation, anonymization, or pseudonymization; (4) when we have a good faith belief it is required by law, such as pursuant to a subpoena or other legal process; (5) when we have a good faith belief that doing so will help prevent imminent harm to someone.
+If we are going to share your information in response to legal process, we’ll give you notice so you can challenge it (for example by seeking court intervention), unless we’re prohibited by law or believe doing so may endanger others or cause illegal conduct. We will object to legal requests for information about users of our services that we believe are improper.
+{"\n\n"}
+
+<Text style={{fontWeight: "bold",  fontSize: 16}}>
+Public Data
+{"\n\n"}
+</Text>
+Search engines may index your SuperQSO user profile page, public interactions (such as photos, audios, likes or comments), and post pages (such as QSOs, Listen, Post and the audios & photos), such that people may find these pages when searching against your name on services like Google, DuckDuckGo, or Bing. Users may also share links to your content on social media platforms such as Facebook or Twitter. Information posted about you by other user who use our services may also be public. For example, other user may tag you in a photo or mention you in a Post (Qso, Listen or Post). Other user may take a picture of you or record your voice from the radio during the QSO and post that audio in SuperQSO.
+{"\n\n"} 
+
+<Text style={{fontWeight: "bold",  fontSize: 16}}> 
+Data Storage
+{"\n\n"}
+</Text>
+
+SuperQSO uses third-party vendors and hosting partners, such as Amazon, for hardware, software, networking, storage, and related technology we need to run SuperQSO. We maintain two types of logs: server logs and event logs. By using the Services, you authorize SuperQSO  to transfer, store, and use your information in United States, and any other country where we operate.
+{"\n\n"}
+<Text style={{fontWeight: "bold",  fontSize: 16}}> 
+Third-Party Embeds
+{"\n\n"}
+</Text>
+Some of the content that you see displayed on SuperQSO is not hosted by SuperQSO. These “embeds” are hosted by a third-party and embedded in a SuperQSO page, so that it appears to be part of that page. For example: YouTube or Vimeo videos, Imgur or Giphy gifs, SoundCloud audio files, Twitter tweets, GitHub code snippets, or Scribd documents that appear within a SuperQSO post. These files send data to the hosted site just as if you were visiting that site directly (for example, when you load a SuperQSO post page with a YouTube video embedded in it, that video appears because of a pointer to files hosted by YouTube, and in turn YouTube receives data about your activity, such as your IP address and how much of the video you watch).
+SuperQSO doesn’t control what data third parties collect in cases like this, or what they ultimately do with it. So, third-party embeds on SuperQSO are not covered by this Privacy Policy. They are covered by the privacy policy of the third-party service (so, when you watch a YouTube video embedded in a SuperQSO post, the use of data about your interactions with the video would be covered by YouTube’s privacy policy).
+Some embeds may ask you for personal information, such as submitting your email address, through a form linked to from a SuperQSO post. We do our best to keep bad actors off of SuperQSO. However, if you choose to submit your information to a third party this way, we don’t know what they may do with it. As explained above, their actions are not covered by this Privacy Policy. So, please be careful when you see embedded forms on SuperQSO asking for your email address or any other personal information. Make sure you understand who you are submitting your information to and what they say they plan to do with it. We suggest that you do not submit your email address or other personal information to any third-party through an embedded form.
+When posting on SuperQSO, you may not embed a form that allows submission of personal information by users. You must link offsite to a page that allows such submissions by users, and that page’s appearance must be distinct enough from SuperQSO to ensure it does not cause confusion among users over to whom they are submitting personal information. Failure to do so may lead SuperQSO to disable the post or take other action to limit or disable your account.
+{"\n\n"}
+<Text style={{fontWeight: "bold",  fontSize: 16}}> 
+Tracking & Cookies
+{"\n\n"}
+</Text>
+We use browser cookies and similar technologies to recognize you when you return to our Services. We use them in various ways, for example to log you in, remember your preferences (such as default language), evaluate email effectiveness, allow our paywall and meter to function, and personalize content and other services. Without cookies, our metered paywall would not work, so they are necessary to SuperQSO’s basic functionality.
+SuperQSO saves data about the URLs you Save to SuperQSO , but we do not otherwise track your visits or activities off SuperQSO Services. We track your interactions within the SuperQSO Services (which encompasses SuperQSO.com, custom domains hosted by SuperQSO, and your interactions with our mobile application).
+Some third-party services that we use to provide the Service, such as Google Analytics, may place their own cookies in your browser. This Privacy Policy covers use of cookies by SuperQSO only and not the use of cookies by third parties.
+{"\n\n"}
+
+<Text style={{fontWeight: "bold",  fontSize: 16}}> 
+Location Information
+{"\n\n"}
+</Text>
+
+We require information about your signup and current location, which we get from signals such as your IP address or device settings, to securely and reliably set up and maintain your account and to provide our services to you.
+Subject to your settings, we may collect, use, and store additional information about your location - such as your current precise position or places where you’ve previously used SuperQSO - to operate or personalize our services including with more relevant content like local trends, posts, ads, calculation of a QSO distance, suggestions for people to follow, and futures features. 
+Modifying or Deleting Your Personal Information
+If you have a SuperQSO account, you can access, modify or export your personal information, or delete your account.
+To protect information from accidental or malicious destruction, we may maintain residual copies for a brief time period (generally several weeks). But, if you delete your account, your information and content will be unrecoverable after that time. SuperQSO may preserve and maintain copies of your information beyond this time period when required to do so by law.
+{"\n\n"}
+
+<Text style={{fontWeight: "bold",  fontSize: 16}}>  
+Data Security
+{"\n\n"}
+</Text>
+
+We use encryption (HTTPS/TLS) to protect data transmitted to and from our site. However, no data transmission over the Internet is 100% secure, so we can’t guarantee security. You use the Service at your own risk, and you’re responsible for taking reasonable measures to secure your account.
+{"\n\n"}
+
+<Text style={{fontWeight: "bold",  fontSize: 16}}>   
+Affiliates and Change of Ownership
+{"\n\n"}
+</Text>
+
+In the event that we are involved in a bankruptcy, merger, acquisition, reorganization, or sale of assets, your personal data may be sold or transferred as part of that transaction. This Privacy Policy will apply to your personal data as transferred to the new entity. We may also disclose personal data about you to our corporate affiliates in order to help operate our services and our affiliates’ services, including the delivery of ads.
+Email from SuperQSO
+Sometimes we’ll send you emails about your account, service changes or new policies. You can’t opt out of this type of “transactional” email (unless you delete your account). But, you can opt out of non-administrative emails such as digests, newsletters, and activity notifications through your account’s Settings page.
+When you interact with an email sent from SuperQSO (such as opening an email or clicking on a particular link in an email), we may receive information about that interaction.
+We won’t email you to ask for your password or other account information. If you receive such an email, please forward it to us at legal@superqso.com so we can investigate.
+{"\n\n"}
+ 
+<Text style={{fontWeight: "bold",  fontSize: 16}}>   
+Children and our Service
+{"\n\n"}
+</Text>
+
+Our services are not directed to children, and you may not use our services if you are under the age of 13. You must also be old enough to consent to the processing of your personal data in your country (in some countries we may allow your parent or guardian to do so on your behalf)
+Changes to this Policy
+SuperQSO may periodically update this Policy. We’ll notify you about significant changes to it. The most current version of the policy will always be here and we will archive former versions of the policy here.
+ 
+ 
+ 
+</Text>
+ 
 
 
 
