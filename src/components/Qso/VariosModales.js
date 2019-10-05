@@ -897,7 +897,7 @@ class VariosModales extends Component {
                   </View>
                   <View style={{ flex:0.8}}>
                      <Text style={{ color: "#FFFFFF", fontSize: 20, marginTop: 5}}>
-                       Terms & Conditions
+                       Terms of Service
                       
                     </Text>
                   </View>
