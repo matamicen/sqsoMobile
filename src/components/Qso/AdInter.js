@@ -17,7 +17,8 @@ class AdInter extends Component {
     super(props);
     
     this.state = {
-       waitingModal: false
+       waitingModal: false,
+       iapModal: false
       
     };
   }
@@ -178,6 +179,38 @@ closeWaitingModal = () =>{
       
   }
 }
+
+openIap = () =>{
+
+  this.setState({waitingModal: false});
+  setTimeout(() => {
+
+    // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+   // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+     // Android no tiene problemas con esto.
+             
+     this.setState({ iapModal: true});
+     
+   }
+   , 50);
+
+}
+
+closeIapModal = () =>{
+// No quizo comprar esntonces vuelve al modal de WaitingModal
+  this.setState({iapModal: false});
+  setTimeout(() => {
+
+    // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+   // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+     // Android no tiene problemas con esto.
+             
+     this.setState({ waitingModal: true});
+     
+   }
+   , 50);
+
+}
      
 render() { console.log("RENDER adInter SCREEN!" );
     
@@ -188,10 +221,20 @@ return <View>
             show={this.state.waitingModal}
             modalType="waitingAdmodal"
             closewaitingmodal={this.closeWaitingModal.bind()}
+            openiap={this.openIap.bind()}
           //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
            
           /> 
 }
+{(this.state.iapModal) && 
+  <VariosModales
+              show={this.state.iapModal}
+              modalType="iapModal"
+              closeiapmodal={this.closeIapModal.bind()}
+            //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
+             
+            /> 
+  }
 
 </View>; 
 } 

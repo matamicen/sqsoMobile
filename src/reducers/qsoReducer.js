@@ -17,7 +17,8 @@ import {FETCHING_API_REQUEST,
     FOLLOWINGS_SELECTED, QRA_SEARCH, UPDATE_QSL_SCAN, REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL,
     PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, SET_TOKEN,
      RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
-     SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME } from '../actions/types';
+     SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
+     CONFIRM_RECEIPT } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -45,6 +46,7 @@ const initialState = {
     adShowed: false,
     qsoScreenDidMountFirstTime: true,
     welcomeUserFirstTime: false,
+    receiptTest: false,
 
     currentQso: {
         
@@ -261,6 +263,17 @@ const qsoReducer = (state = initialState, action) => {
                 currentQso: auxcurrentQso
             });
         return newStore;
+
+        
+        case CONFIRM_RECEIPT:
+                      
+     newStore = Object.assign({}, state,
+        {
+            ...state,
+            receiptTest: true
+        });
+    
+           return newStore;
 
         case SET_BAND:
         auxcurrentQso = {

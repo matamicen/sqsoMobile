@@ -6,6 +6,8 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
+  Modal,
   Button
 } from 'react-native';
 // import NativeButton from 'apsl-react-native-button';
@@ -17,6 +19,8 @@ import RNIap, {
   purchaseErrorListener,
   PurchaseError,
 } from 'react-native-iap';
+import { connect } from 'react-redux';
+import { addMedia, confirmReceipt } from '../../actions';
 
 // App Bundle > com.dooboolab.test
 
@@ -51,6 +55,8 @@ class Iap extends Component {
       productList: [],
       receipt: '',
       availableItemsMessage: '',
+      tranid: ''
+   
     };
   }
 
@@ -59,12 +65,22 @@ class Iap extends Component {
       const result = await RNIap.initConnection();
       await RNIap.consumeAllItemsAndroid();
       console.log('result', result);
+      // busco codigos de subscripcion para iOS sino me falla el GetSubscription
+      const products = await RNIap.getSubscriptions(itemSubs);
+
     } catch (err) {
       console.warn(err.code, err.message);
     }
 
     purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
-      console.log('purchaseUpdatedListener', purchase);
+
+      this.setState({tranid: purchase.transactionId});
+      console.log('purchaseUpdatedListener');
+      console.log(purchase);
+
+      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      // debo llamar a 
+      
       if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
         try {
           const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
@@ -73,7 +89,17 @@ class Iap extends Component {
           console.warn('ackErr', ackErr);
         }
       }
-      this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+      if (Platform.OS==='ios')
+      {
+
+        
+        console.log('llamo confirmReceipt');
+
+        this.props.confirmReceipt();
+      //  RNIap.finishTransactionIOS(purchase.transactionId);
+
+      }
+   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
     });
 
     purchaseErrorSubscription = purchaseErrorListener((error) => {
@@ -91,6 +117,13 @@ class Iap extends Component {
       purchaseErrorSubscription.remove();
       purchaseErrorSubscription = null;
     }
+  }
+
+  finishTransaction = () => {
+    console.log("es verdadero receiptTEST!!!!") 
+    console.log('imprimo estado tranid: '+this.state.tranid );
+    
+    RNIap.finishTransactionIOS(this.state.tranid);
   }
 
   goNext = () => {
@@ -121,16 +154,73 @@ class Iap extends Component {
   getAvailablePurchases = async() => {
     try {
       console.info('Get available purchases (non-consumable or unconsumed consumable)');
-      const purchases = await RNIap.getAvailablePurchases();
-      console.info('Available purchases :: ', purchases);
-      console.log('purchases:');
-      purchases.map((purch, i) => {
-      console.log('productID:'+ purch.productId);
-      console.log('TransactionID:'+ purch.transactionId);
-      console.log('transactionDate:'+ purch.transactionDate);
-      console.log('originalTransactionDateIOS:'+ purch.originalTransactionDateIOS);
-      console.log('originalTransactionIdentifierIOS:'+ purch.originalTransactionIdentifierIOS);
-      });
+       const purchases = await RNIap.getPurchaseHistory();
+    
+      // console.log('purchased HISTORY');
+      // purchasesHisotry.map((purch3, j) => {
+      //   console.log('productID:'+ purch3.productId);
+      //   console.log('TransactionID:'+ purch3.transactionId);
+      //   console.log('transactionDate:'+ purch3.transactionDate);
+      //   console.log('originalTransactionDateIOS:'+ purch3.originalTransactionDateIOS);
+      //   console.log('originalTransactionIdentifierIOS:'+ purch3.originalTransactionIdentifierIOS);
+      //   });
+     
+     
+     
+  //    const purchases = await RNIap.getAvailablePurchases();
+
+      // console.log('UNSORTED purchases:');
+      // purchases.map((purch, i) => {
+      // console.log('productID:'+ purch.productId);
+      // console.log('TransactionID:'+ purch.transactionId);
+      // console.log('transactionDate:'+ purch.transactionDate);
+      // console.log('originalTransactionDateIOS:'+ purch.originalTransactionDateIOS);
+      // console.log('originalTransactionIdentifierIOS:'+ purch.originalTransactionIdentifierIOS);
+      // });
+
+      const sortedAvailablePurchases = purchases.sort(
+        (a, b) => b.transactionDate - a.transactionDate
+      );
+      const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+   //   console.info('Available purchases :: ', purchases);
+    //  console.log('purchases:');
+
+      console.log('SORTED purchase HISTORY:');
+      sortedAvailablePurchases.map((purch2, j) => {
+        console.log('productID:'+ purch2.productId);
+        console.log('TransactionID:'+ purch2.transactionId);
+        console.log('transactionDate:'+ purch2.transactionDate);
+        console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
+        console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
+        });
+
+
+
+      console.log("imprimo receipt [1]:");
+
+      console.log(latestAvailableReceipt);
+     const receiptBody = {
+      'receipt-data': latestAvailableReceipt,
+      'password': 'f73fc083d2b94b93bdbd2a1a7402aae5'
+    };
+    const result = await RNIap.validateReceiptIos(receiptBody, true);
+    console.log("imprimo verificacion de receipt [1]:");
+    console.log(result);
+    
+    const renewalHistory = result.latest_receipt_info
+   // console.log(renewalHistory);
+    
+    //This returns the expiration date of the latest renewal of the latest purchase
+     const expiration = renewalHistory[renewalHistory.length - 1].expires_date_ms
+    //Boolean for whether it has expired. Can use in your app to enable/disable subscription
+    // console.log(expiration > Date.now())
+    console.log('expires_date: ',expiration);
+    console.log(expiration > Date.now())
+    
+    
+    console.log("fin valido receipt [1]:");
+
+      
 
       if (purchases && purchases.length > 0) {
         this.setState({
@@ -194,18 +284,45 @@ class Iap extends Component {
   }
 
   render() {
-    const { productList, receipt, availableItemsMessage } = this.state;
+    const { productList, receipt, availableItemsMessage} = this.state;
     const receipt100 = receipt.substring(0, 100);
 
     return (
-      <View style={ styles.container }>
-        <View style={ styles.header }>
-          <Text style={ styles.headerTxt} >react-native-iap V3</Text>
-        </View>
-        <View style={ styles.content }>
-          <ScrollView
-            style={{ alignSelf: 'stretch' }}
+      <Modal
+            visible={true}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
           >
+            <View
+              style={{
+                //  margin:20,
+                padding: 20,
+                backgroundColor:"rgba(0,0,0,0.85)",
+                top: 90,
+                left: 30,
+                right: 30,
+                position: "absolute",
+                borderBottomLeftRadius: 22,
+                borderBottomRightRadius: 22,
+                borderTopLeftRadius: 22,
+                borderTopRightRadius: 22
+
+                //  alignItems: 'center'
+              }}
+            >
+
+
+        {(this.props.receipttest) ? this.finishTransaction() 
+        :
+           console.log("es falso receiptTEST!!!!") 
+        }   
+        <View >
+          <Text style={ styles.headerTxt} >react-native-iap V3</Text>
+          <Text style={ styles.headerTxt} >receiptTEST: {this.props.receipttest}</Text>
+        </View>
+      
+        <View>
+       
             <View style={{ height: 50 }} />
             <Button
               onPress={this.getAvailablePurchases}
@@ -253,13 +370,36 @@ class Iap extends Component {
                     //   style={styles.btn}
                     //   textStyle={styles.txt}
                     >Request purchase for above product</Button>
+
+                    
+                          
                   </View>
                 );
               })
             }
-          </ScrollView>
-        </View>
-      </View>
+        
+
+        
+        <TouchableOpacity
+                          onPress={() => { 
+                            this.requestSubscription('PremiumMonthly')
+                          }} 
+                        
+                        > 
+                          <Text style={{ fontSize: 13, color: '#999'}} >BUY</Text>
+                        </TouchableOpacity>
+          <TouchableOpacity
+                          onPress={() => { 
+                            this.props.closeiap()  
+                          }} 
+                         // style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
+                        > 
+                          <Text style={{ fontSize: 13, color: '#999'}} >Close</Text>
+                        </TouchableOpacity>
+          </View>
+
+       </View>
+      </Modal>
     );
   }
 }
@@ -316,4 +456,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Iap;
+const mapStateToProps = state => {
+
+      return {  
+        jwtToken: state.sqso.jwtToken,
+        userinfo: state.sqso.userInfo,
+        receipttest: state.sqso.receiptTest
+
+         };
+};
+
+
+const mapDispatchToProps = {
+  addMedia,
+  confirmReceipt
+  
+ }
+
+// export default Iap;
+export default connect(mapStateToProps, mapDispatchToProps)(Iap);

@@ -194,6 +194,8 @@ PODS:
     - React
   - RNGestureHandler (1.3.0):
     - React
+  - RNIap (4.0.7):
+    - React
   - RNImageCropPicker (0.25.0):
     - QBImagePickerController
     - React-Core
@@ -240,6 +242,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -332,6 +335,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
@@ -390,6 +395,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a

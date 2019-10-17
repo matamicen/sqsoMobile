@@ -22,7 +22,7 @@ import {FETCHING_API_REQUEST,
         SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, LINK_QSOS, SET_TOKEN,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
-        QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME  } from './types';
+        QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRM_RECEIPT  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -2076,6 +2076,14 @@ export const postContactUs = (email,message,jwtToken) => {
     
   };
 };
+
+
+  export const confirmReceipt = () => {
+    return {
+        type: CONFIRM_RECEIPT
+        
+    };
+}
     
 
       export const updateQslScan = (qslresult) => {

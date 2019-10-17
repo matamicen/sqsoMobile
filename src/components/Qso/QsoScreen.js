@@ -48,6 +48,8 @@ import {
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
+import Iap from "./Iap";
+
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
 //import {  Permissions } from 'expo';
@@ -101,7 +103,8 @@ class QsoScreen extends Component {
     //  notvideorewarded: false,
     //  prevideorewarded: false,
       showIntersitial: false,
-      showVideoReward: false
+      showVideoReward: false,
+      iap: false
     };
   }
 
@@ -893,6 +896,36 @@ class QsoScreen extends Component {
             </View>
           </Modal>
 
+          <Modal
+            visible={this.state.iap}
+            animationType={"slide"}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            <View
+              style={{
+                margin: 10,
+                padding: 10,
+                backgroundColor: "rgba(0,0,0,0.85)",
+                marginTop: 120,
+                //  bottom: 150,
+                left: 55,
+                right: 55,
+                height: 400,
+                position: "absolute",
+                alignItems: "center",
+                borderRadius: 12
+              }}
+            >
+              {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
+               <Iap />
+              <Button onPress={() => this.setState({iap:false})} title="Cierro" />
+              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
+                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
+                          </TouchableHighlight> */}
+            </View>
+          </Modal>
+
           {/* position= {'top'} animationType={"slide"} */}
           <Modal
             visible={this.state.photoConfirm}
@@ -1025,6 +1058,16 @@ class QsoScreen extends Component {
                 />
                 
                 <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>Start a QSO</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{  width: 110,height:100 }} onPress={() => this.setState({iap: true}) }>
+                <Image
+                  source={require("../../images/iaddcircleTurquesa.png")}
+                  style={{ width: 80, height: 80, alignItems:"center", alignContent:"center"}}
+                  resizeMode="contain"
+                />
+                
+                <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>IAP</Text>
               </TouchableOpacity>
               </View>
              } 

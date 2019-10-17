@@ -14,6 +14,7 @@ import {
 import { connect } from "react-redux";
 import Terms from './Terms';
 import Privacy from './Privacy';
+import Iap from './Iap';
 
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
@@ -71,6 +72,7 @@ class VariosModales extends Component {
               
             }
             , this.props.userinfo.account_type.app_waitingTimeAdMob);
+          
     
   }
 
@@ -664,7 +666,7 @@ class VariosModales extends Component {
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
                  <TouchableOpacity
-                   onPress={() => this.props.closewaitingmodal()}
+                   onPress={() => this.props.openiap()}
                   
                  >
                    <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
@@ -678,6 +680,14 @@ class VariosModales extends Component {
             </View>
           </Modal>
         </View>
+      );
+
+
+      if (this.props.modalType === "iapModal")
+      return (
+        // <View>
+          <Iap  closeiap={this.props.closeiapmodal.bind()} />
+        // </View>
       );
 
       if (this.props.modalType === "contactus")
