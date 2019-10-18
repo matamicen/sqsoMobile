@@ -20,7 +20,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 import { connect } from 'react-redux';
-import { addMedia, confirmReceipt } from '../../actions';
+import { confirmReceiptAPI, pressPurchaseButton } from '../../actions';
 
 // App Bundle > com.dooboolab.test
 
@@ -51,84 +51,89 @@ class Iap extends Component {
   constructor(props) {
     super(props);
 
+  //  this.buystate = false;
+
     this.state = {
       productList: [],
       receipt: '',
       availableItemsMessage: '',
-      tranid: ''
-   
+      localizedPrice: ''   
     };
+
+    
   }
 
   async componentDidMount() {
     try {
+    //  this.props.pressPurchaseButton(true);
+    
       const result = await RNIap.initConnection();
       await RNIap.consumeAllItemsAndroid();
       console.log('result', result);
       // busco codigos de subscripcion para iOS sino me falla el GetSubscription
+      
       const products = await RNIap.getSubscriptions(itemSubs);
+      console.log('busco codigos de subscripciones');
+     // console.log(products);
+    // this.setState({localizedPrice: products[0].localizedPrice});
+     
+      
 
     } catch (err) {
       console.warn(err.code, err.message);
     }
+    // purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
 
-    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+    //   // this.setState({tranid: purchase.transactionId});
+    //   console.log('purchaseUpdatedListener');
+    //   console.log(purchase);
 
-      this.setState({tranid: purchase.transactionId});
-      console.log('purchaseUpdatedListener');
-      console.log(purchase);
-
-      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
-      // debo llamar a 
+    //   // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+    //   // debo llamar a 
       
-      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
-        try {
-          const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
-          console.log('ackResult', ackResult);
-        } catch (ackErr) {
-          console.warn('ackErr', ackErr);
-        }
-      }
-      if (Platform.OS==='ios')
-      {
+    //   if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+    //     try {
+    //      const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+    //       console.log('ackResult', ackResult);
+    //     } catch (ackErr) {
+    //       console.warn('ackErr', ackErr);
+    //     }
+    //   }
+    //   if (Platform.OS==='ios')
+    //   {
 
         
-        console.log('llamo confirmReceipt');
+    //     console.log('IAP: llamo confirmReceipt action: '+purchase.transactionId);
+    //     this.props.confirmReceiptAPI(purchase.transactionId,this.buystate);
+    //  //   this.props.confirmReceipt();
+    //   //  RNIap.finishTransactionIOS(purchase.transactionId);
 
-        this.props.confirmReceipt();
-      //  RNIap.finishTransactionIOS(purchase.transactionId);
-
-      }
+    //   }
    //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-    });
+    // });
 
-    purchaseErrorSubscription = purchaseErrorListener((error) => {
-      console.log('purchaseErrorListener', error);
-      Alert.alert('purchase error', JSON.stringify(error));
-    });
+    // purchaseErrorSubscription = purchaseErrorListener((error) => {
+    //   console.log('purchaseErrorListener', error);
+    //   // Alert.alert('purchase error', JSON.stringify(error));
+    // });
   }
 
   componentWillUnmount() {
-    if (purchaseUpdateSubscription) {
-      purchaseUpdateSubscription.remove();
-      purchaseUpdateSubscription = null;
-    }
-    if (purchaseErrorSubscription) {
-      purchaseErrorSubscription.remove();
-      purchaseErrorSubscription = null;
-    }
+    // if (purchaseUpdateSubscription) {
+    //   purchaseUpdateSubscription.remove();
+    //   purchaseUpdateSubscription = null;
+    // }
+    // if (purchaseErrorSubscription) {
+    //   purchaseErrorSubscription.remove();
+    //   purchaseErrorSubscription = null;
+    // }
   }
 
-  finishTransaction = () => {
-    console.log("es verdadero receiptTEST!!!!") 
-    console.log('imprimo estado tranid: '+this.state.tranid );
-    
-    RNIap.finishTransactionIOS(this.state.tranid);
-  }
+ 
 
-  goNext = () => {
-    Alert.alert('Receipt', this.state.receipt);
-  }
+  // goNext = () => {
+  //   Alert.alert('Receipt', this.state.receipt);
+  // }
 
   getItems = async() => {
     try {
@@ -245,43 +250,15 @@ class Iap extends Component {
 
   requestSubscription = async(sku) => {
     try {
-      RNIap.requestSubscription(sku);
+
+        RNIap.requestSubscription(sku);   
+
     } catch (err) {
       Alert.alert(err.message);
     }
   }
 
-  // Deprecated apis
-  buyItem = async(sku) => {
-    console.info('buyItem', sku);
-    // const purchase = await RNIap.buyProduct(sku);
-    // const products = await RNIap.buySubscription(sku);
-    // const purchase = await RNIap.buyProductWithoutFinishTransaction(sku);
-    try {
-      const purchase = await RNIap.buyProduct(sku);
-      // console.log('purchase', purchase);
-      // await RNIap.consumePurchaseAndroid(purchase.purchaseToken);
-      this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-    } catch (err) {
-      console.warn(err.code, err.message);
-      const subscription = RNIap.addAdditionalSuccessPurchaseListenerIOS(async(purchase) => {
-        this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-        subscription.remove();
-      });
-    }
-  }
 
-  buySubscribeItem = async(sku) => {
-    try {
-      console.log('buySubscribeItem: ' + sku);
-      const purchase = await RNIap.buySubscription(sku);
-      console.info(purchase);
-      this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-    } catch (err) {
-      console.warn(err.code, err.message);
-      Alert.alert(err.message);
-    }
-  }
 
   render() {
     const { productList, receipt, availableItemsMessage} = this.state;
@@ -312,13 +289,15 @@ class Iap extends Component {
             >
 
 
-        {(this.props.receipttest) ? this.finishTransaction() 
-        :
-           console.log("es falso receiptTEST!!!!") 
-        }   
+        
         <View >
           <Text style={ styles.headerTxt} >react-native-iap V3</Text>
-          <Text style={ styles.headerTxt} >receiptTEST: {this.props.receipttest}</Text>
+         
+         {/* Cierro el modal porque se confirmo la compra */}
+          {(this.props.confirmedpurchaseflag) && this.props.closeiap()  
+          // <Text style={ styles.headerTxt} >Compra Confirmada!</Text>
+          }
+
         </View>
       
         <View>
@@ -461,15 +440,15 @@ const mapStateToProps = state => {
       return {  
         jwtToken: state.sqso.jwtToken,
         userinfo: state.sqso.userInfo,
-        receipttest: state.sqso.receiptTest
+        confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
 
          };
 };
 
 
 const mapDispatchToProps = {
-  addMedia,
-  confirmReceipt
+  confirmReceiptAPI,
+  pressPurchaseButton
   
  }
 

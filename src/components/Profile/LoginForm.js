@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
-  postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications} from '../../actions';
+  postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
+  confirmReceiptAPI} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation';
@@ -25,7 +26,16 @@ import Analytics from '@aws-amplify/analytics';
  import PushNotification from '@aws-amplify/pushnotification';
  //import { PushNotification } from 'aws-amplify-react-native';
  import { PushNotificationIOS } from 'react-native';
-//import aws_exports from './aws-exports';
+
+ import RNIap, {
+  Product,
+  ProductPurchase,
+  acknowledgePurchaseAndroid,
+  purchaseUpdatedListener,
+  purchaseErrorListener,
+  PurchaseError,
+} from 'react-native-iap';
+
 
 // PushNotification need to work with Analytics
 Analytics.configure(awsconfig);
@@ -34,6 +44,8 @@ PushNotification.configure(awsconfig);
 Auth.configure(awsconfig);
 // Amplify.configure(awsconfig);
 
+let purchaseUpdateSubscription;
+let purchaseErrorSubscription;
 
 class LoginForm extends Component {
 //   static navigationOptions = {
@@ -91,8 +103,64 @@ constructor(props) {
 
 
   async componentDidMount() {
+   // IAP Listener GLOBAL
+   // para capturar eventos de Purchases no confirmadas de AppleStore
+    try {
+      const result = await RNIap.initConnection();
+      await RNIap.consumeAllItemsAndroid();
+      console.log('result', result);
+      // busco codigos de subscripcion para iOS sino me falla el GetSubscription
+      
+      const products = await RNIap.getSubscriptions(itemSubs);
+      console.log('busco codigos de subscripciones');
+    
+    //  this.setState({localizedPrice: products[0].localizedPrice});
+     
+      
 
-   
+    } catch (err) {
+      console.warn(err.code, err.message);
+    }
+
+
+    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+
+      // this.setState({tranid: purchase.transactionId});
+      console.log('purchaseUpdatedListener de LoginForm');
+      console.log(purchase);
+
+      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      // debo llamar a 
+      
+      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+        try {
+          const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+        //  const ackResult = acknowledgePurchaseAndroid(purchase.purchaseToken);
+          console.log('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
+        }
+      }
+      if (Platform.OS==='ios')
+      {
+
+        console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
+        console.log('flag que recien compro: '+this.props.presspurchaseputton);
+        
+        this.props.confirmReceiptAPI(purchase.transactionId,this.props.presspurchaseputton);
+     //   this.props.confirmReceipt();
+      //  RNIap.finishTransactionIOS(purchase.transactionId);
+
+      }
+   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+    });
+
+    purchaseErrorSubscription = purchaseErrorListener((error) => {
+      console.log('purchaseErrorListener LoginForm', error);
+      // Alert.alert('purchase error', JSON.stringify(error));
+    });
+
+
 
     PushNotification.onNotification((notification) => {
       console.log('antes imprimir')
@@ -319,6 +387,21 @@ constructor(props) {
        }
 
 
+       componentWillUnmount() {
+        // Dejo el evento de Listener de subcription montado siempre
+        // por si en el agun momento se muere este componente que quede
+        // habilitado el sistema para que el usuario pueda comprar
+        // hay que ver si es una buena practica o no. Veremos.
+
+        // if (purchaseUpdateSubscription) {
+        //   purchaseUpdateSubscription.remove();
+        //   purchaseUpdateSubscription = null;
+        // }
+        // if (purchaseErrorSubscription) {
+        //   purchaseErrorSubscription.remove();
+        //   purchaseErrorSubscription = null;
+        // }
+      }
       
     
 
@@ -857,7 +940,9 @@ if (!this.usernotfound)
  
   return { pushtoken: state.sqso.pushToken,
              qra: state.sqso.qra,
-             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus };
+             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
+             presspurchaseputton: state.sqso.pressPurchaseButton
+             };
 };
 
 
@@ -873,7 +958,8 @@ const mapDispatchToProps = {
     getUserInfo,
     get_notifications,
     fetchQraProfileUrl,
-    manage_notifications
+    manage_notifications,
+    confirmReceiptAPI
     
    }
 

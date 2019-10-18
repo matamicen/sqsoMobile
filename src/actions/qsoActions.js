@@ -22,7 +22,8 @@ import {FETCHING_API_REQUEST,
         SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, LINK_QSOS, SET_TOKEN,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
-        QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRM_RECEIPT  } from './types';
+        QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
+        PRESS_PURCHASE_BUTTON  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -35,6 +36,14 @@ import { NetInfo, Platform, Alert, AsyncStorage } from 'react-native';
 import { getDateQslScan } from '../helper';
 import { Buffer } from 'buffer';
 import RNFetchBlob from 'rn-fetch-blob';
+import RNIap, {
+  Product,
+  ProductPurchase,
+  acknowledgePurchaseAndroid,
+  purchaseUpdatedListener,
+  purchaseErrorListener,
+  PurchaseError,
+} from 'react-native-iap';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -2078,12 +2087,87 @@ export const postContactUs = (email,message,jwtToken) => {
 };
 
 
-  export const confirmReceipt = () => {
+export const confirmReceiptAPI = (purchaseid,buystate) => {
+  return async dispatch => {
+ //   dispatch(fetchingApiRequest('postContactUs'));
+    console.log("ejecuta llamada API confirmReceipt");  
+  try {
+     
+      // let apiName = 'superqso';
+      // let path = '/contactformsend';
+      // let myInit = { // OPTIONAL
+      //   headers: {
+      //     'Authorization': jwtToken,
+      //     'Content-Type': 'application/json'
+      //   }, // OPTIONAL
+      //   body: {
+        
+      //           "email": email,
+      //           "message": message
+                     
+      //         }
+        
+      // }
+
+
+    // respuesta = await API.post(apiName, path, myInit);
+    console.log("ejecuto finishTransactionIOS: "+purchaseid);
+    RNIap.finishTransactionIOS(purchaseid);
+    //if (buystate){
+      console.log("el buystate es TRUE");
+      dispatch(confirmedPurchaseFlag(true));
+      
+      // debo cambiar un flag en redux para que cambie en la pantalla 
+      // y que avise al usuario que ya es PREMIUM
+      // el buustate en TRUE me asegura que el llamado fue hecho porque el usuario
+      // acaba de comprar, si es FALSE es porque quedaron pendientes compras sin confirmar
+      // y deben ser confirmadas a IOS pero no tengo que visar nada al usuario, son llamadas
+      // que vienen del purchaseUpdatedListener puesto en el LoginForm.
+   // }
+  
+   
+  //  dispatch(fetchingApiSuccess('postContactUs',respuesta));
+   
+    // if (respuesta.body.error===0)
+    // {
+     
+    //   console.log("error es 0 y SALIDA de postContactUs: "+JSON.stringify(respuesta.body.message));
+      
+    //   console.log("ya envio el mail de contact Us");  
+
+    // }else
+    //   console.log("hay error en llamado de API ->  de postContactUs: "+JSON.stringify(respuesta.body.message));
+
+   
+  }
+  catch (error) {
+    console.log('Api catch confirmReceipt error:', error);
+ //   dispatch(fetchingApiFailure('postContactUs',error));
+    // Handle exceptions
+  }
+       
+    
+  };
+};
+
+  export const confirmedPurchaseFlag = (purchaseconfirmed) => {
     return {
-        type: CONFIRM_RECEIPT
+        type: CONFIRMED_PURCHASE_FLAG,
+        purchaseState: purchaseconfirmed
         
     };
 }
+
+
+export const pressPurchaseButton = (purchasebutton) => {
+  return {
+      type: PRESS_PURCHASE_BUTTON,
+      presspurchasebutton: purchasebutton
+      
+  };
+}
+
+
     
 
       export const updateQslScan = (qslresult) => {

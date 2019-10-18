@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import firebase from "react-native-firebase";
 import {
    
-    manageLocationPermissions
+    manageLocationPermissions,
+    confirmedPurchaseFlag
     
   } from "../../actions";
   import VariosModales from "./VariosModales";
@@ -181,8 +182,10 @@ closeWaitingModal = () =>{
 }
 
 openIap = () =>{
-
+ 
+  this.props.confirmedPurchaseFlag(false);
   this.setState({waitingModal: false});
+
   setTimeout(() => {
 
     // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
@@ -197,10 +200,26 @@ openIap = () =>{
 }
 
 closeIapModal = () =>{
-// No quizo comprar esntonces vuelve al modal de WaitingModal
+
   this.setState({iapModal: false});
+
+  // chequea si cerro el IAP porque compro o porque no compro
+  if (this.props.confirmedpurchaseflag)
+  { // Quiere decir que compro entonces envia el media directo 
+      if (this.props.closead==='newqso')
+      this.props.newqso();
+      if (this.props.closead==='sendmedia')
+      this.props.subos3();
+      if (this.props.closead==='scanqr')
+      this.props.showscanresults('qslScan');
+      if (this.props.closead==='linkqso')
+      this.props.linkqso();
+
+
+  }else
   setTimeout(() => {
 
+    // no compro entonces abre el WaitingModl de nuevo para que vea el AD
     // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
    // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
      // Android no tiene problemas con esto.
@@ -244,6 +263,7 @@ return <View>
 
  const mapStateToProps = state => {
     return {  
+      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
 
         
      };
@@ -252,7 +272,8 @@ return <View>
 
 const mapDispatchToProps = {
     
-    manageLocationPermissions
+    manageLocationPermissions,
+    confirmedPurchaseFlag
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdInter);

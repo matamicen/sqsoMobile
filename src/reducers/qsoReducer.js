@@ -18,7 +18,7 @@ import {FETCHING_API_REQUEST,
     PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, SET_TOKEN,
      RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
-     CONFIRM_RECEIPT } from '../actions/types';
+     CONFIRMED_PURCHASE_FLAG, PRESS_PURCHASE_BUTTON } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -46,7 +46,9 @@ const initialState = {
     adShowed: false,
     qsoScreenDidMountFirstTime: true,
     welcomeUserFirstTime: false,
-    receiptTest: false,
+    confirmedPurchaseFlag: false,
+    pressPurchaseButton: false,
+
 
     currentQso: {
         
@@ -265,15 +267,30 @@ const qsoReducer = (state = initialState, action) => {
         return newStore;
 
         
-        case CONFIRM_RECEIPT:
+        case CONFIRMED_PURCHASE_FLAG:
                       
      newStore = Object.assign({}, state,
         {
             ...state,
-            receiptTest: true
+            confirmedPurchaseFlag: action.purchaseState
         });
     
            return newStore;
+
+      case PRESS_PURCHASE_BUTTON:
+          
+        console.log("REDUCER PRESS PURCHASE BUTTON: "+ action.presspurchasebutton);    
+
+        newStore = Object.assign({}, state,
+            {
+               ...state,
+               pressPurchaseButton: action.presspurchasebutton
+            });
+           
+         return newStore;
+
+
+           
 
         case SET_BAND:
         auxcurrentQso = {

@@ -89,6 +89,11 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
+      <RemoteRunnable
+         runnableDebuggingMode = "0"
+         BundleIdentifier = "org.reactjs.native.example.sqsoMobile"
+         RemotePath = "/var/containers/Bundle/Application/A9BD3989-531D-446F-BEF0-C10EAB4C7639/sqsoMobile.app">
+      </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
