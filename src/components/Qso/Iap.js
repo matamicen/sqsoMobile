@@ -20,7 +20,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 import { connect } from 'react-redux';
-import { confirmReceiptAPI, pressPurchaseButton } from '../../actions';
+import { confirmReceiptAPI, pressPurchaseButton, manageLocationPermissions } from '../../actions';
 
 // App Bundle > com.dooboolab.test
 
@@ -250,7 +250,9 @@ class Iap extends Component {
 
   requestSubscription = async(sku) => {
     try {
-
+      console.log('iapshowed mando TRUE');
+      
+        this.props.manageLocationPermissions("iapshowed",true);
         RNIap.requestSubscription(sku);   
 
     } catch (err) {
@@ -292,11 +294,15 @@ class Iap extends Component {
         
         <View >
           <Text style={ styles.headerTxt} >react-native-iap V3</Text>
-         
+          <Text style={ styles.headerTxt} >{this.props.productid} {this.props.localizedprice}</Text>
          {/* Cierro el modal porque se confirmo la compra */}
           {(this.props.confirmedpurchaseflag) && this.props.closeiap()  
           // <Text style={ styles.headerTxt} >Compra Confirmada!</Text>
           }
+ 
+      {(this.props.iapshowed) &&
+             <Text style={ styles.headerTxt} >Procesing ...</Text>
+      }
 
         </View>
       
@@ -440,7 +446,10 @@ const mapStateToProps = state => {
       return {  
         jwtToken: state.sqso.jwtToken,
         userinfo: state.sqso.userInfo,
-        confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
+        confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag,
+        productid: state.sqso.productId,
+        localizedprice: state.sqso.localizedPrice,
+        iapshowed: state.sqso.iapShowed,
 
          };
 };
@@ -448,7 +457,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   confirmReceiptAPI,
-  pressPurchaseButton
+  pressPurchaseButton,
+  manageLocationPermissions
   
  }
 

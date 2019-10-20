@@ -23,7 +23,7 @@ import {FETCHING_API_REQUEST,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
-        PRESS_PURCHASE_BUTTON  } from './types';
+        PRESS_PURCHASE_BUTTON, SET_SUBSCRIPTION_INFO  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -2199,3 +2199,11 @@ export const pressPurchaseButton = (purchasebutton) => {
             count: count
         };
     }
+
+    export const setSubscriptionInfo = (productid, localizedprice) => {
+      return {
+          type: SET_SUBSCRIPTION_INFO,
+          productid: productid,
+          localizedprice: localizedprice
+      };
+  }

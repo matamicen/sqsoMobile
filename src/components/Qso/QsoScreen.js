@@ -192,8 +192,11 @@ class QsoScreen extends Component {
     if (nextAppState === "active") {
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
-      if (this.props.adshowed)
+      if (this.props.adshowed || this.props.iapshowed)
+      {
         this.props.manageLocationPermissions("adshowed", false);
+        this.props.manageLocationPermissions("iapshowed", false);
+      }
       else {
         var session = await Auth.currentSession();
         console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
@@ -1159,6 +1162,7 @@ const mapStateToProps = state => {
     qsoscreendidmount: state.sqso.qsoScreenDidmount,
     currentlocationpermission: state.sqso.currentLocationPermission,
     adshowed: state.sqso.adShowed,
+    iapshowed: state.sqso.iapShowed,
     qsoscreendidmountfirsttime: state.sqso.qsoScreenDidMountFirstTime,
     rdsurls3: state.sqso.urlRdsS3,
     band: state.sqso.currentQso.band,

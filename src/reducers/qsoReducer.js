@@ -18,7 +18,7 @@ import {FETCHING_API_REQUEST,
     PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, SET_TOKEN,
      RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
-     CONFIRMED_PURCHASE_FLAG, PRESS_PURCHASE_BUTTON } from '../actions/types';
+     CONFIRMED_PURCHASE_FLAG, PRESS_PURCHASE_BUTTON, SET_SUBSCRIPTION_INFO } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -48,6 +48,9 @@ const initialState = {
     welcomeUserFirstTime: false,
     confirmedPurchaseFlag: false,
     pressPurchaseButton: false,
+    productId: '',
+    localizedPrice: 0,
+    iapShowed: false,
 
 
     currentQso: {
@@ -236,6 +239,21 @@ const qsoReducer = (state = initialState, action) => {
                      return newStore;
                     }
 
+
+             if (action.param==='iapshowed'){
+
+            
+                newStore = Object.assign({}, state,
+                         {
+                                  ...state,
+                                  iapShowed: action.payload
+                                 
+                              });
+         
+                              return newStore;
+                             }
+         
+
                return state;
     //    }
 
@@ -289,7 +307,19 @@ const qsoReducer = (state = initialState, action) => {
            
          return newStore;
 
+         case SET_SUBSCRIPTION_INFO:
+            
+    
+            newStore = Object.assign({}, state,
+                {
+                   ...state,
+                   localizedPrice: action.localizedprice,
+                   productId: action.productid
+                });
+               
+             return newStore;
 
+         
            
 
         case SET_BAND:

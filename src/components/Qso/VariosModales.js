@@ -670,7 +670,7 @@ class VariosModales extends Component {
                   
                  >
                    <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
-                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>$9.99/month</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>{this.props.localizedprice}/month</Text>
                  </TouchableOpacity>
                  </View> 
 
@@ -1248,7 +1248,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
 
-    userinfo: state.sqso.userInfo
+    userinfo: state.sqso.userInfo,
+    localizedprice: state.sqso.localizedPrice
   };
 };
 

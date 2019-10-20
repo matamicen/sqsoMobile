@@ -8,7 +8,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
-  confirmReceiptAPI} from '../../actions';
+  confirmReceiptAPI, setSubscriptionInfo} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation';
@@ -43,6 +43,17 @@ Analytics.configure(awsconfig);
 PushNotification.configure(awsconfig);
 Auth.configure(awsconfig);
 // Amplify.configure(awsconfig);
+
+
+const itemSubs = Platform.select({
+  ios: [
+    'PremiumMonthly', // dooboolab
+  ],
+  android: [
+    // 'test.sub1', // subscription
+    '001',
+  ],
+});
 
 let purchaseUpdateSubscription;
 let purchaseErrorSubscription;
@@ -103,62 +114,7 @@ constructor(props) {
 
 
   async componentDidMount() {
-   // IAP Listener GLOBAL
-   // para capturar eventos de Purchases no confirmadas de AppleStore
-    try {
-      const result = await RNIap.initConnection();
-      await RNIap.consumeAllItemsAndroid();
-      console.log('result', result);
-      // busco codigos de subscripcion para iOS sino me falla el GetSubscription
-      
-      const products = await RNIap.getSubscriptions(itemSubs);
-      console.log('busco codigos de subscripciones');
-    
-    //  this.setState({localizedPrice: products[0].localizedPrice});
-     
-      
 
-    } catch (err) {
-      console.warn(err.code, err.message);
-    }
-
-
-    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
-
-      // this.setState({tranid: purchase.transactionId});
-      console.log('purchaseUpdatedListener de LoginForm');
-      console.log(purchase);
-
-      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
-      // debo llamar a 
-      
-      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
-        try {
-          const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
-        //  const ackResult = acknowledgePurchaseAndroid(purchase.purchaseToken);
-          console.log('ackResult', ackResult);
-        } catch (ackErr) {
-          console.warn('ackErr', ackErr);
-        }
-      }
-      if (Platform.OS==='ios')
-      {
-
-        console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
-        console.log('flag que recien compro: '+this.props.presspurchaseputton);
-        
-        this.props.confirmReceiptAPI(purchase.transactionId,this.props.presspurchaseputton);
-     //   this.props.confirmReceipt();
-      //  RNIap.finishTransactionIOS(purchase.transactionId);
-
-      }
-   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-    });
-
-    purchaseErrorSubscription = purchaseErrorListener((error) => {
-      console.log('purchaseErrorListener LoginForm', error);
-      // Alert.alert('purchase error', JSON.stringify(error));
-    });
 
 
 
@@ -279,8 +235,66 @@ constructor(props) {
   if (await hasAPIConnection())
   {
     console.log('SI hay internet: ');
-    // const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    //  console.log("status DidMount loginFORM"+status);
+         // IAP Listener GLOBAL
+   // para capturar eventos de Purchases no confirmadas de AppleStore
+    try {
+      const result = await RNIap.initConnection();
+      await RNIap.consumeAllItemsAndroid();
+      console.log('result', result);
+      // busco codigos de subscripcion para iOS para enviarlos a REDUX
+      // yq ue ya esten disponibles
+      
+      const products = await RNIap.getSubscriptions(itemSubs);
+      console.log('busco codigos de subscripciones:' + products[0].localizedPrice);
+      this.props.setSubscriptionInfo(products[0].productId,products[0].localizedPrice)
+  
+
+    } catch (err) {
+      console.log('salio catch initConnection');
+      
+      console.warn(err.code, err.message);
+    }
+
+
+    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+
+     
+      console.log('purchaseUpdatedListener de LoginForm');
+      console.log(purchase);
+
+      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      // debo llamar a 
+      
+      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+        try {
+          const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+        //  const ackResult = acknowledgePurchaseAndroid(purchase.purchaseToken);
+          console.log('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
+        }
+      }
+      if (Platform.OS==='ios')
+      {
+
+        console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
+        console.log('flag que recien compro: '+this.props.presspurchaseputton);
+        
+        this.props.confirmReceiptAPI(purchase.transactionId,this.props.presspurchaseputton);
+     //   this.props.confirmReceipt();
+      //  RNIap.finishTransactionIOS(purchase.transactionId);
+
+      }
+   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+    });
+
+    purchaseErrorSubscription = purchaseErrorListener((error) => {
+      console.log('purchaseErrorListener LoginForm', error);
+      // Alert.alert('purchase error', JSON.stringify(error));
+    });
+
+
+
 // Compruebo si ya estaba logueado con sus credenciales
     try {
       console.log('Antes de Auth.currentSession() ');
@@ -959,7 +973,8 @@ const mapDispatchToProps = {
     get_notifications,
     fetchQraProfileUrl,
     manage_notifications,
-    confirmReceiptAPI
+    confirmReceiptAPI,
+    setSubscriptionInfo
     
    }
 
