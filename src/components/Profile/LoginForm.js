@@ -954,8 +954,8 @@ if (!this.usernotfound)
  
   return { pushtoken: state.sqso.pushToken,
              qra: state.sqso.qra,
-             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
-             presspurchaseputton: state.sqso.pressPurchaseButton
+             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus
+          
              };
 };
 

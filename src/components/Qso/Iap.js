@@ -4,11 +4,10 @@ import {
   Text,
   Alert,
   Platform,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   Modal,
-  Button
+  ActivityIndicator,
 } from 'react-native';
 // import NativeButton from 'apsl-react-native-button';
 import RNIap, {
@@ -20,7 +19,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 import { connect } from 'react-redux';
-import { confirmReceiptAPI, pressPurchaseButton, manageLocationPermissions } from '../../actions';
+import { confirmReceiptAPI, manageLocationPermissions } from '../../actions';
 
 // App Bundle > com.dooboolab.test
 
@@ -261,7 +260,7 @@ class Iap extends Component {
     try {
       console.log('iapshowed mando TRUE');
       
-        this.props.manageLocationPermissions("iapshowed",true);
+        this.props.manageLocationPermissions("iapshowed",1);
         RNIap.requestSubscription(sku);   
 
     } catch (err) {
@@ -291,7 +290,7 @@ class Iap extends Component {
                 //  margin:20,
                 padding: 20,
                 backgroundColor:"rgba(0,0,0,0.85)",
-                top: 90,
+                top: 100,
                 left: 30,
                 right: 30,
                 position: "absolute",
@@ -303,19 +302,28 @@ class Iap extends Component {
                 //  alignItems: 'center'
               }}
             >
+             
+
               <View style={{ flex: 1, alignItems: "center" }}>
                 {/* <Image
                   source={require("../../images/noInternet.png")}
                   style={{ width: 60, height: 60 }}
                   resizeMode="contain"
                 /> */}
-                <View style={{ flex: 0.2, alignItems: "center" }}>
+                <View style={{ flex: 0.15, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
                   {/* Dear Ham: */}
                   {this.props.userinfo.account_type.app_upgrade_t1}
                   
                 </Text>
-                </View>
+                </View >
+              
+                <View style={{  flex: 0.05, alignItems: "center", padding: 5,
+                        opacity: this.props.iapshowed }} >
+                  
+                       <ActivityIndicator   animating={true} size="small" color='white' />
+                   </View>
+           
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 5 }}>
                    {/* Enjoy superQso at full scale!  */}
@@ -326,6 +334,8 @@ class Iap extends Component {
                    {this.props.userinfo.account_type.app_upgrade_t3}
                 </Text>
                 </View>
+ 
+
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
                   {/* Speed up the App */}
@@ -335,6 +345,7 @@ class Iap extends Component {
                   {/* No Mobile/Web PopUp Ads */}
                   {this.props.userinfo.account_type.app_upgrade_t5}
                 </Text>
+           
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> 
                   {/* 10 audios & photos per QSO */}
                   {this.props.userinfo.account_type.app_upgrade_t6} 
@@ -407,7 +418,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   confirmReceiptAPI,
-  pressPurchaseButton,
   manageLocationPermissions
   
  }

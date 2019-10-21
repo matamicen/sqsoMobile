@@ -47,10 +47,9 @@ const initialState = {
     qsoScreenDidMountFirstTime: true,
     welcomeUserFirstTime: false,
     confirmedPurchaseFlag: false,
-    pressPurchaseButton: false,
     productId: '',
     localizedPrice: 0,
-    iapShowed: false,
+    iapShowed: 0,
 
 
     currentQso: {
@@ -295,18 +294,7 @@ const qsoReducer = (state = initialState, action) => {
     
            return newStore;
 
-      case PRESS_PURCHASE_BUTTON:
-          
-        console.log("REDUCER PRESS PURCHASE BUTTON: "+ action.presspurchasebutton);    
-
-        newStore = Object.assign({}, state,
-            {
-               ...state,
-               pressPurchaseButton: action.presspurchasebutton
-            });
-           
-         return newStore;
-
+      
          case SET_SUBSCRIPTION_INFO:
             
     

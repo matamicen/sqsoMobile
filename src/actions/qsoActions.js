@@ -23,7 +23,7 @@ import {FETCHING_API_REQUEST,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
-        PRESS_PURCHASE_BUTTON, SET_SUBSCRIPTION_INFO  } from './types';
+        SET_SUBSCRIPTION_INFO  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -2156,15 +2156,6 @@ export const confirmReceiptAPI = (purchaseid,buystate) => {
         purchaseState: purchaseconfirmed
         
     };
-}
-
-
-export const pressPurchaseButton = (purchasebutton) => {
-  return {
-      type: PRESS_PURCHASE_BUTTON,
-      presspurchasebutton: purchasebutton
-      
-  };
 }
 
 
