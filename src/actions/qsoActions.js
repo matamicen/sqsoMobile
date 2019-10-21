@@ -45,6 +45,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 
+
 // Analytics.addPluggable(new AWSKinesisProvider());
 
 //Amplify.configure(awsconfig)
@@ -2087,7 +2088,7 @@ export const postContactUs = (email,message,jwtToken) => {
 };
 
 
-export const confirmReceiptAPI = (purchaseid,buystate) => {
+export const confirmReceiptAPI = (purchaseid,calltype) => {
   return async dispatch => {
  //   dispatch(fetchingApiRequest('postContactUs'));
     console.log("ejecuta llamada API confirmReceipt");  
@@ -2109,8 +2110,9 @@ export const confirmReceiptAPI = (purchaseid,buystate) => {
         
       // }
 
-
-    // respuesta = await API.post(apiName, path, myInit);
+  if (calltype==='buy')
+  { 
+  // respuesta = await API.post(apiName, path, myInit);
     console.log("ejecuto finishTransactionIOS: "+purchaseid);
     RNIap.finishTransactionIOS(purchaseid);
     //if (buystate){
@@ -2125,6 +2127,18 @@ export const confirmReceiptAPI = (purchaseid,buystate) => {
       // que vienen del purchaseUpdatedListener puesto en el LoginForm.
    // }
   
+   }else
+   { // si entra aca es porque hizo un Restore Subscription y debo pasarle 
+    // ese parametro en el body para que la API BACKEND se de cuenta
+        setTimeout(() => {
+          // dentro de un timeout para simular que llamo a la API y que luego
+          // baje el ActivityIndicator          
+         dispatch(manageLocationPermissions("iapshowed",0));
+        
+      }
+      , 2000);
+   
+       }
    
   //  dispatch(fetchingApiSuccess('postContactUs',respuesta));
    

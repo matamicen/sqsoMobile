@@ -16,6 +16,7 @@ import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
 import { kinesis_catch } from '../../helper';
 import  ContactUs  from './ContactUs';
+import RestoreSubscription from './RestoreSubscription';
 
 
 
@@ -52,7 +53,8 @@ class InitialScreen extends Component {
     
     this.state = {
         nointernet: false,
-        contactus: false
+        contactus: false,
+        showRestoreSubscription: false
     };
   }
 
@@ -241,6 +243,11 @@ signOut = async () => {
       } else
       this.setState({nointernet: true});
     }
+
+    closeRestore = () => {
+
+      this.setState({showRestoreSubscription: false})
+    }
    
     render() { console.log("InitialScreen Screen");
    // console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
@@ -258,7 +265,7 @@ signOut = async () => {
                   <Text  style={{ fontSize: 12, color: '#999'}}>Login</Text>             
                 </TouchableOpacity> */}
 
-             <View style={{flexDirection: 'row', flex: 0.15}}>
+             <View style={{flexDirection: 'row', flex: 0.13}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                <View style={{flex:0.20}}>
                   <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
@@ -291,8 +298,13 @@ signOut = async () => {
  
               </View> 
 
-               
-              <View style={{flexDirection: 'row', flex: 0.10, marginLeft: 6}}>
+              <View style={{flex: 0.05, alignItems: 'flex-end', marginRight: 17}}>
+                <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.setState({showRestoreSubscription: true})} >
+                   <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >Restore Subscription</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={{flexDirection: 'row', flex: 0.06, marginLeft: 6}}>
                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.switchToFollowing()} >
                     <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> Following</Text>
                  </TouchableOpacity>
@@ -323,7 +335,7 @@ signOut = async () => {
                    
                    </View> 
 
-               <View style={{flex: 0.65, width:this.width-15, marginBottom: 10}}>
+               <View style={{flex: 0.66, width:this.width-15, marginBottom: 10}}>
                 
                 <FollowerList /> 
                 
@@ -336,7 +348,8 @@ signOut = async () => {
                  <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
             }
                  {(this.state.contactus) && <ContactUs closecontactus={this.closeContactUs.bind()}  /> }
-                
+                 {(this.state.showRestoreSubscription) && <RestoreSubscription  closerestoremodal={this.closeRestore.bind()}/> }
+         
             </View>
        
      } 

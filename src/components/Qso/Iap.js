@@ -281,7 +281,7 @@ class Iap extends Component {
 
     return (
       <Modal
-            visible={this.state.show}
+            visible={true}
             transparent={true}
             onRequestClose={() => console.log("Close was requested")}
           >
