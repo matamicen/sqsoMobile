@@ -9,6 +9,7 @@ import {
     
   } from "../../actions";
   import VariosModales from "./VariosModales";
+  import Iap from './Iap';
 
 
 class AdInter extends Component {
@@ -46,7 +47,16 @@ class AdInter extends Component {
         }
     
         try {
-          this.setState({ waitingModal: true });
+       //   this.setState({ waitingModal: true });
+       this.props.confirmedPurchaseFlag(false);
+       setTimeout(() => {
+         // le da tiempo a que purschaseflag en REDUX sea FALSE 
+         // porque si estaba en TRUE porque se habia ejecutado con anterioridad el listener del purchase
+         // y se abre rapido el modal del IAP se puede cerrar.
+        this.setState({ iapModal: true });    
+       }
+       , 50);
+       
 
           const AdRequest = firebase.admob.AdRequest;
           const request = new AdRequest();
@@ -147,61 +157,62 @@ class AdInter extends Component {
 
      }
 
-closeWaitingModal = () =>{
+// closeWaitingModal = () =>{
 
-  this.setState({waitingModal: false});
-  if (this.intersitialLoaded)
-      setTimeout(() => {
+//   this.setState({waitingModal: false});
+//   if (this.intersitialLoaded)
+//       setTimeout(() => {
 
-       // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
-      // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
-        // Android no tiene problemas con esto.
+//        // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+//       // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+//         // Android no tiene problemas con esto.
                 
-        console.log('muestro inter con delay de 50');
-        this.advertInter.show();
+//         console.log('muestro inter con delay de 50');
+//         this.advertInter.show();
         
-      }
-      , 50);
+//       }
+//       , 50);
   
-  else {
-    // Unable to show interstitial - not loaded yet.
-   // es porque no encontro aun ad
-    // entonces le doy el beneficio porque no es culpa suya
-      console.log('no pudo cargar el AD de Inter');
-      if (this.props.closead==='newqso')
-      this.props.newqso();
-      if (this.props.closead==='sendmedia')
-      this.props.subos3();
-      if (this.props.closead==='scanqr')
-      this.props.showscanresults('qslScan');
-      if (this.props.closead==='linkqso')
-      this.props.linkqso();
+//   else {
+//     // Unable to show interstitial - not loaded yet.
+//    // es porque no encontro aun ad
+//     // entonces le doy el beneficio porque no es culpa suya
+//       console.log('no pudo cargar el AD de Inter');
+//       if (this.props.closead==='newqso')
+//       this.props.newqso();
+//       if (this.props.closead==='sendmedia')
+//       this.props.subos3();
+//       if (this.props.closead==='scanqr')
+//       this.props.showscanresults('qslScan');
+//       if (this.props.closead==='linkqso')
+//       this.props.linkqso();
 
       
-  }
-}
+//   }
+// }
 
-openIap = () =>{
+// openIap = () =>{
  
-  this.props.confirmedPurchaseFlag(false);
-  this.setState({waitingModal: false});
+//   this.props.confirmedPurchaseFlag(false);
+//   this.setState({waitingModal: false});
 
-  setTimeout(() => {
+//   setTimeout(() => {
 
-    // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
-   // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
-     // Android no tiene problemas con esto.
+//     // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+//    // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+//      // Android no tiene problemas con esto.
              
-     this.setState({ iapModal: true});
+//      this.setState({ iapModal: true});
      
-   }
-   , 50);
+//    }
+//    , 50);
 
-}
+// }
 
 closeIapModal = () =>{
 
   this.setState({iapModal: false});
+  
 
   // chequea si cerro el IAP porque compro o porque no compro
   if (this.props.confirmedpurchaseflag)
@@ -215,19 +226,33 @@ closeIapModal = () =>{
       if (this.props.closead==='linkqso')
       this.props.linkqso();
 
+      this.props.confirmedPurchaseFlag(false);
+
 
   }else
-  setTimeout(() => {
+  if (this.intersitialLoaded)
+      setTimeout(() => {
 
-    // no compro entonces abre el WaitingModl de nuevo para que vea el AD
-    // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
-   // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
-     // Android no tiene problemas con esto.
+       // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+      // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+        // Android no tiene problemas con esto.
+                
+        console.log('muestro inter con delay de 50');
+        this.advertInter.show();
+        
+      }
+      , 50);
+  // setTimeout(() => {
+
+  //   // no compro entonces abre el WaitingModl de nuevo para que vea el AD
+  //   // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+  //  // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+  //    // Android no tiene problemas con esto.
              
-     this.setState({ waitingModal: true});
+  //    this.setState({ waitingModal: true});
      
-   }
-   , 50);
+  //  }
+  //  , 50);
 
 }
      
@@ -235,6 +260,7 @@ render() { console.log("RENDER adInter SCREEN!" );
     
 
 return <View>
+{/*   
 {(this.state.waitingModal) && 
 <VariosModales
             show={this.state.waitingModal}
@@ -244,15 +270,17 @@ return <View>
           //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
            
           /> 
-}
+} */}
 {(this.state.iapModal) && 
-  <VariosModales
-              show={this.state.iapModal}
-              modalType="iapModal"
-              closeiapmodal={this.closeIapModal.bind()}
-            //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
+  <Iap  closeiapmodal={this.closeIapModal.bind()} />
+  // <VariosModales
+  //             show={this.state.iapModal}
+  //             modalType="iapModal"
+  //             closeiapmodal={this.closeIapModal.bind()}
+  //           //  message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
              
-            /> 
+  //           /> 
+
   }
 
 </View>; 

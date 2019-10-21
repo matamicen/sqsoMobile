@@ -57,7 +57,8 @@ class Iap extends Component {
       productList: [],
       receipt: '',
       availableItemsMessage: '',
-      localizedPrice: ''   
+      localizedPrice: '',
+      showOkBePremium: false   
     };
 
     
@@ -82,6 +83,14 @@ class Iap extends Component {
     } catch (err) {
       console.warn(err.code, err.message);
     }
+
+    setTimeout(() => {
+                        
+      console.log('delay para los free user y darle tiempo a q cargue el AD');
+      this.setState({showOkBePremium: true});
+      
+    }
+    , this.props.userinfo.account_type.app_waitingTimeAdMob);
     // purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
 
     //   // this.setState({tranid: purchase.transactionId});
@@ -266,9 +275,14 @@ class Iap extends Component {
     const { productList, receipt, availableItemsMessage} = this.state;
     const receipt100 = receipt.substring(0, 100);
 
+      {(this.props.confirmedpurchaseflag) && this.props.closeiapmodal()  
+               
+                }
+       
+
     return (
       <Modal
-            visible={true}
+            visible={this.state.show}
             transparent={true}
             onRequestClose={() => console.log("Close was requested")}
           >
@@ -289,157 +303,93 @@ class Iap extends Component {
                 //  alignItems: 'center'
               }}
             >
+              <View style={{ flex: 1, alignItems: "center" }}>
+                {/* <Image
+                  source={require("../../images/noInternet.png")}
+                  style={{ width: 60, height: 60 }}
+                  resizeMode="contain"
+                /> */}
+                <View style={{ flex: 0.2, alignItems: "center" }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
+                  {/* Dear Ham: */}
+                  {this.props.userinfo.account_type.app_upgrade_t1}
+                  
+                </Text>
+                </View>
+                <View style={{ flex: 0.2, alignItems: "center" }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 5 }}>
+                   {/* Enjoy superQso at full scale!  */}
+                   {this.props.userinfo.account_type.app_upgrade_t2}
+                </Text>
+                <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
+                   {/* Became a PREMIUM member:  */}
+                   {this.props.userinfo.account_type.app_upgrade_t3}
+                </Text>
+                </View>
+                <View style={{ flex: 0.2, alignItems: "center" }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                  {/* Speed up the App */}
+                  {this.props.userinfo.account_type.app_upgrade_t4}
+                </Text>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                  {/* No Mobile/Web PopUp Ads */}
+                  {this.props.userinfo.account_type.app_upgrade_t5}
+                </Text>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> 
+                  {/* 10 audios & photos per QSO */}
+                  {this.props.userinfo.account_type.app_upgrade_t6} 
+                </Text>
+              
+                {/* <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> */}
+                  {/* 3 minutes audios recording */}
+                  {/* {this.props.userinfo.account_type.app_upgrade_t7} */}
+                {/* </Text> */}
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                   {/* Unlimited QR Scans  */}
+                   {this.props.userinfo.account_type.app_upgrade_t8}
+                </Text>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
+                  {/* Unlimited QsosLinks */}
+                  {this.props.userinfo.account_type.app_upgrade_t9}
+                </Text>
+                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
+                  {/* Unlimited Web Navigation */}
+                  {this.props.userinfo.account_type.app_upgrade_t10}
+                </Text>
+                </View>
+                { (this.state.showOkBePremium) && 
+                <View style={{ flex: 0.2, flexDirection: 'row'}}>
+                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
+                 <TouchableOpacity
+                   onPress={() => this.props.closeiapmodal()}
+                  
+                 >
+                   <Text style={{ color: "#999", fontSize: 14 }}>Do not Upgrade</Text>
+                 </TouchableOpacity>
+                 </View> 
+                 <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
+                 <TouchableOpacity
+                   onPress={() => this.requestSubscription('PremiumMonthly')  }
+                  
+                 >
+                   <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>$9.99/month</Text>
+                 </TouchableOpacity>
+                 </View> 
 
-
-        
-        <View >
-          <Text style={ styles.headerTxt} >react-native-iap V3</Text>
-          <Text style={ styles.headerTxt} >{this.props.productid} {this.props.localizedprice}</Text>
-         {/* Cierro el modal porque se confirmo la compra */}
-          {(this.props.confirmedpurchaseflag) && this.props.closeiap()  
-          // <Text style={ styles.headerTxt} >Compra Confirmada!</Text>
-          }
- 
-      {(this.props.iapshowed) &&
-             <Text style={ styles.headerTxt} >Procesing ...</Text>
-      }
-
-        </View>
+                 </View>
+                 }
+            
+              
+              </View>
+            </View>
+          </Modal>
       
-        <View>
-       
-            <View style={{ height: 50 }} />
-            <Button
-              onPress={this.getAvailablePurchases}
-              title="Get available purchases"
-            //   activeOpacity={0.5}
-            //   style={styles.btn}
-            //   textStyle={styles.txt}
-            >Get available purchases</Button>
-
-            <Text style={{ margin: 5, fontSize: 15, alignSelf: 'center' }} >{availableItemsMessage}</Text>
-
-            <Text style={{ margin: 5, fontSize: 9, alignSelf: 'center' }} >{receipt100}</Text>
-
-            <Button
-            //   onPress={() => this.getItems()}
-              onPress={() => this.getSubscriptions()}
-              title="Get Products"
-            //   activeOpacity={0.5}
-            //   style={styles.btn}
-            //   textStyle={styles.txt}
-            >Get Products ({productList.length})</Button>
-            {
-              productList.map((product, i) => {
-                return (
-                  <View key={i} style={{
-                    flexDirection: 'column',
-                  }}>
-                    <Text style={{
-                      marginTop: 20,
-                      fontSize: 12,
-                      color: 'black',
-                      minHeight: 100,
-                      alignSelf: 'center',
-                      paddingHorizontal: 20,
-                    }} >{JSON.stringify(product)}</Text>
-                    <Button
-                      // onPress={() => this.requestPurchase(product.productId)}
-                      title="Request purchase for above product"
-                      onPress={() => this.requestSubscription(product.productId)}
-                      // onPress={() => this.buyItem(product.productId)}
-                      // onPress={() => this.buySubscribeItem(product.productId)}
-                    
-                    
-                    //   activeOpacity={0.5}
-                    //   style={styles.btn}
-                    //   textStyle={styles.txt}
-                    >Request purchase for above product</Button>
-
-                    
-                          
-                  </View>
-                );
-              })
-            }
-        
-
-        
-        <TouchableOpacity
-                          onPress={() => { 
-                            this.requestSubscription('PremiumMonthly')
-                          }} 
-                        
-                        > 
-                          <Text style={{ fontSize: 13, color: '#999'}} >BUY</Text>
-                        </TouchableOpacity>
-          <TouchableOpacity
-                          onPress={() => { 
-                            this.props.closeiap()  
-                          }} 
-                         // style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
-                        > 
-                          <Text style={{ fontSize: 13, color: '#999'}} >Close</Text>
-                        </TouchableOpacity>
-          </View>
-
-       </View>
-      </Modal>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: Platform.select({
-      ios: 0,
-      android: 24,
-    }),
-    paddingTop: Platform.select({
-      ios: 0,
-      android: 24,
-    }),
-    backgroundColor: 'white',
-  },
-  header: {
-    flex: 20,
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerTxt: {
-    fontSize: 26,
-    color: 'green',
-  },
-  content: {
-    flex: 80,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  btn: {
-    height: 48,
-    width: 240,
-    alignSelf: 'center',
-    backgroundColor: '#00c40f',
-    borderRadius: 0,
-    borderWidth: 0,
-  },
-  txt: {
-    fontSize: 16,
-    color: 'white',
-  },
-});
+
 
 const mapStateToProps = state => {
 
