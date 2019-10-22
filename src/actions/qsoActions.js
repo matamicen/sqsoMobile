@@ -2088,7 +2088,7 @@ export const postContactUs = (email,message,jwtToken) => {
 };
 
 
-export const confirmReceiptAPI = (purchaseid,calltype) => {
+export const confirmReceiptAPI = (origialId,transactionReceipt,transactionId,calltype) => {
   return async dispatch => {
  //   dispatch(fetchingApiRequest('postContactUs'));
     console.log("ejecuta llamada API confirmReceipt");  
@@ -2113,10 +2113,10 @@ export const confirmReceiptAPI = (purchaseid,calltype) => {
   if (calltype==='buy')
   { 
   // respuesta = await API.post(apiName, path, myInit);
-    console.log("ejecuto finishTransactionIOS: "+purchaseid);
-    RNIap.finishTransactionIOS(purchaseid);
+    console.log("ejecuto finishTransactionIOS: "+transactionId);
+    RNIap.finishTransactionIOS(transactionId);
     //if (buystate){
-      console.log("el buystate es TRUE");
+      console.log("el calltype es BUY");
       dispatch(confirmedPurchaseFlag(true));
       
       // debo cambiar un flag en redux para que cambie en la pantalla 
@@ -2130,6 +2130,7 @@ export const confirmReceiptAPI = (purchaseid,calltype) => {
    }else
    { // si entra aca es porque hizo un Restore Subscription y debo pasarle 
     // ese parametro en el body para que la API BACKEND se de cuenta
+    console.log("el calltype es RESTORE");
         setTimeout(() => {
           // dentro de un timeout para simular que llamo a la API y que luego
           // baje el ActivityIndicator          

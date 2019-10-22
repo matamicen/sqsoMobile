@@ -278,9 +278,9 @@ constructor(props) {
       {
 
         console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
-        console.log('flag que recien compro: '+this.props.presspurchaseputton);
+       // console.log('flag que recien compro: '+this.props.presspurchaseputton);
         
-        this.props.confirmReceiptAPI(purchase.transactionId,this.props.presspurchaseputton);
+        this.props.confirmReceiptAPI(purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,'buy');
      //   this.props.confirmReceipt();
       //  RNIap.finishTransactionIOS(purchase.transactionId);
 

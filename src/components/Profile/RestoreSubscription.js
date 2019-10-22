@@ -181,6 +181,8 @@ class RestoreSubscription extends Component {
       if (purchases && purchases.length > 0) {
           console.log('hya compras y la ultima compra fue:');
           console.log(purchases[0].originalTransactionIdentifierIOS);
+          console.log(purchases[0].transactionId);
+          console.log(purchases[0].transactionReceipt);
           // le tengo que pasar el id original, usuario logueado y receipt
           // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
           // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
@@ -191,7 +193,7 @@ class RestoreSubscription extends Component {
           // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
           // y cambiarlo como PREMIUM al usuario.
         
-          this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,'restore');
+          this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,'restore');
           
 
 
