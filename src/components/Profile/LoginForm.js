@@ -8,7 +8,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
-  confirmReceiptAPI, setSubscriptionInfo} from '../../actions';
+  confirmReceiptAPI, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation';
@@ -51,7 +51,7 @@ const itemSubs = Platform.select({
   ],
   android: [
     // 'test.sub1', // subscription
-    '001',
+    '001'
   ],
 });
 
@@ -236,62 +236,81 @@ constructor(props) {
   {
     console.log('SI hay internet: ');
          // IAP Listener GLOBAL
+
+
+
+         purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+
+     
+          console.log('purchaseUpdatedListener de LoginForm');
+          console.log(purchase);
+    
+          // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+          // debo llamar a 
+          
+          if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+            try {
+           //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+              console.log('entro listener de compra por ANDROID');
+              
+            
+            //  console.log('ackResult', ackResult);
+            } catch (ackErr) {
+              console.warn('ackErr', ackErr);
+            }
+          }
+          if (Platform.OS==='ios')
+          {
+    
+            console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
+           // console.log('flag que recien compro: '+this.props.presspurchaseputton);
+            
+            this.props.confirmReceiptAPI(purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,'buy');
+         //   this.props.confirmReceipt();
+          //  RNIap.finishTransactionIOS(purchase.transactionId);
+    
+          }
+       //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+        });
+    
+        purchaseErrorSubscription = purchaseErrorListener((error) => {
+          console.log('purchaseErrorListener LoginForm', error);
+         // this.props.manageLocationPermissions("iapshowed",0);
+          // Alert.alert('purchase error', JSON.stringify(error));
+        });
+
    // para capturar eventos de Purchases no confirmadas de AppleStore
     try {
       const result = await RNIap.initConnection();
-      await RNIap.consumeAllItemsAndroid();
-      console.log('result', result);
       // busco codigos de subscripcion para iOS para enviarlos a REDUX
       // yq ue ya esten disponibles
       
       const products = await RNIap.getSubscriptions(itemSubs);
-      console.log('busco codigos de subscripciones:' + products[0].localizedPrice);
-      this.props.setSubscriptionInfo(products[0].productId,products[0].localizedPrice)
+      console.log('loginform GetSubscriptions');
+      console.log(products);
+      
+      localizedPrice = '' ;
+      if (Platform.OS==='android')
+        localizedPrice = products[0].localizedPrice + ' '+products[0].currency;
+      else
+        localizedPrice = products[0].localizedPrice;
+      console.log('busco codigos de subscripciones loginform:' + products[0].localizedPrice);
+      this.props.setSubscriptionInfo(products[0].productId,localizedPrice)
+
+      //  este debe estar ultimo porque si no hay compras sale por CATCH y necesito
+      // que se ejecute lo de arriba antes
+      // await RNIap.consumeAllItemsAndroid();
+      // console.log('result', result);
+      
   
 
     } catch (err) {
-      console.log('salio catch initConnection');
+      console.log('salio catch initConnection loginform');
+     
       
       console.warn(err.code, err.message);
     }
 
-
-    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
-
-     
-      console.log('purchaseUpdatedListener de LoginForm');
-      console.log(purchase);
-
-      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
-      // debo llamar a 
-      
-      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
-        try {
-          const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
-        //  const ackResult = acknowledgePurchaseAndroid(purchase.purchaseToken);
-          console.log('ackResult', ackResult);
-        } catch (ackErr) {
-          console.warn('ackErr', ackErr);
-        }
-      }
-      if (Platform.OS==='ios')
-      {
-
-        console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
-       // console.log('flag que recien compro: '+this.props.presspurchaseputton);
-        
-        this.props.confirmReceiptAPI(purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,'buy');
-     //   this.props.confirmReceipt();
-      //  RNIap.finishTransactionIOS(purchase.transactionId);
-
-      }
-   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-    });
-
-    purchaseErrorSubscription = purchaseErrorListener((error) => {
-      console.log('purchaseErrorListener LoginForm', error);
-      // Alert.alert('purchase error', JSON.stringify(error));
-    });
 
 
 
@@ -750,7 +769,7 @@ if (!this.usernotfound)
                    <View style={{flex:1, alignItems: 'center'}} >
                
                <TextInput 
-                  placeholder="qra"
+                  placeholder="callsign"
                   onFocus={() => this.setState({ loginerror: 0})}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
@@ -974,7 +993,8 @@ const mapDispatchToProps = {
     fetchQraProfileUrl,
     manage_notifications,
     confirmReceiptAPI,
-    setSubscriptionInfo
+    setSubscriptionInfo,
+    manageLocationPermissions
     
    }
 

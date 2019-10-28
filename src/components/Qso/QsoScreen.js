@@ -192,10 +192,10 @@ class QsoScreen extends Component {
     if (nextAppState === "active") {
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
-      if (this.props.adshowed || this.props.iapshowed)
+      if (this.props.adshowed || this.props.iapshowed===1)
       {
         this.props.manageLocationPermissions("adshowed", false);
-        this.props.manageLocationPermissions("iapshowed", false);
+        this.props.manageLocationPermissions("iapshowed", 0);
       }
       else {
         var session = await Auth.currentSession();
@@ -1063,7 +1063,7 @@ class QsoScreen extends Component {
                 <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>Start a QSO</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={{  width: 110,height:100 }} onPress={() => this.setState({iap: true}) }>
+              {/* <TouchableOpacity style={{  width: 110,height:100 }} onPress={() => this.setState({iap: true}) }>
                 <Image
                   source={require("../../images/iaddcircleTurquesa.png")}
                   style={{ width: 80, height: 80, alignItems:"center", alignContent:"center"}}
@@ -1071,7 +1071,7 @@ class QsoScreen extends Component {
                 />
                 
                 <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>IAP</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               </View>
              } 
 

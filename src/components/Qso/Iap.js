@@ -39,7 +39,7 @@ const itemSubs = Platform.select({
   ],
   android: [
     // 'test.sub1', // subscription
-    '001',
+    '001'
   ],
 });
 
@@ -68,18 +68,24 @@ class Iap extends Component {
     //  this.props.pressPurchaseButton(true);
     
       const result = await RNIap.initConnection();
-      await RNIap.consumeAllItemsAndroid();
-      console.log('result', result);
+
       // busco codigos de subscripcion para iOS sino me falla el GetSubscription
-      
+            
       const products = await RNIap.getSubscriptions(itemSubs);
       console.log('busco codigos de subscripciones');
-     // console.log(products);
-    // this.setState({localizedPrice: products[0].localizedPrice});
+      console.log(products);
+      // this.setState({localizedPrice: products[0].localizedPrice});
+
+
+
+      // await RNIap.consumeAllItemsAndroid();
+      // console.log('result', result);
+     
      
       
 
     } catch (err) {
+      console.log('salio por catch didMount IAP');
       console.warn(err.code, err.message);
     }
 
@@ -380,11 +386,11 @@ class Iap extends Component {
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
                  <TouchableOpacity
-                   onPress={() => this.requestSubscription('PremiumMonthly')  }
+                   onPress={() => this.requestSubscription('001')  }
                   
                  >
                    <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
-                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>$9.99/month</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>{this.props.localizedprice}/month</Text>
                  </TouchableOpacity>
                  </View> 
 

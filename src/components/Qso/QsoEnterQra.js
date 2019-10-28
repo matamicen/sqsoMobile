@@ -127,7 +127,7 @@ class QsoEnterQra extends Component {
                    {/* <TextInput style={{height: 20, width:50, fontSize: 16, marginTop: 8}} */}
                    <TextInput
                     style={this.enterQraStyle()}
-                   placeholder="enter Qra" value={this.state.qra}
+                   placeholder="enter callsign" value={this.state.qra}
                     onChangeText={(text) => {
                       if (text.length===0)
                          this.setState({qra: text, size: 14}) 

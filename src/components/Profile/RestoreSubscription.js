@@ -40,7 +40,7 @@ const itemSubs = Platform.select({
   ],
   android: [
     // 'test.sub1', // subscription
-    '001',
+    '001'
   ],
 });
 
@@ -70,16 +70,22 @@ class RestoreSubscription extends Component {
     this.props.manageLocationPermissions("iapshowed",1);
     
       const result = await RNIap.initConnection();
-      await RNIap.consumeAllItemsAndroid();
-      console.log('result', result);
       // busco codigos de subscripcion para iOS sino me falla el GetSubscription
-      
+          
       const products = await RNIap.getSubscriptions(itemSubs);
       console.log('busco codigos de subscripciones');
-     // console.log(products);
+    // console.log(products);
     // this.setState({localizedPrice: products[0].localizedPrice});
 
     this.getAvailablePurchases();
+    this.getAvailablePurchase2();
+
+
+
+
+      // await RNIap.consumeAllItemsAndroid();
+      // console.log('result', result);
+    
      
       
 
@@ -163,7 +169,7 @@ class RestoreSubscription extends Component {
       const sortedAvailablePurchases = purchases.sort(
         (a, b) => b.transactionDate - a.transactionDate
       );
-      const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+   //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
    //   console.info('Available purchases :: ', purchases);
     //  console.log('purchases:');
 
@@ -179,6 +185,8 @@ class RestoreSubscription extends Component {
     
 
       if (purchases && purchases.length > 0) {
+        console.log('purchases completo PurchaseHistory:');
+          console.log(purchases);
           console.log('hya compras y la ultima compra fue:');
           console.log(purchases[0].originalTransactionIdentifierIOS);
           console.log(purchases[0].transactionId);
@@ -192,8 +200,11 @@ class RestoreSubscription extends Component {
           // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
           // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
           // y cambiarlo como PREMIUM al usuario.
+
         
-          this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,'restore');
+          
+        
+      //    this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,'restore');
           
 
 
@@ -203,6 +214,74 @@ class RestoreSubscription extends Component {
         //   receipt: purchases[0].transactionReceipt,
         // });
       }
+      else
+         console.log('no hay PurchaseHistory');
+    } catch (err) {
+      console.warn(err.code, err.message);
+      Alert.alert(err.message);
+    }
+  }
+
+
+  getAvailablePurchase2 = async() => {
+    try {
+       
+      console.info('Get available purchases (non-consumable or unconsumed consumable)');
+     //  const purchases = await RNIap.getPurchaseHistory();
+       const purchases = await RNIap.getAvailablePurchases();
+    
+
+      const sortedAvailablePurchases = purchases.sort(
+        (a, b) => b.transactionDate - a.transactionDate
+      );
+   //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+   //   console.info('Available purchases :: ', purchases);
+    //  console.log('purchases:');
+
+      console.log('SORTED AVAILABLE purchases:');
+      sortedAvailablePurchases.map((purch2, j) => {
+        console.log('productID:'+ purch2.productId);
+        console.log('TransactionID:'+ purch2.transactionId);
+        console.log('transactionDate:'+ purch2.transactionDate);
+        console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
+        console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
+        });
+
+    
+
+      if (purchases && purchases.length > 0) {
+        console.log('purchases completo AVAILABLE:');
+          console.log(purchases);
+          console.log('hya compras y la ultima compra fue:');
+          console.log(purchases[0].originalTransactionIdentifierIOS);
+          console.log(purchases[0].transactionId);
+       //   console.log(purchases[0].transactionReceipt);
+          // le tengo que pasar el id original, usuario logueado y receipt
+          // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
+          // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
+          // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
+          // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando 
+          // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
+          // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
+          // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
+          // y cambiarlo como PREMIUM al usuario.
+
+        
+          
+        
+  //        this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,'restore');
+          
+
+
+
+        // this.setState({
+        //   availableItemsMessage: `Got ${purchases.length} items.`,
+        //   receipt: purchases[0].transactionReceipt,
+        // });
+      }
+      else
+       console.log('viene vacio el purchaseAvailable');
+       
     } catch (err) {
       console.warn(err.code, err.message);
       Alert.alert(err.message);
