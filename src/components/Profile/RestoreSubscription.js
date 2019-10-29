@@ -19,7 +19,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 import { connect } from 'react-redux';
-import { confirmReceiptAPI, manageLocationPermissions } from '../../actions';
+import { confirmReceiptiOS, manageLocationPermissions } from '../../actions';
 
 
 // App Bundle > com.dooboolab.test
@@ -77,8 +77,13 @@ class RestoreSubscription extends Component {
     // console.log(products);
     // this.setState({localizedPrice: products[0].localizedPrice});
 
-    this.getAvailablePurchases();
-    this.getAvailablePurchase2();
+    if (Platform.OS==='ios')
+         this.getPurchaseHistory();
+   if (Platform.OS==='android')
+   {
+    this.getPurchaseHistory();
+    this.getAvailablePurchase();
+   }
 
 
 
@@ -116,7 +121,7 @@ class RestoreSubscription extends Component {
 
         
     //     console.log('IAP: llamo confirmReceipt action: '+purchase.transactionId);
-    //     this.props.confirmReceiptAPI(purchase.transactionId,this.buystate);
+    //     this.props.confirmReceiptiOS(purchase.transactionId,this.buystate);
     //  //   this.props.confirmReceipt();
     //   //  RNIap.finishTransactionIOS(purchase.transactionId);
 
@@ -159,7 +164,7 @@ class RestoreSubscription extends Component {
     }
   }
 
-  getAvailablePurchases = async() => {
+  getPurchaseHistory = async() => {
     try {
        
       console.info('Get available purchases (non-consumable or unconsumed consumable)');
@@ -204,7 +209,7 @@ class RestoreSubscription extends Component {
         
           
         
-      //    this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,'restore');
+      //    this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
           
 
 
@@ -223,7 +228,7 @@ class RestoreSubscription extends Component {
   }
 
 
-  getAvailablePurchase2 = async() => {
+  getAvailablePurchase = async() => {
     try {
        
       console.info('Get available purchases (non-consumable or unconsumed consumable)');
@@ -269,7 +274,7 @@ class RestoreSubscription extends Component {
         
           
         
-  //        this.props.confirmReceiptAPI(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,'restore');
+  //        this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
           
 
 
@@ -373,13 +378,14 @@ const mapStateToProps = state => {
         productid: state.sqso.productId,
         localizedprice: state.sqso.localizedPrice,
         iapshowed: state.sqso.iapShowed,
+        env: state.sqso.env
 
          };
 };
 
  
 const mapDispatchToProps = {
-  confirmReceiptAPI,
+  confirmReceiptiOS,
   manageLocationPermissions
  }
 

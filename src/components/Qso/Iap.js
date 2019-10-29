@@ -19,7 +19,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 import { connect } from 'react-redux';
-import { confirmReceiptAPI, manageLocationPermissions } from '../../actions';
+import { confirmReceiptiOS, manageLocationPermissions } from '../../actions';
 
 // App Bundle > com.dooboolab.test
 
@@ -118,7 +118,7 @@ class Iap extends Component {
 
         
     //     console.log('IAP: llamo confirmReceipt action: '+purchase.transactionId);
-    //     this.props.confirmReceiptAPI(purchase.transactionId,this.buystate);
+    //     this.props.confirmReceiptiOS(purchase.transactionId,this.buystate);
     //  //   this.props.confirmReceipt();
     //   //  RNIap.finishTransactionIOS(purchase.transactionId);
 
@@ -274,6 +274,13 @@ class Iap extends Component {
     }
   }
 
+  buySubscription = async () => {
+    if (Platform.OS==='android')
+        this.requestSubscription('001')
+      else
+        this.requestSubscription('PremiumMonthly')
+  }
+
 
 
   render() {
@@ -385,10 +392,10 @@ class Iap extends Component {
                  </TouchableOpacity>
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
+                 
                  <TouchableOpacity
-                   onPress={() => this.requestSubscription('001')  }
-                  
-                 >
+                   onPress={() =>  this.buySubscription() } >
+               
                    <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
                    <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>{this.props.localizedprice}/month</Text>
                  </TouchableOpacity>
@@ -423,7 +430,7 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = {
-  confirmReceiptAPI,
+  confirmReceiptiOS,
   manageLocationPermissions
   
  }

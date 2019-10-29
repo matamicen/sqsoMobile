@@ -43,7 +43,8 @@ import {
   postQsoNew,
   addMedia,
   uploadMediaToS3,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  confirmReceiptiOS
 } from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
@@ -67,6 +68,15 @@ import { Auth } from "aws-amplify";
 import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
+
+import RNIap, {
+  Product,
+  ProductPurchase,
+  acknowledgePurchaseAndroid,
+  purchaseUpdatedListener,
+  purchaseErrorListener,
+  PurchaseError,
+} from 'react-native-iap';
 
 Auth.configure(awsconfig);
 
@@ -160,6 +170,54 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+
+// agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
+// entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
+// al backend.
+
+    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+
+     
+      console.log('purchaseUpdatedListener de QsoScreen');
+      console.log(purchase);
+
+      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      // debo llamar a 
+      
+      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+        try {
+       //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+          console.log('entro listener de compra por ANDROID en QsoScreen');
+          
+        
+        //  console.log('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
+        }
+      }
+      if (Platform.OS==='ios')
+      {
+
+        console.log('IAP: llamo confirmReceipt de QsoScreen action: '+purchase.transactionId);
+       // console.log('flag que recien compro: '+this.props.presspurchaseputton);
+        
+        this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'buy');
+     //   this.props.confirmReceipt();
+      //  RNIap.finishTransactionIOS(purchase.transactionId);
+
+      }
+   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+    });
+
+    purchaseErrorSubscription = purchaseErrorListener((error) => {
+      console.log('purchaseErrorListener LoginForm', error);
+     // this.props.manageLocationPermissions("iapshowed",0);
+      // Alert.alert('purchase error', JSON.stringify(error));
+    });
+
+
+
+
     AppState.addEventListener("change", this._handleAppStateChange);
 
     // location persmissions ask/check
@@ -1173,7 +1231,10 @@ const mapStateToProps = state => {
     latitude: state.sqso.currentQso.latitude,
     longitude: state.sqso.currentQso.longitude,
     mediafiles: state.sqso.currentQso.mediafiles,
-    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime
+    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
+    env: state.sqso.env,
+    qra: state.sqso.qra
+
   };
 };
 
@@ -1202,7 +1263,8 @@ const mapDispatchToProps = {
   postQsoNew,
   addMedia,
   uploadMediaToS3,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  confirmReceiptiOS
 };
 
 export default connect(

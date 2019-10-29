@@ -8,7 +8,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
-  confirmReceiptAPI, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
+  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation';
@@ -239,45 +239,45 @@ constructor(props) {
 
 
 
-         purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+      //    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
 
      
-          console.log('purchaseUpdatedListener de LoginForm');
-          console.log(purchase);
+      //     console.log('purchaseUpdatedListener de LoginForm');
+      //     console.log(purchase);
     
-          // aca tengo que llamar a la API backend para validar el receipt y una vez validado
-          // debo llamar a 
+      //     // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      //     // debo llamar a 
           
-          if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
-            try {
-           //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
-              console.log('entro listener de compra por ANDROID');
+      //     if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+      //       try {
+      //      //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+      //         console.log('entro listener de compra por ANDROID');
               
             
-            //  console.log('ackResult', ackResult);
-            } catch (ackErr) {
-              console.warn('ackErr', ackErr);
-            }
-          }
-          if (Platform.OS==='ios')
-          {
+      //       //  console.log('ackResult', ackResult);
+      //       } catch (ackErr) {
+      //         console.warn('ackErr', ackErr);
+      //       }
+      //     }
+      //     if (Platform.OS==='ios')
+      //     {
     
-            console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
-           // console.log('flag que recien compro: '+this.props.presspurchaseputton);
+      //       console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
+      //      // console.log('flag que recien compro: '+this.props.presspurchaseputton);
             
-            this.props.confirmReceiptAPI(purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,'buy');
-         //   this.props.confirmReceipt();
-          //  RNIap.finishTransactionIOS(purchase.transactionId);
+      //       this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'buy');
+      //    //   this.props.confirmReceipt();
+      //     //  RNIap.finishTransactionIOS(purchase.transactionId);
     
-          }
-       //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-        });
+      //     }
+      //  //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+      //   });
     
-        purchaseErrorSubscription = purchaseErrorListener((error) => {
-          console.log('purchaseErrorListener LoginForm', error);
-         // this.props.manageLocationPermissions("iapshowed",0);
-          // Alert.alert('purchase error', JSON.stringify(error));
-        });
+      //   purchaseErrorSubscription = purchaseErrorListener((error) => {
+      //     console.log('purchaseErrorListener LoginForm', error);
+      //    // this.props.manageLocationPermissions("iapshowed",0);
+      //     // Alert.alert('purchase error', JSON.stringify(error));
+      //   });
 
    // para capturar eventos de Purchases no confirmadas de AppleStore
     try {
@@ -972,8 +972,10 @@ if (!this.usernotfound)
  const mapStateToProps = state => {
  
   return { pushtoken: state.sqso.pushToken,
-             qra: state.sqso.qra,
-             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus
+             qra: state.sqso.qra, 
+             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
+             version: state.sqso.version,
+             env: state.sqso.env
           
              };
 };
@@ -992,7 +994,7 @@ const mapDispatchToProps = {
     get_notifications,
     fetchQraProfileUrl,
     manage_notifications,
-    confirmReceiptAPI,
+    confirmReceiptiOS,
     setSubscriptionInfo,
     manageLocationPermissions
     

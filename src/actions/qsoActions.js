@@ -2088,7 +2088,7 @@ export const postContactUs = (email,message,jwtToken) => {
 };
 
 
-export const confirmReceiptAPI = (origialId,transactionReceipt,transactionId,calltype) => {
+export const confirmReceiptiOS = (qra,origialId,transactionReceipt,transactionId,environment,calltype) => {
   return async dispatch => {
  //   dispatch(fetchingApiRequest('postContactUs'));
     console.log("ejecuta llamada API confirmReceipt");  
@@ -2114,6 +2114,9 @@ export const confirmReceiptAPI = (origialId,transactionReceipt,transactionId,cal
   { 
   // respuesta = await API.post(apiName, path, myInit);
     console.log("ejecuto finishTransactionIOS: "+transactionId);
+    console.log("action QRA: "+qra);
+    console.log("action environment: "+environment);
+    
     RNIap.finishTransactionIOS(transactionId);
     //if (buystate){
       console.log("el calltype es BUY");
