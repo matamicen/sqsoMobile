@@ -18,7 +18,7 @@ import {FETCHING_API_REQUEST,
     PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, SET_TOKEN,
      RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
-     CONFIRMED_PURCHASE_FLAG, PRESS_PURCHASE_BUTTON, SET_SUBSCRIPTION_INFO } from '../actions/types';
+     CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -52,6 +52,8 @@ const initialState = {
     iapShowed: 0,
     version: '2.0.2',
     env: 'QA',
+    restoreCalled: false,
+    restoreMessage: '',
 
 
     currentQso: {
@@ -295,6 +297,17 @@ const qsoReducer = (state = initialState, action) => {
         });
     
            return newStore;
+
+           case SET_RESTORE_CALL:
+                      
+            newStore = Object.assign({}, state,
+               {
+                   ...state,
+                   restoreCalled: action.call,
+                   restoreMessage: action.message
+               });
+           
+                  return newStore;
 
       
          case SET_SUBSCRIPTION_INFO:

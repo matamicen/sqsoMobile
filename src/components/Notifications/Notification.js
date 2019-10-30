@@ -23,7 +23,7 @@ class Notification extends Component {
         <Image
             style={{ width: 28, height: 28, marginLeft: 17 }}
             source={require('../../images/notifications.png')}/>
-            <Text style={{fontSize:9, marginTop: 3}}>NOTIFICATIONS</Text>
+            <Text  style={{fontSize:9, marginTop: 3}}>NOTIFICATIONS</Text>
             <UnreadCounter />
            
             </View>

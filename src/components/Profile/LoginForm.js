@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
      ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions, 
-     Platform} from 'react-native';
+     Platform } from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -67,6 +67,8 @@ class LoginForm extends Component {
 
 constructor(props) {
     super(props);
+    TextInput.defaultProps = { allowFontScaling: false };
+    Text.defaultProps = { allowFontScaling: false };
 
     this.usernotfound = false;
     this.internet = false;

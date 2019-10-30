@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity,  StyleSheet, Platform, 
-  PermissionsAndroid, Alert, Dimensions, AsyncStorage  } from 'react-native';
+  PermissionsAndroid, Alert, Dimensions, AsyncStorage, TextInput  } from 'react-native';
 import { connect } from 'react-redux';
 import Login from './Login';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify'
@@ -10,7 +10,7 @@ import awsconfig from '../../aws-exports'
 import QraProfile from './../Qso/QraProfile';
 import FollowerList from './FollowerList';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
-  followingsSelected, manage_notifications } from '../../actions';
+  followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
@@ -46,6 +46,8 @@ class InitialScreen extends Component {
 
   constructor(props) {
     super(props);
+    TextInput.defaultProps = { allowFontScaling: false };
+    Text.defaultProps = { allowFontScaling: false };
 
     this.width = Dimensions.get('window').width; //full width
     this.height = Dimensions.get('window').height; //full height
@@ -246,7 +248,9 @@ signOut = async () => {
 
     closeRestore = () => {
 
-      this.setState({showRestoreSubscription: false})
+      this.setState({showRestoreSubscription: false});
+      this.props.restoreCall(false,'');
+     
     }
    
     render() { console.log("InitialScreen Screen");
@@ -287,7 +291,7 @@ signOut = async () => {
                 </View>
 
                 <View style={{flex:0.27, alignItems: 'flex-end', marginRight: 20}}>
-                <TouchableOpacity style={{marginTop: 13}} onPress={ () => this.signOut() }>
+                <TouchableOpacity style={{marginTop: 17}} onPress={ () => this.signOut() }>
                     <Image source={require('../../images/logout.png')}  style={{width: 20, height: 20, marginLeft: 15  } } 
                  resizeMode="contain" /> 
                 {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
@@ -304,7 +308,7 @@ signOut = async () => {
                 </TouchableOpacity>
               </View>
 
-              <View style={{flexDirection: 'row', flex: 0.06, marginLeft: 6}}>
+              <View style={{flexDirection: 'row', flex: 0.065, marginLeft: 6}}>
                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.switchToFollowing()} >
                     <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> Following</Text>
                  </TouchableOpacity>
@@ -320,7 +324,7 @@ signOut = async () => {
 
                       </View>
 
-                      <View style={{flex: 0.10}}>
+                      <View style={{flex: 0.095}}>
                  
                  {(this.props.followingsselected) ?
                           // <TouchableOpacity  >
@@ -430,7 +434,9 @@ const mapDispatchToProps = {
   postPushToken,
   profilePictureRefresh,
   followingsSelected,
-  manage_notifications
+  manage_notifications,
+  confirmedPurchaseFlag,
+  restoreCall
   
     
    }

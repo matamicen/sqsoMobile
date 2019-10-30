@@ -208,9 +208,8 @@ class RestoreSubscription extends Component {
 
         
           
-        
-      //    this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
-          
+          if (Platform.OS==='ios') 
+            this.props.confirmReceiptiOS(this.props.qra,purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'RESTORE');
 
 
 
@@ -346,6 +345,12 @@ class RestoreSubscription extends Component {
                         <Text>
                            
                        </Text>
+                       {(this.props.restorecalled) &&
+                       <Text>
+                           {this.props.restoremessage}
+                       </Text>
+
+                      }
                    </View>
 
              <View style={{ flex: 0.5}}>
@@ -378,7 +383,11 @@ const mapStateToProps = state => {
         productid: state.sqso.productId,
         localizedprice: state.sqso.localizedPrice,
         iapshowed: state.sqso.iapShowed,
-        env: state.sqso.env
+        env: state.sqso.env,
+        qra: state.sqso.qra,
+        restorecalled: state.sqso.restoreCalled,
+        restoremessage: state.sqso.restoreMessage
+
 
          };
 };

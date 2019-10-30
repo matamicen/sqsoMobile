@@ -23,7 +23,7 @@ import {FETCHING_API_REQUEST,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
-        SET_SUBSCRIPTION_INFO  } from './types';
+        SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -2088,74 +2088,99 @@ export const postContactUs = (email,message,jwtToken) => {
 };
 
 
-export const confirmReceiptiOS = (qra,origialId,transactionReceipt,transactionId,environment,calltype) => {
+export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,transactionId,environment,action) => {
   return async dispatch => {
- //   dispatch(fetchingApiRequest('postContactUs'));
-    console.log("ejecuta llamada API confirmReceipt");  
+    dispatch(fetchingApiRequest('confirmReceiptiOS'));
+    console.log("ejecuta llamada API confirmReceiptiOS");  
   try {
-     
-      // let apiName = 'superqso';
-      // let path = '/contactformsend';
-      // let myInit = { // OPTIONAL
-      //   headers: {
-      //     'Authorization': jwtToken,
-      //     'Content-Type': 'application/json'
-      //   }, // OPTIONAL
-      //   body: {
-        
-      //           "email": email,
-      //           "message": message
-                     
-      //         }
-        
-      // }
 
-  if (calltype==='buy')
-  { 
-  // respuesta = await API.post(apiName, path, myInit);
-    console.log("ejecuto finishTransactionIOS: "+transactionId);
-    console.log("action QRA: "+qra);
-    console.log("action environment: "+environment);
+    let apiName = 'superqso';
+    let path = '/iap/ios/verifyreceipt';
+    let myInit = { // OPTIONAL
+      headers: {
+        'Content-Type': 'application/json'
+      }, // OPTIONAL
+      body: {
+      
+        "qra": qra,
+        "env": environment, 
+        "transactionId": transactionId,
+        "originalTransactionId": originalTranscationId,
+        "action": action,
+        "transactionReceipt": transactionReceipt
+                   
+            }
+      
+    }
+
+
+  respuesta = await API.post(apiName, path, myInit);
+  console.log("llamo api! confirmReceiptiOS");
+
+ 
+  dispatch(fetchingApiSuccess('confirmReceiptiOS',respuesta));
+ 
+  if (respuesta.body.error===0)
+  {
+
+     session = await Auth.currentSession();
+     console.log("Su token es: " + session.idToken.jwtToken);
+     dispatch(setToken(session.idToken.jwtToken));
+   
+    console.log("el usuario es Premium ");
+    // llamo a getUserInfo asi lo convierto en Premium
+    if (action==='buy')
+    { 
+    // respuesta = await API.post(apiName, path, myInit);
+      console.log("ejecuto finishTransactionIOS: "+transactionId);
+      console.log("action QRA: "+qra);
+      console.log("action environment: "+environment);
+      
+      RNIap.finishTransactionIOS(transactionId);
+      dispatch(getUserInfo(session.idToken.jwtToken));
+
+      //if (buystate){
+        console.log("el calltype es BUY");
+        dispatch(confirmedPurchaseFlag(true));
+        
+        // debo cambiar un flag en redux para que cambie en la pantalla 
+        // y que avise al usuario que ya es PREMIUM
+        // el buy state en TRUE me asegura que el llamado fue hecho porque el usuario
+        // acaba de comprar, si es FALSE es porque quedaron pendientes compras sin confirmar
+        // y deben ser confirmadas a IOS pero no tengo que avisar nada al usuario, son llamadas
+        // que vienen del purchaseUpdatedListener puesto en el QsoScreen.
+     // }
     
-    RNIap.finishTransactionIOS(transactionId);
-    //if (buystate){
-      console.log("el calltype es BUY");
-      dispatch(confirmedPurchaseFlag(true));
-      
-      // debo cambiar un flag en redux para que cambie en la pantalla 
-      // y que avise al usuario que ya es PREMIUM
-      // el buustate en TRUE me asegura que el llamado fue hecho porque el usuario
-      // acaba de comprar, si es FALSE es porque quedaron pendientes compras sin confirmar
-      // y deben ser confirmadas a IOS pero no tengo que visar nada al usuario, son llamadas
-      // que vienen del purchaseUpdatedListener puesto en el LoginForm.
-   // }
-  
-   }else
-   { // si entra aca es porque hizo un Restore Subscription y debo pasarle 
-    // ese parametro en el body para que la API BACKEND se de cuenta
-    console.log("el calltype es RESTORE");
-        setTimeout(() => {
-          // dentro de un timeout para simular que llamo a la API y que luego
-          // baje el ActivityIndicator          
-         dispatch(manageLocationPermissions("iapshowed",0));
-        
-      }
-      , 2000);
-   
-       }
-   
-  //  dispatch(fetchingApiSuccess('postContactUs',respuesta));
-   
-    // if (respuesta.body.error===0)
-    // {
+     }else
+     { // si entra aca es porque hizo un Restore Subscription y debo pasarle 
+      // ese parametro en el body para que la API BACKEND se de cuenta
+        dispatch(manageLocationPermissions("iapshowed",0));
+        dispatch(restoreCall(true,'Your Premium subscription is active now!'));
+
+
+
+      // console.log("el calltype es RESTORE");
+      //     setTimeout(() => {
+      //       // dentro de un timeout para simular que llamo a la API y que luego
+      //       // baje el ActivityIndicator          
+      //      dispatch(manageLocationPermissions("iapshowed",0));
+          
+      //   }
+      //   , 2000);
      
-    //   console.log("error es 0 y SALIDA de postContactUs: "+JSON.stringify(respuesta.body.message));
-      
-    //   console.log("ya envio el mail de contact Us");  
+       }
 
-    // }else
-    //   console.log("hay error en llamado de API ->  de postContactUs: "+JSON.stringify(respuesta.body.message));
+  }else
+  {
+    console.log("fallo la validacion del receipt por alguna razon. (Subscripcion cancelada, receipt trucho) ");
+      if (action==='RESTORE'){
+        dispatch(manageLocationPermissions("iapshowed",0));
+        dispatch(restoreCall(true,'Sorry, we did not find any active subscription.'));
+        }
+  }
 
+
+ 
    
   }
   catch (error) {
@@ -2174,6 +2199,15 @@ export const confirmReceiptiOS = (qra,origialId,transactionReceipt,transactionId
         purchaseState: purchaseconfirmed
         
     };
+}
+
+export const restoreCall = (call,message) => {
+  return {
+      type: SET_RESTORE_CALL,
+      call: call,
+      message: message
+      
+  };
 }
 
 

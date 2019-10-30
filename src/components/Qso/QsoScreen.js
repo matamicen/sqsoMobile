@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
   PermissionsAndroid,
   Alert,
+  TextInput,
   Dimensions,
   AppState,
   AsyncStorage
@@ -83,7 +84,8 @@ Auth.configure(awsconfig);
 class QsoScreen extends Component {
   constructor(props) {
     super(props);
-
+    TextInput.defaultProps = { allowFontScaling: false };
+    Text.defaultProps = { allowFontScaling: false };
     this.width = Dimensions.get("window").width; //full width
     this.height = Dimensions.get("window").height; //full height
     // this.advertInter = null;
@@ -128,16 +130,16 @@ class QsoScreen extends Component {
           style={{
             width: 35,
             height: 20,
-            marginTop: Platform.OS === "ios" ? 1 : 5
+            marginTop: Platform.OS === "ios" ? 2 : 3
           }}
         >
           <Image
-            style={{  width: 32, height: 32}}
+            style={{  width: 31, height: 31}}
          //   source={require("../../images/qsoicon3.png")}
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 7 }}>QSO</Text>
+          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 7 }}>QSO</Text>
         </View>
       );
     }
@@ -186,7 +188,7 @@ class QsoScreen extends Component {
       
       if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
         try {
-       //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+        //  const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
           console.log('entro listener de compra por ANDROID en QsoScreen');
           
         
