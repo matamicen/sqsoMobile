@@ -202,8 +202,9 @@ class QsoScreen extends Component {
 
         console.log('IAP: llamo confirmReceipt de QsoScreen action: '+purchase.transactionId);
        // console.log('flag que recien compro: '+this.props.presspurchaseputton);
-        
-        this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'buy');
+      // RNIap.finishTransactionIOS(purchase.transactionId);
+        this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'BUY');
+    
      //   this.props.confirmReceipt();
       //  RNIap.finishTransactionIOS(purchase.transactionId);
 

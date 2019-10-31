@@ -252,7 +252,21 @@ signOut = async () => {
       this.props.restoreCall(false,'');
      
     }
-   
+
+    restoreSubs = async () => {
+     
+      if (await hasAPIConnection())
+      {
+       
+        this.setState({showRestoreSubscription: true})
+
+      } else
+      this.setState({nointernet: true});
+    }
+
+      
+    
+    
     render() { console.log("InitialScreen Screen");
    // console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
    
@@ -303,7 +317,7 @@ signOut = async () => {
               </View> 
 
               <View style={{flex: 0.05, alignItems: 'flex-end', marginRight: 17}}>
-                <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.setState({showRestoreSubscription: true})} >
+                <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
                    <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >Restore Subscription</Text>
                 </TouchableOpacity>
               </View>

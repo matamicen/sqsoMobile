@@ -2129,7 +2129,7 @@ export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,t
    
     console.log("el usuario es Premium ");
     // llamo a getUserInfo asi lo convierto en Premium
-    if (action==='buy')
+    if (action==='BUY')
     { 
     // respuesta = await API.post(apiName, path, myInit);
       console.log("ejecuto finishTransactionIOS: "+transactionId);
@@ -2152,10 +2152,13 @@ export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,t
      // }
     
      }else
-     { // si entra aca es porque hizo un Restore Subscription y debo pasarle 
-      // ese parametro en el body para que la API BACKEND se de cuenta
+     { // si entra aca es porque hizo un Restore Subscription y dio que el usuario tenia premium
+      // llamo a getuserinfo y seteo flags para actualizar las pantallas
+        dispatch(getUserInfo(session.idToken.jwtToken));
         dispatch(manageLocationPermissions("iapshowed",0));
-        dispatch(restoreCall(true,'Your Premium subscription is active now!'));
+        console.log('ejecuto restoreCall now');
+        
+        dispatch(restoreCall(true,'Your premium subscription is active!'));
 
 
 

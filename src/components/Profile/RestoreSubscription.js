@@ -328,11 +328,20 @@ class RestoreSubscription extends Component {
                   resizeMode="contain"
                 /> */}
                 <View style={{ flex: 0.30, alignItems: "center" }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
+                <Text style={{ color: "#999", fontSize: 20, padding: 10 }}>
                   {/* Dear Ham: */}
                    Searching Purchases ...
                   
                 </Text>
+                <Text>
+
+                </Text>
+                {(this.props.restorecalled) &&
+                       <Text style={{ color: "#FFFFFF", fontSize: 15 }}>
+                          {this.props.restoremessage}
+                       </Text>
+
+                      }
                 </View >
               
                 <View style={{  flex: 0.2, alignItems: "center", padding: 5,
@@ -342,15 +351,8 @@ class RestoreSubscription extends Component {
                        <Text>
 
                        </Text>
-                        <Text>
-                           
-                       </Text>
-                       {(this.props.restorecalled) &&
-                       <Text>
-                           {this.props.restoremessage}
-                       </Text>
-
-                      }
+                      
+                   
                    </View>
 
              <View style={{ flex: 0.5}}>
