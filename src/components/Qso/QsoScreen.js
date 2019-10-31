@@ -45,7 +45,7 @@ import {
   addMedia,
   uploadMediaToS3,
   welcomeUserFirstTime,
-  confirmReceiptiOS
+  confirmReceiptiOS, confirmReceiptAndroid
 } from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
@@ -182,20 +182,38 @@ class QsoScreen extends Component {
      
       console.log('purchaseUpdatedListener de QsoScreen');
       console.log(purchase);
+      
+      purchaseJson = JSON.parse(purchase.transactionReceipt);
+      console.log('purchase json');
+      console.log(purchaseJson);
+      
+
 
       // aca tengo que llamar a la API backend para validar el receipt y una vez validado
       // debo llamar a 
       
       if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
-        try {
+    
         //  const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
           console.log('entro listener de compra por ANDROID en QsoScreen');
+          purchaseToken = purchaseJson.purchaseToken;
+          qra = this.props.qra;
+          packageName = purchaseJson.packageName;
+          productId = purchaseJson.productId;
+          environment = this.props.env;
+          action = 'BUY';
+
+          console.log('purchasetoken:'+purchaseToken);
+          console.log('qra:'+qra);
+          console.log('packageName:'+packageName);
+          console.log('productId:'+productId);
+          console.log('environment:'+environment);
+          console.log('action:'+action);
           
-        
-        //  console.log('ackResult', ackResult);
-        } catch (ackErr) {
-          console.warn('ackErr', ackErr);
-        }
+
+          this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action)
+
+          
       }
       if (Platform.OS==='ios')
       {
@@ -213,7 +231,7 @@ class QsoScreen extends Component {
     });
 
     purchaseErrorSubscription = purchaseErrorListener((error) => {
-      console.log('purchaseErrorListener LoginForm', error);
+      console.log('purchaseErrorListener QsoScreen', error);
      // this.props.manageLocationPermissions("iapshowed",0);
       // Alert.alert('purchase error', JSON.stringify(error));
     });
@@ -1267,7 +1285,8 @@ const mapDispatchToProps = {
   addMedia,
   uploadMediaToS3,
   welcomeUserFirstTime,
-  confirmReceiptiOS
+  confirmReceiptiOS,
+  confirmReceiptAndroid
 };
 
 export default connect(

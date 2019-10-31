@@ -2196,6 +2196,130 @@ export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,t
   };
 };
 
+export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,environment,action) => {
+  return async dispatch => {
+    dispatch(fetchingApiRequest('confirmReceiptAndroid'));
+    console.log("ejecuta llamada API confirmReceiptAndroid");  
+  try {
+
+    let apiName = 'superqso';
+    let path = '/iap/android/verifyreceipt';
+    let myInit = { // OPTIONAL
+      headers: {
+        'Content-Type': 'application/json'
+      }, // OPTIONAL
+      body: {
+      
+        "qra": qra,
+        "env": environment, 
+        "productId": productId,
+        "packageName": packageName,
+        "action": action,
+        "purchaseToken": purchaseToken
+                   
+            }
+      
+    }
+
+
+  respuesta = await API.post(apiName, path, myInit);
+  console.log("llamo api! confirmReceiptAndroid");
+  console.log(respuesta);
+  
+
+ 
+  dispatch(fetchingApiSuccess('confirmReceiptAndroid',respuesta));
+ 
+  if (respuesta.body.error===0)
+  {
+
+     session = await Auth.currentSession();
+     console.log("Su token es: " + session.idToken.jwtToken);
+     dispatch(setToken(session.idToken.jwtToken));
+   
+    console.log("el usuario es Premium ");
+    // llamo a getUserInfo asi lo convierto en Premium
+    if (action==='BUY')
+    { 
+    // respuesta = await API.post(apiName, path, myInit);
+      console.log("ejecuto ack: "+purchaseToken);
+      console.log("action QRA: "+qra);
+      console.log("action environment: "+environment);
+
+
+      try {
+          const ackResult = await acknowledgePurchaseAndroid(purchaseToken);
+          console.log('ejecute acknowledgePurchaseAndroid ');
+          dispatch(getUserInfo(session.idToken.jwtToken));
+          console.log("el calltype es BUY");
+          dispatch(confirmedPurchaseFlag(true));
+          
+        
+        //  console.log('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
+        }
+
+          
+
+      //if (buystate){
+    
+        
+        // debo cambiar un flag en redux para que cambie en la pantalla 
+        // y que avise al usuario que ya es PREMIUM
+        // el buy state en TRUE me asegura que el llamado fue hecho porque el usuario
+        // acaba de comprar, si es FALSE es porque quedaron pendientes compras sin confirmar
+        // y deben ser confirmadas a IOS pero no tengo que avisar nada al usuario, son llamadas
+        // que vienen del purchaseUpdatedListener puesto en el QsoScreen.
+     // }
+    
+     }else
+     { // si entra aca es porque hizo un Restore Subscription y dio que el usuario tenia premium
+      // llamo a getuserinfo y seteo flags para actualizar las pantallas
+        dispatch(getUserInfo(session.idToken.jwtToken));
+        dispatch(manageLocationPermissions("iapshowed",0));
+        console.log('ejecuto restoreCall now');
+        
+        dispatch(restoreCall(true,'Your premium subscription is active!'));
+
+
+
+      // console.log("el calltype es RESTORE");
+      //     setTimeout(() => {
+      //       // dentro de un timeout para simular que llamo a la API y que luego
+      //       // baje el ActivityIndicator          
+      //      dispatch(manageLocationPermissions("iapshowed",0));
+          
+      //   }
+      //   , 2000);
+     
+       }
+
+  }else
+  {
+    console.log("fallo la validacion del receipt por alguna razon. (Subscripcion cancelada, receipt trucho) ");
+    if (action==='RESTORE'){
+        dispatch(manageLocationPermissions("iapshowed",0));
+        dispatch(restoreCall(true,'Sorry, we did not find any active subscription.'));
+        }
+  }
+
+
+ 
+   
+  }
+  catch (error) {
+    console.log('Api catch confirmReceipt error:', error);
+ //   dispatch(fetchingApiFailure('postContactUs',error));
+    // Handle exceptions
+  }
+       
+    
+  };
+};
+
+
+
   export const confirmedPurchaseFlag = (purchaseconfirmed) => {
     return {
         type: CONFIRMED_PURCHASE_FLAG,
