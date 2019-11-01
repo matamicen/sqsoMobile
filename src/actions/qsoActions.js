@@ -2252,7 +2252,14 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
           console.log('ejecute acknowledgePurchaseAndroid ');
           dispatch(getUserInfo(session.idToken.jwtToken));
           console.log("el calltype es BUY");
-          dispatch(confirmedPurchaseFlag(true));
+          setTimeout(() => {
+                     
+             console.log('bajo el iapmodal con delay 2000');
+             dispatch(confirmedPurchaseFlag(true));
+             
+           }
+           , 2000);
+          
           
         
         //  console.log('ackResult', ackResult);
@@ -2309,7 +2316,7 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
    
   }
   catch (error) {
-    console.log('Api catch confirmReceipt error:', error);
+    console.log('Api catch confirmReceiptAndroid error:', error);
  //   dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
   }

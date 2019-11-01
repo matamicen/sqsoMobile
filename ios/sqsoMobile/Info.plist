@@ -54,7 +54,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use your location to calculate the QSO distance.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We use the mic to record the audio of the QSO.</string>
+	<string>We use the microphone to record the audio of the QSO.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We use the motion to improve the UX.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

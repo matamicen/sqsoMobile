@@ -182,17 +182,15 @@ class QsoScreen extends Component {
      
       console.log('purchaseUpdatedListener de QsoScreen');
       console.log(purchase);
-      
-      purchaseJson = JSON.parse(purchase.transactionReceipt);
-      console.log('purchase json');
-      console.log(purchaseJson);
-      
-
 
       // aca tengo que llamar a la API backend para validar el receipt y una vez validado
       // debo llamar a 
       
       if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+
+        purchaseJson = JSON.parse(purchase.transactionReceipt);
+        console.log('purchase json');
+        console.log(purchaseJson);
     
         //  const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
           console.log('entro listener de compra por ANDROID en QsoScreen');
@@ -262,6 +260,18 @@ class QsoScreen extends Component {
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this._handleAppStateChange);
+
+    if (purchaseUpdateSubscription) {
+      console.log('remuevo purchaseUpdateSubscription QsoScreen');
+      
+      purchaseUpdateSubscription.remove();
+      purchaseUpdateSubscription = null;
+    }
+        if (purchaseErrorSubscription) {
+          console.log('remuevo purchaseErrorSubscription QsoScreen');
+          purchaseErrorSubscription.remove();
+          purchaseErrorSubscription = null;
+        }
   }
 
   _handleAppStateChange = async nextAppState => {
@@ -274,7 +284,7 @@ class QsoScreen extends Component {
       if (this.props.adshowed || this.props.iapshowed===1)
       {
         this.props.manageLocationPermissions("adshowed", false);
-        this.props.manageLocationPermissions("iapshowed", 0);
+      //  this.props.manageLocationPermissions("iapshowed", 0);
       }
       else {
         var session = await Auth.currentSession();

@@ -19,7 +19,7 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 import { connect } from 'react-redux';
-import { confirmReceiptiOS, manageLocationPermissions } from '../../actions';
+import { confirmReceiptiOS, manageLocationPermissions, restoreCall, confirmReceiptAndroid } from '../../actions';
 
 
 // App Bundle > com.dooboolab.test
@@ -67,23 +67,34 @@ class RestoreSubscription extends Component {
   async componentDidMount() {
     try {
     //  this.props.pressPurchaseButton(true);
-    this.props.manageLocationPermissions("iapshowed",1);
+    
     
       const result = await RNIap.initConnection();
       // busco codigos de subscripcion para iOS sino me falla el GetSubscription
           
-      const products = await RNIap.getSubscriptions(itemSubs);
-      console.log('busco codigos de subscripciones');
+      // const products = await RNIap.getSubscriptions(itemSubs);
+      // console.log('busco codigos de subscripciones');
     // console.log(products);
     // this.setState({localizedPrice: products[0].localizedPrice});
 
-    if (Platform.OS==='ios')
-         this.getPurchaseHistory();
-   if (Platform.OS==='android')
-   {
-    this.getPurchaseHistory();
-    this.getAvailablePurchase();
-   }
+
+   // chequeo si el usuario ya es premium y toca Restore, si fuese asi evito llamar a todo 
+   // el chequeo y le aviso que ya es premium. 
+if (this.props.userinfo.account_type.idaccount_types===2)
+     this.props.restoreCall(true,'Your premium subscription is active.')
+  else
+      {
+        this.props.manageLocationPermissions("iapshowed",1);
+
+        if (Platform.OS==='ios')
+            this.getPurchaseHistory();
+      if (Platform.OS==='android')
+      {
+       // this.getPurchaseHistory();
+        this.getAvailablePurchase();
+      }
+
+  }
 
 
 
@@ -274,8 +285,33 @@ class RestoreSubscription extends Component {
           
         
   //        this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
-          
+         
+      if (Platform.OS==='android') 
+      {
+             console.log('entro a restore de ANDROID');
 
+              purchaseJson = JSON.parse(purchases[0].transactionReceipt);
+              console.log('purchase json');
+              console.log(purchaseJson);
+
+              purchaseToken = purchaseJson.purchaseToken;
+              qra = this.props.qra;
+              packageName = purchaseJson.packageName;
+              productId = purchaseJson.productId;
+              environment = this.props.env;
+              action = 'RESTORE';
+
+              console.log('purchasetoken:'+purchaseToken);
+              console.log('qra:'+qra);
+              console.log('packageName:'+packageName);
+              console.log('productId:'+productId);
+              console.log('environment:'+environment);
+              console.log('action:'+action);
+              
+
+              this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action)
+
+            }
 
 
         // this.setState({
@@ -283,8 +319,15 @@ class RestoreSubscription extends Component {
         //   receipt: purchases[0].transactionReceipt,
         // });
       }
-      else
+      else{
        console.log('viene vacio el purchaseAvailable');
+       if (Platform.OS==='android') 
+       {
+            this.props.manageLocationPermissions("iapshowed",0); 
+            this.props.restoreCall(true,'Sorry, we did not find any active subscription.')
+ 
+         }
+      }
        
     } catch (err) {
       console.warn(err.code, err.message);
@@ -397,7 +440,9 @@ const mapStateToProps = state => {
  
 const mapDispatchToProps = {
   confirmReceiptiOS,
-  manageLocationPermissions
+  manageLocationPermissions,
+  restoreCall,
+  confirmReceiptAndroid
  }
 
 // export default Iap;

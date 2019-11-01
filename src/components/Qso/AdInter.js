@@ -212,6 +212,7 @@ class AdInter extends Component {
 closeIapModal = () =>{
 
   this.setState({iapModal: false});
+  this.props.manageLocationPermissions("iapshowed",0);
   
 
   // chequea si cerro el IAP porque compro o porque no compro
