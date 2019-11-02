@@ -300,6 +300,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
               productId = purchaseJson.productId;
               environment = this.props.env;
               action = 'RESTORE';
+              ack = purchases[0].isAcknowledgedAndroid;
 
               console.log('purchasetoken:'+purchaseToken);
               console.log('qra:'+qra);
@@ -309,7 +310,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
               console.log('action:'+action);
               
 
-              this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action)
+              this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action,ack)
 
             }
 

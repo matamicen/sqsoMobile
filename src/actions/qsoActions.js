@@ -2196,7 +2196,7 @@ export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,t
   };
 };
 
-export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,environment,action) => {
+export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,environment,action,ack) => {
   return async dispatch => {
     dispatch(fetchingApiRequest('confirmReceiptAndroid'));
     console.log("ejecuta llamada API confirmReceiptAndroid");  
@@ -2283,6 +2283,13 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
      }else
      { // si entra aca es porque hizo un Restore Subscription y dio que el usuario tenia premium
       // llamo a getuserinfo y seteo flags para actualizar las pantallas
+
+      
+      // confirmo el token por el caso de que haya fallado la compra y el usuario se dirija directo a RESTORE PURCHASE 
+       // sin haber ejecutado de nuevo la APP porqu en ese caso el DidMount de QsoScreen le confirma la compra.
+          if (!ack){
+            const ackResult = await acknowledgePurchaseAndroid(purchaseToken); 
+          }
         dispatch(getUserInfo(session.idToken.jwtToken));
         dispatch(manageLocationPermissions("iapshowed",0));
         console.log('ejecuto restoreCall now');

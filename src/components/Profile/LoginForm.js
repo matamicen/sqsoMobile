@@ -27,14 +27,7 @@ import Analytics from '@aws-amplify/analytics';
  //import { PushNotification } from 'aws-amplify-react-native';
  import { PushNotificationIOS } from 'react-native';
 
- import RNIap, {
-  Product,
-  ProductPurchase,
-  acknowledgePurchaseAndroid,
-  purchaseUpdatedListener,
-  purchaseErrorListener,
-  PurchaseError,
-} from 'react-native-iap';
+ import RNIap from 'react-native-iap';
 
 
 // PushNotification need to work with Analytics
@@ -55,8 +48,8 @@ const itemSubs = Platform.select({
   ],
 });
 
-let purchaseUpdateSubscription;
-let purchaseErrorSubscription;
+// let purchaseUpdateSubscription;
+// let purchaseErrorSubscription;
 
 class LoginForm extends Component {
 //   static navigationOptions = {
@@ -423,19 +416,7 @@ constructor(props) {
 
 
        componentWillUnmount() {
-        // Dejo el evento de Listener de subcription montado siempre
-        // por si en el agun momento se muere este componente que quede
-        // habilitado el sistema para que el usuario pueda comprar
-        // hay que ver si es una buena practica o no. Veremos.
-
-        // if (purchaseUpdateSubscription) {
-        //   purchaseUpdateSubscription.remove();
-        //   purchaseUpdateSubscription = null;
-        // }
-        // if (purchaseErrorSubscription) {
-        //   purchaseErrorSubscription.remove();
-        //   purchaseErrorSubscription = null;
-        // }
+ 
       }
       
     
