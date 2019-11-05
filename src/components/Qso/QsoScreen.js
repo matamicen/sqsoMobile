@@ -623,6 +623,7 @@ class QsoScreen extends Component {
       if (showVideoReward(this.props.userinfo,'newqso','')) {
         this.videorewardmustbeshown = true;
         this.closeAd = 'newqso';
+        console.log('pone en true el VIDEOREWARD NEWQSO')
         this.setState({showVideoReward: true})
         // if (this.videorewardLoaded) {
         //   this.closeAd = 'newqso';
@@ -634,6 +635,7 @@ class QsoScreen extends Component {
       if (showIntersitial(this.props.userinfo,'newqso','')) {
         this.intersitialmustbeshown = true;
         this.closeAd = 'newqso';
+        console.log('pone en true el INTERSITIAL NEWQSO')
         this.setState({showIntersitial: true})
         // if (this.intersitialLoaded) {
         //   this.closeAd = 'newqso';

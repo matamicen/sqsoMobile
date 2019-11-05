@@ -208,7 +208,7 @@ class QraLink extends Component {
                     
 
                         <TouchableOpacity  style={{ marginTop: 13,  padding:5, marginLeft: 5}} onPress={() => this.closeModaldeleteqra()} >
-                       <Text style={{ color: 'white', fontSize: 16}}>Cancel</Text>
+                       <Text style={{ color: 'white', fontSize: 16}}>Close</Text>
                          </TouchableOpacity>
 
                         

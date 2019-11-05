@@ -231,6 +231,7 @@ closeIapModal = () =>{
 
 
   }else
+  {
   if (this.intersitialLoaded)
       setTimeout(() => {
 
@@ -243,17 +244,26 @@ closeIapModal = () =>{
         
       }
       , 50);
-  // setTimeout(() => {
+    else {
 
-  //   // no compro entonces abre el WaitingModl de nuevo para que vea el AD
-  //   // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
-  //  // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
-  //    // Android no tiene problemas con esto.
-             
-  //    this.setState({ waitingModal: true});
-     
-  //  }
-  //  , 50);
+          // es porque no encontro aun un ADintersitial para mostrar
+          // entonces le doy el beneficio porque no es culpa suya
+          // envio el media directo
+          if (this.props.closead==='newqso')
+          this.props.newqso();
+          if (this.props.closead==='sendmedia')
+          this.props.subos3();
+          if (this.props.closead==='scanqr')
+          this.props.showscanresults('qslScan');
+          if (this.props.closead==='linkqso')
+          this.props.linkqso();
+
+
+         }
+
+
+    }
+
 
 }
      

@@ -199,7 +199,7 @@ class QraLike extends Component {
             <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: "center" }}>
 
               <TouchableOpacity onPress={() => this.closeModaldeleteqra()} >
-                <Text style={{ color: 'white', fontSize: 16 }}>Cancel</Text>
+                <Text style={{ color: 'white', fontSize: 16 }}>Close</Text>
               </TouchableOpacity>
 
 
