@@ -27,7 +27,7 @@ class QslScanScreen extends Component {
         <Image
             style={{ width: 28, height: 28, marginLeft: 17 }}
             source={require('../../images/qrcodescan.png')}/>
-            <Text style={{fontSize:10, marginTop: 3, marginLeft: 18}}>SCAN</Text>
+            <Text style={{fontSize:9, marginTop: 3, marginLeft: 18}}>SCAN</Text>
             </View>
             
             );}
