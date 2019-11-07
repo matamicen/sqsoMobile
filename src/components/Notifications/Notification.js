@@ -18,12 +18,12 @@ class Notification extends Component {
       tabBarLabel: ' ',  
         
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 70, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7}}>
+        return (<View style={{width: 74, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7}}>
            
         <Image
-            style={{ width: 28, height: 28, marginLeft: 17 }}
+            style={{ width: 28, height: 28, marginLeft: 19 }}
             source={require('../../images/notifications.png')}/>
-            <Text  style={{fontSize:9, marginTop: 3}}>NOTIFICATIONS</Text>
+            <Text  style={{fontSize:10, marginTop: 3}}>NOTIFICATIONS</Text>
             <UnreadCounter />
            
             </View>

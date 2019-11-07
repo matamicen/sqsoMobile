@@ -32,7 +32,7 @@ class InitialScreen extends Component {
         <Image
             style={{ width: 31, height: 31, marginLeft: 9 }}
             source={require('../../images/profile1.png')}/>
-            <Text style={{fontSize:9, marginTop: 3, marginLeft: 7}}>PROFILE</Text>
+            <Text style={{fontSize:10, marginTop: 3, marginLeft: 7}}>PROFILE</Text>
             </View>
             
             );}
