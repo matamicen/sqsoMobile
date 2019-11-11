@@ -262,7 +262,7 @@ constructor(props) {
                 <Text style={{ color: '#FFFFFF', fontSize: 18, marginBottom: 10  }}>Password Recovery</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
-                  placeholder="enter your qra"
+                  placeholder="enter your callsign"
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"

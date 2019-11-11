@@ -24,7 +24,7 @@ class Search extends Component {
         <Image
             style={{ width: 28, height: 28 }}
             source={require('../../images/search.png')}/>
-            <Text style={{fontSize:9, marginTop: 3}}>SEARCH</Text>
+            <Text style={{fontSize:10, marginTop: 3}}>SEARCH</Text>
             </View>
             
             );}
@@ -171,7 +171,7 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
                 {/* <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000"/> */}
                 <TextInput
                     style={styles.input}
-                    placeholder="Search QRA"
+                    placeholder="Search CallSign"
                     onChangeText={(text) => this.onChange(text)}
                  //   onChangeText={(text) => {this.setState({text})}}
                     value={this.state.qra}
@@ -192,12 +192,12 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
      
         {!this.state.searching ? 
        <View style={{flex: 0.06, alignItems:"center"}}>
-         <Text style={{fontSize: 11, color:"grey"}}>We start to search automatically</Text>
-         <Text style={{fontSize: 11, color:"grey"}}>after the 4th digit</Text>
+         <Text style={{fontSize: 12, color:"grey"}}>We start to search automatically</Text>
+         <Text style={{fontSize: 12, color:"grey"}}>after the 4th digit</Text>
        </View>
        :
        <View style={{flex: 0.06, alignItems:"center"}}>
-       <Text style={{fontSize: 11, color:"grey"}}>Searching ...</Text>
+       <Text style={{fontSize: 12, color:"grey"}}>Searching ...</Text>
       
      </View>
      }
@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 22,
     backgroundColor: '#f5f5f5',
+    fontSize: 12
    // backgroundColor: 'grey',
 },
 searchIcon: {
@@ -256,6 +257,7 @@ input: {
     marginRight: 10,
     marginTop:2,
     marginBottom: 3,
+ 
    
     color: '#424242',
 },

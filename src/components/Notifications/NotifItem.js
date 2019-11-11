@@ -93,7 +93,7 @@ if (urlnotif!=null)
                       :
                       <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle}/> 
                       }
-                      <Text style={{fontSize:9, marginLeft: 5,  color: '#243665',fontWeight: 'bold' }} > {this.props.QRA} </Text>
+                      <Text style={{fontSize:11, marginLeft: 5,  color: '#243665',fontWeight: 'bold' }} > {this.props.QRA} </Text>
 
                 </View>
                       
@@ -125,10 +125,10 @@ if (urlnotif!=null)
                     // <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_notifications,this.props.QSO_GUID)} underlayColor="white">  
                     <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_activity,this.props.QSO_GUID)} underlayColor="white">  
                       <View>
-                        <Text style={{fontSize:10,  color: '#243665',fontWeight: 'bold' }}>Mark As</Text>
+                        <Text style={{fontSize:11,  color: '#243665',fontWeight: 'bold' }}>Mark As</Text>
                         </View>
                         <View style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-                        <Text style={{fontSize:10, color: '#243665',fontWeight: 'bold' }}>Read</Text>
+                        <Text style={{fontSize:11, color: '#243665',fontWeight: 'bold' }}>Read</Text>
                         </View>
 
                     </TouchableOpacity>

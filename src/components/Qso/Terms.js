@@ -127,7 +127,7 @@ TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SUPERQSO ENTITIES SHALL N
 We may revise these Terms from time to time. The changes will not be retroactive, and the most current version of the Terms, which will always be at superqso.com/terms, will govern our relationship with you. We will try to notify you of material revisions, for example via a service notification or an email to the email associated with your account. By continuing to access or use the Services after those revisions become effective, you agree to be bound by the revised Terms.
 The laws of Buenos Aires, Argentina, excluding its choice of law provisions, will govern these Terms and any dispute that arises between you and SuperQSO. All disputes related to these Terms or the Services will be brought solely in the federal or state courts located in Buenos Aires, CABA, Argentina, and you consent to personal jurisdiction and waive any objection as to inconvenient forum.
  
-These Terms are an agreement between you and SuperQSO SAS, Luis Maria Campos 877, Buenos Aires, C1426, ARGENTINA. If you have any questions about these Terms, please contact us.
+These Terms are an agreement between you and SuperQSO, Av. Libertador 5990 Piso 3 Of. 308, C1428ARP CABA, ARGENTINA. If you have any questions about these Terms, please contact us.
 
 
 
