@@ -24,7 +24,7 @@ class QsoEnterQra extends Component {
          qra: '',
          envio: {name: 'LW8PPP', url: 'https://s3.amazonaws.com/sqso/us-east-1%3A29a10ff3-e4d7-45cf-a432-7821674b8d77/profile/profile.jpg'},
          nointernet: false,
-         size: 14
+         size: 12
          
         };
       }
@@ -89,7 +89,7 @@ class QsoEnterQra extends Component {
         else console.log("se esta ejecutando una API o no se ingreso un QRA, no permite ejecutar otra api al mismo tiempo");
 
           Keyboard.dismiss();
-          this.setState({qra: '', size: 14});
+          this.setState({qra: '', size: 12});
       }
           else this.setState({nointernet: true});
         
@@ -127,12 +127,14 @@ class QsoEnterQra extends Component {
                    {/* <TextInput style={{height: 20, width:50, fontSize: 16, marginTop: 8}} */}
                    <TextInput
                     style={this.enterQraStyle()}
-                   placeholder="enter Qra" value={this.state.qra}
+                   placeholder="enter callsign" 
+                   placeholderTextColor = "#D50000"
+                   value={this.state.qra}
                     onChangeText={(text) => {
                       if (text.length===0)
-                         this.setState({qra: text, size: 14}) 
+                         this.setState({qra: text, size: 12}) 
                        else
-                         this.setState({qra: text, size: 17}) 
+                         this.setState({qra: text, size: 20}) 
                   }}
                     onSubmitEditing={() => this.addQra() }
                     keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}

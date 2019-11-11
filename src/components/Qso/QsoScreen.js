@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
   PermissionsAndroid,
   Alert,
+  TextInput,
   Dimensions,
   AppState,
   AsyncStorage
@@ -43,11 +44,14 @@ import {
   postQsoNew,
   addMedia,
   uploadMediaToS3,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  confirmReceiptiOS, confirmReceiptAndroid
 } from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
+import Iap from "./Iap";
+
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
 //import {  Permissions } from 'expo';
@@ -66,12 +70,22 @@ import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
 
+import RNIap, {
+  Product,
+  ProductPurchase,
+  acknowledgePurchaseAndroid,
+  purchaseUpdatedListener,
+  purchaseErrorListener,
+  PurchaseError,
+} from 'react-native-iap';
+
 Auth.configure(awsconfig);
 
 class QsoScreen extends Component {
   constructor(props) {
     super(props);
-
+    TextInput.defaultProps = { allowFontScaling: false };
+    Text.defaultProps = { allowFontScaling: false };
     this.width = Dimensions.get("window").width; //full width
     this.height = Dimensions.get("window").height; //full height
     // this.advertInter = null;
@@ -101,7 +115,8 @@ class QsoScreen extends Component {
     //  notvideorewarded: false,
     //  prevideorewarded: false,
       showIntersitial: false,
-      showVideoReward: false
+      showVideoReward: false,
+      iap: false
     };
   }
 
@@ -115,16 +130,16 @@ class QsoScreen extends Component {
           style={{
             width: 35,
             height: 20,
-            marginTop: Platform.OS === "ios" ? 1 : 5
+            marginTop: Platform.OS === "ios" ? 2 : 3
           }}
         >
           <Image
-            style={{  width: 32, height: 32}}
+            style={{  width: 31, height: 31}}
          //   source={require("../../images/qsoicon3.png")}
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 7 }}>QSO</Text>
+          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 7 }}>QSO</Text>
         </View>
       );
     }
@@ -157,6 +172,72 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+
+// agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
+// entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
+// al backend.
+
+    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+
+     
+      console.log('purchaseUpdatedListener de QsoScreen');
+      console.log(purchase);
+
+      // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      // debo llamar a 
+      
+      if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+
+        purchaseJson = JSON.parse(purchase.transactionReceipt);
+        console.log('purchase json');
+        console.log(purchaseJson);
+    
+        //  const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+          console.log('entro listener de compra por ANDROID en QsoScreen');
+          purchaseToken = purchaseJson.purchaseToken;
+          qra = this.props.qra;
+          packageName = purchaseJson.packageName;
+          productId = purchaseJson.productId;
+          environment = this.props.env;
+          action = 'BUY';
+          
+
+          console.log('purchasetoken:'+purchaseToken);
+          console.log('qra:'+qra);
+          console.log('packageName:'+packageName);
+          console.log('productId:'+productId);
+          console.log('environment:'+environment);
+          console.log('action:'+action);
+          
+
+         this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action,false)
+
+          
+      }
+      if (Platform.OS==='ios')
+      {
+
+        console.log('IAP: llamo confirmReceipt de QsoScreen action: '+purchase.transactionId);
+       // console.log('flag que recien compro: '+this.props.presspurchaseputton);
+      // RNIap.finishTransactionIOS(purchase.transactionId);
+        this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'BUY');
+    
+     //   this.props.confirmReceipt();
+      //  RNIap.finishTransactionIOS(purchase.transactionId);
+
+      }
+   //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+    });
+
+    purchaseErrorSubscription = purchaseErrorListener((error) => {
+      console.log('purchaseErrorListener QsoScreen', error);
+     // this.props.manageLocationPermissions("iapshowed",0);
+      // Alert.alert('purchase error', JSON.stringify(error));
+    });
+
+
+
+
     AppState.addEventListener("change", this._handleAppStateChange);
 
     // location persmissions ask/check
@@ -174,12 +255,129 @@ class QsoScreen extends Component {
       // else console.log("ya esta cargado previamente videoreward");
 
       this.props.qsoScreenDidMountFirsTime(false);
+     
+      // Si no se llego hacer Acnoledge de una compra, android no dispara como ios
+      // los listeners de los pendientes, hay que chequear en avaliable Purchase
+      // si tiene el flag de NO CONFIRMADO, si lo tiene hay que confirmarlo para
+      // que GOOGLE no de de baja la subscripcion.
+      if (Platform.OS==='android') 
+             this.getAvailablePurchase();
     // }
 
   }
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this._handleAppStateChange);
+
+    if (purchaseUpdateSubscription) {
+      console.log('remuevo purchaseUpdateSubscription QsoScreen');
+      
+      purchaseUpdateSubscription.remove();
+      purchaseUpdateSubscription = null;
+    }
+        if (purchaseErrorSubscription) {
+          console.log('remuevo purchaseErrorSubscription QsoScreen');
+          purchaseErrorSubscription.remove();
+          purchaseErrorSubscription = null;
+        }
+  }
+
+  getAvailablePurchase = async() => {
+    try {
+       
+      console.info('Get available purchases for android QsoScreen');
+     //  const purchases = await RNIap.getPurchaseHistory();
+       const purchases = await RNIap.getAvailablePurchases();
+    
+
+      const sortedAvailablePurchases = purchases.sort(
+        (a, b) => b.transactionDate - a.transactionDate
+      );
+   //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+   //   console.info('Available purchases :: ', purchases);
+    //  console.log('purchases:');
+
+      console.log('SORTED AVAILABLE purchases QsoScreen:');
+      sortedAvailablePurchases.map((purch2, j) => {
+        console.log('productID:'+ purch2.productId);
+        console.log('TransactionID:'+ purch2.transactionId);
+        console.log('transactionDate:'+ purch2.transactionDate);
+        console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
+        console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
+        });
+
+    
+
+      if (purchases && purchases.length > 0) {
+        console.log('purchases completo AVAILABLE QsoScreen:');
+          console.log(purchases);
+          console.log('hya compras y la ultima compra fue:');
+          console.log(purchases[0].originalTransactionIdentifierIOS);
+          console.log(purchases[0].transactionId);
+       //   console.log(purchases[0].transactionReceipt);
+          // le tengo que pasar el id original, usuario logueado y receipt
+          // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
+          // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
+          // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
+          // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando 
+          // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
+          // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
+          // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
+          // y cambiarlo como PREMIUM al usuario.
+
+        
+      
+      //       this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
+         
+      if (Platform.OS==='android') 
+      {
+             console.log('entro a restore de ANDROID');
+
+              purchaseJson = JSON.parse(purchases[0].transactionReceipt);
+              console.log('purchase json');
+              console.log(purchaseJson);
+
+              purchaseToken = purchaseJson.purchaseToken;
+              qra = this.props.qra;
+              packageName = purchaseJson.packageName;
+              productId = purchaseJson.productId;
+              environment = this.props.env;
+              action = 'BUY';
+              ack = purchases[0].isAcknowledgedAndroid;
+
+              console.log('purchasetoken:'+purchaseToken);
+              console.log('qra:'+qra);
+              console.log('packageName:'+packageName);
+              console.log('productId:'+productId);
+              console.log('environment:'+environment);
+              console.log('action:'+action);
+              
+      // si no se hizo el  AcknowledgedAndroid lo hace. 
+      if (!purchases[0].isAcknowledgedAndroid)
+              this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action,ack)
+
+            }
+
+
+        // this.setState({
+        //   availableItemsMessage: `Got ${purchases.length} items.`,
+        //   receipt: purchases[0].transactionReceipt,
+        // });
+      }
+      else{
+       console.log('viene vacio el purchaseAvailable');
+      //  if (Platform.OS==='android') 
+      //  {
+      //       this.props.manageLocationPermissions("iapshowed",0); 
+      //       this.props.restoreCall(true,'Sorry, we did not find any active subscription.')
+ 
+      //    }
+      }
+       
+    } catch (err) {
+      console.warn(err.code, err.message);
+      Alert.alert(err.message);
+    }
   }
 
   _handleAppStateChange = async nextAppState => {
@@ -189,8 +387,11 @@ class QsoScreen extends Component {
     if (nextAppState === "active") {
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
-      if (this.props.adshowed)
+      if (this.props.adshowed || this.props.iapshowed===1)
+      {
         this.props.manageLocationPermissions("adshowed", false);
+      //  this.props.manageLocationPermissions("iapshowed", 0);
+      }
       else {
         var session = await Auth.currentSession();
         console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
@@ -422,6 +623,7 @@ class QsoScreen extends Component {
       if (showVideoReward(this.props.userinfo,'newqso','')) {
         this.videorewardmustbeshown = true;
         this.closeAd = 'newqso';
+        console.log('pone en true el VIDEOREWARD NEWQSO')
         this.setState({showVideoReward: true})
         // if (this.videorewardLoaded) {
         //   this.closeAd = 'newqso';
@@ -433,6 +635,7 @@ class QsoScreen extends Component {
       if (showIntersitial(this.props.userinfo,'newqso','')) {
         this.intersitialmustbeshown = true;
         this.closeAd = 'newqso';
+        console.log('pone en true el INTERSITIAL NEWQSO')
         this.setState({showIntersitial: true})
         // if (this.intersitialLoaded) {
         //   this.closeAd = 'newqso';
@@ -893,6 +1096,36 @@ class QsoScreen extends Component {
             </View>
           </Modal>
 
+          <Modal
+            visible={this.state.iap}
+            animationType={"slide"}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            <View
+              style={{
+                margin: 10,
+                padding: 10,
+                backgroundColor: "rgba(0,0,0,0.85)",
+                marginTop: 120,
+                //  bottom: 150,
+                left: 55,
+                right: 55,
+                height: 400,
+                position: "absolute",
+                alignItems: "center",
+                borderRadius: 12
+              }}
+            >
+              {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
+               <Iap />
+              <Button onPress={() => this.setState({iap:false})} title="Cierro" />
+              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
+                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
+                          </TouchableHighlight> */}
+            </View>
+          </Modal>
+
           {/* position= {'top'} animationType={"slide"} */}
           <Modal
             visible={this.state.photoConfirm}
@@ -1026,6 +1259,16 @@ class QsoScreen extends Component {
                 
                 <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>Start a QSO</Text>
               </TouchableOpacity>
+
+              {/* <TouchableOpacity style={{  width: 110,height:100 }} onPress={() => this.setState({iap: true}) }>
+                <Image
+                  source={require("../../images/iaddcircleTurquesa.png")}
+                  style={{ width: 80, height: 80, alignItems:"center", alignContent:"center"}}
+                  resizeMode="contain"
+                />
+                
+                <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>IAP</Text>
+              </TouchableOpacity> */}
               </View>
              } 
 
@@ -1116,6 +1359,7 @@ const mapStateToProps = state => {
     qsoscreendidmount: state.sqso.qsoScreenDidmount,
     currentlocationpermission: state.sqso.currentLocationPermission,
     adshowed: state.sqso.adShowed,
+    iapshowed: state.sqso.iapShowed,
     qsoscreendidmountfirsttime: state.sqso.qsoScreenDidMountFirstTime,
     rdsurls3: state.sqso.urlRdsS3,
     band: state.sqso.currentQso.band,
@@ -1126,7 +1370,10 @@ const mapStateToProps = state => {
     latitude: state.sqso.currentQso.latitude,
     longitude: state.sqso.currentQso.longitude,
     mediafiles: state.sqso.currentQso.mediafiles,
-    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime
+    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
+    env: state.sqso.env,
+    qra: state.sqso.qra
+
   };
 };
 
@@ -1155,7 +1402,9 @@ const mapDispatchToProps = {
   postQsoNew,
   addMedia,
   uploadMediaToS3,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  confirmReceiptiOS,
+  confirmReceiptAndroid
 };
 
 export default connect(

@@ -14,6 +14,7 @@ import {
 import { connect } from "react-redux";
 import Terms from './Terms';
 import Privacy from './Privacy';
+// import Iap from './Iap';
 
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
@@ -71,6 +72,7 @@ class VariosModales extends Component {
               
             }
             , this.props.userinfo.account_type.app_waitingTimeAdMob);
+          
     
   }
 
@@ -573,112 +575,120 @@ class VariosModales extends Component {
       );
 
 
-      if (this.props.modalType === "waitingAdmodal")
-      return (
-        <View>
-          <Modal
-            visible={this.state.show}
-            transparent={true}
-            onRequestClose={() => console.log("Close was requested")}
-          >
-            <View
-              style={{
-                //  margin:20,
-                padding: 20,
-                backgroundColor:"rgba(0,0,0,0.85)",
-                top: 90,
-                left: 30,
-                right: 30,
-                position: "absolute",
-                borderBottomLeftRadius: 22,
-                borderBottomRightRadius: 22,
-                borderTopLeftRadius: 22,
-                borderTopRightRadius: 22
+      // if (this.props.modalType === "waitingAdmodal")
+      // return (
+      //   <View>
+      //     <Modal
+      //       visible={this.state.show}
+      //       transparent={true}
+      //       onRequestClose={() => console.log("Close was requested")}
+      //     >
+      //       <View
+      //         style={{
+      //           //  margin:20,
+      //           padding: 20,
+      //           backgroundColor:"rgba(0,0,0,0.85)",
+      //           top: 90,
+      //           left: 30,
+      //           right: 30,
+      //           position: "absolute",
+      //           borderBottomLeftRadius: 22,
+      //           borderBottomRightRadius: 22,
+      //           borderTopLeftRadius: 22,
+      //           borderTopRightRadius: 22
 
-                //  alignItems: 'center'
-              }}
-            >
-              <View style={{ flex: 1, alignItems: "center" }}>
-                {/* <Image
-                  source={require("../../images/noInternet.png")}
-                  style={{ width: 60, height: 60 }}
-                  resizeMode="contain"
-                /> */}
-                <View style={{ flex: 0.2, alignItems: "center" }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  {/* Dear Ham: */}
-                  {this.props.userinfo.account_type.app_upgrade_t1}
+      //           //  alignItems: 'center'
+      //         }}
+      //       >
+      //         <View style={{ flex: 1, alignItems: "center" }}>
+      //           {/* <Image
+      //             source={require("../../images/noInternet.png")}
+      //             style={{ width: 60, height: 60 }}
+      //             resizeMode="contain"
+      //           /> */}
+      //           <View style={{ flex: 0.2, alignItems: "center" }}>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
+      //             {/* Dear Ham: */}
+      //             {this.props.userinfo.account_type.app_upgrade_t1}
                   
-                </Text>
-                </View>
-                <View style={{ flex: 0.2, alignItems: "center" }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 5 }}>
-                   {/* Enjoy superQso at full scale!  */}
-                   {this.props.userinfo.account_type.app_upgrade_t2}
-                </Text>
-                <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
-                   {/* Became a PREMIUM member:  */}
-                   {this.props.userinfo.account_type.app_upgrade_t3}
-                </Text>
-                </View>
-                <View style={{ flex: 0.2, alignItems: "center" }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                  {/* Speed up the App */}
-                  {this.props.userinfo.account_type.app_upgrade_t4}
-                </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                  {/* No Mobile/Web PopUp Ads */}
-                  {this.props.userinfo.account_type.app_upgrade_t5}
-                </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> 
-                  {/* 10 audios & photos per QSO */}
-                  {this.props.userinfo.account_type.app_upgrade_t6} 
-                </Text>
+      //           </Text>
+      //           </View>
+      //           <View style={{ flex: 0.2, alignItems: "center" }}>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 5 }}>
+      //              {/* Enjoy superQso at full scale!  */}
+      //              {this.props.userinfo.account_type.app_upgrade_t2}
+      //           </Text>
+      //           <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
+      //              {/* Became a PREMIUM member:  */}
+      //              {this.props.userinfo.account_type.app_upgrade_t3}
+      //           </Text>
+      //           </View>
+      //           <View style={{ flex: 0.2, alignItems: "center" }}>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+      //             {/* Speed up the App */}
+      //             {this.props.userinfo.account_type.app_upgrade_t4}
+      //           </Text>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+      //             {/* No Mobile/Web PopUp Ads */}
+      //             {this.props.userinfo.account_type.app_upgrade_t5}
+      //           </Text>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> 
+      //             {/* 10 audios & photos per QSO */}
+      //             {this.props.userinfo.account_type.app_upgrade_t6} 
+      //           </Text>
               
-                {/* <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> */}
-                  {/* 3 minutes audios recording */}
-                  {/* {this.props.userinfo.account_type.app_upgrade_t7} */}
-                {/* </Text> */}
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                   {/* Unlimited QR Scans  */}
-                   {this.props.userinfo.account_type.app_upgrade_t8}
-                </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
-                  {/* Unlimited QsosLinks */}
-                  {this.props.userinfo.account_type.app_upgrade_t9}
-                </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
-                  {/* Unlimited Web Navigation */}
-                  {this.props.userinfo.account_type.app_upgrade_t10}
-                </Text>
-                </View>
-              { (this.state.showOkBePremium) && 
-                <View style={{ flex: 0.2, flexDirection: 'row'}}>
-                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
-                 <TouchableOpacity
-                   onPress={() => this.props.closewaitingmodal()}
+      //           {/* <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> */}
+      //             {/* 3 minutes audios recording */}
+      //             {/* {this.props.userinfo.account_type.app_upgrade_t7} */}
+      //           {/* </Text> */}
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+      //              {/* Unlimited QR Scans  */}
+      //              {this.props.userinfo.account_type.app_upgrade_t8}
+      //           </Text>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
+      //             {/* Unlimited QsosLinks */}
+      //             {this.props.userinfo.account_type.app_upgrade_t9}
+      //           </Text>
+      //           <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
+      //             {/* Unlimited Web Navigation */}
+      //             {this.props.userinfo.account_type.app_upgrade_t10}
+      //           </Text>
+      //           </View>
+      //         { (this.state.showOkBePremium) && 
+      //           <View style={{ flex: 0.2, flexDirection: 'row'}}>
+      //             <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
+      //            <TouchableOpacity
+      //              onPress={() => this.props.closewaitingmodal()}
                   
-                 >
-                   <Text style={{ color: "#999", fontSize: 14 }}>Do not Upgrade</Text>
-                 </TouchableOpacity>
-                 </View> 
-                 <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
-                 <TouchableOpacity
-                   onPress={() => this.props.closewaitingmodal()}
+      //            >
+      //              <Text style={{ color: "#999", fontSize: 14 }}>Do not Upgrade</Text>
+      //            </TouchableOpacity>
+      //            </View> 
+      //            <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
+      //            <TouchableOpacity
+      //              onPress={() => this.props.openiap()}
                   
-                 >
-                   <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
-                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>$9.99/month</Text>
-                 </TouchableOpacity>
-                 </View> 
+      //            >
+      //              <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
+      //              <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>{this.props.localizedprice}/month</Text>
+      //            </TouchableOpacity>
+      //            </View> 
 
-                 </View>
-                 }
-              </View>
-            </View>
-          </Modal>
-        </View>
-      );
+      //            </View>
+      //            }
+      //         </View>
+      //       </View>
+      //     </Modal>
+      //   </View>
+      // );
+
+
+      // if (this.props.modalType === "iapModal")
+      // return (
+      //   // <View>
+      //     <Iap  closeiap={this.props.closeiapmodal.bind()} />
+      //   // </View>
+      // );
 
       if (this.props.modalType === "contactus")
       return (
@@ -1238,7 +1248,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
 
-    userinfo: state.sqso.userInfo
+    userinfo: state.sqso.userInfo,
+    localizedprice: state.sqso.localizedPrice
   };
 };
 

@@ -831,7 +831,7 @@ chooseCountry = () => {
                    <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>Sign Up Form</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
-                  placeholder="qra"
+                  placeholder="callsign"
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"

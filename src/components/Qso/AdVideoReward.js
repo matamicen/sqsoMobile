@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import firebase from "react-native-firebase";
 import {
    
-    manageLocationPermissions
+    manageLocationPermissions,
+    confirmedPurchaseFlag
     
   } from "../../actions";
   import VariosModales from "./VariosModales";
-
+  import Iap from './Iap';
 
 class AdVideoReward extends Component {
 
@@ -19,7 +20,8 @@ class AdVideoReward extends Component {
     
     this.state = {
         waitingModal: false,
-        prevideorewarded: false
+        prevideorewarded: false,
+        iapModal: false
     };
   }
 
@@ -42,8 +44,23 @@ class AdVideoReward extends Component {
           }
       
           // const advert = firebase.admob().rewarded('ca-app-pub-3940256099942544/5224354917');
+ 
+          //  this.setState({ waitingModal: true });
           try {
-            this.setState({ waitingModal: true });
+            //   this.setState({ waitingModal: true });
+            this.props.confirmedPurchaseFlag(false);
+            setTimeout(() => {
+              // le da tiempo a que purschaseflag en REDUX sea FALSE 
+              // porque si estaba en TRUE porque se habia ejecutado con anterioridad el listener del purchase
+              // y se abre rapido el modal del IAP se puede cerrar.
+             this.setState({ iapModal: true });    
+            }
+            , 50);
+        
+          
+          
+          
+          
             const AdRequest = firebase.admob.AdRequest;
             const request = new AdRequest();
             request.addKeyword("foo").addKeyword("bar");
@@ -204,11 +221,73 @@ class AdVideoReward extends Component {
         }
       }
 
+      closeIapModal = () =>{
+
+        this.setState({iapModal: false});
+        this.props.manageLocationPermissions("iapshowed",0);
+        
+      
+        // chequea si cerro el IAP porque compro o porque no compro
+        if (this.props.confirmedpurchaseflag)
+        { // Quiere decir que compro entonces envia el media directo 
+            if (this.props.closead==='newqso')
+            this.props.newqso();
+            if (this.props.closead==='sendmedia')
+            this.props.subos3();
+            if (this.props.closead==='scanqr')
+            this.props.showscanresults('qslScan');
+            if (this.props.closead==='linkqso')
+            this.props.linkqso();
+      
+            this.props.confirmedPurchaseFlag(false);
+      
+      
+        }else
+        {
+        if (this.videorewardLoaded)
+        {
+        // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+          // el Modal anterior para poder abrir el nuevo, en este caso el anterior es waitingModal
+          // Android no tiene problemas con esto.
+          setTimeout(() => {
+                  
+            console.log('prevideoreward en true con delay de 50');
+            this.setState({ prevideorewarded: true });
+            
+          }
+          , 50);
+
+        }else
+        {
+
+          // es porque no encontro aun un videoReward para mostrar
+          // entonces le doy el beneficio porque no es culpa suya
+          // envio el media directo
+          if (this.props.closead==='newqso')
+          this.props.newqso();
+          if (this.props.closead==='sendmedia')
+          this.props.subos3();
+          if (this.props.closead==='scanqr')
+          this.props.showscanresults('qslScan');
+          if (this.props.closead==='linkqso')
+          this.props.linkqso();
+    
+       //   this.props.confirmedPurchaseFlag(false);
+         }
+        }
+
+      }
+          
+        
+      
+      
+           
+
 render() { console.log("RENDER adInter SCREEN!" );
     
 
 return <View>
- {(this.state.waitingModal) && 
+ {/* {(this.state.waitingModal) && 
 <VariosModales
             show={this.state.waitingModal}
             modalType="waitingAdmodal"
@@ -216,7 +295,11 @@ return <View>
          //   message="Free User: Speed up your user expierence without Ads, you could be Premium user any time!"
            
           /> 
-  } 
+  }  */}
+  {(this.state.iapModal) && 
+  <Iap  closeiapmodal={this.closeIapModal.bind()} /> 
+}
+
 {  (this.state.prevideorewarded) && 
   <VariosModales
             show={this.state.prevideorewarded}
@@ -234,7 +317,7 @@ return <View>
 
  const mapStateToProps = state => {
     return {  
-
+      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
         
      };
 };
@@ -242,7 +325,8 @@ return <View>
 
 const mapDispatchToProps = {
     
-    manageLocationPermissions
+    manageLocationPermissions,
+    confirmedPurchaseFlag
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdVideoReward);

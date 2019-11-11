@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
      ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions, 
-     Platform} from 'react-native';
+     Platform } from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
-  postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications} from '../../actions';
+  postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
+  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation';
@@ -25,7 +26,9 @@ import Analytics from '@aws-amplify/analytics';
  import PushNotification from '@aws-amplify/pushnotification';
  //import { PushNotification } from 'aws-amplify-react-native';
  import { PushNotificationIOS } from 'react-native';
-//import aws_exports from './aws-exports';
+
+ import RNIap from 'react-native-iap';
+
 
 // PushNotification need to work with Analytics
 Analytics.configure(awsconfig);
@@ -34,6 +37,19 @@ PushNotification.configure(awsconfig);
 Auth.configure(awsconfig);
 // Amplify.configure(awsconfig);
 
+
+const itemSubs = Platform.select({
+  ios: [
+    'PremiumMonthly', // dooboolab
+  ],
+  android: [
+    // 'test.sub1', // subscription
+    '001'
+  ],
+});
+
+// let purchaseUpdateSubscription;
+// let purchaseErrorSubscription;
 
 class LoginForm extends Component {
 //   static navigationOptions = {
@@ -44,6 +60,8 @@ class LoginForm extends Component {
 
 constructor(props) {
     super(props);
+    TextInput.defaultProps = { allowFontScaling: false };
+    Text.defaultProps = { allowFontScaling: false };
 
     this.usernotfound = false;
     this.internet = false;
@@ -92,7 +110,8 @@ constructor(props) {
 
   async componentDidMount() {
 
-   
+
+
 
     PushNotification.onNotification((notification) => {
       console.log('antes imprimir')
@@ -211,8 +230,85 @@ constructor(props) {
   if (await hasAPIConnection())
   {
     console.log('SI hay internet: ');
-    // const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    //  console.log("status DidMount loginFORM"+status);
+         // IAP Listener GLOBAL
+
+
+
+      //    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+
+     
+      //     console.log('purchaseUpdatedListener de LoginForm');
+      //     console.log(purchase);
+    
+      //     // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+      //     // debo llamar a 
+          
+      //     if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+      //       try {
+      //      //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+      //         console.log('entro listener de compra por ANDROID');
+              
+            
+      //       //  console.log('ackResult', ackResult);
+      //       } catch (ackErr) {
+      //         console.warn('ackErr', ackErr);
+      //       }
+      //     }
+      //     if (Platform.OS==='ios')
+      //     {
+    
+      //       console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
+      //      // console.log('flag que recien compro: '+this.props.presspurchaseputton);
+            
+      //       this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'buy');
+      //    //   this.props.confirmReceipt();
+      //     //  RNIap.finishTransactionIOS(purchase.transactionId);
+    
+      //     }
+      //  //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+      //   });
+    
+      //   purchaseErrorSubscription = purchaseErrorListener((error) => {
+      //     console.log('purchaseErrorListener LoginForm', error);
+      //    // this.props.manageLocationPermissions("iapshowed",0);
+      //     // Alert.alert('purchase error', JSON.stringify(error));
+      //   });
+
+   // para capturar eventos de Purchases no confirmadas de AppleStore
+    try {
+      const result = await RNIap.initConnection();
+      // busco codigos de subscripcion para iOS para enviarlos a REDUX
+      // yq ue ya esten disponibles
+      
+      const products = await RNIap.getSubscriptions(itemSubs);
+      console.log('loginform GetSubscriptions');
+      console.log(products);
+      
+      localizedPrice = '' ;
+      if (Platform.OS==='android')
+        localizedPrice = products[0].localizedPrice + ' '+products[0].currency;
+      else
+        localizedPrice = products[0].localizedPrice;
+      console.log('busco codigos de subscripciones loginform:' + products[0].localizedPrice);
+      this.props.setSubscriptionInfo(products[0].productId,localizedPrice)
+
+      //  este debe estar ultimo porque si no hay compras sale por CATCH y necesito
+      // que se ejecute lo de arriba antes
+      // await RNIap.consumeAllItemsAndroid();
+      // console.log('result', result);
+      
+  
+
+    } catch (err) {
+      console.log('salio catch initConnection loginform');
+     
+      
+      console.warn(err.code, err.message);
+    }
+
+
+
+
 // Compruebo si ya estaba logueado con sus credenciales
     try {
       console.log('Antes de Auth.currentSession() ');
@@ -247,8 +343,9 @@ constructor(props) {
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-         if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-           this.setState({nopushtoken: true})
+      //   if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      if (1===2)
+      this.setState({nopushtoken: true})
         else
         {
         console.log("Antes de AsyncStorage.getItem");
@@ -318,6 +415,9 @@ constructor(props) {
        }
 
 
+       componentWillUnmount() {
+ 
+      }
       
     
 
@@ -652,7 +752,7 @@ if (!this.usernotfound)
                    <View style={{flex:1, alignItems: 'center'}} >
                
                <TextInput 
-                  placeholder="qra"
+                  placeholder="callsign"
                   onFocus={() => this.setState({ loginerror: 0})}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
@@ -855,8 +955,12 @@ if (!this.usernotfound)
  const mapStateToProps = state => {
  
   return { pushtoken: state.sqso.pushToken,
-             qra: state.sqso.qra,
-             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus };
+             qra: state.sqso.qra, 
+             userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
+             version: state.sqso.version,
+             env: state.sqso.env
+          
+             };
 };
 
 
@@ -872,7 +976,10 @@ const mapDispatchToProps = {
     getUserInfo,
     get_notifications,
     fetchQraProfileUrl,
-    manage_notifications
+    manage_notifications,
+    confirmReceiptiOS,
+    setSubscriptionInfo,
+    manageLocationPermissions
     
    }
 

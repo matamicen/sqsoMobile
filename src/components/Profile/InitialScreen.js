@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity,  StyleSheet, Platform, 
-  PermissionsAndroid, Alert, Dimensions, AsyncStorage  } from 'react-native';
+  PermissionsAndroid, Alert, Dimensions, AsyncStorage, TextInput  } from 'react-native';
 import { connect } from 'react-redux';
 import Login from './Login';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify'
@@ -10,12 +10,13 @@ import awsconfig from '../../aws-exports'
 import QraProfile from './../Qso/QraProfile';
 import FollowerList from './FollowerList';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
-  followingsSelected, manage_notifications } from '../../actions';
+  followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
 import { kinesis_catch } from '../../helper';
 import  ContactUs  from './ContactUs';
+import RestoreSubscription from './RestoreSubscription';
 
 
 
@@ -45,6 +46,8 @@ class InitialScreen extends Component {
 
   constructor(props) {
     super(props);
+    TextInput.defaultProps = { allowFontScaling: false };
+    Text.defaultProps = { allowFontScaling: false };
 
     this.width = Dimensions.get('window').width; //full width
     this.height = Dimensions.get('window').height; //full height
@@ -52,7 +55,8 @@ class InitialScreen extends Component {
     
     this.state = {
         nointernet: false,
-        contactus: false
+        contactus: false,
+        showRestoreSubscription: false
     };
   }
 
@@ -241,7 +245,28 @@ signOut = async () => {
       } else
       this.setState({nointernet: true});
     }
-   
+
+    closeRestore = () => {
+
+      this.setState({showRestoreSubscription: false});
+      this.props.restoreCall(false,'');
+     
+    }
+
+    restoreSubs = async () => {
+     
+      if (await hasAPIConnection())
+      {
+       
+        this.setState({showRestoreSubscription: true})
+
+      } else
+      this.setState({nointernet: true});
+    }
+
+      
+    
+    
     render() { console.log("InitialScreen Screen");
    // console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
    
@@ -258,7 +283,7 @@ signOut = async () => {
                   <Text  style={{ fontSize: 12, color: '#999'}}>Login</Text>             
                 </TouchableOpacity> */}
 
-             <View style={{flexDirection: 'row', flex: 0.15}}>
+             <View style={{flexDirection: 'row', flex: 0.13}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                <View style={{flex:0.20}}>
                   <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
@@ -280,7 +305,7 @@ signOut = async () => {
                 </View>
 
                 <View style={{flex:0.27, alignItems: 'flex-end', marginRight: 20}}>
-                <TouchableOpacity style={{marginTop: 13}} onPress={ () => this.signOut() }>
+                <TouchableOpacity style={{marginTop: 17}} onPress={ () => this.signOut() }>
                     <Image source={require('../../images/logout.png')}  style={{width: 20, height: 20, marginLeft: 15  } } 
                  resizeMode="contain" /> 
                 {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
@@ -291,8 +316,13 @@ signOut = async () => {
  
               </View> 
 
-               
-              <View style={{flexDirection: 'row', flex: 0.10, marginLeft: 6}}>
+              <View style={{flex: 0.05, alignItems: 'flex-end', marginRight: 17}}>
+                <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
+                   <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >Restore Subscription</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={{flexDirection: 'row', flex: 0.065, marginLeft: 6}}>
                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.switchToFollowing()} >
                     <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> Following</Text>
                  </TouchableOpacity>
@@ -308,7 +338,7 @@ signOut = async () => {
 
                       </View>
 
-                      <View style={{flex: 0.10}}>
+                      <View style={{flex: 0.095}}>
                  
                  {(this.props.followingsselected) ?
                           // <TouchableOpacity  >
@@ -323,7 +353,7 @@ signOut = async () => {
                    
                    </View> 
 
-               <View style={{flex: 0.65, width:this.width-15, marginBottom: 10}}>
+               <View style={{flex: 0.66, width:this.width-15, marginBottom: 10}}>
                 
                 <FollowerList /> 
                 
@@ -336,7 +366,8 @@ signOut = async () => {
                  <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
             }
                  {(this.state.contactus) && <ContactUs closecontactus={this.closeContactUs.bind()}  /> }
-                
+                 {(this.state.showRestoreSubscription) && <RestoreSubscription  closerestoremodal={this.closeRestore.bind()}/> }
+         
             </View>
        
      } 
@@ -417,7 +448,9 @@ const mapDispatchToProps = {
   postPushToken,
   profilePictureRefresh,
   followingsSelected,
-  manage_notifications
+  manage_notifications,
+  confirmedPurchaseFlag,
+  restoreCall
   
     
    }

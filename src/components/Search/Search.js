@@ -171,7 +171,7 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
                 {/* <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000"/> */}
                 <TextInput
                     style={styles.input}
-                    placeholder="Search QRA"
+                    placeholder="Search CallSign"
                     onChangeText={(text) => this.onChange(text)}
                  //   onChangeText={(text) => {this.setState({text})}}
                     value={this.state.qra}
