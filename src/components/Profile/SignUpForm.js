@@ -39,6 +39,8 @@ constructor(props) {
     this.qraAlreadySignUp = '';
     this.diffyears = 0;
 
+    
+
 
    
     
@@ -90,12 +92,13 @@ constructor(props) {
 
     console.log("COMPONENT did mount SignupForm");
     console.log("SignUp Did PushToken:"+this.props.pushtoken)
-    
-
+ 
     
 
  
        }
+
+     
 
        setDate = async (newDate)  => 
         {
@@ -528,14 +531,15 @@ signUp = async () => {
 }
 
 chooseCountry = () => {
-  this.setState({showFlag: true});
+  this.setState({showFlag: false});
+
   
-  setTimeout(() => {
+   setTimeout(() => {
                 
-    this.countryPicker.openModal();
+     this.setState({showFlag: true});
     
-   }
-  , 20);
+    }
+   , 100);
  
 }
    
@@ -991,21 +995,46 @@ chooseCountry = () => {
                 
                 
                   {   (this.state.showFlag) &&
+
+                        <CountryPicker
+                        withEmoji={false}
+                        withCloseButton={true}
+                        withFlag={true}
+                    //    countryCode={this.state.countryCode}
+                        withFilter={true}
+                        visible = {true}
+                      //  theme="black"
+                       // withCallingCode
+                        onSelect={value => {
+                          // this.setState({
+                          //   countryCode: country.cca2,
+                          //   callingCode: `+ ${country.callingCode}`,
+                          // });
+                          this.setState({ cca2: value.cca2, callingCode: value.callingCode, country: value.name, showFlag: false })
+                          console.log(value);
+                        }}
+                       // onClose = { this.setState({showFlag: false})}
+                       // ref={ref => {this.countryPicker = ref}}
+                      
+                        />
                 
-                <CountryPicker
-              onChange={value => {
-                this.setState({ cca2: value.cca2, callingCode: value.callingCode, country: value.name })
-                console.log(value);
+            //     <CountryPicker
+            //   onChange={value => {
+            //     this.setState({ cca2: value.cca2, callingCode: value.callingCode, country: value.name })
+            //     console.log(value);
                 
-              }}
-              cca2={this.state.cca2}
-              translation="eng"
-              closeable="true"
-              filterable="true"
-              hideAlphabetFilter="true"
-              ref={ref => {this.countryPicker = ref}}
+            //   }}
+            //   cca2={this.state.cca2}
+            //   // translation="eng"
+            //   // closeable="true"
+            //   // filterable="true"
+            //   // hideAlphabetFilter="true"
+            //   translation={'eng'}
+            //   withFilter
+            //   visible = {true}
+            //   ref={ref => {this.countryPicker = ref}}
             
-            />
+            // />
             
           }
 
