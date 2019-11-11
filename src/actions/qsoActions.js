@@ -1067,13 +1067,17 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
         dispatch(fetchingApiRequest('postPushToken'));
         console.log("ejecuta llamada API postPushToken");  
       try {
-          // session = await Auth.currentSession();
+        // se llama aca por si se vencio el token, hay que evitar que falle esta api
+        // porque se puede perder la relacion TOKEN de Push con el usuario
+        // hay un PLAN B en LoginForm pero es mejor que no falle aca cuando hace SignOut porque
+        // el equipo quedaria enviando PUSH a este dispositivo y el usuario no logueo.
+           session = await Auth.currentSession();
           // console.log("Su token es: " + session.idToken.jwtToken);
           let apiName = 'superqso';
           let path = '/push-device';
           let myInit = { // OPTIONAL
             headers: {
-              'Authorization': jwtToken,
+              'Authorization': session.idToken.jwtToken,
               'Content-Type': 'application/json'
             }, // OPTIONAL
             body: {
@@ -1084,9 +1088,13 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
             
           }
   
-  
+          console.log("llamo api postPushToken!");
+          console.log('qra:'+ qra);
+          console.log('deviceType:'+ deviceType)
+          console.log('token:'+ token)
+
         respuesta = await API.post(apiName, path, myInit);
-        console.log("llamo api postPushToken!");
+      
       
         
         dispatch(fetchingApiSuccess('postPushToken',respuesta));

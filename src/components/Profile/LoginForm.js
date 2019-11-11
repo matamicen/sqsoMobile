@@ -115,9 +115,13 @@ constructor(props) {
 
     PushNotification.onNotification((notification) => {
       console.log('antes imprimir')
+      console.log('qra:'+ this.props.qra);
       console.log('in app notification', notification);
       console.log('despues de  imprimir')
    //  this.setState({mensaje: JSON.stringify(notification)});
+
+  if (this.props.qra!='') {
+
     let envioNotif = '';
       
       if (Platform.OS==='android')
@@ -197,7 +201,14 @@ constructor(props) {
      if (!notification.foreground)
           this.props.navigation.navigate("Notifications");
        
-    
+  }else{
+    // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
+    // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)
+    // entonce si llega un PUSH y no tiene QRA en redux es porque justmanete fallo esa actualizacion en RDS
+    // entonces llamo de nuevo al RDS y le asigno VACIO de QRA al token push,luego cuando el el usuario se loguee el RDS se va a actualizar
+    // y pasar en nuevo QRA.
+    console.log('recibio push pero no deberia porque no se logueo.')
+  }
     
 
       if(Platform.OS !== 'android')
@@ -402,7 +413,24 @@ constructor(props) {
     catch (e) {
       console.log('No tiene credenciales LoginForm', e);
       this.setState({showloginForm: true});
-      kinesis_catch('#009',e,value);
+   //   kinesis_catch('#009',e,value);
+      var pushtoken = await AsyncStorage.getItem('pushtoken');
+      var qraTokenVerif = await AsyncStorage.getItem('qratoken');
+
+      if (pushtoken===null)
+      {
+        console.log('no tiene credenciales y nunca obtuvo pushtoken');
+      }else
+      {
+        // encontro un token y como no hay usuario asignado a ese token, debe ser
+        // blanqueado en RDS por las dudas que no haya sifo blanqueado en el signout
+        // y no siga enviando PUSH a este equipo.
+        console.log('no tiene credenciales y tiene pushtoken');
+        console.log(pushtoken);
+        console.log('qratoken:'+qraTokenVerif);
+        if (qraTokenVerif!=='')
+            console.log('el qratoken es distinot de vacio, deberia blanquear el pushtoken del RDS')
+      }
       // Handle exceptions
     }
 
