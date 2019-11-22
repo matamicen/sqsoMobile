@@ -10,12 +10,12 @@ import thunk from "redux-thunk"
 // agregado nuevo
 import AppReducer from './src/reducers/AppReducer';
 import AppWithNavigationState2 from './src/components/MainNavigator';
-import PushNotification from '@aws-amplify/pushnotification';
+// import PushNotification from '@aws-amplify/pushnotification';
 import {  kinesis_catch } from './src/helper';
 import reactotron from './ReactotronConfig';
 
 
-PushNotification.configure(awsconfig);
+// PushNotification.configure(awsconfig);
 
 // fin agregado nuevo
 
@@ -29,22 +29,22 @@ else{
     store = createStoreWithMidddleware(AppReducer);
 }
 
-PushNotification.onRegister((token) => {
-  console.log('in app registration App.js', token);
+// PushNotification.onRegister((token) => {
+//   console.log('in app registration App.js', token);
  
-   try {
-  //  await AsyncStorage.setItem('pushtoken', token);
-  AsyncStorage.setItem('pushtoken', token);
-   } 
-   catch (error) {
-     console.log('Error al grabar pushtoken en asynstorage', error);
+//    try {
+//   //  await AsyncStorage.setItem('pushtoken', token);
+//   AsyncStorage.setItem('pushtoken', token);
+//    } 
+//    catch (error) {
+//      console.log('Error al grabar pushtoken en asynstorage', error);
      
-     kinesis_catch('#015',error,'');
-     // Error retrieving data
-    }
+//      kinesis_catch('#015',error,'');
+//      // Error retrieving data
+//     }
  
 
-});
+// });
 
 
 export default class App extends React.Component {
