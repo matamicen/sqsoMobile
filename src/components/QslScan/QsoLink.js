@@ -17,8 +17,8 @@ import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
 import { ConsoleLogger } from '@aws-amplify/core';
-import AdInter from "../Qso/AdInter"
-import AdVideoReward from "../Qso/AdVideoReward";
+// import AdInter from "../Qso/AdInter"
+// import AdVideoReward from "../Qso/AdVideoReward";
 import {
   showVideoReward,
   showIntersitial
@@ -617,9 +617,9 @@ return   <View style={{flex: 1}}>
 
       </View>
 
-                   {(this.state.showIntersitial) && <AdInter linkqso={this.linkqso.bind()}  closead={this.closeAd}  /> }
+                   {/* {(this.state.showIntersitial) && <AdInter linkqso={this.linkqso.bind()}  closead={this.closeAd}  /> }
                    {(this.state.showVideoReward) && <AdVideoReward  linkqso={this.linkqso.bind()} closead={this.closeAd}
-                   message="Are you sure  " notrewared={this.not_rewarded.bind()} /> }
+                   message="Are you sure  " notrewared={this.not_rewarded.bind()} /> } */}
 
        </View>
        

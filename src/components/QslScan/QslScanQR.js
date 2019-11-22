@@ -9,8 +9,8 @@ import { getQslScan } from '../../actions';
 // import Likes from './Likes';
 // import Comments from './Comments';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import AdInter from "../Qso/AdInter"
-import AdVideoReward from "../Qso/AdVideoReward";
+// import AdInter from "../Qso/AdInter"
+// import AdVideoReward from "../Qso/AdVideoReward";
 import {
   showVideoReward,
   showIntersitial
@@ -281,10 +281,10 @@ return   <View style={{flex: 1}}>
                   
 
 
-                  {/* {(this.state.showIntersitial) && <AdInter showscanresults={this.gotoQslScanScreen.bind()}  closead={this.closeAd}  /> } */}
+{/*                
                   {(this.state.showIntersitial) && <AdInter showscanresults={this.scanQr.bind()}  closead={this.closeAd}  /> }
-                  {/* {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.gotoQslScanScreen.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> } */}
-                  {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.scanQr.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
+                 
+                  {(this.state.showVideoReward) && <AdVideoReward  showscanresults={this.scanQr.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> } */}
             </View>
 
             }

@@ -11,10 +11,10 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
-import io.invertase.firebase.RNFirebasePackage;
-import com.google.android.gms.ads.MobileAds;
-import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+//import io.invertase.firebase.RNFirebasePackage;
+//import com.google.android.gms.ads.MobileAds;
+//import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
+//import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 
 import java.util.List;
 
@@ -33,8 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
     //  packages.add(new RNFirebasePackage());
-      packages.add(new RNFirebaseAdMobPackage());
-      packages.add(new RNFirebaseAnalyticsPackage());
+//      packages.add(new RNFirebaseAdMobPackage());
+//      packages.add(new RNFirebaseAnalyticsPackage());
       return packages;
     }
 
@@ -52,7 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    MobileAds.initialize(this, "ca-app-pub-1064314468310203~8912907965");
+//    MobileAds.initialize(this, "ca-app-pub-1064314468310203~8912907965");
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
