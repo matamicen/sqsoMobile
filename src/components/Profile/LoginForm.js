@@ -354,8 +354,8 @@ constructor(props) {
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-         if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-   //   if (1===2)
+     //    if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      if (1===2)
       this.setState({nopushtoken: true})
         else
         {
