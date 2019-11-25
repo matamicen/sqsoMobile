@@ -1,6 +1,40 @@
 PODS:
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
+  - Firebase/AdMob (6.8.1):
+    - Firebase/CoreOnly
+    - Google-Mobile-Ads-SDK (~> 7.49)
+  - Firebase/Analytics (6.8.1):
+    - Firebase/Core
+  - Firebase/Core (6.8.1):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 6.1.1)
+  - Firebase/CoreOnly (6.8.1):
+    - FirebaseCore (= 6.2.3)
+  - FirebaseAnalytics (6.1.1):
+    - FirebaseCore (~> 6.2)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleAppMeasurement (= 6.1.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3)
+  - FirebaseCore (6.2.3):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.1.0):
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleDataTransportCCTSupport (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnosticsInterop (1.0.0)
+  - FirebaseInstanceID (4.2.5):
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/UserDefaults (~> 6.0)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -11,7 +45,43 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - Google-Mobile-Ads-SDK (7.50.0):
+    - GoogleAppMeasurement (~> 6.0)
+  - GoogleAppMeasurement (6.1.1):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3)
+  - GoogleDataTransport (2.0.0)
+  - GoogleDataTransportCCTSupport (1.1.0):
+    - GoogleDataTransport (~> 2.0)
+    - nanopb
+  - GoogleUtilities/AppDelegateSwizzler (6.3.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.3.0)
+  - GoogleUtilities/Logger (6.3.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.3.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.3.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.3.0)"
+  - GoogleUtilities/Reachability (6.3.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.3.0):
+    - GoogleUtilities/Logger
   - JKBigInteger2 (0.0.5)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - PersonalizedAdConsent (1.0.3)
   - QBImagePickerController (3.4.0)
   - React (0.60.4):
     - React-Core (= 0.60.4)
@@ -113,6 +183,16 @@ PODS:
     - React
   - RNCAsyncStorage (1.6.1):
     - React
+  - RNFBAdmob (6.0.4):
+    - Firebase/AdMob (~> 6.8.1)
+    - Firebase/Analytics (~> 6.8.1)
+    - Firebase/Core (~> 6.8.1)
+    - PersonalizedAdConsent
+    - React
+    - RNFBApp
+  - RNFBApp (6.0.4):
+    - Firebase/Core (~> 6.8.1)
+    - React
   - RNGestureHandler (1.3.0):
     - React
   - RNIap (4.0.7):
@@ -159,6 +239,8 @@ DEPENDENCIES:
   - RNAudio (from `../node_modules/react-native-audio`)
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNFBAdmob (from `../node_modules/@react-native-firebase/admob`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -168,7 +250,20 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - boost-for-react-native
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
+    - FirebaseInstanceID
+    - Google-Mobile-Ads-SDK
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleUtilities
     - JKBigInteger2
+    - nanopb
+    - PersonalizedAdConsent
     - QBImagePickerController
     - RSKImageCropper
 
@@ -235,6 +330,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/amazon-cognito-identity-js"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNFBAdmob:
+    :path: "../node_modules/@react-native-firebase/admob"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNIap:
@@ -249,9 +348,22 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
+  Firebase: 9cbe4e5b5eaafa05dc932be58b7c8c3820d71e88
+  FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
+  FirebaseCore: e9d9bd1dae61c1e82bc1e0e617a9d832392086a0
+  FirebaseCoreDiagnostics: be4f7a09d02ab305f18de59a470412caddb64c2a
+  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
+  FirebaseInstanceID: 550df9be1f99f751d8fcde3ac342a1e21a0e6c42
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  Google-Mobile-Ads-SDK: d48dbaf5bae1ab7a94a9786f493c26c454bc6f16
+  GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
+  GoogleDataTransport: c8617c00e4f3eb9418e42ac0e8ac5241a9d555dd
+  GoogleDataTransportCCTSupport: 9f352523e8785a71f6754f51eeff09f49ec19268
+  GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
   JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  PersonalizedAdConsent: b50a8a5d6065b6db23121e8fcc0dce2ae983f6ea
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: ff7ee2ae5ee1c1d9ae2183b4111045b25294bb01
   React-Core: 8e0ea421cae5609d2562850f98421b15030476fa
@@ -281,6 +393,8 @@ SPEC CHECKSUMS:
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNAWSCognito: 74cf80de543287926699f64d7bc5f61e13008217
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
+  RNFBAdmob: 06e97901b77a18f0d44c687707acd1d02d4f5f69
+  RNFBApp: cce40af7fd9a8bc12858ce5ec21e20ac7987e0ca
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
