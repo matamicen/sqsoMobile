@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from "react-native-firebase";
+//import firebase from "react-native-firebase";
+import {  TestIds, RewardedAd, RewardedAdEventType } from '@react-native-firebase/admob';
 import {
    
     manageLocationPermissions,
@@ -30,18 +31,28 @@ class AdVideoReward extends Component {
   
         console.log("paso por intersitial AdSVideoRward Component con test en IOS");
     
-        if (Platform.OS === "ios") {
-            this.advertVideoReward = firebase
-              .admob()
-            //  .rewarded("ca-app-pub-7016811987787025/5828178381"); // este es verdadero
-              .rewarded("ca-app-pub-3940256099942544/1712485313"); // test ios
+        // if (Platform.OS === "ios") {
+        //     this.advertVideoReward = firebase
+        //       .admob()
+        //     //  .rewarded("ca-app-pub-7016811987787025/5828178381"); // este es verdadero
+        //       .rewarded("ca-app-pub-3940256099942544/1712485313"); // test ios
 
-          } else {
-            this.advertVideoReward = firebase
-              .admob()
-             // .rewarded("ca-app-pub-7016811987787025/1688132132"); // este es verdadero
-              .rewarded("ca-app-pub-3940256099942544/5224354917"); // test para android
-          }
+        //   } else {
+        //     this.advertVideoReward = firebase
+        //       .admob()
+        //      // .rewarded("ca-app-pub-7016811987787025/1688132132"); // este es verdadero
+        //       .rewarded("ca-app-pub-3940256099942544/5224354917"); // test para android
+        //   }
+
+
+          if (Platform.OS==='android')
+          rewardedAd = RewardedAd.createForAdRequest(TestIds.REWARDED);
+         else
+          rewardedAd = RewardedAd.createForAdRequest(TestIds.REWARDED);
+
+
+
+
       
           // const advert = firebase.admob().rewarded('ca-app-pub-3940256099942544/5224354917');
  
@@ -58,15 +69,16 @@ class AdVideoReward extends Component {
             , 50);
         
           
+          // Load a new advert
+          rewardedAd.load();
           
           
-          
-            const AdRequest = firebase.admob.AdRequest;
-            const request = new AdRequest();
-            request.addKeyword("foo").addKeyword("bar");
+            // const AdRequest = firebase.admob.AdRequest;
+            // const request = new AdRequest();
+            // request.addKeyword("foo").addKeyword("bar");
       
-            // Load the advert with our AdRequest
-            this.advertVideoReward.loadAd(request.build());
+            // // Load the advert with our AdRequest
+            // this.advertVideoReward.loadAd(request.build());
 
            // le doy 5 segundos maximo para q cargue el AD, si pasan esos 5 seg es porque no encontro aun ad
           // entonces le doy el beneficio porque no es cupa suya
@@ -89,76 +101,134 @@ class AdVideoReward extends Component {
             // }, 5000);
 
 
-      
-            this.advertVideoReward.on("onAdLoaded", () => {
-              console.log("Advert video rewarded is ready to show.");
-              this.videorewardLoaded = true;
-            //  alert("video reward loaded!");
-             //     this.advertVideoReward.show();
-           //       this.setState({ waitingModal: false, prevideorewarded: true });
 
-            });
+
+          // Add event handlers
+          rewardedAd.onAdEvent((type, error, reward) => {
+            console.log('New rewarded event: ', type);
+            
+            if (type==='error'){
+              console.log('error ad:');
+              console.log(error);
+                
+              }
+
+              if (type === RewardedAdEventType.LOADED) {
+                //interstitialAd.show();
+                console.log('se cargo reward')
+                console.log("Advert video rewarded is ready to show.");
+               this.videorewardLoaded = true;
+              }
+              if (type === 'opened') {
+                console.log('se abrio reward')
+                this.videorewardLoaded = false;
+                this.props.manageLocationPermissions("adshowed", true);
+                this.usergotreward = false;
+              }
+              if (type === 'closed') {
+                console.log('se cerro reward')
+                this.videorewardLoaded = false;
+             
+                if (this.props.closead==='linkqso' && this.usergotreward)
+                   {
+                   
+                     this.props.linkqso();
+                   }
+                   else
+                    this.props.notrewared();
+              }
+
+              if (type === RewardedAdEventType.EARNED_REWARD) {
+                console.log('User earned reward of ', reward);
+                this.videorewardLoaded = false;
+                this.usergotreward = true;
+
+                   if (this.props.closead==='newqso')
+                   this.props.newqso();
+                   
+                   if (this.props.closead==='sendmedia')
+                   this.props.subos3();
+                   
+                   if (this.props.closead==='scanqr')
+                      this.props.showscanresults();
+              }
+              
+
+              });
+
       
-            this.advertVideoReward.on("onRewarded", event => {
-              console.log(
-                "The user watched the entire video and will now be rewarded!",
-                event
-              );
-              this.videorewardLoaded = false;
-              this.usergotreward = true;
-        //       if (this.closeAd==='newqso')
-        //          this.newqso_after_ad();
-        //   if (this.closeAd==='sendmedia')
-        //          this.subo_s3();
-                 if (this.props.closead==='newqso')
-                 this.props.newqso();
-                 if (this.props.closead==='sendmedia')
-                 this.props.subos3();
-                 if (this.props.closead==='scanqr')
-              //   this.props.showscanresults('qslScan');
-                 this.props.showscanresults();
+          //   this.advertVideoReward.on("onAdLoaded", () => {
+          //     console.log("Advert video rewarded is ready to show.");
+          //     this.videorewardLoaded = true;
+          //   //  alert("video reward loaded!");
+          //    //     this.advertVideoReward.show();
+          //  //       this.setState({ waitingModal: false, prevideorewarded: true });
+
+          //   });
+      
+        //     this.advertVideoReward.on("onRewarded", event => {
+        //       console.log(
+        //         "The user watched the entire video and will now be rewarded!",
+        //         event
+        //       );
+        //       this.videorewardLoaded = false;
+        //       this.usergotreward = true;
+        // //       if (this.closeAd==='newqso')
+        // //          this.newqso_after_ad();
+        // //   if (this.closeAd==='sendmedia')
+        // //          this.subo_s3();
+        //          if (this.props.closead==='newqso')
+        //          this.props.newqso();
+        //          if (this.props.closead==='sendmedia')
+        //          this.props.subos3();
+        //          if (this.props.closead==='scanqr')
+        //       //   this.props.showscanresults('qslScan');
+        //          this.props.showscanresults();
                 
 
 
-            //     this.setState({ waitingModal: false, prevideorewarded:false });
+        //     //     this.setState({ waitingModal: false, prevideorewarded:false });
              
       
-          //    this.newqso_after_ad();
-              // this.loadVideoReward();
-            //  this.loadVideoReward();
-            });
+        //   //    this.newqso_after_ad();
+        //       // this.loadVideoReward();
+        //     //  this.loadVideoReward();
+        //     });
       
-            this.advertVideoReward.on("onAdClosed", event => {
-              console.log("Se cerro el AD: ", event);
-              this.videorewardLoaded = false;
+        //     this.advertVideoReward.on("onAdClosed", event => {
+        //       console.log("Se cerro el AD: ", event);
+        //       this.videorewardLoaded = false;
              
-              if (this.props.closead==='linkqso' && this.usergotreward)
-                 {
+        //       if (this.props.closead==='linkqso' && this.usergotreward)
+        //          {
                  
-                   this.props.linkqso();
-                 }
-                 else
-                  this.props.notrewared();
-           //   this.loadVideoReward();
-              // if (!this.usergotreward)
-              //      this.setState({notvideorewarded: true})
-            });
+        //            this.props.linkqso();
+        //          }
+        //          else
+        //           this.props.notrewared();
+        //    //   this.loadVideoReward();
+        //       // if (!this.usergotreward)
+        //       //      this.setState({notvideorewarded: true})
+        //     });
       
-            this.advertVideoReward.on("onAdOpened", event => {
-              console.log("se muestra el AD: ", event);
-              this.videorewardLoaded = false;
-              this.props.manageLocationPermissions("adshowed", true);
-              this.usergotreward = false;
-              // this.loadVideoReward();
-              // this.loadVideoReward();
-            });
+        //     this.advertVideoReward.on("onAdOpened", event => {
+        //       console.log("se muestra el AD: ", event);
+        //       this.videorewardLoaded = false;
+        //       this.props.manageLocationPermissions("adshowed", true);
+        //       this.usergotreward = false;
+        //       // this.loadVideoReward();
+        //       // this.loadVideoReward();
+        //     });
       
-            this.advertVideoReward.on("onAdLeftApplication", event => {
-              console.log("se va de la APP porque hizo click?: ", event);
-              this.videorewardLoaded = false;
-             // this.newqso_after_ad();
-              // this.loadVideoReward();
-            });
+        //     this.advertVideoReward.on("onAdLeftApplication", event => {
+        //       console.log("se va de la APP porque hizo click?: ", event);
+        //       this.videorewardLoaded = false;
+        //      // this.newqso_after_ad();
+        //       // this.loadVideoReward();
+        //     });
+
+
+
           } catch (err) {
             alert("video reward failed to load: " + err);
           }
@@ -172,7 +242,8 @@ class AdVideoReward extends Component {
         setTimeout(() => {
                 
           console.log('FFF muestro video con delay de 50');
-          this.advertVideoReward.show();
+          // this.advertVideoReward.show();
+          rewardedAd.show();
           
          }
         , 50);

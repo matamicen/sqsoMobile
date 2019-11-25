@@ -70,7 +70,7 @@ import { Auth } from "aws-amplify";
 //import firebase from "react-native-firebase";
 import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
-// import AdVideoReward from "./AdVideoReward";
+import AdVideoReward from "./AdVideoReward";
 
 import RNIap, {
   Product,
@@ -1395,7 +1395,7 @@ class QsoScreen extends Component {
           ) : null}
         </View>
           {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
-          {/* {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> } */}
+          {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
           
           {(this.props.welcomeuserfirsttime) && 
             <VariosModales
