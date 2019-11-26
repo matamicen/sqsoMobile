@@ -46,9 +46,9 @@ class AdVideoReward extends Component {
 
 
           if (Platform.OS==='android')
-          rewardedAd = RewardedAd.createForAdRequest(TestIds.REWARDED);
+          rewardedAd = RewardedAd.createForAdRequest('ca-app-pub-1064314468310203/1041130107');
          else
-          rewardedAd = RewardedAd.createForAdRequest(TestIds.REWARDED);
+          rewardedAd = RewardedAd.createForAdRequest('ca-app-pub-1064314468310203/1238788269');
 
 
 
