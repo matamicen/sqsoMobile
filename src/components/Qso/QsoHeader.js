@@ -21,6 +21,7 @@ class QsoHeader extends Component {
           errorMessage: "",
           isFetching: true,
           text: '',
+          testCrash: 0
    
         };
       }
@@ -43,6 +44,10 @@ class QsoHeader extends Component {
 
 
     render() { console.log("RENDER qso Header");
+
+    // if (this.state.testCrash === 0) 
+    //   // Simulate a JS error
+    //     throw new Error('I crashed!');
            
                            
               

@@ -53,6 +53,7 @@ import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
 import Iap from "./Iap";
+import analytics from '@react-native-firebase/analytics';
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
@@ -71,6 +72,7 @@ import { Auth } from "aws-amplify";
 import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
+import ErrorBoundary from './ErrorBoundary';
 
 import RNIap, {
   Product,
@@ -122,7 +124,8 @@ class QsoScreen extends Component {
       fadeValue: new Animated.Value(0),
       xValue: new Animated.Value(0),
       springValue: new Animated.Value(0.3),
-      rotateValue: new Animated.Value(0),
+      rotateValue: new Animated.Value(0)
+     
     };
   }
 
@@ -476,11 +479,16 @@ class QsoScreen extends Component {
 
   checkInternetOpenRecording = async () => {
     if (await hasAPIConnection()) {
+      analytics().logEvent("Recording", {"QSOTYPE": "QSO", "MODE": "SSB"});
+
+      console.log("Recording analytics")
+      
       Permissions.request("microphone").then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         console.log("Microphone Permiso: " + response);
         if (response === "authorized") {
+         
           this.toggleRecModal();
         }
 
@@ -579,6 +587,8 @@ class QsoScreen extends Component {
     if (await hasAPIConnection()) {
       // this.requestCameraPermission().then((hasPermission) => {
       //   if (!hasPermission) return;
+
+    
 
       Permissions.request("camera").then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -1040,10 +1050,15 @@ class QsoScreen extends Component {
     });
     console.log("RENDER qso Screen");
 
+    
+
     return (
+      <ErrorBoundary>
+     
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
+          
          
 
           {/* <ActivityIndicator  animating={this.state.actindicatorpostQsoNew} size="large" color='orange' /> */}
@@ -1404,6 +1419,7 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
       </View>
+      </ErrorBoundary>
     );
   }
 }
