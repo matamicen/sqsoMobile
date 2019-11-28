@@ -72,7 +72,7 @@ import { Auth } from "aws-amplify";
 import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
-import ErrorBoundary from './ErrorBoundary';
+
 
 import RNIap, {
   Product,
@@ -1053,7 +1053,7 @@ class QsoScreen extends Component {
     
 
     return (
-      <ErrorBoundary>
+    
      
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
         <View style={{ flex: 0.3 }}>
@@ -1419,7 +1419,7 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
       </View>
-      </ErrorBoundary>
+  
     );
   }
 }

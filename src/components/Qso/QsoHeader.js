@@ -45,6 +45,9 @@ class QsoHeader extends Component {
 
     render() { console.log("RENDER qso Header");
 
+    // este codigo es solo para generar un error a proposito 
+    // para probar que el crashalytics ande.
+
     // if (this.state.testCrash === 0) 
     //   // Simulate a JS error
     //     throw new Error('I crashed!');

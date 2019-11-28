@@ -17,6 +17,7 @@ import Permissions from 'react-native-permissions'
 import { kinesis_catch } from '../../helper';
 import  ContactUs  from './ContactUs';
 import RestoreSubscription from './RestoreSubscription';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 
@@ -78,7 +79,12 @@ signOut = async () => {
     }
     catch(err) {
       console.log(err)
-        kinesis_catch('#006',err,this.props.qra);
+      //  kinesis_catch('#006',err,this.props.qra);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('SignOut_getPushToken'));
+
+      
     }
 
     await this.props.postPushToken(pushtoken,'',Platform.OS,this.props.jwtToken);
@@ -87,10 +93,18 @@ signOut = async () => {
         console.log(JSON.stringify(data))
         this.props.profilePictureRefresh('');
         this.props.manage_notifications('DELETE_NOTIF','');
+
+        // crashlytics().setUserId(this.props.qra);
+        // crashlytics().log('error: ' + JSON.stringify(data)) ;
+        // crashlytics().recordError(new Error('SignOut_DentroSignOut'));
       })
       
       .catch(err => {console.log(err)
-        kinesis_catch('#006',err,this.props.qra);
+     //   kinesis_catch('#006',err,this.props.qra);
+        crashlytics().setUserId(this.props.qra);
+        crashlytics().log('error: ' + err) ;
+        crashlytics().recordError(new Error('SignOut_AuthSignOut'));
+  
       });
 
       try {
@@ -104,7 +118,12 @@ signOut = async () => {
        this.props.resetForSignOut();
         this.props.navigation.navigate("Root");
 
-        kinesis_catch('#007',e,this.props.qra);
+        crashlytics().setUserId(this.props.qra);
+        crashlytics().setAttribute('InitialScreen', '#1');
+        crashlytics().log('error: ' + e) ;
+        crashlytics().recordError(new Error('SignOut_AuthCurrentSession'));
+
+        //kinesis_catch('#007',e,this.props.qra);
         // Handle exceptions
       }
 

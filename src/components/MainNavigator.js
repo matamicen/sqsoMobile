@@ -18,6 +18,7 @@ import QslScanQR from './QslScan/QslScanQR';
 import QsoLink from './QslScan/QsoLink';
 import QslScanResult from './QslScan/QslScanResult';
 import BePremium from './Qso/BePremium';
+import ErrorBoundary from './Qso/ErrorBoundary';
 
 
 
@@ -284,7 +285,9 @@ const AppWithNavigationState2 = ({ dispatch, nav }) => (
   
     // <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav, addListener })} />
     // <AppNavigator />
-    <Appnavig />
+    <ErrorBoundary>
+      <Appnavig />
+    </ErrorBoundary>
 );
 
 const mapStateToProps = state => ({
