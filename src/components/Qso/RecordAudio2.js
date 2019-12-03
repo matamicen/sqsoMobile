@@ -15,6 +15,7 @@ import {
   } from 'react-native';
 //  import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
+import RNFetchBlob from 'rn-fetch-blob';
 
   
   const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
@@ -61,6 +62,8 @@ class RecordAudio2 extends Component {
         this.restar = 0;
         this.secondsAux = 0;
         this.multiplo60anterior = 0;
+        this.currentRecordingTime = 0;
+        this.audioFileSize = 0;
         // this.state = {
         //   haveRecordingPermissions: false,
         //   isLoading: false,
@@ -123,6 +126,10 @@ class RecordAudio2 extends Component {
           this.prepareRecordingPath(this.state.audioPath);
     
           AudioRecorder.onProgress = (data) => {
+             
+         //  console.log('progress audio: ');
+         //  console.log(data);
+         this.currentRecordingTime = Math.floor(data.currentTime);
 
             if (Math.floor(data.currentTime)===0) 
                console.log('es cero los segundos');
@@ -160,6 +167,9 @@ class RecordAudio2 extends Component {
 
     
           AudioRecorder.onFinished = (data) => {
+
+            console.log('fin grabacion : '+this.currentRecordingTime);
+           
             // Android callback comes in the form of a promise instead.
             if (Platform.OS === 'ios') {
                this._finishRecording(data.status === "OK", data.audioFileURL, data.audioFileSize);
@@ -478,15 +488,32 @@ _stop = async () => {
   _finishRecording = async (didSucceed, filePath, fileSize) => {
   this.setState({ finished: didSucceed });
   console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+  console.log('filepath: ' + filePath)
+  fileaux =  filePath;
   
+  if (Platform.OS==='ios')
+        filepathAux = fileaux.replace("file:///", '');
+      else
+      filepathAux = filePath;
+
+  await RNFetchBlob.fs.stat(filepathAux)
+      .then((stats) => { 
+        console.log(stats)
+        this.audioFileSize = stats.size
+      })
+      .catch((err) => {
+        console.log('catch error RNFetchBlob.fs.stat')
+        console.log(err);
+      })
   // if (Platform.OS === 'ios') {
 
   if (!this.cancel)
   {
-    fileaux =  filePath;
+  //  fileaux =  filePath;
                  fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+               
          
-                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: this.audioFileSize  } 
                  
                  vari2 = await this.props.sendActualMedia(envio);
                

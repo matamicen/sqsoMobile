@@ -479,7 +479,8 @@ class QsoScreen extends Component {
 
   checkInternetOpenRecording = async () => {
     if (await hasAPIConnection()) {
-      analytics().logEvent("Recording", {"QSOTYPE": "QSO", "MODE": "SSB"});
+      analytics().logEvent("Recording", {"QSOTYPE": this.props.qsotype,
+       "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
 
       console.log("Recording analytics")
       
