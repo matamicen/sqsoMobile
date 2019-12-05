@@ -45,6 +45,8 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 
+import analytics from '@react-native-firebase/analytics';
+
 
 // Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -427,7 +429,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
                 // entonces cuando sigue con su QSO y el sistema intenta enviar toda la media del QSO evito que 
                 // se envie el profile.
               if (x.type!=='profile')
-                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',jwtToken));
+                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
                // console.log(x.url)
               //  <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
               //  status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
@@ -1143,6 +1145,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postAddMedia'));
       console.log("ejecuta llamada API Add Media");  
+      console.log(jwtToken);
     try {
         // session = await Auth.currentSession();
         // console.log("Su token es: " + session.idToken.jwtToken);
@@ -1175,6 +1178,14 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         dispatch(updateMedia(filename2, update,'item'));
         // stat = {"sent": true, "progress": 0.8}
         // this.props.updateMediaSent(fileName2,stat);
+        // analytics().logEvent("Media_1", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.sqlrdsid, "QSOTYPE": mediaToadd.qsotype,
+        // "BAND": mediaToadd.band, "MODE": mediaToadd.mode, "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
+ 
+        analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
+       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
+ 
+       console.log("Recording analytics MEDIA")
+       console.log('qra: '+mediaToadd.qra + ' rectime: '+mediaToadd.rectime + ' sqlrdsid: '+mediaToadd.qso)
 
       }else
       {
@@ -1202,9 +1213,9 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
   };
 
  // fileauxProfileAvatar
- 
-export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,jwtToken) => {
-    return async dispatch => {
+ //qra,rectime
+export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,qra,rectime,jwtToken) => {
+  return async dispatch => {
     //  dispatch(fetchingApiRequest());
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
     try {
@@ -1263,32 +1274,38 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
                   "height": height,   
                   "url":  rdsUrlS3,
                   "description": description,
-                  "identityId" : identityID
+                  "identityId" : identityID,
+                  "qra": qra,
+                  "rectime" : rectime
+
               }
            if (type !== 'profile')
            {
+             console.log('imprimo jwt token:');
+             console.log(jwtToken);
               dispatch(postAddMedia(mediaToRds, fileName2,jwtToken));
               console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
 
 
+// anda bien Kinesis con el codigo de aca abajo, pasa que vamos a usar Firebase para analytics.
 
-              console.log('llamo kinesis addmedia')
-              let tiempo = Date.now()
-              resultki = Analytics.record({
-                data: { 
+            //   console.log('llamo kinesis addmedia')
+            //   let tiempo = Date.now()
+            //   resultki = Analytics.record({
+            //     data: { 
                      
-                    // The data blob to put into the record
-             //      QRA: 'LU8AJ', timeStamp: tiempo, mediatype: type, url: rdsUrlS3 
-             errornumber: '200', errordesc: 'errordesc',  version: 'APP_VER', qra: 'LU9DO', platform: 'Platf.OS', platformversion: 'Platf.Ver' ,timestamp: 'tiempo'
+            //         // The data blob to put into the record
+            //  //      QRA: 'LU8AJ', timeStamp: tiempo, mediatype: type, url: rdsUrlS3 
+            //  errornumber: '200', errordesc: 'errordesc',  version: 'APP_VER', qra: 'LU9DO', platform: 'Platf.OS', platformversion: 'Platf.Ver' ,timestamp: 'tiempo'
                    
-                },
-                // OPTIONAL
-                partitionKey: 'myPartitionKey', 
-                streamName: 'analytic_stream'
-            }, 'AWSKinesis');
+            //     },
+            //     // OPTIONAL
+            //     partitionKey: 'myPartitionKey', 
+            //     streamName: 'analytic_stream'
+            // }, 'AWSKinesis');
           
-            console.log('resultado kinesis addmedia:'+ JSON.stringify(resultki));
-            console.log('tiempo addmedia:'+tiempo)
+            // console.log('resultado kinesis addmedia:'+ JSON.stringify(resultki));
+            // console.log('tiempo addmedia:'+tiempo)
 
 
            }else

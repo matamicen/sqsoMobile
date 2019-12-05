@@ -215,7 +215,7 @@ class Muestro extends Component {
   
 
 
-        envio = {name: 'fileName2', url: this.compressImageURL, type: this.props.sqsomedia.type, sent: 'false', size: this.size , width: this.width, height: this.height } 
+        envio = {name: 'fileName2', url: this.compressImageURL, type: this.props.sqsomedia.type, sent: 'false', size: this.size , width: this.width, height: this.height, qra: this.props.qra, rectime: '0' } 
  
         this.props.sendActualMedia(envio);
 
@@ -497,7 +497,7 @@ class Muestro extends Component {
                 this.stat = 'inprogress';
 
              envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height  } 
+              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: this.props.sqsomedia.rectime  } 
                     
                
                   //  this.props.addMedia(envio);
@@ -665,7 +665,7 @@ class Muestro extends Component {
                 this.stat = 'inprogress';
 
              envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height  } 
+              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height } 
                     
                console.log("voy a impirmir ENVIO:");
                console.log(envio);

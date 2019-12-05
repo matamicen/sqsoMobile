@@ -479,10 +479,10 @@ class QsoScreen extends Component {
 
   checkInternetOpenRecording = async () => {
     if (await hasAPIConnection()) {
-      analytics().logEvent("Recording", {"QSOTYPE": this.props.qsotype,
-       "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
+      // analytics().logEvent("Recording", {"QSOTYPE": this.props.qsotype,
+      //  "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
 
-      console.log("Recording analytics")
+      // console.log("Recording analytics")
       
       Permissions.request("microphone").then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -1017,7 +1017,7 @@ class QsoScreen extends Component {
 //this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
 
         if (env.status==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
-        this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar, env.sqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.jwtToken);
+        this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar, env.sqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
         else{
           // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto

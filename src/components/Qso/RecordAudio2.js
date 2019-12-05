@@ -276,97 +276,7 @@ class RecordAudio2 extends Component {
         // });
       }
     
-      async _stopRecordingAndEnablePlayback() {
-        this.setState({
-          isLoading: true,
-        });
-        // try {
-        //   await this.recording.stopAndUnloadAsync();
-        // } catch (error) {
-        //   // Do nothing -- we are already unloaded.
-        // }
-        // const info = await FileSystem.getInfoAsync(this.recording.getURI());
-        // console.log(`FILE INFO: ${JSON.stringify(info)}`);
-        // await Audio.setAudioModeAsync({
-        //   allowsRecordingIOS: false,
-        //   interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-        //   playsInSilentModeIOS: true,
-        //   playsInSilentLockedModeIOS: true,
-        //   shouldDuckAndroid: true,
-        //   interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-        // });
-        // const { sound, status } = await this.recording.createNewLoadedSound(
-        //   {
-        //     isLooping: true,
-        //     isMuted: this.state.muted,
-        //     volume: this.state.volume,
-        //     rate: this.state.rate,
-        //     shouldCorrectPitch: this.state.shouldCorrectPitch,
-        //   },
-        //   this._updateScreenForSoundStatus
-        // );
-        // this.sound = sound;
-        // this.setState({
-        //   isLoading: false,
-        // });
-
-//agrego subir a s3
-
-this.props.closeModalRecording();
-
-console.log("subo a s3 con BLOB el AUDIO");
-// const response = await fetch(this.props.imageurl);
-// const blob = await response.blob();
-fileaux =  this.recording.getURI();
-console.log("fileaux uri:"+ fileaux);
-
-fileName2 = fileaux.replace(/^.*[\\\/]/, '');
-
-     // agrego a array de media del store
-    //  envio = {name: fileName2, url: fileaux, type: 'audio'} 
-                
-    //  this.props.addMedia(envio);
-
-     envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
     
-     vari2 = await this.props.sendActualMedia(envio);
-
-  //    setTimeout(() => {
-  //     console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
-  //     this.props.actindicatorImageDisabled();
-  //      this.props.openModalConfirmPhoto();
-  //  }, 1000);
-  this.props.openModalConfirmPhoto(240);
-
-    //  envio = {name: fileName2, url: fileaux, type: 'audio', sent: false , status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size } 
-                
-    //  this.props.addMedia(envio);
-
-
-// Fin de agrego a array de media del store
-
-
-
-
-//   const response = await fetch(fileaux);
-//   const blobi = await response.blob();
-
-// try{
-
-// const stored = await Storage.vault.put(fileName2, blobi, {
-//   level: 'protected'})
-//   .then (result => console.log(result))
-//   .catch(err => console.log(err));
-  
-  
-//   }
-//   catch (e) {
-//       console.log('S3 upload error:', e);
-//        // Handle exceptions
-//      }
-// fin de subir a s3
-
-      }
 
 async _record() {
   if (this.state.recording) {
@@ -513,7 +423,7 @@ _stop = async () => {
                  fileName2 = fileaux.replace(/^.*[\\\/]/, '');
                
          
-                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: this.audioFileSize  } 
+                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: this.audioFileSize,qra: this.props.qra, rectime: this.currentRecordingTime  } 
                  
                  vari2 = await this.props.sendActualMedia(envio);
                
@@ -719,7 +629,9 @@ cancelRecording = async () => {
     // return {  index: state.nav.index, };
     return {  audiorecordingpermission: state.sqso.audiorecordingpermission,
               sqlrdsid: state.sqso.currentQso.sqlrdsId,
-              userinfo: state.sqso.userInfo
+              userinfo: state.sqso.userInfo,
+              qra: state.sqso.qra, 
+              
             };
 };
 
