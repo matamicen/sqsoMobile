@@ -495,54 +495,14 @@ class Muestro extends Component {
                 this.stat = 'waiting';
               else
                 this.stat = 'inprogress';
+           
+                console.log('tengo qra: '+this.props.sqsomedia.qra);
 
              envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
               status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: this.props.sqsomedia.rectime  } 
                     
                
-                  //  this.props.addMedia(envio);
-                  //  // creo mediafilelocal porque trada en actualizar REDUX entonces si es el caso
-                  //  // donde debe crear el QSO le envio del mediafileLocal, ver mas abajo.
-                  //  mediafileLocal = [ envio ];
-
-        // Fin de agrego a array de media del store
-       
-       
-          // const response = await fetch(fileaux);
-          // const blobi = await response.blob();
-          
-          // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
-          
-      // if (this.stat==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
-      //     this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
-      //    else{
-      //        // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
-      //        // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
-      //       //  console.log('mediafile Local:'+mediafileLocal);
-      //       //  console.log(mediafileLocal);
-      //       //  if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,mediafileLocal))
-      //       //     await this.props.onprogressTrue();
-      //       //    else
-      //       //      this.props.onprogressFalse();
-
-      //       //      console.log('onprogress '+ONPROGRESS)
-
-      //           //  if (ONPROGRESS) {
-      //           //   data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,
-      //           //                                this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
-      //           //                                this.props.longitude);
-      //           //        console.log("Data to Send API: "+ JSON.stringify(data));  
-      //           //       this.props.actindicatorPostQsoNewTrue();
-      //           //       this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
-                      
-      //           //  }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-
-      //        }
-          //this.props.navigation.navigate("Root");
-        
-           //  }
-
-             //let data = {"jose": "wwwww", "sdssddd": "44444"}
+              
        
              setTimeout(() => {
               this.props.send_data_to_qsoscreen(envio, fileauxProfileAvatar);
@@ -665,7 +625,7 @@ class Muestro extends Component {
                 this.stat = 'inprogress';
 
              envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height } 
+              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: '0' } 
                     
                console.log("voy a impirmir ENVIO:");
                console.log(envio);
@@ -683,7 +643,7 @@ class Muestro extends Component {
           // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
           
       if (this.stat==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
-          this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
+          this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.sqsomedia.qra,'0',this.props.jwtToken);
          else{
              // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
              // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
