@@ -445,6 +445,15 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
      resu = tiempo2 - tiempo1;
      console.log('total ejecucion: '+ resu);
 
+
+     analytics().logEvent("QSO", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
+     "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band, "DATETIME": bodyqsonew.datetime});
+
+     console.log("Recording analytics QSO")
+
+
+
+
      if (bodyqsonew.type==='POST')
      dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,false,false));
   else
@@ -1182,7 +1191,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         // "BAND": mediaToadd.band, "MODE": mediaToadd.mode, "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
  
         analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
-       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
+       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
  
        console.log("Recording analytics MEDIA")
        console.log('qra: '+mediaToadd.qra + ' rectime: '+mediaToadd.rectime + ' sqlrdsid: '+mediaToadd.qso)
@@ -1190,7 +1199,15 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       }else
       {
         if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
-        update = {status: 'inappropriate content'}
+        {
+          update = {status: 'inappropriate content'}
+        
+          analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
+          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime, "PORN" : 'true'});
+ 
+         console.log("Recording analytics MEDIA Porn Content")
+
+        }
         else
         update = {status: 'failed'}
         dispatch(updateMedia(filename2, update,'item' ));
