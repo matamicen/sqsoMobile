@@ -447,7 +447,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
 
      analytics().logEvent("QSO", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
-     "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band, "DATETIME": bodyqsonew.datetime});
+     "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
 
      console.log("Recording analytics QSO")
 
@@ -596,17 +596,22 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QSO_EDIT");
     
-     
+    //  console.log(respuesta);
       dispatch(fetchingApiSuccess('postQsoEdit',respuesta));
      
-      if (respuesta.error==='0')
+      if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
-        console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.message));
+        console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.body.message));
 
        
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");
+
+        analytics().logEvent("QSO", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+        "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+   
+        console.log("Recording analytics QSO edit")
         
         dispatch(updateQsoHeaderStatusTrue());
         
@@ -1189,12 +1194,15 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         // this.props.updateMediaSent(fileName2,stat);
         // analytics().logEvent("Media_1", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.sqlrdsid, "QSOTYPE": mediaToadd.qsotype,
         // "BAND": mediaToadd.band, "MODE": mediaToadd.mode, "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
- 
+       var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
         analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
-       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
+       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
  
        console.log("Recording analytics MEDIA")
-       console.log('qra: '+mediaToadd.qra + ' rectime: '+mediaToadd.rectime + ' sqlrdsid: '+mediaToadd.qso)
+       console.log('qra: '+mediaToadd.qra + ' rectime: '+mediaToadd.rectime +
+        ' sqlrdsid: '+mediaToadd.qso + ' rectime: '+mediaToadd.rectime
+       + 'url: ' +auxUrl)
+       
 
       }else
       {

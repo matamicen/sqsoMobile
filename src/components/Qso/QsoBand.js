@@ -62,7 +62,8 @@ class QsoBand extends Component {
                       qsoHeader = { "mode" : this.props.mode,
                                     "band" : value,
                                     "type" : this.props.qsotype,
-                                    "sqlrdsid" : this.props.sqlrdsid
+                                    "sqlrdsid" : this.props.sqlrdsid,
+                                    "qra": this.props.qra
                                   }
                                   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 

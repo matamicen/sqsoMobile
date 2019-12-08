@@ -57,7 +57,8 @@ class QsoMode extends Component {
                 qsoHeader = { "mode" : value,
                               "band" : this.props.band,
                               "type" : this.props.qsotype,
-                              "sqlrdsid" : this.props.sqlrdsid
+                              "sqlrdsid" : this.props.sqlrdsid,
+                              "qra": this.props.qra
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
               await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   

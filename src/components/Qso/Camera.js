@@ -677,7 +677,7 @@ class CameraScreen extends React.Component {
                   
   
                   console.log('filename2 es: ' + fileName2);
-                  envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height, qra: this.props.qra,  rectime: '0' } 
+                  envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height, qra: this.props.qra,  rectime: 0 } 
                   
                   console.log('phototype :'+this.props.phototype)
                   
@@ -729,7 +729,7 @@ class CameraScreen extends React.Component {
                 
 
                 console.log('filename2 es: ' + fileName2);
-                envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height, qra: this.props.qra,  rectime: '0' } 
+                envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height, qra: this.props.qra,  rectime: 0 } 
                 
                 console.log('phototype :'+this.props.phototype)
                 

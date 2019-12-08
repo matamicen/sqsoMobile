@@ -31,16 +31,16 @@ class QsoType extends Component {
         if (await hasAPIConnection())
         {
 
-        if(typetochange==='listen'){
+        if(typetochange==='LISTEN'){
          if (this.props.qsotype==='POST') await this.props.resetQso();
            this.props.cambioqsotype('LISTEN');
          
         }
-        if(typetochange==='inqso'){
+        if(typetochange==='QSO'){
         if (this.props.qsotype==='POST') await this.props.resetQso();
           this.props.cambioqsotype('QSO');
         }
-        if(typetochange==='post'){
+        if(typetochange==='POST'){
          await this.props.resetQso();
          this.props.cambioqsotype('POST');
          
@@ -50,8 +50,9 @@ class QsoType extends Component {
 
           qsoHeader = { "mode" : this.props.mode,
                         "band" : this.props.band,
-                        "type" : this.props.qsotype,
-                        "sqlrdsid" : this.props.sqlrdsid
+                        "type" : typetochange,
+                        "sqlrdsid" : this.props.sqlrdsid,
+                        "qra": this.props.qra
                     }
           console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
            this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   
@@ -138,7 +139,7 @@ class QsoType extends Component {
                       flex: 1, flexDirection: 'column' }}>
                    
                    { (this.props.qsotype==='QSO') ? 
-                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('listen') }> 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/listen.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
@@ -150,7 +151,7 @@ class QsoType extends Component {
                 
 
                   { (this.props.qsotype==='QSO') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('post') }> 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/post.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
@@ -162,7 +163,7 @@ class QsoType extends Component {
                     : null }
                   
                   { (this.props.qsotype==='LISTEN') ? 
-                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('inqso') }> 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('QSO') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/inQSO.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
@@ -251,6 +252,7 @@ QsoType.propTypes = {
     return { qsotype: state.sqso.currentQso.qsotype, 
              band: state.sqso.currentQso.band,
              mode: state.sqso.currentQso.mode,
+             qra: state.sqso.qra, 
              qsoqras: state.sqso.currentQso.qsoqras,
              sqlrdsid: state.sqso.currentQso.sqlrdsId,
              jwtToken: state.sqso.jwtToken
