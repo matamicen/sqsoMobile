@@ -1458,7 +1458,7 @@ export const QsoQraDelete = (sqlrdsid, qra, jwtToken) => {
     };
 }
 
-export const followAdd = (qra, date,jwtToken,qra_avatar) => {
+export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('followAdd'));
       console.log("ejecuta llamada API followAdd");  
@@ -1499,6 +1499,11 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
    //  following = {"following": 'TRUE'} 
    //  dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
+
+
+      analytics().logEvent("FOLLOW", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+ 
+      console.log("Recording analytics FOLLOW QRA")
      
     //   console.log("la url que envio:" + url);
     //   console.log("EL QRA:" + qra);
@@ -1589,7 +1594,7 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
   };
 
 
-  export const unfollow = (qra,jwtToken) => {
+  export const unfollow = (LoggeduserQra,qra,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('unfollow'));
       console.log("ejecuta llamada API UnFollow");  
@@ -1627,6 +1632,10 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       // following = {"following": 'FALSE'} 
       // dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
+
+      analytics().logEvent("UNFOLLOW", {"QRA" : LoggeduserQra, "UNFOLLOWQRA" : qra});
+ 
+      console.log("Recording analytics UNFOLLOW QRA")
     
       }
       dispatch(fetchingApiSuccess('unfollow',respuesta));

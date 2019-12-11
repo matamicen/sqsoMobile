@@ -60,7 +60,7 @@ class Qra extends Component {
               if (this.state.followstatus==="false")
                {
                  this.setState({followstatus: 'true'})
-                 await this.props.followAdd(qra,date,this.props.jwtToken,qra_avatar);
+                 await this.props.followAdd(this.props.userqra, qra,date,this.props.jwtToken,qra_avatar);
                  // chequeo si la api fue exitosa y lo dio de alta en redux
                  // saco estas dos lineas de abajo para darle mejor UX al usuario y que cambie al toque el Follow
                  // si la API de follow fallara es mala suerte, no lo vera en los follwoing y lo debera hacer de nuevo en algun otro momento
@@ -70,7 +70,7 @@ class Qra extends Component {
                else
                {
                 this.setState({followstatus: 'false'})
-                await this.props.unfollow(qra,this.props.jwtToken);
+                await this.props.unfollow(this.props.userqra,qra,this.props.jwtToken);
               // followstat = await getFollowStatus(this.props.followings, qra);
               // if (followstat==="false") this.setState({followstatus: 'false'})
             }
@@ -262,7 +262,8 @@ const styles = StyleSheet.create({
  const mapStateToProps = state => {
     return { sqlrdsid: state.sqso.currentQso.sqlrdsId,
              followings: state.sqso.currentQso.followings,
-             jwtToken: state.sqso.jwtToken
+             jwtToken: state.sqso.jwtToken,
+             userqra: state.sqso.qra
     }
           //   isfetching: state.sqso.isFetching };
 };
