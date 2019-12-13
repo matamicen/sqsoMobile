@@ -101,7 +101,7 @@ class SearchEnterQra extends Component {
           // this.setState({actindicatorfecthQras: true})
           console.log("es igual a 4, llama api search");
           this.entro = true;
-          this.props.getQrasFromSearch(text.toUpperCase(),this.props.jwtToken);
+          this.props.getQrasFromSearch(this.props.qra, text.toUpperCase(),this.props.jwtToken);
           console.log("NO DA BOLA AWAIT");
           // this.setState({actindicatorfecthQras: false})
         }else this.props.searchQrasLocal(text.toUpperCase(),long2);
@@ -310,7 +310,8 @@ const styles = StyleSheet.create({
       qrasearched: state.sqso.currentQso.qraSearched,
       qrashow: state.sqso.currentQso.qraShow,
       refreshfollowings: state.sqso.currentQso.refreshFollowings, 
-      jwtToken: state.sqso.jwtToken
+      jwtToken: state.sqso.jwtToken,
+      qra: state.sqso.qra
       
        };
 };

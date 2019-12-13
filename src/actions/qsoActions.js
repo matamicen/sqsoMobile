@@ -1181,6 +1181,8 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       
       dispatch(fetchingApiSuccess('postAddMedia',respuesta));
       console.log("devuelve addmedia: "+JSON.stringify(respuesta));
+
+      var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
      
       if (respuesta.body.error===0)
       {
@@ -1194,7 +1196,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         // this.props.updateMediaSent(fileName2,stat);
         // analytics().logEvent("Media_1", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.sqlrdsid, "QSOTYPE": mediaToadd.qsotype,
         // "BAND": mediaToadd.band, "MODE": mediaToadd.mode, "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
-       var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
+       
         analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
        "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
  
@@ -1211,7 +1213,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
           update = {status: 'inappropriate content'}
         
           analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
-          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime, "PORN" : 'true'});
+          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'true'});
  
          console.log("Recording analytics MEDIA Porn Content")
 
@@ -1521,7 +1523,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
        session = await Auth.currentSession();
        console.log("Su token es: " + session.idToken.jwtToken);
        dispatch(setToken(session.idToken.jwtToken));
-       dispatch(followAddSecondChance(qra, date,session.idToken.jwtToken,qra_avatar))
+       dispatch(followAddSecondChance(LoggeduserQra,qra, date,session.idToken.jwtToken,qra_avatar))
       // Handle exceptions
     }
          
@@ -1531,7 +1533,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
 
 
 
-  export const followAddSecondChance = (qra, date,jwtToken,qra_avatar) => {
+  export const followAddSecondChance = (LoggeduserQra,qra, date,jwtToken,qra_avatar) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('followAddSecondChance'));
       console.log("ejecuta llamada API followAdd SecondChance");  
@@ -1573,6 +1575,10 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
    //  following = {"following": 'TRUE'} 
    //  dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
+
+      analytics().logEvent("FOLLOW", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+ 
+      console.log("Recording analytics FOLLOW QRA")
      
     //   console.log("la url que envio:" + url);
     //   console.log("EL QRA:" + qra);
@@ -1813,10 +1819,12 @@ export const updateLinkQso = (json, scanType) => {
 
 
 
-export const getQrasFromSearch = (qraTosearch,jwtToken) => {
+export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('getQrasFromSearch'));
-      console.log("ejecuta llamada API getQrasFromSearch");  
+      console.log("ejecuta llamada API getQrasFromSearch"); 
+      console.log(LoggeduserQra + " ---- " + qraTosearch)
+      console.log(jwtToken);
     try {
         // session = await Auth.currentSession();
         // console.log("Su token es: " + session.idToken.jwtToken);
@@ -1841,6 +1849,10 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
             console.log("respuesta API getQrasFromSearch:" + JSON.stringify(respuesta));
                   
             dispatch(insertQraSearched(respuesta.body.message.message));
+            analytics().logEvent("SEARCH", {"QRA" : LoggeduserQra, "SEARCHED" : qraTosearch});
+ 
+            console.log("Recording analytics SEARCH QRA")
+
       }else{
            envio = [];
            dispatch(insertQraSearched(envio));
@@ -1922,8 +1934,12 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
 
                     console.log("respuesta DESPUES DE MODIF FECHA:" + JSON.stringify(respuesta));
                
-                     if (ScanType==='qslScan')
+                     if (ScanType==='qslScan'){
                          dispatch(updateQslScan(respuesta));
+                         analytics().logEvent("ScanQR", {"QRA" : myQRA, "QSOSCANNED" : QsoTosearch});
+ 
+                         console.log("Recording analytics ScanQR")
+                       }
                        else
                        {
                         if (ScanType==='mainQsoLink'){
