@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {  set_notification_read, manage_notifications } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
+import analytics from '@react-native-firebase/analytics';
 
 class NotifItem extends Component {
 
@@ -43,7 +44,10 @@ if (urlnotif!=null)
         if (!supported) {
           console.log('Can\'t handle url: ' + urlnotif);
         } else {
+          analytics().logEvent("OPENNOTIF", {"QRA": this.props.qra});
+          console.log("Recording analytics open Notif")
           return Linking.openURL(urlnotif);
+        
         }
       }).catch(err => console.error('An error occurred', err));
     }
@@ -201,7 +205,8 @@ const styles = StyleSheet.create({
 
 
  const mapStateToProps = state => {
-    return { jwtToken: state.sqso.jwtToken
+    return { jwtToken: state.sqso.jwtToken,
+      qra: state.sqso.qra
     };
 };
 

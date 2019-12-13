@@ -307,7 +307,7 @@ checkInternetScanQR = async (param) => {
                    {   // do not show any Ad
                      
                         this.setState({linkCodes: true});
-                        this.props.linkQsos(this.props.sqsoqsolink,this.props.jwtToken);
+                        this.props.linkQsos(this.props.qra,this.props.sqsoqsolink,this.props.jwtToken);
                   }
 
 
@@ -356,7 +356,7 @@ linkqso = () => {
                 
     console.log('link qso con delay 50');
     this.setState({linkCodes: true});
-    this.props.linkQsos(this.props.sqsoqsolink,this.props.jwtToken);
+    this.props.linkQsos(this.props.qra,this.props.sqsoqsolink,this.props.jwtToken);
     
    }
   , 100);
@@ -688,7 +688,8 @@ const styles = StyleSheet.create({
         sqsoqsolinkscanerror: state.sqso.currentQso.qsolink.error,
         sqsoqsolinkcodes: state.sqso.currentQso.qsolinkCodes,
         jwtToken: state.sqso.jwtToken,
-        userinfo: state.sqso.userInfo
+        userinfo: state.sqso.userInfo,
+        qra: state.sqso.qra
         
      };
 };

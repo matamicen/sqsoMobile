@@ -2021,7 +2021,7 @@ export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
 
 
 
-export const linkQsos = (json,jwtToken) => {
+export const linkQsos = (qra,json,jwtToken) => {
   return async dispatch => {
     dispatch(fetchingApiRequest('linkQsos'));
     console.log("ejecuta llamada API qso-link");  
@@ -2063,6 +2063,7 @@ export const linkQsos = (json,jwtToken) => {
     
      
     respuesta = await API.post(apiName, path, myInit);
+    console.log(respuesta);
     if (respuesta.body.error===0)
     {
           console.log("respuesta API qso-link:" + JSON.stringify(respuesta));
@@ -2072,24 +2073,39 @@ export const linkQsos = (json,jwtToken) => {
            
              dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
              dispatch(setUserInfo('scans_links',respuesta.body.message));
-            
 
-                
+
+             analytics().logEvent("LINKQSO", {"QRA" : qra, "ERROR" : 'false', "MESSAGE" : ' '});
+        
+             console.log("Recording analytics LINKQSO")
+           
           
     }else{
-         let men = '';
-        if (respuesta.body.message.code==='ER_DUP_ENTRY')
-             men = 'This Qso has already Linked';
-           else
-             men = 'There was an error Linking the Qsos: '+respuesta.body.message;
 
-             console.log('imprimo en error de /qso-link :' + men )
+
+
+      console.log('fallo el linkqso man!')
+      console.log(respuesta);
+     
+      // comente todo pero va todo ... 
+
+          let men = '';
+        // if (respuesta.body.message.code==='ER_DUP_ENTRY')
+        //      men = 'This Qso has already Linked';
+        //    else
+             men = 'There was an error Linking the Qsos';
+
+              console.log('imprimo en error de /qso-link :' + men )
         
-        //  let qsolink = { "error": 1, "message": men }
-         jsonError = {code: 1, message: men}
-           dispatch(updateLinkQso(jsonError,'linkQsoError'));
 
-      //   dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
+          jsonError = {code: 1, message: men}
+            dispatch(updateLinkQso(jsonError,'linkQsoError'));
+
+            analytics().logEvent("LINKQSO", {"QRA" : qra, "ERROR" : 'true', "MESSAGE" : respuesta.body.message});
+        
+            console.log("Recording analytics LINKQSO error")
+
+    
       }
 
     dispatch(fetchingApiSuccess('linkQsos',respuesta));
