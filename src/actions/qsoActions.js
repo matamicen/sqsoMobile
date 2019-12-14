@@ -1213,7 +1213,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
           update = {status: 'inappropriate content'}
         
           analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
-          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'true'});
+          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": 0, "PORN" : 'true'});
  
          console.log("Recording analytics MEDIA Porn Content")
 
