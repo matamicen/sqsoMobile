@@ -6,6 +6,7 @@ import {  set_notification_read, manage_notifications } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 class NotifItem extends Component {
 
@@ -49,7 +50,14 @@ if (urlnotif!=null)
           return Linking.openURL(urlnotif);
         
         }
-      }).catch(err => console.error('An error occurred', err));
+      }).catch(err => {
+              console.error('An error occurred', err)
+              crashlytics().setUserId(this.props.qra);
+              crashlytics().log('error: ' + err) ;
+              crashlytics().recordError(new Error('Linking.canOpenURL'));
+    
+    
+            });
     }
     else
      console.log('la notificacion no viene con URL');

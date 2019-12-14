@@ -14,7 +14,7 @@ import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureR
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
-import { kinesis_catch } from '../../helper';
+// import { kinesis_catch } from '../../helper';
 import  ContactUs  from './ContactUs';
 import RestoreSubscription from './RestoreSubscription';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -119,7 +119,7 @@ signOut = async () => {
         this.props.navigation.navigate("Root");
 
         crashlytics().setUserId(this.props.qra);
-        crashlytics().setAttribute('InitialScreen', '#1');
+     //   crashlytics().setAttribute('InitialScreen', '#1');
         crashlytics().log('error: ' + e) ;
         crashlytics().recordError(new Error('SignOut_AuthCurrentSession'));
 

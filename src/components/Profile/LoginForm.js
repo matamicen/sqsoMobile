@@ -16,6 +16,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { hasAPIConnection, kinesis_catch } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // nuevo push
 import Analytics from '@aws-amplify/analytics';
@@ -312,9 +313,10 @@ constructor(props) {
 
     } catch (err) {
       console.log('salio catch initConnection loginform');
-     
-      
       console.warn(err.code, err.message);
+      crashlytics().setUserId('unknown');
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('RNIap.initConnection'));
     }
 
 
@@ -403,7 +405,12 @@ constructor(props) {
           catch (error) {
             console.log('Error AsyncStorage.getItem(username)', error);
             this.setState({showloginForm: true});
-            kinesis_catch('#008',error,value);
+
+            crashlytics().setUserId('unknown');
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('AsyncStorage.getItem(username)'));
+
+            // kinesis_catch('#008',error,value);
             // Error retrieving data
           }
 
@@ -495,7 +502,11 @@ signIn = async () => {
              this.setState({ loginerror: 1, indicator: 0});
              this.usernotfound = true;
 
-             kinesis_catch('#012',err,this.state.username.toUpperCase());
+
+             crashlytics().setUserId(this.state.username.toUpperCase());
+             crashlytics().log('error: ' + err) ;
+             crashlytics().recordError(new Error('Auth.signIn'));
+            //  kinesis_catch('#012',err,this.state.username.toUpperCase());
 
             }
             
@@ -519,7 +530,11 @@ if (!this.usernotfound)
     }
     catch (e) {
       console.log('caught error', e);
-      kinesis_catch('#013',e,this.state.username.toUpperCase());
+             crashlytics().setUserId(this.state.username.toUpperCase());
+             crashlytics().log('error: ' + e) ;
+             crashlytics().recordError(new Error('Auth.signIn.currentCredentials()'));
+
+      // kinesis_catch('#013',e,this.state.username.toUpperCase());
       // Handle exceptions
     }
      var session = await Auth.currentSession();
@@ -544,7 +559,10 @@ if (!this.usernotfound)
     } catch (error) {
       // Error saving data
       console.log('caught error AsyncStorage username & identity', error);
-      kinesis_catch('#014',error,this.state.username.toUpperCase());
+      crashlytics().setUserId(this.state.username.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('AsyncStorage.user.ident'));
+      // kinesis_catch('#014',error,this.state.username.toUpperCase());
     }
 
     // try {
@@ -607,7 +625,10 @@ if (!this.usernotfound)
                           console.log('grabo pushtoken en AsyncStorage porque cambio el token o el usuario logueado y llama API de backend '+Platform.OS);
                         } catch (error) {
                           console.log('caught error setItem pushtoken y qratoken dentro de if (this.pushTokenFound)', error);
-                          kinesis_catch('#016',error,this.state.username.toUpperCase());
+                          // kinesis_catch('#016',error,this.state.username.toUpperCase());
+                          crashlytics().setUserId(this.state.username.toUpperCase());
+                          crashlytics().log('error: ' + error) ;
+                          crashlytics().recordError(new Error('props.postPushToken'));
                         }
 
 
@@ -625,8 +646,10 @@ if (!this.usernotfound)
                       // catch (err){
 
                       // }
-  
-              kinesis_catch('#017',error,this.state.username.toUpperCase());
+                      crashlytics().setUserId(this.state.username.toUpperCase());
+                      crashlytics().log('error: ' + error) ;
+                      crashlytics().recordError(new Error('twoGetItems'));
+              // kinesis_catch('#017',error,this.state.username.toUpperCase());
             }
 
         //  }
@@ -691,7 +714,10 @@ if (!this.usernotfound)
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
-                  kinesis_catch('#021',err,this.state.username.toUpperCase());
+                  // kinesis_catch('#021',err,this.state.username.toUpperCase());
+                  crashlytics().setUserId(this.state.username.toUpperCase());
+                  crashlytics().log('error: ' + err) ;
+                  crashlytics().recordError(new Error('Auth.resendSignUp'));
                 
                 });
 
@@ -728,7 +754,10 @@ if (!this.usernotfound)
    .catch (err => {console.log('SignUp confirmed error: ', err);
    this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
      confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
-     kinesis_catch('#026',err,this.state.username.toUpperCase());
+    //  kinesis_catch('#026',err,this.state.username.toUpperCase());
+    crashlytics().setUserId(this.state.username.toUpperCase());
+    crashlytics().log('error: ' + err) ;
+    crashlytics().recordError(new Error('Auth.confirmSignUp'));
                   
  })
 }else 

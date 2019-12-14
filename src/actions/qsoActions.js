@@ -711,7 +711,7 @@ export const setUserInfo = (mode, userInfo) => {
 
 
 
-export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar,identityId,jwtToken) => {
+export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar,identityId,qra,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postSetProfilePicNSFW'));
     //   console.log("ejecuta llamada API SetProfilePic");  
@@ -823,14 +823,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
 
                            dispatch(postSetProfilePic(urlprofile, urlprofileAvatar, fileName2, jwtToken));
                           
-                           
                
-                      
-               
-                   
-                   
-                             
-                   
                                
                                })
                                .catch(err => {
@@ -840,24 +833,14 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                              
                                  update = {"status": 'failed'}
                                  dispatch(updateMedia(fileName2,update,'item'));
+
+
+                                crashlytics().setUserId(qra);
+                                crashlytics().log('error: ' + err) ;
+                                crashlytics().recordError(new Error('Upload_Avatar'));
                                        
                                });
 
-
-
-
-
-
-
-
-
-
-
-         
-             
-             
-                       
-             
                          
                          })
                          .catch(err => {
@@ -867,6 +850,10 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                        
                            update = {"status": 'failed'}
                            dispatch(updateMedia(fileName2,update,'item'));
+
+                           crashlytics().setUserId(qra);
+                           crashlytics().log('error: ' + err) ;
+                           crashlytics().recordError(new Error('Upload_profile.jpg'));
                                  
                          });
          
@@ -1343,7 +1330,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
             // console.log('texto menos 4 caracteres: '+rdsUrlS3.substr(0,cant) + ' verdadero '+ rdsUrlS3);
             console.log("LLama postSetProfilePicNSFW: ");
             
-            dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar,identityId,jwtToken));
+            dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar,identityId,qra,jwtToken));
            
 
            }
