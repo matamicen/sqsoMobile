@@ -16,6 +16,7 @@ import ConfirmSignUp from './ConfirmSignUp';
 import CountryPicker, {
   getAllCountries
 } from 'react-native-country-picker-modal'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -178,7 +179,10 @@ close_confirmSignup = () => {
     }
   } catch ({code, message}) {
     console.warn('Cannot open date picker', message);
-    kinesis_catch('#019',code +' '+ message,this.state.qra.toUpperCase());
+    // kinesis_catch('#019',code +' '+ message,this.state.qra.toUpperCase());
+    crashlytics().setUserId(this.state.qra.toUpperCase());
+    crashlytics().log('error: ' + code +' message: '+ message) ;
+    crashlytics().recordError(new Error('DatePicker'));
   }
  }
 
@@ -325,7 +329,10 @@ signUp = async () => {
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
-                  kinesis_catch('#021',err,this.state.qra.toUpperCase());
+                  // kinesis_catch('#021',err,this.state.qra.toUpperCase());
+                  crashlytics().setUserId(this.state.qra.toUpperCase());
+                  crashlytics().log('error: ' + err) ;
+                  crashlytics().recordError(new Error('Auth.resendSignUp'));
                 
                 });
 
@@ -348,7 +355,10 @@ signUp = async () => {
   })
     .catch(err => {console.log('error:', err.code)
     this.usernotfound = true;
-    kinesis_catch('#022',err,this.state.qra.toUpperCase());
+    // kinesis_catch('#022',err,this.state.qra.toUpperCase());
+    crashlytics().setUserId(this.state.qra.toUpperCase());
+    crashlytics().log('error: ' + err) ;
+    crashlytics().recordError(new Error('signInAfterConfirmed'));
   });
 
 
@@ -368,7 +378,10 @@ signUp = async () => {
     }
     catch (e) {
       console.log('caught error', e);
-      kinesis_catch('#023',e,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + e) ;
+      crashlytics().recordError(new Error('SignUpCredentials'));
+      // kinesis_catch('#023',e,this.state.qra.toUpperCase());
       // Handle exceptions
     }
     var session = await Auth.currentSession();
@@ -391,7 +404,10 @@ signUp = async () => {
       await AsyncStorage.setItem('identity', res);
     } catch (error) {
       console.log('caught error', error);
-      kinesis_catch('#024',error,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('SignUpStorage'));
+      // kinesis_catch('#024',error,this.state.qra.toUpperCase());
       // Error saving data
     }
 
@@ -406,7 +422,10 @@ signUp = async () => {
       console.log('grabo pushtoken en AsyncStorage porque hizo signUp un usuario nuevoy llama API de backend '+Platform.OS);
     } catch (error) {
       console.log('caught error setItem pushtoken y qratoken dentro de ConfirmSignUp ', error);
-      kinesis_catch('#025',error,this.state.qra.toUpperCase());
+      // kinesis_catch('#025',error,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('SignUpGetPushToken'));
     }
 
 
@@ -446,7 +465,10 @@ signUp = async () => {
     .catch (err => {console.log('SignUp confirmed error: ', err);
     this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
       confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
-      kinesis_catch('#026',err,this.state.qra.toUpperCase());
+      // kinesis_catch('#026',err,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('Auth.confirmSignUp'));
                    
   })
 }else 
@@ -512,7 +534,10 @@ signUp = async () => {
              //      this.setState({errormessage: +' SignUp error: '+err.message,heightindicator: 0,  indicator: 0,heighterror: 25,  loginerror: 1 });
                    this.setState({errormessage: errmessage,heightindicator: 0,  indicator: 0,heighterror: setheighterror,  loginerror: 1 });
                    Keyboard.dismiss();
-                   kinesis_catch('#020',err,this.state.qra.toUpperCase());
+                   crashlytics().setUserId(this.state.qra.toUpperCase());
+                   crashlytics().log('error: ' + err) ;
+                   crashlytics().recordError(new Error('Auth.signUp'));
+                  //  kinesis_catch('#020',err,this.state.qra.toUpperCase());
             })
         
     

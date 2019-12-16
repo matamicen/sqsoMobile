@@ -20,6 +20,7 @@ import RNIap, {
 } from 'react-native-iap';
 import { connect } from 'react-redux';
 import { confirmReceiptiOS, manageLocationPermissions } from '../../actions';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // App Bundle > com.dooboolab.test
 
@@ -87,6 +88,9 @@ class Iap extends Component {
     } catch (err) {
       console.log('salio por catch didMount IAP');
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('didMountIAP'));
     }
 
     setTimeout(() => {
@@ -157,6 +161,9 @@ class Iap extends Component {
       this.setState({ productList: products });
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('IAPgetItems'));
     }
   }
 
@@ -167,6 +174,9 @@ class Iap extends Component {
       this.setState({ productList: products });
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('IAPgetSubscriptions'));
     }
   }
 
@@ -249,7 +259,11 @@ class Iap extends Component {
       }
     } catch (err) {
       console.warn(err.code, err.message);
-      Alert.alert(err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('IAPgetAvailablePurchases'));
+       Alert.alert(err.message);
+       
     }
   }
 
@@ -259,6 +273,9 @@ class Iap extends Component {
       RNIap.requestPurchase(sku);
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('IAPrequestPurchase'));
     }
   }
 
@@ -270,6 +287,9 @@ class Iap extends Component {
         RNIap.requestSubscription(sku);   
 
     } catch (err) {
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('IAPrequestSubscription'));
       Alert.alert(err.message);
     }
   }
@@ -424,6 +444,7 @@ const mapStateToProps = state => {
         productid: state.sqso.productId,
         localizedprice: state.sqso.localizedPrice,
         iapshowed: state.sqso.iapShowed,
+        qra: state.sqso.qra
 
          };
 };

@@ -9,8 +9,9 @@ import {
     confirmedPurchaseFlag
     
   } from "../../actions";
-  import VariosModales from "./VariosModales";
+  // import VariosModales from "./VariosModales";
   import Iap from './Iap';
+  import crashlytics from '@react-native-firebase/crashlytics';
 
 
 class AdInter extends Component {
@@ -206,7 +207,11 @@ class AdInter extends Component {
         //     //  this.loadInter();
         //   });
         } catch (err) {
-          alert("intersitial loaded failed: " + err);
+        
+         crashlytics().setUserId(this.props.qra);
+         crashlytics().log('error: ' + err) ;
+         crashlytics().recordError(new Error('interLoaded'));
+         alert("intersitial loaded failed: " + err);
         }
     
 
@@ -359,7 +364,8 @@ return <View>
 
  const mapStateToProps = state => {
     return {  
-      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
+      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag,
+      qra: state.sqso.qra
 
         
      };

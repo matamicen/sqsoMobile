@@ -72,6 +72,7 @@ import { Auth } from "aws-amplify";
 import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 import RNIap, {
@@ -420,6 +421,9 @@ class QsoScreen extends Component {
        
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('QsoAvailablePurchase'));
       Alert.alert(err.message);
     }
   }

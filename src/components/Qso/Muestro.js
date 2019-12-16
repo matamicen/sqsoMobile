@@ -15,6 +15,7 @@ import { updateOnProgress, check_firstTime_OnProgress, checkMediaSentOfFreeUser 
 import ImagePicker from 'react-native-image-crop-picker';
 // import firebase from 'react-native-firebase';
 import VariosModales from "./VariosModales";
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 //Amplify.configure(awsconfig);
@@ -222,6 +223,9 @@ class Muestro extends Component {
         }).catch((err) => {
           // Oops, something went wrong. Check that the filename is correct and
           // inspect err to get more details.
+          crashlytics().setUserId(this.props.qra);
+          crashlytics().log('error: ' + err) ;
+          crashlytics().recordError(new Error('createResizedImage1'));
         });
 
 
@@ -241,6 +245,9 @@ class Muestro extends Component {
           }).catch((err) => {
             // Oops, something went wrong. Check that the filename is correct and
             // inspect err to get more details.
+            crashlytics().setUserId(this.props.qra);
+            crashlytics().log('error: ' + err) ;
+            crashlytics().recordError(new Error('createResizedImage2'));
           });
   
         }
@@ -348,6 +355,9 @@ class Muestro extends Component {
         }).catch((err) => {
           // Oops, something went wrong. Check that the filename is correct and
           // inspect err to get more details.
+          crashlytics().setUserId(this.props.qra);
+          crashlytics().log('error: ' + err) ;
+          crashlytics().recordError(new Error('createResizedImage3'));
         });
         final = new Date();
         total = final - inicial;
@@ -374,6 +384,9 @@ class Muestro extends Component {
           }).catch((err) => {
             // Oops, something went wrong. Check that the filename is correct and
             // inspect err to get more details.
+            crashlytics().setUserId(this.props.qra);
+            crashlytics().log('error: ' + err) ;
+            crashlytics().recordError(new Error('createResizedImage4'));
           });
   
         }
@@ -674,28 +687,28 @@ class Muestro extends Component {
 
      
 
-      signOut = () => {
-        Auth.signOut()
-          .then(data => console.log(JSON.stringify(data)))
-          .catch(err => console.log(err));
+      // signOut = () => {
+      //   Auth.signOut()
+      //     .then(data => console.log(JSON.stringify(data)))
+      //     .catch(err => console.log(err));
     
     
-      }
+      // }
 
-      info = async () => {
-        try {
-          session = await Auth.currentSession();
-         // session2 = await Auth.currentCredentials();
-          console.log("Su token es: " + session.idToken.jwtToken);
-         // console.log("Sus credenciales SON: " + JSON.stringify(session2));
-          this.setState({ tok: session.idToken.jwtToken })
-        }
-        catch (e) {
-          console.log('caught error', e);
-          // Handle exceptions
-        }
-        //console.log("Su token es: "+ session.idToken.jwtToken);   
-      }
+      // info = async () => {
+      //   try {
+      //     session = await Auth.currentSession();
+      //    // session2 = await Auth.currentCredentials();
+      //     console.log("Su token es: " + session.idToken.jwtToken);
+      //    // console.log("Sus credenciales SON: " + JSON.stringify(session2));
+      //     this.setState({ tok: session.idToken.jwtToken })
+      //   }
+      //   catch (e) {
+      //     console.log('caught error', e);
+      //     // Handle exceptions
+      //   }
+      //   //console.log("Su token es: "+ session.idToken.jwtToken);   
+      // }
 
       closeVariosModales = (param) => {
         this.setState({ nointernet: false, notvideorewarded: false, prereward: false });

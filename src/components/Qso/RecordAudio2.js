@@ -16,6 +16,7 @@ import {
 //  import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
 import RNFetchBlob from 'rn-fetch-blob';
+import crashlytics from '@react-native-firebase/crashlytics';
 
   
   const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
@@ -310,6 +311,9 @@ async _record() {
     const filePath = await AudioRecorder.startRecording();
   } catch (error) {
     console.error(error);
+    crashlytics().setUserId(this.props.qra);
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('startRecording'));
   }
 }
 
@@ -388,6 +392,9 @@ _stop = async () => {
   
     return filePath;
   } catch (error) {
+    crashlytics().setUserId(this.props.qra);
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('stopRecording'));
     console.error(error);
   }
 }
@@ -414,6 +421,9 @@ _stop = async () => {
       .catch((err) => {
         console.log('catch error RNFetchBlob.fs.stat')
         console.log(err);
+        crashlytics().setUserId(this.props.qra);
+        crashlytics().log('error: ' + err) ;
+        crashlytics().recordError(new Error('fs.stat'));
       })
   // if (Platform.OS === 'ios') {
 

@@ -11,6 +11,7 @@ import {
   } from "../../actions";
   import VariosModales from "./VariosModales";
   import Iap from './Iap';
+  import crashlytics from '@react-native-firebase/crashlytics';
 
 class AdVideoReward extends Component {
 
@@ -230,6 +231,10 @@ class AdVideoReward extends Component {
 
 
           } catch (err) {
+         
+            crashlytics().setUserId(this.props.qra);
+            crashlytics().log('error: ' + err) ;
+            crashlytics().recordError(new Error('rewardLoaded'));
             alert("video reward failed to load: " + err);
           }
         
@@ -388,7 +393,8 @@ return <View>
 
  const mapStateToProps = state => {
     return {  
-      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
+      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag,
+      qra: state.sqso.qra
         
      };
 };

@@ -11,6 +11,7 @@ import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
          actindicatorImageEnabled } from '../../actions';
 import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-crop-picker';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const landmarkSize = 2;
 
@@ -710,6 +711,9 @@ class CameraScreen extends React.Component {
                     console.log("cropImage Error", err.message);
                     this.setState({showCamera: true});
                     this.setState({buttonStatus: false});
+                    crashlytics().setUserId(this.props.qra);
+                    crashlytics().log('error: ' + err) ;
+                    crashlytics().recordError(new Error('openCropper'));
                 });
 
                 }

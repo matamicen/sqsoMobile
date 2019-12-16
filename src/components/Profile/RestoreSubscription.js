@@ -20,7 +20,7 @@ import RNIap, {
 } from 'react-native-iap';
 import { connect } from 'react-redux';
 import { confirmReceiptiOS, manageLocationPermissions, restoreCall, confirmReceiptAndroid } from '../../actions';
-
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // App Bundle > com.dooboolab.test
 
@@ -107,6 +107,9 @@ if (this.props.userinfo.account_type.idaccount_types===2)
 
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('RestoreSubcription1'));
     }
 
     
@@ -172,6 +175,9 @@ if (this.props.userinfo.account_type.idaccount_types===2)
       this.setState({ productList: products });
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('getSubscriptions'));
     }
   }
 
@@ -233,6 +239,9 @@ if (this.props.userinfo.account_type.idaccount_types===2)
          console.log('no hay PurchaseHistory');
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('getPurchaseHistory'));
       Alert.alert(err.message);
     }
   }
@@ -332,6 +341,9 @@ if (this.props.userinfo.account_type.idaccount_types===2)
        
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('getAvailablePurchase'));
       Alert.alert(err.message);
     }
   }
