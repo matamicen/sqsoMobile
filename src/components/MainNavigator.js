@@ -131,11 +131,12 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
  
 
   tabBarOptions: {
-     labelStyle: {
-         fontSize: 10,
-         width: 90,
-         padding: 0,   
-     },
+    //  labelStyle: {
+    //      fontSize: 10,
+    //      width: 90,
+    //      padding: 0,   
+    //  },
+    // indicatorStyle: { backgroundColor: 'transparent' },
      style: {
       backgroundColor: 'white',
     //   height: (Platform.OS==='ios') ? 60 : 60
@@ -152,7 +153,9 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
   },
   tabStyle: {
     marginTop:10,
-    height: 30
+    height: 30,
+    paddingRight: 20,
+    paddingLeft: 5
 },
 
   }
