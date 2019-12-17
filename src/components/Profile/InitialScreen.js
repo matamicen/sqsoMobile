@@ -335,13 +335,13 @@ signOut = async () => {
  
               </View> 
 
-              <View style={{flex: 0.05, alignItems: 'flex-end', marginRight: 17}}>
+              <View style={{flex: 0.08, alignItems: 'flex-end', marginRight: 17}}>
                 <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
                    <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >Restore Subscription</Text>
                 </TouchableOpacity>
               </View>
 
-              <View style={{flexDirection: 'row', flex: 0.065, marginLeft: 6}}>
+              <View style={{flexDirection: 'row', flex: 0.08, marginLeft: 6}}>
                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.switchToFollowing()} >
                     <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> Following</Text>
                  </TouchableOpacity>
@@ -357,7 +357,7 @@ signOut = async () => {
 
                       </View>
 
-                      <View style={{flex: 0.095}}>
+                      <View style={{flex: 0.105}}>
                  
                  {(this.props.followingsselected) ?
                           // <TouchableOpacity  >
@@ -372,7 +372,7 @@ signOut = async () => {
                    
                    </View> 
 
-               <View style={{flex: 0.66, width:this.width-15, marginBottom: 10}}>
+               <View style={{flex: 0.605, width:this.width-15, marginBottom: 10}}>
                 
                 <FollowerList /> 
                 

@@ -780,7 +780,7 @@ class Muestro extends Component {
               <View style={{flex:0.3}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
                     <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.send_and_check_ad()} >
-                      <Text style={{ color: '#c0c0c0', fontWeight: 'bold', fontSize: 20, marginTop: 15, marginLeft: 5}}>Send</Text>
+                      <Text style={{ color: '#c0c0c0', fontWeight: 'bold', fontSize: 18, marginTop: 18, marginLeft: 6}}>Send</Text>
                     </TouchableOpacity>
                 </View>  
                 :
@@ -848,7 +848,7 @@ const styles = StyleSheet.create({
       color: '#FFF',
       fontSize: 16,
       paddingHorizontal: 5,
-      width: 200
+   //   width: 100
             }
   });
 
