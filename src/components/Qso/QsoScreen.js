@@ -140,7 +140,7 @@ class QsoScreen extends Component {
           style={{
             width: 35,
             height: 20,
-            marginTop: Platform.OS === "ios" ? 2 : 3
+            marginTop: Platform.OS === "ios" ? 3 : 3
           }}
         >
           <Image
@@ -1371,7 +1371,7 @@ class QsoScreen extends Component {
               <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                 <Image
                   source={require("../../images/removecircle.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
+                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
@@ -1389,7 +1389,7 @@ class QsoScreen extends Component {
               >
                 <Image
                   source={require("../../images/mic.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
+                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
                 <Text style={{ fontSize: 13, color: "black",  marginLeft: 10  }}>Record</Text>
@@ -1406,10 +1406,10 @@ class QsoScreen extends Component {
               <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}>
                 <Image
                   source={require("../../images/camera.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
+                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 12, color: "black",   marginLeft: 14 }}>Photo</Text>
+                <Text style={{ fontSize: 13, color: "black",   marginLeft: 14 }}>Photo</Text>
               </TouchableOpacity>
             </View>
           ) : null}

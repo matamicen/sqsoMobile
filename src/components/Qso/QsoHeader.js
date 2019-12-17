@@ -70,7 +70,7 @@ class QsoHeader extends Component {
               </View> 
               {/* flex: 1 */}
              <View style={{flexDirection: 'row', marginTop: 6 }}>
-                    <View style={{flex: Platform.OS==='ios' ? 0.40 : 0.40}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.47 : 0.47}}>
                  
                     { this.props.sqsonewqsoactive ?
                         <QsoEnterQra /> : null }
@@ -79,13 +79,13 @@ class QsoHeader extends Component {
                         <QsoEnterQra /> : null } */}
                     </View>
                    
-                    <View style={{flex: Platform.OS==='ios' ? 0.30 : 0.30, alignItems: 'center'}}>  
+                    <View style={{flex: Platform.OS==='ios' ? 0.265 : 0.265, alignItems: 'center'}}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?  
                         <QsoBand />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.30 : 0.30, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.265 : 0.265, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                         <QsoMode />  : null }
                     </View>  

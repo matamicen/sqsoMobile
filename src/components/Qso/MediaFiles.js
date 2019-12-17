@@ -80,7 +80,7 @@ class MediaFiles extends Component {
     qralist: {
         marginRight: 10 ,
         marginLeft: 10,
-        marginTop: 3
+        marginTop: 0
       //  marginBottom: 70,
       // maxHeight: 150
      

@@ -175,7 +175,7 @@ class QsoType extends Component {
                 
 
                   { (this.props.qsotype==='LISTEN') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('post') }> 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/post.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
@@ -187,7 +187,7 @@ class QsoType extends Component {
                     : null }
 
                       { (this.props.qsotype==='POST') ? 
-                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('inqso') }> 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('QSO') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/inQSO.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
@@ -199,7 +199,7 @@ class QsoType extends Component {
                 
 
                   { (this.props.qsotype==='POST') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('listen') }> 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/listen.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />

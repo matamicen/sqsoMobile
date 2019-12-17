@@ -51,7 +51,7 @@ class Media extends Component {
               
         return( <View style={{ flex: 1 }}>
                
-               <View style={{flex: 1, flexDirection: 'row', marginTop: 6 }}>
+               <View style={{flex: 1, flexDirection: 'row', marginTop: 0 }}>
 
                       { (this.props.type==='image' || this.props.type==='profile') ? <Image
                     style={styles.mediaStyle}
