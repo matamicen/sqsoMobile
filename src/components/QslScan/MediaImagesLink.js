@@ -35,7 +35,7 @@ class MediaImagesLink extends Component {
 
     return (
       <View>
-       <View style={{ paddingRight: 8 }}>
+        <View style={{ paddingRight: 8 }}>
         <Media  imageurl={url}  description={description} type={type} datetime={datetime} mostrar={this.props.mostrar}  />
         </View>
        
@@ -86,8 +86,8 @@ class MediaImagesLink extends Component {
  const styles = StyleSheet.create({
     
     qralist: {
-        marginRight: 10,
-        marginLeft: 10,
+        // marginRight: 10,
+        // marginLeft: 10,
        // marginBottom: 70,
       // maxHeight: 150
      

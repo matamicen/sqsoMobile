@@ -131,6 +131,10 @@ class QsoMode extends Component {
                 {
                     title: 'C4FM',
                     value: 'C4FM'
+                },
+                {
+                    title: 'EME',
+                    value: 'EME'
                 }
                ]
               

@@ -95,6 +95,10 @@ class QsoBand extends Component {
     render() { console.log("RENDER qso BAND" );
               
                const pickerValues = [
+                {
+                    title: '23cm',
+                    value: '23cm'
+                },
                    {
                        title: '70cm',
                        value: '70cm'
@@ -157,7 +161,7 @@ class QsoBand extends Component {
                     <View style={{ margin:20,
                          padding:20, 
                          backgroundColor: '#efefef',
-                         bottom: 20,
+                         bottom: 10,
                          left: 20,
                          right: 20,
                          position: 'absolute',

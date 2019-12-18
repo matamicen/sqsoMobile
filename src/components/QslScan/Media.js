@@ -81,8 +81,10 @@ const styles = StyleSheet.create({
        faceImageStyle: {
         //    height: 350,
         //    width: 750
-        height: 216,
-        width: 384,
+        // height: 216,
+        // width: 384,
+        height: 259.2,
+        width: 460.8,
         borderRadius: 15
         
         

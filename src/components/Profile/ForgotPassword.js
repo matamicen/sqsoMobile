@@ -311,7 +311,7 @@ constructor(props) {
                 <View style={{  justifyContent: 'space-around',   padding: 1,
                         opacity: this.state.indicatorNewPassword }} >
                 
-                <Text style={{ color: '#FFFFFF', fontSize: 16  }}>Enter your QRA</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 15  }}>We have sent the code to your email</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder="qra"
@@ -347,7 +347,7 @@ constructor(props) {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onSubmitEditing={() => this.emailRef.focus()} 
+                //  onSubmitEditing={() => this.emailRef.focus()} 
                   style={styles.input}
                   value={this.state.code}
                     onChangeText={(text) => this.setState({code: text})} />
