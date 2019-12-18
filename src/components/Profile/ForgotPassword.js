@@ -153,7 +153,7 @@ constructor(props) {
                 if (err.code==='LimitExceededException')
                   this.setState({errormessage: 'Attempt limit exceeded, please try after some time',  confirmationcodeError: 1, indicator:0}) 
               else
-                this.setState({errormessage: 'Process failed! Please enter the QRA again',  confirmationcodeError: 1, indicator:0 })
+                this.setState({errormessage: 'Error! Please enter the callsign again',  confirmationcodeError: 1, indicator:0 })
               
 
                 crashlytics().setUserId(this.state.qra.toUpperCase());
@@ -289,7 +289,7 @@ constructor(props) {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onSubmitEditing={() => this.emailRef.focus()} 
+                  // onSubmitEditing={() => this.emailRef.focus()} 
                   style={styles.input}
                   value={this.state.qra}
                     onChangeText={(text) => this.setState({qra: text})} />

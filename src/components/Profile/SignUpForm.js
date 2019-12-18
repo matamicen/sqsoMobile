@@ -235,7 +235,7 @@ signUp = async () => {
           if (this.state.qra=='')
           {
 
-            this.setState({errormessage: 'The QRA is empty',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: 'The callsign is empty',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.qraRef.focus();
           }
@@ -518,7 +518,7 @@ signUp = async () => {
     .catch (err => {console.log('SignUp error: ', err.message)
                    console.log(err);
                    if (err.code==='UsernameExistsException'){
-                      errmessage = 'User already exists. If your QRA is already in use please send us a copy of your call sign license issued by your country to support@superqso.com';
+                      errmessage = 'User already exists. If your callsign is already in use please send us a copy of your callsign license issued by your country to support@superqso.com';
                           if (Platform.OS === 'ios') 
                                     setheighterror = 60;
                               else
@@ -1091,7 +1091,7 @@ chooseCountry = () => {
    <Modal visible ={this.state.pickerDateIOS}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{
                       //  margin:20,
-                          padding:20, 
+                          padding:5, 
                           backgroundColor:"#f8f8ff",
                           top: 170,
                           left: 30,
@@ -1115,10 +1115,10 @@ chooseCountry = () => {
                     <View style={{flex: 1, flexDirection: 'row'}}>
 
                     <TouchableOpacity  onPress={() => this.close_birthdate_modalIOS()} style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 16}}>Cancel</Text>
+                      <Text style={{ color: '#999', fontSize: 16, marginLeft: 5}}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={() => this.setDateIOS() } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 16}}>SELECT</Text>
+                    <TouchableOpacity  onPress={() => this.setDateIOS() } style={{ paddingTop: 4, paddingBottom: 4,  flex: 0.5}}>
+                      <Text style={{ color: 'black', fontSize: 16, marginLeft: 5}}>SELECT</Text>
                     </TouchableOpacity>
                     </View>
                     
