@@ -96,17 +96,22 @@ if (urlnotif!=null)
 
                 <View style={{flex: 0.24, marginLeft: 6}}>
                  {this.props.avatar_pic!==null ?
+                  <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                        <Image
                     style={styles.faceImageStyle}
                     resizeMethod="resize"
                     source={{ uri: this.props.avatar_pic }}
                       /> 
+                  </TouchableOpacity>
 
                       :
+                      <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                       <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle} resizeMethod="resize" /> 
+                      </TouchableOpacity>
                       }
+                      
                       <Text style={{fontSize:11, marginLeft: 5,  color: '#243665',fontWeight: 'bold' }} > {this.props.QRA} </Text>
-
+                   
                 </View>
                       
                       
