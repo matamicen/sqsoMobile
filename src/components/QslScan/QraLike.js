@@ -245,14 +245,16 @@ const styles = StyleSheet.create({
     // marginLeft: 5,
     padding: 1,
     fontWeight: 'bold',
-    color: 'orange'
+    // color: 'orange'
+    color: '#243665'       
   },
   name2: {
     fontSize: 12,
     //  marginLeft: 11,
     //  padding: 2,
     fontWeight: 'bold',
-    color: 'orange'
+   // color: 'orange'
+   color: '#243665'
   }
 });
 
