@@ -127,7 +127,7 @@ if (urlnotif!=null)
 
                     <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                         {/* <Text>{this.props.QSO_GUID} - id notif: {this.props.idqra_notifications} </Text> */}
-                        <Text>{this.props.message}</Text>
+                        <Text style={{fontSize:15}}>{this.props.message}</Text>
                     {/* {(this.props.read===null) ? <Text>ES null</Text> : <Text>NO es null</Text> } */}
                      </TouchableOpacity>
                              

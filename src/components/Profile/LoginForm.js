@@ -792,7 +792,7 @@ if (!this.usernotfound)
                <View style={styles.container}>
    
        
-               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding:5,
+               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding:5, marginTop: 15,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator   animating={true} size="large" color='white' />

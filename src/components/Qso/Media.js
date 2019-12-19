@@ -107,7 +107,7 @@ class Media extends Component {
                         }
 
                            { (this.props.status==='waiting') && 
-                         <Text style={styles.status} > WAITING for band,mode and Qra </Text>
+                         <Text style={styles.status} > Enter callsign, Band and Mode</Text>
                         }
 
 

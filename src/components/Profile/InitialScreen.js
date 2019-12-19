@@ -302,9 +302,9 @@ signOut = async () => {
                   <Text  style={{ fontSize: 12, color: '#999'}}>Login</Text>             
                 </TouchableOpacity> */}
 
-             <View style={{flexDirection: 'row', flex: 0.13}}>
+             <View style={{flexDirection: 'row', flex: 0.14}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
-               <View style={{flex:0.20}}>
+               <View style={{flex:0.21}}>
                   <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
               </View>  
               <View style={{flex:0.15}}>
@@ -315,7 +315,7 @@ signOut = async () => {
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flex:0.38, alignItems: 'center'}}>
+                <View style={{flex:0.37, alignItems: 'center'}}>
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.openContactForm() }>
                   <Image source={require('../../images/email3.png')}  style={{width: 25, height: 23,  marginLeft: 17  } } 
                  resizeMode="contain" /> 
