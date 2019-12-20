@@ -12,7 +12,8 @@ import { NavigationActions } from 'react-navigation';
 import { setQra, setUrlRdsS3 } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
-import { kinesis_catch } from '../../helper';
+// import { kinesis_catch } from '../../helper';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 
@@ -78,7 +79,10 @@ constructor(props) {
     .catch(err => {console.log('error:', err.code)
     this.usernotfound = true;
 
-    kinesis_catch('#001',err,this.state.qra.toUpperCase());
+    // kinesis_catch('#001',err,this.state.qra.toUpperCase());
+    crashlytics().setUserId(this.state.qra.toUpperCase());
+    crashlytics().log('error: ' + err) ;
+    crashlytics().recordError(new Error('signInAfterConfirmed_1'));
 
 
   });
@@ -96,7 +100,11 @@ constructor(props) {
     catch (e) {
       console.log('caught error', e);
 
-      kinesis_catch('#002',e,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + e) ;
+      crashlytics().recordError(new Error('signInAfterConfirmed_2'));
+
+      // kinesis_catch('#002',e,this.state.qra.toUpperCase());
       // Handle exceptions
     }
     session = await Auth.currentSession();
@@ -109,7 +117,11 @@ constructor(props) {
       await AsyncStorage.setItem('username', this.state.qra.toUpperCase());
     } catch (error) {
 
-      kinesis_catch('#003',error,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('signInAfterConfirmed_3'));
+
+      // kinesis_catch('#003',error,this.state.qra.toUpperCase());
       // Error saving data
     }
     
@@ -141,9 +153,14 @@ constructor(props) {
                 if (err.code==='LimitExceededException')
                   this.setState({errormessage: 'Attempt limit exceeded, please try after some time',  confirmationcodeError: 1, indicator:0}) 
               else
-                this.setState({errormessage: 'Process failed! Please enter the QRA again',  confirmationcodeError: 1, indicator:0 })
+                this.setState({errormessage: 'Error! Please enter the callsign again',  confirmationcodeError: 1, indicator:0 })
               
-                kinesis_catch('#004',err,this.state.qra.toUpperCase());
+
+                crashlytics().setUserId(this.state.qra.toUpperCase());
+                crashlytics().log('error: ' + err) ;
+                crashlytics().recordError(new Error('Auth.forgotPassword'));
+
+                // kinesis_catch('#004',err,this.state.qra.toUpperCase());
               });
 
             
@@ -207,8 +224,12 @@ constructor(props) {
             
             if(err.code==='ExpiredCodeException') 
                     this.setState({errormessage: 'Invalid code provided, please request a code again.',confirmationcodeError: 1, indicator:0});
+                  
+                    crashlytics().setUserId(this.state.qra.toUpperCase());
+                    crashlytics().log('error: ' + err) ;
+                    crashlytics().recordError(new Error('Auth.forgotPasswordSubmit'));
                     
-                    kinesis_catch('#005',err,this.state.qra.toUpperCase());
+                    // kinesis_catch('#005',err,this.state.qra.toUpperCase());
         });
       }
     } else 
@@ -268,7 +289,7 @@ constructor(props) {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onSubmitEditing={() => this.emailRef.focus()} 
+                  // onSubmitEditing={() => this.emailRef.focus()} 
                   style={styles.input}
                   value={this.state.qra}
                     onChangeText={(text) => this.setState({qra: text})} />
@@ -290,7 +311,7 @@ constructor(props) {
                 <View style={{  justifyContent: 'space-around',   padding: 1,
                         opacity: this.state.indicatorNewPassword }} >
                 
-                <Text style={{ color: '#FFFFFF', fontSize: 16  }}>Enter your QRA</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 15  }}>We have sent the code to your email</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder="qra"
@@ -326,7 +347,7 @@ constructor(props) {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onSubmitEditing={() => this.emailRef.focus()} 
+                //  onSubmitEditing={() => this.emailRef.focus()} 
                   style={styles.input}
                   value={this.state.code}
                     onChangeText={(text) => this.setState({code: text})} />

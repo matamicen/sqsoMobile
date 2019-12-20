@@ -41,9 +41,9 @@ class User extends Component {
         {     
             date = getDate();
             if (follow==="FALSE")
-              await this.props.followAdd(qra,date,this.props.jwtToken,qra_avatar);
+              await this.props.followAdd(this.props.qraLoggedIn,qra,date,this.props.jwtToken,qra_avatar);
             else
-              await this.props.unfollow(qra,this.props.jwtToken); 
+              await this.props.unfollow(this.props.qraLoggedIn,qra,this.props.jwtToken); 
             this.props.refreshFollowings(true);
         }
         else

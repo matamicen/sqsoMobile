@@ -16,6 +16,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { hasAPIConnection, kinesis_catch } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // nuevo push
 import Analytics from '@aws-amplify/analytics';
@@ -23,9 +24,9 @@ import Analytics from '@aws-amplify/analytics';
 
 
 
- import PushNotification from '@aws-amplify/pushnotification';
+//  import PushNotification from '@aws-amplify/pushnotification';
  //import { PushNotification } from 'aws-amplify-react-native';
- import { PushNotificationIOS } from 'react-native';
+//  import { PushNotificationIOS } from 'react-native';
 
  import RNIap from 'react-native-iap';
 
@@ -33,7 +34,7 @@ import Analytics from '@aws-amplify/analytics';
 // PushNotification need to work with Analytics
 Analytics.configure(awsconfig);
 //Amplify.configure(awsconfig);
-PushNotification.configure(awsconfig);
+// PushNotification.configure(awsconfig);
 Auth.configure(awsconfig);
 // Amplify.configure(awsconfig);
 
@@ -113,107 +114,107 @@ constructor(props) {
 
 
 
-    PushNotification.onNotification((notification) => {
-      console.log('antes imprimir')
-      console.log('qra:'+ this.props.qra);
-      console.log('in app notification', notification);
-      console.log('despues de  imprimir')
-   //  this.setState({mensaje: JSON.stringify(notification)});
+  //   PushNotification.onNotification((notification) => {
+  //     console.log('antes imprimir')
+  //     console.log('qra:'+ this.props.qra);
+  //     console.log('in app notification', notification);
+  //     console.log('despues de  imprimir')
+  //  //  this.setState({mensaje: JSON.stringify(notification)});
 
-  if (this.props.qra!='') {
+  // if (this.props.qra!='') {
 
-    let envioNotif = '';
+  //   let envioNotif = '';
       
-      if (Platform.OS==='android')
-      {   // console.log('AVATR: '+notification.data);
-      try {
-            console.log('paso por ANDROID')
-                let body = notification.data['pinpoint.jsonBody'];
-              // let body = notification._data['data.pinpoint.jsonBody'];
+  //     if (Platform.OS==='android')
+  //     {   // console.log('AVATR: '+notification.data);
+  //     try {
+  //           console.log('paso por ANDROID')
+  //               let body = notification.data['pinpoint.jsonBody'];
+  //             // let body = notification._data['data.pinpoint.jsonBody'];
               
-                let bodyJson = JSON.parse(body)
+  //               let bodyJson = JSON.parse(body)
               
-                console.log(bodyJson.AVATAR);
-                console.log(bodyJson.QRA);
-                console.log(bodyJson.IDACTIVITY);
-        //        console.log(notification.data['pinpoint.notification.body']);
+  //               console.log(bodyJson.AVATAR);
+  //               console.log(bodyJson.QRA);
+  //               console.log(bodyJson.IDACTIVITY);
+  //       //        console.log(notification.data['pinpoint.notification.body']);
 
-              // console.log(notification._data['data.pinpoint.notification.body']);
+  //             // console.log(notification._data['data.pinpoint.notification.body']);
                 
           
-                envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
-                "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-                "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
-                "qso_mode":null,"qso_band":null,"qso_type":null}
+  //               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
+  //               "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+  //               "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
+  //               "qso_mode":null,"qso_band":null,"qso_type":null}
 
-                  this.props.manage_notifications('ADDONE',envioNotif);
-         } 
-          catch (error) {
-            console.log('error #010');
-            console.log(error);
-            kinesis_catch('#010',error,this.props.qra);
-                // Error retrieving data
-         }
+  //                 this.props.manage_notifications('ADDONE',envioNotif);
+  //        } 
+  //         catch (error) {
+  //           console.log('error #010');
+  //           console.log(error);
+  //           kinesis_catch('#010',error,this.props.qra);
+  //               // Error retrieving data
+  //        }
     
-    }else
-     {
-          // console.log('AVATR: '+notification.data);
-      try {
-          console.log('paso por IOS')
-          let bodyJson = notification._data.data.jsonBody;
+  //   }else
+  //    {
+  //         // console.log('AVATR: '+notification.data);
+  //     try {
+  //         console.log('paso por IOS')
+  //         let bodyJson = notification._data.data.jsonBody;
           
-          // let body = notification._data['data.pinpoint.jsonBody'];
+  //         // let body = notification._data['data.pinpoint.jsonBody'];
 
-            // let bodyJson = JSON.parse(body)
+  //           // let bodyJson = JSON.parse(body)
           
-            console.log(bodyJson.AVATAR);
-            console.log(bodyJson.QRA);
-            console.log(bodyJson.IDACTIVITY);
-            console.log(notification._alert.title);
-        //    console.log(notification._alert.body);
+  //           console.log(bodyJson.AVATAR);
+  //           console.log(bodyJson.QRA);
+  //           console.log(bodyJson.IDACTIVITY);
+  //           console.log(notification._alert.title);
+  //       //    console.log(notification._alert.body);
 
-            // console.log(notification._data.body);
+  //           // console.log(notification._data.body);
 
           
             
 
-            envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification._alert.title,
-            "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-            "qra_avatarpic":bodyJson.AVATAR, "url": notification._data.data.pinpoint.deeplink,
-            "qso_mode":null,"qso_band":null,"qso_type":null}
+  //           envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification._alert.title,
+  //           "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+  //           "qra_avatarpic":bodyJson.AVATAR, "url": notification._data.data.pinpoint.deeplink,
+  //           "qso_mode":null,"qso_band":null,"qso_type":null}
 
-            this.props.manage_notifications('ADDONE',envioNotif);
-          } 
-          catch (error) {
-            console.log('error #011');
-            kinesis_catch('#011',error,this.props.qra);
-                // Error retrieving data
-         }
+  //           this.props.manage_notifications('ADDONE',envioNotif);
+  //         } 
+  //         catch (error) {
+  //           console.log('error #011');
+  //           kinesis_catch('#011',error,this.props.qra);
+  //               // Error retrieving data
+  //        }
 
-      }
+  //     }
 
 
 
          
-      console.log('MATITO')
+  //     console.log('MATITO')
         
         
-     if (!notification.foreground)
-          this.props.navigation.navigate("Notifications");
+  //    if (!notification.foreground)
+  //         this.props.navigation.navigate("Notifications");
        
-  }else{
-    // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
-    // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)
-    // entonce si llega un PUSH y no tiene QRA en redux es porque justmanete fallo esa actualizacion en RDS
-    // entonces llamo de nuevo al RDS y le asigno VACIO de QRA al token push,luego cuando el el usuario se loguee el RDS se va a actualizar
-    // y pasar en nuevo QRA.
-    console.log('recibio push pero no deberia porque no se logueo.')
-  }
+  // }else{
+  //   // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
+  //   // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)
+  //   // entonce si llega un PUSH y no tiene QRA en redux es porque justmanete fallo esa actualizacion en RDS
+  //   // entonces llamo de nuevo al RDS y le asigno VACIO de QRA al token push,luego cuando el el usuario se loguee el RDS se va a actualizar
+  //   // y pasar en nuevo QRA.
+  //   console.log('recibio push pero no deberia porque no se logueo.')
+  // }
     
 
-      if(Platform.OS !== 'android')
-      notification.finish(PushNotificationIOS.FetchResult.NoData);
-    });
+  //     if(Platform.OS !== 'android')
+  //     notification.finish(PushNotificationIOS.FetchResult.NoData);
+  //   });
     
     // PushNotification.onRegister((token) => {
     //   console.log('in app registration', token);
@@ -312,9 +313,10 @@ constructor(props) {
 
     } catch (err) {
       console.log('salio catch initConnection loginform');
-     
-      
       console.warn(err.code, err.message);
+      crashlytics().setUserId('unknown');
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('RNIap.initConnection'));
     }
 
 
@@ -354,8 +356,8 @@ constructor(props) {
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-         if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-   //   if (1===2)
+     //    if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      if (1===2)
       this.setState({nopushtoken: true})
         else
         {
@@ -403,7 +405,12 @@ constructor(props) {
           catch (error) {
             console.log('Error AsyncStorage.getItem(username)', error);
             this.setState({showloginForm: true});
-            kinesis_catch('#008',error,value);
+
+            crashlytics().setUserId('unknown');
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('AsyncStorage.getItem(username)'));
+
+            // kinesis_catch('#008',error,value);
             // Error retrieving data
           }
 
@@ -495,7 +502,11 @@ signIn = async () => {
              this.setState({ loginerror: 1, indicator: 0});
              this.usernotfound = true;
 
-             kinesis_catch('#012',err,this.state.username.toUpperCase());
+
+             crashlytics().setUserId(this.state.username.toUpperCase());
+             crashlytics().log('error: ' + err) ;
+             crashlytics().recordError(new Error('Auth.signIn'));
+            //  kinesis_catch('#012',err,this.state.username.toUpperCase());
 
             }
             
@@ -519,7 +530,11 @@ if (!this.usernotfound)
     }
     catch (e) {
       console.log('caught error', e);
-      kinesis_catch('#013',e,this.state.username.toUpperCase());
+             crashlytics().setUserId(this.state.username.toUpperCase());
+             crashlytics().log('error: ' + e) ;
+             crashlytics().recordError(new Error('Auth.signIn.currentCredentials()'));
+
+      // kinesis_catch('#013',e,this.state.username.toUpperCase());
       // Handle exceptions
     }
      var session = await Auth.currentSession();
@@ -544,7 +559,10 @@ if (!this.usernotfound)
     } catch (error) {
       // Error saving data
       console.log('caught error AsyncStorage username & identity', error);
-      kinesis_catch('#014',error,this.state.username.toUpperCase());
+      crashlytics().setUserId(this.state.username.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('AsyncStorage.user.ident'));
+      // kinesis_catch('#014',error,this.state.username.toUpperCase());
     }
 
     // try {
@@ -607,7 +625,10 @@ if (!this.usernotfound)
                           console.log('grabo pushtoken en AsyncStorage porque cambio el token o el usuario logueado y llama API de backend '+Platform.OS);
                         } catch (error) {
                           console.log('caught error setItem pushtoken y qratoken dentro de if (this.pushTokenFound)', error);
-                          kinesis_catch('#016',error,this.state.username.toUpperCase());
+                          // kinesis_catch('#016',error,this.state.username.toUpperCase());
+                          crashlytics().setUserId(this.state.username.toUpperCase());
+                          crashlytics().log('error: ' + error) ;
+                          crashlytics().recordError(new Error('props.postPushToken'));
                         }
 
 
@@ -625,8 +646,10 @@ if (!this.usernotfound)
                       // catch (err){
 
                       // }
-  
-              kinesis_catch('#017',error,this.state.username.toUpperCase());
+                      crashlytics().setUserId(this.state.username.toUpperCase());
+                      crashlytics().log('error: ' + error) ;
+                      crashlytics().recordError(new Error('twoGetItems'));
+              // kinesis_catch('#017',error,this.state.username.toUpperCase());
             }
 
         //  }
@@ -691,7 +714,10 @@ if (!this.usernotfound)
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
-                  kinesis_catch('#021',err,this.state.username.toUpperCase());
+                  // kinesis_catch('#021',err,this.state.username.toUpperCase());
+                  crashlytics().setUserId(this.state.username.toUpperCase());
+                  crashlytics().log('error: ' + err) ;
+                  crashlytics().recordError(new Error('Auth.resendSignUp'));
                 
                 });
 
@@ -728,7 +754,10 @@ if (!this.usernotfound)
    .catch (err => {console.log('SignUp confirmed error: ', err);
    this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
      confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
-     kinesis_catch('#026',err,this.state.username.toUpperCase());
+    //  kinesis_catch('#026',err,this.state.username.toUpperCase());
+    crashlytics().setUserId(this.state.username.toUpperCase());
+    crashlytics().log('error: ' + err) ;
+    crashlytics().recordError(new Error('Auth.confirmSignUp'));
                   
  })
 }else 
@@ -763,7 +792,7 @@ if (!this.usernotfound)
                <View style={styles.container}>
    
        
-               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding:5,
+               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding:5, marginTop: 15,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator   animating={true} size="large" color='white' />
@@ -932,7 +961,7 @@ if (!this.usernotfound)
     marginBottom: 18,
     width: 280,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 10,
     textAlign: 'center'
     

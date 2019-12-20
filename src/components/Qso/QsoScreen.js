@@ -53,6 +53,7 @@ import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
 import Iap from "./Iap";
+import analytics from '@react-native-firebase/analytics';
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
@@ -71,6 +72,8 @@ import { Auth } from "aws-amplify";
 import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
+import crashlytics from '@react-native-firebase/crashlytics';
+
 
 import RNIap, {
   Product,
@@ -122,7 +125,8 @@ class QsoScreen extends Component {
       fadeValue: new Animated.Value(0),
       xValue: new Animated.Value(0),
       springValue: new Animated.Value(0.3),
-      rotateValue: new Animated.Value(0),
+      rotateValue: new Animated.Value(0)
+     
     };
   }
 
@@ -136,16 +140,16 @@ class QsoScreen extends Component {
           style={{
             width: 35,
             height: 20,
-            marginTop: Platform.OS === "ios" ? 2 : 3
+            marginTop: Platform.OS === "ios" ? 3 : 3
           }}
         >
           <Image
-            style={{  width: 31, height: 31}}
+            style={{  width: 31, height: 31, marginLeft: 5}}
          //   source={require("../../images/qsoicon3.png")}
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 7 }}>QSO</Text>
+          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 12 }}>QSO</Text>
         </View>
       );
     }
@@ -417,6 +421,9 @@ class QsoScreen extends Component {
        
     } catch (err) {
       console.warn(err.code, err.message);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('QsoAvailablePurchase'));
       Alert.alert(err.message);
     }
   }
@@ -476,11 +483,17 @@ class QsoScreen extends Component {
 
   checkInternetOpenRecording = async () => {
     if (await hasAPIConnection()) {
+      // analytics().logEvent("Recording", {"QSOTYPE": this.props.qsotype,
+      //  "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
+
+      // console.log("Recording analytics")
+      
       Permissions.request("microphone").then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         console.log("Microphone Permiso: " + response);
         if (response === "authorized") {
+         
           this.toggleRecModal();
         }
 
@@ -579,6 +592,8 @@ class QsoScreen extends Component {
     if (await hasAPIConnection()) {
       // this.requestCameraPermission().then((hasPermission) => {
       //   if (!hasPermission) return;
+
+    
 
       Permissions.request("camera").then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -1006,7 +1021,7 @@ class QsoScreen extends Component {
 //this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
 
         if (env.status==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
-        this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar, env.sqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.jwtToken);
+        this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar, env.sqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
         else{
           // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
@@ -1040,10 +1055,15 @@ class QsoScreen extends Component {
     });
     console.log("RENDER qso Screen");
 
+    
+
     return (
+    
+     
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
+          
          
 
           {/* <ActivityIndicator  animating={this.state.actindicatorpostQsoNew} size="large" color='orange' /> */}
@@ -1351,7 +1371,7 @@ class QsoScreen extends Component {
               <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                 <Image
                   source={require("../../images/removecircle.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
+                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
@@ -1369,7 +1389,7 @@ class QsoScreen extends Component {
               >
                 <Image
                   source={require("../../images/mic.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
+                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
                 <Text style={{ fontSize: 13, color: "black",  marginLeft: 10  }}>Record</Text>
@@ -1386,10 +1406,10 @@ class QsoScreen extends Component {
               <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}>
                 <Image
                   source={require("../../images/camera.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 7 }}
+                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 12, color: "black",   marginLeft: 14 }}>Photo</Text>
+                <Text style={{ fontSize: 13, color: "black",   marginLeft: 14 }}>Photo</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1404,6 +1424,7 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
       </View>
+  
     );
   }
 }

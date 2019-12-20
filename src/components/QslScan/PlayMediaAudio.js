@@ -348,7 +348,7 @@ import Video from 'react-native-video';
         }
 
            <Text> QTR: {this.props.datetime.substr(11, 8)}</Text>
-           <Text style={{ fontSize: 16, color: 'orange'}}>  {this.props.description}</Text>
+           <Text style={{ fontSize: 16, color: '#243665'}}>  {this.props.description}</Text>
 
           
           {/* http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4 */}

@@ -34,7 +34,7 @@
   [FIRApp configure];
   // [GADMobileAds configureWithApplicationID:@"ca-app-pub-7987914246691031~8295071692"];
 //  [GADMobileAds  configureWithApplicationID:@"ca-app-pub-1064314468310203~8912907965"];
-  [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+//  [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
   return YES;
 }
 

@@ -45,6 +45,9 @@ import RNIap, {
   PurchaseError,
 } from 'react-native-iap';
 
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 
 // Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -336,6 +339,9 @@ export const fetchQraProfileUrl = (qra,type,jwtToken) => {
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
       dispatch(updateQraUrl('deleteLast',url));
+      crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('fetchQraProfileUrl'));
     }
          
       
@@ -427,7 +433,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
                 // entonces cuando sigue con su QSO y el sistema intenta enviar toda la media del QSO evito que 
                 // se envie el profile.
               if (x.type!=='profile')
-                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',jwtToken));
+                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
                // console.log(x.url)
               //  <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
               //  status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
@@ -442,6 +448,15 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
      tiempo2 = Date.now();
      resu = tiempo2 - tiempo1;
      console.log('total ejecucion: '+ resu);
+
+
+     analytics().logEvent("QSO", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
+     "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
+
+     console.log("Recording analytics QSO")
+
+
+
 
      if (bodyqsonew.type==='POST')
      dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,false,false));
@@ -460,6 +475,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
       dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
+
+      crashlytics().setUserId(bodyqsonew.qra_owner);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('postQsoNew'));
      
 
       // Handle exceptions
@@ -532,6 +551,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
     catch (error) {
       console.log('Api catch error:', error);
       dispatch(fetchingApiFailure('postQsoQras',error));
+
+      // crashlytics().setUserId(bodyqsonew.qra_owner);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('postQsoQras'));
       // Handle exceptions
     }
          
@@ -585,17 +608,22 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QSO_EDIT");
     
-     
+    //  console.log(respuesta);
       dispatch(fetchingApiSuccess('postQsoEdit',respuesta));
      
-      if (respuesta.error==='0')
+      if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
-        console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.message));
+        console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.body.message));
 
        
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");
+
+        analytics().logEvent("QSO", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+        "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+   
+        console.log("Recording analytics QSO edit")
         
         dispatch(updateQsoHeaderStatusTrue());
         
@@ -606,6 +634,11 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
     catch (error) {
       console.log('Api catch error:', error);
       dispatch(fetchingApiFailure('postQsoEdit',error));
+
+            crashlytics().setUserId(qsoHeader.qra);
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('postQsoEdit'));
+      
       // Handle exceptions
     }
          
@@ -695,7 +728,7 @@ export const setUserInfo = (mode, userInfo) => {
 
 
 
-export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar,identityId,jwtToken) => {
+export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar,identityId,qra,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postSetProfilePicNSFW'));
     //   console.log("ejecuta llamada API SetProfilePic");  
@@ -807,14 +840,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
 
                            dispatch(postSetProfilePic(urlprofile, urlprofileAvatar, fileName2, jwtToken));
                           
-                           
                
-                      
-               
-                   
-                   
-                             
-                   
                                
                                })
                                .catch(err => {
@@ -824,24 +850,14 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                              
                                  update = {"status": 'failed'}
                                  dispatch(updateMedia(fileName2,update,'item'));
+
+
+                                crashlytics().setUserId(qra);
+                                crashlytics().log('error: ' + err) ;
+                                crashlytics().recordError(new Error('Upload_Avatar'));
                                        
                                });
 
-
-
-
-
-
-
-
-
-
-
-         
-             
-             
-                       
-             
                          
                          })
                          .catch(err => {
@@ -851,6 +867,10 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                        
                            update = {"status": 'failed'}
                            dispatch(updateMedia(fileName2,update,'item'));
+
+                           crashlytics().setUserId(qra);
+                           crashlytics().log('error: ' + err) ;
+                           crashlytics().recordError(new Error('Upload_profile.jpg'));
                                  
                          });
          
@@ -883,6 +903,9 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
       dispatch(updateMedia(filename2, update,'item' ));
       dispatch(fetchingApiFailure('postSetProfilePicNSFW',error));
       // Handle exceptions
+      crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('postSetProfilePicNSFW'));
     }
          
       
@@ -951,6 +974,9 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       dispatch(updateMedia(filename2, update,'item' ));
       dispatch(fetchingApiFailure('postSetProfilePic',error));
       // Handle exceptions
+      // crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('postSetProfilePic'));
     }
          
       
@@ -1001,6 +1027,9 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       // Actualzio jwtToken por si fallo por Token Expired
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
+            // crashlytics().setUserId(qra);
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('get_notifications'));
      
     }
          
@@ -1052,6 +1081,9 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       dispatch(fetchingApiFailure('set_notification_read',error));
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
+      // crashlytics().setUserId(qra);
+         crashlytics().log('error: ' + error) ;
+         crashlytics().recordError(new Error('set_notifications')); 
      
      
     }
@@ -1131,6 +1163,9 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
         // update = {status: 'failed'}
         // dispatch(updateMedia(filename2, update,'item' ));
          dispatch(fetchingApiFailure('postPushToken',error));
+               crashlytics().setUserId(qra);
+               crashlytics().log('error: ' + error) ;
+               crashlytics().recordError(new Error('postPushToken')); 
         // Handle exceptions
       }
            
@@ -1143,6 +1178,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postAddMedia'));
       console.log("ejecuta llamada API Add Media");  
+      console.log(jwtToken);
     try {
         // session = await Auth.currentSession();
         // console.log("Su token es: " + session.idToken.jwtToken);
@@ -1164,6 +1200,8 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       
       dispatch(fetchingApiSuccess('postAddMedia',respuesta));
       console.log("devuelve addmedia: "+JSON.stringify(respuesta));
+
+      var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
      
       if (respuesta.body.error===0)
       {
@@ -1175,11 +1213,30 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         dispatch(updateMedia(filename2, update,'item'));
         // stat = {"sent": true, "progress": 0.8}
         // this.props.updateMediaSent(fileName2,stat);
+        // analytics().logEvent("Media_1", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.sqlrdsid, "QSOTYPE": mediaToadd.qsotype,
+        // "BAND": mediaToadd.band, "MODE": mediaToadd.mode, "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
+       
+        analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
+       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
+ 
+       console.log("Recording analytics MEDIA")
+       console.log('qra: '+mediaToadd.qra + ' rectime: '+mediaToadd.rectime +
+        ' sqlrdsid: '+mediaToadd.qso + ' rectime: '+mediaToadd.rectime
+       + 'url: ' +auxUrl)
+       
 
       }else
       {
         if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
-        update = {status: 'inappropriate content'}
+        {
+          update = {status: 'inappropriate content'}
+        
+          analytics().logEvent("Media", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
+          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": 0, "PORN" : 'true'});
+ 
+         console.log("Recording analytics MEDIA Porn Content")
+
+        }
         else
         update = {status: 'failed'}
         dispatch(updateMedia(filename2, update,'item' ));
@@ -1195,6 +1252,9 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
       // Handle exceptions
+      // crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('postAddMedia'));
     }
          
       
@@ -1202,9 +1262,9 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
   };
 
  // fileauxProfileAvatar
- 
-export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,jwtToken) => {
-    return async dispatch => {
+ //qra,rectime
+export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,qra,rectime,jwtToken) => {
+  return async dispatch => {
     //  dispatch(fetchingApiRequest());
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
     try {
@@ -1263,32 +1323,38 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
                   "height": height,   
                   "url":  rdsUrlS3,
                   "description": description,
-                  "identityId" : identityID
+                  "identityId" : identityID,
+                  "qra": qra,
+                  "rectime" : rectime
+
               }
            if (type !== 'profile')
            {
+             console.log('imprimo jwt token:');
+             console.log(jwtToken);
               dispatch(postAddMedia(mediaToRds, fileName2,jwtToken));
               console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
 
 
+// anda bien Kinesis con el codigo de aca abajo, pasa que vamos a usar Firebase para analytics.
 
-              console.log('llamo kinesis addmedia')
-              let tiempo = Date.now()
-              resultki = Analytics.record({
-                data: { 
+            //   console.log('llamo kinesis addmedia')
+            //   let tiempo = Date.now()
+            //   resultki = Analytics.record({
+            //     data: { 
                      
-                    // The data blob to put into the record
-             //      QRA: 'LU8AJ', timeStamp: tiempo, mediatype: type, url: rdsUrlS3 
-             errornumber: '200', errordesc: 'errordesc',  version: 'APP_VER', qra: 'LU9DO', platform: 'Platf.OS', platformversion: 'Platf.Ver' ,timestamp: 'tiempo'
+            //         // The data blob to put into the record
+            //  //      QRA: 'LU8AJ', timeStamp: tiempo, mediatype: type, url: rdsUrlS3 
+            //  errornumber: '200', errordesc: 'errordesc',  version: 'APP_VER', qra: 'LU9DO', platform: 'Platf.OS', platformversion: 'Platf.Ver' ,timestamp: 'tiempo'
                    
-                },
-                // OPTIONAL
-                partitionKey: 'myPartitionKey', 
-                streamName: 'analytic_stream'
-            }, 'AWSKinesis');
+            //     },
+            //     // OPTIONAL
+            //     partitionKey: 'myPartitionKey', 
+            //     streamName: 'analytic_stream'
+            // }, 'AWSKinesis');
           
-            console.log('resultado kinesis addmedia:'+ JSON.stringify(resultki));
-            console.log('tiempo addmedia:'+tiempo)
+            // console.log('resultado kinesis addmedia:'+ JSON.stringify(resultki));
+            // console.log('tiempo addmedia:'+tiempo)
 
 
            }else
@@ -1299,7 +1365,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
             // console.log('texto menos 4 caracteres: '+rdsUrlS3.substr(0,cant) + ' verdadero '+ rdsUrlS3);
             console.log("LLama postSetProfilePicNSFW: ");
             
-            dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar,identityId,jwtToken));
+            dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar,identityId,qra,jwtToken));
            
 
            }
@@ -1338,6 +1404,9 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
 
       //dispatch(fetchingApiFailure(error));
       // Handle exceptions
+            crashlytics().setUserId(qra);
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('uploadMediaToS3'));
     }
          
       
@@ -1401,6 +1470,9 @@ export const QsoQraDelete = (sqlrdsid, qra, jwtToken) => {
       console.log('Api catch DELETE_QSO_QRA error:', error);
       dispatch(fetchingApiFailure('QsoQraDelete',error));
       // Handle exceptions
+      //crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + error + ' sqlrdsid: '+ sqlrdsid) ;
+      crashlytics().recordError(new Error('QsoQraDelete'));
     }
          
       
@@ -1416,7 +1488,7 @@ export const QsoQraDelete = (sqlrdsid, qra, jwtToken) => {
     };
 }
 
-export const followAdd = (qra, date,jwtToken,qra_avatar) => {
+export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('followAdd'));
       console.log("ejecuta llamada API followAdd");  
@@ -1457,6 +1529,11 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
    //  following = {"following": 'TRUE'} 
    //  dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
+
+
+      analytics().logEvent("FOLLOW", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+ 
+      console.log("Recording analytics FOLLOW QRA")
      
     //   console.log("la url que envio:" + url);
     //   console.log("EL QRA:" + qra);
@@ -1474,8 +1551,11 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
        session = await Auth.currentSession();
        console.log("Su token es: " + session.idToken.jwtToken);
        dispatch(setToken(session.idToken.jwtToken));
-       dispatch(followAddSecondChance(qra, date,session.idToken.jwtToken,qra_avatar))
+       dispatch(followAddSecondChance(LoggeduserQra,qra, date,session.idToken.jwtToken,qra_avatar))
       // Handle exceptions
+            crashlytics().setUserId(LoggeduserQra);
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('followAdd'));
     }
          
       
@@ -1484,7 +1564,7 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
 
 
 
-  export const followAddSecondChance = (qra, date,jwtToken,qra_avatar) => {
+  export const followAddSecondChance = (LoggeduserQra,qra, date,jwtToken,qra_avatar) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('followAddSecondChance'));
       console.log("ejecuta llamada API followAdd SecondChance");  
@@ -1526,6 +1606,10 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
    //  following = {"following": 'TRUE'} 
    //  dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
+
+      analytics().logEvent("FOLLOW", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+ 
+      console.log("Recording analytics FOLLOW QRA")
      
     //   console.log("la url que envio:" + url);
     //   console.log("EL QRA:" + qra);
@@ -1540,6 +1624,9 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       following = {"following": 'FALSE'} 
       dispatch(updateQraUrl(qra,following));
       // Handle exceptions
+      crashlytics().setUserId(LoggeduserQra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('followAddSecondChance'));
     }
          
       
@@ -1547,7 +1634,7 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
   };
 
 
-  export const unfollow = (qra,jwtToken) => {
+  export const unfollow = (LoggeduserQra,qra,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('unfollow'));
       console.log("ejecuta llamada API UnFollow");  
@@ -1585,6 +1672,10 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       // following = {"following": 'FALSE'} 
       // dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
+
+      analytics().logEvent("UNFOLLOW", {"QRA" : LoggeduserQra, "UNFOLLOWQRA" : qra});
+ 
+      console.log("Recording analytics UNFOLLOW QRA")
     
       }
       dispatch(fetchingApiSuccess('unfollow',respuesta));
@@ -1600,6 +1691,10 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       session = await Auth.currentSession();
       console.log("Su token es: " + session.idToken.jwtToken);
       dispatch(setToken(session.idToken.jwtToken));
+
+      crashlytics().setUserId(LoggeduserQra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('unfollow'));
     }
          
       
@@ -1665,6 +1760,9 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       dispatch(fetchingApiFailure('getUserInfo',error));
 
       // Handle exceptions
+      // crashlytics().setUserId(LoggeduserQra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('getUserInfo'));
       }    
     };
   };
@@ -1709,6 +1807,9 @@ export const followAdd = (qra, date,jwtToken,qra_avatar) => {
       dispatch(fetchingApiFailure('updateLocationBackend',error));
 
       // Handle exceptions
+      // crashlytics().setUserId(LoggeduserQra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('updateLocationBackend'));
       }    
     };
   };
@@ -1762,10 +1863,12 @@ export const updateLinkQso = (json, scanType) => {
 
 
 
-export const getQrasFromSearch = (qraTosearch,jwtToken) => {
+export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('getQrasFromSearch'));
-      console.log("ejecuta llamada API getQrasFromSearch");  
+      console.log("ejecuta llamada API getQrasFromSearch"); 
+      console.log(LoggeduserQra + " ---- " + qraTosearch)
+      console.log(jwtToken);
     try {
         // session = await Auth.currentSession();
         // console.log("Su token es: " + session.idToken.jwtToken);
@@ -1790,6 +1893,10 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
             console.log("respuesta API getQrasFromSearch:" + JSON.stringify(respuesta));
                   
             dispatch(insertQraSearched(respuesta.body.message.message));
+            analytics().logEvent("SEARCH", {"QRA" : LoggeduserQra, "SEARCHED" : qraTosearch});
+ 
+            console.log("Recording analytics SEARCH QRA")
+
       }else{
            envio = [];
            dispatch(insertQraSearched(envio));
@@ -1807,6 +1914,10 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
             session = await Auth.currentSession();
             console.log("Su token es: " + session.idToken.jwtToken);
             dispatch(setToken(session.idToken.jwtToken));
+
+      crashlytics().setUserId(LoggeduserQra);
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('APIgetQrasFromSearch'));
     }    
     };
   };
@@ -1871,8 +1982,12 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
 
                     console.log("respuesta DESPUES DE MODIF FECHA:" + JSON.stringify(respuesta));
                
-                     if (ScanType==='qslScan')
+                     if (ScanType==='qslScan'){
                          dispatch(updateQslScan(respuesta));
+                         analytics().logEvent("ScanQR", {"QRA" : myQRA, "QSOSCANNED" : QsoTosearch});
+ 
+                         console.log("Recording analytics ScanQR")
+                       }
                        else
                        {
                         if (ScanType==='mainQsoLink'){
@@ -1947,6 +2062,9 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
             session = await Auth.currentSession();
             console.log("Su token es: " + session.idToken.jwtToken);
             dispatch(setToken(session.idToken.jwtToken));
+            crashlytics().setUserId(myQRA);
+            crashlytics().log('error: ' + error) ;
+            crashlytics().recordError(new Error('APIgetQslScan'));
         }    
         };
       };
@@ -1954,7 +2072,7 @@ export const getQrasFromSearch = (qraTosearch,jwtToken) => {
 
 
 
-export const linkQsos = (json,jwtToken) => {
+export const linkQsos = (qra,json,jwtToken) => {
   return async dispatch => {
     dispatch(fetchingApiRequest('linkQsos'));
     console.log("ejecuta llamada API qso-link");  
@@ -1996,6 +2114,7 @@ export const linkQsos = (json,jwtToken) => {
     
      
     respuesta = await API.post(apiName, path, myInit);
+    console.log(respuesta);
     if (respuesta.body.error===0)
     {
           console.log("respuesta API qso-link:" + JSON.stringify(respuesta));
@@ -2005,24 +2124,39 @@ export const linkQsos = (json,jwtToken) => {
            
              dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
              dispatch(setUserInfo('scans_links',respuesta.body.message));
-            
 
-                
+
+             analytics().logEvent("LINKQSO", {"QRA" : qra, "ERROR" : 'false', "MESSAGE" : ' '});
+        
+             console.log("Recording analytics LINKQSO")
+           
           
     }else{
-         let men = '';
-        if (respuesta.body.message.code==='ER_DUP_ENTRY')
-             men = 'This Qso has already Linked';
-           else
-             men = 'There was an error Linking the Qsos: '+respuesta.body.message;
 
-             console.log('imprimo en error de /qso-link :' + men )
+
+
+      console.log('fallo el linkqso man!')
+      console.log(respuesta);
+     
+      // comente todo pero va todo ... 
+
+          let men = '';
+        // if (respuesta.body.message.code==='ER_DUP_ENTRY')
+        //      men = 'This Qso has already Linked';
+        //    else
+             men = 'There was an error Linking the Qsos';
+
+              console.log('imprimo en error de /qso-link :' + men )
         
-        //  let qsolink = { "error": 1, "message": men }
-         jsonError = {code: 1, message: men}
-           dispatch(updateLinkQso(jsonError,'linkQsoError'));
 
-      //   dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
+          jsonError = {code: 1, message: men}
+            dispatch(updateLinkQso(jsonError,'linkQsoError'));
+
+            analytics().logEvent("LINKQSO", {"QRA" : qra, "ERROR" : 'true', "MESSAGE" : respuesta.body.message});
+        
+            console.log("Recording analytics LINKQSO error")
+
+    
       }
 
     dispatch(fetchingApiSuccess('linkQsos',respuesta));
@@ -2040,6 +2174,9 @@ export const linkQsos = (json,jwtToken) => {
     jsonError = {code: 1, message: 'We could not link the Qsos, please try again'}
     dispatch(updateLinkQso(jsonError,'linkQsoError'));
     // Handle exceptions
+    crashlytics().setUserId(qra);
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('APIlinkQsos'));
   }    
   };
 };
@@ -2089,6 +2226,9 @@ export const postContactUs = (email,message,jwtToken) => {
     console.log('Api catch error:', error);
     dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
+   // crashlytics().setUserId(qra);
+    crashlytics().log('error: ' + error + ' email: '+ email) ;
+    crashlytics().recordError(new Error('APIpostContactUs'));
   }
        
     
@@ -2198,6 +2338,9 @@ export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,t
     console.log('Api catch confirmReceipt error:', error);
  //   dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
+     crashlytics().setUserId(qra);
+     crashlytics().log('error: ' + error) ;
+     crashlytics().recordError(new Error('APIconfirmReceiptIOS'));
   }
        
     
@@ -2273,6 +2416,10 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
         //  console.log('ackResult', ackResult);
         } catch (ackErr) {
           console.warn('ackErr', ackErr);
+
+          crashlytics().setUserId(qra);
+          crashlytics().log('error: ' + ackErr) ;
+          crashlytics().recordError(new Error('APIconfirmReceiptAndroid1'));
         }
 
           
@@ -2334,6 +2481,9 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
     console.log('Api catch confirmReceiptAndroid error:', error);
  //   dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
+    crashlytics().setUserId(qra);
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('APIconfirmReceiptAndroid2'));
   }
        
     

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import {  set_notification_read, manage_notifications } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 class NotifItem extends Component {
 
@@ -43,9 +45,19 @@ if (urlnotif!=null)
         if (!supported) {
           console.log('Can\'t handle url: ' + urlnotif);
         } else {
+          analytics().logEvent("OPENNOTIF", {"QRA": this.props.qra});
+          console.log("Recording analytics open Notif")
           return Linking.openURL(urlnotif);
+        
         }
-      }).catch(err => console.error('An error occurred', err));
+      }).catch(err => {
+              console.error('An error occurred', err)
+              crashlytics().setUserId(this.props.qra);
+              crashlytics().log('error: ' + err) ;
+              crashlytics().recordError(new Error('Linking.canOpenURL'));
+    
+    
+            });
     }
     else
      console.log('la notificacion no viene con URL');
@@ -82,19 +94,24 @@ if (urlnotif!=null)
                <View style={{flex: 1, flexDirection: 'row', marginTop: 9, borderBottomWidth: 1,
                 borderBottomColor: '#D3D3D3' }}>
 
-                <View style={{flex: 0.19, marginLeft: 6}}>
+                <View style={{flex: 0.23, marginLeft: 6}}>
                  {this.props.avatar_pic!==null ?
+                  <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                        <Image
                     style={styles.faceImageStyle}
                     resizeMethod="resize"
                     source={{ uri: this.props.avatar_pic }}
                       /> 
+                  </TouchableOpacity>
 
                       :
-                      <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle}/> 
+                      <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                      <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle} resizeMethod="resize" /> 
+                      </TouchableOpacity>
                       }
+                      
                       <Text style={{fontSize:11, marginLeft: 5,  color: '#243665',fontWeight: 'bold' }} > {this.props.QRA} </Text>
-
+                   
                 </View>
                       
                       
@@ -106,11 +123,11 @@ if (urlnotif!=null)
 
 
 
-                    <View  style={{flex: 0.66 }}>
+                    <View  style={{flex: 0.60 }}>
 
                     <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                         {/* <Text>{this.props.QSO_GUID} - id notif: {this.props.idqra_notifications} </Text> */}
-                        <Text>{this.props.message}</Text>
+                        <Text style={{fontSize:15}}>{this.props.message}</Text>
                     {/* {(this.props.read===null) ? <Text>ES null</Text> : <Text>NO es null</Text> } */}
                      </TouchableOpacity>
                              
@@ -201,7 +218,8 @@ const styles = StyleSheet.create({
 
 
  const mapStateToProps = state => {
-    return { jwtToken: state.sqso.jwtToken
+    return { jwtToken: state.sqso.jwtToken,
+      qra: state.sqso.qra
     };
 };
 

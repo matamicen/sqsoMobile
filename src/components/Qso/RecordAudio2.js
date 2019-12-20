@@ -15,6 +15,8 @@ import {
   } from 'react-native';
 //  import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
+import RNFetchBlob from 'rn-fetch-blob';
+import crashlytics from '@react-native-firebase/crashlytics';
 
   
   const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
@@ -61,6 +63,8 @@ class RecordAudio2 extends Component {
         this.restar = 0;
         this.secondsAux = 0;
         this.multiplo60anterior = 0;
+        this.currentRecordingTime = 0;
+        this.audioFileSize = 0;
         // this.state = {
         //   haveRecordingPermissions: false,
         //   isLoading: false,
@@ -123,6 +127,10 @@ class RecordAudio2 extends Component {
           this.prepareRecordingPath(this.state.audioPath);
     
           AudioRecorder.onProgress = (data) => {
+             
+         //  console.log('progress audio: ');
+         //  console.log(data);
+         this.currentRecordingTime = Math.floor(data.currentTime);
 
             if (Math.floor(data.currentTime)===0) 
                console.log('es cero los segundos');
@@ -160,6 +168,9 @@ class RecordAudio2 extends Component {
 
     
           AudioRecorder.onFinished = (data) => {
+
+            console.log('fin grabacion : '+this.currentRecordingTime);
+           
             // Android callback comes in the form of a promise instead.
             if (Platform.OS === 'ios') {
                this._finishRecording(data.status === "OK", data.audioFileURL, data.audioFileSize);
@@ -266,97 +277,7 @@ class RecordAudio2 extends Component {
         // });
       }
     
-      async _stopRecordingAndEnablePlayback() {
-        this.setState({
-          isLoading: true,
-        });
-        // try {
-        //   await this.recording.stopAndUnloadAsync();
-        // } catch (error) {
-        //   // Do nothing -- we are already unloaded.
-        // }
-        // const info = await FileSystem.getInfoAsync(this.recording.getURI());
-        // console.log(`FILE INFO: ${JSON.stringify(info)}`);
-        // await Audio.setAudioModeAsync({
-        //   allowsRecordingIOS: false,
-        //   interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-        //   playsInSilentModeIOS: true,
-        //   playsInSilentLockedModeIOS: true,
-        //   shouldDuckAndroid: true,
-        //   interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-        // });
-        // const { sound, status } = await this.recording.createNewLoadedSound(
-        //   {
-        //     isLooping: true,
-        //     isMuted: this.state.muted,
-        //     volume: this.state.volume,
-        //     rate: this.state.rate,
-        //     shouldCorrectPitch: this.state.shouldCorrectPitch,
-        //   },
-        //   this._updateScreenForSoundStatus
-        // );
-        // this.sound = sound;
-        // this.setState({
-        //   isLoading: false,
-        // });
-
-//agrego subir a s3
-
-this.props.closeModalRecording();
-
-console.log("subo a s3 con BLOB el AUDIO");
-// const response = await fetch(this.props.imageurl);
-// const blob = await response.blob();
-fileaux =  this.recording.getURI();
-console.log("fileaux uri:"+ fileaux);
-
-fileName2 = fileaux.replace(/^.*[\\\/]/, '');
-
-     // agrego a array de media del store
-    //  envio = {name: fileName2, url: fileaux, type: 'audio'} 
-                
-    //  this.props.addMedia(envio);
-
-     envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
     
-     vari2 = await this.props.sendActualMedia(envio);
-
-  //    setTimeout(() => {
-  //     console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
-  //     this.props.actindicatorImageDisabled();
-  //      this.props.openModalConfirmPhoto();
-  //  }, 1000);
-  this.props.openModalConfirmPhoto(240);
-
-    //  envio = {name: fileName2, url: fileaux, type: 'audio', sent: false , status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size } 
-                
-    //  this.props.addMedia(envio);
-
-
-// Fin de agrego a array de media del store
-
-
-
-
-//   const response = await fetch(fileaux);
-//   const blobi = await response.blob();
-
-// try{
-
-// const stored = await Storage.vault.put(fileName2, blobi, {
-//   level: 'protected'})
-//   .then (result => console.log(result))
-//   .catch(err => console.log(err));
-  
-  
-//   }
-//   catch (e) {
-//       console.log('S3 upload error:', e);
-//        // Handle exceptions
-//      }
-// fin de subir a s3
-
-      }
 
 async _record() {
   if (this.state.recording) {
@@ -390,6 +311,9 @@ async _record() {
     const filePath = await AudioRecorder.startRecording();
   } catch (error) {
     console.error(error);
+    crashlytics().setUserId(this.props.qra);
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('startRecording'));
   }
 }
 
@@ -468,6 +392,9 @@ _stop = async () => {
   
     return filePath;
   } catch (error) {
+    crashlytics().setUserId(this.props.qra);
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('stopRecording'));
     console.error(error);
   }
 }
@@ -478,15 +405,35 @@ _stop = async () => {
   _finishRecording = async (didSucceed, filePath, fileSize) => {
   this.setState({ finished: didSucceed });
   console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+  console.log('filepath: ' + filePath)
+  fileaux =  filePath;
   
+  if (Platform.OS==='ios')
+        filepathAux = fileaux.replace("file:///", '');
+      else
+      filepathAux = filePath;
+
+  await RNFetchBlob.fs.stat(filepathAux)
+      .then((stats) => { 
+        console.log(stats)
+        this.audioFileSize = stats.size
+      })
+      .catch((err) => {
+        console.log('catch error RNFetchBlob.fs.stat')
+        console.log(err);
+        crashlytics().setUserId(this.props.qra);
+        crashlytics().log('error: ' + err) ;
+        crashlytics().recordError(new Error('fs.stat'));
+      })
   // if (Platform.OS === 'ios') {
 
   if (!this.cancel)
   {
-    fileaux =  filePath;
+  //  fileaux =  filePath;
                  fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+               
          
-                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: this.audioFileSize,qra: this.props.qra, rectime: this.currentRecordingTime  } 
                  
                  vari2 = await this.props.sendActualMedia(envio);
                
@@ -692,7 +639,9 @@ cancelRecording = async () => {
     // return {  index: state.nav.index, };
     return {  audiorecordingpermission: state.sqso.audiorecordingpermission,
               sqlrdsid: state.sqso.currentQso.sqlrdsId,
-              userinfo: state.sqso.userInfo
+              userinfo: state.sqso.userInfo,
+              qra: state.sqso.qra, 
+              
             };
 };
 

@@ -20,11 +20,11 @@ class Search extends Component {
       tabBarLabel: ' ',  
 
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 40, height: 20,marginTop: (Platform.OS==='ios') ? 4 : 5}}>
+        return (<View style={{width: 55, height: 20,marginTop: (Platform.OS==='ios') ? 5 : 5}}>
         <Image
-            style={{ width: 28, height: 28 }}
+            style={{ width: 28, height: 28, marginLeft: 3 }}
             source={require('../../images/search.png')}/>
-            <Text style={{fontSize:10, marginTop: 3}}>SEARCH</Text>
+            <Text style={{fontSize:9, marginTop: 3}}>SEARCH</Text>
             </View>
             
             );}
@@ -89,7 +89,7 @@ class Search extends Component {
         // this.setState({actindicatorfecthQras: true})
         console.log("es igual a 4, llama api search");
         this.entro = true;
-        this.props.getQrasFromSearch(text.toUpperCase(),this.props.jwtToken);
+        this.props.getQrasFromSearch(this.props.qra,text.toUpperCase(),this.props.jwtToken);
         console.log("NO DA BOLA AWAIT");
         this.setState({searching: true});
         setTimeout(() => {      
@@ -270,7 +270,8 @@ input: {
     return {  
       followersalreadycalled: state.sqso.currentQso.followersAlreadyCalled,  
       jwtToken: state.sqso.jwtToken,
-      qrashow: state.sqso.currentQso.qraShow
+      qrashow: state.sqso.currentQso.qraShow,
+      qra: state.sqso.qra
     };
 };
 

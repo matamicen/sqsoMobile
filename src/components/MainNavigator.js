@@ -18,6 +18,7 @@ import QslScanQR from './QslScan/QslScanQR';
 import QsoLink from './QslScan/QsoLink';
 import QslScanResult from './QslScan/QslScanResult';
 import BePremium from './Qso/BePremium';
+import ErrorBoundary from './Qso/ErrorBoundary';
 
 
 
@@ -130,11 +131,12 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
  
 
   tabBarOptions: {
-     labelStyle: {
-         fontSize: 10,
-         width: 90,
-         padding: 0,   
-     },
+    //  labelStyle: {
+    //      fontSize: 10,
+    //      width: 90,
+    //      padding: 0,   
+    //  },
+    // indicatorStyle: { backgroundColor: 'transparent' },
      style: {
       backgroundColor: 'white',
     //   height: (Platform.OS==='ios') ? 60 : 60
@@ -151,7 +153,9 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
   },
   tabStyle: {
     marginTop:10,
-    height: 30
+    height: 30,
+    paddingRight: 20,
+    paddingLeft: 5
 },
 
   }
@@ -284,7 +288,9 @@ const AppWithNavigationState2 = ({ dispatch, nav }) => (
   
     // <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav, addListener })} />
     // <AppNavigator />
-    <Appnavig />
+    <ErrorBoundary>
+      <Appnavig />
+    </ErrorBoundary>
 );
 
 const mapStateToProps = state => ({

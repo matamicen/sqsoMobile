@@ -3,6 +3,8 @@ import awsconfig from './aws-exports';
 import Analytics from '@aws-amplify/analytics';
 import { AWSKinesisProvider } from 'aws-amplify';
 import {  Platform } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 Analytics.addPluggable(new AWSKinesisProvider());
 
 Analytics.configure(awsconfig);
@@ -223,7 +225,12 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
             fetch('https://www.google.com?'+fechaEnMiliseg)
                 .then((response) => { 
                 resolve(response.ok)})
-                .catch(() => {reject()})
+                .catch(() => {
+                 // crashlytics().setUserId(this.props.qra);
+                  crashlytics().log('error: ') ;
+                  crashlytics().recordError(new Error('hasAPIConnection1'));
+                  reject()
+                })
         }
         
         if (myNewStr >= 4 && myNewStr <= 7)
@@ -233,7 +240,13 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
             fetch('https://www.bing.com?'+fechaEnMiliseg)
                 .then((response) => { 
                 resolve(response.ok)})
-                .catch(() => {reject()})
+                .catch(() => {
+                  
+                  crashlytics().log('error: ') ;
+                  crashlytics().recordError(new Error('hasAPIConnection2'));
+                  
+                  reject()
+                })
               }
 
               if (myNewStr >= 8 && myNewStr <= 9)
@@ -243,7 +256,13 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
                 fetch('https://www.twitter.com?'+fechaEnMiliseg)
                     .then((response) => { 
                     resolve(response.ok)})
-                    .catch(() => {reject()})
+                    .catch(() => {
+                      
+                      crashlytics().log('error: ') ;
+                      crashlytics().recordError(new Error('hasAPIConnection3'));
+                      
+                      
+                      reject()})
                   }
 
         })
