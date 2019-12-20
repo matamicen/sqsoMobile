@@ -1092,22 +1092,23 @@ chooseCountry = () => {
                     <View style={{
                       //  margin:20,
                           padding:5, 
-                          backgroundColor:"#f8f8ff",
+                          // backgroundColor:"#f8f8ff",
+                          backgroundColor: 'rgba(139,139,139,1)',
                           top: 170,
                           left: 30,
                           right: 30,
                           position: 'absolute',
-                          borderBottomLeftRadius: 22,
-                          borderBottomRightRadius: 22,
-                          borderTopLeftRadius: 22,
-                          borderTopRightRadius: 22,       
+                          borderBottomLeftRadius: 12,
+                          borderBottomRightRadius: 12,
+                          borderTopLeftRadius: 12,
+                          borderTopRightRadius: 12,       
                                                     
                         //  alignItems: 'center'                      
                           }}>
                           
-                   
+                          {/* #f8f8ff */}
                        <DatePickerIOS mode='date'
-                        style={{ backgroundColor:"#f8f8ff"}}
+                        style={{ backgroundColor:'rgba(139,139,139,1)'}}
                         date={this.state.chosenDate}
                         onDateChange={this.setDate}
                       />
@@ -1115,10 +1116,10 @@ chooseCountry = () => {
                     <View style={{flex: 1, flexDirection: 'row'}}>
 
                     <TouchableOpacity  onPress={() => this.close_birthdate_modalIOS()} style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 16, marginLeft: 5}}>Cancel</Text>
+                      <Text style={{ color: 'white', fontSize: 16, marginLeft: 5}}>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={() => this.setDateIOS() } style={{ paddingTop: 4, paddingBottom: 4,  flex: 0.5}}>
-                      <Text style={{ color: 'black', fontSize: 16, marginLeft: 5}}>SELECT</Text>
+                      <Text style={{ color: 'white', fontSize: 16, marginLeft: 5}}>SELECT</Text>
                     </TouchableOpacity>
                     </View>
                     
