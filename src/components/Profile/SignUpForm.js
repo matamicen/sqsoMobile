@@ -16,6 +16,7 @@ import ConfirmSignUp from './ConfirmSignUp';
 import CountryPicker, {
   getAllCountries
 } from 'react-native-country-picker-modal'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -178,7 +179,10 @@ close_confirmSignup = () => {
     }
   } catch ({code, message}) {
     console.warn('Cannot open date picker', message);
-    kinesis_catch('#019',code +' '+ message,this.state.qra.toUpperCase());
+    // kinesis_catch('#019',code +' '+ message,this.state.qra.toUpperCase());
+    crashlytics().setUserId(this.state.qra.toUpperCase());
+    crashlytics().log('error: ' + code +' message: '+ message) ;
+    crashlytics().recordError(new Error('DatePicker'));
   }
  }
 
@@ -231,7 +235,7 @@ signUp = async () => {
           if (this.state.qra=='')
           {
 
-            this.setState({errormessage: 'The QRA is empty',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: 'The callsign is empty',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.qraRef.focus();
           }
@@ -325,7 +329,10 @@ signUp = async () => {
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
-                  kinesis_catch('#021',err,this.state.qra.toUpperCase());
+                  // kinesis_catch('#021',err,this.state.qra.toUpperCase());
+                  crashlytics().setUserId(this.state.qra.toUpperCase());
+                  crashlytics().log('error: ' + err) ;
+                  crashlytics().recordError(new Error('Auth.resendSignUp'));
                 
                 });
 
@@ -348,7 +355,10 @@ signUp = async () => {
   })
     .catch(err => {console.log('error:', err.code)
     this.usernotfound = true;
-    kinesis_catch('#022',err,this.state.qra.toUpperCase());
+    // kinesis_catch('#022',err,this.state.qra.toUpperCase());
+    crashlytics().setUserId(this.state.qra.toUpperCase());
+    crashlytics().log('error: ' + err) ;
+    crashlytics().recordError(new Error('signInAfterConfirmed'));
   });
 
 
@@ -368,7 +378,10 @@ signUp = async () => {
     }
     catch (e) {
       console.log('caught error', e);
-      kinesis_catch('#023',e,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + e) ;
+      crashlytics().recordError(new Error('SignUpCredentials'));
+      // kinesis_catch('#023',e,this.state.qra.toUpperCase());
       // Handle exceptions
     }
     var session = await Auth.currentSession();
@@ -391,7 +404,10 @@ signUp = async () => {
       await AsyncStorage.setItem('identity', res);
     } catch (error) {
       console.log('caught error', error);
-      kinesis_catch('#024',error,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('SignUpStorage'));
+      // kinesis_catch('#024',error,this.state.qra.toUpperCase());
       // Error saving data
     }
 
@@ -406,7 +422,10 @@ signUp = async () => {
       console.log('grabo pushtoken en AsyncStorage porque hizo signUp un usuario nuevoy llama API de backend '+Platform.OS);
     } catch (error) {
       console.log('caught error setItem pushtoken y qratoken dentro de ConfirmSignUp ', error);
-      kinesis_catch('#025',error,this.state.qra.toUpperCase());
+      // kinesis_catch('#025',error,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + error) ;
+      crashlytics().recordError(new Error('SignUpGetPushToken'));
     }
 
 
@@ -446,7 +465,10 @@ signUp = async () => {
     .catch (err => {console.log('SignUp confirmed error: ', err);
     this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
       confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
-      kinesis_catch('#026',err,this.state.qra.toUpperCase());
+      // kinesis_catch('#026',err,this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('Auth.confirmSignUp'));
                    
   })
 }else 
@@ -496,7 +518,7 @@ signUp = async () => {
     .catch (err => {console.log('SignUp error: ', err.message)
                    console.log(err);
                    if (err.code==='UsernameExistsException'){
-                      errmessage = 'User already exists. If your QRA is already in use please send us a copy of your call sign license issued by your country to support@superqso.com';
+                      errmessage = 'User already exists. If your callsign is already in use please send us a copy of your callsign license issued by your country to support@superqso.com';
                           if (Platform.OS === 'ios') 
                                     setheighterror = 60;
                               else
@@ -512,7 +534,10 @@ signUp = async () => {
              //      this.setState({errormessage: +' SignUp error: '+err.message,heightindicator: 0,  indicator: 0,heighterror: 25,  loginerror: 1 });
                    this.setState({errormessage: errmessage,heightindicator: 0,  indicator: 0,heighterror: setheighterror,  loginerror: 1 });
                    Keyboard.dismiss();
-                   kinesis_catch('#020',err,this.state.qra.toUpperCase());
+                   crashlytics().setUserId(this.state.qra.toUpperCase());
+                   crashlytics().log('error: ' + err) ;
+                   crashlytics().recordError(new Error('Auth.signUp'));
+                  //  kinesis_catch('#020',err,this.state.qra.toUpperCase());
             })
         
     
@@ -1066,23 +1091,24 @@ chooseCountry = () => {
    <Modal visible ={this.state.pickerDateIOS}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{
                       //  margin:20,
-                          padding:20, 
-                          backgroundColor:"#f8f8ff",
+                          padding:5, 
+                          // backgroundColor:"#f8f8ff",
+                          backgroundColor: 'rgba(139,139,139,1)',
                           top: 170,
                           left: 30,
                           right: 30,
                           position: 'absolute',
-                          borderBottomLeftRadius: 22,
-                          borderBottomRightRadius: 22,
-                          borderTopLeftRadius: 22,
-                          borderTopRightRadius: 22,       
+                          borderBottomLeftRadius: 12,
+                          borderBottomRightRadius: 12,
+                          borderTopLeftRadius: 12,
+                          borderTopRightRadius: 12,       
                                                     
                         //  alignItems: 'center'                      
                           }}>
                           
-                   
+                          {/* #f8f8ff */}
                        <DatePickerIOS mode='date'
-                        style={{ backgroundColor:"#f8f8ff"}}
+                        style={{ backgroundColor:'rgba(139,139,139,1)'}}
                         date={this.state.chosenDate}
                         onDateChange={this.setDate}
                       />
@@ -1090,10 +1116,10 @@ chooseCountry = () => {
                     <View style={{flex: 1, flexDirection: 'row'}}>
 
                     <TouchableOpacity  onPress={() => this.close_birthdate_modalIOS()} style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 16}}>Cancel</Text>
+                      <Text style={{ color: 'white', fontSize: 16, marginLeft: 5}}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={() => this.setDateIOS() } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 16}}>SELECT</Text>
+                    <TouchableOpacity  onPress={() => this.setDateIOS() } style={{ paddingTop: 4, paddingBottom: 4,  flex: 0.5}}>
+                      <Text style={{ color: 'white', fontSize: 16, marginLeft: 5}}>SELECT</Text>
                     </TouchableOpacity>
                     </View>
                     

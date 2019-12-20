@@ -21,6 +21,7 @@ class QsoHeader extends Component {
           errorMessage: "",
           isFetching: true,
           text: '',
+          testCrash: 0
    
         };
       }
@@ -43,6 +44,13 @@ class QsoHeader extends Component {
 
 
     render() { console.log("RENDER qso Header");
+
+    // este codigo es solo para generar un error a proposito 
+    // para probar que el crashalytics ande.
+
+    // if (this.state.testCrash === 0) 
+    //   // Simulate a JS error
+    //     throw new Error('I crashed!');
            
                            
               
@@ -62,7 +70,7 @@ class QsoHeader extends Component {
               </View> 
               {/* flex: 1 */}
              <View style={{flexDirection: 'row', marginTop: 6 }}>
-                    <View style={{flex: Platform.OS==='ios' ? 0.40 : 0.40}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.47 : 0.47}}>
                  
                     { this.props.sqsonewqsoactive ?
                         <QsoEnterQra /> : null }
@@ -71,13 +79,13 @@ class QsoHeader extends Component {
                         <QsoEnterQra /> : null } */}
                     </View>
                    
-                    <View style={{flex: Platform.OS==='ios' ? 0.30 : 0.30, alignItems: 'center'}}>  
+                    <View style={{flex: Platform.OS==='ios' ? 0.265 : 0.265, alignItems: 'center'}}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?  
                         <QsoBand />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.30 : 0.30, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.265 : 0.265, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                         <QsoMode />  : null }
                     </View>  

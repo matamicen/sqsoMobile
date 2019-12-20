@@ -11,6 +11,7 @@ import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
          actindicatorImageEnabled } from '../../actions';
 import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-crop-picker';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const landmarkSize = 2;
 
@@ -677,7 +678,7 @@ class CameraScreen extends React.Component {
                   
   
                   console.log('filename2 es: ' + fileName2);
-                  envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height } 
+                  envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height, qra: this.props.qra,  rectime: 0 } 
                   
                   console.log('phototype :'+this.props.phototype)
                   
@@ -710,6 +711,9 @@ class CameraScreen extends React.Component {
                     console.log("cropImage Error", err.message);
                     this.setState({showCamera: true});
                     this.setState({buttonStatus: false});
+                    crashlytics().setUserId(this.props.qra);
+                    crashlytics().log('error: ' + err) ;
+                    crashlytics().recordError(new Error('openCropper'));
                 });
 
                 }
@@ -729,7 +733,7 @@ class CameraScreen extends React.Component {
                 
 
                 console.log('filename2 es: ' + fileName2);
-                envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height } 
+                envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height, qra: this.props.qra,  rectime: 0 } 
                 
                 console.log('phototype :'+this.props.phototype)
                 
@@ -992,7 +996,8 @@ const mapStateToProps = state => {
   return { 
     sqsoactivityindicatorImage: state.sqso.currentQso.activityindicatorImage,
     sqsocamerapermission: state.sqso.camerapermission,
-    phototype: state.sqso.currentQso.phototype
+    phototype: state.sqso.currentQso.phototype,
+    qra: state.sqso.qra
    // camerapermission: state.sqso.camerapermission
       };
 };

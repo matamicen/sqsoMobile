@@ -129,12 +129,13 @@ class QsoEnterQra extends Component {
                     style={this.enterQraStyle()}
                    placeholder="enter callsign" 
                    placeholderTextColor = "#D50000"
+                   underlineColorAndroid="transparent"
                    value={this.state.qra}
                     onChangeText={(text) => {
                       if (text.length===0)
                          this.setState({qra: text, size: 12}) 
                        else
-                         this.setState({qra: text, size: 20}) 
+                         this.setState({qra: text, size: 16}) 
                   }}
                     onSubmitEditing={() => this.addQra() }
                     keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}

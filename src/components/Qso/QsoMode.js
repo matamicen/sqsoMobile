@@ -57,7 +57,8 @@ class QsoMode extends Component {
                 qsoHeader = { "mode" : value,
                               "band" : this.props.band,
                               "type" : this.props.qsotype,
-                              "sqlrdsid" : this.props.sqlrdsid
+                              "sqlrdsid" : this.props.sqlrdsid,
+                              "qra": this.props.qra
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
               await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   
@@ -130,6 +131,10 @@ class QsoMode extends Component {
                 {
                     title: 'C4FM',
                     value: 'C4FM'
+                },
+                {
+                    title: 'EME',
+                    value: 'EME'
                 }
                ]
               
@@ -156,7 +161,7 @@ class QsoMode extends Component {
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Mode </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                                 <Text style={{ fontSize: 19, padding:3}} >{value.title}</Text>
+                                 <Text style={{ fontSize: 19, padding:2}} >{value.title}</Text>
                                  </TouchableOpacity>
                     })}
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Platform, Text } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from "react-native-firebase";
+// import firebase from "react-native-firebase";
 
   
 

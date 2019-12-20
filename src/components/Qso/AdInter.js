@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from "react-native-firebase";
+//import firebase from "react-native-firebase";
+import { InterstitialAd, TestIds, AdEventType, RewardedAd, RewardedAdEventType } from '@react-native-firebase/admob';
 import {
    
     manageLocationPermissions,
     confirmedPurchaseFlag
     
   } from "../../actions";
-  import VariosModales from "./VariosModales";
+  // import VariosModales from "./VariosModales";
   import Iap from './Iap';
+  import crashlytics from '@react-native-firebase/crashlytics';
 
 
 class AdInter extends Component {
@@ -32,19 +34,26 @@ class AdInter extends Component {
     
         //  const advert = firebase.admob().interstitial('ca-app-pub-7987914246691031/5729668166');
         // const advert = firebase.admob().interstitial('ca-app-pub-3940256099942544/4411468910');
-        if (Platform.OS === "ios") {
-          this.advertInter = firebase
-            .admob()
-       //     .interstitial("ca-app-pub-7016811987787025/4660891787"); // este es verdadero
-            .interstitial("ca-app-pub-3940256099942544/4411468910"); // este es de TEST
+      //   if (Platform.OS === "ios") {
+      //     this.advertInter = firebase
+      //       .admob()
+      //  //     .interstitial("ca-app-pub-7016811987787025/4660891787"); // este es verdadero
+      //       .interstitial("ca-app-pub-3940256099942544/4411468910"); // este es de TEST
 
          
-        } else {
-          this.advertInter = firebase
-            .admob()
-        //    .interstitial("ca-app-pub-7016811987787025/7562044412"); // este es verdadero
-            .interstitial("ca-app-pub-3940256099942544/1033173712"); //test para android
-        }
+      //   } else {
+      //     this.advertInter = firebase
+      //       .admob()
+      //   //    .interstitial("ca-app-pub-7016811987787025/7562044412"); // este es verdadero
+      //       .interstitial("ca-app-pub-3940256099942544/1033173712"); //test para android
+      //   }
+
+
+      if (Platform.OS==='android')
+           interstitialAd = InterstitialAd.createForAdRequest('ca-app-pub-1064314468310203/5850603654');
+        else
+          interstitialAd = InterstitialAd.createForAdRequest('ca-app-pub-1064314468310203/9117278286');
+
     
         try {
        //   this.setState({ waitingModal: true });
@@ -58,12 +67,13 @@ class AdInter extends Component {
        , 50);
        
 
-          const AdRequest = firebase.admob.AdRequest;
-          const request = new AdRequest();
-          request.addKeyword("foo").addKeyword("bar");
+          // const AdRequest = firebase.admob.AdRequest;
+          // const request = new AdRequest();
+          // request.addKeyword("foo").addKeyword("bar");
     
-          // Load the advert with our AdRequest
-          this.advertInter.loadAd(request.build());
+          // // Load the advert with our AdRequest
+          // this.advertInter.loadAd(request.build());
+          interstitialAd.load();
 
           // le doy 5 segundos maximo para q cargue el AD, si pasan esos 5 seg es porque no encontro aun ad
           // entonces le doy el beneficio porque no es cupa suya
@@ -85,31 +95,32 @@ class AdInter extends Component {
                 
           //   }
           // }, 5000);
-    
-          this.advertInter.on("onAdLoaded", () => {
-            console.log("JJJ Advert intersitial is ready to show.");
-            //   this.advertInter.show();
-        //    this.setState({ waitingModal: false });
-            console.log('primero bajo el waitingModal');
-            
-            this.intersitialLoaded = true;
-        //    alert("intersitial loaded!");
+
+                  // Add event handlers
+        interstitialAd.onAdEvent((type, error) => {
+          console.log('New interstitial event: ', type);
+          if (type==='error'){
+            console.log('error ad:');
+            console.log(error);
+              
+            }
+
+            if (type === AdEventType.LOADED) {
+              //interstitialAd.show();
+              console.log("JJJ Advert intersitial is ready to show.");
+              console.log('primero bajo el waitingModal');
+              this.intersitialLoaded = true;
+            }
+            if (type === AdEventType.OPENED) {
         
-        // setTimeout(() => {
-            
-        //     console.log('JJJ muestro inter con delay de 50');
-        //     this.advertInter.show();
-            
-        //   }
-        //   , 50);
+              this.intersitialLoaded = false;
+              this.props.manageLocationPermissions("adshowed", true);
+              
+            }
+            if (type === AdEventType.CLOSED) {
            
-           
-          });
-    
-          this.advertInter.on("onAdClosed", event => {
-            console.log("Se cerro el AD: ", event);
             this.intersitialLoaded = false;
-         //   this.props.newqso();
+        
               if (this.props.closead==='newqso')
                   this.props.newqso();
               if (this.props.closead==='sendmedia')
@@ -118,39 +129,89 @@ class AdInter extends Component {
                   this.props.showscanresults('qslScan');
               if (this.props.closead==='linkqso')
                  this.props.linkqso();
+             
+            }
+           
+            if (type === 'left_application') {
+                 console.log("se va de la APP porque hizo click?:");
+                 this.intersitialLoaded = false;
+            }
+            
+
+            });
+
+
+
+    
+        //   this.advertInter.on("onAdLoaded", () => {
+        //     console.log("JJJ Advert intersitial is ready to show.");
+        //     //   this.advertInter.show();
+        // //    this.setState({ waitingModal: false });
+        //     console.log('primero bajo el waitingModal');
+            
+        //     this.intersitialLoaded = true;
+        // //    alert("intersitial loaded!");
+        
+        // // setTimeout(() => {
+            
+        // //     console.log('JJJ muestro inter con delay de 50');
+        // //     this.advertInter.show();
+            
+        // //   }
+        // //   , 50);
+           
+           
+        //   });
+    
+        //   this.advertInter.on("onAdClosed", event => {
+        //     console.log("Se cerro el AD: ", event);
+        //     this.intersitialLoaded = false;
+        //  //   this.props.newqso();
+        //       if (this.props.closead==='newqso')
+        //           this.props.newqso();
+        //       if (this.props.closead==='sendmedia')
+        //           this.props.subos3();
+        //       if (this.props.closead==='scanqr')
+        //           this.props.showscanresults('qslScan');
+        //       if (this.props.closead==='linkqso')
+        //          this.props.linkqso();
 
 
               
-            //   //  vuelvo a cargar la publicidad por si luego envia otro media o hace otro qsoNew
-            //       this.loadInter();
-          });
+        //     //   //  vuelvo a cargar la publicidad por si luego envia otro media o hace otro qsoNew
+        //     //       this.loadInter();
+        //   });
     
-          this.advertInter.on("onAdOpened", event => {
-            console.log("se muestra el AD: ", event);
-            this.intersitialLoaded = false;
-           this.props.manageLocationPermissions("adshowed", true);
+          // this.advertInter.on("onAdOpened", event => {
+          //   console.log("se muestra el AD: ", event);
+          //   this.intersitialLoaded = false;
+          //  this.props.manageLocationPermissions("adshowed", true);
     
-            //    this.loadInter();
-          });
+          //   //    this.loadInter();
+          // });
     
-          this.advertInter.on("onAdLeftApplication", event => {
-            console.log("se va de la APP porque hizo click?: ", event);
-            this.intersitialLoaded = false;
-          //  this.newqso_after_ad();
+        //   this.advertInter.on("onAdLeftApplication", event => {
+        //     console.log("se va de la APP porque hizo click?: ", event);
+        //     this.intersitialLoaded = false;
+        //   //  this.newqso_after_ad();
            
-            // if (this.closeAd==='newqso')
-            // this.newqso_after_ad();
-        // if (this.closeAd==='sendmedia')
-        //     this.subo_s3();
+        //     // if (this.closeAd==='newqso')
+        //     // this.newqso_after_ad();
+        // // if (this.closeAd==='sendmedia')
+        // //     this.subo_s3();
         
-        //  vuelvo a cargar la publicidad por si luego envia otro media o hace otro qsoNew
-         //   this.loadInter();
+        // //  vuelvo a cargar la publicidad por si luego envia otro media o hace otro qsoNew
+        //  //   this.loadInter();
     
     
-            //  this.loadInter();
-          });
+        //     //  this.loadInter();
+        //   });
         } catch (err) {
-          alert("intersitial loaded failed: " + err);
+        
+         crashlytics().setUserId(this.props.qra);
+         crashlytics().log('error: ' + err) ;
+         crashlytics().recordError(new Error('interLoaded'));
+         alert("intersitial loaded failed: " + err);
         }
     
 
@@ -240,7 +301,8 @@ closeIapModal = () =>{
         // Android no tiene problemas con esto.
                 
         console.log('muestro inter con delay de 50');
-        this.advertInter.show();
+     //   this.advertInter.show();
+        interstitialAd.show();
         
       }
       , 50);
@@ -302,7 +364,8 @@ return <View>
 
  const mapStateToProps = state => {
     return {  
-      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag
+      confirmedpurchaseflag: state.sqso.confirmedPurchaseFlag,
+      qra: state.sqso.qra
 
         
      };

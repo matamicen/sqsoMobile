@@ -62,7 +62,8 @@ class QsoBand extends Component {
                       qsoHeader = { "mode" : this.props.mode,
                                     "band" : value,
                                     "type" : this.props.qsotype,
-                                    "sqlrdsid" : this.props.sqlrdsid
+                                    "sqlrdsid" : this.props.sqlrdsid,
+                                    "qra": this.props.qra
                                   }
                                   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
@@ -94,6 +95,10 @@ class QsoBand extends Component {
     render() { console.log("RENDER qso BAND" );
               
                const pickerValues = [
+                {
+                    title: '23cm',
+                    value: '23cm'
+                },
                    {
                        title: '70cm',
                        value: '70cm'
@@ -156,7 +161,7 @@ class QsoBand extends Component {
                     <View style={{ margin:20,
                          padding:20, 
                          backgroundColor: '#efefef',
-                         bottom: 20,
+                         bottom: 10,
                          left: 20,
                          right: 20,
                          position: 'absolute',
@@ -166,7 +171,7 @@ class QsoBand extends Component {
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Band </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                                 <Text style={{ fontSize: 19, padding:3}} >{value.title}</Text>
+                                 <Text style={{ fontSize: 19, padding:2}} >{value.title}</Text>
                                  </TouchableOpacity >
                     })}
 

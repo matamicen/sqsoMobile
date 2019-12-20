@@ -33,9 +33,9 @@ class Media extends Component {
         //this.props.navigation.navigate('CameraScreen');
       }
 
-      onPressItem = (fileName2, description, fileaux, fileauxProfileAvatar,  sqlrdsid, size, type, rdsUrlS3, urlNSFW,urlAvatar,  date, width,height ) => {
+      onPressItem = (fileName2, description, fileaux, fileauxProfileAvatar,  sqlrdsid, size, type, rdsUrlS3, urlNSFW,urlAvatar,  date, width,height,qra,rectime ) => {
        console.log('presiono:' + fileName2+ ' ' + description + ' ' + fileaux + ' ' + sqlrdsid + ' ' + size + ' ' + type + ' '+rdsUrlS3) ;
-       this.props.uploadMediaToS3(fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3,this.props.jwtToken);
+       this.props.uploadMediaToS3(fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3,qra, rectime, this.props.jwtToken);
      //  this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height);
     //  <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
     //  status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
@@ -107,7 +107,7 @@ class Media extends Component {
                         }
 
                            { (this.props.status==='waiting') && 
-                         <Text style={styles.status} > WAITING for band,mode and Qra </Text>
+                         <Text style={styles.status} > Enter callsign, Band and Mode</Text>
                         }
 
 
@@ -124,7 +124,8 @@ class Media extends Component {
 
                          { (this.props.status==='failed' || this.props.status==='inprogress') && 
                             <TouchableOpacity onPress={() => this.onPressItem(this.props.name,this.props.description,this.props.imageurl,this.props.fileauxProfileAvatar,
-                                this.props.sqlrdsid, this.props.size, this.props.type, this.props.rdsUrlS3,this.props.urlNSFW,this.props.urlAvatar, this.props.date, this.props.width, this.props.height)} underlayColor="white">
+                                this.props.sqlrdsid, this.props.size, this.props.type, this.props.rdsUrlS3,this.props.urlNSFW,this.props.urlAvatar, this.props.date, this.props.width, this.props.height,
+                                this.props.qra, this.props.rectime)} underlayColor="white">
                             <Text style={styles.status} > Send again </Text>
                             </TouchableOpacity>
                         }

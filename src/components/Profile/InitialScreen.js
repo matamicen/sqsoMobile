@@ -14,9 +14,10 @@ import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureR
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
-import { kinesis_catch } from '../../helper';
+// import { kinesis_catch } from '../../helper';
 import  ContactUs  from './ContactUs';
 import RestoreSubscription from './RestoreSubscription';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 
@@ -78,7 +79,12 @@ signOut = async () => {
     }
     catch(err) {
       console.log(err)
-        kinesis_catch('#006',err,this.props.qra);
+      //  kinesis_catch('#006',err,this.props.qra);
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + err) ;
+      crashlytics().recordError(new Error('SignOut_getPushToken'));
+
+      
     }
 
     await this.props.postPushToken(pushtoken,'',Platform.OS,this.props.jwtToken);
@@ -87,10 +93,18 @@ signOut = async () => {
         console.log(JSON.stringify(data))
         this.props.profilePictureRefresh('');
         this.props.manage_notifications('DELETE_NOTIF','');
+
+        // crashlytics().setUserId(this.props.qra);
+        // crashlytics().log('error: ' + JSON.stringify(data)) ;
+        // crashlytics().recordError(new Error('SignOut_DentroSignOut'));
       })
       
       .catch(err => {console.log(err)
-        kinesis_catch('#006',err,this.props.qra);
+     //   kinesis_catch('#006',err,this.props.qra);
+        crashlytics().setUserId(this.props.qra);
+        crashlytics().log('error: ' + err) ;
+        crashlytics().recordError(new Error('SignOut_AuthSignOut'));
+  
       });
 
       try {
@@ -104,7 +118,12 @@ signOut = async () => {
        this.props.resetForSignOut();
         this.props.navigation.navigate("Root");
 
-        kinesis_catch('#007',e,this.props.qra);
+        crashlytics().setUserId(this.props.qra);
+     //   crashlytics().setAttribute('InitialScreen', '#1');
+        crashlytics().log('error: ' + e) ;
+        crashlytics().recordError(new Error('SignOut_AuthCurrentSession'));
+
+        //kinesis_catch('#007',e,this.props.qra);
         // Handle exceptions
       }
 
@@ -283,9 +302,9 @@ signOut = async () => {
                   <Text  style={{ fontSize: 12, color: '#999'}}>Login</Text>             
                 </TouchableOpacity> */}
 
-             <View style={{flexDirection: 'row', flex: 0.13}}>
+             <View style={{flexDirection: 'row', flex: 0.14}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
-               <View style={{flex:0.20}}>
+               <View style={{flex:0.21}}>
                   <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
               </View>  
               <View style={{flex:0.15}}>
@@ -296,7 +315,7 @@ signOut = async () => {
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flex:0.38, alignItems: 'center'}}>
+                <View style={{flex:0.37, alignItems: 'center'}}>
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.openContactForm() }>
                   <Image source={require('../../images/email3.png')}  style={{width: 25, height: 23,  marginLeft: 17  } } 
                  resizeMode="contain" /> 
@@ -316,13 +335,13 @@ signOut = async () => {
  
               </View> 
 
-              <View style={{flex: 0.05, alignItems: 'flex-end', marginRight: 17}}>
+              <View style={{flex: 0.08, alignItems: 'flex-end', marginRight: 17}}>
                 <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
                    <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >Restore Subscription</Text>
                 </TouchableOpacity>
               </View>
 
-              <View style={{flexDirection: 'row', flex: 0.065, marginLeft: 6}}>
+              <View style={{flexDirection: 'row', flex: 0.08, marginLeft: 6}}>
                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.switchToFollowing()} >
                     <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> Following</Text>
                  </TouchableOpacity>
@@ -338,7 +357,7 @@ signOut = async () => {
 
                       </View>
 
-                      <View style={{flex: 0.095}}>
+                      <View style={{flex: 0.105}}>
                  
                  {(this.props.followingsselected) ?
                           // <TouchableOpacity  >
@@ -353,7 +372,7 @@ signOut = async () => {
                    
                    </View> 
 
-               <View style={{flex: 0.66, width:this.width-15, marginBottom: 10}}>
+               <View style={{flex: 0.605, width:this.width-15, marginBottom: 10}}>
                 
                 <FollowerList /> 
                 

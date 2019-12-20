@@ -23,37 +23,6 @@ class QsoTypeLink extends Component {
      
        }
 
-       changeQsoType = async (typetochange) => {
-
-        if(typetochange==='listen'){
-         if (this.props.qsotype==='POST') await this.props.resetQso();
-           this.props.cambioqsotype('LISTEN');
-         
-        }
-        if(typetochange==='inqso'){
-        if (this.props.qsotype==='POST') await this.props.resetQso();
-          this.props.cambioqsotype('QSO');
-        }
-        if(typetochange==='post'){
-         await this.props.resetQso();
-         this.props.cambioqsotype('POST');
-         
-        }
-
-        if (this.props.sqlrdsid!=='') {
-
-          qsoHeader = { "mode" : this.props.mode,
-                        "band" : this.props.band,
-                        "type" : this.props.qsotype,
-                        "sqlrdsid" : this.props.sqlrdsid
-                    }
-          console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
-           this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   
-        }
-
-        this.closeQsoTypeModal();
-      
-      }
 
       openQsoTypeModal = () => {
         //this.props.cambioqsotype();
