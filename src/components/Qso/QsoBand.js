@@ -171,7 +171,7 @@ class QsoBand extends Component {
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Band </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                                 <Text style={{ fontSize: 19, padding:3}} >{value.title}</Text>
+                                 <Text style={{ fontSize: 19, padding:2}} >{value.title}</Text>
                                  </TouchableOpacity >
                     })}
 

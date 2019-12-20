@@ -961,7 +961,7 @@ if (!this.usernotfound)
     marginBottom: 18,
     width: 280,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 10,
     textAlign: 'center'
     

@@ -94,7 +94,7 @@ if (urlnotif!=null)
                <View style={{flex: 1, flexDirection: 'row', marginTop: 9, borderBottomWidth: 1,
                 borderBottomColor: '#D3D3D3' }}>
 
-                <View style={{flex: 0.24, marginLeft: 6}}>
+                <View style={{flex: 0.23, marginLeft: 6}}>
                  {this.props.avatar_pic!==null ?
                   <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                        <Image
@@ -123,7 +123,7 @@ if (urlnotif!=null)
 
 
 
-                    <View  style={{flex: 0.61 }}>
+                    <View  style={{flex: 0.60 }}>
 
                     <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                         {/* <Text>{this.props.QSO_GUID} - id notif: {this.props.idqra_notifications} </Text> */}
