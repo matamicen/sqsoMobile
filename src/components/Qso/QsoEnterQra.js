@@ -157,7 +157,7 @@ class QsoEnterQra extends Component {
                  :
 
                  <TouchableOpacity  style={{  height: 50, width:50 }} onPress={ () => this.addQra() }>
-                    <Image source={require('../../images/logout.png')}  style={{width: 32, height: 32, marginTop: 7, marginLeft: 7 } } 
+                    <Image source={require('../../images/personaddAzul4.png')}  style={{width: 32, height: 32, marginTop: 7, marginLeft: 7 } } 
                  resizeMode="contain" />              
                  </TouchableOpacity>
                }
