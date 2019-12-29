@@ -17,7 +17,7 @@ import ForgotScreen from './Profile/ForgotPassword';
 import QslScanQR from './QslScan/QslScanQR';
 import QsoLink from './QslScan/QsoLink';
 import QslScanResult from './QslScan/QslScanResult';
-import BePremium from './Qso/BePremium';
+// import BePremium from './Qso/BePremium';
 import ErrorBoundary from './Qso/ErrorBoundary';
 
 
@@ -225,14 +225,14 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
               
             },
 
-            BePremium: {
-              screen: BePremium,
-              navigationOptions: {
-                header: null
+            // BePremium: {
+            //   screen: BePremium,
+            //   navigationOptions: {
+            //     header: null
         
-              },
+            //   },
                 
-              },
+            //   },
 
            
 
@@ -255,14 +255,14 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
           
         },
 
-               SignUpScreen: {
-        screen: SignUpScreen,
-        navigationOptions: {
-          header: null
+        //        SignUpScreen: {
+        // screen: SignUpScreen,
+        // navigationOptions: {
+        //   header: null
   
-        },
+        // },
           
-        },
+        // },
 
         ForgotScreen: {
           screen: ForgotScreen,

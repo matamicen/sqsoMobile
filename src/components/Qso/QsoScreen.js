@@ -934,11 +934,11 @@ class QsoScreen extends Component {
     // else console.log("ya esta cargado previamente videoreward");
   };
 
-  openPremiumScreen = () => {
-    this.props.navigation.navigate("BePremium", {
-      freeparam: "qsoscreen"
-    });
-  };
+  // openPremiumScreen = () => {
+  //   this.props.navigation.navigate("BePremium", {
+  //     freeparam: "qsoscreen"
+  //   });
+  // };
 
   closeVariosModales = (param) => {
   //  this.setState({ nointernet: false, prevideorewarded: false });
@@ -1220,8 +1220,9 @@ class QsoScreen extends Component {
                 borderRadius: 12
               }}
             >
-              <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} />
-
+              {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
+              <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} />
+            
               {/* style={{ paddingBottom: 4}} */}
               <View style={{ marginTop: 10 }}>
                 <TouchableOpacity style={{ width: 65 }}
