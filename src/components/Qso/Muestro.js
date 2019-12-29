@@ -540,9 +540,9 @@ class Muestro extends Component {
 
         this.props.closeModalConfirmPhoto();
 
-        if (this.props.sqsomedia.type!=='profile' && !checkMediaSentOfFreeUser(this.props.mediafiles,this.props.sqsomedia.type,2) && this.props.userinfo.subscription_type === 'FREE' )
-           this.props.openPremium();
-        else{
+        // if (this.props.sqsomedia.type!=='profile' && !checkMediaSentOfFreeUser(this.props.mediafiles,this.props.sqsomedia.type,2) && this.props.userinfo.subscription_type === 'FREE' )
+        //    this.props.openPremium();
+        // else{
 
         console.log("subo a s3 con BLOB");
 
@@ -682,7 +682,7 @@ class Muestro extends Component {
              }
           //this.props.navigation.navigate("Root");
         
-             }
+            //  }
       }
 
      
