@@ -321,11 +321,11 @@ class Iap extends Component {
             <View
               style={{
                 //  margin:20,
-                padding: 20,
+                padding: 5,
                 backgroundColor:"rgba(0,0,0,0.85)",
                 top: 100,
-                left: 30,
-                right: 30,
+                left: 25,
+                right: 25,
                 position: "absolute",
                 borderBottomLeftRadius: 22,
                 borderBottomRightRadius: 22,
