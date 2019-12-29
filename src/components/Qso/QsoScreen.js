@@ -18,7 +18,9 @@ import {
   AppState,
   AsyncStorage,
   Animated,
-  Easing
+  Easing,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -73,6 +75,7 @@ import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
 import crashlytics from '@react-native-firebase/crashlytics';
+
 
 
 import RNIap, {
@@ -1059,7 +1062,7 @@ class QsoScreen extends Component {
 
     return (
     
-     
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
@@ -1424,6 +1427,7 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
       </View>
+      </TouchableWithoutFeedback>
   
     );
   }

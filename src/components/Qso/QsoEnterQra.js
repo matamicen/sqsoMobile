@@ -24,7 +24,8 @@ class QsoEnterQra extends Component {
          qra: '',
          envio: {name: 'LW8PPP', url: 'https://s3.amazonaws.com/sqso/us-east-1%3A29a10ff3-e4d7-45cf-a432-7821674b8d77/profile/profile.jpg'},
          nointernet: false,
-         size: 12
+         size: 12,
+         changeColor: true
          
         };
       }
@@ -44,6 +45,7 @@ class QsoEnterQra extends Component {
         if(!this.props.isfetching && this.state.qra !== '' && this.state.qra.toUpperCase() !== this.props.qra.toUpperCase())
         { 
            console.log("ejecuta addQRA");
+          
 
    //       qra = {name: this.state.qra.toUpperCase(), url: 'https://randomuser.me/api/portraits/med/men/72.jpg'} 
           qra = {qra: this.state.qra.toUpperCase(), url: 'empty', sent: 'false', deleted: 'false', deletedSent: 'false', following: ''} 
@@ -89,7 +91,8 @@ class QsoEnterQra extends Component {
         else console.log("se esta ejecutando una API o no se ingreso un QRA, no permite ejecutar otra api al mismo tiempo");
 
           Keyboard.dismiss();
-          this.setState({qra: '', size: 12});
+          this.setState({qra: '', size: 12, changeColor: true});
+         
       }
           else this.setState({nointernet: true});
         
@@ -136,18 +139,28 @@ class QsoEnterQra extends Component {
                          this.setState({qra: text, size: 12}) 
                        else
                          this.setState({qra: text, size: 16}) 
+                         if (text.length>3)
+                            this.setState({changeColor: false})   
+                            if (text.length<4)
+                            this.setState({changeColor: true})   
                   }}
                     onSubmitEditing={() => this.addQra() }
                     keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                     // underlineColorAndroid="transparent"
                      />
                      
-
+                  {(this.state.changeColor) ?
                       <TouchableOpacity  style={{  height: 50, width:50 }} onPress={ () => this.addQra() }>
                     <Image source={require('../../images/personadd.png')}  style={{width: 32, height: 32, marginTop: 7, marginLeft: 7 } } 
                  resizeMode="contain" />              
                  </TouchableOpacity>
+                 :
 
+                 <TouchableOpacity  style={{  height: 50, width:50 }} onPress={ () => this.addQra() }>
+                    <Image source={require('../../images/personaddAzul4.png')}  style={{width: 32, height: 32, marginTop: 7, marginLeft: 7 } } 
+                 resizeMode="contain" />              
+                 </TouchableOpacity>
+               }
                       
                 </View>
                

@@ -90,21 +90,21 @@ class QsoType extends Component {
 
               { (this.props.qsotype==='QSO') ?
               <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.openQsoTypeModal() }> 
-                 <Image source={require('../../images/inQSO.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" /> 
               </TouchableOpacity> 
                 
 
                :  (this.props.qsotype==='LISTEN') ? 
                <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.openQsoTypeModal() }> 
-                 <Image source={require('../../images/listen.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity>
                   :
 
                 (this.props.qsotype==='POST') ? 
                  <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.openQsoTypeModal() }> 
-                 <Image source={require('../../images/post.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity> 
                  
@@ -132,42 +132,42 @@ class QsoType extends Component {
                         //  alignItems: 'center'                      
                           }}>
                           
-                  <Text style={{ color: '#aaaaaa', fontSize: 22, padding: 10 }}>Select the Mode</Text>
+                  <Text style={{ color: '#aaaaaa', fontSize: 22, padding: 5 }}>Select the Mode</Text>
                   
 
                   <View style={{ justifyContent: 'space-around', 
                       flex: 1, flexDirection: 'column' }}>
                    
                    { (this.props.qsotype==='QSO') ? 
-                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/listen.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                          <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.2}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 }}>Change to Listen mode and mantain the 
-                          media file of the current InQso Mode </Text>
+                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8 , marginLeft: 10}}>Change to Listen mode and mantain the 
+                          media file of the current Qso Mode </Text>
                       </View>
                       </TouchableOpacity>
                       : null }
                 
 
                   { (this.props.qsotype==='QSO') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('POST') }> 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/post.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.2} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 }}>Change to Post Mode and End this 
-                      InQso Mode 
+                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to Post Mode and End this 
+                      Qso Mode 
                       </Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
                   
                   { (this.props.qsotype==='LISTEN') ? 
-                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('QSO') }> 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/inQSO.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.2}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 }}>Change to inQSO mode and mantain the 
+                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8 , marginLeft: 10}}>Change to QSO mode and mantain the 
                           media file of the current Listen Mode </Text>
                       </View>
                       </TouchableOpacity>
@@ -175,11 +175,11 @@ class QsoType extends Component {
                 
 
                   { (this.props.qsotype==='LISTEN') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('POST') }> 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/post.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.2} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 }}>Change to Post Mode and End this 
+                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to Post Mode and End this 
                       Listen Mode 
                       </Text>
                     </View>  
@@ -187,11 +187,11 @@ class QsoType extends Component {
                     : null }
 
                       { (this.props.qsotype==='POST') ? 
-                      <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('QSO') }> 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/inQSO.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.2}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 }}>Change to inQSO mode and and End this 
+                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to QSO mode and and End this 
                            Post Mode  </Text>
                       </View>
                       </TouchableOpacity>
@@ -199,11 +199,11 @@ class QsoType extends Component {
                 
 
                   { (this.props.qsotype==='POST') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 10 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/listen.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.2} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 }}>Change to Listen mode and and End this 
+                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to Listen mode and and End this 
                            Post Mode
                       </Text>
                     </View>  
