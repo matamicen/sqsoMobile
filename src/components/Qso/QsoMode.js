@@ -105,12 +105,20 @@ class QsoMode extends Component {
                     value: 'CW'
                 },
                 {
-                    title: 'JT8',
-                    value: 'JT8'
+                    title: 'FT4',
+                    value: 'FT4'
+                },
+                {
+                    title: 'FT8',
+                    value: 'FT8'
                 },
                 {
                     title: 'JT65',
                     value: 'JT65'
+                },
+                {
+                    title: 'SSTV',
+                    value: 'SSTV'
                 },
                 {
                     title: 'PSK31',
@@ -151,17 +159,21 @@ class QsoMode extends Component {
                     <View style={{ margin:20,
                          padding:20, 
                          backgroundColor: '#efefef',
-                         bottom: 20,
+                         bottom: 3,
                          left: 20,
                          right: 20,
                          position: 'absolute',
-                         alignItems: 'center'                      
+                         alignItems: 'center',
+                         borderBottomLeftRadius: 22,
+                         borderBottomRightRadius: 22,
+                         borderTopLeftRadius: 22,
+                         borderTopRightRadius: 22,                      
                           }}>
                           
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Mode </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                                 <Text style={{ fontSize: 19, padding:2}} >{value.title}</Text>
+                                 <Text style={{ fontSize: 18, padding:1.25}} >{value.title}</Text>
                                  </TouchableOpacity>
                     })}
 

@@ -1251,8 +1251,8 @@ class QsoScreen extends Component {
                 padding: 20,
                 backgroundColor: "rgba(0,0,0,0.85)",
                 bottom: 230,
-                left: 20,
-                right: 20,
+                left: 10,
+                right: 10,
                 position: "absolute",
                 alignItems: "center",
                 borderRadius: 12
@@ -1272,10 +1272,10 @@ class QsoScreen extends Component {
 
               <View style={{ flexDirection: "row", flex: 1 }}>
 
-              <View style={{ flex: 0.5 }}>
+              <View style={{ flex: 0.35 }}>
                 <TouchableOpacity
                   onPress={() => this.CancelEndQsoModal()}
-                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4 }}
+                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4, marginLeft: 17 }}
                 >
                   <Text
                     style={{
@@ -1288,24 +1288,24 @@ class QsoScreen extends Component {
                   </Text>
                 </TouchableOpacity>
                 </View>
-                <View style={{ flex: 0.5 }}>
+                <View style={{ flex: 0.65, alignItems: "flex-end" }}>
                 <TouchableOpacity
                   onPress={() => this.endQso()}
                   style={{
                     flex: 0.7,
                     paddingTop: 20,
                     paddingBottom: 4,
-                    paddingHorizontal: 10
+                    paddingHorizontal: 4
                   }}
                 >
                   <Text
                     style={{
                       color: "#FFFFFF",
                       fontWeight: "bold",
-                      fontSize: 14
+                      fontSize: 14, marginRight: 15
                     }}
                   >
-                    End this {this.props.qsotype} mode
+                    End this {this.props.qsotype}
                   </Text>
                 </TouchableOpacity>
                 </View>
