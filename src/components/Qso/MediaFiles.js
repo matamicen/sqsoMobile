@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, FlatList  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, FlatList,
+  Keyboard,
+  TouchableWithoutFeedback  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
 import Media from './Media';
@@ -52,7 +54,7 @@ class MediaFiles extends Component {
                            
               
         return( <View >
-               
+               <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
               <FlatList  style={styles.qralist }
                
                 data={this.props.mediafiles}
@@ -64,6 +66,8 @@ class MediaFiles extends Component {
                
                
                 />
+
+          </TouchableWithoutFeedback>
 
          </View>
             
