@@ -549,20 +549,25 @@ class QsoScreen extends Component {
     // if (await hasAPIConnection())
     // {
 
-    console.log("ejecuta toggleRecordModal");
+    
 
-    if (this.state.modalRecording) {
-      this.setState({
-        modalRecording: false
-      });
-    } else {
-      this.setState({
-        modalRecording: true
-      });
+    if (!this.state.modalRecording) {
+      console.log("abre RecordModal");
+      this.setState({modalRecording: true  });
+
     }
 
-    // }
-    // else this.setState({nointernet: true});
+  };
+
+  closeRecModal = async () => {
+    // if (await hasAPIConnection())
+    // {
+
+    console.log("close RecModal");
+    this.setState({
+      modalRecording: false
+    });
+
   };
 
   closeModalPhotoConfirmation = () => {
@@ -1062,8 +1067,9 @@ class QsoScreen extends Component {
 
     return (
     
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      //  <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
+       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
           
@@ -1155,8 +1161,9 @@ class QsoScreen extends Component {
                 borderRadius: 12
               }}
             >
-              <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} />
-
+              {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
+              <RecordAudio2 closeModal={this. closeRecModal.bind(this)} />
+             
               {/* <Button onPress={() => this.toggleRecModal()} title="Cierro" /> */}
               {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
                              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
@@ -1251,8 +1258,8 @@ class QsoScreen extends Component {
                 padding: 20,
                 backgroundColor: "rgba(0,0,0,0.85)",
                 bottom: 230,
-                left: 20,
-                right: 20,
+                left: 10,
+                right: 10,
                 position: "absolute",
                 alignItems: "center",
                 borderRadius: 12
@@ -1272,10 +1279,10 @@ class QsoScreen extends Component {
 
               <View style={{ flexDirection: "row", flex: 1 }}>
 
-              <View style={{ flex: 0.5 }}>
+              <View style={{ flex: 0.35 }}>
                 <TouchableOpacity
                   onPress={() => this.CancelEndQsoModal()}
-                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4 }}
+                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4, marginLeft: 17 }}
                 >
                   <Text
                     style={{
@@ -1288,24 +1295,24 @@ class QsoScreen extends Component {
                   </Text>
                 </TouchableOpacity>
                 </View>
-                <View style={{ flex: 0.5 }}>
+                <View style={{ flex: 0.65, alignItems: "flex-end" }}>
                 <TouchableOpacity
                   onPress={() => this.endQso()}
                   style={{
                     flex: 0.7,
                     paddingTop: 20,
                     paddingBottom: 4,
-                    paddingHorizontal: 10
+                    paddingHorizontal: 4
                   }}
                 >
                   <Text
                     style={{
                       color: "#FFFFFF",
                       fontWeight: "bold",
-                      fontSize: 14
+                      fontSize: 14, marginRight: 15
                     }}
                   >
-                    End this {this.props.qsotype} mode
+                    End this {this.props.qsotype}
                   </Text>
                 </TouchableOpacity>
                 </View>
@@ -1315,8 +1322,10 @@ class QsoScreen extends Component {
           </Modal>
           {/* width:this.width-10 */}
         </View>
-
+        </TouchableWithoutFeedback> 
+       
         <View style={{ flex: 0.58 }}>
+       
         { !this.props.sqsonewqsoactive && 
         <View  style={{alignItems:"center", alignContent:"center"}}>
          
@@ -1364,10 +1373,13 @@ class QsoScreen extends Component {
               </TouchableOpacity> */}
               </View>
              } 
-
+           
           <MediaFiles />
+        
           
+  
         </View>
+       
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
           <View style={{ flex: 0.5, marginTop: 3, marginLeft: 5 }}>
@@ -1428,7 +1440,7 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
       </View>
-      </TouchableWithoutFeedback>
+      //  </TouchableWithoutFeedback>
   
     );
   }

@@ -103,10 +103,6 @@ class QsoBand extends Component {
                        title: '70cm',
                        value: '70cm'
                    },
-                   {
-                    title: '1.25m',
-                    value: '1.25m'
-                },
                 {
                     title: '2m',
                     value: '2m'
@@ -120,6 +116,10 @@ class QsoBand extends Component {
                     value: '10m'
                 },
                 {
+                    title: '12m',
+                    value: '12m'
+                },
+                {
                     title: '15m',
                     value: '15m'
                 },
@@ -130,6 +130,10 @@ class QsoBand extends Component {
                 {
                     title: '20m',
                     value: '20m'
+                },
+                {
+                    title: '30m',
+                    value: '30m'
                 },
                 {
                     title: '40m',
@@ -161,17 +165,21 @@ class QsoBand extends Component {
                     <View style={{ margin:20,
                          padding:20, 
                          backgroundColor: '#efefef',
-                         bottom: 10,
+                         bottom: 3,
                          left: 20,
                          right: 20,
                          position: 'absolute',
-                         alignItems: 'center'                      
+                         alignItems: 'center' ,
+                         borderBottomLeftRadius: 22,
+                         borderBottomRightRadius: 22,
+                         borderTopLeftRadius: 22,
+                         borderTopRightRadius: 22,                     
                           }}>
                           
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Band </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                                 <Text style={{ fontSize: 19, padding:2}} >{value.title}</Text>
+                                 <Text style={{ fontSize: 18, padding:1.25}} >{value.title}</Text>
                                  </TouchableOpacity >
                     })}
 

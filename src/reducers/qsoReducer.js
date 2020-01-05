@@ -70,7 +70,7 @@ const initialState = {
         bandSent: false,
         mode: 'Mode',
         modeSent: false,
-        mediafiles: [],
+        mediafiles: [ {name: 'vacio', type: 'vacio'}],
         modalconfirmphoto: false,
         phototype: '',
         modalconfirmphotoHeight: 0,
@@ -555,9 +555,18 @@ const qsoReducer = (state = initialState, action) => {
      case ADD_MEDIA:
      console.log("desdeREDUCER ADD_MEDIA!! : ");
      console.log(action.newmedia);
+    // var auxmedia = new Array();
+     var auxmedia = state.currentQso.mediafiles;
+     console.log('mediafiles cant: '+auxmedia.length);
+    // si ya hay 3 medias, borro el ultimo item que era el espacio a proposito para generar area 
+    // para el touchwithFeedback, asi no scrollea el body con tan pocas media
+     if (auxmedia.length===3 && auxmedia[2].type==='vacio')
+          popped = auxmedia.pop();
      auxcurrentQso = {
         ...state.currentQso,
-        mediafiles: [...state.currentQso.mediafiles, action.newmedia]           
+        // mediafiles: [...state.currentQso.mediafiles, action.newmedia] 
+        // mediafiles: [action.newmedia,...state.currentQso.mediafiles]    
+          mediafiles: [action.newmedia,...auxmedia]          
     };
     newStore = Object.assign({}, state,
         {
@@ -924,7 +933,7 @@ const qsoReducer = (state = initialState, action) => {
              bandSent: false,
              mode: 'Mode',
              modeSent: false,
-             mediafiles: [],
+             mediafiles: [ {name: 'vacio', type: 'vacio'}],
              modalconfirmphoto: false,
              mediatosend: {},
              activityindicatorImage: false,
