@@ -48,8 +48,14 @@ class Media extends Component {
            
            
                            
-              
-        return( <View style={{ flex: 1 }}>
+        // se genera a proposito un item VACIO en mediafiles para que ocupe lugar en el body cuando 
+        // no hay media enviada y el usuario puede salir del teclado en iOS si se equivoca presionano justamente
+        // esa area. Se hizo asi porque el TouchwithFeedback no anda si hay un FLATLIST en el medio, entonces se
+        // puso el touckWithFeedback en mediaFiles para cada item
+
+        return( (this.props.type!=='vacio') ?
+        
+        <View style={{ flex: 1 }}>
                
                <View style={{flex: 1, flexDirection: 'row', marginTop: 6 }}>
 
@@ -65,20 +71,7 @@ class Media extends Component {
                       source={require('../../images/audio.png')}
                           /> }
                     
-                      {/* <Image
-                    style={styles.faceImageStyle}
-                    source={{ uri: this.props.imageurl }}
-                  />
-                  */}
-
-
-
- {/* <Progress.Bar
-                          style={{marginTop: 23, height: 6, width: 230 }}
-                          width={230}
-                          unfilledColor="lightgrey"
-                          borderRadius={0} */}
-
+                     
                     <View  style={{marginLeft: 25 }}>
 
                       <Progress.Bar
@@ -134,18 +127,22 @@ class Media extends Component {
                              
 
                     </View>
+                    
+                 
 
               </View>
 
-             {/* <Text style={styles.name} >
-                 {this.props.name}
-             </Text> 
-             <Text style={styles.name} >
-                 {this.props.size}
-             </Text> */}
+            
 
          </View>
-            
+
+         :
+         <View style={{ flex: 1 }}>
+            <View style={{flex: 1, flexDirection: 'row', marginTop: 6, height: 170 }}>
+            <Text style={styles.status} >    </Text>
+
+            </View>
+           </View>
            
        
         )} 

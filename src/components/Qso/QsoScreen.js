@@ -1062,8 +1062,9 @@ class QsoScreen extends Component {
 
     return (
     
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      //  <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
+       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
           
@@ -1315,8 +1316,10 @@ class QsoScreen extends Component {
           </Modal>
           {/* width:this.width-10 */}
         </View>
-
+        </TouchableWithoutFeedback> 
+       
         <View style={{ flex: 0.58 }}>
+       
         { !this.props.sqsonewqsoactive && 
         <View  style={{alignItems:"center", alignContent:"center"}}>
          
@@ -1364,10 +1367,13 @@ class QsoScreen extends Component {
               </TouchableOpacity> */}
               </View>
              } 
-
+           
           <MediaFiles />
+        
           
+  
         </View>
+       
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
           <View style={{ flex: 0.5, marginTop: 3, marginLeft: 5 }}>
@@ -1428,7 +1434,7 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
       </View>
-      </TouchableWithoutFeedback>
+      //  </TouchableWithoutFeedback>
   
     );
   }
