@@ -549,20 +549,25 @@ class QsoScreen extends Component {
     // if (await hasAPIConnection())
     // {
 
-    console.log("ejecuta toggleRecordModal");
+    
 
-    if (this.state.modalRecording) {
-      this.setState({
-        modalRecording: false
-      });
-    } else {
-      this.setState({
-        modalRecording: true
-      });
+    if (!this.state.modalRecording) {
+      console.log("abre RecordModal");
+      this.setState({modalRecording: true  });
+
     }
 
-    // }
-    // else this.setState({nointernet: true});
+  };
+
+  closeRecModal = async () => {
+    // if (await hasAPIConnection())
+    // {
+
+    console.log("close RecModal");
+    this.setState({
+      modalRecording: false
+    });
+
   };
 
   closeModalPhotoConfirmation = () => {
@@ -1156,8 +1161,9 @@ class QsoScreen extends Component {
                 borderRadius: 12
               }}
             >
-              <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} />
-
+              {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
+              <RecordAudio2 closeModal={this. closeRecModal.bind(this)} />
+             
               {/* <Button onPress={() => this.toggleRecModal()} title="Cierro" /> */}
               {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
                              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
