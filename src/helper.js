@@ -28,7 +28,9 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
       return true;
     }
     else {
-        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== 'Band') && (mode !== 'Mode') && (mediafiles.length > 0) )
+      // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
+      // el body de los Media (TouchwithoutFeedback)
+        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== 'Band') && (mode !== 'Mode') && (mediafiles.length > 1) )
         { 
             return true;
         } 

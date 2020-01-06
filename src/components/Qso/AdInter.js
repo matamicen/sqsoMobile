@@ -314,7 +314,18 @@ closeIapModal = () =>{
           if (this.props.closead==='newqso')
           this.props.newqso();
           if (this.props.closead==='sendmedia')
+          setTimeout(() => {
+
+            // Este tiemout se utiliza porque iOS necesita unos milisegundos que se baje 
+           // el Modal de IAP para poder abrir el nuevo modal de PROCESSING
+                     
+             console.log('muestro inter con delay de 50');
+          //   this.advertInter.show();
           this.props.subos3();
+             
+           }
+           , 50);
+          // this.props.subos3();
           if (this.props.closead==='scanqr')
           this.props.showscanresults('qslScan');
           if (this.props.closead==='linkqso')
