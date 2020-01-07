@@ -141,10 +141,9 @@ class QsoType extends Component {
                    { (this.props.qsotype==='QSO') ? 
                       <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.2}} 
+                          <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8 , marginLeft: 10}}>Change to Listen mode and mantain the 
-                          media file of the current Qso Mode </Text>
+                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified </Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -153,10 +152,9 @@ class QsoType extends Component {
                   { (this.props.qsotype==='QSO') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.2} } 
+                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to Post Mode and End this 
-                      Qso Mode 
+                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Publish anything you want to share :)
                       </Text>
                     </View>  
                    </TouchableOpacity> 
@@ -165,10 +163,9 @@ class QsoType extends Component {
                   { (this.props.qsotype==='LISTEN') ? 
                       <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.2}} 
+                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8 , marginLeft: 10}}>Change to QSO mode and mantain the 
-                          media file of the current Listen Mode </Text>
+                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 , marginLeft: 10}}>Log your QSO</Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -177,11 +174,9 @@ class QsoType extends Component {
                   { (this.props.qsotype==='LISTEN') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.2} } 
+                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to Post Mode and End this 
-                      Listen Mode 
-                      </Text>
+                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Publish anything you want to share :)</Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
@@ -189,10 +184,9 @@ class QsoType extends Component {
                       { (this.props.qsotype==='POST') ? 
                       <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.2}} 
+                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to QSO mode and and End this 
-                           Post Mode  </Text>
+                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Log your QSO</Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -201,11 +195,10 @@ class QsoType extends Component {
                   { (this.props.qsotype==='POST') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.2} } 
+                      <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.8, marginLeft: 10 }}>Change to Listen mode and and End this 
-                           Post Mode
-                      </Text>
+                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified </Text>
+                
                     </View>  
                    </TouchableOpacity> 
                     : null }

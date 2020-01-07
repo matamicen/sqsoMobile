@@ -107,6 +107,7 @@ class QsoScreen extends Component {
     this.envio = {};
     this.fileauxProfileAvatar = null;
     this.closeAd = null;
+    this.auxMedia = [];
    
 
     this.state = {
@@ -974,6 +975,7 @@ class QsoScreen extends Component {
      console.log(envio);
      this.envio = envio;
      this.fileauxProfileAvatar = fileauxProfileAvatar;
+   
 
    //  this.closeAd = 'sendmedia';
    //  this.advertInter.show();
@@ -1016,11 +1018,18 @@ class QsoScreen extends Component {
     fileauxProfileAvatar = this.fileauxProfileAvatar;
     // envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
     //   status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW, urlAvatar, date: fecha, width: this.width, height: this.height  } 
-            
+    
+    // para que le agregue el item a enviar al media que estaba en el store ya que este tiene uno vacio a proposito por el TouchWithoutFeedback
+    // y para que luego updateOnProgress haga bien el caclulo.
+    this.auxMedia = [...this.props.mediafiles];  
+    this.auxMedia.push(env);  
+
     this.props.addMedia(env);
     // creo mediafilelocal porque trada en actualizar REDUX entonces si es el caso
     // donde debe crear el QSO le envio del mediafileLocal, ver mas abajo.
     mediafileLocal = [ env ];
+    
+    
 
         // Fin de agrego a array de media del store
 
@@ -1035,7 +1044,7 @@ class QsoScreen extends Component {
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
           console.log('mediafile Local:'+mediafileLocal);
           console.log(mediafileLocal);
-          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,mediafileLocal))
+          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia))
               await this.props.onprogressTrue();
             else
               this.props.onprogressFalse();
