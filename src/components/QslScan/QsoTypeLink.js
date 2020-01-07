@@ -43,21 +43,21 @@ class QsoTypeLink extends Component {
 
               { (this.props.type==='QSO') ?
             
-                 <Image source={require('../../images/inQSO.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" /> 
           
                 
 
                :  (this.props.type==='LISTEN') ? 
               
-                 <Image source={require('../../images/listen.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                
                   :
 
                 (this.props.type==='POST') ? 
                
-                 <Image source={require('../../images/post.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
               
                  
