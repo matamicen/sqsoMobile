@@ -142,7 +142,10 @@ class CameraScreen extends React.Component {
   //   {
   //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
   //   }
-       this.navigateRoot();
+  if (this.props.phototype==='profile')
+       this.props.navigation.navigate("ProfileScreen");
+   else   
+    this.navigateRoot();
    
           }
 
@@ -685,7 +688,8 @@ class CameraScreen extends React.Component {
                 //  vari2 = await 
                   this.props.sendActualMedia(envio);
                   console.log("Fin de espera larga ANDROID")
-                  this.goBack();
+                  this.props.navigation.navigate("ProfileScreen");
+                  // this.goBack();
                   
                   if ( Platform.OS === 'ios')
                   timer = 1000;

@@ -23,7 +23,7 @@ import {FETCHING_API_REQUEST,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
-        SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL  } from './types';
+        SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -111,6 +111,14 @@ export const setMode = (mode) => {
         type: SET_MODE,
         mode: mode
     };
+}
+
+
+export const setSendingProfilePhotoModal = (status) => {
+  return {
+      type: SET_SENDING_PROFILE_PHOTO_MODAL,
+      status: status
+  };
 }
 
 export const profilePictureRefresh = (urlProfile) => {
@@ -731,7 +739,7 @@ export const setUserInfo = (mode, userInfo) => {
 export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar,identityId,qra,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postSetProfilePicNSFW'));
-    //   console.log("ejecuta llamada API SetProfilePic");  
+      console.log("urlNSFW: "+urlNSFW);  
     try {
         // session = await Auth.currentSession();
         // console.log("Su token es: " + session.idToken.jwtToken);

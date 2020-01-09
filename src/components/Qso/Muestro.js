@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3, sendActualMedia,
   onprogressTrue ,  onprogressFalse, actindicatorPostQsoNewTrue, postQsoNew,
-  manageLocationPermissions } from '../../actions';
+  manageLocationPermissions, setSendingProfilePhotoModal } from '../../actions';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
   TouchableHighlight, KeyboardAvoidingView, Platform, Dimensions   } from 'react-native';
 import { getDate} from '../../helper';
@@ -540,6 +540,13 @@ class Muestro extends Component {
 
         this.props.closeModalConfirmPhoto();
 
+        setTimeout(() => {
+          // abro modal de statua de envio de photo del profile
+        this.props.setSendingProfilePhotoModal(true);
+        }
+        , 150);
+        
+
         // if (this.props.sqsomedia.type!=='profile' && !checkMediaSentOfFreeUser(this.props.mediafiles,this.props.sqsomedia.type,2) && this.props.userinfo.subscription_type === 'FREE' )
         //    this.props.openPremium();
         // else{
@@ -895,7 +902,8 @@ const mapDispatchToProps = {
     onprogressFalse,
     actindicatorPostQsoNewTrue,
     postQsoNew,
-    manageLocationPermissions
+    manageLocationPermissions,
+    setSendingProfilePhotoModal
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Muestro);

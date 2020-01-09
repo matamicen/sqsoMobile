@@ -18,7 +18,8 @@ import {FETCHING_API_REQUEST,
     PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, SET_TOKEN,
      RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
-     CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL } from '../actions/types';
+     CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
+     SET_SENDING_PROFILE_PHOTO_MODAL } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -54,6 +55,7 @@ const initialState = {
     env: 'QA',
     restoreCalled: false,
     restoreMessage: '',
+    sendingProfileModal: false,
 
 
     currentQso: {
@@ -502,10 +504,15 @@ const qsoReducer = (state = initialState, action) => {
 
     case UPDATE_MEDIA:
      console.log("Reducer UPDATE_MEDIA : "+JSON.stringify(action.updatetype));
+     console.log("Reducer UPDATE_MEDIA2 : "+JSON.stringify(action.update));
      
    if (action.updatetype==='item') { 
             const updatedItems5 = state.currentQso.mediafiles.map(item => {
                 if(item.name === action.filename){
+                    console.log('itemUpd: '+JSON.stringify(item));
+                    if (item.type==='profile'){
+                        
+                    }
                 return { ...item, ...action.update }
                 }
                 return item
@@ -629,6 +636,17 @@ const qsoReducer = (state = initialState, action) => {
             currentQso: auxcurrentQso
         });
     return newStore; 
+
+    case SET_SENDING_PROFILE_PHOTO_MODAL:
+        //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+                sendingProfileModal: action.status  
+            });
+        return newStore; 
+
+    
   
     case SEND_ACTUAL_MEDIA:
    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
