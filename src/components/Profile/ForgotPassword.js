@@ -314,7 +314,7 @@ constructor(props) {
                 <Text style={{ color: '#FFFFFF', fontSize: 15  }}>We have sent the code to your email</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
-                  placeholder="qra"
+                  placeholder="callsign"
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"

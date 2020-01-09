@@ -205,7 +205,8 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
 
        <View style={{flex: 0.86, width:this.width-25, marginBottom: 0}}>
        {/* <FollowerList />  */}
-            <View style={{ marginLeft: 15, height: 400, width: 300, marginBottom: 10, marginTop: 10}}>
+       {/* , height: 400 */}
+            <View style={{flex:1, marginLeft: 15, width: 300, marginBottom: 10, marginTop: 10}}>
 
             <FlatList  style={styles.qralist }
 

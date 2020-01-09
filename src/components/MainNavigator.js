@@ -120,7 +120,7 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
     //  }},
     // CameraScreen: { screen: CameraScreen, },
     Notifications: { screen: Notifications, },
-    QslScanScreen: { screen: QslScanScreen, },  
+    // QslScanScreen: { screen: QslScanScreen, },  
     ProfileScreen: { screen: ProfileScreen, },
    
 }, {

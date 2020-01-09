@@ -132,7 +132,7 @@ class QsoType extends Component {
                         //  alignItems: 'center'                      
                           }}>
                           
-                  <Text style={{ color: '#aaaaaa', fontSize: 22, padding: 5 }}>Select the Mode</Text>
+                  <Text style={{ color: '#4F4F4F', fontSize: 20, padding: 5 }}>Select the Log Type</Text>
                   
 
                   <View style={{ justifyContent: 'space-around', 
@@ -143,7 +143,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified </Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified </Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -154,7 +154,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Publish anything you want to share :)
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Publish anything you want to share :)
                       </Text>
                     </View>  
                    </TouchableOpacity> 
@@ -165,7 +165,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7 , marginLeft: 10}}>Log your QSO</Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You participate in the QSO</Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -176,7 +176,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Publish anything you want to share :)</Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Publish anything you want to share :)</Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
@@ -186,7 +186,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Log your QSO</Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You participate in the QSO</Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -197,7 +197,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#aaaaaa', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified </Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified </Text>
                 
                     </View>  
                    </TouchableOpacity> 
