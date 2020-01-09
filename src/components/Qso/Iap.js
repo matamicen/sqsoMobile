@@ -388,14 +388,15 @@ class Iap extends Component {
                   {/* 3 minutes audios recording */}
                   {/* {this.props.userinfo.account_type.app_upgrade_t7} */}
                 {/* </Text> */}
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
-                   {/* Unlimited QR Scans  */}
+                
+                {/* <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                   // Unlimited QR Scans  
                    {this.props.userinfo.account_type.app_upgrade_t8}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
-                  {/* Unlimited QsosLinks */}
+                  // Unlimited QsosLinks 
                   {this.props.userinfo.account_type.app_upgrade_t9}
-                </Text>
+                </Text> */}
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
                   {/* Unlimited Web Navigation */}
                   {this.props.userinfo.account_type.app_upgrade_t10}
