@@ -19,7 +19,9 @@ import {FETCHING_API_REQUEST,
      RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
-     SET_SENDING_PROFILE_PHOTO_MODAL } from '../actions/types';
+     SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
+     SET_PROFILE_MODAL_STAT  } from '../actions/types';
+import { SectionList } from 'react-native';
 
 const initialState = {
     qra: '',
@@ -56,6 +58,8 @@ const initialState = {
     restoreCalled: false,
     restoreMessage: '',
     sendingProfileModal: false,
+    confirmProfileModal: false,
+    sendingProfileModal_stat: 0,
 
 
     currentQso: {
@@ -505,17 +509,26 @@ const qsoReducer = (state = initialState, action) => {
     case UPDATE_MEDIA:
      console.log("Reducer UPDATE_MEDIA : "+JSON.stringify(action.updatetype));
      console.log("Reducer UPDATE_MEDIA2 : "+JSON.stringify(action.update));
+    //  aux_status = 0;
      
    if (action.updatetype==='item') { 
             const updatedItems5 = state.currentQso.mediafiles.map(item => {
+
+        //         if (item.type==='profile' && action.update.progress===1){
+        //                  console.log('PROFILE APROBADO!')
+        //                  aux_status = 1;
+        //         }
+        //         if (item.type==='profile' && action.update.status==="inappropriate content"){
+        //             console.log('PROFILE NSFW!')
+        //             aux_status = 2;
+        //    }
                 if(item.name === action.filename){
                     console.log('itemUpd: '+JSON.stringify(item));
-                    if (item.type==='profile'){
-                        
-                    }
+                   
                 return { ...item, ...action.update }
                 }
                 return item
+              
             })
 
                 
@@ -527,6 +540,7 @@ const qsoReducer = (state = initialState, action) => {
         {
             ...state,
             currentQso: auxcurrentQso
+            // sendingProfileModal_stat: aux_status
         });
 
       }
@@ -596,6 +610,17 @@ const qsoReducer = (state = initialState, action) => {
         });
     return newStore; 
 
+    case SET_PROFILE_MODAL_STAT:
+       
+         newStore = Object.assign({}, state,
+             {
+                 ...state,
+                 sendingProfileModal_stat: action.status
+             });
+         return newStore; 
+
+    
+
     case OPEN_MODALCONFIRM_PHOTO:
    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
      auxcurrentQso = {
@@ -646,6 +671,16 @@ const qsoReducer = (state = initialState, action) => {
             });
         return newStore; 
 
+        case SET_CONFIRM_PROFILE_PHOTO_MODAL:
+            //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
+            newStore = Object.assign({}, state,
+                {
+                    ...state,
+                    confirmProfileModal: action.status  
+                });
+            return newStore; 
+
+        
     
   
     case SEND_ACTUAL_MEDIA:

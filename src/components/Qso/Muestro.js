@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3, sendActualMedia,
   onprogressTrue ,  onprogressFalse, actindicatorPostQsoNewTrue, postQsoNew,
-  manageLocationPermissions, setSendingProfilePhotoModal } from '../../actions';
+  manageLocationPermissions, setSendingProfilePhotoModal, setConfirmProfilePhotoModal,
+  setProfileModalStat  } from '../../actions';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
   TouchableHighlight, KeyboardAvoidingView, Platform, Dimensions   } from 'react-native';
 import { getDate} from '../../helper';
@@ -63,88 +64,13 @@ class Muestro extends Component {
 
    componentDidMount = async () => {
 
-  // this.loadVideoReward();
+  
     
      
        }
 
 
-    //    loadVideoReward = async () => {
-
-    //     //  let advert;
     
-    //       if (Platform.OS === 'ios'){
-    //         this.advertVideoRewardMuestro = firebase.admob().rewarded('ca-app-pub-7016811987787025/5828178381'); 
-    //        } else
-    //        {
-    //         this.advertVideoRewardMuestro = firebase.admob().rewarded('ca-app-pub-7016811987787025/1688132132');
-    //          }
-           
-    //       // const advert = firebase.admob().rewarded('ca-app-pub-3940256099942544/5224354917');
-    // try {
-    //       const AdRequestM = firebase.admob.AdRequest;
-    //       const requestM = new AdRequestM();
-    //       requestM.addKeyword('foo').addKeyword('bar');
-          
-    //       // Load the advert with our AdRequest
-    //       this.advertVideoRewardMuestro.loadAd(requestM.build());
-          
-    //       this.advertVideoRewardMuestro.on('onAdLoaded', () => {
-    //         console.log('Advert video rewardedM is ready to show.');
-    //         this.videorewardMuestro = true;
-    //         alert('video rewardM loaded!');
-    //     //    this.advertVideoRewardMuestro.show();
-    //       });
-          
-    //       this.advertVideoRewardMuestro.on('onRewarded', (event) => {
-    //         console.log('The user watched the entire video M and will now be rewarded!', event);
-    //         this.videorewardMuestro = false;
-    //         this.usergotreward = true;
-    //         this.subo_s3();
-    //         // this.loadVideoReward();
-    //       });
-          
-    //       this.advertVideoRewardMuestro.on('onAdClosed', (event) => {
-    //          console.log('Se cerro el AD M: ', event);
-    //          this.videorewardMuestro = false;
-    //            if (!this.usergotreward)
-    //              {  
-    //              this.setState({notvideorewarded: true})
-    //              this.loadVideoReward();
-    //             }
-    //         //  this.loadVideoReward();
-    //        });
-    
-    //        this.advertVideoRewardMuestro.on('onAdOpened', (event) => {
-    //         console.log('se muestra el AD M: ', event);
-    //         this.videorewardMuestro = false;
-    //         this.usergotreward = false;
-         
-    //         this.props.manageLocationPermissions('adshowed',true);
-          
-    //       });
-    
-    //       this.advertVideoRewardMuestro.on('onAdLeftApplication', (event) => {
-    //         console.log('se va de la APP porque hizo click?: ', event);
-    //         this.videorewardMuestro = false;
-    //         this.usergotreward = true;
-    //        // this.subo_s3();
-
-
-    //         // this.loadVideoReward();
-  
-    //       });
-      
-    //     } catch (err) {
-    //       alert('video reward failed to load: '+ err);
-  
-    //       }
-    
-       
-    
-    //       // advert.show();
-    //      }
-
 
       rotateImage = async () => {
 
@@ -395,17 +321,7 @@ class Muestro extends Component {
 
       }
 
-      // showadtest = async () => {
-      //  if (this.firstTimePreReward)
-      //  {
-      //        this.firstTimePreReward = false;
-      //        this.setState({prereward:true})
-      //  }
-      //   else
-      //      this.advertVideoRewardMuestro.show();
-      // //  this.advertVideoRewardMuestro.show();
-        
-      // }
+  
 
       send_and_check_ad = async () => {
         this.props.closeModalConfirmPhoto();
@@ -495,15 +411,7 @@ class Muestro extends Component {
       // fecha = this.getDate();
        fecha = getDate();
        console.log('la fecha es:' + fecha);
-      //  console.log('jaja: '+  this.props.sqsomedia.width + this.props.sqsomedia.height  )
-
-     //  console.log('SIZE 3:'+ this.width+ ' '+this.height);
-      //  Image.getSize(fileaux, (width, height) => {console.log('SIZE 2: ancho: '+width + ' alto:'+height)});
-
-        // agrego a array de media del store
-          // envio = {name: fileName2, url: fileaux, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-          //    status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size, rdsUrlS3: rdsUrl, date: fecha, width: this.props.sqsomedia.width, height: this.props.sqsomedia.height  } 
-             
+   
           if (this.props.sqlrdsid==='' && this.props.sqsomedia.type!=='profile')
                 this.stat = 'waiting';
               else
@@ -525,20 +433,14 @@ class Muestro extends Component {
 
       }
 
-      subo_s3 = async () => {
+      subo_Profile_Photo_s3 = async () => {
 
-        // let fileaux;
-        // let fileauxProfileAvatar;
-        // let auxWidth;
-        // let fileName2;
-        // let rdsUrl;
-        // let urlNSFW;
-        // let urlAvatar;
-        // let folder;
-        // let fecha;
-        // let envio;
 
-        this.props.closeModalConfirmPhoto();
+
+
+
+        // this.props.closeModalConfirmPhoto();
+        this.props.setConfirmProfilePhotoModal(false);
 
         setTimeout(() => {
           // abro modal de statua de envio de photo del profile
@@ -613,12 +515,13 @@ class Muestro extends Component {
               //  fileNameaux = fileName2+''+ new Date().getTime();
               //  fileName2 = fileNameaux;
               
-              fileName2 = 'profile.jpg'+ new Date().getTime();
+              fileName2 = 'profile_'+ new Date().getTime() + '.jpg';
             }
           
        
         rdsUrl = this.props.rdsurls3+folder;
-        urlNSFW = this.props.rdsurls3+'profile/tmp/profile.jpg';
+        // urlNSFW = this.props.rdsurls3+'profile/tmp/profile.jpg';
+        urlNSFW = this.props.rdsurls3+'profile/tmp/'+fileName2;
         urlAvatar = this.props.rdsurls3+'profile/profile_avatar.jpg';
        
 
@@ -630,15 +533,7 @@ class Muestro extends Component {
       // fecha = this.getDate();
        fecha = getDate();
        console.log('la fecha es:' + fecha);
-      //  console.log('jaja: '+  this.props.sqsomedia.width + this.props.sqsomedia.height  )
-
-     //  console.log('SIZE 3:'+ this.width+ ' '+this.height);
-      //  Image.getSize(fileaux, (width, height) => {console.log('SIZE 2: ancho: '+width + ' alto:'+height)});
-
-        // agrego a array de media del store
-          // envio = {name: fileName2, url: fileaux, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-          //    status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size, rdsUrlS3: rdsUrl, date: fecha, width: this.props.sqsomedia.width, height: this.props.sqsomedia.height  } 
-             
+      
           if (this.props.sqlrdsid==='' && this.props.sqsomedia.type!=='profile')
                 this.stat = 'waiting';
               else
@@ -662,9 +557,18 @@ class Muestro extends Component {
           
           // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
           
-      if (this.stat==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
+      if (this.stat==='inprogress')  {  // los envia si ya tienen SqlRdsId sino los deja en waiting
           this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.sqsomedia.qra,'0',this.props.jwtToken);
-         else{
+          // hago un timeout por si se queda colgado el upload asi el usuario
+          // por lo menos puede hacer un close del modal de espera y no tiene que resetear la APP           
+          setTimeout(() => {
+                
+            this.props.setProfileModalStat(4);
+            
+          }
+          , 20000);
+      
+               }  else{
              // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
              // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
              console.log('mediafile Local:'+mediafileLocal);
@@ -694,28 +598,6 @@ class Muestro extends Component {
 
      
 
-      // signOut = () => {
-      //   Auth.signOut()
-      //     .then(data => console.log(JSON.stringify(data)))
-      //     .catch(err => console.log(err));
-    
-    
-      // }
-
-      // info = async () => {
-      //   try {
-      //     session = await Auth.currentSession();
-      //    // session2 = await Auth.currentCredentials();
-      //     console.log("Su token es: " + session.idToken.jwtToken);
-      //    // console.log("Sus credenciales SON: " + JSON.stringify(session2));
-      //     this.setState({ tok: session.idToken.jwtToken })
-      //   }
-      //   catch (e) {
-      //     console.log('caught error', e);
-      //     // Handle exceptions
-      //   }
-      //   //console.log("Su token es: "+ session.idToken.jwtToken);   
-      // }
 
       closeVariosModales = (param) => {
         this.setState({ nointernet: false, notvideorewarded: false, prereward: false });
@@ -792,7 +674,7 @@ class Muestro extends Component {
                 </View>  
                 :
                 <View style={{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity  style={{ height: 40 }} onPress={() => this.subo_s3()} >
+                    <TouchableOpacity  style={{ height: 40 }} onPress={() => this.subo_Profile_Photo_s3()} >
                        <Text style={{ color: '#c0c0c0', fontWeight: 'bold', fontSize: 16}}>Send Profile Photo</Text>
                     </TouchableOpacity>
                     </View>  
@@ -903,7 +785,9 @@ const mapDispatchToProps = {
     actindicatorPostQsoNewTrue,
     postQsoNew,
     manageLocationPermissions,
-    setSendingProfilePhotoModal
+    setSendingProfilePhotoModal,
+    setConfirmProfilePhotoModal,
+    setProfileModalStat
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Muestro);

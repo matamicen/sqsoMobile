@@ -11,7 +11,7 @@ import QraProfile from './../Qso/QraProfile';
 import FollowerList from './FollowerList';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
   followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall,
-  setSendingProfilePhotoModal } from '../../actions';
+  setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
@@ -142,6 +142,9 @@ signOut = async () => {
   gotoCameraScreen = async () => {
     if (await hasAPIConnection())
     {
+      // pongo flag en 0 del Modal de espera de Upload de Photo Profile por si ya
+      // envio una foto antes.
+      this.props.setProfileModalStat(0);
 
       Permissions.request('camera').then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -288,12 +291,10 @@ signOut = async () => {
   
     closeModalPhotoConfirmation = () => {
       // console.log("closeModalPhotoConfirmation");
-      this.props.closeModalConfirmPhoto();
+      // this.props.closeModalConfirmPhoto();
+      this.props.setConfirmProfilePhotoModal(false);
   
-      // // this.navigateRoot();
-      // this.setState({
-      //   photoConfirm: false
-      // });
+     
     };
     
     closeSendingProfilePhotoModal = () => {
@@ -306,6 +307,11 @@ signOut = async () => {
     
     render() { console.log("InitialScreen Screen");
    // console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
+
+   if (this.props.sendingprofilemodal_stat===1)
+             this.closeSendingProfilePhotoModal();
+
+
    
         return <View style={{flex:1, marginTop: Platform.OS === 'ios' ? 13 : 13, marginLeft: 6}}>
           
@@ -401,9 +407,8 @@ signOut = async () => {
 
 
               {/* Modal para mostrar la foto sacada de Profile */}
-              <Modal
-            visible={this.props.sqsomodalconfirmphoto}
-            // visible={true}
+          <Modal
+             visible={this.props.confirmprofilemodal}
             position={"top"}
             transparent={true}
             onRequestClose={() => console.log("Close was requested")}
@@ -459,34 +464,76 @@ signOut = async () => {
               style={{
                 padding: 10,
                 backgroundColor: "rgba(0,0,0,0.85)",
-                marginTop: 35,
-                left: 15,
-                right: 35,
-                width: this.width - 35,
+                marginTop: 60,
+                left: 35,
+                // right: 35,
+                width: this.width - 65,
 
-                height: 320,
+                height: 80,
            //  height: 320,
                 paddingVertical: 5,
                 //   position: 'absolute',
 
                 //  alignItems: 'center',
-                borderRadius: 12
+                borderRadius: 12,
+               
               }}
             >
-              {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
-              {/* <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={320} /> */}
-              {/* <Muestro  height={320}/> */}
-              {/* style={{ paddingBottom: 4}} */}
-              <View style={{ marginTop: 10 }}>
+             
+              <View style={{ flex: 1 }} >
+             { (this.props.sendingprofilemodal_stat===0) &&
+              <View  style={{ flex: 0.70, alignSelf: 'center' }}>
+                  <Text
+                    style={{ color: "white", fontSize: 16, marginTop: 5 }}
+                  >
+                    Updating ...
+                  </Text>
+              </View>
+             }
+                { (this.props.sendingprofilemodal_stat===2) &&
+              <View  style={{ flex: 0.70, alignSelf: 'center' }}>
+                  <Text
+                    style={{ color: "red", fontSize: 16 }}
+                  >
+                    Inappropriate content
+                  </Text>
+              </View>
+             }
+
+      { (this.props.sendingprofilemodal_stat===3) &&
+              <View  style={{ flex: 0.70, alignSelf: 'center' }}>
+                  <Text
+                    style={{ color: "red", fontSize: 16 }}
+                  >
+                    Failed
+                  </Text>
+              </View>
+             }
+      { (this.props.sendingprofilemodal_stat===4) &&
+              <View  style={{ flex: 0.70, alignSelf: 'center' }}>
+                  <Text
+                    style={{ color: "white", fontSize: 16 }}
+                  >
+                    TimeOut, please try again.
+                  </Text>
+              </View>
+             }
+      
+      { (this.props.sendingprofilemodal_stat>1) &&
+              <View style={{ flex: 0.30 , alignSelf: 'center' }}>
                 <TouchableOpacity style={{ width: 65 }}
                   onPress={() => this.closeSendingProfilePhotoModal()}>
                   <Text
-                    style={{ color: "white", fontWeight: "bold", fontSize: 16, marginLeft: 5 }}
+                    style={{ color: "white", fontSize: 16 }}
                   >
-                    Cancel
+                    Close
                   </Text>
                 </TouchableOpacity>
+                </View>
+            }
+
               </View>
+
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
@@ -571,7 +618,10 @@ signOut = async () => {
       pushtoken: state.sqso.pushToken,
       sqsomodalconfirmphoto: state.sqso.currentQso.modalconfirmphoto,
       jwtToken: state.sqso.jwtToken,
-      sendingprofilemodal: state.sqso.sendingProfileModal 
+      sendingprofilemodal: state.sqso.sendingProfileModal, 
+      confirmprofilemodal: state.sqso.confirmProfileModal,
+      sendingprofilemodal_stat: state.sqso.sendingProfileModal_stat
+      
     };
 };
 
@@ -585,7 +635,9 @@ const mapDispatchToProps = {
   manage_notifications,
   confirmedPurchaseFlag,
   restoreCall,
-  setSendingProfilePhotoModal
+  setSendingProfilePhotoModal,
+  setConfirmProfilePhotoModal,
+  setProfileModalStat
 
     
    }

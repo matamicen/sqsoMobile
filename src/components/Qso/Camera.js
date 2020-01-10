@@ -8,7 +8,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 
 import { connect } from 'react-redux';
 import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
-         actindicatorImageEnabled } from '../../actions';
+         actindicatorImageEnabled, setConfirmProfilePhotoModal } from '../../actions';
 import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-crop-picker';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -662,8 +662,8 @@ class CameraScreen extends React.Component {
        {
                   ImagePicker.openCropper({
                     path: data.uri,
-                    width: 1000,
-                    height: 1000
+                    width: (Platform.OS==='ios') ? 1100 : 2000,
+                    height: (Platform.OS==='ios') ? 1100 : 2000,
                   }).then(image => {
                     console.log(image);
 
@@ -698,7 +698,8 @@ class CameraScreen extends React.Component {
                   setTimeout(() => {
                     console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
                     //  this.props.actindicatorImageDisabled();
-                      this.props.openModalConfirmPhoto(320);
+                      // this.props.openModalConfirmPhoto(320);
+                      this.props.setConfirmProfilePhotoModal(true);
                   }, timer);
   
   
@@ -1017,7 +1018,8 @@ const mapDispatchToProps = {
   openModalConfirmPhoto,
   sendActualMedia,
   actindicatorImageDisabled,
-  actindicatorImageEnabled
+  actindicatorImageEnabled,
+  setConfirmProfilePhotoModal
  }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen);
