@@ -2,13 +2,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, Platform, ActivityIndicator, Image } from 'react-native';
 //import GalleryScreen from './GalleryScreen';
-import Muestro from './Muestro';
-import isIPhoneX from 'react-native-is-iphonex';
+// import Muestro from './Muestro';
+// import isIPhoneX from 'react-native-is-iphonex';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import { connect } from 'react-redux';
 import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
-         actindicatorImageEnabled, setConfirmProfilePhotoModal } from '../../actions';
+         actindicatorImageEnabled, setConfirmProfilePhotoModal, setProfileModalStat } from '../../actions';
 import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-crop-picker';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -38,32 +38,7 @@ const wbOrder = {
 };
 
 class CameraScreen extends React.Component {
-  // state = {
-  //   flash: 'off',
-  //   zoom: 0,
-  //   autoFocus: 'on',
-  //   depth: 0,
-  //   type: 'back',
-  //   whiteBalance: 'auto',
-  //   ratio: '16:9',
-  //   ratios: [],
-  //   photoId: 1,
-  //   showGallery: false,
-  //   photos: [],
-  //   faces: [],
-  //   permissionsGranted: false,
-  //   uriresize: ''
-  // };
 
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     photoConfirm: false,
-  //     url: '',
-  //     scanQR: false
-  //   };
-  //}
   constructor(props) {
        super(props);
 
@@ -662,8 +637,8 @@ class CameraScreen extends React.Component {
        {
                   ImagePicker.openCropper({
                     path: data.uri,
-                    width: (Platform.OS==='ios') ? 1100 : 2000,
-                    height: (Platform.OS==='ios') ? 1100 : 2000,
+                    width: (Platform.OS==='ios') ? 1100 : 1200,
+                    height: (Platform.OS==='ios') ? 1100 : 1200,
                   }).then(image => {
                     console.log(image);
 
@@ -694,7 +669,11 @@ class CameraScreen extends React.Component {
                   if ( Platform.OS === 'ios')
                   timer = 1000;
                     else timer = 500;
-  
+
+                  // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+                  // de sacar la foto de profile.
+                    this.props.setProfileModalStat(0);
+
                   setTimeout(() => {
                     console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
                     //  this.props.actindicatorImageDisabled();
@@ -1019,7 +998,8 @@ const mapDispatchToProps = {
   sendActualMedia,
   actindicatorImageDisabled,
   actindicatorImageEnabled,
-  setConfirmProfilePhotoModal
+  setConfirmProfilePhotoModal,
+  setProfileModalStat
  }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen);

@@ -144,7 +144,7 @@ signOut = async () => {
     {
       // pongo flag en 0 del Modal de espera de Upload de Photo Profile por si ya
       // envio una foto antes.
-      this.props.setProfileModalStat(0);
+     // this.props.setProfileModalStat(0);
 
       Permissions.request('camera').then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -300,6 +300,7 @@ signOut = async () => {
     closeSendingProfilePhotoModal = () => {
      
       this.props.setSendingProfilePhotoModal(false);
+      this.props.setProfileModalStat(0);
   
     };
       
@@ -481,7 +482,7 @@ signOut = async () => {
             >
              
               <View style={{ flex: 1 }} >
-             { (this.props.sendingprofilemodal_stat===0) &&
+             { (this.props.sendingprofilemodal_stat===0 || this.props.sendingprofilemodal_stat===4) &&
               <View  style={{ flex: 0.70, alignSelf: 'center' }}>
                   <Text
                     style={{ color: "white", fontSize: 16, marginTop: 5 }}
@@ -509,7 +510,7 @@ signOut = async () => {
                   </Text>
               </View>
              }
-      { (this.props.sendingprofilemodal_stat===4) &&
+      {/* { (this.props.sendingprofilemodal_stat===4) &&
               <View  style={{ flex: 0.70, alignSelf: 'center' }}>
                   <Text
                     style={{ color: "white", fontSize: 16 }}
@@ -517,7 +518,7 @@ signOut = async () => {
                     TimeOut, please try again.
                   </Text>
               </View>
-             }
+             } */}
       
       { (this.props.sendingprofilemodal_stat>1) &&
               <View style={{ flex: 0.30 , alignSelf: 'center' }}>

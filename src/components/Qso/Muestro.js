@@ -536,7 +536,7 @@ class Muestro extends Component {
             this.props.setProfileModalStat(4);
             
           }
-          , 15000);
+          , 10000);
       
                }  else{
              // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
