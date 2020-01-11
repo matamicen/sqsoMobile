@@ -486,7 +486,7 @@ signOut = async () => {
                   <Text
                     style={{ color: "white", fontSize: 16, marginTop: 5 }}
                   >
-                    Updating ...
+                    Changing photo...
                   </Text>
               </View>
              }
