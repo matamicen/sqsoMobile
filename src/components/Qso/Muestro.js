@@ -322,15 +322,10 @@ class Muestro extends Component {
       }
 
   
-
+    //Por aca se envian las fotos y audio del QSP solamente
       send_and_check_ad = async () => {
         this.props.closeModalConfirmPhoto();
 
-
-
-        // if (this.props.sqsomedia.type!=='profile' && !checkMediaSentOfFreeUser(this.props.mediafiles,this.props.sqsomedia.type,2) && this.props.userinfo.subscription_type === 'FREE' )
-        //    this.props.openPremium();
-        // else{
 
         console.log("subo a s3 con BLOB");
 
@@ -370,13 +365,6 @@ class Muestro extends Component {
           }
 
 
-        console.log('var12 despues: '+this.var12);
-
-
-       
-    //  fileaux =  this.props.sqsomedia.url;
-   
-      console.log("fileaux uri:"+ fileaux);
 
         fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 
@@ -404,11 +392,6 @@ class Muestro extends Component {
        
 
 
-
-
-        console.log('RDSurl: '+rdsUrl);
-
-      // fecha = this.getDate();
        fecha = getDate();
        console.log('la fecha es:' + fecha);
    
@@ -429,14 +412,12 @@ class Muestro extends Component {
               this.props.send_data_to_qsoscreen(envio, fileauxProfileAvatar);
              }
             , 50)
-        //     this.props.send_data_to_qsoscreen(envio, fileauxProfileAvatar);
-
+    
       }
 
+
+      //Por aca se envian las fotos de profile solamente
       subo_Profile_Photo_s3 = async () => {
-
-
-
 
 
         // this.props.closeModalConfirmPhoto();
@@ -449,13 +430,6 @@ class Muestro extends Component {
         , 150);
         
 
-        // if (this.props.sqsomedia.type!=='profile' && !checkMediaSentOfFreeUser(this.props.mediafiles,this.props.sqsomedia.type,2) && this.props.userinfo.subscription_type === 'FREE' )
-        //    this.props.openPremium();
-        // else{
-
-        console.log("subo a s3 con BLOB");
-
-        console.log('var12 antes: '+this.var12);
 
         if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
         //  if the media is a photo -> Compress Imgae
@@ -552,11 +526,7 @@ class Muestro extends Component {
         // Fin de agrego a array de media del store
        
        
-          // const response = await fetch(fileaux);
-          // const blobi = await response.blob();
-          
-          // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
-          
+    
       if (this.stat==='inprogress')  {  // los envia si ya tienen SqlRdsId sino los deja en waiting
           this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.sqsomedia.qra,'0',this.props.jwtToken);
           // hago un timeout por si se queda colgado el upload asi el usuario
@@ -566,7 +536,7 @@ class Muestro extends Component {
             this.props.setProfileModalStat(4);
             
           }
-          , 20000);
+          , 15000);
       
                }  else{
              // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
@@ -599,12 +569,12 @@ class Muestro extends Component {
      
 
 
-      closeVariosModales = (param) => {
-        this.setState({ nointernet: false, notvideorewarded: false, prereward: false });
-        console.log("param de close modal: "+ param);
-        if (param==='prereward')  
-           this.advertVideoRewardMuestro.show();
-      };
+      // closeVariosModales = (param) => {
+      //   this.setState({ nointernet: false, notvideorewarded: false, prereward: false });
+      //   console.log("param de close modal: "+ param);
+      //   if (param==='prereward')  
+      //      this.advertVideoRewardMuestro.show();
+      // };
 
     render() { 
         // this.props.imageurl
@@ -682,7 +652,7 @@ class Muestro extends Component {
             }
                    
         </View>
-{(this.state.notvideorewarded) && 
+{/* {(this.state.notvideorewarded) && 
                 <VariosModales
                     show={this.state.notvideorewarded}
                     modalType="notvideorewarded"
@@ -697,7 +667,7 @@ class Muestro extends Component {
                     message="Free User: We are going to show you a video reward, if you watch your media will be sent to the server"
                     closeInternetModal={this.closeVariosModales.bind()}
                   /> 
-}
+} */}
 
          </View>
          
