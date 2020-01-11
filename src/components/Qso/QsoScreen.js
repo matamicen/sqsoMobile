@@ -1283,7 +1283,7 @@ class QsoScreen extends Component {
                   marginBottom: 10
                 }}
               >
-                Are you sure to END this {this.props.qsotype} mode ?{" "}
+                Are you sure to END this {this.props.qsotype} log ?{" "}
               </Text>
 
               <View style={{ flexDirection: "row", flex: 1 }}>

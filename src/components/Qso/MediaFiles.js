@@ -35,6 +35,7 @@ class MediaFiles extends Component {
   _renderItem = ({ item }) => {
     const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime } = item;
 
+   if (type!=='profile')
     return (
       <View>
        <View style={{ paddingRight: 8 }}>
@@ -45,6 +46,8 @@ class MediaFiles extends Component {
        
       </View>
     );
+
+
   };
 
 
