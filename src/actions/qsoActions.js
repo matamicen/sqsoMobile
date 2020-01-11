@@ -23,7 +23,8 @@ import {FETCHING_API_REQUEST,
         RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
-        SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL  } from './types';
+        SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL,
+        SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -112,6 +113,29 @@ export const setMode = (mode) => {
         mode: mode
     };
 }
+
+
+export const setSendingProfilePhotoModal = (status) => {
+  return {
+      type: SET_SENDING_PROFILE_PHOTO_MODAL,
+      status: status
+  };
+}
+
+export const setConfirmProfilePhotoModal = (status) => {
+  return {
+      type: SET_CONFIRM_PROFILE_PHOTO_MODAL,
+      status: status
+  };
+}
+
+export const setProfileModalStat = (status) => {
+  return {
+      type: SET_PROFILE_MODAL_STAT,
+      status: status
+  };
+}
+
 
 export const profilePictureRefresh = (urlProfile) => {
     return {
@@ -731,7 +755,7 @@ export const setUserInfo = (mode, userInfo) => {
 export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar,identityId,qra,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postSetProfilePicNSFW'));
-    //   console.log("ejecuta llamada API SetProfilePic");  
+      console.log("urlNSFW a chequear: "+urlNSFW);  
     try {
         // session = await Auth.currentSession();
         // console.log("Su token es: " + session.idToken.jwtToken);
@@ -889,9 +913,16 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
       }else
       {
         if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
+        {
           update = {status: 'inappropriate content'}
-        else
+          // avisa al modal de espera que la photo profile es NSFW
+          dispatch(setProfileModalStat(2));
+         }
+        else {
            update = {status: 'failed'}
+           // avisa al modal de espera que la photo profile fallo
+           dispatch(setProfileModalStat(3));
+        }
        
         dispatch(updateMedia(filename2, update,'item' ));
       }
@@ -954,8 +985,10 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       update = {"status": 'sent', "progress": 1}
         dispatch(updateMedia(filename2, update,'item'));
         dispatch(profilePictureRefresh(urlNSFWavatar));
-        // stat = {"sent": true, "progress": 0.8}
-        // this.props.updateMediaSent(fileName2,stat);
+
+        // bajo el modal de espera de uplaod de photo profile
+        dispatch(setProfileModalStat(1));
+    
 
       }else
       {
@@ -1287,7 +1320,8 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
           else folder = 'audios/'+fileName2;
           
 
-          if (type==='profile') folder = 'profile/tmp/profile.jpg';
+          // if (type==='profile') folder = 'profile/tmp/profile.jpg';
+          if (type==='profile') folder = 'profile/tmp/'+fileName2; 
       
         console.log('folder:'+ folder);
   //  let a = {"folder": folder}
