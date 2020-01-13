@@ -129,9 +129,10 @@ export const setConfirmProfilePhotoModal = (status) => {
   };
 }
 
-export const setProfileModalStat = (status) => {
+export const setProfileModalStat = (param,status) => {
   return {
       type: SET_PROFILE_MODAL_STAT,
+      param: param,
       status: status
   };
 }
@@ -916,12 +917,12 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
         {
           update = {status: 'inappropriate content'}
           // avisa al modal de espera que la photo profile es NSFW
-          dispatch(setProfileModalStat(2));
+          dispatch(setProfileModalStat('nsfw',2));
          }
         else {
            update = {status: 'failed'}
            // avisa al modal de espera que la photo profile fallo
-           dispatch(setProfileModalStat(3));
+           dispatch(setProfileModalStat('failed',3));
         }
        
         dispatch(updateMedia(filename2, update,'item' ));
@@ -987,7 +988,9 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
         dispatch(profilePictureRefresh(urlNSFWavatar));
 
         // bajo el modal de espera de uplaod de photo profile
-        dispatch(setProfileModalStat(1));
+      //  dispatch(setProfileModalStat('modal',1));
+        dispatch(setSendingProfilePhotoModal(false));
+        dispatch(setProfileModalStat('ambos',0))
     
 
       }else

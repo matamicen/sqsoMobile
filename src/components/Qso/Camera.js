@@ -672,7 +672,7 @@ class CameraScreen extends React.Component {
 
                   // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
                   // de sacar la foto de profile.
-                    this.props.setProfileModalStat(0);
+                    this.props.setProfileModalStat('ambos',0);
 
                   setTimeout(() => {
                     console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
