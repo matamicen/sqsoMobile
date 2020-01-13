@@ -300,7 +300,7 @@ signOut = async () => {
     closeSendingProfilePhotoModal = () => {
      
       this.props.setSendingProfilePhotoModal(false);
-      this.props.setProfileModalStat(0);
+      this.props.setProfileModalStat('ambos',0);
   
     };
       
@@ -309,8 +309,8 @@ signOut = async () => {
     render() { console.log("InitialScreen Screen");
    // console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
 
-   if (this.props.sendingprofilemodal_stat===1)
-             this.closeSendingProfilePhotoModal();
+  //  if (this.props.sendingprofilemodal_stat===1)
+  //            this.closeSendingProfilePhotoModal();
 
 
    
@@ -482,7 +482,7 @@ signOut = async () => {
             >
              
               <View style={{ flex: 1 }} >
-             { (this.props.sendingprofilemodal_stat===0 || this.props.sendingprofilemodal_stat===4) &&
+             { (this.props.sendingprofilemodal_stat===0) &&
               <View  style={{ flex: 0.70, alignSelf: 'center' }}>
                   <Text
                     style={{ color: "white", fontSize: 16, marginTop: 5 }}
@@ -510,17 +510,9 @@ signOut = async () => {
                   </Text>
               </View>
              }
-      {/* { (this.props.sendingprofilemodal_stat===4) &&
-              <View  style={{ flex: 0.70, alignSelf: 'center' }}>
-                  <Text
-                    style={{ color: "white", fontSize: 16 }}
-                  >
-                    TimeOut, please try again.
-                  </Text>
-              </View>
-             } */}
+   
       
-      { (this.props.sendingprofilemodal_stat>1) &&
+      { (this.props.cancelbutton_stat===1) &&
               <View style={{ flex: 0.30 , alignSelf: 'center' }}>
                 <TouchableOpacity style={{ width: 65 }}
                   onPress={() => this.closeSendingProfilePhotoModal()}>
@@ -621,8 +613,8 @@ signOut = async () => {
       jwtToken: state.sqso.jwtToken,
       sendingprofilemodal: state.sqso.sendingProfileModal, 
       confirmprofilemodal: state.sqso.confirmProfileModal,
-      sendingprofilemodal_stat: state.sqso.sendingProfileModal_stat
-      
+      sendingprofilemodal_stat: state.sqso.sendingProfileModal_stat,
+      cancelbutton_stat: state.sqso.cancelButton_stat
     };
 };
 

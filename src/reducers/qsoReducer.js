@@ -60,6 +60,7 @@ const initialState = {
     sendingProfileModal: false,
     confirmProfileModal: false,
     sendingProfileModal_stat: 0,
+    cancelButton_stat: 0,
 
 
     currentQso: {
@@ -514,14 +515,6 @@ const qsoReducer = (state = initialState, action) => {
    if (action.updatetype==='item') { 
             const updatedItems5 = state.currentQso.mediafiles.map(item => {
 
-        //         if (item.type==='profile' && action.update.progress===1){
-        //                  console.log('PROFILE APROBADO!')
-        //                  aux_status = 1;
-        //         }
-        //         if (item.type==='profile' && action.update.status==="inappropriate content"){
-        //             console.log('PROFILE NSFW!')
-        //             aux_status = 2;
-        //    }
                 if(item.name === action.filename){
                     console.log('itemUpd: '+JSON.stringify(item));
                    
@@ -612,12 +605,46 @@ const qsoReducer = (state = initialState, action) => {
 
     case SET_PROFILE_MODAL_STAT:
        
-         newStore = Object.assign({}, state,
+    // uso esta action para manejar el status del MODAL y el boton de Cancel dentro del modal
+    // el boton de cancel se activa despuesde X segundos por si falla el upload o lo que sea 
+    // que el usuario pueda cerrar el modal e intentar de nuevo y no quede atrapado.
+
+     if(action.param==='modal')  
+       newStore = Object.assign({}, state,
              {
                  ...state,
                  sendingProfileModal_stat: action.status
              });
-         return newStore; 
+    if(action.param==='cancelButton')
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+                cancelButton_stat: action.status
+            });
+    
+     if(action.param==='ambos')
+            newStore = Object.assign({}, state,
+                {
+                    ...state,
+                    cancelButton_stat: action.status,
+                    sendingProfileModal_stat: action.status
+                });
+     if(action.param==='nsfw')  
+                newStore = Object.assign({}, state,
+                      {
+                          ...state,
+                          sendingProfileModal_stat: action.status,
+                          cancelButton_stat: 1
+                      });
+    if(action.param==='failed')  
+                      newStore = Object.assign({}, state,
+                            {
+                                ...state,
+                                sendingProfileModal_stat: action.status,
+                                cancelButton_stat: 1
+                            });
+        return newStore; 
+       
 
     
 

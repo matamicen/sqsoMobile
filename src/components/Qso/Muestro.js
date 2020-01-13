@@ -532,8 +532,9 @@ class Muestro extends Component {
           // hago un timeout por si se queda colgado el upload asi el usuario
           // por lo menos puede hacer un close del modal de espera y no tiene que resetear la APP           
           setTimeout(() => {
-                
-            this.props.setProfileModalStat(4);
+            // hablitio el cancel button para darle escapatoria del modal si en 10 segundos no se
+            // subio la foto o fallo el envio o lo que sea.    
+            this.props.setProfileModalStat('cancelButton',1);
             
           }
           , 10000);
