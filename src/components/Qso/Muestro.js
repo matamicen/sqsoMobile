@@ -233,8 +233,8 @@ class Muestro extends Component {
 
         // nuevoWidthAvatar = this.widthAvatar / 21.0;
         // nuevoHeightAvatar = this.heightAvatar / 21.0;
-        nuevoWidthAvatar = this.widthAvatar / 7.0;
-        nuevoHeightAvatar = this.heightAvatar / 7.0;
+        nuevoWidthAvatar = this.widthAvatar / 10.0;
+        nuevoHeightAvatar = this.heightAvatar / 10.0;
         }else
         {
         nuevoWidthAvatar = this.widthAvatar / 6.0;
@@ -246,8 +246,8 @@ class Muestro extends Component {
           // esto es para genrar el Profile.jpg para mostrar en el perfil con mas definicion
               if ( Platform.OS === 'ios')
             {
-              nuevoWidth = this.width / 10.0;
-              nuevoHeight = this.height / 10.0;
+              nuevoWidth = this.width / 5.0
+              nuevoHeight = this.height / 5.0;
             }else{
               nuevoWidth = this.width / 3.0;
               nuevoHeight = this.height / 3.0;
