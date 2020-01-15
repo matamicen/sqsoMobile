@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Keyboard,
      ActivityIndicator, KeyboardAvoidingView, DatePickerAndroid, DatePickerIOS,
-    Platform, Modal } from 'react-native';
+    Platform, Modal, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -259,7 +259,8 @@ constructor(props) {
    
         return (
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
-         <View style={styles.container}> 
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
+      <View style={styles.container}> 
          
               
                <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding: 1,
@@ -410,6 +411,7 @@ constructor(props) {
 
            
             </View>
+            </TouchableWithoutFeedback>
            
         );
        
