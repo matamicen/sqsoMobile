@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, StyleSheet, Iamge, KeyboardAvoidingView, Platform, TouchableOpacity  } from 'react-native';
+import { Text, Image, View, Button, StyleSheet, Iamge, KeyboardAvoidingView, Platform,
+     TouchableOpacity, TouchableWithoutFeedback, Keyboard  } from 'react-native';
 import { connect } from 'react-redux';
 import LoginForm from './LoginForm';
 
@@ -22,6 +23,7 @@ Login = () => {
    
         return (
             <View style={{ flex:1}}>
+                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
               <KeyboardAvoidingView behavior="padding"     style={styles.container}  >
                {/* <View style={styles.container}> */}
                 <View style={styles.logoContainer}> 
@@ -45,6 +47,7 @@ Login = () => {
 
             {/* </View> */}
              </KeyboardAvoidingView> 
+             </TouchableWithoutFeedback >
 
              </View>
         );

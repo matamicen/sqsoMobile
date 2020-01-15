@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Keyboard,
      ActivityIndicator, KeyboardAvoidingView, DatePickerAndroid, DatePickerIOS,
-    Platform, Modal, ScrollView, FlatList, AsyncStorage } from 'react-native';
+    Platform, Modal, ScrollView, FlatList, AsyncStorage, TouchableWithoutFeedback  } from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -325,7 +325,7 @@ signUp = async () => {
 
    await Auth.resendSignUp(this.state.qra.toUpperCase())
                   .then(() => { console.log('Resend Ok!')
-                  this.setState({ errormessage2:'Your confirmation code has been sent!',color: 'blue',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
+                  this.setState({ errormessage2:'Your confirmation code has been sent!',color: '#8BD8BD',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
@@ -826,8 +826,9 @@ chooseCountry = () => {
    
         return (
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
-       
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
          <View style={styles.container}>
+      
           <View style={{   padding: 3, marginTop: 15, height: this.state.heightindicator,
                         opacity: this.state.indicator }} >
                   
@@ -841,6 +842,7 @@ chooseCountry = () => {
                         <Text style={{ color: 'red', textAlign: 'center', }}> {this.state.errormessage}
                         </Text>
                    </View>
+               
    {/* <ScrollView contentContainerStyle={styles.contentContainer}>    */}
   
          
@@ -1188,7 +1190,9 @@ chooseCountry = () => {
     {/* {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()} termsaccepted={this.TermsAccepted.bind()}  /> } */}
     {(this.state.terms) && <VariosModales show={true} modalType="terms" closeterms={this.closeTerms.bind()}   /> }
     {(this.state.privacy) && <VariosModales show={true} modalType="privacy" closeterms={this.closeTerms.bind()}   /> }
+    
             </View>
+            </TouchableWithoutFeedback>
             
             
            

@@ -97,13 +97,13 @@ If you have a SuperQSO account, you can access, modify or export your personal i
 To protect information from accidental or malicious destruction, we may maintain residual copies for a brief time period (generally several weeks). But, if you delete your account, your information and content will be unrecoverable after that time. SuperQSO may preserve and maintain copies of your information beyond this time period when required to do so by law.
 {"\n\n"}
 
-<Text style={{fontWeight: "bold",  fontSize: 16}}>  
+{/* <Text style={{fontWeight: "bold",  fontSize: 16}}>  
 Data Security
 {"\n\n"}
 </Text>
 
 We use encryption (HTTPS/TLS) to protect data transmitted to and from our site. However, no data transmission over the Internet is 100% secure, so we can’t guarantee security. You use the Service at your own risk, and you’re responsible for taking reasonable measures to secure your account.
-{"\n\n"}
+{"\n\n"} */}
 
 <Text style={{fontWeight: "bold",  fontSize: 16}}>   
 Affiliates and Change of Ownership
