@@ -19,6 +19,34 @@ import reactotron from './ReactotronConfig';
 
 // fin agregado nuevo
 
+var PushNotification = require('react-native-push-notification');
+
+
+PushNotification.configure({
+
+    // (optional) Called when Token is generated (iOS and Android)
+    onRegister: function(token) {
+      console.log('nuevo push token!!!')
+      console.log(token)
+    },
+
+    
+
+    // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+    senderID: "750953848595",
+
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true
+    },
+ 
+    popInitialNotification: true,
+    requestPermissions: true,
+
+});
+
+
 
 
 if(__DEV__){

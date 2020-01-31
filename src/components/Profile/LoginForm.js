@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
      ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions, 
-     Platform } from 'react-native';
+     Platform} from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -29,6 +29,55 @@ import Analytics from '@aws-amplify/analytics';
 //  import { PushNotificationIOS } from 'react-native';
 
  import RNIap from 'react-native-iap';
+
+
+ var PushNotification = require('react-native-push-notification');
+
+
+PushNotification.configure({
+
+    // (optional) Called when Token is generated (iOS and Android)
+    // onRegister: function(token) {
+    //   console.log('nuevo push token!!!')
+    //   console.log(token)
+    // },
+
+    onNotification: function(notification) {
+      console.log('llego notificacion!');
+      console.log(notification);
+
+   if (notification.userInteraction===false)
+   {
+      PushNotification.localNotification({
+        //     id: notification.id,
+        title: 'Hey '+notification.id,
+        message: 'this is a msg!',
+        priority: "max",
+        autoCancel: true,
+              // title: 'Notification with my name',
+              // message: notification['name'], // (required)
+              // date: new Date(Date.now()) // in 60 secs
+            });
+           // PushNotification.setApplicationIconBadgeNumber(25);
+          }
+
+    },
+
+    // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+    // senderID: "750953848595",
+
+    // permissions: {
+    //   alert: true,
+    //   badge: true,
+    //   sound: true
+    // },
+ 
+    // popInitialNotification: true,
+    // requestPermissions: true,
+
+});
+
+
 
 
 // PushNotification need to work with Analytics
