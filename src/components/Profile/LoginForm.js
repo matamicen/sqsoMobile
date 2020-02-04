@@ -26,7 +26,8 @@ import Analytics from '@aws-amplify/analytics';
 
 //  import PushNotification from '@aws-amplify/pushnotification';
  //import { PushNotification } from 'aws-amplify-react-native';
-//  import { PushNotificationIOS } from 'react-native';
+ // import { PushNotificationIOS } from 'react-native';
+  import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
  import RNIap from 'react-native-iap';
 
@@ -48,10 +49,13 @@ PushNotification.configure({
 
    if (notification.userInteraction===false)
    {
+    if (Platform.OS==='android')
+    {
       PushNotification.localNotification({
         //     id: notification.id,
+        userInfo: { id: notification.id },
         title: 'Hey '+notification.id,
-        message: 'this is a msg!',
+        message: 'this is an android! msg!',
         priority: "max",
         autoCancel: true,
               // title: 'Notification with my name',
@@ -59,7 +63,61 @@ PushNotification.configure({
               // date: new Date(Date.now()) // in 60 secs
             });
            // PushNotification.setApplicationIconBadgeNumber(25);
+     }
+
+
+    // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
+    if (Platform.OS==='ios'  && notification.data.remote===true)
+    {
+
+     // PushNotification.setApplicationIconBadgeNumber(5);  anda bien en IOS esto
+
+     // esta porcion de codigo de abajo no ANDA, pero debria generar una LocalNotification
+     // cuando la app esta activo o Foreground, pero es un bug de la librerira.
+     // lo mas importante es que andan los PUSH en iOS cuando la app esta en background y Killed :)
+
+      // PushNotification.localNotification({
+      //   //     id: notification.id,
+      //   userInfo: { id: '9999', remote: false },
+      //   title: 'Hey ',
+      //   message: 'this is a IOS msg!',
+     
+      //   priority: "max",
+        
+      //   autoCancel: true,
+   
+      //       });
+
+
+           
           }
+     
+       }
+       else
+       {
+         // este push anda en iOS cuando la app esta en background,
+         // pero no sirve porque el remote push tambien genera una localnotification
+         // entonces se duplican.
+         // el campo  id: en userInfo es clave para que luego de hacer tap en la notif
+         // se borre del tray.
+
+        //  if (Platform.OS==='ios')
+        //           PushNotification.localNotification({
+        //       //     id: notification.id,
+        //       userInfo: { id:  notification.data.notificationId},
+        //       title: 'Hey '+notification.data.notificationId,
+        //       message: 'this is a msg!',
+        //       priority: "max",
+        //       autoCancel: true,
+                 
+        //           });
+       
+              
+
+       }
+
+   if (Platform.OS==='ios')
+       notification.finish(PushNotificationIOS.FetchResult.NoData);
 
     },
 
