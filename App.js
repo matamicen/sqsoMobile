@@ -27,7 +27,18 @@ PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function(token) {
       console.log('nuevo push token!!!')
-      console.log(token)
+      console.log(token);
+
+         try {
+  //  await AsyncStorage.setItem('pushtoken', token);
+  AsyncStorage.setItem('pushtoken', token.token);
+   } 
+   catch (error) {
+     console.log('Error al grabar pushtoken en asynstorage', error);
+     
+    //  kinesis_catch('#015',error,'');
+     // Error retrieving data
+    }
     },
 
     

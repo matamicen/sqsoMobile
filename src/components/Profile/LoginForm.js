@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
      ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions, 
-     Platform} from 'react-native';
+     Platform, Alert} from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -33,108 +33,6 @@ import Analytics from '@aws-amplify/analytics';
 
 
  var PushNotification = require('react-native-push-notification');
-
-
-PushNotification.configure({
-
-    // (optional) Called when Token is generated (iOS and Android)
-    // onRegister: function(token) {
-    //   console.log('nuevo push token!!!')
-    //   console.log(token)
-    // },
-
-    onNotification: function(notification) {
-      console.log('llego notificacion!');
-      console.log(notification);
-
-   if (notification.userInteraction===false)
-   {
-    if (Platform.OS==='android')
-    {
-      PushNotification.localNotification({
-        //     id: notification.id,
-        userInfo: { id: notification.id },
-        title: 'Hey '+notification.id,
-        message: 'this is an android! msg!',
-        priority: "max",
-        autoCancel: true,
-              // title: 'Notification with my name',
-              // message: notification['name'], // (required)
-              // date: new Date(Date.now()) // in 60 secs
-            });
-           // PushNotification.setApplicationIconBadgeNumber(25);
-     }
-
-
-    // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
-    if (Platform.OS==='ios'  && notification.data.remote===true)
-    {
-
-     // PushNotification.setApplicationIconBadgeNumber(5);  anda bien en IOS esto
-
-     // esta porcion de codigo de abajo no ANDA, pero debria generar una LocalNotification
-     // cuando la app esta activo o Foreground, pero es un bug de la librerira.
-     // lo mas importante es que andan los PUSH en iOS cuando la app esta en background y Killed :)
-
-      // PushNotification.localNotification({
-      //   //     id: notification.id,
-      //   userInfo: { id: '9999', remote: false },
-      //   title: 'Hey ',
-      //   message: 'this is a IOS msg!',
-     
-      //   priority: "max",
-        
-      //   autoCancel: true,
-   
-      //       });
-
-
-           
-          }
-     
-       }
-       else
-       {
-         // este push anda en iOS cuando la app esta en background,
-         // pero no sirve porque el remote push tambien genera una localnotification
-         // entonces se duplican.
-         // el campo  id: en userInfo es clave para que luego de hacer tap en la notif
-         // se borre del tray.
-
-        //  if (Platform.OS==='ios')
-        //           PushNotification.localNotification({
-        //       //     id: notification.id,
-        //       userInfo: { id:  notification.data.notificationId},
-        //       title: 'Hey '+notification.data.notificationId,
-        //       message: 'this is a msg!',
-        //       priority: "max",
-        //       autoCancel: true,
-                 
-        //           });
-       
-              
-
-       }
-
-   if (Platform.OS==='ios')
-       notification.finish(PushNotificationIOS.FetchResult.NoData);
-
-    },
-
-    // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-    // senderID: "750953848595",
-
-    // permissions: {
-    //   alert: true,
-    //   badge: true,
-    //   sound: true
-    // },
- 
-    // popInitialNotification: true,
-    // requestPermissions: true,
-
-});
-
 
 
 
@@ -217,9 +115,185 @@ constructor(props) {
 
 
   async componentDidMount() {
+   
+    // PushNotification.onNotification((notification) => { 
+    //   console.log('llego push che!');
+
+    // });
+
+    PushNotification.configure({
+
+      // (optional) Called when Token is generated (iOS and Android)
+      // onRegister: function(token) {
+      //   console.log('nuevo push token!!!')
+      //   console.log(token)
+      // },
+  
+
+    //  PushNotification.onNotification((notification) => {
+   //  onNotification: function(notification) {
+        onNotification: (notification) => {
+  
+        console.log('llego notificacion!');
+        console.log(notification);
+  
+     if (notification.userInteraction===false)
+     {
+      if (Platform.OS==='android')
+      {
+        PushNotification.localNotification({
+          //     id: notification.id,
+          userInfo: { id: notification.id },
+          title: 'Hey '+notification.id,
+          message: 'this is an android! msg!',
+          priority: "max",
+          autoCancel: true,
+                // title: 'Notification with my name',
+                // message: notification['name'], // (required)
+                // date: new Date(Date.now()) // in 60 secs
+              });
+             // PushNotification.setApplicationIconBadgeNumber(25);
+       }
+  
+  
+      // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
+      if (Platform.OS==='ios'  && notification.data.remote===true)
+      {
+  
+       // PushNotification.setApplicationIconBadgeNumber(5);  anda bien en IOS esto
+  
+       // esta porcion de codigo de abajo no ANDA, pero debria generar una LocalNotification
+       // cuando la app esta activo o Foreground, pero es un bug de la librerira.
+       // lo mas importante es que andan los PUSH en iOS cuando la app esta en background y Killed :)
+  
+        // PushNotification.localNotification({
+        //   //     id: notification.id,
+        //   userInfo: { id: '9999', remote: false },
+        //   title: 'Hey ',
+        //   message: 'this is a IOS msg!',
+       
+        //   priority: "max",
+          
+        //   autoCancel: true,
+     
+        //       });
+  
+  
+             
+            }
+       
+         }
+         else
+         {
+           // este push anda en iOS cuando la app esta en background,
+           // pero no sirve porque el remote push tambien genera una localnotification
+           // entonces se duplican.
+           // el campo  id: en userInfo es clave para que luego de hacer tap en la notif
+           // se borre del tray.
+  
+          //  if (Platform.OS==='ios')
+          //           PushNotification.localNotification({
+          //       //     id: notification.id,
+          //       userInfo: { id:  notification.data.notificationId},
+          //       title: 'Hey '+notification.data.notificationId,
+          //       message: 'this is a msg!',
+          //       priority: "max",
+          //       autoCancel: true,
+                   
+          //           });
+         
+                
+  
+         }
+  
+     if (Platform.OS==='ios')
+     {
+  
+             try {
+            console.log('paso por IOS')
+            let bodyJson = notification.data.data.jsonBody;
+            
+            // let body = notification._data['data.pinpoint.jsonBody'];
+  
+              // let bodyJson = JSON.parse(body)
+            
+              console.log(bodyJson.AVATAR);
+              console.log(bodyJson.QRA);
+              console.log(bodyJson.IDACTIVITY);
+              console.log(notification.alert.title);
+             console.log( notification.data.data.pinpoint.deeplink);
+
+  
+          console.log("antes de armar el json envioNotif")
+              // console.log(notification._data.body);
+  
+            
+              // notification.data.data.jsonBody.pinpoint.deeplink
+  
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.alert.title,
+              "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "qra_avatarpic":bodyJson.AVATAR, "url": notification.data.data.pinpoint.deeplink,
+              "qso_mode":null,"qso_band":null,"qso_type":null}
+         
+           
+           if (notification.foreground)   
+              Alert.alert(
+                //title
+                'Good news! 🚀' ,
+                //body
+                notification.alert.title +' 🎙 ➡ See more details on Notifications 🔔',
+                
+                [
+                  {text: 'CLOSE', onPress: () => console.log('CLOSE')
+                },
+                  // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
+                ],
+                { cancelable: false}
+                //clicking out side of alert will not cancel
+              );
 
 
-
+  
+          //    this.llamo_manage_notif();
+             this.props.manage_notifications('ADDONE',envioNotif);
+             
+            // si viene de background lo lleva directo al notification tray
+            // pero si esta foreground no le cambia la screen para respetar lo que el usuario
+            // este haciendo
+            if (!notification.foreground)
+                  this.props.navigation.navigate("Notifications");
+               
+            } 
+            catch (error) {
+              console.log('error #011');
+              console.log(error);
+              // kinesis_catch('#011',error,this.props.qra);
+                  // Error retrieving data
+           }
+  
+    
+  
+  
+        
+  
+         notification.finish(PushNotificationIOS.FetchResult.NoData);
+     }
+  
+      },
+  
+      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+      // senderID: "750953848595",
+  
+      // permissions: {
+      //   alert: true,
+      //   badge: true,
+      //   sound: true
+      // },
+   
+      // popInitialNotification: true,
+      // requestPermissions: true,
+  
+  });
 
   //   PushNotification.onNotification((notification) => {
   //     console.log('antes imprimir')
@@ -569,7 +643,6 @@ constructor(props) {
       }
 
   
-
 signIn = async () => {
 
  
