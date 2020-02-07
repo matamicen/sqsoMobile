@@ -136,76 +136,103 @@ constructor(props) {
   
         console.log('llego notificacion!');
         console.log(notification);
+
   
-     if (notification.userInteraction===false)
-     {
+  if (this.props.qra!='') {
+    // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
+     // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)
+     // entonce si llega un PUSH y no tiene QRA en redux es porque justmanete fallo esa actualizacion en RDS
+     // entonces llamo de nuevo al RDS y le asigno VACIO de QRA al token push,luego cuando el el usuario se loguee el RDS se va a actualizar
+     // y pasar en nuevo QRA.
+     let envioNotif = '';
+
+    
       if (Platform.OS==='android')
       {
-        PushNotification.localNotification({
-          //     id: notification.id,
-          userInfo: { id: notification.id },
-          title: 'Hey '+notification.id,
-          message: 'this is an android! msg!',
-          priority: "max",
-          autoCancel: true,
-                // title: 'Notification with my name',
-                // message: notification['name'], // (required)
-                // date: new Date(Date.now()) // in 60 secs
-              });
-             // PushNotification.setApplicationIconBadgeNumber(25);
+
+        try {
+          console.log('paso por ANDROID')
+              let body = notification['pinpoint.jsonBody'];
+            // let body = notification._data['data.pinpoint.jsonBody'];
+            
+              let bodyJson = JSON.parse(body)
+            
+              console.log(bodyJson.AVATAR);
+              console.log(bodyJson.QRA);
+              console.log(bodyJson.IDACTIVITY);
+      //        console.log(notification.data['pinpoint.notification.body']);
+
+            // console.log(notification._data['data.pinpoint.notification.body']);
+              
+        
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification['pinpoint.notification.title'],
+              "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
+              "qso_mode":null,"qso_band":null,"qso_type":null}
+
+             //   this.props.manage_notifications('ADDONE',envioNotif);
+       } 
+        catch (error) {
+          console.log('error #010');
+          console.log(error);
+        //  kinesis_catch('#010',error,this.props.qra);
+              // Error retrieving data
        }
   
-  
-      // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
-      if (Platform.OS==='ios'  && notification.data.remote===true)
-      {
-  
-       // PushNotification.setApplicationIconBadgeNumber(5);  anda bien en IOS esto
-  
-       // esta porcion de codigo de abajo no ANDA, pero debria generar una LocalNotification
-       // cuando la app esta activo o Foreground, pero es un bug de la librerira.
-       // lo mas importante es que andan los PUSH en iOS cuando la app esta en background y Killed :)
-  
-        // PushNotification.localNotification({
-        //   //     id: notification.id,
-        //   userInfo: { id: '9999', remote: false },
-        //   title: 'Hey ',
-        //   message: 'this is a IOS msg!',
-       
-        //   priority: "max",
-          
-        //   autoCancel: true,
-     
-        //       });
-  
-  
-             
+
+        if (notification.userInteraction===false && !notification.foreground)
+        {
+            // genero la notificaion local porque la libreria no lo hace para Android
+            PushNotification.localNotification({
+              //     id: notification.id,
+              userInfo: { id: notification.id },
+              title: notification['pinpoint.notification.title'],
+              message: notification['pinpoint.notification.body'],
+              priority: "max",
+              autoCancel: true,
+                    // title: 'Notification with my name',
+                    // message: notification['name'], // (required)
+                    // date: new Date(Date.now()) // in 60 secs
+                  });
+                // PushNotification.setApplicationIconBadgeNumber(25);
+       }
+
+
+     if(notification.foreground)
+       {
+          this.props.manage_notifications('ADDONE',envioNotif);
+
+          Alert.alert(
+            //title
+            'Someone Logged you! 🚀' ,
+            //body
+            notification['pinpoint.notification.title'] +' 🎙 ➡ See more details on Notifications 🔔',
+            
+            [
+              {text: 'CLOSE', onPress: () => console.log('CLOSE')
+            },
+              // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
+            ],
+            { cancelable: false}
+            //clicking out side of alert will not cancel
+          );
+        }
+
+       // es por hizo click en la notificacion
+       if (notification.userInteraction)
+       {
+            //  this.props.manage_notifications('ADDONE',envioNotif);
+             this.props.navigation.navigate("Notifications");
+             console.log('user interaction es true!')
+
             }
+
+
        
          }
-         else
-         {
-           // este push anda en iOS cuando la app esta en background,
-           // pero no sirve porque el remote push tambien genera una localnotification
-           // entonces se duplican.
-           // el campo  id: en userInfo es clave para que luego de hacer tap en la notif
-           // se borre del tray.
-  
-          //  if (Platform.OS==='ios')
-          //           PushNotification.localNotification({
-          //       //     id: notification.id,
-          //       userInfo: { id:  notification.data.notificationId},
-          //       title: 'Hey '+notification.data.notificationId,
-          //       message: 'this is a msg!',
-          //       priority: "max",
-          //       autoCancel: true,
-                   
-          //           });
-         
-                
-  
-         }
-  
+
+
+          
      if (Platform.OS==='ios')
      {
   
@@ -235,11 +262,14 @@ constructor(props) {
               "qra_avatarpic":bodyJson.AVATAR, "url": notification.data.data.pinpoint.deeplink,
               "qso_mode":null,"qso_band":null,"qso_type":null}
          
-           
+       // si la notificaion llega y la APP esta en foreground, la libreria esta para iOS no 
+       // genera la notificacion Local de push entonces creo un Alert. (en Android llega el push pero igual 
+       // hago lo mismo para unificar la user Experience
+      
            if (notification.foreground)   
               Alert.alert(
                 //title
-                'Good news! 🚀' ,
+                'Someone Logged you! 🚀' ,
                 //body
                 notification.alert.title +' 🎙 ➡ See more details on Notifications 🔔',
                 
@@ -272,12 +302,10 @@ constructor(props) {
            }
   
     
-  
-  
-        
-  
          notification.finish(PushNotificationIOS.FetchResult.NoData);
      }
+
+    } 
   
       },
   
