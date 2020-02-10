@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
      ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions, 
-     Platform } from 'react-native';
+     Platform, Alert} from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
@@ -26,9 +26,14 @@ import Analytics from '@aws-amplify/analytics';
 
 //  import PushNotification from '@aws-amplify/pushnotification';
  //import { PushNotification } from 'aws-amplify-react-native';
-//  import { PushNotificationIOS } from 'react-native';
+ // import { PushNotificationIOS } from 'react-native';
+  import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
  import RNIap from 'react-native-iap';
+
+
+ var PushNotification = require('react-native-push-notification');
+
 
 
 // PushNotification need to work with Analytics
@@ -110,9 +115,222 @@ constructor(props) {
 
 
   async componentDidMount() {
+   
+    // PushNotification.onNotification((notification) => { 
+    //   console.log('llego push che!');
+
+    // });
+
+    PushNotification.configure({
+
+      // (optional) Called when Token is generated (iOS and Android)
+      // onRegister: function(token) {
+      //   console.log('nuevo push token!!!')
+      //   console.log(token)
+      // },
+  
+
+    //  PushNotification.onNotification((notification) => {
+   //  onNotification: function(notification) {
+        onNotification: (notification) => {
+  
+        console.log('llego notificacion!');
+        console.log(notification);
+
+  
+  if (this.props.qra!='') {
+    // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
+     // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)
+     // entonce si llega un PUSH y no tiene QRA en redux es porque justmanete fallo esa actualizacion en RDS
+     // entonces llamo de nuevo al RDS y le asigno VACIO de QRA al token push,luego cuando el el usuario se loguee el RDS se va a actualizar
+     // y pasar en nuevo QRA.
+     let envioNotif = '';
+
+    
+      if (Platform.OS==='android')
+      {
+
+        try {
+          console.log('paso por ANDROID')
+              let body = notification['pinpoint.jsonBody'];
+            // let body = notification._data['data.pinpoint.jsonBody'];
+            
+              let bodyJson = JSON.parse(body)
+            
+              console.log(bodyJson.AVATAR);
+              console.log(bodyJson.QRA);
+              console.log(bodyJson.IDACTIVITY);
+      //        console.log(notification.data['pinpoint.notification.body']);
+
+            // console.log(notification._data['data.pinpoint.notification.body']);
+              
+        
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification['pinpoint.notification.title'],
+              "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
+              "qso_mode":null,"qso_band":null,"qso_type":null}
+
+                this.props.manage_notifications('ADDONE',envioNotif);
+       } 
+        catch (error) {
+          console.log('error #010');
+          console.log(error);
+        //  kinesis_catch('#010',error,this.props.qra);
+              // Error retrieving data
+       }
+  
+
+        if (notification.userInteraction===false && !notification.foreground)
+        {
+            // genero la notificaion local porque la libreria no lo hace para Android
+            PushNotification.localNotification({
+              //     id: notification.id,
+              userInfo: { id: notification.id },
+              title: notification['pinpoint.notification.title'],
+              message: notification['pinpoint.notification.body'],
+              priority: "max",
+              autoCancel: true,
+                    // title: 'Notification with my name',
+                    // message: notification['name'], // (required)
+                    // date: new Date(Date.now()) // in 60 secs
+                  });
+                // PushNotification.setApplicationIconBadgeNumber(25);
+       }
+
+// solo avisa en foreground cuando alguien loguea al usuario en un QSO o LISTEN que son los mas 
+// importante ya que puede saberlo en REAL TIME y agradecer por RADIO durante ese mismo QSO!
+// no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
+// las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
+// de las notificaciones push.
+     if(notification.foreground && (notification['pinpoint.notification.title'].indexOf("included you") !== -1))
+       {
+
+          Alert.alert(
+            //title
+            'Someone Logged you! 🚀' ,
+            //body
+            notification['pinpoint.notification.title'] +': '+notification['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
+            
+            [
+              {text: 'CLOSE', onPress: () => console.log('CLOSE')
+            },
+              // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
+            ],
+            { cancelable: false}
+            //clicking out side of alert will not cancel
+          );
+        }
+
+       // es por hizo click en la notificacion
+       if (notification.userInteraction)
+       {
+            //  this.props.manage_notifications('ADDONE',envioNotif);
+             this.props.navigation.navigate("Notifications");
+             console.log('user interaction es true!')
+
+            }
 
 
+       
+         }
 
+
+          
+     if (Platform.OS==='ios')
+     {
+  
+             try {
+            console.log('paso por IOS')
+            let bodyJson = notification.data.data.jsonBody;
+            
+            // let body = notification._data['data.pinpoint.jsonBody'];
+  
+              // let bodyJson = JSON.parse(body)
+            
+              console.log(bodyJson.AVATAR);
+              console.log(bodyJson.QRA);
+              console.log(bodyJson.IDACTIVITY);
+              console.log(notification.alert.title);
+             console.log( notification.data.data.pinpoint.deeplink);
+
+  
+          console.log("antes de armar el json envioNotif")
+              // console.log(notification._data.body);
+  
+            
+              // notification.data.data.jsonBody.pinpoint.deeplink
+  
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.alert.title,
+              "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "qra_avatarpic":bodyJson.AVATAR, "url": notification.data.data.pinpoint.deeplink,
+              "qso_mode":null,"qso_band":null,"qso_type":null}
+       
+              
+
+       // si la notificaion llega y la APP esta en foreground, la libreria esta para iOS no 
+       // genera la notificacion Local de push entonces creo un Alert. (en Android llega el push pero igual 
+       // hago lo mismo para unificar la user Experience
+      // solo avisa en foreground cuando alguien loguea al usuario en un QSO o LISTEN que son los mas 
+      // importante ya que puede saberlo en REAL TIME y agradecer por RADIO durante ese mismo QSO!
+      // no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
+      // las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
+      // de las notificaciones push.
+           if (notification.foreground && (notification.alert.title.indexOf("included you") !== -1))   
+              Alert.alert(
+                //title
+                'Someone Logged you! 🚀' ,
+                //body
+                notification.alert.title +': '+notification.alert.body+' ➡ See more details on Notifications 🔔',
+                
+                [
+                  {text: 'CLOSE', onPress: () => console.log('CLOSE')
+                },
+                  // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
+                ],
+                { cancelable: false}
+                //clicking out side of alert will not cancel
+              );
+
+
+  
+          //    this.llamo_manage_notif();
+             this.props.manage_notifications('ADDONE',envioNotif);
+             
+            // si viene de background lo lleva directo al notification tray
+            // pero si esta foreground no le cambia la screen para respetar lo que el usuario
+            // este haciendo
+            if (!notification.foreground)
+                  this.props.navigation.navigate("Notifications");
+               
+            } 
+            catch (error) {
+              console.log('error #011');
+              console.log(error);
+              // kinesis_catch('#011',error,this.props.qra);
+                  // Error retrieving data
+           }
+  
+    
+         notification.finish(PushNotificationIOS.FetchResult.NoData);
+     }
+
+    } 
+  
+      },
+  
+      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
+      // senderID: "750953848595",
+  
+      // permissions: {
+      //   alert: true,
+      //   badge: true,
+      //   sound: true
+      // },
+   
+      // popInitialNotification: true,
+      // requestPermissions: true,
+  
+  });
 
   //   PushNotification.onNotification((notification) => {
   //     console.log('antes imprimir')
@@ -462,7 +680,6 @@ constructor(props) {
       }
 
   
-
 signIn = async () => {
 
  

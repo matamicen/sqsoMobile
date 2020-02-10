@@ -164,8 +164,6 @@ PODS:
     - React-Core (= 0.60.4)
   - React-RCTNetwork (0.60.4):
     - React-Core (= 0.60.4)
-  - React-RCTPushNotification (0.60.4):
-    - React-Core (= 0.60.4)
   - React-RCTSettings (0.60.4):
     - React-Core (= 0.60.4)
   - React-RCTText (0.60.4):
@@ -185,6 +183,8 @@ PODS:
     - JKBigInteger2 (= 0.0.5)
     - React
   - RNCAsyncStorage (1.6.1):
+    - React
+  - RNCPushNotificationIOS (1.0.5):
     - React
   - RNFBAdmob (6.0.4):
     - Firebase/AdMob (~> 6.8.1)
@@ -242,7 +242,6 @@ DEPENDENCIES:
   - React-RCTImage (from `../node_modules/react-native/Libraries/Image`)
   - React-RCTLinking (from `../node_modules/react-native/Libraries/LinkingIOS`)
   - React-RCTNetwork (from `../node_modules/react-native/Libraries/Network`)
-  - React-RCTPushNotification (from `../node_modules/react-native/Libraries/PushNotificationIOS`)
   - React-RCTSettings (from `../node_modules/react-native/Libraries/Settings`)
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
@@ -252,6 +251,7 @@ DEPENDENCIES:
   - RNAudio (from `../node_modules/react-native-audio`)
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNFBAdmob (from `../node_modules/@react-native-firebase/admob`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -327,8 +327,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/LinkingIOS"
   React-RCTNetwork:
     :path: "../node_modules/react-native/Libraries/Network"
-  React-RCTPushNotification:
-    :path: "../node_modules/react-native/Libraries/PushNotificationIOS"
   React-RCTSettings:
     :path: "../node_modules/react-native/Libraries/Settings"
   React-RCTText:
@@ -347,6 +345,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/amazon-cognito-identity-js"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNFBAdmob:
     :path: "../node_modules/@react-native-firebase/admob"
   RNFBAnalytics:
@@ -406,7 +406,6 @@ SPEC CHECKSUMS:
   React-RCTImage: c0bc6ac0926517b6fb7e4c279b04843113e99d1d
   React-RCTLinking: 1af3f3c59114bed3deec0107c62e7efad0932ee5
   React-RCTNetwork: 35df9de46e19cda5c56380be1a7759b9b8cb2fcd
-  React-RCTPushNotification: 2df79ea1c4aa1292b4a854c13bd716315ec917fe
   React-RCTSettings: f580504c2cd1f44e25add10fb9ed3954f67f8ac5
   React-RCTText: e0f224898b13af9aa036ea7cb3d438daa68c1044
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
@@ -416,6 +415,7 @@ SPEC CHECKSUMS:
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNAWSCognito: 74cf80de543287926699f64d7bc5f61e13008217
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
+  RNCPushNotificationIOS: 30ed75aa2981a4ee00b8a2c46599ff18a9c7fcf6
   RNFBAdmob: 06e97901b77a18f0d44c687707acd1d02d4f5f69
   RNFBAnalytics: 89c49cea835306bcd72f872f05966fc2e8dbffcf
   RNFBApp: cce40af7fd9a8bc12858ce5ec21e20ac7987e0ca
@@ -427,6 +427,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: 9e7100c58b234b942585db4ed530f970e0ac68cc
+PODFILE CHECKSUM: c956b6b71e133f43f046609ee3fe7c9cb6db0262
 
 COCOAPODS: 1.6.1
