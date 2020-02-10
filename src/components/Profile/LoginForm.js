@@ -170,7 +170,7 @@ constructor(props) {
               "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
               "qso_mode":null,"qso_band":null,"qso_type":null}
 
-             //   this.props.manage_notifications('ADDONE',envioNotif);
+                this.props.manage_notifications('ADDONE',envioNotif);
        } 
         catch (error) {
           console.log('error #010');
@@ -197,16 +197,19 @@ constructor(props) {
                 // PushNotification.setApplicationIconBadgeNumber(25);
        }
 
-
-     if(notification.foreground)
+// solo avisa en foreground cuando alguien loguea al usuario en un QSO o LISTEN que son los mas 
+// importante ya que puede saberlo en REAL TIME y agradecer por RADIO durante ese mismo QSO!
+// no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
+// las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
+// de las notificaciones push.
+     if(notification.foreground && (notification['pinpoint.notification.title'].indexOf("included you") !== -1))
        {
-          this.props.manage_notifications('ADDONE',envioNotif);
 
           Alert.alert(
             //title
             'Someone Logged you! 🚀' ,
             //body
-            notification['pinpoint.notification.title'] +' 🎙 ➡ See more details on Notifications 🔔',
+            notification['pinpoint.notification.title'] +': '+notification['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
             
             [
               {text: 'CLOSE', onPress: () => console.log('CLOSE')
@@ -261,17 +264,23 @@ constructor(props) {
               "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":bodyJson.AVATAR, "url": notification.data.data.pinpoint.deeplink,
               "qso_mode":null,"qso_band":null,"qso_type":null}
-         
+       
+              
+
        // si la notificaion llega y la APP esta en foreground, la libreria esta para iOS no 
        // genera la notificacion Local de push entonces creo un Alert. (en Android llega el push pero igual 
        // hago lo mismo para unificar la user Experience
-      
-           if (notification.foreground)   
+      // solo avisa en foreground cuando alguien loguea al usuario en un QSO o LISTEN que son los mas 
+      // importante ya que puede saberlo en REAL TIME y agradecer por RADIO durante ese mismo QSO!
+      // no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
+      // las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
+      // de las notificaciones push.
+           if (notification.foreground && (notification.alert.title.indexOf("included you") !== -1))   
               Alert.alert(
                 //title
                 'Someone Logged you! 🚀' ,
                 //body
-                notification.alert.title +' 🎙 ➡ See more details on Notifications 🔔',
+                notification.alert.title +': '+notification.alert.body+' ➡ See more details on Notifications 🔔',
                 
                 [
                   {text: 'CLOSE', onPress: () => console.log('CLOSE')
