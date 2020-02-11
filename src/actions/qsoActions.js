@@ -33,7 +33,8 @@ import { API } from 'aws-amplify';
 import { Storage } from 'aws-amplify';
 
 
-import { NetInfo, Platform, Alert, AsyncStorage } from 'react-native';
+import { NetInfo, Platform } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { getDateQslScan } from '../helper';
 import { Buffer } from 'buffer';
 import RNFetchBlob from 'rn-fetch-blob';

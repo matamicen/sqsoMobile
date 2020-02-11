@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity,  StyleSheet, Platform, 
-  PermissionsAndroid, Alert, Dimensions, AsyncStorage, TextInput, Modal  } from 'react-native';
+  PermissionsAndroid, Alert, Dimensions, TextInput, Modal  } from 'react-native';
 import { connect } from 'react-redux';
 import Login from './Login';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify'
@@ -9,6 +9,7 @@ import awsconfig from '../../aws-exports'
 //import Qra from './../Qso/Qra';
 import QraProfile from './../Qso/QraProfile';
 import FollowerList from './FollowerList';
+import AsyncStorage from '@react-native-community/async-storage';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
   followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall,
   setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat } from '../../actions';
