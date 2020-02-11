@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Keyboard,
      ActivityIndicator, KeyboardAvoidingView, DatePickerAndroid, DatePickerIOS,
-    Platform, Modal, ScrollView, FlatList, AsyncStorage, TouchableWithoutFeedback  } from 'react-native';
+    Platform, Modal, ScrollView, FlatList, TouchableWithoutFeedback  } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';

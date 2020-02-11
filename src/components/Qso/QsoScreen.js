@@ -16,7 +16,6 @@ import {
   TextInput,
   Dimensions,
   AppState,
-  AsyncStorage,
   Animated,
   Easing,
   Keyboard,
@@ -55,7 +54,8 @@ import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
 import Iap from "./Iap";
-import analytics from '@react-native-firebase/analytics';
+//import analytics from '@react-native-firebase/analytics';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
