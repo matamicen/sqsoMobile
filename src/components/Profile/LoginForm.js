@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
-     ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions, 
+     ActivityIndicator, KeyboardAvoidingView , Modal, ScrollView, Dimensions, 
      Platform, Alert} from 'react-native';
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -11,6 +11,7 @@ import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFals
   confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions, StackActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
 import { hasAPIConnection, kinesis_catch } from '../../helper';

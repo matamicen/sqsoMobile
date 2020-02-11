@@ -5,6 +5,7 @@ import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Tou
 import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import awsconfig from '../../aws-exports';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, SafeAreaView , AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, SafeAreaView} from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 //import peopleReducer from './src/reducers/peopleReducer';
@@ -10,8 +10,9 @@ import thunk from "redux-thunk"
 // agregado nuevo
 import AppReducer from './src/reducers/AppReducer';
 import AppWithNavigationState2 from './src/components/MainNavigator';
+import AsyncStorage from '@react-native-community/async-storage';
 // import PushNotification from '@aws-amplify/pushnotification';
-import {  kinesis_catch } from './src/helper';
+//import {  kinesis_catch } from './src/helper';
 import reactotron from './ReactotronConfig';
 
 
