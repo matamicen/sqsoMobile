@@ -41,7 +41,8 @@ constructor(props) {
     this.qraAlreadySignUp = '';
     this.diffyears = 0;
 
-    
+    this.jwtToken = '';
+    this.qra = '';
 
 
    
@@ -324,7 +325,7 @@ signUp = async () => {
 
     this.setState({ indicator:1,confirmationcodeError:0 });
 
-   await Auth.resendSignUp(this.state.qra.toUpperCase())
+   await Auth.resendSignUp(this.state.email.toLowerCase())
                   .then(() => { console.log('Resend Ok!')
                   this.setState({ errormessage2:'Your confirmation code has been sent!',color: '#8BD8BD',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                 })
@@ -349,8 +350,10 @@ signUp = async () => {
 
   signInAfterConfirmed = async () => {
 
-    await Auth.signIn(this.state.qra.toUpperCase(), this.state.password)
-    .then(() =>  {console.log('entro!')
+    await Auth.signIn(this.state.email.toLowerCase(), this.state.password)
+    .then((result) =>  {console.log('entro!');
+    this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
+    this.jwtToken = result.signInUserSession.idToken.jwtToken;
     this.usernotfound = false;
   
   })
@@ -369,7 +372,7 @@ signUp = async () => {
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
@@ -379,29 +382,29 @@ signUp = async () => {
     }
     catch (e) {
       console.log('caught error', e);
-      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.qra);
       crashlytics().log('error: ' + e) ;
       crashlytics().recordError(new Error('SignUpCredentials'));
       // kinesis_catch('#023',e,this.state.qra.toUpperCase());
       // Handle exceptions
     }
-    var session = await Auth.currentSession();
-    console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
+//    var session = await Auth.currentSession();
+//    console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
 
     
-     await this.props.setToken(session.idToken.jwtToken);
+     await this.props.setToken(this.jwtToken);
 
-     this.props.getUserInfo(session.idToken.jwtToken);
+     this.props.getUserInfo(this.jwtToken);
   //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
      this.props.followersAlreadyCalled(true);
     
     // seteo el usuario logueado en store 
     console.log('antes de llamar a setQra');
-    this.props.setQra(this.state.qra.toUpperCase());
+    this.props.setQra(this.qra);
     console.log('despues de llamar a setQra');
     // guardo en local storage el username
     try {
-      await AsyncStorage.setItem('username', this.state.qra.toUpperCase());
+      await AsyncStorage.setItem('username', this.qra);
       await AsyncStorage.setItem('identity', res);
     } catch (error) {
       console.log('caught error', error);
@@ -418,13 +421,13 @@ signUp = async () => {
       var pushtoken = await AsyncStorage.getItem('pushtoken');
     //  await AsyncStorage.setItem('qratoken', 'empty');
     
-      this.props.postPushToken(pushtoken,this.state.qra.toUpperCase(),Platform.OS,session.idToken.jwtToken);
+      this.props.postPushToken(pushtoken,this.qra,Platform.OS,session.idToken.jwtToken);
      
       console.log('grabo pushtoken en AsyncStorage porque hizo signUp un usuario nuevoy llama API de backend '+Platform.OS);
     } catch (error) {
       console.log('caught error setItem pushtoken y qratoken dentro de ConfirmSignUp ', error);
       // kinesis_catch('#025',error,this.state.qra.toUpperCase());
-      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.qra);
       crashlytics().log('error: ' + error) ;
       crashlytics().recordError(new Error('SignUpGetPushToken'));
     }
@@ -454,7 +457,7 @@ signUp = async () => {
      
      
   //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
-     Auth.confirmSignUp(this.state.qra.toUpperCase(),confirmationCode)
+     Auth.confirmSignUp(this.state.email.toLowerCase(),confirmationCode)
     .then(() => { console.log('SignUp confirmed ok!: ') 
                   this.close_confirmSignup();
                   this.signInAfterConfirmed();
@@ -467,7 +470,7 @@ signUp = async () => {
     this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
       confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
       // kinesis_catch('#026',err,this.state.qra.toUpperCase());
-      crashlytics().setUserId(this.state.qra.toUpperCase());
+      crashlytics().setUserId(this.qra);
       crashlytics().log('error: ' + err) ;
       crashlytics().recordError(new Error('Auth.confirmSignUp'));
                    
@@ -502,14 +505,15 @@ signUp = async () => {
 
       fechanac = this.birthday_convert();
 
-        Auth.signUp({username: this.state.qra.toUpperCase(), 
+        Auth.signUp({username: this.state.email.toLowerCase(), 
         password: this.state.password,
         'attributes': {
-        'email': this.state.email,
+        'email': this.state.email.toLowerCase(),
         'birthdate': fechanac,
         'custom:firstName': this.state.firstname ,
         'custom:lastName': this.state.lastname,
-        'custom:country': this.state.cca2
+        'custom:country': this.state.cca2,
+        'custom:callsign': this.state.qra.toUpperCase()
       
         }
       })
@@ -519,14 +523,24 @@ signUp = async () => {
     .catch (err => {console.log('SignUp error: ', err.message)
                    console.log(err);
                    if (err.code==='UsernameExistsException'){
-                      errmessage = 'User already exists. If your callsign is already in use please send us a copy of your callsign license issued by your country to support@superqso.com';
+                      errmessage = 'email already exists. Please enter another email.';
                           if (Platform.OS === 'ios') 
                                     setheighterror = 60;
                               else
                                     setheighterror = 42;  
                       }
-                      else
-                      {
+                    else  
+                        if (err.code==='UserLambdaValidationException')
+                          {
+                              errmessage = 'The callSign is taken. Please send us a copy of your callsign license issued by your country to support@superqso.com';
+                            if (Platform.OS === 'ios') 
+                                      setheighterror = 60;
+                                else
+                                      setheighterror = 42;  
+
+                          }
+                         else
+                         {
                       errmessage = err.message;
                       setheighterror = 25;
                       }

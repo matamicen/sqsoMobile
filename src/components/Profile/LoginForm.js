@@ -74,6 +74,8 @@ constructor(props) {
     this.internet = false;
     // this.pushToken = '';
     // this.pushTokenFound = false;
+    this.jwtToken = '';
+    this.qra = '';
 
 
     this.width = Dimensions.get('window').width; //full width
@@ -333,128 +335,7 @@ constructor(props) {
   
   });
 
-  //   PushNotification.onNotification((notification) => {
-  //     console.log('antes imprimir')
-  //     console.log('qra:'+ this.props.qra);
-  //     console.log('in app notification', notification);
-  //     console.log('despues de  imprimir')
-  //  //  this.setState({mensaje: JSON.stringify(notification)});
-
-  // if (this.props.qra!='') {
-
-  //   let envioNotif = '';
-      
-  //     if (Platform.OS==='android')
-  //     {   // console.log('AVATR: '+notification.data);
-  //     try {
-  //           console.log('paso por ANDROID')
-  //               let body = notification.data['pinpoint.jsonBody'];
-  //             // let body = notification._data['data.pinpoint.jsonBody'];
-              
-  //               let bodyJson = JSON.parse(body)
-              
-  //               console.log(bodyJson.AVATAR);
-  //               console.log(bodyJson.QRA);
-  //               console.log(bodyJson.IDACTIVITY);
-  //       //        console.log(notification.data['pinpoint.notification.body']);
-
-  //             // console.log(notification._data['data.pinpoint.notification.body']);
-                
-          
-  //               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
-  //               "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-  //               "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
-  //               "qso_mode":null,"qso_band":null,"qso_type":null}
-
-  //                 this.props.manage_notifications('ADDONE',envioNotif);
-  //        } 
-  //         catch (error) {
-  //           console.log('error #010');
-  //           console.log(error);
-  //           kinesis_catch('#010',error,this.props.qra);
-  //               // Error retrieving data
-  //        }
-    
-  //   }else
-  //    {
-  //         // console.log('AVATR: '+notification.data);
-  //     try {
-  //         console.log('paso por IOS')
-  //         let bodyJson = notification._data.data.jsonBody;
-          
-  //         // let body = notification._data['data.pinpoint.jsonBody'];
-
-  //           // let bodyJson = JSON.parse(body)
-          
-  //           console.log(bodyJson.AVATAR);
-  //           console.log(bodyJson.QRA);
-  //           console.log(bodyJson.IDACTIVITY);
-  //           console.log(notification._alert.title);
-  //       //    console.log(notification._alert.body);
-
-  //           // console.log(notification._data.body);
-
-          
-            
-
-  //           envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification._alert.title,
-  //           "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-  //           "qra_avatarpic":bodyJson.AVATAR, "url": notification._data.data.pinpoint.deeplink,
-  //           "qso_mode":null,"qso_band":null,"qso_type":null}
-
-  //           this.props.manage_notifications('ADDONE',envioNotif);
-  //         } 
-  //         catch (error) {
-  //           console.log('error #011');
-  //           kinesis_catch('#011',error,this.props.qra);
-  //               // Error retrieving data
-  //        }
-
-  //     }
-
-
-
-         
-  //     console.log('MATITO')
-        
-        
-  //    if (!notification.foreground)
-  //         this.props.navigation.navigate("Notifications");
-       
-  // }else{
-  //   // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
-  //   // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)
-  //   // entonce si llega un PUSH y no tiene QRA en redux es porque justmanete fallo esa actualizacion en RDS
-  //   // entonces llamo de nuevo al RDS y le asigno VACIO de QRA al token push,luego cuando el el usuario se loguee el RDS se va a actualizar
-  //   // y pasar en nuevo QRA.
-  //   console.log('recibio push pero no deberia porque no se logueo.')
-  // }
-    
-
-  //     if(Platform.OS !== 'android')
-  //     notification.finish(PushNotificationIOS.FetchResult.NoData);
-  //   });
-    
-    // PushNotification.onRegister((token) => {
-    //   console.log('in app registration', token);
-    //  // this.setState({token: token});
-    //   //  this.props.managePushToken(token,'','');
-    //   //  this.pushToken = token;
-    //    try {
-    //   //  await AsyncStorage.setItem('pushtoken', token);
-    //   AsyncStorage.setItem('pushtoken', token);
-    //    } 
-    //    catch (error) {
-    //      console.log('Error al grabar pushtoken en asynstorage', error);
-         
-    //      kinesis_catch('#015',error,'');
-    //      // Error retrieving data
-    //     }
-     
-
-    // });
-
-
+  
     console.log("COMPONENT did mount LOGINFORM");
 
 
@@ -683,15 +564,7 @@ constructor(props) {
   
 signIn = async () => {
 
- 
 
-    // await this.props.checkInternet().then((data) => {
-    //         console.log('devuelve checkInternet: '+data); 
-    //         this.internet = data; 
-    //         if (data)
-    //           console.log('hay internet');
-    //          else this.setState({username: 'NO hay internet'});
-    // });
 
    Keyboard.dismiss();
    this.setState({indicator: 1, loginerror: 0});
@@ -701,9 +574,14 @@ signIn = async () => {
   {
 
  //this.setState({indicator: 1, loginerror: 0});
-  console.log("username: "+this.state.username.toUpperCase() + "password: "+ this.state.password);
-    await Auth.signIn(this.state.username.toUpperCase(), this.state.password)
-      .then(() => { console.log('entro!');
+  console.log("username: "+this.state.username.toLowerCase() + "password: "+ this.state.password);
+    await Auth.signIn(this.state.username.toLowerCase(), this.state.password)
+      .then((result) => { console.log('entro!');
+      console.log(result.signInUserSession.idToken.payload['custom:callsign']);
+      console.log(result.signInUserSession.idToken.jwtToken);
+      this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
+      this.jwtToken = result.signInUserSession.idToken.jwtToken;
+  //    console.log(result);
       this.usernotfound = false;
     })
       .catch(err => {console.log('error:', err.code);
@@ -737,7 +615,7 @@ if (!this.usernotfound)
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
@@ -748,36 +626,36 @@ if (!this.usernotfound)
     }
     catch (e) {
       console.log('caught error', e);
-             crashlytics().setUserId(this.state.username.toUpperCase());
+             crashlytics().setUserId(this.qra);
              crashlytics().log('error: ' + e) ;
              crashlytics().recordError(new Error('Auth.signIn.currentCredentials()'));
 
       // kinesis_catch('#013',e,this.state.username.toUpperCase());
       // Handle exceptions
     }
-     var session = await Auth.currentSession();
-     console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
-     await this.props.setToken(session.idToken.jwtToken);
+   //  var session = await Auth.currentSession();
+   //  console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
+     await this.props.setToken(this.jwtToken);
 
   //  session = await Auth.currentAuthenticatedUser();
    // console.log("PASO POR SIGNIN token: " + session.signInUserSession.idToken.jwtToken);
     
    console.log("antes de getInfo")
-   this.props.getUserInfo(session.idToken.jwtToken);
+   this.props.getUserInfo(this.jwtToken);
    //this.props.followersAlreadyCalled(true);
 
 
     // seteo el usuario logueado en store 
-    this.props.setQra(this.state.username.toUpperCase());
+    this.props.setQra(this.qra.toUpperCase());
     // guardo en local storage el username
     try {
-      await AsyncStorage.setItem('username', this.state.username.toUpperCase());
+      await AsyncStorage.setItem('username', this.qra.toUpperCase());
       await AsyncStorage.setItem('identity', res);
 
     } catch (error) {
       // Error saving data
       console.log('caught error AsyncStorage username & identity', error);
-      crashlytics().setUserId(this.state.username.toUpperCase());
+      crashlytics().setUserId(this.qra.toUpperCase());
       crashlytics().log('error: ' + error) ;
       crashlytics().recordError(new Error('AsyncStorage.user.ident'));
       // kinesis_catch('#014',error,this.state.username.toUpperCase());
@@ -824,7 +702,7 @@ if (!this.usernotfound)
               console.log("despue de getitem qratoken :"+qraToken);
               // this.pushTokenFound = false;
               // if (qraToken!==this.state.username.toUpperCase() || pushtoken!==this.props.pushtoken)
-              if (qraToken!==this.state.username.toUpperCase())
+              if (qraToken!==this.qra.toUpperCase())
                   { // llamo api de registracion de backend con el correspondiente QRA, esto quiere decir que 
                     // el usuario anterior que genero el PushToken se deslogueo y entro con otro usuario
                     // entonces el backend debe ser informado que el nuevo QRA de este token es otro o
@@ -834,17 +712,17 @@ if (!this.usernotfound)
                           // await AsyncStorage.setItem('pushtoken', this.props.pushtoken);
                         //  await AsyncStorage.setItem('qratoken', 'empty');
                           // await AsyncStorage.setItem('qratoken', this.state.username.toUpperCase());
-                          console.log("mat llama a API pushToken si encuentra el Token, pushToken:"+this.props.pushtoken+ "QRA:"+this.state.username.toUpperCase());
+                          console.log("mat llama a API pushToken si encuentra el Token, pushToken:"+this.props.pushtoken+ "QRA:"+this.qra.toUpperCase());
                           console.log("mat cambio");
                           // this.props.postPushToken(this.props.pushtoken,this.state.username.toUpperCase(),Platform.OS,session.idToken.jwtToken);
                         
-                          this.props.postPushToken(pushtoken,this.state.username.toUpperCase(),Platform.OS,session.idToken.jwtToken);
+                          this.props.postPushToken(pushtoken,this.qra.toUpperCase(),Platform.OS,session.idToken.jwtToken);
                          
                           console.log('grabo pushtoken en AsyncStorage porque cambio el token o el usuario logueado y llama API de backend '+Platform.OS);
                         } catch (error) {
                           console.log('caught error setItem pushtoken y qratoken dentro de if (this.pushTokenFound)', error);
                           // kinesis_catch('#016',error,this.state.username.toUpperCase());
-                          crashlytics().setUserId(this.state.username.toUpperCase());
+                          crashlytics().setUserId(this.qra.toUpperCase());
                           crashlytics().log('error: ' + error) ;
                           crashlytics().recordError(new Error('props.postPushToken'));
                         }
@@ -864,7 +742,7 @@ if (!this.usernotfound)
                       // catch (err){
 
                       // }
-                      crashlytics().setUserId(this.state.username.toUpperCase());
+                      crashlytics().setUserId(this.qra.toUpperCase());
                       crashlytics().log('error: ' + error) ;
                       crashlytics().recordError(new Error('twoGetItems'));
               // kinesis_catch('#017',error,this.state.username.toUpperCase());
@@ -926,14 +804,14 @@ if (!this.usernotfound)
 
     this.setState({ indicator:1,confirmationcodeError:0 });
 
-   await Auth.resendSignUp(this.state.username.toUpperCase())
+   await Auth.resendSignUp(this.state.username.toLowerCase())
                   .then(() => { console.log('Resend Ok!')
                   this.setState({ errormessage2:'Your confirmation code has been sent!',color: 'blue',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                   // kinesis_catch('#021',err,this.state.username.toUpperCase());
-                  crashlytics().setUserId(this.state.username.toUpperCase());
+                  crashlytics().setUserId(this.state.username.toLowerCase());
                   crashlytics().log('error: ' + err) ;
                   crashlytics().recordError(new Error('Auth.resendSignUp'));
                 
@@ -959,7 +837,7 @@ if (!this.usernotfound)
     
     
  //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
-    Auth.confirmSignUp(this.state.username.toUpperCase(),confirmationCode)
+    Auth.confirmSignUp(this.state.username.toLowerCase(),confirmationCode)
    .then(() => { console.log('SignUp confirmed ok!: ') 
                  this.close_confirmSignup();
                  this.signIn();
@@ -973,7 +851,7 @@ if (!this.usernotfound)
    this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
      confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
     //  kinesis_catch('#026',err,this.state.username.toUpperCase());
-    crashlytics().setUserId(this.state.username.toUpperCase());
+    crashlytics().setUserId(this.state.username.toLowerCase());
     crashlytics().log('error: ' + err) ;
     crashlytics().recordError(new Error('Auth.confirmSignUp'));
                   
@@ -1027,7 +905,7 @@ if (!this.usernotfound)
                    <View style={{flex:1, alignItems: 'center'}} >
                
                <TextInput 
-                  placeholder="callsign"
+                  placeholder="email"
                   onFocus={() => this.setState({ loginerror: 0})}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
