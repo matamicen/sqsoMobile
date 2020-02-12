@@ -716,7 +716,7 @@ if (!this.usernotfound)
                           console.log("mat cambio");
                           // this.props.postPushToken(this.props.pushtoken,this.state.username.toUpperCase(),Platform.OS,session.idToken.jwtToken);
                         
-                          this.props.postPushToken(pushtoken,this.qra.toUpperCase(),Platform.OS,session.idToken.jwtToken);
+                          this.props.postPushToken(pushtoken,this.qra.toUpperCase(),Platform.OS,this.jwtToken);
                          
                           console.log('grabo pushtoken en AsyncStorage porque cambio el token o el usuario logueado y llama API de backend '+Platform.OS);
                         } catch (error) {
