@@ -242,6 +242,14 @@ signUp = async () => {
             this.qraRef.focus();
           }
 
+          if (this.state.qra.length>10)
+          {
+
+            this.setState({errormessage: 'The callsign is too long!',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true;
+            this.qraRef.focus();
+          }
+
           if (this.state.firstname=='')
           {
 
