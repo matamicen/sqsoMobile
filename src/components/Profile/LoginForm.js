@@ -445,7 +445,8 @@ constructor(props) {
       console.log('identityID: '+res);
 
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
+    //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
 
       // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
       // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store

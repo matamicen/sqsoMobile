@@ -9,11 +9,20 @@ const config = {
     //   bucket: "sqso"
     },
     
+    // API: {
+    //   endpoints: [
+    //     {
+    //       name: "superqso",
+    //       endpoint: "https://3hzhw0ugo1.execute-api.us-east-1.amazonaws.com/Prod",
+    //       region: "us-east-1"
+    //     }
+    //   ]
+    // },
     API: {
       endpoints: [
         {
           name: "superqso",
-          endpoint: "https://3hzhw0ugo1.execute-api.us-east-1.amazonaws.com/Prod",
+          endpoint: "https://d1xllikkw9xhcf.cloudfront.net",
           region: "us-east-1"
         }
       ]
