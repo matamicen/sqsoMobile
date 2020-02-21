@@ -1237,8 +1237,9 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       
       dispatch(fetchingApiSuccess('postAddMedia',respuesta));
       console.log("devuelve addmedia: "+JSON.stringify(respuesta));
-
-      var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
+      
+     // var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
+      var auxUrl = mediaToadd.url.replace("https://d1v72vqgluf2qt.cloudfront.net", "");
      
       if (respuesta.body.error===0)
       {
