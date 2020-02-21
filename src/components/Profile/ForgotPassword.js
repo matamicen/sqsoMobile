@@ -34,6 +34,8 @@ constructor(props) {
 
     this.usernotfound = false;
     this.error = false;
+    this.jwtToken = '';
+    this.qra = '';
     
     this.state = {
    
@@ -70,72 +72,74 @@ constructor(props) {
  
        }
 
-  signInAfterConfirmed = async () => {
+  // signInAfterConfirmed = async () => {
 
-    await Auth.signIn(this.state.qra.toUpperCase(), this.state.newPassword)
-    .then(() =>  {console.log('entro!')
-    this.usernotfound = false;
+  //   await Auth.signIn(this.state.qra.toUpperCase(), this.state.newPassword)
+  //   .then((result) =>  {console.log('entro!')
+  //   this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
+  //   this.jwtToken = result.signInUserSession.idToken.jwtToken;
+  //   this.usernotfound = false;
   
-  })
-    .catch(err => {console.log('error:', err.code)
-    this.usernotfound = true;
+  // })
+  //   .catch(err => {console.log('error:', err.code)
+  //   this.usernotfound = true;
 
-    // kinesis_catch('#001',err,this.state.qra.toUpperCase());
-    crashlytics().setUserId(this.state.qra.toUpperCase());
-    crashlytics().log('error: ' + err) ;
-    crashlytics().recordError(new Error('signInAfterConfirmed_1'));
-
-
-  });
+  //   // kinesis_catch('#001',err,this.state.qra.toUpperCase());
+  //   crashlytics().setUserId(this.state.qra.toUpperCase());
+  //   crashlytics().log('error: ' + err) ;
+  //   crashlytics().recordError(new Error('signInAfterConfirmed_1'));
 
 
-  if (!this.usernotfound)
-  {  try {
-      const { identityId } = await Auth.currentCredentials();
-      console.log('PASO POR SIGNIN la credencial es:' + identityId);
-      var res = identityId.replace(":", "%3A");
-      // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
-      console.log('la credencial RES:' + res);
-    }
-    catch (e) {
-      console.log('caught error', e);
+  // });
 
-      crashlytics().setUserId(this.state.qra.toUpperCase());
-      crashlytics().log('error: ' + e) ;
-      crashlytics().recordError(new Error('signInAfterConfirmed_2'));
 
-      // kinesis_catch('#002',e,this.state.qra.toUpperCase());
-      // Handle exceptions
-    }
-    session = await Auth.currentSession();
-    console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
+  // if (!this.usernotfound)
+  // {  try {
+  //     const { identityId } = await Auth.currentCredentials();
+  //     console.log('PASO POR SIGNIN la credencial es:' + identityId);
+  //     var res = identityId.replace(":", "%3A");
+  //     // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
+  //     this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
+  //     console.log('la credencial RES:' + res);
+  //   }
+  //   catch (e) {
+  //     console.log('caught error', e);
+
+  //     crashlytics().setUserId(this.state.qra.toUpperCase());
+  //     crashlytics().log('error: ' + e) ;
+  //     crashlytics().recordError(new Error('signInAfterConfirmed_2'));
+
+  //     // kinesis_catch('#002',e,this.state.qra.toUpperCase());
+  //     // Handle exceptions
+  //   }
+  //   session = await Auth.currentSession();
+  //   console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
     
-    // seteo el usuario logueado en store 
-    this.props.setQra(this.state.qra.toUpperCase());
-    // guardo en local storage el username
-    try {
-      await AsyncStorage.setItem('username', this.state.qra.toUpperCase());
-    } catch (error) {
+  //   // seteo el usuario logueado en store 
+  //   this.props.setQra(this.state.qra.toUpperCase());
+  //   // guardo en local storage el username
+  //   try {
+  //     await AsyncStorage.setItem('username', this.state.qra.toUpperCase());
+  //   } catch (error) {
 
-      crashlytics().setUserId(this.state.qra.toUpperCase());
-      crashlytics().log('error: ' + error) ;
-      crashlytics().recordError(new Error('signInAfterConfirmed_3'));
+  //     crashlytics().setUserId(this.state.qra.toUpperCase());
+  //     crashlytics().log('error: ' + error) ;
+  //     crashlytics().recordError(new Error('signInAfterConfirmed_3'));
 
-      // kinesis_catch('#003',error,this.state.qra.toUpperCase());
-      // Error saving data
-    }
+  //     // kinesis_catch('#003',error,this.state.qra.toUpperCase());
+  //     // Error saving data
+  //   }
     
    
 
-    this.setState({indicator: 0, confirmationcodeError:0});
-     this.props.navigation.navigate("AppNavigator2");
+  //   this.setState({indicator: 0, confirmationcodeError:0});
+  //    this.props.navigation.navigate("AppNavigator2");
 
-     }
+  //    }
 
 
 
-  }
+  // }
 
 
   next = async () => {
@@ -145,7 +149,7 @@ constructor(props) {
 
     this.setState({confirmationcodeError: 0, indicator:1});
     
-    await Auth.forgotPassword(this.state.qra.toUpperCase())
+    await Auth.forgotPassword(this.state.email.toLowerCase())
             .then(data => {console.log(data)
                        this.setState({confirmationcodeError: 0, indicator:0, indicatorQRA:0, indicatorNewPassword:1});
               })
@@ -154,10 +158,10 @@ constructor(props) {
                 if (err.code==='LimitExceededException')
                   this.setState({errormessage: 'Attempt limit exceeded, please try after some time',  confirmationcodeError: 1, indicator:0}) 
               else
-                this.setState({errormessage: 'Error! Please enter the callsign again',  confirmationcodeError: 1, indicator:0 })
+                this.setState({errormessage: 'Error! Please enter the email again',  confirmationcodeError: 1, indicator:0 })
               
 
-                crashlytics().setUserId(this.state.qra.toUpperCase());
+                crashlytics().setUserId(this.state.email.toLowerCase());
                 crashlytics().log('error: ' + err) ;
                 crashlytics().recordError(new Error('Auth.forgotPassword'));
 
@@ -211,7 +215,7 @@ constructor(props) {
         if (!this.error){
           this.error = false;    
    
-         await Auth.forgotPasswordSubmit(this.state.qra.toUpperCase(), this.state.code, this.state.newPassword)
+         await Auth.forgotPasswordSubmit(this.state.email.toLowerCase(), this.state.code, this.state.newPassword)
             .then(data => {console.log(JSON.stringify(data))
             this.setState({indicator:0, passwordChanged:true});
             
@@ -226,7 +230,7 @@ constructor(props) {
             if(err.code==='ExpiredCodeException') 
                     this.setState({errormessage: 'Invalid code provided, please request a code again.',confirmationcodeError: 1, indicator:0});
                   
-                    crashlytics().setUserId(this.state.qra.toUpperCase());
+                    crashlytics().setUserId(this.state.email.toLowerCase());
                     crashlytics().log('error: ' + err) ;
                     crashlytics().recordError(new Error('Auth.forgotPasswordSubmit'));
                     
@@ -253,7 +257,7 @@ constructor(props) {
     }
    
     render() { console.log("ForgotPassword Screen");
-               console.log("qra: "+this.state.qra + " email:"+ this.state.email + 
+               console.log("qra: "+ " email:"+ this.state.email + 
                " birthdate: "+this.state.birthdate +
               " password: " +this.state.password + 
             "passwordConfirm: "+this.state.passwordConfirm);
@@ -284,8 +288,8 @@ constructor(props) {
                 
                 <Text style={{ color: '#FFFFFF', fontSize: 18, marginBottom: 10  }}>Password Recovery</Text>
                <TextInput 
-                  ref={qraRef => this.qraRef = qraRef}
-                  placeholder="enter your callsign"
+                  ref={emailRef => this.emailRef = emailRef}
+                  placeholder="enter your email"
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -293,8 +297,8 @@ constructor(props) {
                   autoCorrect={false}
                   // onSubmitEditing={() => this.emailRef.focus()} 
                   style={styles.input}
-                  value={this.state.qra}
-                    onChangeText={(text) => this.setState({qra: text})} />
+                  value={this.state.email}
+                    onChangeText={(text) => this.setState({email: text})} />
 
     
 
@@ -316,7 +320,7 @@ constructor(props) {
                 <Text style={{ color: '#FFFFFF', fontSize: 15  }}>We have sent the code to your email</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
-                  placeholder="callsign"
+                  placeholder="email"
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -324,8 +328,8 @@ constructor(props) {
                   autoCorrect={false}
                   onSubmitEditing={() => this.newPass.focus()} 
                   style={styles.input}
-                  value={this.state.qra}
-                    onChangeText={(text) => this.setState({qra: text})} />
+                  value={this.state.email}
+                    onChangeText={(text) => this.setState({email: text})} />
 
                     <TextInput 
                   ref={newPass => this.newPass = newPass}
