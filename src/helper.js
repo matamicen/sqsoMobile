@@ -255,7 +255,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
               {
                 console.log('elif menor q a 10');
                 setTimeout(() => {reject()}, timeout)
-                fetch('https://www.twitter.com?'+fechaEnMiliseg)
+                fetch('https://www.yahoo.com?'+fechaEnMiliseg)
                     .then((response) => { 
                     resolve(response.ok)})
                     .catch(() => {

@@ -123,9 +123,13 @@ class QraLike extends Component {
 
 
 
-      <Text style={styles.name} >
-        {this.props.qra}
-      </Text>
+     
+        {this.props.userqra!==this.props.qra ?
+                <Text style={styles.name} >{this.props.qra}</Text>
+                :
+                <Text style={styles.name} >You</Text> 
+              }
+      
 
 
       <Modal visible={this.state.modaldeleteqra} position={'top'} transparent={true} animationType={"slide"} onRequestClose={() => console.log('Close was requested')}>
@@ -165,27 +169,30 @@ class QraLike extends Component {
 
             <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: "center" }}>
 
-              <Text style={styles.name2} >{this.props.qra}</Text>
-
+             {this.props.userqra!==this.props.qra ?
+            <Text style={styles.name2} >{this.props.qra}</Text>
+            :
+            <Text style={styles.name2} >You</Text> 
+          }
 
             </View>
 
 
             <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: "center", marginTop: 5 }}>
-              {this.state.followstatus === "false" &&
+              {this.state.followstatus === "false" && this.props.userqra!==this.props.qra && 
 
                 <TouchableOpacity onPress={() => this.follow(this.props.qra, this.props.imageurl)} >
-                  <Text style={{ color: 'grey', fontSize: 17 }}>Follow</Text>
+                  <Text style={{ color: 'white', fontSize: 17 }}>Follow</Text>
                 </TouchableOpacity>
 
 
               }
 
               {/* {this.props.following==="TRUE" &&  */}
-              {this.state.followstatus === "true" &&
+              {this.state.followstatus === "true" && this.props.userqra!==this.props.qra && 
 
                 <TouchableOpacity onPress={() => this.follow(this.props.qra)} >
-                  <Text style={{ color: 'grey', fontSize: 17 }}>UnFollow</Text>
+                  <Text style={{ color: 'white', fontSize: 17 }}>UnFollow</Text>
                 </TouchableOpacity>
 
 
@@ -199,7 +206,7 @@ class QraLike extends Component {
             <View style={{ flex: 0.2, flexDirection: 'row', justifyContent: "center" }}>
 
               <TouchableOpacity onPress={() => this.closeModaldeleteqra()} >
-                <Text style={{ color: 'white', fontSize: 16 }}>Close</Text>
+                <Text style={{ color: 'grey', fontSize: 16 }}>Close</Text>
               </TouchableOpacity>
 
 
@@ -254,7 +261,7 @@ const styles = StyleSheet.create({
     //  padding: 2,
     fontWeight: 'bold',
    // color: 'orange'
-   color: '#243665'
+   color: '#8BD8BD'
   }
 });
 
