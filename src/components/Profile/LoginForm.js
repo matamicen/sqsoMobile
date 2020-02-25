@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
+import Amplify from 'aws-amplify';
+import AmplifyAuthStorage from '../../AsyncStorage';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
   confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
@@ -20,7 +22,7 @@ import ConfirmSignUp from './ConfirmSignUp';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 // nuevo push
-import Analytics from '@aws-amplify/analytics';
+//import Analytics from '@aws-amplify/analytics';
 
 
 
@@ -38,12 +40,13 @@ import Analytics from '@aws-amplify/analytics';
 
 
 // PushNotification need to work with Analytics
-Analytics.configure(awsconfig);
+//Analytics.configure(awsconfig);
 //Amplify.configure(awsconfig);
 // PushNotification.configure(awsconfig);
-Auth.configure(awsconfig);
+//Auth.configure(awsconfig);
 // Amplify.configure(awsconfig);
-
+Amplify.configure(awsconfig);
+Amplify.configure({storage: AmplifyAuthStorage});
 
 const itemSubs = Platform.select({
   ios: [
@@ -1011,7 +1014,7 @@ if (!this.usernotfound)
                     {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
                       resizeMode="contain" />  */}
 
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>There was a problem during the APP installation, please delete the APP and reinstall it from the Store again. Apologize. SuperQSO.</Text>
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>There was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
 
                     {/* <TouchableOpacity  onPress={() =>  this.props.closeInternetModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
                       <Text style={{ color: '#999', fontSize: 22}}>OK</Text>
