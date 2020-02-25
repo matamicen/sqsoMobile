@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
       marginLeft: 0,
       padding: 2,
       fontWeight: 'bold',        
-      color: 'orange'        
+      color: '#8BD8BD'        
   }
   });
 

@@ -34,9 +34,10 @@ class FollowerList extends Component {
 
     return (
       <View>
-       <View style={{ paddingRight: 8 }}>
-        {/* <User name={qra} imageurl={avatarpic}   /> */}
+       <View style={{ paddingRight: 5, width: 88, paddingBottom: 5 }}>
+        
         <Qra qra={qra} imageurl={avatarpic}   />
+      
         </View>
        
       </View>
