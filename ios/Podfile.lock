@@ -179,7 +179,7 @@ PODS:
     - React-Core
   - RNAudio (4.3.0):
     - React
-  - RNAWSCognito (3.0.14):
+  - RNAWSCognito (3.2.4):
     - JKBigInteger2 (= 0.0.5)
     - React
   - RNCAsyncStorage (1.6.1):
@@ -413,7 +413,7 @@ SPEC CHECKSUMS:
   ReactNativePermissions: f0aec11433d43d45953c678b6982921d83ad94c8
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
-  RNAWSCognito: 74cf80de543287926699f64d7bc5f61e13008217
+  RNAWSCognito: 9fb91d3bfaebd85b3d6ee680f8e8d258580dec58
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNCPushNotificationIOS: 30ed75aa2981a4ee00b8a2c46599ff18a9c7fcf6
   RNFBAdmob: 06e97901b77a18f0d44c687707acd1d02d4f5f69
