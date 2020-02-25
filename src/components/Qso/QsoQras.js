@@ -74,8 +74,8 @@ class QsoQras extends Component {
  const styles = StyleSheet.create({
     
     qralist: {
-        marginRight: 115 ,
-        marginLeft: 10 
+        // marginRight: 115 ,
+         marginLeft: 10 
      
     }
   });

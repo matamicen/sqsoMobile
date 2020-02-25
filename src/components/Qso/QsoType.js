@@ -89,21 +89,21 @@ class QsoType extends Component {
         return( <View style={{marginLeft: 5} }>
 
               { (this.props.qsotype==='QSO') ?
-              <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.openQsoTypeModal() }> 
+              <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
                  <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" /> 
               </TouchableOpacity> 
                 
 
                :  (this.props.qsotype==='LISTEN') ? 
-               <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.openQsoTypeModal() }> 
+               <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
                  <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity>
                   :
 
                 (this.props.qsotype==='POST') ? 
-                 <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.openQsoTypeModal() }> 
+                 <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
                  <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity> 

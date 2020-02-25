@@ -56,20 +56,32 @@ class QsoHeader extends Component {
               
         return(  <View style={styles.content} >
                
-               <View style={{flexDirection: 'row'}}>
+           <View style={{flex:0.6}}>
+               <View style={{flexDirection: 'row', flex:1}}>
                   {/* <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile_avatar.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
-                  { this.props.sqsonewqsoactive &&
-                  <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } /> 
-                  } 
-                  { this.props.sqsonewqsoactive ?
-                  <QsoType /> : null }
-                    {/* { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ? */}
-                   { this.props.sqsonewqsoactive  ?
-                   <QsoQras /> : null} 
+                  {/* { this.props.sqsonewqsoactive && */}
+                   <View style={{flex:0.22}}>
+                   { this.props.sqsonewqsoactive &&
+                     <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } /> 
+                   }
+                     </View>               
+                  
+                 {/* { this.props.sqsonewqsoactive ? */}
+                   <View style={{flex:0.16}}>
+                      { this.props.sqsonewqsoactive ? 
+                      <QsoType /> : null }
+                   </View>
+                   {/* { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ? */}
+                   <View style={{flex:0.62}}>  
+                      { this.props.sqsonewqsoactive  ?
+                      <QsoQras /> : null} 
+                   </View>
  
               </View> 
+            </View>
               {/* flex: 1 */}
-             <View style={{flexDirection: 'row', marginTop: 6 }}>
+         <View style={{flex:0.4}}>
+             <View style={{flexDirection: 'row', marginTop: 6, flex:1 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.47 : 0.47}}>
                  
                     { this.props.sqsonewqsoactive ?
@@ -90,7 +102,8 @@ class QsoHeader extends Component {
                         <QsoMode />  : null }
                     </View>  
 
-             </View>           
+               </View> 
+             </View>          
             
             </View>
            
@@ -104,7 +117,9 @@ class QsoHeader extends Component {
       
     marginTop: Platform.OS === 'ios' ? 13 : 13,
     marginLeft: 6,
-    marginRight: 3
+    marginRight: 3,
+    flexDirection: 'column',
+    flex: 1
     
     //flexDirection: 'row'
    

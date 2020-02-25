@@ -561,7 +561,7 @@ return   <View style={{flex: 1}}>
 
        <View style={{flex: 0.27 }}>
                 <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('mainqsoscan')  }>
-                <Text style={{ fontSize: 12, color: 'orange', marginLeft: 25}}>Step 1</Text> 
+                <Text style={{ fontSize: 14, color: '#243665', fontWeight: 'bold',  marginLeft: 25}}>Step 1</Text> 
                   <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 29 } } 
               resizeMode="contain" />    
                       <Text style={{ fontSize: 12, color: '#999'}}>Scan your QSO</Text>  
@@ -579,7 +579,7 @@ return   <View style={{flex: 1}}>
        <View style={{flex: 0.34, alignItems: 'flex-start' }}>
        { (this.props.sqsoqsolink.qra) &&
            <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
-           <Text style={{ fontSize: 12, color: 'orange', marginLeft: 24}}>Step 2</Text> 
+           <Text style={{ fontSize: 14, color: '#243665',fontWeight: 'bold', marginLeft: 22}}>Step 2</Text> 
           <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 25 } } 
        resizeMode="contain" />    
        <Text style={{ fontSize: 12, color: '#999'}}>Add a Qso to Link</Text>   
@@ -592,7 +592,7 @@ return   <View style={{flex: 1}}>
        {  (this.props.sqsoqsolink.links) &&
          (this.props.sqsoqsolink.links.length>0) &&
            <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsos')  }>
-           <Text style={{ fontSize: 12, color: 'orange', marginLeft: 0}}>Ready</Text> 
+           <Text style={{ fontSize: 14, color: '#243665', fontWeight: 'bold', marginLeft: 0}}>Ready</Text> 
           <Image source={require('../../images/link2.png')}  style={{width: 24, height: 24 } } 
        resizeMode="contain" />    
        <Text style={{ fontSize: 12, color: '#999'}}>Link</Text>   
