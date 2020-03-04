@@ -53,7 +53,6 @@ const initialState = {
     productId: '',
     localizedPrice: 0,
     iapShowed: 0,
-    version: '0.1.8',
     env: 'QA',
     restoreCalled: false,
     restoreMessage: '',
