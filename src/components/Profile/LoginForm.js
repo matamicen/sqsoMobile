@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import Amplify from 'aws-amplify';
+import { API } from 'aws-amplify';
 import AmplifyAuthStorage from '../../AsyncStorage';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
@@ -16,13 +17,16 @@ import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFals
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions, StackActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
-import { hasAPIConnection, kinesis_catch } from '../../helper';
+import { hasAPIConnection, versionCompare } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 // nuevo push
 //import Analytics from '@aws-amplify/analytics';
+
+// import firebase from '@react-native-firebase/app';
+// import * as config from '@react-native-firebase/remote-config';
 
 
 
@@ -58,6 +62,8 @@ const itemSubs = Platform.select({
   ],
 });
 
+const actualAppVersion = '0.1.5';
+
 // let purchaseUpdateSubscription;
 // let purchaseErrorSubscription;
 
@@ -83,6 +89,7 @@ constructor(props) {
 
     this.width = Dimensions.get('window').width; //full width
     this.height = Dimensions.get('window').height; //full height
+    this.debeHacerUpgrade = false;
     
     this.state = {
    
@@ -93,10 +100,12 @@ constructor(props) {
      nointernet: false,
      showloginForm: false,
      mess: 'Loading ...',
-     nopushtoken: false,
+     stopApp: false,
      confirmSignup: false,
      confirmationcodeError: 0,
-     color: 'red'
+     color: 'red',
+     appNeedUpgrade: false,
+     upgradeText: ''
      
     }
   }
@@ -340,12 +349,58 @@ constructor(props) {
 
   
     console.log("COMPONENT did mount LOGINFORM");
+// v1_installed = '3.11.158'
+// v2_required = '3.11.158'
+//    console.log('comparador de version: ' + versionCompare(v2_required, v1_installed));
 
 
   if (await hasAPIConnection())
   {
     console.log('SI hay internet: ');
-         // IAP Listener GLOBAL
+
+// chequeo de version minima de la APP
+    try {
+      let apiName = 'superqso';
+      let path = '/globalParamsPublic';
+      let myInit = { // OPTIONAL
+        headers: {
+          // 'Authorization': jwtToken,
+          'Content-Type': 'application/json'
+        }, // OPTIONAL
+      //   body: {
+         
+      //   }
+      }
+
+    console.log("llamo api getParameters");  
+    respuesta = await API.get(apiName, path, myInit);
+    
+    console.log("respuesta API getParameters:");
+    console.log(respuesta);
+    
+    if (respuesta.body.error===0)
+    { 
+      console.log('minVersion: '+respuesta.body.message[0].value)
+      v_required = respuesta.body.message[0].value;
+     if (versionCompare(v_required, actualAppVersion)===false)
+     {
+          // console.log('debe hacer Upgrade de la APP')
+          this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
+          this.debeHacerUpgrade = true;
+          
+     }
+          
+    }
+  }
+  catch (error) {
+    console.log('Api getParameters catch error:', error);
+   
+    crashlytics().log('error: ' + error) ;
+    crashlytics().recordError(new Error('getParameters'));
+    }  
+    // fin chequeo de version minima de la APP
+
+
 
 
 
@@ -423,9 +478,10 @@ constructor(props) {
     }
 
 
-
-
-// Compruebo si ya estaba logueado con sus credenciales
+// si debe hacer upgrade no deja entrar aca 
+if (this.debeHacerUpgrade===false)
+{
+  // Compruebo si ya estaba logueado con sus credenciales
     try {
       console.log('Antes de Auth.currentSession() ');
       this.setState({mess: 'Current Session ...'})
@@ -462,7 +518,7 @@ constructor(props) {
         //apologize
          if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
       // if (1===2)
-      this.setState({nopushtoken: true})
+      this.setState({stopApp: true})
         else
         {
         console.log("Antes de AsyncStorage.getItem");
@@ -544,6 +600,8 @@ constructor(props) {
       }
       // Handle exceptions
     }
+
+  } // if de debeHacerUpgrade
 
   }else {
           console.log('lo siento no hay Internet');
@@ -990,7 +1048,7 @@ if (!this.usernotfound)
             }
 
 
-<Modal visible ={this.state.nopushtoken}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
+<Modal visible ={this.state.stopApp}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{
                       //  margin:20,
                           padding:20, 
@@ -1013,9 +1071,11 @@ if (!this.usernotfound)
 
                     {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
                       resizeMode="contain" />  */}
-
+                     {(this.state.appNeedUpgrade) ?
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText} {"\n\n"} Apologize. SuperQSO.</Text>
+                      :
                      <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>There was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
-
+                     }
                     {/* <TouchableOpacity  onPress={() =>  this.props.closeInternetModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
                       <Text style={{ color: '#999', fontSize: 22}}>OK</Text>
                     </TouchableOpacity> */}
@@ -1114,7 +1174,6 @@ if (!this.usernotfound)
   return { pushtoken: state.sqso.pushToken,
              qra: state.sqso.qra, 
              userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
-             version: state.sqso.version,
              env: state.sqso.env
           
              };
