@@ -62,7 +62,7 @@ const itemSubs = Platform.select({
   ],
 });
 
-const actualAppVersion = '0.1.5';
+const actualAppVersion = '8.3.5';
 
 // let purchaseUpdateSubscription;
 // let purchaseErrorSubscription;
@@ -1069,16 +1069,13 @@ if (!this.usernotfound)
 
                     <View style={{flex: 1, alignItems: 'center'}}>
 
-                    {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
-                      resizeMode="contain" />  */}
+                   
                      {(this.state.appNeedUpgrade) ?
                      <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText.split('<br/>').join('\n') }</Text>
                       :
                      <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, there was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
                      }
-                    {/* <TouchableOpacity  onPress={() =>  this.props.closeInternetModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 22}}>OK</Text>
-                    </TouchableOpacity> */}
+                 
                     
                     </View>
                     
