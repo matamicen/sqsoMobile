@@ -4,10 +4,14 @@ import Analytics from '@aws-amplify/analytics';
 import { AWSKinesisProvider } from 'aws-amplify';
 import {  Platform } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
+// import firebase from '@react-native-firebase/app';
+// import * as config from '@react-native-firebase/remote-config';
 
 Analytics.addPluggable(new AWSKinesisProvider());
 
 Analytics.configure(awsconfig);
+
+
 
 export const hola=(qsoqras)=>{
 
@@ -202,16 +206,34 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
 
 
   }
-  // , {method: Method.HEAD}
+
   export async function hasAPIConnection() {
+
+// se ve inestable remote config (a veces trae de una los parametros la primera vez q se ejecuta la APP y a veces no,
+// y cuando se hace update de un cambio en la consola, la primera vez no lo trael al cambio, si la segunda)
+// para A/B testing esta bien, pero para esto de chequear internet le va a molestar al ausuario si llegase a fallar
+
+
+    // console.log('bring remote config urlsInternet');
+    
+    // const remoteConfig = firebase.remoteConfig();
+    // remoteConfig.settings = {
+    //   //   minimumFetchIntervalMillis: 100,
+    // };
+    
+    //   remoteConfig.setDefaults({
+    //     urlInternet1: 'https://www.google.com?',
+    //     urlInternet2: 'https://www.bing.com?',
+    // });
+    
+
+
     const timeout = 2500
 
-   // var now2 = new Date();
-   // now2.replace(/\s/g, '');
-   var fechaEnMiliseg = String(Date.now());
 
-     // now2.replace(' ','');
-   // var now3 = now2.replace(/\s+/g, '');
+   var fechaEnMiliseg = String(Date.now());
+   var url1 = 'https://www.google.com?';
+   var url2 = 'https://www.bing.com?';
 
    const myNewStr = fechaEnMiliseg.substr(12, 1);
     console.log('INTERNET CHECK NOW: '+fechaEnMiliseg)
@@ -219,12 +241,34 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
     try {
         return await new Promise((resolve, reject) => {
 
-        //  console.log('substring:' + fechaEnMiliseg.substring(13, 1));
-        if (myNewStr >=0 && myNewStr <=3)
+   
+        if (myNewStr >=0 && myNewStr <=4)
         {
           console.log('elif menor q 4');
+         
             setTimeout(() => {reject()}, timeout)
-            fetch('https://www.google.com?'+fechaEnMiliseg)
+
+            // remoteConfig.fetch(0).then(
+            //   remoteConfig.fetchAndActivate().then((spot) => { 
+            //     // remoteConfig.Activate().then((spot) => { 
+        
+            //     configData = remoteConfig.getValue("urlInternet1");
+            //    if (configData.source==='default')
+            //    {
+            //      console.log('DENTRO url1 lo obtuvo por default#');
+            //      console.log(configData.value)
+            //      url1 = configData.value;
+            //    }
+            //      else{
+            //      console.log('DENTRO url1 lo obtuvo por remote');
+            //      console.log(configData);
+            //      let obj = JSON.parse(configData.value);
+            //      console.log(obj.url);
+            //      url1 = obj.url;
+              
+            //      }
+
+            fetch(url1+fechaEnMiliseg)
                 .then((response) => { 
                 resolve(response.ok)})
                 .catch(() => {
@@ -233,13 +277,42 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
                   crashlytics().recordError(new Error('hasAPIConnection1'));
                   reject()
                 })
+
+              // })).catch((err) => {
+                    
+              //   console.log('catch fetch URL remoteConfig: '+err)
+              // })
+
+
         }
         
-        if (myNewStr >= 4 && myNewStr <= 7)
+        if (myNewStr >= 5 && myNewStr <= 9)
           {
             console.log('elif menor q a 8');
+     
             setTimeout(() => {reject()}, timeout)
-            fetch('https://www.bing.com?'+fechaEnMiliseg)
+
+            // remoteConfig.fetch(0).then(
+            //   remoteConfig.fetchAndActivate().then((spot) => { 
+            //    // remoteConfig.Activate().then((spot) => { 
+        
+            //     configData = remoteConfig.getValue("urlInternet2");
+            //     if (configData.source==='default')
+            //     {
+            //       console.log('url2 lo obtuvo por default#');
+            //       console.log(configData.value)
+            //       url2 = configData.value;
+            //     }
+            //       else{
+            //       console.log('url 2lo obtuvo por remote');
+            //       console.log(configData);
+            //       let obj = JSON.parse(configData.value);
+            //       console.log(obj.url);
+            //       url2 = obj.url;
+               
+            //       }
+
+            fetch(url2+''+fechaEnMiliseg)
                 .then((response) => { 
                 resolve(response.ok)})
                 .catch(() => {
@@ -249,27 +322,19 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
                   
                   reject()
                 })
+
+              // })).catch((err) => {
+                    
+              //   console.log('catch fetch URL remoteConfig: '+err)
+              // })
+
               }
+           })
 
-              if (myNewStr >= 8 && myNewStr <= 9)
-              {
-                console.log('elif menor q a 10');
-                setTimeout(() => {reject()}, timeout)
-                fetch('https://www.yahoo.com?'+fechaEnMiliseg)
-                    .then((response) => { 
-                    resolve(response.ok)})
-                    .catch(() => {
-                      
-                      crashlytics().log('error: ') ;
-                      crashlytics().recordError(new Error('hasAPIConnection3'));
-                      
-                      
-                      reject()})
-                  }
-
-        })
+    
       
     } catch (e) {
+      console.log('catch global hasInternet: '+e)
         return false
     }
 }
@@ -478,7 +543,8 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
  
     export const showIntersitial =  (userInfo,spot,mediafiles) => {
   
-     
+    
+
   if (spot==='newqso')
       if (userInfo.monthly_qso_new >= userInfo.account_type.app_qso_new_intersitial_from 
           && userInfo.monthly_qso_new <= userInfo.account_type.app_qso_new_intersitial_to)
@@ -629,4 +695,21 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
     
     }
 
-    
+  
+     // return true if 'installed' (considered as a JRE version string) is
+    // greater than or equal to 'required' (again, a JRE version string).
+   export const versionCompare =  (requiered, installed) => {
+
+
+      const oldParts = requiered.split('.')
+      const newParts = installed.split('.')
+      for (var i = 0; i < newParts.length; i++) {
+        const a = parseInt(newParts[i]) || 0
+        const b = parseInt(oldParts[i]) || 0
+       // if (a === b) return true
+        if (a > b) return true
+        if (a < b) return false
+      }
+      // return false 
+      return true
+    }
