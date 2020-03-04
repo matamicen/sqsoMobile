@@ -1072,9 +1072,9 @@ if (!this.usernotfound)
                     {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
                       resizeMode="contain" />  */}
                      {(this.state.appNeedUpgrade) ?
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText} {"\n\n"} Apologize. SuperQSO.</Text>
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText.split('<br/>').join('\n') }</Text>
                       :
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>There was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, there was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
                      }
                     {/* <TouchableOpacity  onPress={() =>  this.props.closeInternetModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
                       <Text style={{ color: '#999', fontSize: 22}}>OK</Text>
