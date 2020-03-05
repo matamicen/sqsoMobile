@@ -1401,7 +1401,7 @@ class QsoScreen extends Component {
                   resizeMode="contain"
                 />
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>EndQso</Text>
+                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>End Qso</Text>
               </TouchableOpacity>
               
             }
@@ -1409,11 +1409,14 @@ class QsoScreen extends Component {
         
           </View>
 
-          {this.props.sqsonewqsoactive ? (
+          {/* {this.props.sqsonewqsoactive ? ( */}
+       {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
             <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 9 }}>
-                <ShareQso />
+                  { (this.props.sqsosqlrdsid !== '') &&
+                      <ShareQso />
+                  }
             </View>
-          ) : null}
+          {/* ) : null} */}
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (

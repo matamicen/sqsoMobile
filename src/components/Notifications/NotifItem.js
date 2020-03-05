@@ -126,9 +126,11 @@ if (urlnotif!=null)
                     <View  style={{flex: 0.60 }}>
 
                     <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
-                        {/* <Text>{this.props.QSO_GUID} - id notif: {this.props.idqra_notifications} </Text> */}
-                        <Text style={{fontSize:15}}>{this.props.message}</Text>
-                    {/* {(this.props.read===null) ? <Text>ES null</Text> : <Text>NO es null</Text> } */}
+                     
+                        {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para
+                        que el CLICK sobre lo vacio haga click y tenga efecto */}
+                        <Text style={{fontSize:15}}>{this.props.message} {"\n"}{"\n"} </Text>
+                         
                      </TouchableOpacity>
                              
 
