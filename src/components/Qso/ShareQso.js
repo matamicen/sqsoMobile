@@ -64,8 +64,9 @@ class ShareQso extends Component {
  }
 
   share = () => {
-  
-    const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
+    
+    // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
+    const url = 'https://www.superqso.com/qso/'+this.props.sharerluid;
     const title = 'Awesome Contents';
     const message = 'Please check out this QSO.';
     const options = {
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
 
  const mapStateToProps = state => {
     return {  
-
+      sharerluid: state.sqso.currentQso.shareUrlGuid
         
      };
 };

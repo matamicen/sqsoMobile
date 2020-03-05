@@ -24,7 +24,8 @@ import {FETCHING_API_REQUEST,
         MANAGE_NOTIFICATIONS, SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
         SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL,
-        SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT  } from './types';
+        SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
+        SET_SHARE_URL_GUID  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -294,9 +295,17 @@ export const actindicatorPostQsoNewTrue = () => {
 
 export const actindicatorPostQsoNewFalse = () => {
     return {
-        type: ACT_INDICATOR_POST_QSO_NEW_FALSE      
+        type: ACT_INDICATOR_POST_QSO_NEW_FALSE        
        
     };
+}
+
+export const setShareUrlGuid = (guid) => {
+  return {
+      type: SET_SHARE_URL_GUID,
+      urlguid: guid      
+     
+  };
 }
 
 
@@ -442,11 +451,12 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
         console.log("error es 0 y sqlrdsid: "+respuesta.body.message);
         let aux_sqlrdsid = respuesta.body.message.newqso;
 
- 
+        dispatch(setShareUrlGuid(respuesta.body.message.guid_url));
    
         await dispatch(postQsoQras("ALL",respuesta.body.message.newqso, qsoqras,jwtToken));
           console.log('mediafiles length:'+mediafiles.length);
          
+
        
           if (mediafiles.length>0)
           { // quiere decir que el usuario saco fotos o grabo audios antes de generarse el sqlrdsid
