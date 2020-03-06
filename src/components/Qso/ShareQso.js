@@ -112,7 +112,7 @@ class ShareQso extends Component {
 render() { console.log("RENDER share SCREEN!" );
 const interpolatedRotateAnimation = this.state.rotateValue.interpolate({
   inputRange: [0,  100],
-  outputRange: ['0deg','360deg']
+  outputRange: ['0deg','720deg']
 });
     
 
