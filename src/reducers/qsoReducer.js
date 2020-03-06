@@ -20,7 +20,7 @@ import {FETCHING_API_REQUEST,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
-     SET_PROFILE_MODAL_STAT  } from '../actions/types';
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -110,7 +110,8 @@ const initialState = {
          qsolinkCodes: {code: 0, message: " "},
         refreshFollowings: false,
         latitude: 0,
-        longitude: 0
+        longitude: 0,
+        shareUrlGuid: ''
             
 
 
@@ -753,7 +754,8 @@ const qsoReducer = (state = initialState, action) => {
      //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
        auxcurrentQso = {
           ...state.currentQso,
-          activityindicatorPostQsoNew: false         
+          activityindicatorPostQsoNew: false
+          
       };
       newStore = Object.assign({}, state,
           {
@@ -762,6 +764,21 @@ const qsoReducer = (state = initialState, action) => {
           });
       return newStore; 
 
+      case SET_SHARE_URL_GUID:
+        //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
+          auxcurrentQso = {
+             ...state.currentQso,
+             shareUrlGuid: action.urlguid  
+                   
+         };
+         newStore = Object.assign({}, state,
+             {
+                 ...state,
+                 currentQso: auxcurrentQso
+             });
+         return newStore; 
+   
+   
 
      case CAMERA_PERMISSION_TRUE:
       //console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
@@ -1016,6 +1033,7 @@ const qsoReducer = (state = initialState, action) => {
              modalconfirmphoto: false,
              mediatosend: {},
              activityindicatorImage: false,
+             shareUrlGuid: ''
             
              
  

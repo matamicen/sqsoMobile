@@ -54,6 +54,7 @@ import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
 import Iap from "./Iap";
+import ShareQso from "./ShareQso";
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -1391,7 +1392,7 @@ class QsoScreen extends Component {
        
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
-          <View style={{ flex: 0.5, marginTop: 3, marginLeft: 5 }}>
+          <View style={{ flex: 0.25, marginTop: 3, marginLeft: 5 }}>
             {this.props.sqsonewqsoactive && 
               <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                 <Image
@@ -1400,11 +1401,22 @@ class QsoScreen extends Component {
                   resizeMode="contain"
                 />
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>EndQso</Text>
+                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>End Qso</Text>
               </TouchableOpacity>
+              
             }
+            {/* <ShareQso /> */}
         
           </View>
+
+          {/* {this.props.sqsonewqsoactive ? ( */}
+       {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
+            <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 9 }}>
+                  { (this.props.sqsosqlrdsid !== '') &&
+                      <ShareQso />
+                  }
+            </View>
+          {/* ) : null} */}
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (
