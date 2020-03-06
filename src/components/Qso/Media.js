@@ -81,7 +81,7 @@ class Media extends Component {
                           borderRadius={0}
                       //   height={15}
                       //    color={['#F44336', '#2196F3', '#009688']}
-                          color="lightgreen"
+                          color="#8BD8BD"
                           borderWidth={0}
                           progress={this.props.progress}
                           //indeterminate={true}
