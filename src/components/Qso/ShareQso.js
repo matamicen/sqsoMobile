@@ -66,9 +66,10 @@ class ShareQso extends Component {
   share = () => {
     
     // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
+    // const url = 'http://superqso-dev.us-east-1.elasticbeanstalk.com/qso/'+this.props.sharerluid;
     const url = 'https://www.superqso.com/qso/'+this.props.sharerluid;
     const title = 'Awesome Contents';
-    const message = 'Please check out this QSO.';
+    const message = 'Please check out this activity';
     const options = {
           title,
           subject: title,
