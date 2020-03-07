@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import Amplify from 'aws-amplify';
-import { API } from 'aws-amplify';
 import AmplifyAuthStorage from '../../AsyncStorage';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
@@ -39,6 +38,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
  import RNIap from 'react-native-iap';
 
 
+
  var PushNotification = require('react-native-push-notification');
 
 
@@ -62,7 +62,7 @@ const itemSubs = Platform.select({
   ],
 });
 
-const actualAppVersion = '8.3.5';
+const actualAppVersion = '1.0.0';
 
 // let purchaseUpdateSubscription;
 // let purchaseErrorSubscription;
@@ -358,26 +358,14 @@ constructor(props) {
   {
     console.log('SI hay internet: ');
 
-// chequeo de version minima de la APP
-    try {
-      let apiName = 'superqso';
-      let path = '/globalParamsPublic';
-      let myInit = { // OPTIONAL
-        headers: {
-          // 'Authorization': jwtToken,
-          'Content-Type': 'application/json'
-        }, // OPTIONAL
-      //   body: {
-         
-      //   }
-      }
-
-    console.log("llamo api getParameters");  
-    respuesta = await API.get(apiName, path, myInit);
+ 
+ try {
     
-    console.log("respuesta API getParameters:");
-    console.log(respuesta);
-    
+   const ApiCall = await fetch('https://d1xllikkw9xhcf.cloudfront.net/globalParamsPublic');
+   const respuesta = await ApiCall.json();
+ 
+     console.log("respuesta API getParameters:");
+ 
     if (respuesta.body.error===0)
     { 
       console.log('minVersion: '+respuesta.body.message[0].value)
