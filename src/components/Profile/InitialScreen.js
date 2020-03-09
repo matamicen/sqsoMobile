@@ -85,7 +85,10 @@ signOut = async () => {
       //  kinesis_catch('#006',err,this.props.qra);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('SignOut_getPushToken'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('SignOut_getPushToken_DEV'));
+      else
+      crashlytics().recordError(new Error('SignOut_getPushToken_PRD'));
 
       
     }
@@ -106,7 +109,10 @@ signOut = async () => {
      //   kinesis_catch('#006',err,this.props.qra);
         crashlytics().setUserId(this.props.qra);
         crashlytics().log('error: ' + err) ;
-        crashlytics().recordError(new Error('SignOut_AuthSignOut'));
+        if(__DEV__)
+        crashlytics().recordError(new Error('SignOut_AuthSignOut_DEV'));
+        else
+        crashlytics().recordError(new Error('SignOut_AuthSignOut_PRD'));
   
       });
 

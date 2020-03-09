@@ -39,7 +39,10 @@ import crashlytics from '@react-native-firebase/crashlytics';
         crashlytics().log('error: ' + error + ' StackError: '+ errorInfo.componentStack) ;
 
         console.log(errorInfo.componentStack);
-        crashlytics().recordError(new Error('Boundary Error'));
+        if(__DEV__)
+        crashlytics().recordError(new Error('BoundaryError_DEV'));
+        else
+        crashlytics().recordError(new Error('BoundaryError_PRD'));
 
 
        

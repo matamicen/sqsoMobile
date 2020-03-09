@@ -274,7 +274,10 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
                 .catch(() => {
                  // crashlytics().setUserId(this.props.qra);
                   crashlytics().log('error: ') ;
-                  crashlytics().recordError(new Error('hasAPIConnection1'));
+                  if(__DEV__)
+                  crashlytics().recordError(new Error('hasAPIConnection1_DEV'));
+                  else
+                  crashlytics().recordError(new Error('hasAPIConnection1_PRD'));
                   reject()
                 })
 
@@ -318,7 +321,10 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
                 .catch(() => {
                   
                   crashlytics().log('error: ') ;
-                  crashlytics().recordError(new Error('hasAPIConnection2'));
+                  if(__DEV__)
+                  crashlytics().recordError(new Error('hasAPIConnection2_DEV'));
+                  else
+                  crashlytics().recordError(new Error('hasAPIConnection2_PRD'));
                   
                   reject()
                 })

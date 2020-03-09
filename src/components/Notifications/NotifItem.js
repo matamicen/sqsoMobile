@@ -45,7 +45,10 @@ if (urlnotif!=null)
         if (!supported) {
           console.log('Can\'t handle url: ' + urlnotif);
         } else {
-          analytics().logEvent("OPENNOTIF", {"QRA": this.props.qra});
+          if(__DEV__)
+            analytics().logEvent("OPENNOTIF_DEV", {"QRA": this.props.qra});
+          else
+            analytics().logEvent("OPENNOTIF_PRD", {"QRA": this.props.qra});
           console.log("Recording analytics open Notif")
           return Linking.openURL(urlnotif);
         
@@ -54,7 +57,10 @@ if (urlnotif!=null)
               console.error('An error occurred', err)
               crashlytics().setUserId(this.props.qra);
               crashlytics().log('error: ' + err) ;
-              crashlytics().recordError(new Error('Linking.canOpenURL'));
+              if(__DEV__)
+              crashlytics().recordError(new Error('Linking.canOpenURL_DEV'));
+              else
+              crashlytics().recordError(new Error('Linking.canOpenURL_PRD'));
     
     
             });

@@ -384,7 +384,10 @@ constructor(props) {
     console.log('Api getParameters catch error:', error);
    
     crashlytics().log('error: ' + error) ;
-    crashlytics().recordError(new Error('getParameters'));
+    if(__DEV__)
+    crashlytics().recordError(new Error('getParameters_DEV'));
+    else
+    crashlytics().recordError(new Error('getParameters_PRD'));
     }  
     // fin chequeo de version minima de la APP
 
@@ -462,7 +465,11 @@ constructor(props) {
       console.warn(err.code, err.message);
       crashlytics().setUserId('unknown');
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('RNIap.initConnection'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('RNIap.initConn_DEV'));
+      else
+      crashlytics().recordError(new Error('RNIap.initConn_PRD'));
+
     }
 
 
@@ -556,7 +563,11 @@ if (this.debeHacerUpgrade===false)
 
             crashlytics().setUserId('unknown');
             crashlytics().log('error: ' + error) ;
-            crashlytics().recordError(new Error('AsyncStorage.getItem(username)'));
+            if(__DEV__)
+            crashlytics().recordError(new Error('AsyncStorage.get_DEV'));
+            else
+            crashlytics().recordError(new Error('AsyncStorage.get_PRD'));
+
 
             // kinesis_catch('#008',error,value);
             // Error retrieving data
@@ -651,7 +662,10 @@ signIn = async () => {
 
              crashlytics().setUserId(this.state.username.toUpperCase());
              crashlytics().log('error: ' + err) ;
-             crashlytics().recordError(new Error('Auth.signIn'));
+             if(__DEV__)
+             crashlytics().recordError(new Error('Auth.signIn_DEV'));
+             else
+             crashlytics().recordError(new Error('Auth.signIn_PRD'));
             //  kinesis_catch('#012',err,this.state.username.toUpperCase());
 
             }
@@ -678,7 +692,10 @@ if (!this.usernotfound)
       console.log('caught error', e);
              crashlytics().setUserId(this.qra);
              crashlytics().log('error: ' + e) ;
-             crashlytics().recordError(new Error('Auth.signIn.currentCredentials()'));
+             if(__DEV__)
+             crashlytics().recordError(new Error('Auth.signIn.current_DEV'));
+             else
+             crashlytics().recordError(new Error('Auth.signIn.current_PRD'));
 
       // kinesis_catch('#013',e,this.state.username.toUpperCase());
       // Handle exceptions
@@ -707,7 +724,10 @@ if (!this.usernotfound)
       console.log('caught error AsyncStorage username & identity', error);
       crashlytics().setUserId(this.qra.toUpperCase());
       crashlytics().log('error: ' + error) ;
-      crashlytics().recordError(new Error('AsyncStorage.user.ident'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('AsyncStorage.user_DEV'));
+      else
+      crashlytics().recordError(new Error('AsyncStorage.user_PRD'));
       // kinesis_catch('#014',error,this.state.username.toUpperCase());
     }
 
@@ -774,7 +794,10 @@ if (!this.usernotfound)
                           // kinesis_catch('#016',error,this.state.username.toUpperCase());
                           crashlytics().setUserId(this.qra.toUpperCase());
                           crashlytics().log('error: ' + error) ;
-                          crashlytics().recordError(new Error('props.postPushToken'));
+                          if(__DEV__)
+                          crashlytics().recordError(new Error('props.postPushTok_DEV'));
+                          else
+                          crashlytics().recordError(new Error('props.postPushTok_PRD'));
                         }
 
 
@@ -794,7 +817,10 @@ if (!this.usernotfound)
                       // }
                       crashlytics().setUserId(this.qra.toUpperCase());
                       crashlytics().log('error: ' + error) ;
-                      crashlytics().recordError(new Error('twoGetItems'));
+                      if(__DEV__)
+                      crashlytics().recordError(new Error('twoGetItems_DEV'));
+                      else
+                      crashlytics().recordError(new Error('twoGetItems_PRD'));
               // kinesis_catch('#017',error,this.state.username.toUpperCase());
             }
 
@@ -863,7 +889,10 @@ if (!this.usernotfound)
                   // kinesis_catch('#021',err,this.state.username.toUpperCase());
                   crashlytics().setUserId(this.state.username.toLowerCase());
                   crashlytics().log('error: ' + err) ;
-                  crashlytics().recordError(new Error('Auth.resendSignUp'));
+                  if(__DEV__)
+                  crashlytics().recordError(new Error('Auth.resendSignUp_DEV'));
+                  else
+                  crashlytics().recordError(new Error('Auth.resendSignUp_PRD'));
                 
                 });
 
@@ -903,7 +932,11 @@ if (!this.usernotfound)
     //  kinesis_catch('#026',err,this.state.username.toUpperCase());
     crashlytics().setUserId(this.state.username.toLowerCase());
     crashlytics().log('error: ' + err) ;
-    crashlytics().recordError(new Error('Auth.confirmSignUp'));
+    if(__DEV__)
+    crashlytics().recordError(new Error('Auth.confirmSignUp_DEV'));
+    else
+    crashlytics().recordError(new Error('Auth.confirmSignUp_PRD'));
+
                   
  })
 }else 

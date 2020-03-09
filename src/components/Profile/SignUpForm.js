@@ -184,7 +184,10 @@ close_confirmSignup = () => {
     // kinesis_catch('#019',code +' '+ message,this.state.qra.toUpperCase());
     crashlytics().setUserId(this.state.qra.toUpperCase());
     crashlytics().log('error: ' + code +' message: '+ message) ;
-    crashlytics().recordError(new Error('DatePicker'));
+    if(__DEV__)
+    crashlytics().recordError(new Error('DatePicker_DEV'));
+    else
+    crashlytics().recordError(new Error('DatePicker_PRD'));
   }
  }
 
@@ -206,6 +209,7 @@ signUp = async () => {
   {   
     this.setState({heightindicator: 35, indicator: 1, heighterror: 0, loginerror: 0});
    
+
    
           if (this.state.password!==this.state.passwordConfirm)
           {
@@ -233,6 +237,16 @@ signUp = async () => {
             this.error = true;
             this.emailRef.focus();
           }
+
+          var re = /^[a-zA-Z0-9]+$/;
+          if (!re.exec(this.state.qra))
+          {
+     
+            this.setState({errormessage: 'Invalid characters in callsign',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true;
+            this.qraRef.focus();
+          }
+       
 
           if (this.state.qra=='')
           {
@@ -342,7 +356,10 @@ signUp = async () => {
                   // kinesis_catch('#021',err,this.state.qra.toUpperCase());
                   crashlytics().setUserId(this.state.qra.toUpperCase());
                   crashlytics().log('error: ' + err) ;
-                  crashlytics().recordError(new Error('Auth.resendSignUp'));
+                  if(__DEV__)
+                  crashlytics().recordError(new Error('Auth.resendSignUp_DEV'));
+                  else
+                  crashlytics().recordError(new Error('Auth.resendSignUp_PRD'));
                 
                 });
 
@@ -370,7 +387,10 @@ signUp = async () => {
     // kinesis_catch('#022',err,this.state.qra.toUpperCase());
     crashlytics().setUserId(this.state.qra.toUpperCase());
     crashlytics().log('error: ' + err) ;
-    crashlytics().recordError(new Error('signInAfterConfirmed'));
+    if(__DEV__)
+    crashlytics().recordError(new Error('signInAfterConfirmed_DEV'));
+    else
+    crashlytics().recordError(new Error('signInAfterConfirmed_PRD'));
   });
 
 
@@ -392,7 +412,11 @@ signUp = async () => {
       console.log('caught error', e);
       crashlytics().setUserId(this.qra);
       crashlytics().log('error: ' + e) ;
-      crashlytics().recordError(new Error('SignUpCredentials'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('SignUpCredentials_DEV'));
+      else
+      crashlytics().recordError(new Error('SignUpCredentials_PRD'));
+
       // kinesis_catch('#023',e,this.state.qra.toUpperCase());
       // Handle exceptions
     }
@@ -418,7 +442,10 @@ signUp = async () => {
       console.log('caught error', error);
       crashlytics().setUserId(this.state.qra.toUpperCase());
       crashlytics().log('error: ' + error) ;
-      crashlytics().recordError(new Error('SignUpStorage'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('SignUpStorage_DEV'));
+      else
+      crashlytics().recordError(new Error('SignUpStorage_PRD'));
       // kinesis_catch('#024',error,this.state.qra.toUpperCase());
       // Error saving data
     }
@@ -437,7 +464,11 @@ signUp = async () => {
       // kinesis_catch('#025',error,this.state.qra.toUpperCase());
       crashlytics().setUserId(this.qra);
       crashlytics().log('error: ' + error) ;
-      crashlytics().recordError(new Error('SignUpGetPushToken'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('SignUpGetPushTok_DEV'));
+      else
+      crashlytics().recordError(new Error('SignUpGetPushTok_PRD'));
+
     }
 
 
@@ -480,7 +511,10 @@ signUp = async () => {
       // kinesis_catch('#026',err,this.state.qra.toUpperCase());
       crashlytics().setUserId(this.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('Auth.confirmSignUp'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('Auth.confirmSignUp_DEV'));
+      else
+      crashlytics().recordError(new Error('Auth.confirmSignUp_PRD'));
                    
   })
 }else 
@@ -559,7 +593,10 @@ signUp = async () => {
                    Keyboard.dismiss();
                    crashlytics().setUserId(this.state.qra.toUpperCase());
                    crashlytics().log('error: ' + err) ;
-                   crashlytics().recordError(new Error('Auth.signUp'));
+                   if(__DEV__)
+                   crashlytics().recordError(new Error('Auth.signUp_DEV'));
+                   else
+                   crashlytics().recordError(new Error('Auth.signUp_PRD'));
                   //  kinesis_catch('#020',err,this.state.qra.toUpperCase());
             })
         
