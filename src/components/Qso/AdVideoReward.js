@@ -234,7 +234,10 @@ class AdVideoReward extends Component {
          
             crashlytics().setUserId(this.props.qra);
             crashlytics().log('error: ' + err) ;
-            crashlytics().recordError(new Error('rewardLoaded'));
+            if(__DEV__)
+            crashlytics().recordError(new Error('rewardLoaded_DEV'));
+            else
+            crashlytics().recordError(new Error('rewardLoaded_PRD'));
             alert("video reward failed to load: " + err);
           }
         

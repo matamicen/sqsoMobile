@@ -151,7 +151,10 @@ class Muestro extends Component {
           // inspect err to get more details.
           crashlytics().setUserId(this.props.qra);
           crashlytics().log('error: ' + err) ;
-          crashlytics().recordError(new Error('createResizedImage1'));
+          if(__DEV__)
+          crashlytics().recordError(new Error('createResizeImg1_DEV'));
+          else
+          crashlytics().recordError(new Error('createResizeImg1_PRD'));
         });
 
 
@@ -173,7 +176,10 @@ class Muestro extends Component {
             // inspect err to get more details.
             crashlytics().setUserId(this.props.qra);
             crashlytics().log('error: ' + err) ;
-            crashlytics().recordError(new Error('createResizedImage2'));
+            if(__DEV__)
+            crashlytics().recordError(new Error('createResizImg2_DEV'));
+            else
+            crashlytics().recordError(new Error('createResizImg2_PRD'));
           });
   
         }
@@ -283,7 +289,10 @@ class Muestro extends Component {
           // inspect err to get more details.
           crashlytics().setUserId(this.props.qra);
           crashlytics().log('error: ' + err) ;
-          crashlytics().recordError(new Error('createResizedImage3'));
+          if(__DEV__)
+          crashlytics().recordError(new Error('createResizImg3_DEV'));
+          else
+          crashlytics().recordError(new Error('createResizImg3_PRD'));
         });
         final = new Date();
         total = final - inicial;
@@ -312,7 +321,10 @@ class Muestro extends Component {
             // inspect err to get more details.
             crashlytics().setUserId(this.props.qra);
             crashlytics().log('error: ' + err) ;
-            crashlytics().recordError(new Error('createResizedImage4'));
+            if(__DEV__)
+            crashlytics().recordError(new Error('createResiImg4_DEV'));
+            else
+            crashlytics().recordError(new Error('createResiImg4_PRD'));
           });
   
         }

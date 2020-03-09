@@ -163,7 +163,10 @@ constructor(props) {
 
                 crashlytics().setUserId(this.state.email.toLowerCase());
                 crashlytics().log('error: ' + err) ;
-                crashlytics().recordError(new Error('Auth.forgotPassword'));
+                if(__DEV__)
+                crashlytics().recordError(new Error('Auth.forgotPassword_DEV'));
+                else
+                crashlytics().recordError(new Error('Auth.forgotPassword_PRD'));
 
                 // kinesis_catch('#004',err,this.state.qra.toUpperCase());
               });
@@ -232,7 +235,10 @@ constructor(props) {
                   
                     crashlytics().setUserId(this.state.email.toLowerCase());
                     crashlytics().log('error: ' + err) ;
-                    crashlytics().recordError(new Error('Auth.forgotPasswordSubmit'));
+                    if(__DEV__)
+                    crashlytics().recordError(new Error('Auth.forgotPasswordSubmit_DEV'));
+                    else
+                    crashlytics().recordError(new Error('Auth.forgotPasswordSubmit_PRD'));
                     
                     // kinesis_catch('#005',err,this.state.qra.toUpperCase());
         });

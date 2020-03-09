@@ -90,7 +90,10 @@ class Iap extends Component {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('didMountIAP'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('didMountIAP_DEV'));
+      else
+      crashlytics().recordError(new Error('didMountIAP_PRD'));
     }
 
     setTimeout(() => {
@@ -163,7 +166,10 @@ class Iap extends Component {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('IAPgetItems'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('IAPgetItems_DEV'));
+      else
+      crashlytics().recordError(new Error('IAPgetItems_PRD'));
     }
   }
 
@@ -176,7 +182,10 @@ class Iap extends Component {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('IAPgetSubscriptions'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('IAPgetSubscriptions_DEV'));
+      else
+      crashlytics().recordError(new Error('IAPgetSubscriptions_PRD'));
     }
   }
 
@@ -261,7 +270,10 @@ class Iap extends Component {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('IAPgetAvailablePurchases'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('IAPgetAvailablePurc_DEV'));
+      else
+      crashlytics().recordError(new Error('IAPgetAvailablePurc_PRD'));
        Alert.alert(err.message);
        
     }
@@ -275,7 +287,10 @@ class Iap extends Component {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('IAPrequestPurchase'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('IAPrequestPurch_DEV'));
+      else
+      crashlytics().recordError(new Error('IAPrequestPurch_PRD'));
     }
   }
 
@@ -289,7 +304,10 @@ class Iap extends Component {
     } catch (err) {
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('IAPrequestSubscription'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('IAPrequestSubs_DEV'));
+      else
+      crashlytics().recordError(new Error('IAPrequestSubs_PRD'));
       Alert.alert(err.message);
     }
   }
