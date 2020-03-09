@@ -428,7 +428,11 @@ class QsoScreen extends Component {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('QsoAvailablePurchase'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('QsoAvailablePurch_DEV'));
+      else
+      crashlytics().recordError(new Error('QsoAvailablePurch_PRD'));
+
       Alert.alert(err.message);
     }
   }

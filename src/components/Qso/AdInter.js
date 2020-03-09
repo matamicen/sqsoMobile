@@ -210,7 +210,10 @@ class AdInter extends Component {
         
          crashlytics().setUserId(this.props.qra);
          crashlytics().log('error: ' + err) ;
-         crashlytics().recordError(new Error('interLoaded'));
+         if(__DEV__)
+         crashlytics().recordError(new Error('interLoaded_DEV'));
+         else
+         crashlytics().recordError(new Error('interLoaded_PRD'));
          alert("intersitial loaded failed: " + err);
         }
     

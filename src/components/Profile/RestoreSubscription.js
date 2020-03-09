@@ -109,7 +109,10 @@ if (this.props.userinfo.account_type.idaccount_types===2)
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('RestoreSubcription1'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('RestoreSubcription1_DEV'));
+      else
+      crashlytics().recordError(new Error('RestoreSubcription1_PRD'));
     }
 
     
@@ -177,7 +180,10 @@ if (this.props.userinfo.account_type.idaccount_types===2)
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('getSubscriptions'));
+      if(__DEV__)
+       crashlytics().recordError(new Error('getSubscriptions_DEV'));
+      else
+      crashlytics().recordError(new Error('getSubscriptions_PRD'));
     }
   }
 
@@ -241,7 +247,10 @@ if (this.props.userinfo.account_type.idaccount_types===2)
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('getPurchaseHistory'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('getPurchaseHistory_DEV'));
+      else
+      crashlytics().recordError(new Error('getPurchaseHistory_PRD'));
       Alert.alert(err.message);
     }
   }
@@ -343,7 +352,11 @@ if (this.props.userinfo.account_type.idaccount_types===2)
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + err) ;
-      crashlytics().recordError(new Error('getAvailablePurchase'));
+      if(__DEV__)
+      crashlytics().recordError(new Error('getAvailablePurchase_DEV'));
+      else
+      crashlytics().recordError(new Error('getAvailablePurchase_PRD'));
+
       Alert.alert(err.message);
     }
   }

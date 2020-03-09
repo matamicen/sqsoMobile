@@ -313,7 +313,10 @@ async _record() {
     console.error(error);
     crashlytics().setUserId(this.props.qra);
     crashlytics().log('error: ' + error) ;
-    crashlytics().recordError(new Error('startRecording'));
+    if(__DEV__)
+    crashlytics().recordError(new Error('startRecording_DEV'));
+    else
+    crashlytics().recordError(new Error('startRecording_PRD'));
   }
 }
 
@@ -394,7 +397,10 @@ _stop = async () => {
   } catch (error) {
     crashlytics().setUserId(this.props.qra);
     crashlytics().log('error: ' + error) ;
-    crashlytics().recordError(new Error('stopRecording'));
+    if(__DEV__)
+    crashlytics().recordError(new Error('stopRecording_DEV'));
+    else
+    crashlytics().recordError(new Error('stopRecording_PRD'));
     console.error(error);
   }
 }
@@ -423,7 +429,10 @@ _stop = async () => {
         console.log(err);
         crashlytics().setUserId(this.props.qra);
         crashlytics().log('error: ' + err) ;
-        crashlytics().recordError(new Error('fs.stat'));
+        if(__DEV__)
+        crashlytics().recordError(new Error('fs.stat_DEV'));
+        else
+        crashlytics().recordError(new Error('fs.stat_PRD'));
       })
   // if (Platform.OS === 'ios') {
 
