@@ -121,13 +121,16 @@ signOut = async () => {
        this.props.resetForSignOut();
         this.props.navigation.navigate("Root");
 
-        crashlytics().setUserId(this.props.qra);
-     //   crashlytics().setAttribute('InitialScreen', '#1');
-        crashlytics().log('error: ' + e) ;
-        crashlytics().recordError(new Error('SignOut_AuthCurrentSession'));
 
-        //kinesis_catch('#007',e,this.props.qra);
-        // Handle exceptions
+        // Es ok que de Error aca porque acaba de hacer SignOut, no lo trackeo en crashlytics
+        // porque no es un error
+        
+    //     crashlytics().setUserId(this.props.qra);
+    //  //   crashlytics().setAttribute('InitialScreen', '#1');
+    //     crashlytics().log('error: ' + e) ;
+    //     crashlytics().recordError(new Error('SignOut_AuthCurrentSession'));
+
+  
       }
 
     } else
