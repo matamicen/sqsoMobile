@@ -209,6 +209,7 @@ signUp = async () => {
   {   
     this.setState({heightindicator: 35, indicator: 1, heighterror: 0, loginerror: 0});
    
+
    
           if (this.state.password!==this.state.passwordConfirm)
           {
@@ -236,6 +237,16 @@ signUp = async () => {
             this.error = true;
             this.emailRef.focus();
           }
+
+          var re = /^[a-zA-Z0-9]+$/;
+          if (!re.exec(this.state.qra))
+          {
+     
+            this.setState({errormessage: 'Invalid characters in callsign',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true;
+            this.qraRef.focus();
+          }
+       
 
           if (this.state.qra=='')
           {
