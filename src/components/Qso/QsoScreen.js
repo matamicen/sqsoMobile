@@ -1417,7 +1417,7 @@ class QsoScreen extends Component {
        {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
             <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 9 }}>
                   { (this.props.sqsosqlrdsid !== '') &&
-                      <ShareQso />
+                      <ShareQso qra={this.props.qra} qsotype={this.props.qsotype} band={this.props.band} mode={this.props.mode} sqlrdsid={this.props.sqsosqlrdsid}/>
                   }
             </View>
           {/* ) : null} */}

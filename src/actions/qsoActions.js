@@ -29,7 +29,7 @@ import {FETCHING_API_REQUEST,
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
-import { Auth, Analytics } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { API } from 'aws-amplify';
 import { Storage } from 'aws-amplify';
 
@@ -58,7 +58,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 Auth.configure(awsconfig);
 API.configure(awsconfig);
 Storage.configure(awsconfig);
-Analytics.configure(awsconfig);
+// Analytics.configure(awsconfig);
 
 
 
@@ -1294,8 +1294,8 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       console.log("devuelve addmedia: "+JSON.stringify(respuesta));
       
      // var auxUrl = mediaToadd.url.replace("https://d3gbqmcrekpw4.cloudfront.net", "");
-      var auxUrl = mediaToadd.url.replace("https://d1v72vqgluf2qt.cloudfront.net", "");
-     
+      var auxUrl = mediaToadd.url.replace("https://d1v72vqgluf2qt.cloudfront.net/protected/", "");
+     console.log('el auxurl:'+ auxUrl)
       if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
