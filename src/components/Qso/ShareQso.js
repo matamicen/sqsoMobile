@@ -3,6 +3,7 @@ import { View, Platform, Text, TouchableOpacity, Image,  Animated,
   Easing, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
+import analytics from '@react-native-firebase/analytics';
 
 
   
@@ -105,6 +106,11 @@ class ShareQso extends Component {
     // });
     
     Share.open(options);
+
+    if(__DEV__)
+    analytics().logEvent("SHARE_DEV", {"QRA" : this.props.qra, "SQLRDSID" : this.props.sqlrdsid, "BAND" : this.props.band, "MODE" : this.props.mode, "URLSHARE": this.props.sharerluid});
+else
+    analytics().logEvent("SHARE_PRD", {"QRA" : this.props.qra, "SQLRDSID" : this.props.sqlrdsid, "BAND" : this.props.band, "MODE" : this.props.mode, "URLSHARE": this.props.sharerluid});
     
 
   }
