@@ -175,10 +175,10 @@ class VariosModales extends Component {
                 resizeMode="contain"
               />
 
-              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to SuperQSO!</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to Super QSO!</Text>
               <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>You have 3 month of trial Premium Subscription!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy SuperQso 59+100 !!!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using SuperQSO with the FREE subscription.</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy Super QSO 59+100 !!!</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using Super QSO with the FREE subscription.</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}
