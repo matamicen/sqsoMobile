@@ -8,6 +8,7 @@ import QsoQras from './QsoQras';
 import QsoType from './QsoType';
 import QsoBand from './QsoBand';
 import QsoMode from './QsoMode';
+import QsoRst from './QsoRst';
 import QsoEnterQra from './QsoEnterQra';
 
 
@@ -91,15 +92,20 @@ class QsoHeader extends Component {
                         <QsoEnterQra /> : null } */}
                     </View>
                    
-                    <View style={{flex: Platform.OS==='ios' ? 0.265 : 0.265, alignItems: 'center'}}>  
+                    <View style={{flex: Platform.OS==='ios' ? 0.170 : 0.170 , alignItems: 'center'}}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?  
                         <QsoBand />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.265 : 0.265, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.170 : 0.170}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                         <QsoMode />  : null }
+                    </View>  
+
+                    <View style={{flex: Platform.OS==='ios' ? 0.190 : 0.190, alignItems: 'center'}}>
+                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
+                        <QsoRst />  : null }
                     </View>  
 
                </View> 

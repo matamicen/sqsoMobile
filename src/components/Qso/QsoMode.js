@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { setMode, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue } from '../../actions';
+import { setMode, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue, setRst } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress, hasAPIConnection} from '../../helper';
 import VariosModales from './VariosModales';
@@ -31,6 +31,21 @@ class QsoMode extends Component {
      {
      if (this.props.mode!==value){ 
           this.props.setMode(value);
+       
+          // algoritmo para meterle el 9 final automatico si eleigio CW
+          // siempre y cuando no lo haya seteado el antes a la T
+        //   if (value==='CW'){
+        //         rtsModif = this.props.rst;
+        //         long = rtsModif.length;
+        //         console.log('longitud de RTS: '+long + ' '+ this.props.rst)
+        //         if (long===2){
+        //         rstLocal = this.props.rst+'9';
+        //         this.props.setRst(rstLocal);
+        //         }else
+        //         {
+        //             console.log('ultimo digito: '+ rtsModif[2])
+        //         }
+        //    }
 
           if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,value,this.props.qsoqras,this.props.mediafiles))
           await this.props.onprogressTrue();
@@ -41,7 +56,7 @@ class QsoMode extends Component {
       
               // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
             if (ONPROGRESS) {
-             data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,value,
+             data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,value,this.props.rst,
                                           this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
                                           this.props.longitude);
                   console.log("Data to Send API: "+ JSON.stringify(data)); 
@@ -152,7 +167,7 @@ class QsoMode extends Component {
                                  
                                  {/* marginLeft: 48 */}
               <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                                       
-               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 8}} onPress={() => this.togglePicker()} >{this.props.mode}</Text>
+               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}} onPress={() => this.togglePicker()} >{this.props.mode}</Text>
               </TouchableOpacity>
 
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
@@ -204,6 +219,7 @@ class QsoMode extends Component {
     return {        
         mode: state.sqso.currentQso.mode,
         band: state.sqso.currentQso.band,
+        rst: state.sqso.currentQso.rst,
         qsotype: state.sqso.currentQso.qsotype,
         qsoqras: state.sqso.currentQso.qsoqras,
         sqlrdsid: state.sqso.currentQso.sqlrdsId,
@@ -219,6 +235,7 @@ class QsoMode extends Component {
 
 const mapDispatchToProps = {
     setMode,
+    setRst,
     postQsoNew,
     onprogressTrue,
     onprogressFalse,

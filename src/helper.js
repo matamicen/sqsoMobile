@@ -126,7 +126,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
 
    }
 
-  export const check_firstTime_OnProgress=(qsotype,band,mode,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
+  export const check_firstTime_OnProgress=(qsotype,band,mode,rst,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
      console.log("DENTRO de CHECK FIRST TIME");
      console.log("OnProgress: "+ onprogress);
     if (onprogress && sqlrdsid===''){
@@ -139,6 +139,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
       const data = {
         "band" : band,
         "mode" : mode,
+        "rst" : rst,
         "type" : qsotype,
         "longitude" : longitude,
         "latitude": latitude,
@@ -228,7 +229,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
     
 
 
-    const timeout = 2500
+    const timeout = 4000 // 2500
 
 
    var fechaEnMiliseg = String(Date.now());
