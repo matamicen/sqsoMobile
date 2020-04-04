@@ -154,7 +154,7 @@ class QsoScreen extends Component {
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 12 }}>QSO</Text>
+          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 11 }}>POST</Text>
         </View>
       );
     }
@@ -1288,7 +1288,7 @@ class QsoScreen extends Component {
                   marginBottom: 10
                 }}
               >
-                Are you sure to END this {this.props.qsotype} log ?{" "}
+                Are you sure to END this {this.props.qsotype} post?{" "}
               </Text>
 
               <View style={{ flexDirection: "row", flex: 1 }}>
@@ -1326,7 +1326,7 @@ class QsoScreen extends Component {
                       fontSize: 14, marginRight: 15
                     }}
                   >
-                    End this {this.props.qsotype}
+                    End this Post
                   </Text>
                 </TouchableOpacity>
                 </View>
@@ -1369,7 +1369,7 @@ class QsoScreen extends Component {
                       style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
                       
                           ]}>
-                      <Text style={{fontSize: 16, color: '#243665'}}>Start a QSO</Text>
+                      <Text style={{fontSize: 16, color: '#243665'}}>Start a POST</Text>
                       </Animated.View>
                     </TouchableOpacity>
                   
@@ -1398,14 +1398,14 @@ class QsoScreen extends Component {
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
           <View style={{ flex: 0.25, marginTop: 3, marginLeft: 5 }}>
             {this.props.sqsonewqsoactive && 
-              <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.OpenEndQsoModal()}>
+              <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                 <Image
-                  source={require("../../images/removecircle.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
+                  source={require("../../images/endQso2.png")}
+                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
                   resizeMode="contain"
                 />
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>End Qso</Text>
+                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>End POST</Text>
               </TouchableOpacity>
               
             }

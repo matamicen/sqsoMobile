@@ -1054,7 +1054,7 @@ chooseCountry = () => {
                  </TouchableOpacity>
 
                  <TouchableOpacity  style={{marginTop: 5}} onPress={ () => this.props.navigation.navigate("Root")} >
-                    <Text style={styles.buttonText2} >Login Screen</Text>
+                    <Text style={styles.buttonText2} >Back to Login Screen</Text>
                  </TouchableOpacity>
 
                   <Text style={styles.buttonText2} > </Text>

@@ -24,7 +24,7 @@ class Search extends Component {
         <Image
             style={{ width: 28, height: 28, marginLeft: 3 }}
             source={require('../../images/search.png')}/>
-            <Text style={{fontSize:9, marginTop: 3}}>SEARCH</Text>
+            <Text style={{fontSize:9, marginTop: 3.5}}>SEARCH</Text>
             </View>
             
             );}
