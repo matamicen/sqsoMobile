@@ -176,7 +176,8 @@ class QsoRst extends Component {
                                  
                                  {/* , marginLeft: 33 */}
                <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                  
-               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 4  }} onPress={() => this.togglePicker()} >R {this.props.rst}</Text>
+               <Text style={{ fontSize: 17, color: '#999', marginTop: 0, marginLeft: 4  }} onPress={() => this.togglePicker()} >  RST</Text>
+               <Text style={{ fontSize: 17, color: '#999', marginTop: 0, marginLeft: 4  }} onPress={() => this.togglePicker()} >  {this.props.rst}</Text>
                </TouchableOpacity >
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,
