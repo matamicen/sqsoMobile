@@ -49,7 +49,7 @@ class QsoBand extends Component {
             
                     // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
                   if (ONPROGRESS) {
-                   data = check_firstTime_OnProgress(this.props.qsotype,value,this.props.mode,
+                   data = check_firstTime_OnProgress(this.props.qsotype,value,this.props.mode,this.props.rst,
                                                 this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
                                                 this.props.longitude);
                         console.log("Data to Send API: "+ JSON.stringify(data));  
@@ -159,7 +159,7 @@ class QsoBand extends Component {
                                  
                                  {/* , marginLeft: 33 */}
                <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                  
-               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 6  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
+               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 10  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
                </TouchableOpacity >
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,
@@ -210,6 +210,7 @@ class QsoBand extends Component {
     return {        
         band: state.sqso.currentQso.band,
         mode: state.sqso.currentQso.mode,
+        rst: state.sqso.currentQso.rst,
         qsotype: state.sqso.currentQso.qsotype,
         qsoqras: state.sqso.currentQso.qsoqras,
         sqlrdsid: state.sqso.currentQso.sqlrdsId,

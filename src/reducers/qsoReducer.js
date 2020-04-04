@@ -20,7 +20,7 @@ import {FETCHING_API_REQUEST,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
-     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID   } from '../actions/types';
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -76,6 +76,7 @@ const initialState = {
         bandSent: false,
         mode: 'Mode',
         modeSent: false,
+        rst: '59',
         mediafiles: [ {name: 'vacio', type: 'vacio'}],
         modalconfirmphoto: false,
         phototype: '',
@@ -357,6 +358,20 @@ const qsoReducer = (state = initialState, action) => {
               currentQso: auxcurrentQso
           });
       return newStore;
+
+      case SET_RST:
+          console.log('cambio RST REDUX: '+action.rst)
+        auxcurrentQso = {
+           ...state.currentQso,
+           rst: action.rst
+                    
+       };
+       newStore = Object.assign({}, state,
+           {
+               ...state,
+               currentQso: auxcurrentQso
+           });
+       return newStore;
 
       case SET_WELCOME_USER_FIRST_TIME:
      
@@ -1029,6 +1044,7 @@ const qsoReducer = (state = initialState, action) => {
              bandSent: false,
              mode: 'Mode',
              modeSent: false,
+             rst: '59',
              mediafiles: [ {name: 'vacio', type: 'vacio'}],
              modalconfirmphoto: false,
              mediatosend: {},

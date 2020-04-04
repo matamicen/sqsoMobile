@@ -50,6 +50,7 @@ class QsoType extends Component {
 
           qsoHeader = { "mode" : this.props.mode,
                         "band" : this.props.band,
+                        "rst" : this.props.rst,
                         "type" : typetochange,
                         "sqlrdsid" : this.props.sqlrdsid,
                         "qra": this.props.qra
@@ -245,6 +246,7 @@ QsoType.propTypes = {
     return { qsotype: state.sqso.currentQso.qsotype, 
              band: state.sqso.currentQso.band,
              mode: state.sqso.currentQso.mode,
+             rst: state.sqso.currentQso.rst,
              qra: state.sqso.qra, 
              qsoqras: state.sqso.currentQso.qsoqras,
              sqlrdsid: state.sqso.currentQso.sqlrdsId,

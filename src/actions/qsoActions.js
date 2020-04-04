@@ -25,7 +25,7 @@ import {FETCHING_API_REQUEST,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
         SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
-        SET_SHARE_URL_GUID  } from './types';
+        SET_SHARE_URL_GUID, SET_RST  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -108,6 +108,12 @@ export const setBand = (band) => {
         type: SET_BAND,
         band: band
     };
+}
+export const setRst = (rst) => {
+  return {
+      type: SET_RST,
+      rst: rst
+  };
 }
 export const setMode = (mode) => {
     return {
@@ -419,6 +425,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       console.log("ejecuta llamada API Qso NEW");  
     try {
        console.log("Antes1 QSO new" );
+       console.log("RST: "+ JSON.stringify(bodyqsonew.rst));
        let tiempo1;
        let tiempo2;
        let resu;
@@ -637,6 +644,7 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
 
          console.log("SIN FORMATEAR: "+ JSON.stringify(qsoHeader));
      
+     
 
         let apiName = 'superqso';
         let path = '/qsoedit';
@@ -648,8 +656,10 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
           body: {
                 "mode": qsoHeader.mode,
                 "band": qsoHeader.band,
+                "rst": qsoHeader.rst,
                 "qso": qsoHeader.sqlrdsid,
-                "type": qsoHeader.type               }
+                "type": qsoHeader.type,
+                             }
           
         }
 

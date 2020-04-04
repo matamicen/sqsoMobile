@@ -512,7 +512,7 @@ if (this.debeHacerUpgrade===false)
 
         //apologize
          if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-      // if (1===2)
+     //  if (1===2)
       this.setState({stopApp: true})
         else
         {
