@@ -1057,7 +1057,7 @@ class QsoScreen extends Component {
               console.log('onprogress '+ONPROGRESS)
 
               if (ONPROGRESS) {
-                data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,
+                data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
                                             this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude,
                                             this.props.longitude);
                     console.log("Data to Send API: "+ JSON.stringify(data));  
@@ -1531,6 +1531,7 @@ const mapStateToProps = state => {
     rdsurls3: state.sqso.urlRdsS3,
     band: state.sqso.currentQso.band,
     mode: state.sqso.currentQso.mode,
+    rst: state.sqso.currentQso.rst,
     //qsotype: state.sqso.currentQso.qsotype,
     qsoqras: state.sqso.currentQso.qsoqras,
    // sqlrdsid: state.sqso.currentQso.sqlrdsId,
