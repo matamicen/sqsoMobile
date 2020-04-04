@@ -57,7 +57,7 @@ class QsoTypeLink extends Component {
 
                 (this.props.type==='POST') ? 
                
-                 <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/any.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
               
                  

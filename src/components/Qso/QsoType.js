@@ -105,7 +105,7 @@ class QsoType extends Component {
 
                 (this.props.qsotype==='POST') ? 
                  <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
-                 <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/any.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity> 
                  
@@ -133,7 +133,7 @@ class QsoType extends Component {
                         //  alignItems: 'center'                      
                           }}>
                           
-                  <Text style={{ color: '#4F4F4F', fontSize: 20, padding: 5 }}>Select the Log Type</Text>
+                  <Text style={{ color: '#4F4F4F', fontSize: 20, padding: 5 }}>Select the Post Type</Text>
                   
 
                   <View style={{ justifyContent: 'space-around', 
@@ -144,7 +144,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified! </Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You do not participate in the QSO but help other hams listen to their QSOs! They will be notified! </Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -153,9 +153,9 @@ class QsoType extends Component {
                   { (this.props.qsotype==='QSO') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Log anything you want to share :)
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Post anything you want to share :)
                       </Text>
                     </View>  
                    </TouchableOpacity> 
@@ -175,9 +175,9 @@ class QsoType extends Component {
                   { (this.props.qsotype==='LISTEN') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/postAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Log anything you want to share :)</Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Post anything you want to share :)</Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
@@ -198,7 +198,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You do not participate in the QSO but help other hams Logging their QSOs! They will be notified! </Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You do not participate in the QSO but help other hamslisten to their QSOs! They will be notified! </Text>
                 
                     </View>  
                    </TouchableOpacity> 

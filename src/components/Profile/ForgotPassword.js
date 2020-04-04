@@ -309,11 +309,11 @@ constructor(props) {
     
 
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.next()} >
-                    <Text style={styles.buttonText}> Next</Text>
+                    <Text style={styles.buttonText}>Submit</Text>
                  </TouchableOpacity>
 
                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
-                    <Text style={styles.buttonText2} >Login Screen</Text>
+                    <Text style={styles.buttonText2} >Back to Login Screen</Text>
                  </TouchableOpacity>
 
                  </KeyboardAvoidingView>
@@ -366,11 +366,11 @@ constructor(props) {
 
   
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.sendNewPassword()} >
-                    <Text style={styles.buttonText}>Send</Text>
+                    <Text style={styles.buttonText}>Submit</Text>
                  </TouchableOpacity>
 
                  <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
-                    <Text style={styles.buttonText2} >Login Screen</Text>
+                    <Text style={styles.buttonText2} >Back to Login Screen</Text>
                  </TouchableOpacity>
             </View>
          }
