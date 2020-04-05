@@ -222,7 +222,7 @@ constructor(props) {
 
           Alert.alert(
             //title
-            'Someone Logged you! 🚀' ,
+            'Someone mention you in a Post! 🚀' ,
             //body
             notification['pinpoint.notification.title'] +': '+notification['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
             
@@ -293,7 +293,7 @@ constructor(props) {
            if (notification.foreground && (notification.alert.title.indexOf("included you") !== -1))   
               Alert.alert(
                 //title
-                'Someone Logged you! 🚀' ,
+                'Someone mention you in a Post! 🚀' ,
                 //body
                 notification.alert.title +': '+notification.alert.body+' ➡ See more details on Notifications 🔔',
                 
