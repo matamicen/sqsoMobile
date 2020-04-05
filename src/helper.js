@@ -27,7 +27,7 @@ export const chau=()=>{
 
 export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
  let devuelvo;
-    if(qsotype==='POST' && mediafiles.length > 0){
+    if(qsotype==='POST' && mediafiles.length > 1){
       
       return true;
     }
