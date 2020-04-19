@@ -6,7 +6,8 @@ import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMedi
   manageLocationPermissions, setSendingProfilePhotoModal, setConfirmProfilePhotoModal,
   setProfileModalStat  } from '../../actions';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
-  TouchableHighlight, KeyboardAvoidingView, Platform, Dimensions   } from 'react-native';
+  TouchableHighlight, KeyboardAvoidingView, Platform, Dimensions, TouchableWithoutFeedback,
+  Keyboard   } from 'react-native';
 import { getDate} from '../../helper';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import { Auth } from 'aws-amplify';
@@ -56,7 +57,8 @@ class Muestro extends Component {
           description: '',
           nointernet: false,
           notvideorewarded: false,
-          prereward: false
+          prereward: false,
+         // rotateShow: true
         };
       }
 
@@ -596,10 +598,12 @@ class Muestro extends Component {
    
               
         return( 
-          
-        <View style={{flex:1}}>
+          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={46}
+          >
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
+        <View style={{flex:1, marginTop: 35}}>
             
-            <View style={{flex:this.props.height===320 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
             { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') ?
              <Image style={styles.faceImageStyle}
             source={{ uri: this.props.sqsomedia.url }}
@@ -612,19 +616,21 @@ class Muestro extends Component {
                           /> }
                           {/* && Platform.OS==='android' */}
             {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
-          { (this.props.sqsomedia.type==='image' ) &&
+          { (this.props.sqsomedia.type==='image') &&
                    <TouchableOpacity  onPress={() => this.rotateImage()} >
-                           <Image style={{ width: 26, height: 26,  marginTop: 5, marginLeft: 9}}
+                     <View style={{ flexDirection: 'row'}}>
+                           <Image style={{ width: 15, height: 15,  marginTop: 3, marginLeft: 3}}
                       source={require('../../images/rotate.png')}
                           /> 
 
-                         <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 13}}>Rotate</Text>
+                         <Text style={{ color: 'orange', fontSize: 11, marginTop: 3}}> Rotate</Text>
+                     </View>     
                     </TouchableOpacity>
             }
 
           </View>
         
-            <View style={{ flex:this.props.height===320 ? 0.25 : 0.5, flexDirection: 'row'}}>
+            <View style={{ flex:this.props.height===490 ? 0.25 : 0.5, flexDirection: 'row'}}>
 {/* width: this.widthScreen-80 */}
             { (this.props.sqsomedia.type!=='profile') &&
   
@@ -639,7 +645,8 @@ class Muestro extends Component {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  
+                  // onFocus={() => this.setState({rotateShow: false})}
+                  // onBlur={() => this.setState({rotateShow: true})}
                   style={styles.input}
                   value={this.state.description}
                     onChangeText={(text) => this.setState({description: text})} />
@@ -683,6 +690,10 @@ class Muestro extends Component {
 } */}
 
          </View>
+         </TouchableWithoutFeedback>
+         </KeyboardAvoidingView>
+
+      
          
             
            
@@ -694,8 +705,10 @@ class Muestro extends Component {
  
 const styles = StyleSheet.create({
        faceImageStyle: {
-       width: 150,
-       height: 150,
+      //  width: 150,
+      //  height: 150,
+             width: 230,
+       height: 230,
        
     //   borderRadius: 30
        },
@@ -712,13 +725,14 @@ const styles = StyleSheet.create({
         color: 'orange'        
     },
     input: {
-      height: 40,
+      height: 35,
       borderRadius: 22,  
-      backgroundColor: 'rgba(255,255,255,0.2)',
+      // backgroundColor: 'rgba(255,255,255,0.2)',
+      backgroundColor: 'black',
       marginBottom: 5,
       marginTop: 15,
       color: '#FFF',
-      fontSize: 16,
+      fontSize: 14,
       paddingHorizontal: 5,
    //   width: 100
             }

@@ -27,7 +27,7 @@ class QsoQtrLink extends Component {
      
                                  
          {/* {(this.props.sqsoqslscanerror===0) && */}
-               <Text style={{ fontSize: 16, color: '#999'}}>QTR(UTC):
+               <Text style={{ fontSize: 16, color: '#999'}}>UTC:
                <Text style={{ fontSize: 16, color: 'black'}}> {this.props.datetime.substr(13, 5)} </Text>
                
                </Text> 
