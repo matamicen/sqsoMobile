@@ -103,6 +103,10 @@ class QsoBand extends Component {
                        title: '70cm',
                        value: '70cm'
                    },
+                   {
+                    title: '1.25m',
+                    value: '1.25m'
+                },
                 {
                     title: '2m',
                     value: '2m'
@@ -162,7 +166,7 @@ class QsoBand extends Component {
                <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 10  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
                </TouchableOpacity >
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
-                    <View style={{ margin:20,
+                    <View style={{ margin:5,
                          padding:20, 
                          backgroundColor: '#efefef',
                          bottom: 3,

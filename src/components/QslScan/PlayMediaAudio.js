@@ -347,7 +347,7 @@ import Video from 'react-native-video';
           <Text> {this.state.minutes}:{this.state.secondsText} / {this.state.minutesDuration}:{this.state.secondsDuration}</Text>
         }
 
-           <Text> QTR: {this.props.datetime.substr(11, 8)}</Text>
+           <Text> UTC: {this.props.datetime.substr(11, 8)}</Text>
            <Text style={{ fontSize: 16, color: '#243665'}}>  {this.props.description}</Text>
 
           

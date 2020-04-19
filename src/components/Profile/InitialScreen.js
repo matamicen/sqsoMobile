@@ -434,7 +434,7 @@ signOut = async () => {
                 right: 35,
                 width: this.width - 35,
 
-                height: 320,
+                height: 490,
            //  height: 320,
                 paddingVertical: 5,
                 //   position: 'absolute',
@@ -445,7 +445,7 @@ signOut = async () => {
             >
               {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
               {/* <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={320} /> */}
-              <Muestro  height={320}/>
+              <Muestro  height={490}/>
               {/* style={{ paddingBottom: 4}} */}
               <View style={{ marginTop: 10 }}>
                 <TouchableOpacity style={{ width: 65 }}
