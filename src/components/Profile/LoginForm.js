@@ -101,10 +101,12 @@ constructor(props) {
      showloginForm: false,
      mess: 'Loading ...',
      stopApp: false,
+     pushTokenNotFound: false,
      confirmSignup: false,
      confirmationcodeError: 0,
      color: 'red',
      appNeedUpgrade: false,
+     forceChangePassword: false,
      upgradeText: ''
      
     }
@@ -382,12 +384,19 @@ constructor(props) {
   }
   catch (error) {
     console.log('Api getParameters catch error:', error);
+
+
    
     crashlytics().log('error: ' + error) ;
     if(__DEV__)
     crashlytics().recordError(new Error('getParameters_DEV'));
     else
     crashlytics().recordError(new Error('getParameters_PRD'));
+
+    this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!'});
+    this.debeHacerUpgrade = true;
+
+
     }  
     // fin chequeo de version minima de la APP
 
@@ -511,9 +520,9 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-         if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-     //  if (1===2)
-      this.setState({stopApp: true})
+        if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+ //     if (1===2)
+      this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
         console.log("Antes de AsyncStorage.getItem");
@@ -638,6 +647,15 @@ signIn = async () => {
   console.log("username: "+this.state.username.toLowerCase() + "password: "+ this.state.password);
     await Auth.signIn(this.state.username.toLowerCase(), this.state.password)
       .then((result) => { console.log('entro!');
+      console.log(result);
+      console.log('challenge: ' + result.challengeName);
+      
+      // si viene con new password required freno la app porque no tengo desarrollado el cambio 
+      // de password en mobil, lo mando a la web a cambiar password porque sino cognito no genera token
+      // para poder llamar a APIS y demas cosas.
+      if (result.challengeName==='NEW_PASSWORD_REQUIRED')
+         this.setState({forceChangePassword: true, stopApp: true });
+         
       console.log(result.signInUserSession.idToken.payload['custom:callsign']);
       console.log(result.signInUserSession.idToken.jwtToken);
       this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
@@ -1090,12 +1108,18 @@ if (!this.usernotfound)
 
                     <View style={{flex: 1, alignItems: 'center'}}>
 
-                   
-                     {(this.state.appNeedUpgrade) ?
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText.split('<br/>').join('\n') }</Text>
-                      :
+
+                     {(this.state.appNeedUpgrade) &&
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText.split('<br/>').join('\n') }</Text> 
+                     }
+
+                      {(this.state.pushTokenNotFound) &&
                      <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, there was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
                      }
+
+               {(this.state.forceChangePassword) &&
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, you have to change your password in order to use SuperQSO APP, please change your password on the web -> superqso.com {"\n\n"}Then try login again with the App. {"\n\n"} Apologize. SuperQSO.</Text>
+                     }    
                  
                     
                     </View>
