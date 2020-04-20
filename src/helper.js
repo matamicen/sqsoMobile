@@ -365,6 +365,16 @@ export const kinesis_catch =  (errnumber, errordesc, qra) => {
 
 }
 
+export const devuelveSoloUnType =  (mediafiles,type) => {
+  soloUnType = [];
+  mediafiles.map(item => {
+    if(item.type === type) {
+      soloUnType =  [...soloUnType,item] 
+    }
+  })
+   return soloUnType;
+}
+
 export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
   if (followings.length>0)

@@ -54,8 +54,9 @@ class QsoHeaderLink extends Component {
                         <QsoTypeLink type={this.props.type}/> 
                         </View>
                       <View style={{flex:0.64}}>  
-                        {  this.props.type!=='POST' ?
-                        <QsoQrasLink qras={this.props.qras}/> : null} 
+                        {/* {  this.props.type!=='POST' ? */}
+                        <QsoQrasLink qras={this.props.qras}/> 
+                        {/* : null}  */}
                       </View> 
                   </View> 
 
@@ -65,8 +66,8 @@ class QsoHeaderLink extends Component {
                   
                   <View style={{flex:1, flexDirection: 'row', marginTop: 0}}>
                     <View style={{flex:0.4, height: 25}} >
-                    
-                      <QsoBandLink  band={this.props.band}/>
+                    {  this.props.type!=='POST' ?
+                      <QsoBandLink  band={this.props.band}/> : null} 
                       {/* <QsoDateLink datetime={this.props.datetime} /> */}
                     </View>
                     {/* <View style={{flex:0.5, alignItems: 'flex-end',height: 25}} > */}
@@ -77,7 +78,8 @@ class QsoHeaderLink extends Component {
 
                   <View style={{flex:1, flexDirection: 'row',  marginTop: 0}}>  
                         <View style={{flex:0.5,  height: 25}} > 
-                            <QsoModeLink mode={this.props.mode} />
+                        {  this.props.type!=='POST' ?
+                            <QsoModeLink mode={this.props.mode} /> : null} 
                             {/* <QsoQtrLink datetime={this.props.datetime} /> */}
                         </View>    
                         <View style={{flex:0.5, alignItems: 'flex-end', height: 25}} >            

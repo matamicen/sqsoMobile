@@ -1118,7 +1118,7 @@ if (!this.usernotfound)
                      }
 
                {(this.state.forceChangePassword) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, you have to change your password in order to use SuperQSO APP, please change your password on the web -> superqso.com {"\n\n"}Then try login again with the App. {"\n\n"} Apologize. SuperQSO.</Text>
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, you have to change your password in order to use SuperQSO APP, please change your password in superqso.com {"\n\n"}Then try login again with the App. {"\n\n"} Apologize. SuperQSO.</Text>
                      }    
                  
                     
