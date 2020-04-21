@@ -16,10 +16,11 @@ import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFals
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions, StackActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
-import { hasAPIConnection, versionCompare } from '../../helper';
+import { hasAPIConnection, apiVersionCheck } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
 import crashlytics from '@react-native-firebase/crashlytics';
+import StopApp from './StopApp';
 
 // nuevo push
 //import Analytics from '@aws-amplify/analytics';
@@ -351,9 +352,6 @@ constructor(props) {
 
   
     console.log("COMPONENT did mount LOGINFORM");
-// v1_installed = '3.11.158'
-// v2_required = '3.11.158'
-//    console.log('comparador de version: ' + versionCompare(v2_required, v1_installed));
 
 
   if (await hasAPIConnection())
@@ -361,43 +359,19 @@ constructor(props) {
     console.log('SI hay internet: ');
 
  
- try {
-    
-   const ApiCall = await fetch('https://d1xllikkw9xhcf.cloudfront.net/globalParamsPublic');
-   const respuesta = await ApiCall.json();
- 
-     console.log("respuesta API getParameters:");
- 
-    if (respuesta.body.error===0)
-    { 
-      console.log('minVersion: '+respuesta.body.message[0].value)
-      v_required = respuesta.body.message[0].value;
-     if (versionCompare(v_required, actualAppVersion)===false)
-     {
-          // console.log('debe hacer Upgrade de la APP')
-          this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
-          this.debeHacerUpgrade = true;
-          
-     }
-          
-    }
-  }
-  catch (error) {
-    console.log('Api getParameters catch error:', error);
 
+  // chequeo version minima de APP  
+  apiCall = await apiVersionCheck();
+  console.log('despues de apiVersionCheck: '+apiCall)
 
-   
-    crashlytics().log('error: ' + error) ;
-    if(__DEV__)
-    crashlytics().recordError(new Error('getParameters_DEV'));
-    else
-    crashlytics().recordError(new Error('getParameters_PRD'));
-
-    this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!'});
+  if (apiCall.stop)
+   {
+    // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
+    this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
     this.debeHacerUpgrade = true;
-
-
-    }  
+            
+   }
+ 
     // fin chequeo de version minima de la APP
 
 
@@ -521,7 +495,7 @@ if (this.debeHacerUpgrade===false)
 
         //apologize
         if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
- //     if (1===2)
+      // if (1===1)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -1087,47 +1061,11 @@ if (!this.usernotfound)
             }
 
 
-<Modal visible ={this.state.stopApp}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
-                    <View style={{
-                      //  margin:20,
-                          padding:20, 
-                      //    backgroundColor:  '#475788',
-                          backgroundColor:"rgba(0,0,0,0.85)",
-                          top: 90,
-                          left: 30,
-                          right: 30,
-                          position: 'absolute',
-                          borderBottomLeftRadius: 22,
-                          borderBottomRightRadius: 22,
-                          borderTopLeftRadius: 22,
-                          borderTopRightRadius: 22,
-                                                    
-                        //  alignItems: 'center'                      
-                          }}>
-          
+      {(this.state.stopApp) &&
+                              <StopApp appNeedUpgrade={this.state.appNeedUpgrade} pushTokenNotFound={this.state.pushTokenNotFound} 
+                              forceChangePassword={this.state.forceChangePassword} upgradeText={this.state.upgradeText}/>
+      }
 
-                    <View style={{flex: 1, alignItems: 'center'}}>
-
-
-                     {(this.state.appNeedUpgrade) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.state.upgradeText.split('<br/>').join('\n') }</Text> 
-                     }
-
-                      {(this.state.pushTokenNotFound) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, there was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
-                     }
-
-               {(this.state.forceChangePassword) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, you have to change your password in order to use SuperQSO APP, please change your password in superqso.com {"\n\n"}Then try login again with the App. {"\n\n"} Apologize. SuperQSO.</Text>
-                     }    
-                 
-                    
-                    </View>
-                    
-                    </View>
-
-               
-               </Modal>
 
                {(this.state.confirmSignup)    && 
           <ConfirmSignUp

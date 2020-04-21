@@ -375,6 +375,55 @@ export const devuelveSoloUnType =  (mediafiles,type) => {
    return soloUnType;
 }
 
+export async function apiVersionCheck() {
+ try{ 
+
+  versionActual = '1.0.4';
+  
+
+   ApiCall = await fetch('https://d1xllikkw9xhcf.cloudfront.net/globalParamsPublic');
+   const respuesta = await ApiCall.json();
+
+       console.log("respuesta API getParameters:");
+ 
+    if (respuesta.body.error===0)
+    { 
+      console.log('minVersion: '+respuesta.body.message[0].value)
+      v_required = respuesta.body.message[0].value;
+     if (versionCompare(v_required, versionActual)===false)
+     {
+          // console.log('debe hacer Upgrade de la APP')
+          // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
+          // this.debeHacerUpgrade = true;
+          res = {stop: true, message: respuesta.body.message[1].value }
+          return res;
+          
+     }
+     else
+      return false;
+          
+    }
+    
+  }
+  catch (error) {
+     console.log('Api getParameters catch error:', error);
+     res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+    
+    crashlytics().log('error: ' + error) ;
+    if(__DEV__)
+    crashlytics().recordError(new Error('getParameters_DEV'));
+    else
+    crashlytics().recordError(new Error('getParameters_PRD'));
+
+    return res;
+
+
+    }  
+ 
+
+   
+}
+
 export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
   if (followings.length>0)
