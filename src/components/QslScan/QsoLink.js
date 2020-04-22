@@ -564,7 +564,7 @@ return   <View style={{flex: 1}}>
                 <Text style={{ fontSize: 14, color: '#243665', fontWeight: 'bold',  marginLeft: 25}}>Step 1</Text> 
                   <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 29 } } 
               resizeMode="contain" />    
-                      <Text style={{ fontSize: 12, color: '#999'}}>Scan your QSO</Text>  
+                      <Text style={{ fontSize: 12, color: '#999'}}>Scan your Post</Text>  
               </TouchableOpacity> 
           </View>
       
@@ -582,7 +582,7 @@ return   <View style={{flex: 1}}>
            <Text style={{ fontSize: 14, color: '#243665',fontWeight: 'bold', marginLeft: 22}}>Step 2</Text> 
           <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 25 } } 
        resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Add a Qso to Link</Text>   
+       <Text style={{ fontSize: 12, color: '#999'}}>Add a Post to Link</Text>   
           
          </TouchableOpacity> 
           } 
