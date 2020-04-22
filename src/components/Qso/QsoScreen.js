@@ -65,7 +65,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -76,6 +76,7 @@ import RNLocation from "react-native-location";
 import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
 import crashlytics from '@react-native-firebase/crashlytics';
+import StopApp from './../Profile/StopApp';
 
 
 
@@ -130,7 +131,12 @@ class QsoScreen extends Component {
       fadeValue: new Animated.Value(0),
       xValue: new Animated.Value(0),
       springValue: new Animated.Value(0.3),
-      rotateValue: new Animated.Value(0)
+      rotateValue: new Animated.Value(0),
+      stopApp: false,
+      appNeedUpgrade: false,
+      pushTokenNotFound: false,
+      forceChangePassword: false,
+      upgradeText: ''
      
     };
   }
@@ -450,6 +456,15 @@ class QsoScreen extends Component {
       //  this.props.manageLocationPermissions("iapshowed", 0);
       }
       else {
+
+         // chequeo version minima de APP  
+            apiCall = await apiVersionCheck();
+            console.log('despues de apiVersionCheck: '+apiCall)
+
+            if (apiCall.stop)
+              this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+           // fin chequeo de version minima de la APP
+
         var session = await Auth.currentSession();
         console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
         this.props.setToken(session.idToken.jwtToken);
@@ -1464,6 +1479,13 @@ class QsoScreen extends Component {
             modalType="welcomefirsttime"
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
+
+
+      {(this.state.stopApp) &&
+                              <StopApp appNeedUpgrade={this.state.appNeedUpgrade} pushTokenNotFound={this.state.pushTokenNotFound} 
+                              forceChangePassword={this.state.forceChangePassword} upgradeText={this.state.upgradeText}/>
+      }
+
       </View>
       //  </TouchableWithoutFeedback>
   

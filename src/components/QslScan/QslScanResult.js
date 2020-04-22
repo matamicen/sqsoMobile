@@ -12,6 +12,7 @@ import MediaImagesLink from './MediaImagesLink';
 // import Comments from './Comments';
 import CommentsLink from './CommentsLink';
 import LikesLink from './LikesLink';
+import ImageCarousel from './ImageCarousel';
 import { getDateQslScan } from '../../helper';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
@@ -330,8 +331,9 @@ return   (this.state.vari) ? <View style={{flex: 1}}>
        <ScrollView contentContainerStyle={styles.contentContainer} >
        {/* { (this.props.qslalreadyscan==='full') ? */}
         {/*  <MediaImages mostrar='image'/> */}
-        <MediaImagesLink media={this.props.sqsoqslscan.media} qra={(this.props.sqsoqslscan.type!=='SHARE') ? this.props.sqsoqslscan.qra : this.props.sqsoqslscan.original[0].qra} mostrar='image' type={this.props.sqsoqslscan.type}/> 
-
+        {/* <MediaImagesLink media={this.props.sqsoqslscan.media} qra={(this.props.sqsoqslscan.type!=='SHARE') ? this.props.sqsoqslscan.qra : this.props.sqsoqslscan.original[0].qra} mostrar='image' type={this.props.sqsoqslscan.type}/>  */}
+        <ImageCarousel media={this.props.sqsoqslscan.media} qra={(this.props.sqsoqslscan.type!=='SHARE') ? this.props.sqsoqslscan.qra : this.props.sqsoqslscan.original[0].qra} />
+       
        {/* :
         null } */}
        {/* <MediaImages mostrar='audio'/> */}
@@ -360,8 +362,8 @@ return   (this.state.vari) ? <View style={{flex: 1}}>
                                    profilepic={m.profilepic} avatarpic={m.avatarpic} qras={m.qras} datetime={getDateQslScan(m.datetime)} 
                                />
 
-                    <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/> 
-
+                    {/* <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/>  */}
+                    <ImageCarousel media={m.media} qra={m.qra} />
                     <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
 
 
