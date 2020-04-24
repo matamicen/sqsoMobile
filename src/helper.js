@@ -375,6 +375,30 @@ export const devuelveSoloUnType =  (mediafiles,type) => {
    return soloUnType;
 }
 
+export const ValidacionAddCallsign =  (qsoqras,qraLogged,callToAdd) => {
+  esValido = true;
+
+  var re = /^[a-zA-Z0-9]+$/;
+  
+  len=callToAdd.length;
+  console.log('len: ' +len );
+  qsoqras.map(item => {
+    if(item.qra === callToAdd) 
+           esValido = false;
+  })
+    if (qraLogged===callToAdd || callToAdd==='' || len<3)
+        esValido = false;
+
+        if (!re.exec(callToAdd))
+          esValido = false;
+
+  
+
+   return esValido;
+}
+
+
+
 export async function apiVersionCheck() {
  try{ 
 

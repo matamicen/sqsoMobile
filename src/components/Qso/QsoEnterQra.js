@@ -7,7 +7,7 @@ import { addQra, onprogressTrue, onprogressFalse, fetchQraProfileUrl, postQsoNew
   actindicatorPostQsoNewTrue } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
-import { hasAPIConnection } from '../../helper';
+import { hasAPIConnection, ValidacionAddCallsign } from '../../helper';
 import VariosModales from './VariosModales';
 
 
@@ -42,13 +42,18 @@ class QsoEnterQra extends Component {
     if (await hasAPIConnection())
         {
         // chequea el haya una API en ejecucion
-        if(!this.props.isfetching && this.state.qra !== '' && this.state.qra.toUpperCase() !== this.props.qra.toUpperCase())
+        //saco espacios vacios del CallSign ingresado
+        callToAdd = this.state.qra.toUpperCase();
+        auxCallToAdd = callToAdd.replace(/\s+/g, ''); 
+        CallSignValido = ValidacionAddCallsign(this.props.qsoqras,this.props.qra.toUpperCase(),auxCallToAdd);
+        // if(!this.props.isfetching && this.state.qra !== '' && this.state.qra.toUpperCase() !== this.props.qra.toUpperCase())
+        if(!this.props.isfetching && CallSignValido) 
         { 
            console.log("ejecuta addQRA");
           
 
    //       qra = {name: this.state.qra.toUpperCase(), url: 'https://randomuser.me/api/portraits/med/men/72.jpg'} 
-          qra = {qra: this.state.qra.toUpperCase(), url: 'empty', sent: 'false', deleted: 'false', deletedSent: 'false', following: ''} 
+          qra = {qra: auxCallToAdd, url: 'empty', sent: 'false', deleted: 'false', deletedSent: 'false', following: ''} 
     
           // hay que darle tiempo a que agregue el QRA al store asi despues chequea bien el onProgress
            this.props.addQra(qra);
@@ -65,7 +70,7 @@ class QsoEnterQra extends Component {
                   console.log("QRA OWNER:"+this.props.qra);
 
          // busco URL del profile
-           this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'qra',this.props.jwtToken);
+           this.props.fetchQraProfileUrl(auxCallToAdd,'qra',this.props.jwtToken);
 
           
           if (this.props.sqlrdsid===''){
@@ -88,7 +93,7 @@ class QsoEnterQra extends Component {
              await this.props.postQsoQras("OnlyOneQra",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
                }         
         }
-        else console.log("se esta ejecutando una API o no se ingreso un QRA, no permite ejecutar otra api al mismo tiempo");
+        else console.log("se esta ejecutando una API o no se ingreso un QRA o ingreso un QRA duplicado, no permite ejecutar otra api al mismo tiempo");
 
           Keyboard.dismiss();
           this.setState({qra: '', size: 12, changeColor: true});
