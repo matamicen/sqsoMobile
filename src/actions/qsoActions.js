@@ -830,7 +830,11 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
        console.log('PROFILE NO ES PORNO');
         console.log("error es 0 y sqlrdsid: "+respuesta.message);
 
-
+        const customPrefix = {
+          public: 'myPublicPrefix/',
+          protected: '1/',
+          private: 'myPrivatePrefix/'
+        };
 
                // subo foto bajo nombre profile.jpg y el avatar tambien ya que no es porno el TMP que envie
        let folder;
@@ -850,7 +854,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
                //   return this.readFile(fileauxFinal)
                   enBlob
-                  .then(buffer => Storage.vault.put(folder, buffer, { level: 'protected' }))
+                  .then(buffer => Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
                   .then (result => {
                            console.log('resultado:'+result.key);
          
@@ -885,7 +889,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                      enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
                      //   return this.readFile(fileauxFinal)
                         enBlob
-                        .then(buffer => Storage.vault.put(folder, buffer, { level: 'protected' }))
+                        .then(buffer => Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
                         .then (result => {
                                  console.log('resultado:'+result.key);
                
@@ -1407,6 +1411,12 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
         console.log('folder:'+ folder);
   //  let a = {"folder": folder}
 
+  const customPrefix = {
+    public: 'myPublicPrefix/',
+    protected: '1/',
+    private: 'myPrivatePrefix/'
+  };
+
   const identityID = await AsyncStorage.getItem('identity');
   console.log('upload media identityid:' +identityID)
 
@@ -1419,7 +1429,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
          enBlob
          .then(buffer => 
          
-         Storage.vault.put(folder, buffer, { level: 'protected' }))
+         Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
          .then (result => {
                   console.log('resultado:'+result.key);
                 // actualizo SENT como TRUE en mediafile para ese file.
