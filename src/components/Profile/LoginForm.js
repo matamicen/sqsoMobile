@@ -483,7 +483,8 @@ if (this.debeHacerUpgrade===false)
 
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
     //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
+   //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/1/'+res+'/');
 
       // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
       // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
@@ -671,7 +672,7 @@ if (!this.usernotfound)
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/1/'+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
