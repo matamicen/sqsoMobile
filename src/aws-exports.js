@@ -26,7 +26,8 @@ const config = {
       endpoints: [
         {
           name: "superqso",
-          endpoint: "https://d1xllikkw9xhcf.cloudfront.net",
+          // endpoint: "https://d1xllikkw9xhcf.cloudfront.net",
+          endpoint: "https://api.zxcvbnmasd.com",
  //          endpoint: "https://l06twd2dz0.execute-api.us-east-1.amazonaws.com/Prod",
           region: "us-east-1"
         }

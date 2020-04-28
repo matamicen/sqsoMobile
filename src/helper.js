@@ -405,7 +405,7 @@ export async function apiVersionCheck() {
   versionActual = '1.0.4';
   
 
-   ApiCall = await fetch('https://d1xllikkw9xhcf.cloudfront.net/globalParamsPublic');
+   ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
    const respuesta = await ApiCall.json();
 
        console.log("respuesta API getParameters:");
