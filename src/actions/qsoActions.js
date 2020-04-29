@@ -488,26 +488,18 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
               });
            }
 
+                    if(__DEV__)
+                    analytics().logEvent("QSO_DEV", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
+                    "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
+            else
+                analytics().logEvent("QSO_PRD", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
+                  "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
+
       }
 
        dispatch(actindicatorPostQsoNewFalse());
 
-     tiempo2 = Date.now();
-     resu = tiempo2 - tiempo1;
-     console.log('total ejecucion: '+ resu);
-
-     if(__DEV__)
-        analytics().logEvent("QSO_DEV", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
-        "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
-else
-    analytics().logEvent("QSO_PRD", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
-     "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
-
-
-     console.log("Recording analytics QSO")
-
-
-
+ 
 
      if (bodyqsonew.type==='POST')
      dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message.newqso,true,false,false));
