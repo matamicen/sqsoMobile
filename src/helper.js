@@ -405,7 +405,7 @@ export async function apiVersionCheck() {
   versionActual = '1.0.4';
   
 
-   ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
+   ApiCall = await fetch('https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod/globalParamsPublic');
    const respuesta = await ApiCall.json();
 
        console.log("respuesta API getParameters:");
