@@ -136,8 +136,11 @@ constructor(props) {
    
     // PushNotification.onNotification((notification) => { 
     //   console.log('llego push che!');
+    
 
     // });
+
+    
 
     PushNotification.configure({
 
@@ -146,6 +149,8 @@ constructor(props) {
       //   console.log('nuevo push token!!!')
       //   console.log(token)
       // },
+       // (optional) Called when Token is generated (iOS and Android)
+   
   
 
     //  PushNotification.onNotification((notification) => {
@@ -170,7 +175,7 @@ constructor(props) {
 
         try {
           console.log('paso por ANDROID')
-              let body = notification['pinpoint.jsonBody'];
+              let body = notification.data['pinpoint.jsonBody'];
             // let body = notification._data['data.pinpoint.jsonBody'];
             
               let bodyJson = JSON.parse(body)
@@ -183,7 +188,7 @@ constructor(props) {
             // console.log(notification._data['data.pinpoint.notification.body']);
               
         
-              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification['pinpoint.notification.title'],
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
               "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
               "qso_mode":null,"qso_band":null,"qso_type":null}
@@ -204,8 +209,8 @@ constructor(props) {
             PushNotification.localNotification({
               //     id: notification.id,
               userInfo: { id: notification.id },
-              title: notification['pinpoint.notification.title'],
-              message: notification['pinpoint.notification.body'],
+              title: notification.data['pinpoint.notification.title'],
+              message: notification.data['pinpoint.notification.body'],
               priority: "max",
               autoCancel: true,
                     // title: 'Notification with my name',
@@ -220,14 +225,15 @@ constructor(props) {
 // no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
 // las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
 // de las notificaciones push.
-     if(notification.foreground && (notification['pinpoint.notification.title'].indexOf("included you") !== -1))
+     if(notification.foreground &&
+       ((notification.data['pinpoint.notification.title'].indexOf("included you") !== -1) || (notification.data['pinpoint.notification.title'].indexOf("listened you") !== -1)) )
        {
 
           Alert.alert(
             //title
             'Someone mention you in a Post! 🚀' ,
             //body
-            notification['pinpoint.notification.title'] +': '+notification['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
+            notification.data['pinpoint.notification.title'] +': '+notification.data['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
             
             [
               {text: 'CLOSE', onPress: () => console.log('CLOSE')
@@ -293,7 +299,8 @@ constructor(props) {
       // no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
       // las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
       // de las notificaciones push.
-           if (notification.foreground && (notification.alert.title.indexOf("included you") !== -1))   
+           if (notification.foreground && 
+            ((notification.alert.title.indexOf("included you") !== -1)  || (notification.alert.title.indexOf("listened you") !== -1)) )  
               Alert.alert(
                 //title
                 'Someone mention you in a Post! 🚀' ,
@@ -484,7 +491,7 @@ if (this.debeHacerUpgrade===false)
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
     //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
    //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d30o7j00smmz5f.cloudfront.net/1/'+res+'/');
 
       // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
       // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
@@ -672,7 +679,7 @@ if (!this.usernotfound)
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d30o7j00smmz5f.cloudfront.net/1/'+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
