@@ -36,7 +36,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
             errorInfo: errorInfo });
         console.log('paso por crash didCatch : '+this.props.qra);
         crashlytics().setUserId(this.props.qra);
-        crashlytics().log('error: ' + error + ' StackError: '+ errorInfo.componentStack) ;
+        crashlytics().log('error: ' + JSON.stringify(error) + ' StackError: '+ errorInfo.componentStack) ;
 
         console.log(errorInfo.componentStack);
         if(__DEV__)

@@ -381,7 +381,7 @@ export const fetchQraProfileUrl = (qra,type,jwtToken) => {
       dispatch(setToken(session.idToken.jwtToken));
       dispatch(updateQraUrl('deleteLast',url));
       crashlytics().setUserId(qra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
         crashlytics().recordError(new Error('fetchQraProfileUrl_DEV'));
       else
@@ -520,7 +520,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
 
       crashlytics().setUserId(bodyqsonew.qra_owner);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
        crashlytics().recordError(new Error('postQsoNew_DEV'));
       else
@@ -598,7 +598,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       dispatch(fetchingApiFailure('postQsoQras',error));
 
       // crashlytics().setUserId(bodyqsonew.qra_owner);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)  
         crashlytics().recordError(new Error('postQsoQras_DEV'));
       else
@@ -691,7 +691,7 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
       dispatch(fetchingApiFailure('postQsoEdit',error));
 
             crashlytics().setUserId(qsoHeader.qra);
-            crashlytics().log('error: ' + error) ;
+            crashlytics().log('error: ' + JSON.stringify(error)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('postQsoEdit_DEV'));
             else
@@ -915,7 +915,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
 
 
                                 crashlytics().setUserId(qra);
-                                crashlytics().log('error: ' + err) ;
+                                crashlytics().log('error: ' + JSON.stringify(err)) ;
                                 if(__DEV__)
                                 crashlytics().recordError(new Error('Upload_Avatar_DEV'));
                                 else
@@ -934,7 +934,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                            dispatch(updateMedia(fileName2,update,'item'));
 
                            crashlytics().setUserId(qra);
-                           crashlytics().log('error: ' + err) ;
+                           crashlytics().log('error: ' + JSON.stringify(err)) ;
                            if(__DEV__)
                            crashlytics().recordError(new Error('Upload_profile.jpg_DEV'));
                            else
@@ -979,7 +979,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
       dispatch(fetchingApiFailure('postSetProfilePicNSFW',error));
       // Handle exceptions
       crashlytics().setUserId(qra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('postSetProfilePicNSFW_DEV'));
       else
@@ -1057,7 +1057,7 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       dispatch(fetchingApiFailure('postSetProfilePic',error));
       // Handle exceptions
       // crashlytics().setUserId(qra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('postSetProfilePic_DEV'));
       else
@@ -1114,7 +1114,7 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
             // crashlytics().setUserId(qra);
-            crashlytics().log('error: ' + error) ;
+            crashlytics().log('error: ' + JSON.stringify(error)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('get_notifications_DEV'));
             else
@@ -1172,7 +1172,7 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
       // crashlytics().setUserId(qra);
-         crashlytics().log('error: ' + error) ;
+         crashlytics().log('error: ' + JSON.stringify(error)) ;
          if(__DEV__)
          crashlytics().recordError(new Error('set_notifications_DEV')); 
          else
@@ -1258,7 +1258,7 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
         // dispatch(updateMedia(filename2, update,'item' ));
          dispatch(fetchingApiFailure('postPushToken',error));
                crashlytics().setUserId(qra);
-               crashlytics().log('error: ' + error) ;
+               crashlytics().log('error: ' + JSON.stringify(error)) ;
                if(__DEV__)
                crashlytics().recordError(new Error('postPushToken_DEV')); 
                else
@@ -1359,7 +1359,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
       dispatch(setToken(session.idToken.jwtToken));
       // Handle exceptions
       // crashlytics().setUserId(qra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('postAddMedia_DEV'));
       else
@@ -1522,7 +1522,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
       //dispatch(fetchingApiFailure(error));
       // Handle exceptions
             crashlytics().setUserId(qra);
-            crashlytics().log('error: ' + error) ;
+            crashlytics().log('error: ' + JSON.stringify(error)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('uploadMediaToS3_DEV'));
             else
@@ -1591,7 +1591,7 @@ export const QsoQraDelete = (sqlrdsid, qra, jwtToken) => {
       dispatch(fetchingApiFailure('QsoQraDelete',error));
       // Handle exceptions
       //crashlytics().setUserId(qra);
-      crashlytics().log('error: ' + error + ' sqlrdsid: '+ sqlrdsid) ;
+      crashlytics().log('error: ' + JSON.stringify(error) + ' sqlrdsid: '+ sqlrdsid) ;
       if(__DEV__)
       crashlytics().recordError(new Error('QsoQraDelete_DEV'));
       else
@@ -1679,7 +1679,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
        dispatch(followAddSecondChance(LoggeduserQra,qra, date,session.idToken.jwtToken,qra_avatar))
       // Handle exceptions
             crashlytics().setUserId(LoggeduserQra);
-            crashlytics().log('error: ' + error) ;
+            crashlytics().log('error: ' + JSON.stringify(error)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('followAdd_DEV'));
             else
@@ -1756,7 +1756,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
       dispatch(updateQraUrl(qra,following));
       // Handle exceptions
       crashlytics().setUserId(LoggeduserQra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('followAddSecondChance_DEV'));
       else
@@ -1830,7 +1830,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
       dispatch(setToken(session.idToken.jwtToken));
 
       crashlytics().setUserId(LoggeduserQra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('unfollow_DEV'));
       else
@@ -1902,7 +1902,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
 
       // Handle exceptions
       // crashlytics().setUserId(LoggeduserQra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('getUserInfo_DEV'));
       else
@@ -1952,7 +1952,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
 
       // Handle exceptions
       // crashlytics().setUserId(LoggeduserQra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('updateLocationBackend_DEV'));
       else
@@ -2066,7 +2066,7 @@ export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
             dispatch(setToken(session.idToken.jwtToken));
 
       crashlytics().setUserId(LoggeduserQra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('APIgetQrasFromSearch_DEV'));
       else
@@ -2218,7 +2218,7 @@ export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
             console.log("Su token es: " + session.idToken.jwtToken);
             dispatch(setToken(session.idToken.jwtToken));
             crashlytics().setUserId(myQRA);
-            crashlytics().log('error: ' + error) ;
+            crashlytics().log('error: ' + JSON.stringify(error)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('APIgetQslScan_DEV'));
             else
@@ -2337,7 +2337,7 @@ export const linkQsos = (qra,json,jwtToken) => {
     dispatch(updateLinkQso(jsonError,'linkQsoError'));
     // Handle exceptions
     crashlytics().setUserId(qra);
-    crashlytics().log('error: ' + error) ;
+    crashlytics().log('error: ' + JSON.stringify(error)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('APIlinkQsos_DEV'));
     else
@@ -2388,7 +2388,7 @@ export const postContactUs = (email,message,jwtToken) => {
 
     }else{
       console.log("hay error en llamado de API ->  de postContactUs: "+JSON.stringify(respuesta.body.message));
-      crashlytics().log('error: ' + error + ' email: '+ email) ;
+      crashlytics().log('error: ' + JSON.stringify(respuesta.body.message) + ' email: '+ email) ;
       if(__DEV__)
       crashlytics().recordError(new Error('body_APIpostContactUs_DEV'));
       else
@@ -2400,7 +2400,7 @@ export const postContactUs = (email,message,jwtToken) => {
     dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
    // crashlytics().setUserId(qra);
-    crashlytics().log('error: ' + error + ' email: '+ email) ;
+    crashlytics().log('error: ' + JSON.stringify(error) + ' email: '+ email) ;
     if(__DEV__)
     crashlytics().recordError(new Error('catch_APIpostContactUs_DEV'));
     else
@@ -2515,7 +2515,7 @@ export const confirmReceiptiOS = (qra,originalTranscationId,transactionReceipt,t
  //   dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
      crashlytics().setUserId(qra);
-     crashlytics().log('error: ' + error) ;
+     crashlytics().log('error: ' + JSON.stringify(error)) ;
      if(__DEV__)
      crashlytics().recordError(new Error('APIconfirmReceiptIOS_DEV'));
      else
@@ -2594,11 +2594,11 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
           
         
         //  console.log('ackResult', ackResult);
-        } catch (ackErr) {
-          console.warn('ackErr', ackErr);
+        } catch (error) {
+          console.warn('error: ', error);
 
           crashlytics().setUserId(qra);
-          crashlytics().log('error: ' + ackErr) ;
+          crashlytics().log('error: ' + JSON.stringify(error)) ;
           if(__DEV__)
           crashlytics().recordError(new Error('APIconfirmReceiptAndroid1_DEV'));
           else
@@ -2665,7 +2665,7 @@ export const confirmReceiptAndroid = (qra,packageName,purchaseToken,productId,en
  //   dispatch(fetchingApiFailure('postContactUs',error));
     // Handle exceptions
     crashlytics().setUserId(qra);
-    crashlytics().log('error: ' + error) ;
+    crashlytics().log('error: ' + JSON.stringify(error)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('APIconfirmReceiptAndroid2_DEV'));
     else

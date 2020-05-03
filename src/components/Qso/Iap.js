@@ -89,7 +89,7 @@ class Iap extends Component {
       console.log('salio por catch didMount IAP');
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('didMountIAP_DEV'));
       else
@@ -165,7 +165,7 @@ class Iap extends Component {
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('IAPgetItems_DEV'));
       else
@@ -181,7 +181,7 @@ class Iap extends Component {
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('IAPgetSubscriptions_DEV'));
       else
@@ -269,7 +269,7 @@ class Iap extends Component {
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('IAPgetAvailablePurc_DEV'));
       else
@@ -286,7 +286,7 @@ class Iap extends Component {
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('IAPrequestPurch_DEV'));
       else
@@ -303,7 +303,7 @@ class Iap extends Component {
 
     } catch (err) {
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('IAPrequestSubs_DEV'));
       else

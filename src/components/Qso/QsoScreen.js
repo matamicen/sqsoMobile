@@ -433,7 +433,7 @@ class QsoScreen extends Component {
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('QsoAvailablePurch_DEV'));
       else

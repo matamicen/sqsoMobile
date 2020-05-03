@@ -312,7 +312,7 @@ async _record() {
   } catch (error) {
     console.error(error);
     crashlytics().setUserId(this.props.qra);
-    crashlytics().log('error: ' + error) ;
+    crashlytics().log('error: ' + JSON.stringify(error)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('startRecording_DEV'));
     else
@@ -396,7 +396,7 @@ _stop = async () => {
     return filePath;
   } catch (error) {
     crashlytics().setUserId(this.props.qra);
-    crashlytics().log('error: ' + error) ;
+    crashlytics().log('error: ' + JSON.stringify(error)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('stopRecording_DEV'));
     else
@@ -428,7 +428,7 @@ _stop = async () => {
         console.log('catch error RNFetchBlob.fs.stat')
         console.log(err);
         crashlytics().setUserId(this.props.qra);
-        crashlytics().log('error: ' + err) ;
+        crashlytics().log('error: ' + JSON.stringify(err)) ;
         if(__DEV__)
         crashlytics().recordError(new Error('fs.stat_DEV'));
         else

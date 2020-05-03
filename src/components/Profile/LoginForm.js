@@ -454,7 +454,7 @@ constructor(props) {
       console.log('salio catch initConnection loginform');
       console.warn(err.code, err.message);
       crashlytics().setUserId('unknown');
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('RNIap.initConn_DEV'));
       else
@@ -553,7 +553,7 @@ if (this.debeHacerUpgrade===false)
             this.setState({showloginForm: true});
 
             crashlytics().setUserId('unknown');
-            crashlytics().log('error: ' + error) ;
+            crashlytics().log('error: ' + JSON.stringify(error)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('AsyncStorage.get_DEV'));
             else
@@ -661,7 +661,7 @@ signIn = async () => {
 
 
              crashlytics().setUserId(this.state.username.toUpperCase());
-             crashlytics().log('error: ' + err) ;
+             crashlytics().log('error: ' + JSON.stringify(err)) ;
              if(__DEV__)
              crashlytics().recordError(new Error('Auth.signIn_DEV'));
              else
@@ -688,10 +688,10 @@ if (!this.usernotfound)
    //   this.props.getUserInfo();
       console.log('la credencial RES:' + res);
     }
-    catch (e) {
-      console.log('caught error', e);
+    catch (error) {
+      console.log('caught error', error);
              crashlytics().setUserId(this.qra);
-             crashlytics().log('error: ' + e) ;
+             crashlytics().log('error: ' + JSON.stringify(error)) ;
              if(__DEV__)
              crashlytics().recordError(new Error('Auth.signIn.current_DEV'));
              else
@@ -723,7 +723,7 @@ if (!this.usernotfound)
       // Error saving data
       console.log('caught error AsyncStorage username & identity', error);
       crashlytics().setUserId(this.qra.toUpperCase());
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('AsyncStorage.user_DEV'));
       else
@@ -793,7 +793,7 @@ if (!this.usernotfound)
                           console.log('caught error setItem pushtoken y qratoken dentro de if (this.pushTokenFound)', error);
                           // kinesis_catch('#016',error,this.state.username.toUpperCase());
                           crashlytics().setUserId(this.qra.toUpperCase());
-                          crashlytics().log('error: ' + error) ;
+                          crashlytics().log('error: ' + JSON.stringify(error)) ;
                           if(__DEV__)
                           crashlytics().recordError(new Error('props.postPushTok_DEV'));
                           else
@@ -816,7 +816,7 @@ if (!this.usernotfound)
 
                       // }
                       crashlytics().setUserId(this.qra.toUpperCase());
-                      crashlytics().log('error: ' + error) ;
+                      crashlytics().log('error: ' + JSON.stringify(error)) ;
                       if(__DEV__)
                       crashlytics().recordError(new Error('twoGetItems_DEV'));
                       else
@@ -888,7 +888,7 @@ if (!this.usernotfound)
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                   // kinesis_catch('#021',err,this.state.username.toUpperCase());
                   crashlytics().setUserId(this.state.username.toLowerCase());
-                  crashlytics().log('error: ' + err) ;
+                  crashlytics().log('error: ' + JSON.stringify(err)) ;
                   if(__DEV__)
                   crashlytics().recordError(new Error('Auth.resendSignUp_DEV'));
                   else
@@ -931,7 +931,7 @@ if (!this.usernotfound)
      confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
     //  kinesis_catch('#026',err,this.state.username.toUpperCase());
     crashlytics().setUserId(this.state.username.toLowerCase());
-    crashlytics().log('error: ' + err) ;
+    crashlytics().log('error: ' + JSON.stringify(err)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('Auth.confirmSignUp_DEV'));
     else

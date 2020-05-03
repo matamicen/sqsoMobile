@@ -108,7 +108,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('RestoreSubcription1_DEV'));
       else
@@ -179,7 +179,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
        crashlytics().recordError(new Error('getSubscriptions_DEV'));
       else
@@ -246,7 +246,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('getPurchaseHistory_DEV'));
       else
@@ -351,7 +351,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
     } catch (err) {
       console.warn(err.code, err.message);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('getAvailablePurchase_DEV'));
       else
