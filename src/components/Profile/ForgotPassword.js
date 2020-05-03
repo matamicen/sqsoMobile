@@ -123,7 +123,7 @@ constructor(props) {
   //   } catch (error) {
 
   //     crashlytics().setUserId(this.state.qra.toUpperCase());
-  //     crashlytics().log('error: ' + error) ;
+  //     crashlytics().log('error: ' + JSON.stringify(error)) ;
   //     crashlytics().recordError(new Error('signInAfterConfirmed_3'));
 
   //     // kinesis_catch('#003',error,this.state.qra.toUpperCase());
@@ -162,7 +162,7 @@ constructor(props) {
               
 
                 crashlytics().setUserId(this.state.email.toLowerCase());
-                crashlytics().log('error: ' + err) ;
+                crashlytics().log('error: ' + JSON.stringify(err)) ;
                 if(__DEV__)
                 crashlytics().recordError(new Error('Auth.forgotPassword_DEV'));
                 else
@@ -234,7 +234,7 @@ constructor(props) {
                     this.setState({errormessage: 'Invalid code provided, please request a code again.',confirmationcodeError: 1, indicator:0});
                   
                     crashlytics().setUserId(this.state.email.toLowerCase());
-                    crashlytics().log('error: ' + err) ;
+                    crashlytics().log('error: ' + JSON.stringify(err)) ;
                     if(__DEV__)
                     crashlytics().recordError(new Error('Auth.forgotPasswordSubmit_DEV'));
                     else

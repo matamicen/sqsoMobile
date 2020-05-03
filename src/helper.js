@@ -433,7 +433,7 @@ export async function apiVersionCheck() {
      console.log('Api getParameters catch error:', error);
      res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
     
-    crashlytics().log('error: ' + error) ;
+    crashlytics().log('error: ' + JSON.stringify(error)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('getParameters_DEV'));
     else
