@@ -209,7 +209,7 @@ class AdInter extends Component {
         } catch (err) {
         
          crashlytics().setUserId(this.props.qra);
-         crashlytics().log('error: ' + err) ;
+         crashlytics().log('error: ' + JSON.stringify(err)) ;
          if(__DEV__)
          crashlytics().recordError(new Error('interLoaded_DEV'));
          else

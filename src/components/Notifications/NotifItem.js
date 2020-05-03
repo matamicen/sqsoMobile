@@ -56,7 +56,7 @@ if (urlnotif!=null)
       }).catch(err => {
               console.error('An error occurred', err)
               crashlytics().setUserId(this.props.qra);
-              crashlytics().log('error: ' + err) ;
+              crashlytics().log('error: ' + JSON.stringify(err)) ;
               if(__DEV__)
               crashlytics().recordError(new Error('Linking.canOpenURL_DEV'));
               else

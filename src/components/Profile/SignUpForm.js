@@ -355,7 +355,7 @@ signUp = async () => {
                   this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                   // kinesis_catch('#021',err,this.state.qra.toUpperCase());
                   crashlytics().setUserId(this.state.qra.toUpperCase());
-                  crashlytics().log('error: ' + err) ;
+                  crashlytics().log('error: ' + JSON.stringify(err)) ;
                   if(__DEV__)
                   crashlytics().recordError(new Error('Auth.resendSignUp_DEV'));
                   else
@@ -386,7 +386,7 @@ signUp = async () => {
     this.usernotfound = true;
     // kinesis_catch('#022',err,this.state.qra.toUpperCase());
     crashlytics().setUserId(this.state.qra.toUpperCase());
-    crashlytics().log('error: ' + err) ;
+    crashlytics().log('error: ' + JSON.stringify(err)) ;
     if(__DEV__)
     crashlytics().recordError(new Error('signInAfterConfirmed_DEV'));
     else
@@ -408,10 +408,10 @@ signUp = async () => {
       
       console.log('la credencial RES:' + res);
     }
-    catch (e) {
-      console.log('caught error', e);
+    catch (error) {
+      console.log('caught error', error);
       crashlytics().setUserId(this.qra);
-      crashlytics().log('error: ' + e) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('SignUpCredentials_DEV'));
       else
@@ -441,7 +441,7 @@ signUp = async () => {
     } catch (error) {
       console.log('caught error', error);
       crashlytics().setUserId(this.state.qra.toUpperCase());
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('SignUpStorage_DEV'));
       else
@@ -463,7 +463,7 @@ signUp = async () => {
       console.log('caught error setItem pushtoken y qratoken dentro de ConfirmSignUp ', error);
       // kinesis_catch('#025',error,this.state.qra.toUpperCase());
       crashlytics().setUserId(this.qra);
-      crashlytics().log('error: ' + error) ;
+      crashlytics().log('error: ' + JSON.stringify(error)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('SignUpGetPushTok_DEV'));
       else
@@ -510,7 +510,7 @@ signUp = async () => {
       confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
       // kinesis_catch('#026',err,this.state.qra.toUpperCase());
       crashlytics().setUserId(this.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('Auth.confirmSignUp_DEV'));
       else
@@ -592,7 +592,7 @@ signUp = async () => {
                    this.setState({errormessage: errmessage,heightindicator: 0,  indicator: 0,heighterror: setheighterror,  loginerror: 1 });
                    Keyboard.dismiss();
                    crashlytics().setUserId(this.state.qra.toUpperCase());
-                   crashlytics().log('error: ' + err) ;
+                   crashlytics().log('error: ' + JSON.stringify(err)) ;
                    if(__DEV__)
                    crashlytics().recordError(new Error('Auth.signUp_DEV'));
                    else

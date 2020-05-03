@@ -152,7 +152,7 @@ class Muestro extends Component {
           // Oops, something went wrong. Check that the filename is correct and
           // inspect err to get more details.
           crashlytics().setUserId(this.props.qra);
-          crashlytics().log('error: ' + err) ;
+          crashlytics().log('error: ' + JSON.stringify(err)) ;
           if(__DEV__)
           crashlytics().recordError(new Error('createResizeImg1_DEV'));
           else
@@ -177,7 +177,7 @@ class Muestro extends Component {
             // Oops, something went wrong. Check that the filename is correct and
             // inspect err to get more details.
             crashlytics().setUserId(this.props.qra);
-            crashlytics().log('error: ' + err) ;
+            crashlytics().log('error: ' + JSON.stringify(err)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('createResizImg2_DEV'));
             else
@@ -290,7 +290,7 @@ class Muestro extends Component {
           // Oops, something went wrong. Check that the filename is correct and
           // inspect err to get more details.
           crashlytics().setUserId(this.props.qra);
-          crashlytics().log('error: ' + err) ;
+          crashlytics().log('error: ' + JSON.stringify(err)) ;
           if(__DEV__)
           crashlytics().recordError(new Error('createResizImg3_DEV'));
           else
@@ -322,7 +322,7 @@ class Muestro extends Component {
             // Oops, something went wrong. Check that the filename is correct and
             // inspect err to get more details.
             crashlytics().setUserId(this.props.qra);
-            crashlytics().log('error: ' + err) ;
+            crashlytics().log('error: ' + JSON.stringify(err)) ;
             if(__DEV__)
             crashlytics().recordError(new Error('createResiImg4_DEV'));
             else

@@ -84,7 +84,7 @@ signOut = async () => {
       console.log(err)
       //  kinesis_catch('#006',err,this.props.qra);
       crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + err) ;
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
       crashlytics().recordError(new Error('SignOut_getPushToken_DEV'));
       else
@@ -108,7 +108,7 @@ signOut = async () => {
       .catch(err => {console.log(err)
      //   kinesis_catch('#006',err,this.props.qra);
         crashlytics().setUserId(this.props.qra);
-        crashlytics().log('error: ' + err) ;
+        crashlytics().log('error: ' + JSON.stringify(err)) ;
         if(__DEV__)
         crashlytics().recordError(new Error('SignOut_AuthSignOut_DEV'));
         else

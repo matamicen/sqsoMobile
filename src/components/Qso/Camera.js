@@ -696,7 +696,7 @@ class CameraScreen extends React.Component {
                     this.setState({showCamera: true});
                     this.setState({buttonStatus: false});
                     crashlytics().setUserId(this.props.qra);
-                    crashlytics().log('error: ' + err) ;
+                    crashlytics().log('error: ' + JSON.stringify(err)) ;
                     if(__DEV__)
                     crashlytics().recordError(new Error('openCropper_DEV'));
                     else
