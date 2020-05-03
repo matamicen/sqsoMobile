@@ -42,6 +42,23 @@ PushNotification.configure({
     }
     },
 
+    onNotification: (notification) => {
+      console.log('onNotifications APPS.js');
+
+      PushNotification.localNotification({
+        //     id: notification.id,
+        userInfo: { id: notification.id },
+        title: notification.data['pinpoint.notification.title'],
+        message: notification.data['pinpoint.notification.body'],
+        priority: "max",
+        autoCancel: true,
+              // title: 'Notification with my name',
+              // message: notification['name'], // (required)
+              // date: new Date(Date.now()) // in 60 secs
+            });
+
+    },
+
     
 
     // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
