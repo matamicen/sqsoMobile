@@ -402,10 +402,10 @@ export const ValidacionAddCallsign =  (qsoqras,qraLogged,callToAdd) => {
 export async function apiVersionCheck() {
  try{ 
 
-  versionActual = '1.0.4';
+  versionActual = '1.0.5';
   
 
-   ApiCall = await fetch('https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod/globalParamsPublic');
+   ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
    const respuesta = await ApiCall.json();
 
        console.log("respuesta API getParameters:");
