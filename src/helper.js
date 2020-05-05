@@ -402,7 +402,7 @@ export const ValidacionAddCallsign =  (qsoqras,qraLogged,callToAdd) => {
 export async function apiVersionCheck() {
  try{ 
 
-  versionActual = '1.0.5';
+  versionActual = '1.0.4';
   
 
    ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
