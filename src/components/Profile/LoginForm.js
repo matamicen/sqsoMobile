@@ -186,11 +186,14 @@ constructor(props) {
       //        console.log(notification.data['pinpoint.notification.body']);
 
             // console.log(notification._data['data.pinpoint.notification.body']);
-              
+              if (bodyJson.AVATAR)
+                 avatar = bodyJson.AVATAR;
+                else
+                 avatar = null;
         
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
               "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-              "qra_avatarpic":bodyJson.AVATAR, "url": bodyJson.URL,
+              "qra_avatarpic":avatar, "url": bodyJson.URL,
               "qso_mode":null,"qso_band":null,"qso_type":null}
 
                 this.props.manage_notifications('ADDONE',envioNotif);
@@ -279,6 +282,11 @@ constructor(props) {
 
   
           console.log("antes de armar el json envioNotif")
+
+          if (bodyJson.AVATAR)
+                 avatar = bodyJson.AVATAR;
+                else
+                 avatar = null;
               // console.log(notification._data.body);
   
             
@@ -286,7 +294,7 @@ constructor(props) {
   
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.alert.title,
               "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-              "qra_avatarpic":bodyJson.AVATAR, "url": notification.data.data.pinpoint.deeplink,
+              "qra_avatarpic":avatar, "url": notification.data.data.pinpoint.deeplink,
               "qso_mode":null,"qso_band":null,"qso_type":null}
        
               
@@ -491,7 +499,7 @@ if (this.debeHacerUpgrade===false)
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
     //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
    //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d30o7j00smmz5f.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
 
       // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
       // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
@@ -679,7 +687,7 @@ if (!this.usernotfound)
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d30o7j00smmz5f.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       

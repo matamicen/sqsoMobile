@@ -400,7 +400,7 @@ signUp = async () => {
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d30o7j00smmz5f.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
