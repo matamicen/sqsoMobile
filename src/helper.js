@@ -234,7 +234,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
 
    var fechaEnMiliseg = String(Date.now());
    var url1 = 'https://www.google.com?';
-   var url2 = 'https://www.bing.com?';
+   var url2 = 'https://en.wikipedia.org?';
 
    const myNewStr = fechaEnMiliseg.substr(12, 1);
     console.log('INTERNET CHECK NOW: '+fechaEnMiliseg)
