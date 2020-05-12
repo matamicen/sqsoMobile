@@ -18,6 +18,7 @@ import CountryPicker, {
   getAllCountries
 } from 'react-native-country-picker-modal'
 import crashlytics from '@react-native-firebase/crashlytics';
+import global_config from '../../global_config.json';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -208,6 +209,10 @@ signUp = async () => {
   if (await hasAPIConnection())
   {   
     this.setState({heightindicator: 35, indicator: 1, heighterror: 0, loginerror: 0});
+
+   
+     this.state.email = this.state.email.trim()
+     this.state.emailVerification =  this.state.emailVerification.trim()
    
 
    
@@ -228,8 +233,9 @@ signUp = async () => {
             // this.flatlist.scrollToIndex(0);
          //   this.flatlist.scrollToIndex({animated:true , index: 1, viewPosition: 0.5})
           }
-
-
+          
+         
+        
           if (this.state.email!==this.state.emailVerification)
           {
 
@@ -400,7 +406,8 @@ signUp = async () => {
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+      // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
