@@ -4,6 +4,7 @@ import Analytics from '@aws-amplify/analytics';
 import { AWSKinesisProvider } from 'aws-amplify';
 import {  Platform } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
+import global_config from './global_config.json';
 // import firebase from '@react-native-firebase/app';
 // import * as config from '@react-native-firebase/remote-config';
 
@@ -403,9 +404,11 @@ export async function apiVersionCheck() {
  try{ 
 
   versionActual = '1.0.4';
-  
+ 
 
-   ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
+  //  ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
+  url = global_config.apiEndpoint + '/globalParamsPublic'
+  ApiCall = await fetch(url);
    const respuesta = await ApiCall.json();
 
        console.log("respuesta API getParameters:");

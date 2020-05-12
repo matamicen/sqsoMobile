@@ -21,6 +21,7 @@ import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
 import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './StopApp';
+import global_config from '../../global_config.json';
 
 // nuevo push
 //import Analytics from '@aws-amplify/analytics';
@@ -499,8 +500,10 @@ if (this.debeHacerUpgrade===false)
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
     //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
    //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
-
+  
+      // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
+      
       // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
       // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
       try {
@@ -634,6 +637,7 @@ signIn = async () => {
   {
 
  //this.setState({indicator: 1, loginerror: 0});
+ this.state.username = this.state.username.trim()
   console.log("username: "+this.state.username.toLowerCase() + "password: "+ this.state.password);
     await Auth.signIn(this.state.username.toLowerCase(), this.state.password)
       .then((result) => { console.log('entro!');
@@ -687,7 +691,8 @@ if (!this.usernotfound)
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-      this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+      // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+      this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
       this.props.resetQso();
       this.props.newqsoactiveFalse();
       
