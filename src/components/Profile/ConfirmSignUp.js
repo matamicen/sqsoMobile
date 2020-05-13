@@ -86,7 +86,7 @@ class ConfirmSignUp extends Component {
                     <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.props.resendCode() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5, alignItems: 'flex-start'}}>
                       <Text style={{ color: '#999', fontSize: 14}}>Resend Code</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.props.confirmSignup(this.state.confirmationcode) } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
+                    <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.props.confirmSignup(this.state.confirmationcode.trim()) } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
                       <Text style={{ color: 'white', fontSize: 18}}>CONFIRM</Text>
                     </TouchableOpacity>
                     </View>
