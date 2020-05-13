@@ -146,6 +146,7 @@ constructor(props) {
     if (await hasAPIConnection())
     {
       Keyboard.dismiss();
+      this.state.email = this.state.email.trim()
 
     this.setState({confirmationcodeError: 0, indicator:1});
     
@@ -186,6 +187,7 @@ constructor(props) {
     sendNewPassword = async () => {
 
          Keyboard.dismiss();
+         this.state.code = this.state.code.trim()
          if (await hasAPIConnection())
          {   
 
