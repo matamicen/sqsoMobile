@@ -213,6 +213,7 @@ signUp = async () => {
    
      this.state.email = this.state.email.trim()
      this.state.emailVerification =  this.state.emailVerification.trim()
+     this.state.qra = this.state.qra.trim()
    
 
    
