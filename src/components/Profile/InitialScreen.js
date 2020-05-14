@@ -12,7 +12,8 @@ import FollowerList from './FollowerList';
 import AsyncStorage from '@react-native-community/async-storage';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
   followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall,
-  setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat } from '../../actions';
+  setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat,
+  getUserInfo } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
@@ -393,9 +394,10 @@ signOut = async () => {
 
                       </View>
 
-                      <View style={{flex: 0.105}}>
-                 
-                 {(this.props.followingsselected) ?
+                 <View style={{flex: 0.105, flexDirection: 'row'}}>
+                   {/* <View style={{flex: 1, flexDirection: 'row'}}> */}
+                 <View style={{flex: 0.5}}>
+                    {(this.props.followingsselected) ?
                           // <TouchableOpacity  >
                               <Text style={styles.FollowingsText} >Following</Text>
                           // </TouchableOpacity>
@@ -405,7 +407,27 @@ signOut = async () => {
                       // </TouchableOpacity>
   
                       }
-                   
+                    </View>
+                    <View style={{flex: 0.5, alignItems: 'flex-end', marginRight: 17}}>
+
+                    <TouchableOpacity style={{}} onPress={ () => this.props.getUserInfo(this.props.jwtToken)}>
+                    <Image source={require('../../images/reload.png')}  style={{width: 20, height: 20, marginLeft: 12 } } 
+                 resizeMode="contain" /> 
+                {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
+                    <Text style={{ fontSize: 13, color: '#999'}} >Refresh</Text>
+                 </TouchableOpacity>
+
+                       {/* <TouchableOpacity style={styles.FollowingsText}
+                          onPress={() => this.props.getUserInfo(this.props.jwtToken)}>
+                          <Text
+                            style={styles.FollowingsText}
+                          >
+                            REFRESH
+                          </Text>
+                        </TouchableOpacity> */}
+                     </View>
+                              
+                      {/* </View>       */}
                    </View> 
 
                <View style={{flex: 0.605, width:this.width-15, marginBottom: 10}}>
@@ -640,7 +662,8 @@ const mapDispatchToProps = {
   restoreCall,
   setSendingProfilePhotoModal,
   setConfirmProfilePhotoModal,
-  setProfileModalStat
+  setProfileModalStat,
+  getUserInfo
 
     
    }

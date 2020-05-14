@@ -27,15 +27,28 @@ export const chau=()=>{
 }
 
 export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
- let devuelvo;
-    if(qsotype==='POST' && mediafiles.length > 1){
+ 
+ // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
+ // esto evita que pueda mandar un POST sin media
+ console.log('mediafiles en updateOnPRogress');
+ console.log(mediafiles)
+mediafilesSinProfile = [];
+
+  mediafiles.map(item => {
+    if(item.type !== 'profile') {
+      mediafilesSinProfile =  [...mediafilesSinProfile,item] 
+    }
+  })
+
+  let devuelvo;
+    if(qsotype==='POST' && mediafilesSinProfile.length > 1){
       
       return true;
     }
     else {
       // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
       // el body de los Media (TouchwithoutFeedback)
-        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== 'Band') && (mode !== 'Mode') && (mediafiles.length > 1) )
+        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== 'Band') && (mode !== 'Mode') && (mediafilesSinProfile.length > 1) )
         { 
             return true;
         } 
