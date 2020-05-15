@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Linking  } from 'react-native';
 import { connect } from 'react-redux';
 import { followAdd, unfollow, refreshFollowings } from '../../actions';
 import PropTypes from 'prop-types';
 import { getDate, hasAPIConnection} from '../../helper';
 import VariosModales from '../Qso/VariosModales';
-
+import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 
 class User extends Component {
@@ -19,7 +20,33 @@ class User extends Component {
        
       }
 
-  
+      onPressAvatar = async (qra) => {
+        console.log('pepe')
+        urlnotif = 'https://www.superqso.com/'+qra;
+        Linking.canOpenURL(urlnotif).then(supported => {
+          if (!supported) {
+            console.log('Can\'t handle url: ' + urlnotif);
+          } else {
+            if(__DEV__)
+              analytics().logEvent("OPENPROFILEsearch_DEV", {"QRA": this.props.qraLoggedIn});
+            else
+              analytics().logEvent("OPENPROFILEsearch_PRD", {"QRA": this.props.qraLoggedIn});
+            console.log("Recording analytics open Notif")
+            return Linking.openURL(urlnotif);
+          
+          }
+        }).catch(err => {
+                console.error('An error occurred', err)
+                crashlytics().setUserId(this.props.qra);
+                crashlytics().log('error: ' + JSON.stringify(err)) ;
+                if(__DEV__)
+                crashlytics().recordError(new Error('Linking.OpenSearch_DEV'));
+                else
+                crashlytics().recordError(new Error('Linking.OpenSearch_PRD'));
+      
+      
+              });
+            }
 
    componentDidMount() {
     
@@ -68,15 +95,17 @@ class User extends Component {
                <View style={{ marginTop: 6}}>
                <View style={{flexDirection: 'row'}}>  
                { (this.props.imageurl===null) ?
-                  
+                 <TouchableOpacity style={{}} onPress={() => this.onPressAvatar(this.props.name) }>
                   <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle}/> 
+                  </TouchableOpacity>
                   :
-
+                  <TouchableOpacity style={{ }} onPress={() => this.onPressAvatar(this.props.name) }>
                      <Image
                     style={styles.faceImageStyle}
                     resizeMethod="resize"
                     source={{ uri: this.props.imageurl }}
                       />
+                            </TouchableOpacity>
                     }
 {/* this.props.qraLoggedIn===this.props.name */}
                      {this.props.following==="FALSE" &&   
