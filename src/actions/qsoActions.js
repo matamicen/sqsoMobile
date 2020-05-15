@@ -109,10 +109,12 @@ export const setBand = (band) => {
         band: band
     };
 }
-export const setRst = (rst) => {
+export const setRst = (rst,digital) => {
   return {
       type: SET_RST,
-      rst: rst
+      rst: rst,
+      digital: digital
+      // rstbeforechange: rstbeforechange
   };
 }
 export const setMode = (mode) => {
@@ -649,6 +651,7 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
                 "mode": qsoHeader.mode,
                 "band": qsoHeader.band,
                 "rst": qsoHeader.rst,
+                "db" : qsoHeader.db,
                 "qso": qsoHeader.sqlrdsid,
                 "type": qsoHeader.type,
                              }

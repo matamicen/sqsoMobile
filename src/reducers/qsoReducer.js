@@ -77,6 +77,9 @@ const initialState = {
         mode: 'Mode',
         modeSent: false,
         rst: '59',
+        db: '-07',
+        // rstBeforeChangeMode: '-07',
+        digitalMode: false,
         mediafiles: [ {name: 'vacio', type: 'vacio'}],
         modalconfirmphoto: false,
         phototype: '',
@@ -361,11 +364,25 @@ const qsoReducer = (state = initialState, action) => {
 
       case SET_RST:
           console.log('cambio RST REDUX: '+action.rst)
-        auxcurrentQso = {
-           ...state.currentQso,
-           rst: action.rst
-                    
-       };
+          if (action.digital)
+                    auxcurrentQso = {
+                    ...state.currentQso,
+                    db: action.rst,
+                    rst: '',
+                    digitalMode: true
+                    // rstBeforeChangeMode: action.rstbeforechange
+                                
+                };
+             else
+             auxcurrentQso = {
+                ...state.currentQso,
+                rst: action.rst,
+                db: '',
+                digitalMode: false
+                // rstBeforeChangeMode: action.rstbeforechange
+                            
+            };
+            
        newStore = Object.assign({}, state,
            {
                ...state,
@@ -1045,6 +1062,9 @@ const qsoReducer = (state = initialState, action) => {
              mode: 'Mode',
              modeSent: false,
              rst: '59',
+             db: '-07',
+            //  rstBeforeChangeMode: '-07',
+             digitalMode: false,
              mediafiles: [ {name: 'vacio', type: 'vacio'}],
              modalconfirmphoto: false,
              mediatosend: {},

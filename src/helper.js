@@ -140,7 +140,7 @@ mediafilesSinProfile = [];
 
    }
 
-  export const check_firstTime_OnProgress=(qsotype,band,mode,rst,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
+  export const check_firstTime_OnProgress=(qsotype,band,mode,rst,db,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
      console.log("DENTRO de CHECK FIRST TIME");
      console.log("OnProgress: "+ onprogress);
     if (onprogress && sqlrdsid===''){
@@ -154,6 +154,7 @@ mediafilesSinProfile = [];
         "band" : band,
         "mode" : mode,
         "rst" : rst,
+        "db": db,
         "type" : qsotype,
         "longitude" : longitude,
         "latitude": latitude,

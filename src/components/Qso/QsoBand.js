@@ -50,7 +50,7 @@ class QsoBand extends Component {
                     // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
                   if (ONPROGRESS) {
                    data = check_firstTime_OnProgress(this.props.qsotype,value,this.props.mode,this.props.rst,
-                                                this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
+                           this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
                                                 this.props.longitude);
                         console.log("Data to Send API: "+ JSON.stringify(data));  
                        this.props.actindicatorPostQsoNewTrue();
@@ -63,7 +63,8 @@ class QsoBand extends Component {
                                     "band" : value,
                                     "type" : this.props.qsotype,
                                     "sqlrdsid" : this.props.sqlrdsid,
-                                    "qra": this.props.qra
+                                    "qra": this.props.qra,
+                                    "rst" : this.props.rst
                                   }
                                   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
@@ -215,6 +216,7 @@ class QsoBand extends Component {
         band: state.sqso.currentQso.band,
         mode: state.sqso.currentQso.mode,
         rst: state.sqso.currentQso.rst,
+        db: state.sqso.currentQso.db,
         qsotype: state.sqso.currentQso.qsotype,
         qsoqras: state.sqso.currentQso.qsoqras,
         sqlrdsid: state.sqso.currentQso.sqlrdsId,
