@@ -45,6 +45,7 @@ class Qra extends Component {
         this.setState({ modaldeleteqra: true, followstatus: followstat });
          }
         }
+    
         
         closeModaldeleteqra = () => {
           console.log('click close QRA: ');

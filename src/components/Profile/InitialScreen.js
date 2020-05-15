@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity,  StyleSheet, Platform, 
-  PermissionsAndroid, Alert, Dimensions, TextInput, Modal  } from 'react-native';
+  PermissionsAndroid, Alert, Dimensions, TextInput, Modal , Linking } from 'react-native';
 import { connect } from 'react-redux';
 import Login from './Login';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify'
@@ -22,6 +22,8 @@ import Muestro from './../Qso/Muestro';
 import  ContactUs  from './ContactUs';
 import RestoreSubscription from './RestoreSubscription';
 import crashlytics from '@react-native-firebase/crashlytics';
+import analytics from '@react-native-firebase/analytics';
+
 
 
 
@@ -71,6 +73,36 @@ class InitialScreen extends Component {
     this.props.navigation.navigate("Root");
   
 }
+
+
+onPressAvatar = async (qra) => {
+        
+  urlnotif = 'https://www.superqso.com/'+qra;
+  Linking.canOpenURL(urlnotif).then(supported => {
+    if (!supported) {
+      console.log('Can\'t handle url: ' + urlnotif);
+    } else {
+      if(__DEV__)
+        analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
+      else
+        analytics().logEvent("OPENWEBPROFILE_PRD", {"QRA": this.props.qra});
+      console.log("Recording analytics open Notif")
+      return Linking.openURL(urlnotif);
+    
+    }
+  }).catch(err => {
+          console.error('An error occurred', err)
+          crashlytics().setUserId(this.props.qra);
+          crashlytics().log('error: ' + JSON.stringify(err)) ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('Linking.OpenProfile_DEV'));
+          else
+          crashlytics().recordError(new Error('Linking.OpenProfile_PRD'));
+
+
+        });
+      }
+
 
 signOut = async () => {
 
@@ -342,7 +374,9 @@ signOut = async () => {
              <View style={{flexDirection: 'row', flex: 0.14}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                <View style={{flex:0.21}}>
-                  <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
+                 <TouchableOpacity style={{}} onPress={() => this.onPressAvatar(this.props.qra) }>
+                   <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
+                  </TouchableOpacity>
               </View>  
               <View style={{flex:0.15}}>
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }>
