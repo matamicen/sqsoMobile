@@ -30,8 +30,37 @@ class QsoMode extends Component {
      if (await hasAPIConnection())
      {
      if (this.props.mode!==value){ 
-          this.props.setMode(value);
-       
+
+        if (value==='JT65' || value==='FT4' || value==='FT8')
+            // this.props.setRst(this.props.db,true);
+             if (this.props.mode==='JT65' || this.props.mode==='FT4' || this.props.mode==='FT8') 
+                 this.props.setRst(this.props.db,true);
+              else
+               this.props.setRst('-07',true);
+           else
+             { // eligio un modo no digital, pero si viene desde uno digital le sete 59
+                if (this.props.mode==='JT65' || this.props.mode==='FT4' || this.props.mode==='FT8') 
+                  this.props.setRst('59',false);
+                 else
+                  this.props.setRst(this.props.rst,false);
+
+             }
+         
+        //   if (value==='JT65' || value==='FT4' || value==='FT8')
+        //      if (this.props.mode==='JT65' || this.props.mode==='FT4' || this.props.mode==='FT8') 
+        //          this.props.setRst(this.props.rst,true, this.props.rstbeforechangemode);
+        //       else
+        //        this.props.setRst(this.props.rstbeforechangemode,true, this.props.rst);
+        //    else
+        //      { // eligio un modo no digital, pero si viene desde uno digital le sete 59
+        //         if (this.props.mode==='JT65' || this.props.mode==='FT4' || this.props.mode==='FT8') 
+        //           this.props.setRst(this.props.rstbeforechangemode,false,this.props.rst);
+        //          else
+        //           this.props.setRst(this.props.rst,false,this.props.rstbeforechangemode);
+
+        //      }
+
+             this.props.setMode(value);
           // algoritmo para meterle el 9 final automatico si eleigio CW
           // siempre y cuando no lo haya seteado el antes a la T
         //   if (value==='CW'){
@@ -57,7 +86,7 @@ class QsoMode extends Component {
               // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
             if (ONPROGRESS) {
              data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,value,this.props.rst,
-                                          this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
+                this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
                                           this.props.longitude);
                   console.log("Data to Send API: "+ JSON.stringify(data)); 
                   
@@ -73,7 +102,9 @@ class QsoMode extends Component {
                               "band" : this.props.band,
                               "type" : this.props.qsotype,
                               "sqlrdsid" : this.props.sqlrdsid,
-                              "qra": this.props.qra
+                              "qra": this.props.qra,
+                              "rst" : this.props.rst,
+                              "db" : this.props.db
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
               await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   
@@ -220,6 +251,8 @@ class QsoMode extends Component {
         mode: state.sqso.currentQso.mode,
         band: state.sqso.currentQso.band,
         rst: state.sqso.currentQso.rst,
+        db: state.sqso.currentQso.db,
+        // rstbeforechangemode: state.sqso.currentQso.rstBeforeChangeMode,
         qsotype: state.sqso.currentQso.qsotype,
         qsoqras: state.sqso.currentQso.qsoqras,
         sqlrdsid: state.sqso.currentQso.sqlrdsId,

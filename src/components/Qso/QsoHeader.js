@@ -9,6 +9,7 @@ import QsoType from './QsoType';
 import QsoBand from './QsoBand';
 import QsoMode from './QsoMode';
 import QsoRst from './QsoRst';
+import QsodB from './QsodB';
 import QsoEnterQra from './QsoEnterQra';
 
 
@@ -105,7 +106,9 @@ class QsoHeader extends Component {
 
                     <View style={{flex: Platform.OS==='ios' ? 0.190 : 0.190, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
-                        <QsoRst />  : null }
+                       (this.props.digitalmode) ? <QsodB /> : <QsoRst />
+                        
+                        : null }
                     </View>  
 
                </View> 
@@ -142,6 +145,7 @@ class QsoHeader extends Component {
     return {  sqsonewqsoactive: state.sqso.newqsoactive,
         qsotype: state.sqso.currentQso.qsotype,
         qra: state.sqso.qra,
+        digitalmode: state.sqso.currentQso.digitalMode,
         sqsoprofilepicrefresh: state.sqso.profilePicRefresh,
         rdsurl: state.sqso.urlRdsS3
        
