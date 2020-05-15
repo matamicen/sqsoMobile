@@ -40,12 +40,14 @@ class NotificationList extends Component {
   
 
   _renderItem = ({ item }) => {
-    const { idqra_notifications, idqra_activity, qra_avatarpic, QSO_GUID, QRA, read, url, message} = item;
+    const { idqra_notifications, idqra_activity, qra_avatarpic, QSO_GUID, QRA, read, url, message, activity_type, DATETIME, comment, mode, band, UTC} = item;
 
     return (
       <View>
        <View style={{marginLeft: 0 }}>
-       <NotifItem  message={message} url={url} read={read} avatar_pic={qra_avatarpic} idqra_notifications={idqra_notifications} idqra_activity={idqra_activity} QSO_GUID={QSO_GUID} QRA={QRA} />
+       <NotifItem  message={message} url={url} read={read} avatar_pic={qra_avatarpic} idqra_notifications={idqra_notifications}
+        idqra_activity={idqra_activity} QSO_GUID={QSO_GUID} QRA={QRA} activity_type={activity_type} 
+        datetimecomment={DATETIME} comment={comment} mode={mode} band={band} utc={UTC}/>
        
         {/* <Text style={{ color: 'orange', fontSize: 17}}>id notif: {idqra_notifications} </Text> */}
         </View>
