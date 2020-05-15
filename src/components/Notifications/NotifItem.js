@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { getDateQslScan } from '../../helper';
+import moment from "moment";
 
 class NotifItem extends Component {
 
@@ -134,9 +136,34 @@ if (urlnotif!=null)
                     <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                      
                         {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para
-                        que el CLICK sobre lo vacio haga click y tenga efecto */}
-                        <Text style={{fontSize:15, height: 60}}>{this.props.message}  </Text>
-                         
+                        que el CLICK sobre lo vacio haga click y tenga efecto
+                        on {getDateQslScan(this.props.utc).substr(0,12)} 
+                         */}
+                        {(this.props.activity_type===18) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} | {this.props.comment.substr(0,50)}...</Text>
+                        }
+                           {(this.props.activity_type===10) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
+                        }
+                        {(this.props.activity_type===1) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} {"\n"} </Text>
+                        }
+                         {(this.props.activity_type===23) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
+                        }
+                           
+                          {(this.props.activity_type===12) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
+                        }
+
+                         {(this.props.activity_type===50) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text>
+                        }
+                        {/* El 108 es el de la notificacion que viene por push pero el telefono esta en Foreground entonces la capturo y 
+                           y la doy de alta en la bandeja de notificaciones */}
+                          {(this.props.activity_type===108) &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} {"\n"} </Text>
+                        }
                      </TouchableOpacity>
                              
 

@@ -193,7 +193,7 @@ constructor(props) {
                  avatar = null;
         
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
-              "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":avatar, "url": bodyJson.URL,
               "qso_mode":null,"qso_band":null,"qso_type":null}
 
@@ -294,7 +294,7 @@ constructor(props) {
               // notification.data.data.jsonBody.pinpoint.deeplink
   
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.alert.title,
-              "activity_type":18,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":avatar, "url": notification.data.data.pinpoint.deeplink,
               "qso_mode":null,"qso_band":null,"qso_type":null}
        
