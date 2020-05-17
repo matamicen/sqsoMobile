@@ -374,7 +374,7 @@ signOut = async () => {
              <View style={{flexDirection: 'row', flex: 0.14}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                <View style={{flex:0.21}}>
-                 <TouchableOpacity style={{}} onPress={() => this.onPressAvatar(this.props.qra) }>
+                 <TouchableOpacity style={{}} onPress={() => this.gotoCameraScreen() }>
                    <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
                   </TouchableOpacity>
               </View>  

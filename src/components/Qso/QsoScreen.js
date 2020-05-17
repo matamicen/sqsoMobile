@@ -19,7 +19,8 @@ import {
   Animated,
   Easing,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Linking
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -77,6 +78,8 @@ import AdInter from "./AdInter";
 import AdVideoReward from "./AdVideoReward";
 import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './../Profile/StopApp';
+import analytics from '@react-native-firebase/analytics';
+
 
 
 
@@ -136,7 +139,8 @@ class QsoScreen extends Component {
       appNeedUpgrade: false,
       pushTokenNotFound: false,
       forceChangePassword: false,
-      upgradeText: ''
+      upgradeText: '',
+      iconosWeb: false
      
     };
   }
@@ -331,7 +335,8 @@ class QsoScreen extends Component {
         duration: 0,
       }),
      
-          ]).start(() => {
+          ]).start(() => { console.log('termino animacion')
+             this.setState({iconosWeb: true})
 
           });
  
@@ -1085,6 +1090,65 @@ class QsoScreen extends Component {
 
   }
 
+
+
+yourPosts = async (qra) => {
+  console.log('yourlatest');
+  urlnotif = 'https://www.superqso.com/'+qra;
+  Linking.canOpenURL(urlnotif).then(supported => {
+    if (!supported) {
+      console.log('Can\'t handle url: ' + urlnotif);
+    } else {
+      if(__DEV__)
+        analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
+      else
+        analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
+    
+      return Linking.openURL(urlnotif);
+    
+    }
+  }).catch(err => {
+          console.error('An error occurred', err)
+          crashlytics().setUserId(this.props.qra);
+          crashlytics().log('error: ' + JSON.stringify(err)) ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('Linking.yourposts_DEV'));
+          else
+          crashlytics().recordError(new Error('Linking.yourposts_PRD'));
+
+
+        });
+      }
+
+
+latestPosts = async () => {
+  console.log('latest');
+  urlnotif = 'https://www.superqso.com/';
+  Linking.canOpenURL(urlnotif).then(supported => {
+    if (!supported) {
+      console.log('Can\'t handle url: ' + urlnotif);
+    } else {
+      if(__DEV__)
+        analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
+      else
+        analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
+    
+      return Linking.openURL(urlnotif);
+    
+    }
+  }).catch(err => {
+          console.error('An error occurred', err)
+          crashlytics().setUserId(this.props.qra);
+          crashlytics().log('error: ' + JSON.stringify(err)) ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('Linking.latestposts_DEV'));
+          else
+          crashlytics().recordError(new Error('Linking.latestposts_PRD'));
+
+
+        });
+      }
+
   render() {
     const interpolatedRotateAnimation = this.state.rotateValue.interpolate({
       inputRange: [0,  100],
@@ -1356,9 +1420,9 @@ class QsoScreen extends Component {
         <View style={{ flex: 0.58 }}>
        
         { !this.props.sqsonewqsoactive && 
-        <View  style={{alignItems:"center", alignContent:"center"}}>
+        <View  style={{ alignItems:"center", alignContent:"center"}}>
          
-
+        
               <Animated.View style={[styles.animationView,
                     {opacity: this.state.fadeValue},
                     // {transform: [{scale: this.state.springValue}], alignSelf: 'center'}
@@ -1400,6 +1464,43 @@ class QsoScreen extends Component {
                 
                 <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>IAP</Text>
               </TouchableOpacity> */}
+             {(this.state.iconosWeb) &&
+              <View style={{ flexDirection: "row", marginTop: 90}}>
+              
+              <View style={{flex: 0.5,  alignItems:"center", alignContent:"center"}}>
+              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:100}}  onPress={() => this.latestPosts()}  >
+             
+              <Image
+                  source={require("../../images/home.png")}
+                  style={{ width: 36, height: 36, marginTop: 25  }}
+                  resizeMode="contain"
+                />
+                     
+                      <Text style={{fontSize: 16, color: '#243665'}}>Latest Posts</Text>
+              
+                    </TouchableOpacity>
+                  
+              </View>
+              <View style={{flex: 0.5,  alignItems:"center", alignContent:"center"}}>
+              <TouchableOpacity style={{  alignItems:"center", alignContent:"center", height:100}} onPress={() => this.yourPosts(this.props.qra)}  >
+              <Image 
+                  source={require("../../images/activity2.png")}
+                  style={{ width: 36, height: 36, marginTop: 25 }}
+                  resizeMode="contain"
+                />
+                      <Text style={{fontSize: 16, color: '#243665'}}>Your Posts</Text>
+                  
+                    </TouchableOpacity>
+              </View>
+
+              
+               </View>
+               }
+
+
+
+            
+
               </View>
              } 
            
@@ -1497,8 +1598,8 @@ class QsoScreen extends Component {
 const styles = StyleSheet.create({
  
   animationView: {
-    // position: "absolute",
-       marginTop: 85,
+    // position: "absolute",  estaba en 85 el marginTop
+       marginTop: 25,
     // right: 180
     // width: 100,
     // height: 100,
