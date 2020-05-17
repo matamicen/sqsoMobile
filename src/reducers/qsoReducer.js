@@ -1427,13 +1427,18 @@ const qsoReducer = (state = initialState, action) => {
         {
             let modif = {"read" : 'read'};
 
-            const updatedItems5 = state.currentQso.notifications.map(item => {
-                // if(item.idqra_notifications === action.notifications){
-                   if(item.idqra_activity === action.notifications){
-                return { ...item, ...modif }
-                }
-                return item
-            })
+            // Esta rutina la marca como leida, le cambia el color
+            // const updatedItems5 = state.currentQso.notifications.map(item => {
+            //     // if(item.idqra_notifications === action.notifications){
+            //        if(item.idqra_activity === action.notifications){
+            //     return { ...item, ...modif }
+            //     }
+            //     return item
+            // })
+
+            // Con esta sentencia borra la notificacion del ARRAY
+            // de esta manera el usuario ve de inmediato que se borro su notificacion
+            const updatedItems5 = state.currentQso.notifications.filter(item => item.idqra_activity != action.notifications)
 
 
             auxcurrentQso = {
@@ -1457,12 +1462,15 @@ const qsoReducer = (state = initialState, action) => {
         console.log('NOTIF_BACKGROUND_TRUE');
         let modif = {"read" : 'read'};
 
-        const updatedItems5 = state.currentQso.notifications.map(item => {
-            if(item.idqra_activity === action.notifications){
-            return { ...item, ...modif }
-            }
-            return item
-        })
+        // const updatedItems5 = state.currentQso.notifications.map(item => {
+        //     if(item.idqra_activity === action.notifications){
+        //     return { ...item, ...modif }
+        //     }
+        //     return item
+        // })
+
+        // borro la notificaion leida
+        const updatedItems5 = state.currentQso.notifications.filter(item => item.idqra_activity != action.notifications)
 
 
         auxcurrentQso = {

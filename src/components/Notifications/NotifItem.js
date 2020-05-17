@@ -91,8 +91,8 @@ if (urlnotif!=null)
         console.log('presiono notif:' + idqra_notifications+ ' URL:' + urlnotif ) ;
         // let url = 'http://d3cevjpdxmn966.cloudfront.net/qso/'+urlnotif;
  
-        this.props.set_notification_read(idqra_notifications,this.props.jwtToken);
-        this.props.manage_notifications('SET_READ',idqra_notifications);
+       this.props.set_notification_read(idqra_notifications,this.props.jwtToken); // llamo api de borrado de notificacion en backend
+        this.props.manage_notifications('SET_READ',idqra_notifications); // borro del array de notificacion en memoria asi el usuario ve el efecto inmediato
  
     //     Linking.canOpenURL(url).then(supported => {
     //      if (!supported) {
@@ -241,19 +241,25 @@ if (urlnotif!=null)
                    {this.props.read===null ? 
                     // <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_notifications,this.props.QSO_GUID)} underlayColor="white">  
                     <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_activity,this.props.QSO_GUID)} underlayColor="white">  
-                      <View>
+                      {/* <View>
                         <Text style={{fontSize:11,  color: '#243665',fontWeight: 'bold' }}>Mark As</Text>
                         </View>
                         <View style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
                         <Text style={{fontSize:11, color: '#243665',fontWeight: 'bold' }}>Read</Text>
-                        </View>
+                        </View> */}
+                        <Image
+                          source={require("../../images/delete2.png")}
+                          style={{ width: 21, height: 21, marginLeft: 4  }}
+                          resizeMode="contain"
+                        />
+                         <Text style={{fontSize:11,  color: 'red',fontWeight: 'bold' }}>Delete</Text>
 
                     </TouchableOpacity>
                    
                    :
                 //    <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_notifications,this.props.QSO_GUID)} underlayColor="white">  
                         <View>
-                        <Text style={{fontSize:10, color: 'orange',fontWeight: 'bold' }}>Read</Text>
+                        <Text style={{fontSize:10, color: '#243665',fontWeight: 'bold' }}>Read</Text>
                         </View>
                         
 
