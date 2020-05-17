@@ -131,10 +131,11 @@ class User extends Component {
                         } 
 
                         </View>
-                      
+                        <TouchableOpacity style={{}} onPress={() => this.onPressAvatar(this.props.name) }>
                       <Text style={styles.name2} >
                                   {this.props.name}
                           </Text>
+                          </TouchableOpacity>
                         
                          {/* {this.props.idqra_followed} */}
                 
