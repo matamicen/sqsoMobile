@@ -149,6 +149,14 @@ mediafilesSinProfile = [];
       fechaqso = this.getDateHelper();
       console.log("FECHAAA: " + fechaqso);
 
+      if (qsotype==='POST')
+       {
+         db = '';
+         rst = '';
+         band = '';
+         mode = '';
+       }
+
 
       const data = {
         "band" : band,
