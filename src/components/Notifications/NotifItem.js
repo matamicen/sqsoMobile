@@ -137,23 +137,39 @@ if (urlnotif!=null)
                      
                         {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para
                         que el CLICK sobre lo vacio haga click y tenga efecto
-                        on {getDateQslScan(this.props.utc).substr(0,12)} 
+                        on {getDateQslScan(this.props.utc).substr(0,12)}  this.props.band!=='') ?
                          */}
-                        {(this.props.activity_type===18) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} | {this.props.comment.substr(0,50)}...</Text>
+                        {(this.props.activity_type===18 && this.props.band!=='') &&
+ 
+                         <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} | {(this.props.comment) && this.props.comment.substr(0,50)}...</Text>
                         }
-                           {(this.props.activity_type===10) &&
+                         {(this.props.activity_type===18 && this.props.band==='') &&
+                        <Text style={{fontSize:15, height: 75}}>{this.props.message} | {(this.props.comment) && this.props.comment.substr(0,50)}...</Text>
+                      }
+                      
+                    
+                     
+                           {(this.props.activity_type===10 && this.props.band!=='') &&
                           <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
                         }
+                        {(this.props.activity_type===10 && this.props.band==='') &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message}{"\n"} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
+                        }
+
                         {(this.props.activity_type===1) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} {"\n"} </Text>
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} {"\n"}on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC</Text>
                         }
                          {(this.props.activity_type===23) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} </Text>
+                          // <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
                         }
                            
-                          {(this.props.activity_type===12) &&
+                          {(this.props.activity_type===12 && this.props.band!=='') &&
                           <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
+                        }
+
+                        {(this.props.activity_type===12 && this.props.band==='') &&
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
                         }
 
                          {(this.props.activity_type===50) &&
