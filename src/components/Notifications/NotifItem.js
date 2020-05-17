@@ -8,7 +8,8 @@ import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { getDateQslScan } from '../../helper';
-import moment from "moment";
+// import moment from "moment";
+import MomentAgo from './MomentAgo';
 
 class NotifItem extends Component {
 
@@ -21,7 +22,8 @@ class NotifItem extends Component {
         this.state = {
           people: [],
           errorMessage: "",
-          isFetching: true
+          isFetching: true,
+          // ago: moment(this.props.datetimecomment).fromNow()
         };
       }
 
@@ -30,9 +32,21 @@ class NotifItem extends Component {
    componentDidMount() {
     
       //  this.props.fetchPeople();
+      // this.timerID = setInterval(
+      //   () => this.tick(),
+      //   60000
+      // );
      
        }
+       componentWillUnmount() {
+        // clearInterval(this.timerID);
+      }
 
+      // tick() {
+      //   this.setState({
+      //     ago: moment(this.props.datetimecomment).fromNow()
+      //   });
+      // }
   
       onPressItem = (idqra_notifications, urlnotif) => {
        console.log('presiono notif:' + idqra_notifications+ ' URL:' + urlnotif ) ;
@@ -92,9 +106,13 @@ if (urlnotif!=null)
 
 
     render() { console.log("RENDER NotifItem");
+  console.log('josesito:')
+   // fec = new Date(this.props.datetimecomment);
+   
+    //out = moment(this.props.datetimecomment).fromNow();  
+  //    console.log(out);
   
-           
-           
+  
                            
               
         return( <View style={{ flex: 1, backgroundColor: this.props.read===null ? 'white' : '#DCDCDC' }}>
@@ -137,28 +155,75 @@ if (urlnotif!=null)
                      
                         {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para
                         que el CLICK sobre lo vacio haga click y tenga efecto
-                        on {getDateQslScan(this.props.utc).substr(0,12)} 
+                        on {getDateQslScan(this.props.utc).substr(0,12)}  this.props.band!=='') ?
                          */}
-                        {(this.props.activity_type===18) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} | {this.props.comment.substr(0,50)}...</Text>
-                        }
-                           {(this.props.activity_type===10) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
-                        }
+                        {(this.props.activity_type===18 && this.props.band!=='') &&
+ 
+                         <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} |
+                           <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                         </Text>
+                      }
+                         {(this.props.activity_type===18 && this.props.band==='') &&
+                         <View >
+                           <Text style={{fontSize:15 }}>{this.props.message} |
+                             <Text style={{fontSize:15, fontWeight: "bold", height: 40, color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,57)}... </Text>  <Text style={{fontSize:14, height: 40, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                           </Text>
+                        </View>
+                     }
+                      
+                    
+                     
+                           {(this.props.activity_type===10 && this.props.band!=='') &&
+                           <View>
+                          <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"}
+                          <Text style={{fontSize:14, height: 60, color: 'grey'}}><MomentAgo date={this.props.utc}/>{"\n"} </Text>
+                            {/* <Text style={{fontSize:14, height: 60, color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC{"\n"} </Text> */}
+                           </Text>
+                          </View>
+                       }
+                        {(this.props.activity_type===10 && this.props.band==='') &&
+                         <View>
+                          <Text style={{fontSize:15}}>{this.props.message}</Text>
+                          <Text style={{fontSize:14, height: 40, color: 'grey'}}><MomentAgo date={this.props.utc}/></Text>
+                          {/* <Text style={{fontSize:14, height: 40, color: 'grey'}}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
+                          </View>
+                       }
+{/* {moment(this.props.datetimecomment).fromNow()} */}
                         {(this.props.activity_type===1) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} {"\n"} </Text>
+                          <View>
+                          <Text style={{fontSize:15}}>{this.props.message} </Text>
+                          <Text style={{fontSize:14, color: 'grey', height: 40 }}><MomentAgo date={this.props.datetimecomment}/></Text>
+                          {/* <Text style={{fontSize:14, color: 'grey', height: 40 }}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC</Text> */}
+                          </View>
                         }
                          {(this.props.activity_type===23) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
+                          <Text style={{fontSize:15, height: 75}}>{this.props.message} </Text>
+                          // <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
                         }
                            
-                          {(this.props.activity_type===12) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode} on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text>
-                        }
+                          {(this.props.activity_type===12 && this.props.band!=='') &&
+                          <View>
+                          <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text>
+                           <Text style={{fontSize:14, height: 25,color: 'grey'}}><MomentAgo date={this.props.utc}/>{"\n"} </Text>
+                            {/* <Text style={{fontSize:14, height: 25,color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC </Text>  */}
+                          </View>
+                       }
+
+                        {(this.props.activity_type===12 && this.props.band==='') &&
+                         <View>
+                          <Text style={{fontSize:15}}>{this.props.message}</Text>
+                          <Text style={{fontSize:14, height: 25,color: 'grey' }}><MomentAgo date={this.props.utc}/></Text>
+                          {/* <Text style={{fontSize:14, height: 25,color: 'grey' }}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
+                          </View>
+                       }
 
                          {(this.props.activity_type===50) &&
-                          <Text style={{fontSize:15, height: 75}}>{this.props.message} on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text>
-                        }
+                         <View>
+                          <Text style={{fontSize:15}}>{this.props.message}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
                         {/* El 108 es el de la notificacion que viene por push pero el telefono esta en Foreground entonces la capturo y 
                            y la doy de alta en la bandeja de notificaciones */}
                           {(this.props.activity_type===108) &&
