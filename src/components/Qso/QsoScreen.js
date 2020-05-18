@@ -20,7 +20,8 @@ import {
   Easing,
   Keyboard,
   TouchableWithoutFeedback,
-  Linking
+  Linking,
+  BackHandler
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -79,7 +80,7 @@ import AdVideoReward from "./AdVideoReward";
 import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './../Profile/StopApp';
 import analytics from '@react-native-firebase/analytics';
-
+import HandleBack from './HandleBack';
 
 
 
@@ -113,6 +114,8 @@ class QsoScreen extends Component {
     this.fileauxProfileAvatar = null;
     this.closeAd = null;
     this.auxMedia = [];
+
+ 
    
 
     this.state = {
@@ -194,6 +197,9 @@ class QsoScreen extends Component {
 
     return null;
   }
+
+ 
+ 
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
@@ -312,6 +318,8 @@ class QsoScreen extends Component {
           purchaseErrorSubscription.remove();
           purchaseErrorSubscription = null;
         }
+
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
   rotateAnimation = () => {
@@ -342,6 +350,8 @@ class QsoScreen extends Component {
  
 
  }
+
+
 
   getAvailablePurchase = async() => {
     try {
@@ -1161,6 +1171,7 @@ latestPosts = async () => {
     return (
     
       //  <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+      <HandleBack onBack={this.onBack}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
         <View style={{ flex: 0.3 }}>
@@ -1588,6 +1599,7 @@ latestPosts = async () => {
       }
 
       </View>
+      </HandleBack>
       //  </TouchableWithoutFeedback>
   
     );
