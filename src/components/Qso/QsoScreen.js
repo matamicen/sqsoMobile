@@ -1317,7 +1317,7 @@ latestPosts = async () => {
               style={{
                 padding: 10,
                 backgroundColor: "rgba(0,0,0,0.85)",
-                marginTop: 35,
+                marginTop: 5,
                 left: 15,
                 right: 35,
                 width: this.width - 35,
@@ -1332,10 +1332,11 @@ latestPosts = async () => {
               }}
             >
               {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
-              <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} />
+              <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} close={this.closeModalPhotoConfirmation.bind()} />
             
               {/* style={{ paddingBottom: 4}} */}
-              <View style={{ marginTop: 10 }}>
+             
+              {/* <View style={{ marginTop: 10 }}>
                 <TouchableOpacity style={{ width: 65 }}
                   onPress={() => this.closeModalPhotoConfirmation()}
                 >
@@ -1345,7 +1346,7 @@ latestPosts = async () => {
                     Cancel
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>

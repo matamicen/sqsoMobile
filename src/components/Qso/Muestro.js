@@ -615,7 +615,14 @@ class Muestro extends Component {
           // <Image style={styles.faceImageStyleAudio}
           //             source={require('../../images/audio.png')}
           //                 /> }
-        <PlayMediaAudioPreview url={this.props.sqsomedia.url} /> }
+          <View>
+              <View>
+                <Text style={{ color: 'white', fontSize: 14}}>You can play the audio before send it</Text> 
+                </View>
+             <View style={{ marginTop: 12}}>
+              <PlayMediaAudioPreview url={this.props.sqsomedia.url}  /> 
+            </View>
+         </View> }
 
                           {/* && Platform.OS==='android' */}
             {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
@@ -633,14 +640,14 @@ class Muestro extends Component {
 
           </View>
         
-            <View style={{ flex:this.props.height===490 ? 0.25 : 0.5, flexDirection: 'row'}}>
+            <View style={{ flex:this.props.height===490 ? 0.25 : 0.5}}>
 {/* width: this.widthScreen-80 */}
             { (this.props.sqsomedia.type!=='profile') &&
   
              <View style={{ flex:0.7 }}>
 
               
-                  <TextInput 
+              <TextInput 
                   placeholder="description (Optional)"
                   
                   underlineColorAndroid='transparent'
@@ -648,28 +655,55 @@ class Muestro extends Component {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
+               
                   // onFocus={() => this.setState({rotateShow: false})}
                   // onBlur={() => this.setState({rotateShow: true})}
                   style={styles.input}
                   value={this.state.description}
-                    onChangeText={(text) => this.setState({description: text})} />
+                    onChangeText={(text) => this.setState({description: text})} />    
             
 
              </View>
             }
             
              { (this.props.sqsomedia.type!=='profile') ?
-              <View style={{flex:0.3}}>
+              <View style={{flex:0.3, flexDirection: 'row'}}>
+                 <View style={{flex:0.5, alignItems:"flex-start"}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
-                    <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.send_and_check_ad()} >
-                      <Text style={{ color: '#c0c0c0', fontWeight: 'bold', fontSize: 18, marginTop: 18, marginLeft: 6}}>Send</Text>
+                    <TouchableOpacity style={{ width: 65 }}
+                      onPress={() => this.props.close()}
+                    >
+                      <Text
+                        style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}
+                      >
+                        Cancel
+                      </Text>
                     </TouchableOpacity>
+                  </View>
+                  <View style={{flex:0.5, alignItems: "flex-end"}}>
+                    <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.send_and_check_ad()} >
+                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Send</Text>
+                    </TouchableOpacity>
+                   </View>
                 </View>  
                 :
-                <View style={{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity  style={{ height: 40 }} onPress={() => this.subo_Profile_Photo_s3()} >
-                       <Text style={{ color: '#c0c0c0', fontWeight: 'bold', fontSize: 16}}>Send Profile Photo</Text>
+                
+                <View style={{ flex:1 , flexDirection: 'row'}}>
+                  <View style={{ flex:0.5, alignItems: 'flex-start'}}>
+                  <TouchableOpacity style={{ width: 65, marginLeft: 10 }} onPress={() => this.props.close()}   >
+                          <Text
+                            style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 18 }}   >
+                            Cancel
+                          </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flex:0.5, alignItems: 'flex-end'}}>
+                    <TouchableOpacity  style={{ height: 40, marginRight: 10 }} onPress={() => this.subo_Profile_Photo_s3()} >
+                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>Send</Text>
                     </TouchableOpacity>
+                       
+                    </View>
+               
                     </View>  
 
             }
@@ -728,14 +762,14 @@ const styles = StyleSheet.create({
         color: 'orange'        
     },
     input: {
-      height: 35,
+      height: 38,
       borderRadius: 22,  
       // backgroundColor: 'rgba(255,255,255,0.2)',
       backgroundColor: 'black',
       marginBottom: 5,
       marginTop: 15,
       color: '#FFF',
-      fontSize: 14,
+      fontSize: 16.5,
       paddingHorizontal: 5,
    //   width: 100
             }
