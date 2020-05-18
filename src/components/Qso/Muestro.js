@@ -18,6 +18,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 // import firebase from 'react-native-firebase';
 import VariosModales from "./VariosModales";
 import crashlytics from '@react-native-firebase/crashlytics';
+import PlayMediaAudioPreview from './PlayMediaAudioPreview';
 
 
 //Amplify.configure(awsconfig);
@@ -611,9 +612,11 @@ class Muestro extends Component {
             resizeMode="contain"
           />
           :
-          <Image style={styles.faceImageStyleAudio}
-                      source={require('../../images/audio.png')}
-                          /> }
+          // <Image style={styles.faceImageStyleAudio}
+          //             source={require('../../images/audio.png')}
+          //                 /> }
+        <PlayMediaAudioPreview url={this.props.sqsomedia.url} /> }
+
                           {/* && Platform.OS==='android' */}
             {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
           { (this.props.sqsomedia.type==='image') &&
