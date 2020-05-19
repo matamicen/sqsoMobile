@@ -501,9 +501,9 @@ signOut = async () => {
             >
               {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
               {/* <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={320} /> */}
-              <Muestro  height={490}/>
+              <Muestro  height={490} close={this.closeModalPhotoConfirmation.bind()} />
               {/* style={{ paddingBottom: 4}} */}
-              <View style={{ marginTop: 10 }}>
+              {/* <View style={{ marginTop: 10 }}>
                 <TouchableOpacity style={{ width: 65 }}
                   onPress={() => this.closeModalPhotoConfirmation() }
                 >
@@ -513,7 +513,7 @@ signOut = async () => {
                     Cancel
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
