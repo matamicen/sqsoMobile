@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions, Modal  } from 'react-native';
 import { connect } from 'react-redux';
 import { uploadMediaToS3 } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
+import PlayMediaAudioPost from './PlayMediaAudioPost';
+import EditMedia from './EditMedia';
 
 class Media extends Component {
 
@@ -16,7 +18,8 @@ class Media extends Component {
         this.state = {
           people: [],
           errorMessage: "",
-          isFetching: true
+          isFetching: true,
+          editar: false
         };
       }
 
@@ -32,6 +35,13 @@ class Media extends Component {
       //  this.props.fetchPeople();
         //this.props.navigation.navigate('CameraScreen');
       }
+
+      closeModalEdit = () => {
+         this.setState({editar: false})
+        }
+      openModalEdit = () => {
+         this.setState({editar: true})
+       }
 
       onPressItem = (fileName2, description, fileaux, fileauxProfileAvatar,  sqlrdsid, size, type, rdsUrlS3, urlNSFW,urlAvatar,  date, width,height,qra,rectime ) => {
        console.log('presiono:' + fileName2+ ' ' + description + ' ' + fileaux + ' ' + sqlrdsid + ' ' + size + ' ' + type + ' '+rdsUrlS3) ;
@@ -54,11 +64,11 @@ class Media extends Component {
         // puso el touckWithFeedback en mediaFiles para cada item
 
         return( (this.props.type!=='vacio') ?
-        
-        <View style={{ flex: 1 }}>
+        // <View style={{ flex: 1, backgroundColor: 'white'}}>
+        <View style={{ flex: 1, backgroundColor: '#f5f5f5', borderRadius:5, height:106, marginTop: 5 }}>
                
-               <View style={{flex: 1, flexDirection: 'row', marginTop: 6 }}>
-
+               <View style={{flex: 0.75, flexDirection: 'row', marginTop: 6, marginLeft: 6 }}>
+                  <View style={{flex:0.25 }}>
                       { (this.props.type==='image' || this.props.type==='profile') ? <Image
                     style={styles.mediaStyle}
                     resizeMethod="resize"
@@ -66,46 +76,57 @@ class Media extends Component {
                       />
                       
                       
-                      : <Image
-                      style={styles.mediaStyle}
-                      source={require('../../images/audio.png')}
-                          /> }
+                      : 
+                      <PlayMediaAudioPost url={this.props.imageurl}  /> 
+                      
+                      
+                      // <Image
+                      // style={styles.mediaStyle}
+                      // source={require('../../images/audio.png')}
+                      //     /> 
+                          
+                          
+                          }
                     
-                     
-                    <View  style={{marginLeft: 25 }}>
+                    </View>
+                    <View  style={{flex:0.70 }}>
+                    <View style={{flex:0.2 }}>
 
                       <Progress.Bar
-                          style={{marginTop: 23, height: 6, width: this.width-120}}
-                          width={this.width-120}
+                          // style={{marginTop: 13, height: 6, width: this.width-125}}
+                          style={{marginTop: 13, height: 6}}
+                           width={this.width-142}
                           unfilledColor="lightgrey"
                           borderRadius={0}
                       //   height={15}
                       //    color={['#F44336', '#2196F3', '#009688']}
-                          color="#8BD8BD"
+                          // color="#8BD8BD"
+                          color="#243665"
                           borderWidth={0}
                           progress={this.props.progress}
                           //indeterminate={true}
                         />
-
+                    </View>
+                    <View  style={{flex:0.8, marginTop: 5, alignItems: 'flex-end' }}>
                             { (this.props.status==='sent') && 
-                         <Text style={styles.status} > SENT </Text>
+                         <Text style={styles.status} >   SENT</Text>
                         }
                        
                         { (this.props.status==='inprogress') && 
-                         <Text style={styles.status} > IN PROGRESS </Text>
+                         <Text style={styles.status} >   IN PROGRESS</Text>
                          }
 
                           { (this.props.status==='failed') && 
-                         <Text style={styles.status} > FAILED </Text>
+                         <Text style={styles.status} >   FAILED </Text>
                         }
 
-                           { (this.props.status==='waiting') && 
-                         <Text style={styles.status} > Enter callsign, Band and Mode</Text>
-                        }
+                            { (this.props.status==='waiting') && 
+                         <Text style={styles.status} >  Enter callsign, Band and Mode</Text>
+                        } 
 
 
                           { (this.props.status==='inappropriate content') && 
-                         <Text style={styles.inapropiate} > inappropriate content </Text>
+                         <Text style={styles.inapropiate} >   inappropriate content</Text>
                         }
 
                         {/* { (this.props.sent) ? 
@@ -119,10 +140,10 @@ class Media extends Component {
                             <TouchableOpacity onPress={() => this.onPressItem(this.props.name,this.props.description,this.props.imageurl,this.props.fileauxProfileAvatar,
                                 this.props.sqlrdsid, this.props.size, this.props.type, this.props.rdsUrlS3,this.props.urlNSFW,this.props.urlAvatar, this.props.date, this.props.width, this.props.height,
                                 this.props.qra, this.props.rectime)} underlayColor="white">
-                            <Text style={styles.status} > Send again </Text>
+                            <Text style={styles.status} >   Send again</Text>
                             </TouchableOpacity>
                         }
-                              
+                       </View>        
                         
                              
 
@@ -131,10 +152,82 @@ class Media extends Component {
                  
 
               </View>
+              <View style={{flex: 0.27, flexDirection: 'row', marginLeft: 6}}>
+             
+              <View style={{flex: 0.22, alignItems: "flex-start"}}>
+                <Text style={{fontSize: 14,color: '#243665',fontWeight: 'bold'}} >Description:</Text>
+              </View>
+              <View style={{flex: 0.58, alignItems: "flex-start"}}>
+                {(this.props.description) ?
+                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold'}} >{this.props.description}</Text>
+                :
+                <Text style={{fontSize: 14,color: 'grey', fontWeight: 'bold'}} >no description</Text>
+                }
+                </View>
+              <View style={{flex: 0.10, alignItems: "center"}}>
+              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.openModalEdit()}  >
+                  <Image
+                        style={{ width: 20,
+                          height: 20
+                        }}
+                        resizeMethod="resize"
+                        source={require('../../images/edit2.png')}
+                          />
+                </TouchableOpacity>
+                {/* <Text style={{fontSize: 14,color: 'black'}} >Edit</Text> */}
+              </View>
+              <View style={{flex: 0.10, alignItems: "center"}}>
+              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.openModalEdit()}  >
+                  <Image
+                        style={{ width: 20,
+                          height: 20
+                        }}
+                        resizeMethod="resize"
+                        source={require('../../images/delete2.png')}
+                          />
+                </TouchableOpacity>
+                {/* <Text style={{fontSize: 14,color: 'black'}} >Edit</Text> */}
+              </View>
+            
+            
+              </View>
+
+         <Modal
+            visible={this.state.editar}
+            position={"top"}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            {/* <KeyboardAvoidingView behavior="padding"  > */}
+            <View
+              style={{
+                padding: 10,
+                backgroundColor: "rgba(0,0,0,0.85)",
+                marginTop: 5,
+                left: 15,
+                right: 35,
+                width: this.width - 35,
+
+                height: 500,
+           //  height: 320,
+                paddingVertical: 5,
+                //   position: 'absolute',
+
+                //  alignItems: 'center',
+                borderRadius: 12
+              }}
+            >
+              
+              <EditMedia desc={this.props.description} url={this.props.imageurl}  type={this.props.type}  close={this.closeModalEdit.bind()} />
+            
+       
+            </View>
+           
+          </Modal>
 
             
-
-         </View>
+            </View>
+    
 
          :
          <View style={{ flex: 1 }}>
@@ -160,7 +253,8 @@ const styles = StyleSheet.create({
        {
         width: 58,
         height: 58,
-        borderRadius: 30
+        borderRadius: 30,
+       // marginTop: 10
          },
     name:{
         fontSize: 12,
@@ -172,15 +266,19 @@ const styles = StyleSheet.create({
     status:{
       fontSize: 14,
       marginTop: 2,
-      textAlign: 'right',
+      alignItems: 'flex-end',
+      // textAlign: 'right',
+      // marginRight: 2,
      // padding: 2,
      // fontWeight: 'bold',        
-      color: 'grey'        
+      // color: 'grey'   
+      color: 'black'     
   },
   inapropiate:{
     fontSize: 14,
     marginTop: 2,
     textAlign: 'right',
+   
    // padding: 2,
    // fontWeight: 'bold',        
     color: 'red'        

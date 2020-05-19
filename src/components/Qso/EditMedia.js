@@ -1,0 +1,810 @@
+import React, { Component } from 'react';
+//import {FileSystem } from 'expo';
+import { connect } from 'react-redux';
+import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3, sendActualMedia,
+  onprogressTrue ,  onprogressFalse, actindicatorPostQsoNewTrue, postQsoNew,
+  manageLocationPermissions, setSendingProfilePhotoModal, setConfirmProfilePhotoModal,
+  setProfileModalStat  } from '../../actions';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
+  TouchableHighlight, KeyboardAvoidingView, Platform, Dimensions, TouchableWithoutFeedback,
+  Keyboard   } from 'react-native';
+import { getDate} from '../../helper';
+//import Amplify, { Auth, API, Storage } from 'aws-amplify'
+import { Auth } from 'aws-amplify';
+import awsconfig from '../../aws-exports'
+import ImageResizer from 'react-native-image-resizer';
+import { updateOnProgress, check_firstTime_OnProgress, checkMediaSentOfFreeUser } from '../../helper';
+import ImagePicker from 'react-native-image-crop-picker';
+// import firebase from 'react-native-firebase';
+import VariosModales from "./VariosModales";
+import crashlytics from '@react-native-firebase/crashlytics';
+import PlayMediaAudioPreview from './PlayMediaAudioPreview';
+
+
+//Amplify.configure(awsconfig);
+Auth.configure(awsconfig);
+
+class EditMedia extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.width = 0;
+        this.height = 0;
+        this.widthAvatar = 0;
+        this.heightAvatar = 0;
+        this.rotateCount = 0;
+        this.stat = '';
+
+        this.size = 0;
+        this.compressRotation = 86;
+        this.compressImageURL = '';
+        this.compressImageURLProfileAvatar = '';
+        this.var12 = 'pepe';
+
+    this.widthScreen = Dimensions.get('window').width; //full width
+    this.heightScreen = Dimensions.get('window').height; //full height
+
+  
+        
+        this.state = {
+          people: [],
+          errorMessage: "",
+          isFetching: true.imageurl,
+          tok: '',
+          description: this.props.desc,
+          nointernet: false,
+          notvideorewarded: false,
+          prereward: false,
+         // rotateShow: true
+        };
+      }
+
+  
+
+   componentDidMount = async () => {
+
+  
+    
+     
+       }
+
+
+    
+
+    //   rotateImage = async () => {
+
+    //      const dim = await this.getDimensions(this.props.sqsomedia.url);
+    //      this.rotateCount = this.rotateCount + 1;
+
+    //     if (this.compressRotation==86){
+    //       // const dim = await this.getDimensions(this.props.sqsomedia.url);
+    //       console.log(' entro 1era vez Compress Rotation: '+this.width + ' ' + this.height);
+
+    //       if (this.width > this.height) 
+    //             valor = this.width;
+    //           else
+    //             valor = this.height;
+
+    //      coef = valor / 650;
+    //      if (coef < 1) coef = 1;
+    //      console.log(' Coeficiente :'+ coef);
+    //      coefRotate = coef / 1.65;
+        
+
+    //      if (Platform.OS==='android') 
+    //          coefRotate = coef;
+
+    //          console.log(' coefRotate :'+ coefRotate);
+        
+   
+    //     nuevoWidth = this.width /  coefRotate; //5.6// 5.2;
+    //     nuevoHeight = this.height / coefRotate; //5.6 //5.2;
+    //     // nuevoWidthAvatar = this.widthAvatar / 30.0;
+    //     // nuevoHeightAvatar = this.heightAvatar / 30.0;
+    //     nuevoWidthAvatar = this.widthAvatar / 2.0;
+    //     nuevoHeightAvatar = this.heightAvatar / 2.0;
+
+    //     }else{
+         
+    //    if (Platform.OS==='android')
+    //    {
+    //       nuevoWidth = this.width;
+    //       nuevoHeight = this.height;  
+    //    }else{
+    //     nuevoWidth = this.height;
+    //     nuevoHeight =   this.width;
+
+    //    }
+
+    //       nuevoWidthAvatar = this.widthAvatar;
+    //       nuevoHeightAvatar = this.heightAvatar;
+    //       console.log(' entro 2da vez Compress Rotation: '+this.width + ' ' + this.height);
+    //     }
+    
+    //     auxoriginalphoto=this.props.sqsomedia.url;
+    //     await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG',86, 90).then((response) => {
+    //       // response.uri is the URI of the new image that can now be displayed, uploaded...
+    //       // response.path is the path of the new image
+    //       // response.name is the name of the new image with the extension
+    //       // response.size is the size of the new image
+    //    //   data.uri = response.uri;
+    //    console.log('Compress Rotation: '+this.compressRotation); 
+    //    console.log('TERMINO PRIMER ROTATE '+this.compressRotation); 
+    //    this.compressRotation = 100;
+    //       this.compressImageURL = response.uri;
+    //       this.size = response.size;
+    //       this.width = nuevoWidth;
+    //       this.height = nuevoHeight;
+    //       console.log(' Compress Rotation Rotate resize ImageResizer: ' + JSON.stringify(response));
+
+
+  
+
+
+    //     envio = {name: 'fileName2', url: this.compressImageURL, type: this.props.sqsomedia.type, sent: 'false', size: this.size , width: this.width, height: this.height, qra: this.props.qra, rectime: '0' } 
+ 
+    //     this.props.sendActualMedia(envio);
+
+    //     }).catch((err) => {
+    //       // Oops, something went wrong. Check that the filename is correct and
+    //       // inspect err to get more details.
+    //       crashlytics().setUserId(this.props.qra);
+    //       crashlytics().log('error: ' + JSON.stringify(err)) ;
+    //       if(__DEV__)
+    //       crashlytics().recordError(new Error('createResizeImg1_DEV'));
+    //       else
+    //       crashlytics().recordError(new Error('createResizeImg1_PRD'));
+    //     });
+
+
+    //     if (this.props.sqsomedia.type==='profile')
+    //     {
+    //       console.log('TERMINO ENTRA avatar '+this.compressRotation); 
+    //       // genero el avatar del profile
+    //       await ImageResizer.createResizedImage(auxoriginalphoto, nuevoWidthAvatar , nuevoHeightAvatar, 'JPEG',86 , 90).then((response) => {
+          
+    //         this.compressImageURLProfileAvatar = response.uri;
+    //        // this.size = response.size;
+    //         this.widthAvatar = nuevoWidthAvatar;
+    //         this.heightAvatar = nuevoHeightAvatar;
+    //         console.log(' Compress Rotation Rotate resize AVATAR: ' + JSON.stringify(response));
+
+  
+    //       }).catch((err) => {
+    //         // Oops, something went wrong. Check that the filename is correct and
+    //         // inspect err to get more details.
+    //         crashlytics().setUserId(this.props.qra);
+    //         crashlytics().log('error: ' + JSON.stringify(err)) ;
+    //         if(__DEV__)
+    //         crashlytics().recordError(new Error('createResizImg2_DEV'));
+    //         else
+    //         crashlytics().recordError(new Error('createResizImg2_PRD'));
+    //       });
+  
+    //     }
+
+        
+
+
+    //   }
+
+
+    //   getDimensions = (laUrl) => new Promise((resolve) => {
+ 
+    //     Image.getSize(laUrl, (width, height) => {
+    //      //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
+    //         this.width = width;
+    //         this.widthAvatar = width;
+    //         this.height = height;
+    //         this.heightAvatar = height;
+    //         console.log('getdimension  w: '+this.width+ ' '+width+  'h:'+this.height +'  '+height )
+            
+    //               resolve(1234)
+    //          });
+     
+    //    })
+
+
+//       compressImage = async () => {
+//         this.var12 = 'Jose';
+//         inicial = new Date();
+//         const dim = await this.getDimensions(this.props.sqsomedia.url)
+//         final = new Date();
+//         total = final - inicial;
+        
+//         console.log('dim'+dim);
+//         console.log('tardoMuestro en total obtener info de foto: '+ total + ' width:'+ this.width + ' height:'+ this.height)
+       
+        
+//           if (this.width > this.height) 
+//           valor = this.width;
+//         else
+//           valor = this.height;
+
+//         coef = valor / 650;
+//         if (coef < 1) coef = 1;
+//         console.log(' Coeficiente :'+ coef);
+
+//         nuevoWidth = this.width /  coef; //5.6// 5.2;
+//         nuevoHeight = this.height / coef; //5.6 //5.2;
+
+//         // nuevoWidth = this.width / 5.6//5.2;
+//         // nuevoHeight = this.height /  5.6 //5.2;
+//         compressRate = 86;
+//         // nuevoWidthAvatar = this.widthAvatar / 30.0;
+//         // nuevoHeightAvatar = this.heightAvatar / 30.0;
+//         if ( Platform.OS === 'ios')
+//         {
+
+//         // nuevoWidthAvatar = this.widthAvatar / 21.0;
+//         // nuevoHeightAvatar = this.heightAvatar / 21.0;
+//         nuevoWidthAvatar = this.widthAvatar / 10.0;
+//         nuevoHeightAvatar = this.heightAvatar / 10.0;
+//         }else
+//         {
+//         nuevoWidthAvatar = this.widthAvatar / 6.0;
+//         nuevoHeightAvatar = this.heightAvatar / 6.0;
+//       }
+
+
+//         if (this.props.sqsomedia.type==='profile'){
+//           // esto es para genrar el Profile.jpg para mostrar en el perfil con mas definicion
+//               if ( Platform.OS === 'ios')
+//             {
+//               nuevoWidth = this.width / 5.0
+//               nuevoHeight = this.height / 5.0;
+//             }else{
+//               nuevoWidth = this.width / 3.0;
+//               nuevoHeight = this.height / 3.0;
+//             }
+//               compressRate = 86;
+//         }
+    
+//         auxoriginalphoto=this.props.sqsomedia.url;
+//         inicial = new Date();
+        
+//         await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG', compressRate).then((response) => {
+//           // response.uri is the URI of the new image that can now be displayed, uploaded...
+//           // response.path is the path of the new image
+//           // response.name is the name of the new image with the extension
+//           // response.size is the size of the new image
+//        //   data.uri = response.uri;
+    
+//           this.compressImageURL = response.uri;
+//   //    this.compressImageURL = this.props.sqsomedia.url
+//           this.size = response.size;
+//           this.width = nuevoWidth;
+//           this.height = nuevoHeight;
+//           console.log('resize ImageResizer: ' + JSON.stringify(response));
+         
+
+//         // envio = {name: 'fileName2', url: this.compressImageURL, type: 'image', sent: 'false', size: this.size , width: this.width, height: this.height } 
+ 
+//         // this.props.sendActualMedia(envio);
+
+
+//         }).catch((err) => {
+//           // Oops, something went wrong. Check that the filename is correct and
+//           // inspect err to get more details.
+//           crashlytics().setUserId(this.props.qra);
+//           crashlytics().log('error: ' + JSON.stringify(err)) ;
+//           if(__DEV__)
+//           crashlytics().recordError(new Error('createResizImg3_DEV'));
+//           else
+//           crashlytics().recordError(new Error('createResizImg3_PRD'));
+//         });
+//         final = new Date();
+//         total = final - inicial;
+//         console.log('tardoMuestro en total en achicar la imagen: '+ total)
+
+
+
+//         if (this.props.sqsomedia.type==='profile')
+//         {
+//            // esto es para genrar el Profile_avatar.jpg para mostrar en los vatars con menor definicion
+//           console.log('TERMINO ENTRA avatar '+this.compressRotation); 
+//           // genero el avatar del profile
+//           //iba 86
+//           await ImageResizer.createResizedImage(auxoriginalphoto, nuevoWidthAvatar , nuevoHeightAvatar, 'JPEG',86).then((response) => {
+          
+//             this.compressImageURLProfileAvatar = response.uri;
+                
+//            // this.size = response.size;
+//             this.widthAvatar = nuevoWidthAvatar;
+//             this.heightAvatar = nuevoHeightAvatar;
+//             console.log(' Compress Rotation Rotate resize AVATAR: ' + JSON.stringify(response));
+
+  
+//           }).catch((err) => {
+//             // Oops, something went wrong. Check that the filename is correct and
+//             // inspect err to get more details.
+//             crashlytics().setUserId(this.props.qra);
+//             crashlytics().log('error: ' + JSON.stringify(err)) ;
+//             if(__DEV__)
+//             crashlytics().recordError(new Error('createResiImg4_DEV'));
+//             else
+//             crashlytics().recordError(new Error('createResiImg4_PRD'));
+//           });
+  
+//         }
+
+       
+
+//       }
+
+  
+    // //Por aca se envian las fotos y audio del QSP solamente
+    //   send_and_check_ad = async () => {
+    //     this.props.closeModalConfirmPhoto();
+
+
+    //     console.log("subo a s3 con BLOB");
+
+    //     console.log('var12 antes: '+this.var12);
+
+    //     if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
+    //     //  if the media is a photo -> Compress Imgae
+    //     if (this.compressRotation===86){ 
+    //       console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
+    //        await this.compressImage();
+    //          }else
+    //          {
+    //               if (this.rotateCount>1 && Platform.OS==='ios')
+    //               {
+    //                 // Si es IOS y roto mas de una vez, no hay que hacer nada, el Width y el Height no 
+    //                 // se deben intercambiar
+    //               }
+    //             else
+    //               {
+    //                 // switch de width con height porque la foto fue girada y el feed necesita calcular el espacio
+    //               auxWidth = this.width;
+    //               this.width = this.height;
+    //               this.height = auxWidth;
+
+    //               }
+    //          }
+    //         // fileaux =  this.props.sqsomedia.url;
+    //         fileaux = this.compressImageURL;
+    //         fileauxProfileAvatar =  this.compressImageURLProfileAvatar;
+
+    //     } else
+    //       {
+    //        fileaux =  this.props.sqsomedia.url;
+    //        this.size = this.props.sqsomedia.size;
+    //        fileauxProfileAvatar = '';
+
+    //       }
+
+
+
+    //     fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+
+    //     if (this.props.sqsomedia.type==='image') {
+    //          folder = 'images/'+fileName2;
+           
+    //     }
+    //       else folder = 'audios/'+fileName2;
+
+
+    //       if (this.props.sqsomedia.type==='profile') 
+    //         { 
+    //           folder = 'profile/profile.jpg';
+    //           // para que no se repita el nombre en la lista de enviados si sue mas de 1 vez su profile picture 
+    //           //  fileNameaux = fileName2+''+ new Date().getTime();
+    //           //  fileName2 = fileNameaux;
+              
+    //           fileName2 = 'profile.jpg'+ new Date().getTime();
+    //         }
+          
+       
+    //     rdsUrl = this.props.rdsurls3+folder;
+    //     urlNSFW = this.props.rdsurls3+'profile/tmp/profile.jpg';
+    //     urlAvatar = this.props.rdsurls3+'profile/profile_avatar.jpg';
+       
+
+
+    //    fecha = getDate();
+    //    console.log('la fecha es:' + fecha);
+   
+    //       if (this.props.sqlrdsid==='' && this.props.sqsomedia.type!=='profile')
+    //             this.stat = 'waiting';
+    //           else
+    //             this.stat = 'inprogress';
+           
+    //             console.log('tengo qra: '+this.props.sqsomedia.qra);
+
+    //          envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
+    //           status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: this.props.sqsomedia.rectime  } 
+                    
+               
+              
+       
+    //          setTimeout(() => {
+    //           this.props.send_data_to_qsoscreen(envio, fileauxProfileAvatar);
+    //          }
+    //         , 50)
+    
+    //   }
+
+
+    //   //Por aca se envian las fotos de profile solamente
+    //   subo_Profile_Photo_s3 = async () => {
+
+
+    //     // this.props.closeModalConfirmPhoto();
+    //     this.props.setConfirmProfilePhotoModal(false);
+
+    //     setTimeout(() => {
+    //       // abro modal de statua de envio de photo del profile
+    //     this.props.setSendingProfilePhotoModal(true);
+    //     }
+    //     , 150);
+        
+
+
+    //     if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
+    //     //  if the media is a photo -> Compress Imgae
+    //     if (this.compressRotation===86){ 
+    //       console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
+    //        await this.compressImage();
+    //          }else
+    //          {
+    //               if (this.rotateCount>1 && Platform.OS==='ios')
+    //               {
+    //                 // Si es IOS y roto mas de una vez, no hay que hacer nada, el Width y el Height no 
+    //                 // se deben intercambiar
+    //               }
+    //             else
+    //               {
+    //                 // switch de width con height porque la foto fue girada y el feed necesita calcular el espacio
+    //               auxWidth = this.width;
+    //               this.width = this.height;
+    //               this.height = auxWidth;
+
+    //               }
+    //          }
+    //         // fileaux =  this.props.sqsomedia.url;
+    //         fileaux = this.compressImageURL;
+    //         fileauxProfileAvatar =  this.compressImageURLProfileAvatar;
+
+    //     } else
+    //       {
+    //        fileaux =  this.props.sqsomedia.url;
+    //        this.size = this.props.sqsomedia.size;
+    //        fileauxProfileAvatar = '';
+
+    //       }
+
+
+    //     console.log('var12 despues: '+this.var12);
+
+
+       
+    // //  fileaux =  this.props.sqsomedia.url;
+   
+    //   console.log("fileaux uri:"+ fileaux);
+
+    //     fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+
+    //     if (this.props.sqsomedia.type==='image') {
+    //          folder = 'images/'+fileName2;
+           
+    //     }
+    //       else folder = 'audios/'+fileName2;
+
+
+    //       if (this.props.sqsomedia.type==='profile') 
+    //         { 
+    //           folder = 'profile/profile.jpg';
+    //           // para que no se repita el nombre en la lista de enviados si sue mas de 1 vez su profile picture 
+    //           //  fileNameaux = fileName2+''+ new Date().getTime();
+    //           //  fileName2 = fileNameaux;
+              
+    //           fileName2 = 'profile_'+ new Date().getTime() + '.jpg';
+    //         }
+          
+       
+    //     rdsUrl = this.props.rdsurls3+folder;
+    //     // urlNSFW = this.props.rdsurls3+'profile/tmp/profile.jpg';
+    //     urlNSFW = this.props.rdsurls3+'profile/tmp/'+fileName2;
+    //     urlAvatar = this.props.rdsurls3+'profile/profile_avatar.jpg';
+       
+
+
+
+
+    //     console.log('RDSurl: '+rdsUrl);
+
+    //   // fecha = this.getDate();
+    //    fecha = getDate();
+    //    console.log('la fecha es:' + fecha);
+      
+    //       if (this.props.sqlrdsid==='' && this.props.sqsomedia.type!=='profile')
+    //             this.stat = 'waiting';
+    //           else
+    //             this.stat = 'inprogress';
+
+    //          envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
+    //           status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: '0' } 
+                    
+    //            console.log("voy a impirmir ENVIO:");
+    //            console.log(envio);
+    //                this.props.addMedia(envio);
+    //                // creo mediafilelocal porque trada en actualizar REDUX entonces si es el caso
+    //                // donde debe crear el QSO le envio del mediafileLocal, ver mas abajo.
+    //                mediafileLocal = [ envio ];
+
+    //     // Fin de agrego a array de media del store
+       
+       
+    
+    //   if (this.stat==='inprogress')  {  // los envia si ya tienen SqlRdsId sino los deja en waiting
+    //       this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.sqsomedia.qra,'0',this.props.jwtToken);
+    //       // hago un timeout por si se queda colgado el upload asi el usuario
+    //       // por lo menos puede hacer un close del modal de espera y no tiene que resetear la APP           
+    //       setTimeout(() => {
+    //         // hablitio el cancel button para darle escapatoria del modal si en 10 segundos no se
+    //         // subio la foto o fallo el envio o lo que sea.    
+    //         this.props.setProfileModalStat('cancelButton',1);
+            
+    //       }
+    //       , 10000);
+      
+    //            }  else{
+    //          // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
+    //          // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
+    //          console.log('mediafile Local:'+mediafileLocal);
+    //          console.log(mediafileLocal);
+    //          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,mediafileLocal))
+    //             await this.props.onprogressTrue();
+    //            else
+    //              this.props.onprogressFalse();
+
+    //              console.log('onprogress '+ONPROGRESS)
+
+    //              if (ONPROGRESS) {
+    //               data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
+    //                          this.props.db,this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
+    //                                            this.props.longitude);
+    //                    console.log("Data to Send API: "+ JSON.stringify(data));  
+    //                   this.props.actindicatorPostQsoNewTrue();
+    //                   this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+                      
+    //              }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+
+    //          }
+    //       //this.props.navigation.navigate("Root");
+        
+    //         //  }
+    //   }
+
+     
+
+
+      // closeVariosModales = (param) => {
+      //   this.setState({ nointernet: false, notvideorewarded: false, prereward: false });
+      //   console.log("param de close modal: "+ param);
+      //   if (param==='prereward')  
+      //      this.advertVideoRewardMuestro.show();
+      // };
+
+    render() { 
+       
+   
+              
+        return( 
+          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={46}
+          >
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
+        <View style={{flex:1, marginTop: 20}}>
+            
+            <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
+            { (this.props.type==='image' || this.props.type==='profile') ?
+             <Image style={styles.faceImageStyle}
+            source={{ uri: this.props.url }}
+            resizeMethod="resize"
+            resizeMode="contain"
+          />
+          :
+          // <Image style={styles.faceImageStyleAudio}
+          //             source={require('../../images/audio.png')}
+          //                 /> }
+          <View>
+              {/* <View>
+                <Text style={{ color: 'white', fontSize: 14}}>You can play the audio before send it</Text> 
+                </View> */}
+             {/* <View style={{ marginTop: 12}}>
+              <PlayMediaAudioPreview url={this.props.url}  /> 
+            </View> */}
+         </View> }
+
+{/*          
+          { (this.props.sqsomedia.type==='image') &&
+                   <TouchableOpacity  onPress={() => this.rotateImage()} >
+                     <View style={{ flexDirection: 'row'}}>
+                           <Image style={{ width: 15, height: 15,  marginTop: 3, marginLeft: 3}}
+                      source={require('../../images/rotate.png')}
+                          /> 
+
+                         <Text style={{ color: 'orange', fontSize: 11, marginTop: 3}}> Rotate</Text>
+                     </View>     
+                    </TouchableOpacity>
+            } */}
+
+          </View>
+        
+            <View style={{ flex:this.props.height===490 ? 0.25 : 0.5}}>
+{/* width: this.widthScreen-80 */}
+            { (this.props.type!=='profile') &&
+  
+             <View style={{ flex:0.7 }}>
+
+              
+              <TextInput 
+                  placeholder="description (Optional)"
+                  
+                  underlineColorAndroid='transparent'
+                  placeholderTextColor="rgba(255,255,255,0.7)"
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  multiline={true}
+                  numberOfLines={2}
+                  // onFocus={() => this.setState({rotateShow: false})}
+                  // onBlur={() => this.setState({rotateShow: true})}
+                  style={styles.input}
+                  value={this.state.description}
+                    onChangeText={(text) => this.setState({description: text})} />    
+            
+
+             </View>
+            }
+            
+             { (this.props.type!=='profile') ?
+              <View style={{flex:0.3, flexDirection: 'row'}}>
+                 <View style={{flex:0.5, alignItems:"flex-start"}}>
+                    {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
+                    <TouchableOpacity style={{ width: 65 }}
+                      onPress={() => this.props.close()}
+                    >
+                      <Text
+                        style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}
+                      >
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{flex:0.5, alignItems: "flex-end"}}>
+                    <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.send_and_check_ad()} >
+                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Save</Text>
+                    </TouchableOpacity>
+                   </View>
+                </View>  
+                :
+                
+                <View style={{ flex:1 , flexDirection: 'row'}}>
+                  <View style={{ flex:0.5, alignItems: 'flex-start'}}>
+                  <TouchableOpacity style={{ width: 65, marginLeft: 10 }} onPress={() => this.props.close()}   >
+                          <Text
+                            style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 18 }}   >
+                            Cancel
+                          </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flex:0.5, alignItems: 'flex-end'}}>
+                    <TouchableOpacity  style={{ height: 40, marginRight: 10 }} onPress={() => this.subo_Profile_Photo_s3()} >
+                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>Send</Text>
+                    </TouchableOpacity>
+                       
+                    </View>
+               
+                    </View>  
+
+            }
+                   
+        </View>
+
+
+         </View>
+         </TouchableWithoutFeedback>
+         </KeyboardAvoidingView>
+
+      
+         
+            
+           
+       
+        )} 
+
+ }
+
+ 
+const styles = StyleSheet.create({
+       faceImageStyle: {
+      //  width: 150,
+      //  height: 150,
+             width: 172.5,
+       height: 172.5,
+       
+    //   borderRadius: 30
+       },
+       faceImageStyleAudio: {
+        width: 65,
+        height: 65,
+        borderRadius: 30
+         },
+    name:{
+        fontSize: 16,
+        marginLeft: 5,
+        padding: 5,
+        fontWeight: 'bold',        
+        color: 'orange'        
+    },
+    input: {
+      height: 65,
+      borderRadius: 22,  
+      // backgroundColor: 'rgba(255,255,255,0.2)',
+      backgroundColor: 'black',
+      marginBottom: 5,
+      marginTop: 15,
+      color: '#FFF',
+      fontSize: 16.5,
+      paddingHorizontal: 5,
+   //   width: 100
+            }
+  });
+
+  
+
+
+  const mapStateToProps = state => {
+    // return {  isTransitioning: state.nav.isTransitioning,
+    //     index: state.nav.routes[0].index,
+    //     sqso: state.sqso };
+        return {  
+          sqsomedia: state.sqso.currentQso.mediatosend,
+          sqlrdsid: state.sqso.currentQso.sqlrdsId,
+          rdsurls3: state.sqso.urlRdsS3,
+          jwtToken: state.sqso.jwtToken,
+          mediafiles: state.sqso.currentQso.mediafiles,
+          userinfo: state.sqso.userInfo,
+
+          band: state.sqso.currentQso.band,
+          mode: state.sqso.currentQso.mode,
+          rst: state.sqso.currentQso.rst,
+          db: state.sqso.currentQso.db,
+          qsotype: state.sqso.currentQso.qsotype,
+          qsoqras: state.sqso.currentQso.qsoqras,
+         // sqlrdsid: state.sqso.currentQso.sqlrdsId,
+          latitude: state.sqso.currentQso.latitude,
+          longitude: state.sqso.currentQso.longitude,
+          isfetching: state.sqso.isfetching,
+          qra: state.sqso.qra,   
+          mediafiles: state.sqso.currentQso.mediafiles
+       //   jwtToken: state.sqso.jwtToken
+
+
+           };
+};
+
+
+const mapDispatchToProps = {
+    addMedia,
+    updateMedia,
+    closeModalConfirmPhoto,
+    postAddMedia,
+    uploadMediaToS3,
+    sendActualMedia,
+    onprogressTrue ,
+    onprogressFalse,
+    actindicatorPostQsoNewTrue,
+    postQsoNew,
+    manageLocationPermissions,
+    setSendingProfilePhotoModal,
+    setConfirmProfilePhotoModal,
+    setProfileModalStat
+   }
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMedia);
+
