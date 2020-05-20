@@ -20,7 +20,7 @@ import {FETCHING_API_REQUEST,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
-     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST   } from '../actions/types';
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -98,6 +98,8 @@ const initialState = {
         qraSearched: [],
         qraShow: [],
         localSearch: '',
+        deletedFlag: false,
+        deletedFlagMessage: '',
         qslscan: {
             "statusCode": 200,
             "headers": {
@@ -635,6 +637,21 @@ const qsoReducer = (state = initialState, action) => {
         });
     return newStore; 
 
+    case SET_DELETED_FLAG:
+  
+     auxcurrentQso = {
+        ...state.currentQso,
+        deletedFlag: action.flag,
+        deletedFlagMessage: action.message
+             
+    };
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            currentQso: auxcurrentQso
+        });
+    return newStore; 
+
     case SET_PROFILE_MODAL_STAT:
        
     // uso esta action para manejar el status del MODAL y el boton de Cancel dentro del modal
@@ -1069,7 +1086,8 @@ const qsoReducer = (state = initialState, action) => {
              modalconfirmphoto: false,
              mediatosend: {},
              activityindicatorImage: false,
-             shareUrlGuid: ''
+             shareUrlGuid: '',
+             deletedFlag: false
             
              
  
