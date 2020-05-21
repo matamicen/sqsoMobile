@@ -20,7 +20,7 @@ import {FETCHING_API_REQUEST,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
-     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG   } from '../actions/types';
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -1385,6 +1385,26 @@ const qsoReducer = (state = initialState, action) => {
         });
     return newStore; 
 
+    case DELETE_MEDIA_MEMORY:
+       
+        // borro el media que viene bajo la variable action.name
+        const mediaUpdated = state.currentQso.mediafiles.filter(item => item.name != action.name)
+ 
+
+
+        auxcurrentQso = {
+            ...state.currentQso,
+            mediafiles: mediaUpdated           
+        };
+
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+                currentQso: auxcurrentQso
+            });
+        return newStore; 
+
+    
 
     case MANAGE_NOTIFICATIONS:
     let auxcurrentQso;

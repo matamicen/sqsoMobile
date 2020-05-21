@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import PlayMediaAudioPost from './PlayMediaAudioPost';
 import EditMedia from './EditMedia';
+import DeleteMedia from './DeleteMedia';
 
 class Media extends Component {
 
@@ -19,7 +20,8 @@ class Media extends Component {
           people: [],
           errorMessage: "",
           isFetching: true,
-          editar: false
+          editar: false,
+          deleteMedia: false
         };
       }
 
@@ -42,6 +44,13 @@ class Media extends Component {
       openModalEdit = () => {
          this.setState({editar: true})
        }
+       openDeleteMedia = () => {
+        //  console.log('open delete media')
+        this.setState({deleteMedia: true})
+      }
+      CloseDeleteMedia = () => {
+        this.setState({deleteMedia: false})
+      }
 
       onPressItem = (fileName2, description, fileaux, fileauxProfileAvatar,  sqlrdsid, size, type, rdsUrlS3, urlNSFW,urlAvatar,  date, width,height,qra,rectime ) => {
        console.log('presiono:' + fileName2+ ' ' + description + ' ' + fileaux + ' ' + sqlrdsid + ' ' + size + ' ' + type + ' '+rdsUrlS3) ;
@@ -177,7 +186,7 @@ class Media extends Component {
                 {/* <Text style={{fontSize: 14,color: 'black'}} >Edit</Text> */}
               </View>
               <View style={{flex: 0.10, alignItems: "center"}}>
-              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.openModalEdit()}  >
+              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.openDeleteMedia()}  >
                   <Image
                         style={{ width: 20,
                           height: 20
@@ -224,6 +233,10 @@ class Media extends Component {
             </View>
            
           </Modal>
+
+          {(this.state.deleteMedia) &&
+              <DeleteMedia  sqlrdsid={this.props.sqlrdsid} idmedia={this.props.idmedia} name={this.props.name} mediafiles={this.props.mediafiles} closeDelete={this.CloseDeleteMedia.bind()} desc={(this.props.type==='audio') ? 'audio' : 'photo' }/>
+            }
 
             
             </View>

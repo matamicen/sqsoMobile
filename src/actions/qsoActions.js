@@ -25,7 +25,7 @@ import {FETCHING_API_REQUEST,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
         SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
-        SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG  } from './types';
+        SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -726,6 +726,15 @@ export const resetForSignOut = () => {
   };
 }
 
+
+export const deleteMediaInMemory = (name) => {
+  return {
+      type: DELETE_MEDIA_MEMORY,
+      name: name
+     
+  };
+}
+
 export const updateMediaStatus = (filename,status) => {
     return {
         type: UPDATE_MEDIA_STATUS,
@@ -1321,7 +1330,7 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         console.log("error es 0 y sqlrdsid: "+respuesta.message);
 
       //  update = {"status": "sent", "progress": 1}
-      update = {"status": 'sent', "progress": 1}
+      update = {"status": 'sent', "progress": 1, idmedia: respuesta.body.message }
         dispatch(updateMedia(filename2, update,'item'));
         // stat = {"sent": true, "progress": 0.8}
         // this.props.updateMediaSent(fileName2,stat);
@@ -1546,6 +1555,81 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
     };
   };
 
+
+
+  export const deleteMedia = (mediaid,nameMedia,jwtToken) => {
+    return async dispatch => {
+      dispatch(fetchingApiRequest('DeletePost'));
+      console.log("ejecuta llamada API DeletePost");  
+    try {
+  
+     
+
+        let apiName = 'superqso';
+        let path =  '/qsomediaadd';
+        let myInit = { 
+          headers: {
+            'Authorization': jwtToken,
+            'Content-Type': 'application/json'
+          }, 
+          body: {
+            idmedia: mediaid 
+               }
+          
+        }
+
+
+      respuesta = await API.del(apiName, path, myInit);
+      console.log("llamo api deleteMedia");
+    
+      console.log(JSON.stringify(respuesta))
+    
+     
+      dispatch(fetchingApiSuccess('DeleteMedia',respuesta));
+     
+      if (respuesta.body.error===0)
+      {
+       // dispatch(updateSqlRdsId(respuesta.message));
+        console.log("error es 0 y SALIDA de DeleteMedia: "+JSON.stringify(respuesta.body.message));
+       
+        //borro de mediafiles la mdeia borrada por la API en backend
+
+         dispatch(deleteMediaInMemory(nameMedia));
+
+        // dispatch(newqsoactiveFalse());
+        // dispatch(resetQso());
+    
+        
+
+      }
+      else
+      {
+        dispatch(deletedFlag(true,'We could not delete the media, please try later or delete from www.superqso.com'));
+        // crashlytics().log('error: ' + JSON.stringify(error) + ' sqlrdsid: '+ sqlrdsid) ;
+        if(__DEV__)
+        crashlytics().recordError(new Error('DeleteMediaAPI_DEV'));
+        else
+        crashlytics().recordError(new Error('DeleteMediaAPI_PRD'));
+
+      }
+     
+    }
+    catch (error) {
+      console.log('Api catch DELETE_POST error:', error);
+      dispatch(fetchingApiFailure('DeletePost',error));
+      dispatch(deletedFlag(true,'We could not delete the post, please try later or delete from www.superqso.com'));
+      // Handle exceptions
+      //crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + JSON.stringify(error) + ' sqlrdsid: '+ sqlrdsid) ;
+      if(__DEV__)
+      crashlytics().recordError(new Error('DeleteMedia_DEV'));
+      else
+      crashlytics().recordError(new Error('DeleteMedia_PRD'));
+    }
+         
+      
+    };
+  };
 
 
 

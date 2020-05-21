@@ -1212,11 +1212,11 @@ latestPosts = async () => {
                   color: "white",
                   fontWeight: "bold",
                   fontSize: 14,
-                  marginLeft: 15,
+                  marginLeft: 20,
                   marginTop: 5
                 }}
               >
-                Processing ...
+                Publishing ...
               </Text>
             </View>
             {/* </KeyboardAvoidingView > */}
