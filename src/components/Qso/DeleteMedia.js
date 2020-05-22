@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { deletePost, deletedFlag, deleteMediaInMemory , deleteMedia} from '../../actions';
+import { deletePost, deletedFlag, deleteMediaInMemory , deleteMedia, setToken} from '../../actions';
 import { hasAPIConnection} from '../../helper';
+import { Auth } from 'aws-amplify';
+import awsconfig from '../../aws-exports'
 
 import VariosModales from './VariosModales';
 
 
-
+Auth.configure(awsconfig);
 
 class DeleteMedia extends Component {
 
@@ -23,20 +25,26 @@ class DeleteMedia extends Component {
 
   
 
-   componentDidMount() {
+   componentDidMount = async () => {
     
   
-    console.log('didmount DeleteMedia')
-    console.log('sqlrdsid:'+ this.props.sqlrdsid)
-    console.log('mediaLenght:'+ this.props.mediafiles.length)
-    console.log('mediaName:'+ this.props.name)
-    console.log('idmedia:'+ this.props.idmedia)
-    console.log('media:'+ JSON.stringify(this.props.mediafiles))
-    if (this.props.sqlrdsid)
-        console.log('tiene sqlrdsid:'+this.props.sqlrdsid)
-        else
-        console.log('NO TIENE sqlrdsid:');
-
+    // console.log('didmount DeleteMedia')
+    // console.log('sqlrdsid:'+ this.props.sqlrdsid)
+    // console.log('mediaLenght:'+ this.props.mediafiles.length)
+    // console.log('mediaName:'+ this.props.name)
+    // console.log('idmedia:'+ this.props.idmedia)
+    // console.log('media:'+ JSON.stringify(this.props.mediafiles))
+    // if (this.props.sqlrdsid)
+    //     console.log('tiene sqlrdsid:'+this.props.sqlrdsid)
+    //     else
+    //     console.log('NO TIENE sqlrdsid:');
+    session = await Auth.currentSession();
+      
+    
+    //  session = await Auth.currentAuthenticatedUser();
+      console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
+       this.props.setToken(session.idToken.jwtToken);
+    
 
         // si tiene 2 de length es porque solo tiene 1 media solo ya que el otro siempre es un registro de type VACIO 
         // que se usa para que haya algo y el usuario pueda tocar la pantalla u bajar el teclado
@@ -125,7 +133,7 @@ class DeleteMedia extends Component {
               <View style={{ 
                    padding:10, 
                   backgroundColor : 'rgba(0,0,0,0.90)',
-                   marginTop: 200,
+                   marginTop: 230,
                    left: 50,
                    right: 15,
                  //  width: 170,
@@ -246,7 +254,8 @@ const mapDispatchToProps = {
   deleteMediaInMemory,
   deletedFlag,
   deletePost,
-  deleteMedia
+  deleteMedia,
+  setToken
  
    }
 

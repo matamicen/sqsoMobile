@@ -1211,7 +1211,7 @@ latestPosts = async () => {
                 style={{
                   color: "white",
                   fontWeight: "bold",
-                  fontSize: 14,
+                  fontSize: 15,
                   marginLeft: 20,
                   marginTop: 5
                 }}

@@ -25,7 +25,8 @@ import {FETCHING_API_REQUEST,
         QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME, CONFIRMED_PURCHASE_FLAG,
         SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
-        SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY  } from './types';
+        SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
+        UPDATE_COMMENT_MEMORY  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -731,6 +732,15 @@ export const deleteMediaInMemory = (name) => {
   return {
       type: DELETE_MEDIA_MEMORY,
       name: name
+     
+  };
+}
+
+export const updateCommentInMemory = (name,description) => {
+  return {
+      type: UPDATE_COMMENT_MEMORY,
+      name: name,
+      description: description
      
   };
 }
@@ -1556,6 +1566,80 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
   };
 
 
+  export const updateMediaDescription = (mediaid,descrip,name,jwtToken) => {
+    return async dispatch => {
+      dispatch(fetchingApiRequest('updateMediaDescription'));
+      console.log("ejecuta llamada API updateMediaDescription");  
+    try {
+  
+      console.log(mediaid + ' ' + descrip + ' '+name)
+     
+
+        let apiName = 'superqso';
+        let path =  '/qsomediadesc';
+        let myInit = { 
+          headers: {
+            'Authorization': jwtToken,
+            'Content-Type': 'application/json'
+          }, 
+          body: {
+            idmedia: mediaid,
+            description: descrip 
+
+               }
+          
+        }
+
+
+      respuesta = await API.post(apiName, path, myInit);
+      console.log("llamo api updateMediaDescription");
+    
+      console.log(JSON.stringify(respuesta))
+    
+     
+      dispatch(fetchingApiSuccess('updateMediaDescription',respuesta));
+     
+      if (respuesta.body.error===0)
+      {
+       // dispatch(updateSqlRdsId(respuesta.message));
+        console.log("error es 0 y SALIDA de updateMediaDescription: "+JSON.stringify(respuesta.body.message));
+       
+        //actualizo el comentario de la memoria del mediafiles porque ya se actualizo en el server backend
+        desc = { description: descrip}  
+        dispatch(updateCommentInMemory(name,desc));
+   
+    
+        
+
+      }
+      else
+      {
+        dispatch(deletedFlag(true,'We could not delete the media, please try later or delete from www.superqso.com'));
+        // crashlytics().log('error: ' + JSON.stringify(error) + ' sqlrdsid: '+ sqlrdsid) ;
+        if(__DEV__)
+        crashlytics().recordError(new Error('updateMediaDescriptionAPI_DEV'));
+        else
+        crashlytics().recordError(new Error('updateMediaDescriptionAPI_PRD'));
+
+      }
+     
+    }
+    catch (error) {
+      console.log('Api catch updateMediaDescription error:', error);
+      dispatch(fetchingApiFailure('updateMediaDescription',error));
+      dispatch(deletedFlag(true,'We could not delete the post, please try later or delete from www.superqso.com'));
+      // Handle exceptions
+      //crashlytics().setUserId(qra);
+      crashlytics().log('error: ' + JSON.stringify(error) + ' sqlrdsid: '+ sqlrdsid) ;
+      if(__DEV__)
+      crashlytics().recordError(new Error('updateMediaDescription_DEV'));
+      else
+      crashlytics().recordError(new Error('updateMediaDescription_PRD'));
+    }
+         
+      
+    };
+  };
 
   export const deleteMedia = (mediaid,nameMedia,jwtToken) => {
     return async dispatch => {

@@ -217,7 +217,7 @@ class Media extends Component {
                 right: 35,
                 width: this.width - 35,
 
-                height: 500,
+                height: 350,
            //  height: 320,
                 paddingVertical: 5,
                 //   position: 'absolute',
@@ -227,7 +227,8 @@ class Media extends Component {
               }}
             >
               
-              <EditMedia desc={this.props.description} url={this.props.imageurl}  type={this.props.type}  close={this.closeModalEdit.bind()} />
+              <EditMedia desc={this.props.description} url={this.props.imageurl}  type={this.props.type}
+                sqlrdsid={this.props.sqlrdsid} idmedia={this.props.idmedia} name={this.props.name} status={this.props.status} close={this.closeModalEdit.bind()} />
             
        
             </View>

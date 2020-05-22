@@ -20,7 +20,8 @@ import {FETCHING_API_REQUEST,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
-     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY   } from '../actions/types';
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
+     UPDATE_COMMENT_MEMORY   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -1385,6 +1386,7 @@ const qsoReducer = (state = initialState, action) => {
         });
     return newStore; 
 
+    
     case DELETE_MEDIA_MEMORY:
        
         // borro el media que viene bajo la variable action.name
@@ -1402,6 +1404,35 @@ const qsoReducer = (state = initialState, action) => {
                 ...state,
                 currentQso: auxcurrentQso
             });
+        return newStore; 
+
+
+    case UPDATE_COMMENT_MEMORY: 
+       
+        // borro el media que viene bajo la variable action.name
+        const updatedItems5 = state.currentQso.mediafiles.map(item => {
+
+            if(item.name === action.name){
+                // console.log('updateComment: '+JSON.stringify(item));
+               
+            return { ...item, ...action.description }
+            }
+            return item
+          
+        })
+
+                        
+            auxcurrentQso = {
+                ...state.currentQso,
+                mediafiles: updatedItems5           
+            };
+            newStore = Object.assign({}, state,
+                {
+                    ...state,
+                    currentQso: auxcurrentQso
+                    // sendingProfileModal_stat: aux_status
+                });
+
         return newStore; 
 
     
