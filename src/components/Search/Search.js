@@ -197,7 +197,7 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
        </View>
        :
        <View style={{flex: 0.06, alignItems:"center"}}>
-       <Text style={{fontSize: 12, color:"grey"}}>Searching ...</Text>
+       <Text style={{fontSize: 13, color:"grey"}}>Searching ...</Text>
       
      </View>
      }
@@ -258,6 +258,7 @@ input: {
     marginRight: 10,
     marginTop:2,
     marginBottom: 3,
+    fontSize:17,
  
    
     color: '#424242',

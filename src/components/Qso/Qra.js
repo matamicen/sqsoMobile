@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { QsoQraDelete, deleteQsoQra, followAdd, unfollow, getUserInfo } from '../../actions';
+import { QsoQraDelete, deleteQsoQra, followAdd, unfollow, getUserInfo, deletePost, deletedFlag } from '../../actions';
 import { getDate, getFollowStatus, hasAPIConnection} from '../../helper';
 import PropTypes from 'prop-types';
 import VariosModales from './VariosModales';
@@ -20,7 +20,8 @@ class Qra extends Component {
           isFetching: true,
           modaldeleteqra: false,
           followstatus: 'empty',
-          nointernet: false
+          nointernet: false,
+          warningMessage: false
         };
       }
 
@@ -49,8 +50,18 @@ class Qra extends Component {
         
         closeModaldeleteqra = () => {
           console.log('click close QRA: ');
-          this.setState({ modaldeleteqra: false});
+          this.props.deletedFlag(false, '');
+          this.setState({ warningMessage: false, modaldeleteqra: false});
           }
+          deletePost = async  () => {
+            if (await hasAPIConnection())
+          {
+            this.props.deletedFlag(false,'');
+          //  this.setState({warningMessage: false});
+            this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
+          }else
+              this.setState({nointernet: true});
+            }
 
          follow = async (qra,qra_avatar) => {
          //  if(!this.props.isfetching){
@@ -98,14 +109,29 @@ class Qra extends Component {
 
 
 
-            delete = (qra) => {
+            delete = async (qra) => {
             // depende si el QSO esta Onprogress o si tiene un sqlrdsid creado borra llamando a la API o no.
-            if (this.props.sqlrdsid !== '')
-                 this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
-               else
+            if (await hasAPIConnection())
+            {
+            if (this.props.sqlrdsid !== ''){
+                 console.log('cantidad qras: '+this.props.qsoqras.length)
+                 if (this.props.qsoqras.length===1)
+                   this.setState({warningMessage: true});
+                   else{
+                     this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
+                     this.closeModaldeleteqra();
+                   }
+                }
+                 else{
                  this.props.deleteQsoQra(qra);
+                 this.closeModaldeleteqra();
+                }
          
-             this.closeModaldeleteqra();
+              }else
+              this.setState({nointernet: true});
+
+                  
+
               }
 
             
@@ -145,9 +171,10 @@ class Qra extends Component {
                    padding:10, 
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 185,
-                   left: 105,
+                   left: 40,
                    right: 15,
-                   width: 170,
+                 //  width: 170,
+                   width: 320,
                    height: 190,
                    paddingVertical: 5,
                  //   position: 'absolute',
@@ -156,8 +183,9 @@ class Qra extends Component {
                    borderRadius: 12                       
                     }}>
 
-                       <View style={{ flex:1 }}>
-                       <View style={{ flex:0.4, flexDirection: 'row', }}>
+                     {(!this.state.warningMessage) ?
+                       <View style={{ flex:1, alignItems: "center", marginTop:5 }}>
+                       <View style={{ flex:0.4, flexDirection: 'row'}}>
                    
                           {/* <Qra qra={this.props.qra} imageurl={this.props.imageurl} /> */}
                           {this.props.imageurl!==null ? 
@@ -177,7 +205,7 @@ class Qra extends Component {
                     
                        </View>
 
-                       <View style={{ flex:0.15,  marginLeft: 10   }}>
+                       <View style={{ flex:0.15,marginRight: 68}}>
                           <Text style={styles.name2} >
                                   {this.props.qra}
                           </Text>
@@ -187,7 +215,7 @@ class Qra extends Component {
                     
                     
 
-                      <View style={{ flex:0.25, marginLeft: 10   }}>
+                      <View style={{ flex:0.25, marginRight: 68  }}>
                
                      {this.state.followstatus==="false" &&
 
@@ -216,13 +244,45 @@ class Qra extends Component {
                          </TouchableOpacity>
 
                      </View>   
-                      
+                  
                
 
                         
 
                     </View>
+                    :
+                    <View style={{ flex:1, alignItems: "center", marginTop:3 }}>
+                      {(!this.props.deletedflag) ?
+                       <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
+                       <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>WARNING</Text>
+                        <Text style={{ color: 'white', fontSize: 16}}>The entire post will be DELETED if you delete the last callsign. If you want to change the callsign, add the new one first and then delete this one.</Text>
+                      </View>
+                      :
+                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
+                      <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>Message</Text>
+                       <Text style={{ color: 'white', fontSize: 16}}>{this.props.deletepostmessage}</Text>
+                     </View>
+                  }
+
+
+                        <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
+                            <View style={{ flex:0.5, alignItems: 'flex-start'}}>
+                              <TouchableOpacity onPress={() => this.closeModaldeleteqra()} >
+                            <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                              </TouchableOpacity>
+                            </View>
+                           {(!this.props.deletedflag) &&
+                            <View style={{ flex:0.5, alignItems: 'flex-end'}}>
+                              <TouchableOpacity onPress={() => this.deletePost()} >
+                            <Text style={{ color: 'grey', fontSize: 16}}>Delete the POST</Text>
+                              </TouchableOpacity>
+                          </View>
+                     } 
+
+                       </View>   
                     </View>
+                    }
+              </View>
                 {/* </KeyboardAvoidingView > */}
                    
                       </Modal>
@@ -270,13 +330,16 @@ const styles = StyleSheet.create({
     qra: PropTypes.string
   };
 
-
+  
 
  const mapStateToProps = state => {
     return { sqlrdsid: state.sqso.currentQso.sqlrdsId,
              followings: state.sqso.currentQso.followings,
              jwtToken: state.sqso.jwtToken,
-             userqra: state.sqso.qra
+             userqra: state.sqso.qra,
+             qsoqras: state.sqso.currentQso.qsoqras,
+             deletedflag: state.sqso.currentQso.deletedFlag,
+             deletepostmessage: state.sqso.currentQso.deletedFlagMessage,
     }
           //   isfetching: state.sqso.isFetching };
 };
@@ -287,7 +350,10 @@ const mapDispatchToProps = {
   deleteQsoQra,
   followAdd,
   unfollow,
-  getUserInfo
+  getUserInfo,
+  deletePost,
+  deletedFlag
+ 
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Qra);

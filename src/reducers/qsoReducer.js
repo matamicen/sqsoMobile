@@ -20,7 +20,8 @@ import {FETCHING_API_REQUEST,
      SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
-     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST   } from '../actions/types';
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
+     UPDATE_COMMENT_MEMORY   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -98,6 +99,8 @@ const initialState = {
         qraSearched: [],
         qraShow: [],
         localSearch: '',
+        deletedFlag: false,
+        deletedFlagMessage: '',
         qslscan: {
             "statusCode": 200,
             "headers": {
@@ -635,6 +638,21 @@ const qsoReducer = (state = initialState, action) => {
         });
     return newStore; 
 
+    case SET_DELETED_FLAG:
+  
+     auxcurrentQso = {
+        ...state.currentQso,
+        deletedFlag: action.flag,
+        deletedFlagMessage: action.message
+             
+    };
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            currentQso: auxcurrentQso
+        });
+    return newStore; 
+
     case SET_PROFILE_MODAL_STAT:
        
     // uso esta action para manejar el status del MODAL y el boton de Cancel dentro del modal
@@ -1069,7 +1087,8 @@ const qsoReducer = (state = initialState, action) => {
              modalconfirmphoto: false,
              mediatosend: {},
              activityindicatorImage: false,
-             shareUrlGuid: ''
+             shareUrlGuid: '',
+             deletedFlag: false
             
              
  
@@ -1367,6 +1386,56 @@ const qsoReducer = (state = initialState, action) => {
         });
     return newStore; 
 
+    
+    case DELETE_MEDIA_MEMORY:
+       
+        // borro el media que viene bajo la variable action.name
+        const mediaUpdated = state.currentQso.mediafiles.filter(item => item.name != action.name)
+ 
+
+
+        auxcurrentQso = {
+            ...state.currentQso,
+            mediafiles: mediaUpdated           
+        };
+
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+                currentQso: auxcurrentQso
+            });
+        return newStore; 
+
+
+    case UPDATE_COMMENT_MEMORY: 
+       
+        // borro el media que viene bajo la variable action.name
+        const updatedItems5 = state.currentQso.mediafiles.map(item => {
+
+            if(item.name === action.name){
+                // console.log('updateComment: '+JSON.stringify(item));
+               
+            return { ...item, ...action.description }
+            }
+            return item
+          
+        })
+
+                        
+            auxcurrentQso = {
+                ...state.currentQso,
+                mediafiles: updatedItems5           
+            };
+            newStore = Object.assign({}, state,
+                {
+                    ...state,
+                    currentQso: auxcurrentQso
+                    // sendingProfileModal_stat: aux_status
+                });
+
+        return newStore; 
+
+    
 
     case MANAGE_NOTIFICATIONS:
     let auxcurrentQso;
