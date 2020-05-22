@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { followAdd, unfollow } from '../../actions';
 import { getDate, getFollowStatus, hasAPIConnection} from '../../helper';
 import PropTypes from 'prop-types';
 import VariosModales from '../Qso/VariosModales';
+import crashlytics from '@react-native-firebase/crashlytics';
+import analytics from '@react-native-firebase/analytics';
 
 
 
@@ -100,6 +102,36 @@ class Qra extends Component {
             //  this.closeModaldeleteqra();
             //   }
 
+            qraProfile = async (qra) => {
+              console.log('QRAprofile');
+              urlnotif = 'https://www.superqso.com/'+qra;
+              Linking.canOpenURL(urlnotif).then(supported => {
+                if (!supported) {
+                  console.log('Can\'t handle url: ' + urlnotif);
+                } else {
+                 
+                  if(__DEV__)
+                    analytics().logEvent("OPENfollowProf_DEV", {"QRA": this.props.qra});
+                  else
+                    analytics().logEvent("OPENfollowProf", {"QRA": this.props.qra});
+
+                    // this. closeModaldeleteqra();
+                
+                  return Linking.openURL(urlnotif);
+                
+                }
+              }).catch(err => {
+                      console.error('An error occurred', err)
+                      crashlytics().setUserId(this.props.qra);
+                      crashlytics().log('error: ' + JSON.stringify(err)) ;
+                      if(__DEV__)
+                      crashlytics().recordError(new Error('Link.OPENfollowProf_DEV'));
+                      else
+                      crashlytics().recordError(new Error('Link.OPENfollowProf_PRD'));
+            
+            
+                    });
+                  }
             
 
     render() { console.log("RENDER QRA");
@@ -139,7 +171,7 @@ class Qra extends Component {
                    marginTop: 185,
                    left: 105,
                    right: 15,
-                   width: 170,
+                   width: 225,
                    height: 190,
                    paddingVertical: 5,
                  //   position: 'absolute',
@@ -151,16 +183,27 @@ class Qra extends Component {
                     <View style={{flex:1}}>
 
                        {/* <View style={{ marginTop: 10, flexDirection: 'row', padding:0}}> */}
-                       <View style={{flex:0.4, flexDirection: 'row', justifyContent: "center", marginTop:5}}>
-                   
+                       <View style={{flex:0.4, flexDirection: 'row', marginTop:5}}>
+                         <View style={{flex:0.68, alignItems: 'flex-end'}}>
                           {/* <Qra qra={this.props.qra} imageurl={this.props.imageurl} /> */}
                           {this.props.imageurl!==null ? 
-
+                              <TouchableOpacity style={{ }} onPress={() => this.qraProfile(this.props.qra)}  >
                                 <Image style={styles.faceImageStyle} resizeMethod="resize" source={{ uri: this.props.imageurl }}/> 
+                               </TouchableOpacity>
                                 :
-                                <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle}/> 
-                               
+                                <TouchableOpacity style={{ }} onPress={() => this.qraProfile(this.props.qra)}  >
+                                  <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle}/> 
+                                 </TouchableOpacity> 
                           }
+                          </View>
+                          <View style={{flex:0.32, alignItems:  'flex-end' }}>
+                          <TouchableOpacity style={{alignItems:  'flex-end' }} onPress={() => this.qraProfile(this.props.qra)}  >
+              
+                              <Text style={{fontSize: 14, color: 'lightgrey', marginTop: 12, marginLeft: 5}}>View Profile</Text>
+                  
+                           </TouchableOpacity>
+                             
+                          </View>
 
                     
                        </View>
