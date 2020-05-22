@@ -115,7 +115,7 @@ class Qra extends Component {
             {
             if (this.props.sqlrdsid !== ''){
                  console.log('cantidad qras: '+this.props.qsoqras.length)
-                 if (this.props.qsoqras.length===1)
+                 if (this.props.qsoqras.length===1 && this.props.qsotype!=='POST')
                    this.setState({warningMessage: true});
                    else{
                      this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
@@ -337,6 +337,7 @@ const styles = StyleSheet.create({
              followings: state.sqso.currentQso.followings,
              jwtToken: state.sqso.jwtToken,
              userqra: state.sqso.qra,
+             qsotype: state.sqso.currentQso.qsotype,
              qsoqras: state.sqso.currentQso.qsoqras,
              deletedflag: state.sqso.currentQso.deletedFlag,
              deletepostmessage: state.sqso.currentQso.deletedFlagMessage,
