@@ -150,10 +150,7 @@ class QsoMode extends Component {
                     title: 'CW',
                     value: 'CW'
                 },
-                {
-                    title: 'FT4',
-                    value: 'FT4'
-                },
+        
                 {
                     title: 'FT8',
                     value: 'FT8'
@@ -175,8 +172,8 @@ class QsoMode extends Component {
                     value: 'RTTY'
                 },
                 {
-                    title: 'DStar',
-                    value: 'DSTAR'
+                    title: 'D-Star',
+                    value: 'D-Star'
                 },
                 {
                     title: 'DMR',
@@ -185,6 +182,10 @@ class QsoMode extends Component {
                 {
                     title: 'C4FM',
                     value: 'C4FM'
+                },
+                {
+                    title: 'SAT',
+                    value: 'SAT'
                 },
                 {
                     title: 'EME',
