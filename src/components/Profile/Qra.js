@@ -115,7 +115,7 @@ class Qra extends Component {
                   else
                     analytics().logEvent("OPENfollowProf", {"QRA": this.props.qra});
 
-                    // this. closeModaldeleteqra();
+                     this.closeModaldeleteqra();
                 
                   return Linking.openURL(urlnotif);
                 
@@ -169,7 +169,7 @@ class Qra extends Component {
                    padding:10, 
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 185,
-                   left: 105,
+                   left: 95,
                    right: 15,
                    width: 225,
                    height: 190,
