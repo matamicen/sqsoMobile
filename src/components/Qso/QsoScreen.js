@@ -1317,7 +1317,7 @@ latestPosts = async () => {
               style={{
                 padding: 10,
                 backgroundColor: "rgba(0,0,0,0.85)",
-                marginTop: 5,
+                marginTop: Platform.OS === "ios" ? 20 : 5,
                 left: 15,
                 right: 35,
                 width: this.width - 35,

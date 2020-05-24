@@ -53,7 +53,9 @@ class FollowerList extends Component {
         return( <View style={{  flex: 1,  alignItems: 'center' }}>
              {(this.props.followingsselected) ?   
               <FlatList  style={styles.qralist }
-               
+              contentContainerStyle={{
+                paddingTop: 10
+              }}
                 data={this.props.followings}
                 keyExtractor={this._keyExtractor}
                 renderItem={this._renderItem}
@@ -63,7 +65,9 @@ class FollowerList extends Component {
                 />
              :
               <FlatList  style={styles.qralist }
-                
+              contentContainerStyle={{
+                paddingTop: 10
+              }}
               data={this.props.followers}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -90,9 +94,11 @@ class FollowerList extends Component {
  const styles = StyleSheet.create({
     
     qralist: {
-        marginRight: 15 
+        marginRight: 15,
+         flex: 1,
+      
         
-      //  marginBottom: 70,
+        marginBottom: 10,
       // maxHeight: 150
      
      
