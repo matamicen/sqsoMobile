@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions, Modal  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions, Modal,
+Platform  } from 'react-native';
 import { connect } from 'react-redux';
 import { uploadMediaToS3 } from '../../actions';
 import PropTypes from 'prop-types';
@@ -168,7 +169,7 @@ class Media extends Component {
               </View>
               <View style={{flex: 0.58, alignItems: "flex-start"}}>
                 {(this.props.description) ?
-                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold'}} >{this.props.description}</Text>
+                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold', marginLeft: Platform.OS === "ios" ? 3 : 1}} >{this.props.description}</Text>
                 :
                 <Text style={{fontSize: 14,color: 'grey', fontWeight: 'bold'}} >no description</Text>
                 }
@@ -212,7 +213,7 @@ class Media extends Component {
               style={{
                 padding: 10,
                 backgroundColor: "rgba(0,0,0,0.85)",
-                marginTop: 5,
+                marginTop: Platform.OS === "ios" ? 20 : 5,
                 left: 15,
                 right: 35,
                 width: this.width - 35,
