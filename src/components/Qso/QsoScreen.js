@@ -50,7 +50,7 @@ import {
   addMedia,
   uploadMediaToS3,
   welcomeUserFirstTime,
-  confirmReceiptiOS, confirmReceiptAndroid
+  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto
 } from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
@@ -59,6 +59,7 @@ import Iap from "./Iap";
 import ShareQso from "./ShareQso";
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
@@ -629,6 +630,91 @@ class QsoScreen extends Component {
       endQsoModal: true
     });
   };
+
+  photoFromGallery = async () => {
+
+console.log('tomo imagen de galeria');
+// openCamera
+     ImagePicker.openPicker({
+   //   ImagePicker.openCamera({
+      // path: data.uri,
+      cropping: true,
+      //  compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1
+      // width: (Platform.OS==='ios') ? 1100 : 1800,
+      // height: (Platform.OS==='ios') ? 1100 : 1200,
+         width: (Platform.OS==='ios') ? 2000 : 2000,
+      height: (Platform.OS==='ios') ? 1800 : 1800,
+    }).then(image => {
+      console.log(image);
+
+      // data.uri = image.path;
+      // console.log('uri de foto: '+ data.uri);
+
+
+      // this.setState({
+      //   url: data.uri
+      // });
+    
+      // uri = data.uri;
+      uri = image.path;
+
+    fileName2 = uri.replace(/^.*[\\\/]/, '');
+    
+
+    console.log('filename2 es: ' + fileName2);
+    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true } 
+    
+    // console.log('phototype :'+this.props.phototype)
+    
+  //  vari2 = await 
+  vari2 = this.props.sendActualMedia(envio);
+    console.log("Fin de espera larga ANDROID")
+    // this.props.navigation.navigate("ProfileScreen");
+    // this.goBack();
+    
+    if ( Platform.OS === 'ios')
+    timer = 1000;
+      else timer = 500;
+
+    // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+    // de sacar la foto de profile.
+   
+    this.props.setProfileModalStat('ambos',0);
+
+    setTimeout(() => {
+      console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+      //  this.props.actindicatorImageDisabled();
+        // this.props.openModalConfirmPhoto(320);
+       
+      //  este metodo es para cuando es foto profile
+        // this.props.setConfirmProfilePhotoModal(true);
+        this.props.openModalConfirmPhoto(490);
+      
+    }, timer);
+
+
+  
+    console.log('este debe aparecer primero');
+
+
+
+
+
+
+
+    }).catch((err) => {
+      console.log("cropImage Error", err.message);
+      // this.setState({showCamera: true});
+      // this.setState({buttonStatus: false});
+      crashlytics().setUserId(this.props.qra);
+      crashlytics().log('error: ' + JSON.stringify(err)) ;
+      if(__DEV__)
+      crashlytics().recordError(new Error('openCropperPOST_DEV'));
+      else
+      crashlytics().recordError(new Error('openCropperPOST_PRD'));
+  });
+
+  }
 
   gotoCameraScreen = async () => {
 
@@ -1572,7 +1658,8 @@ latestPosts = async () => {
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.25, alignItems: "center", marginTop: 5 }}>
-              <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}>
+              {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
+            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.photoFromGallery()}> 
                 <Image
                   source={require("../../images/camera.png")}
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
@@ -1709,7 +1796,11 @@ const mapDispatchToProps = {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS,
-  confirmReceiptAndroid
+  confirmReceiptAndroid,
+  sendActualMedia,
+  setProfileModalStat,
+  setConfirmProfilePhotoModal,
+  openModalConfirmPhoto
 };
 
 export default connect(

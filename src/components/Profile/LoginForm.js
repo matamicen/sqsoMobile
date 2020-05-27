@@ -217,6 +217,9 @@ constructor(props) {
               message: notification.data['pinpoint.notification.body'],
               priority: "max",
               autoCancel: true,
+            
+              // playSound: true, // (optional) default: true
+              // soundName: "default",
                     // title: 'Notification with my name',
                     // message: notification['name'], // (required)
                     // date: new Date(Date.now()) // in 60 secs
@@ -513,8 +516,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-        if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-      // if (1===1)
+       if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      //  if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {

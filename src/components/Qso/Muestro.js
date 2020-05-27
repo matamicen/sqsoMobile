@@ -221,20 +221,68 @@ class Muestro extends Component {
        
         
           if (this.width > this.height) 
-          valor = this.width;
-        else
-          valor = this.height;
+          {
+            valor = this.width;
+            if (this.props.sqsomedia.gallery && this.props.sqsomedia.type==='image')
+            {
+            // cuando viene de la galeria se la mas definicion porque salian medias mal las verticales
+            // por ahi con las fotos de camara hagamos lo mismo en un futuro 
+            // capaz tiene mas importancia un POST ANY donde se publican FLYERS de activacion etc que salgan 
+            // con buena definicion
 
-        coef = valor / 650;
+            // cuanto mas bajo es este numero mas chica es la definicion de la foto, pero si se achica
+            // mucho se empiezan a perder colores, entonces hay q jugar con la dimension de la foto y la compresion
+            if (Platform.OS==='ios')
+            {
+                  coef = valor / 478; // estaba 570, 490
+                  console.log('gallery IOS_ROTATE')
+                }
+            else
+                  coef = valor / 570; // 725 estaba 650 estaba 570 estaba 450 android
+         
+              }
+                  else
+              coef = valor / 650;
+         }
+        else{
+          valor = this.height;
+          // if (this.props.sqsomedia.gallery)
+          //   //  coef = valor / 1045;
+          //   // aca se le dio mas deficinion porque las verticales salen muy mal 
+          //   // cuando se hace click en la foto y se agranda, en un futuro hay que hacer diferencia entre las
+          //   // verticales y horizontales, porque por este tema estamos aumentando promedio 30k por foto vertical
+          //   // para darle mas calidad y no se rompa en el modal, esto alenta el feed y aumenta el costo de S3 y Transferecia
+            
+          //    coef = valor / 850; 
+          //   else
+            coef = valor / 650;
+
+        }
+
+  
+        // coef = valor / 650;
         if (coef < 1) coef = 1;
-        console.log(' Coeficiente :'+ coef);
+        console.log('Coeficiente :'+ coef);
+        console.log('width: '+this.width + '  height: ' +this.height)
+
+   
 
         nuevoWidth = this.width /  coef; //5.6// 5.2;
         nuevoHeight = this.height / coef; //5.6 //5.2;
 
         // nuevoWidth = this.width / 5.6//5.2;
         // nuevoHeight = this.height /  5.6 //5.2;
-        compressRate = 86;
+
+        compressRate = 86;  // 86 es la compresion default para imagenes/profile sacados con camara
+
+        if (this.props.sqsomedia.gallery && this.props.sqsomedia.type==='image')
+        {  // esta es una imagen obtenida desde la galeria
+          if (Platform.OS==='ios') 
+             compressRate = 80; // ios comprimo mas porque vienen con mucha definicion
+          else
+             compressRate = 86;
+         
+        }
         // nuevoWidthAvatar = this.widthAvatar / 30.0;
         // nuevoHeightAvatar = this.heightAvatar / 30.0;
         if ( Platform.OS === 'ios')
@@ -346,8 +394,11 @@ class Muestro extends Component {
 
         console.log('var12 antes: '+this.var12);
 
-        if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
-        //  if the media is a photo -> Compress Imgae
+        // if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
+       if (this.props.sqsomedia.type==='image') {
+
+        if (!this.props.sqsomedia.gallery) {
+            //  if the media is a photo -> Compress Imgae
         if (this.compressRotation===86){ 
           console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
            await this.compressImage();
@@ -370,9 +421,24 @@ class Muestro extends Component {
             // fileaux =  this.props.sqsomedia.url;
             fileaux = this.compressImageURL;
             fileauxProfileAvatar =  this.compressImageURLProfileAvatar;
+            }
+            else
+            { // Vino la imagen de la galeria de fotos
+              // fileaux =  this.props.sqsomedia.url;
+              // // fileauxProfileAvatar =  this.compressImageURLProfileAvatar; 
+              // fileauxProfileAvatar = '';
+              // this.width = this.props.sqsomedia.width;
+              // this.height = this.props.sqsomedia.height;
+              // this.size = this.props.sqsomedia.size;
+              await this.compressImage();
+              fileaux = this.compressImageURL;
+              fileauxProfileAvatar = '';
+
+            }
 
         } else
           {
+            // pasa por aca si el media es un AUDIO
            fileaux =  this.props.sqsomedia.url;
            this.size = this.props.sqsomedia.size;
            fileauxProfileAvatar = '';
@@ -390,15 +456,16 @@ class Muestro extends Component {
           else folder = 'audios/'+fileName2;
 
 
-          if (this.props.sqsomedia.type==='profile') 
-            { 
-              folder = 'profile/profile.jpg';
-              // para que no se repita el nombre en la lista de enviados si sue mas de 1 vez su profile picture 
-              //  fileNameaux = fileName2+''+ new Date().getTime();
-              //  fileName2 = fileNameaux;
+          // se comento esto porque nunca va a ser profile, en este metodo  vienen solo las IMAGE y AUDIO
+          // if (this.props.sqsomedia.type==='profile') 
+          //   { 
+          //     folder = 'profile/profile.jpg';
+          //     // para que no se repita el nombre en la lista de enviados si sue mas de 1 vez su profile picture 
+          //     //  fileNameaux = fileName2+''+ new Date().getTime();
+          //     //  fileName2 = fileNameaux;
               
-              fileName2 = 'profile.jpg'+ new Date().getTime();
-            }
+          //     fileName2 = 'profile.jpg'+ new Date().getTime();
+          //   }
           
        
         rdsUrl = this.props.rdsurls3+folder;
@@ -410,7 +477,9 @@ class Muestro extends Component {
        fecha = getDate();
        console.log('la fecha es:' + fecha);
    
-          if (this.props.sqlrdsid==='' && this.props.sqsomedia.type!=='profile')
+          // limpiado codigo, siempre va a ser distinto de profile porque en este metodo no vienen profiles
+          // if (this.props.sqlrdsid==='' && this.props.sqsomedia.type!=='profile')
+          if (this.props.sqlrdsid==='')
                 this.stat = 'waiting';
               else
                 this.stat = 'inprogress';
@@ -445,8 +514,8 @@ class Muestro extends Component {
         , 150);
         
 
-
-        if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
+        // este if de abajo no hace falta porque este metodo es exclusivo de PROFILE
+      //  if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
         //  if the media is a photo -> Compress Imgae
         if (this.compressRotation===86){ 
           console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
@@ -471,13 +540,14 @@ class Muestro extends Component {
             fileaux = this.compressImageURL;
             fileauxProfileAvatar =  this.compressImageURLProfileAvatar;
 
-        } else
-          {
-           fileaux =  this.props.sqsomedia.url;
-           this.size = this.props.sqsomedia.size;
-           fileauxProfileAvatar = '';
+            // saco esto porque nunca viene audio por aca porque este metodo es exclusivo de profile
+        // } else
+        //   {
+        //    fileaux =  this.props.sqsomedia.url;
+        //    this.size = this.props.sqsomedia.size;
+        //    fileauxProfileAvatar = '';
 
-          }
+        //   }
 
 
         console.log('var12 despues: '+this.var12);
@@ -626,7 +696,8 @@ class Muestro extends Component {
 
                           {/* && Platform.OS==='android' */}
             {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
-          { (this.props.sqsomedia.type==='image') &&
+       {/* No muestro ROTATE si viene de la galeria porque la libreria de la galeria ya tiene editor de foto y rotacion */}
+          { (this.props.sqsomedia.type==='image' && !this.props.sqsomedia.gallery) &&
                    <TouchableOpacity  onPress={() => this.rotateImage()} >
                      <View style={{ flexDirection: 'row'}}>
                            <Image style={{ width: 15, height: 15,  marginTop: 3, marginLeft: 3}}

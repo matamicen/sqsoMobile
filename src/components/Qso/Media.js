@@ -164,12 +164,12 @@ class Media extends Component {
               </View>
               <View style={{flex: 0.27, flexDirection: 'row', marginLeft: 6}}>
              
-              <View style={{flex: 0.22, alignItems: "flex-start"}}>
+              <View style={{flex: 0.25, alignItems: "flex-start"}}>
                 <Text style={{fontSize: 14,color: '#243665',fontWeight: 'bold'}} >Description:</Text>
               </View>
-              <View style={{flex: 0.58, alignItems: "flex-start"}}>
+              <View style={{flex: 0.55, alignItems: "flex-start"}}>
                 {(this.props.description) ?
-                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold', marginLeft: Platform.OS === "ios" ? 3 : 1}} >{this.props.description}</Text>
+                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold', marginLeft: Platform.OS === "ios" ? 1 : 1}} >{this.props.description}</Text>
                 :
                 <Text style={{fontSize: 14,color: 'grey', fontWeight: 'bold'}} >no description</Text>
                 }
