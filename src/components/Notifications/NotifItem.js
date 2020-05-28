@@ -55,7 +55,7 @@ class NotifItem extends Component {
 if (urlnotif!=null)
     {
        this.props.set_notification_read(idqra_notifications,this.props.jwtToken);
-       this.props.manage_notifications('SET_READ_URL',idqra_notifications);
+      //  this.props.manage_notifications('SET_READ_URL',idqra_notifications);
 
        Linking.canOpenURL(urlnotif).then(supported => {
         if (!supported) {
@@ -66,6 +66,13 @@ if (urlnotif!=null)
           else
             analytics().logEvent("OPENNOTIF_PRD", {"QRA": this.props.qra});
           console.log("Recording analytics open Notif")
+
+          // delay de 2.5 segundos para que borre el item asi no no lo borra inmediato y no confune
+          // al usuario
+          setTimeout(() => {
+            this.props.manage_notifications('SET_READ_URL',idqra_notifications);
+          }
+          , 2500)
           return Linking.openURL(urlnotif);
         
         }
