@@ -16,6 +16,10 @@ class Media extends Component {
 
         this.width = Dimensions.get('window').width; //full width
         this.height = Dimensions.get('window').height; //full height
+        laresta = Dimensions.get('window').width * 0.10;
+        restaWidth = Dimensions.get('window').width - laresta;
+        console.log('laresta:' + laresta)
+        console.log(restaWidth)
         
         this.state = {
           people: [],
@@ -105,7 +109,7 @@ class Media extends Component {
                       <Progress.Bar
                           // style={{marginTop: 13, height: 6, width: this.width-125}}
                           style={{marginTop: 13, height: 6}}
-                           width={this.width-142}
+                          width={this.width-135}
                           unfilledColor="lightgrey"
                           borderRadius={0}
                       //   height={15}

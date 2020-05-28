@@ -24,6 +24,7 @@ import RestoreSubscription from './RestoreSubscription';
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import ImagePicker from 'react-native-image-crop-picker';
+import CamaraSelect from '../Qso/CamaraSelect';
 
 
 
@@ -64,7 +65,8 @@ class InitialScreen extends Component {
     this.state = {
         nointernet: false,
         contactus: false,
-        showRestoreSubscription: false
+        showRestoreSubscription: false,
+        camaraSelect: false
     };
   }
 
@@ -348,6 +350,13 @@ signOut = async () => {
   
     };
 
+    CloseCamaraSelect = () => {
+      this.setState({
+        camaraSelect: false
+      });
+  
+    }
+
     photoFromGallery = async () => {
 
       console.log('tomo imagen de galeria');
@@ -359,20 +368,11 @@ signOut = async () => {
             //  compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1
             width: (Platform.OS==='ios') ? 1100 : 1200,
             height: (Platform.OS==='ios') ? 1100 : 1200,
-            //    width: (Platform.OS==='ios') ? 2000 : 2000,
-            // height: (Platform.OS==='ios') ? 1800 : 1800,
+           
           }).then(image => {
             console.log(image);
       
-            // data.uri = image.path;
-            // console.log('uri de foto: '+ data.uri);
-      
-      
-            // this.setState({
-            //   url: data.uri
-            // });
-          
-            // uri = data.uri;
+         
             uri = image.path;
       
           fileName2 = uri.replace(/^.*[\\\/]/, '');
@@ -400,12 +400,7 @@ signOut = async () => {
       
           setTimeout(() => {
             console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
-            //  this.props.actindicatorImageDisabled();
-              // this.props.openModalConfirmPhoto(320);
-             
-            //  este metodo es para cuando es foto profile
-              // this.props.setConfirmProfilePhotoModal(true);
-              // this.props.openModalConfirmPhoto(490);
+          
               this.props.setConfirmProfilePhotoModal(true);
             
           }, timer);
@@ -414,12 +409,7 @@ signOut = async () => {
         
           console.log('este debe aparecer primero');
       
-      
-      
-      
-      
-      
-      
+
           }).catch((err) => {
             console.log("cropImage Error", err.message);
             // this.setState({showCamera: true});
@@ -461,14 +451,14 @@ signOut = async () => {
              <View style={{flexDirection: 'row', flex: 0.14}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                <View style={{flex:0.21}}>
-                 <TouchableOpacity style={{}} onPress={() => this.gotoCameraScreen() }>
+                 <TouchableOpacity style={{}} onPress={() => this.setState({camaraSelect: true})}>
                    <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
                   </TouchableOpacity>
               </View>  
               <View style={{flex:0.15}}>
                   {/* <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }> */}
                   
-                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.photoFromGallery() }>
+                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={() => this.setState({camaraSelect: true})}>
                     <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23  } } 
                  resizeMode="contain" /> 
                   <Text  style={{ fontSize: 14, color: '#999'}}>Edit</Text>             
@@ -687,7 +677,9 @@ signOut = async () => {
           </Modal>
 
                  
-                 
+          {(this.state.camaraSelect) &&
+              <CamaraSelect   close={this.CloseCamaraSelect.bind()} photoGallery={this.photoFromGallery.bind()}  cameraScreen={this.gotoCameraScreen.bind()}/>
+            }
                  
             {(this.state.nointernet) &&           
                  <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />

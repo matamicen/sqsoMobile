@@ -770,7 +770,7 @@ class Muestro extends Component {
                     </View>
                     <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                     <TouchableOpacity  style={{ height: 40, marginRight: 10 }} onPress={() => this.subo_Profile_Photo_s3()} >
-                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>Send</Text>
+                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>Update Photo</Text>
                     </TouchableOpacity>
                        
                     </View>

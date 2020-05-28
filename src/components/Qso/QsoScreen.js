@@ -82,6 +82,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './../Profile/StopApp';
 import analytics from '@react-native-firebase/analytics';
 import HandleBack from './HandleBack';
+import CamaraSelect from './CamaraSelect';
 
 
 
@@ -144,7 +145,8 @@ class QsoScreen extends Component {
       pushTokenNotFound: false,
       forceChangePassword: false,
       upgradeText: '',
-      iconosWeb: false
+      iconosWeb: false,
+      camaraSelect: false
      
     };
   }
@@ -624,6 +626,14 @@ class QsoScreen extends Component {
 
     // this.loadVideoReward();
   };
+
+
+  CloseCamaraSelect = () => {
+    this.setState({
+      camaraSelect: false
+    });
+
+  }
 
   OpenEndQsoModal = () => {
     this.setState({
@@ -1659,7 +1669,7 @@ latestPosts = async () => {
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.25, alignItems: "center", marginTop: 5 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
-            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.photoFromGallery()}> 
+            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}> 
                 <Image
                   source={require("../../images/camera.png")}
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
@@ -1680,6 +1690,9 @@ latestPosts = async () => {
             closeInternetModal={this.closeVariosModales.bind()}
           /> }
 
+  {(this.state.camaraSelect) &&
+              <CamaraSelect   close={this.CloseCamaraSelect.bind()} photoGallery={this.photoFromGallery.bind()}  cameraScreen={this.gotoCameraScreen.bind()}/>
+            }
 
       {(this.state.stopApp) &&
                               <StopApp appNeedUpgrade={this.state.appNeedUpgrade} pushTokenNotFound={this.state.pushTokenNotFound} 
