@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
   followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall,
   setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat,
-  getUserInfo } from '../../actions';
+  getUserInfo,sendActualMedia } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
@@ -23,6 +23,8 @@ import  ContactUs  from './ContactUs';
 import RestoreSubscription from './RestoreSubscription';
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
+import ImagePicker from 'react-native-image-crop-picker';
+import CamaraSelect from '../Qso/CamaraSelect';
 
 
 
@@ -63,7 +65,8 @@ class InitialScreen extends Component {
     this.state = {
         nointernet: false,
         contactus: false,
-        showRestoreSubscription: false
+        showRestoreSubscription: false,
+        camaraSelect: false
     };
   }
 
@@ -346,6 +349,80 @@ signOut = async () => {
       this.props.setProfileModalStat('ambos',0);
   
     };
+
+    CloseCamaraSelect = () => {
+      this.setState({
+        camaraSelect: false
+      });
+  
+    }
+
+    photoFromGallery = async () => {
+
+      console.log('tomo imagen de galeria');
+      // openCamera
+           ImagePicker.openPicker({
+         //   ImagePicker.openCamera({
+            // path: data.uri,
+            cropping: true,
+            //  compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1
+            width: (Platform.OS==='ios') ? 1100 : 1200,
+            height: (Platform.OS==='ios') ? 1100 : 1200,
+           
+          }).then(image => {
+            console.log(image);
+      
+         
+            uri = image.path;
+      
+          fileName2 = uri.replace(/^.*[\\\/]/, '');
+          
+      
+          console.log('filename2 es: ' + fileName2);
+          envio = {name: fileName2, url: uri, type: 'profile', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true } 
+          
+          // console.log('phototype :'+this.props.phototype)
+          
+        //  vari2 = await 
+        vari2 = this.props.sendActualMedia(envio);
+          console.log("Fin de espera larga ANDROID")
+          // this.props.navigation.navigate("ProfileScreen");
+          // this.goBack();
+          
+          if ( Platform.OS === 'ios')
+          timer = 1000;
+            else timer = 500;
+      
+          // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+          // de sacar la foto de profile.
+         
+          this.props.setProfileModalStat('ambos',0);
+      
+          setTimeout(() => {
+            console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+          
+              this.props.setConfirmProfilePhotoModal(true);
+            
+          }, timer);
+      
+      
+        
+          console.log('este debe aparecer primero');
+      
+
+          }).catch((err) => {
+            console.log("cropImage Error", err.message);
+            // this.setState({showCamera: true});
+            // this.setState({buttonStatus: false});
+            crashlytics().setUserId(this.props.qra);
+            crashlytics().log('error: ' + JSON.stringify(err)) ;
+            if(__DEV__)
+            crashlytics().recordError(new Error('openCropperPROF_DEV'));
+            else
+            crashlytics().recordError(new Error('openCropperPROF_PRD'));
+        });
+      
+        }
       
    
     
@@ -374,12 +451,14 @@ signOut = async () => {
              <View style={{flexDirection: 'row', flex: 0.14}}>
                   {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                <View style={{flex:0.21}}>
-                 <TouchableOpacity style={{}} onPress={() => this.gotoCameraScreen() }>
+                 <TouchableOpacity style={{}} onPress={() => this.setState({camaraSelect: true})}>
                    <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
                   </TouchableOpacity>
               </View>  
               <View style={{flex:0.15}}>
-                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }>
+                  {/* <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }> */}
+                  
+                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={() => this.setState({camaraSelect: true})}>
                     <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23  } } 
                  resizeMode="contain" /> 
                   <Text  style={{ fontSize: 14, color: '#999'}}>Edit</Text>             
@@ -598,7 +677,9 @@ signOut = async () => {
           </Modal>
 
                  
-                 
+          {(this.state.camaraSelect) &&
+              <CamaraSelect   close={this.CloseCamaraSelect.bind()} photoGallery={this.photoFromGallery.bind()}  cameraScreen={this.gotoCameraScreen.bind()}/>
+            }
                  
             {(this.state.nointernet) &&           
                  <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
@@ -697,7 +778,8 @@ const mapDispatchToProps = {
   setSendingProfilePhotoModal,
   setConfirmProfilePhotoModal,
   setProfileModalStat,
-  getUserInfo
+  getUserInfo,
+  sendActualMedia
 
     
    }
