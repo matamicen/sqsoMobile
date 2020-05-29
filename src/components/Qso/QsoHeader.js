@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TextInput, Platform  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TextInput, Platform, TouchableOpacity  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
 //import Qra from './Qra';
@@ -11,6 +11,7 @@ import QsoMode from './QsoMode';
 import QsoRst from './QsoRst';
 import QsodB from './QsodB';
 import QsoEnterQra from './QsoEnterQra';
+import AddCallSigns from './AddCallSigns';
 
 
 class QsoHeader extends Component {
@@ -23,7 +24,8 @@ class QsoHeader extends Component {
           errorMessage: "",
           isFetching: true,
           text: '',
-          testCrash: 0
+          testCrash: 0,
+          addCallsigns: false
    
         };
       }
@@ -42,7 +44,16 @@ class QsoHeader extends Component {
         //this.props.navigation.navigate('CameraScreen');
       }
 
-  
+      CloseAddCallSigns = () => {
+        this.setState({
+          addCallsigns: false});
+    
+        };
+    
+      confirmAddCallsigns = () => {
+         this.setState({
+           addCallsigns: false});
+         };
 
 
     render() { console.log("RENDER qso Header");
@@ -86,11 +97,16 @@ class QsoHeader extends Component {
              <View style={{flexDirection: 'row', marginTop: 6, flex:1 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.47 : 0.47}}>
                  
-                    { this.props.sqsonewqsoactive ?
-                        <QsoEnterQra /> : null }
-                    
-                    {/* { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?
+              { this.props.sqsonewqsoactive ?
+                               <TouchableOpacity   onPress={() => this.togglePicker()} >                                       
+                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}} onPress={() => this.setState({addCallsigns: true})} >Add CallSign</Text>
+                               </TouchableOpacity>
+          
+                                  : null }
+
+                    {/* { this.props.sqsonewqsoactive ?
                         <QsoEnterQra /> : null } */}
+                 
                     </View>
                    
                     <View style={{flex: Platform.OS==='ios' ? 0.170 : 0.170 , alignItems: 'center'}}>  
@@ -112,8 +128,12 @@ class QsoHeader extends Component {
                     </View>  
 
                </View> 
-             </View>          
-            
+             </View>       
+             
+    {(this.state.addCallsigns) &&
+                  <AddCallSigns   close={this.CloseAddCallSigns.bind()} confirm={this.confirmAddCallsigns.bind()} />
+                }   
+                
             </View>
            
        

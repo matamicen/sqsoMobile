@@ -26,7 +26,7 @@ import {FETCHING_API_REQUEST,
         SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL, SET_SENDING_PROFILE_PHOTO_MODAL,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
-        UPDATE_COMMENT_MEMORY  } from './types';
+        UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -163,7 +163,24 @@ export const addQra = (newqra) => {
         type: ADD_QRA,
         newqra: newqra
     };
-}
+}  
+
+export const addCallsign = (newCallsign) => {
+  return {
+      type: ADD_CALLSIGN,
+      newcallsign: newCallsign
+  };
+}  
+
+COPY_CALLSIGN_TO_QSOQRAS
+
+export const copyQsoCallSignsToQsoQras = (qsocallsigns) => {
+  return {
+      type: COPY_CALLSIGN_TO_QSOQRAS,
+      qsocallsigns: qsocallsigns
+  };
+} 
+
 
 export const updateQraUrl = (qra,url) => {
     return {

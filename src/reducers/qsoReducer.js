@@ -21,7 +21,7 @@ import {FETCHING_API_REQUEST,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
-     UPDATE_COMMENT_MEMORY   } from '../actions/types';
+     UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -71,6 +71,7 @@ const initialState = {
   //      qsoqras: [{name: 'LU8AJ', url: 'https://randomuser.me/api/portraits/thumb/men/81.jpg'},
    //               {name: 'LW5AAA', url: 'https://randomuser.me/api/portraits/med/men/72.jpg'}],
         qsoqras: [],
+        qsocallsigns: [],
         qsotype: 'QSO',
         qsotypeSent: false,
         band: 'Band',
@@ -402,7 +403,8 @@ const qsoReducer = (state = initialState, action) => {
             });
         return newStore;
       
-
+      // este en teoria se deja de usar, porque los QRA se ingresan en el AddCallSign en un Array Auxiliar
+      // y cauando el usuario confirme se agregan al array final de qsoqras
       case ADD_QRA:
       console.log("desdeREDUCER!! : "+JSON.stringify(action.newqra));
       auxcurrentQso = {
@@ -415,6 +417,50 @@ const qsoReducer = (state = initialState, action) => {
              currentQso: auxcurrentQso
          });
      return newStore; 
+
+
+     case COPY_CALLSIGN_TO_QSOQRAS:
+
+     // copio los callsigns dados de alta + los callsigns existentes en qsoqras en AUX
+        aux = [...state.currentQso.qsoqras, ...action.qsocallsigns]  
+    // eleimino los duplicados en AUX por si el usuario repite los callsigns 
+        keys = ['qra'],
+        filtered = aux.filter(
+            (s => o => 
+                (k => !s.has(k) && s.add(k))
+                (keys.map(k => o[k]).join('|'))
+            )
+            (new Set)
+        );
+
+    // actualizo qsoqras con todos los nuevos asegurandome que ya no hay duplicados
+   
+        auxcurrentQso = {
+           ...state.currentQso,
+          
+             qsoqras: filtered          
+       };
+       newStore = Object.assign({}, state,
+           {
+               ...state,
+               currentQso: auxcurrentQso
+           });
+       return newStore;
+
+       
+
+     case ADD_CALLSIGN:
+        console.log("desdeREDUCER!! : "+JSON.stringify(action.newcallsign));
+        auxcurrentQso = {
+           ...state.currentQso,
+           qsocallsigns: [...state.currentQso.qsocallsigns, action.newcallsign]           
+       };
+       newStore = Object.assign({}, state,
+           {
+               ...state,
+               currentQso: auxcurrentQso
+           });
+       return newStore;
 
      case QSO_QRA_DELETE:
      
@@ -454,6 +500,16 @@ const qsoReducer = (state = initialState, action) => {
         }
         return item
       })
+
+      // actualizo la URL del callsign del array auxiliar del Modal de AddCallsign.js
+      var updatedItemsCallsigns = state.currentQso.qsocallsigns.map(item => {
+        if(item.qra === action.qra){
+          return { ...item, ...action.url }
+        }
+        return item
+      })
+
+      
       
       if (action.qra==='deleteLast')
       { 
@@ -486,6 +542,7 @@ const qsoReducer = (state = initialState, action) => {
     auxcurrentQso = {
         ...state.currentQso,
         qsoqras: updatedItems1,
+        qsocallsigns: updatedItemsCallsigns,
         qraShow: updatedItems1_1,  
         qraSearched: updatedItems1_2          
     };
@@ -1073,6 +1130,7 @@ const qsoReducer = (state = initialState, action) => {
              onProgress: false,
              datetime: '',
              qsoqras: [],
+             qsocallsigns: [],
              qsotype: 'QSO',
              qsotypeSent: false,
              band: 'Band',
