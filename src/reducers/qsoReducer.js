@@ -21,7 +21,7 @@ import {FETCHING_API_REQUEST,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
-     UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS   } from '../actions/types';
+     UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS   } from '../actions/types';
 import { SectionList } from 'react-native';
 
 const initialState = {
@@ -419,6 +419,46 @@ const qsoReducer = (state = initialState, action) => {
      return newStore; 
 
 
+     case SET_QSOCALLSIGNS:
+
+
+      
+
+        if (action.param==='DELETEONE')
+        
+        {
+            console.log('DELETEONE : '+action.callsign)
+           
+
+        const arrayQsocallsignsFinal = state.currentQso.qsocallsigns.filter(item => item.qra != action.callsign)
+   
+        auxcurrentQso = {
+            ...state.currentQso,
+           
+            qsocallsigns: arrayQsocallsignsFinal          
+        };
+   
+        }
+
+
+  
+      if (action.param==='DELETEALL')
+         {
+           auxcurrentQso = {
+              ...state.currentQso,
+             
+              qsocallsigns: []          
+          };
+        }
+
+
+          newStore = Object.assign({}, state,
+              {
+                  ...state,
+                  currentQso: auxcurrentQso
+              });
+          return newStore;
+   
      case COPY_CALLSIGN_TO_QSOQRAS:
 
      // copio los callsigns dados de alta + los callsigns existentes en qsoqras en AUX

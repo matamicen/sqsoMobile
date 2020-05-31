@@ -3,7 +3,7 @@ import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpaci
 import { connect } from 'react-redux';
 import { setToken, addQra, fetchQraProfileUrl, addCallsign, copyQsoCallSignsToQsoQras,
   onprogressTrue, onprogressFalse ,postQsoNew, postQsoQras,
-  actindicatorPostQsoNewTrue} from '../../actions';
+  actindicatorPostQsoNewTrue, setQsoCallsigns} from '../../actions';
 // import { addQra, onprogressTrue, onprogressFalse, fetchQraProfileUrl, postQsoNew, postQsoQras,
 //     actindicatorPostQsoNewTrue } from '../../actions';
 import { hasAPIConnection, ValidacionAddCallsign, updateOnProgress, check_firstTime_OnProgress} from '../../helper';
@@ -44,40 +44,6 @@ class AddCallSigns extends Component {
 
        
 
-       
-    //    deleteMedia = async  () => {
-       
-    //     if (await hasAPIConnection())
-    //   {
-    //     this.props.deletedFlag(false,'');
-
-    //     // chequeo si se creo QSO en BD
-    //     if (!this.props.sqlrdsid)
-    //        { // no tiene QSO creado con lo cual puede borrar todo lo que quiere
-    //         // de la memoria de mediafiles
-     
-    //           this.props.deleteMediaInMemory(this.props.name);
-    //           // this.props.closeDelete();
-
-    //        }
-    //        else
-    //        { // hay un QSO creado en BD puede ir borrando pero si quiere borrar 
-    //         // el ultimo se pregunta si quiere borrar todo el QSO
-    //         if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
-    //             this.deletePost();
-    //             else
-    //              // borro del backend el media con la API y luego en el action de esta API borro 
-    //              // de mediafiles el media si se confirma ok el borrado de API
-    //             this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.jwtToken);
-
-
-
-    //        }
-
-    //    // this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
-    //   }else
-    //       this.setState({nointernet: true});
-    //     }
 
         closeVariosModales = () => {
           this.setState({nointernet: false}); 
@@ -85,47 +51,9 @@ class AddCallSigns extends Component {
         }
 
 
-        //   deletePost = async  () => {
-        //     if (await hasAPIConnection())
-        //   {
-        //     this.props.deletedFlag(false,'');
-        //   //  this.setState({warningMessage: false});
-        //     this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
-        //   }else
-        //       this.setState({nointernet: true});
-        //     }
-
-        //     closeVariosModales = () => {
-        //       this.setState({nointernet: false}); 
-              
-        //     }
-
-//    goCamera = async () => {
-//     this.props.close();
-
-//             setTimeout(() => {
-//                 this.props.cameraScreen();
-//             }
-//             , 250);
-
-
-//       }
-
-    // goPhotoGallery = async () => {
-    //     this.props.close();
-
-    //     if ( Platform.OS === 'ios')
-    //     timer = 700;
-    //       else timer = 250;
-
-    //         setTimeout(() => {
-    //             this.props.photoGallery();
-    //         }
-    //         , timer);
-
-
-    //   }
     addCallsignToqsoqras_despuesDelay = async () => {
+
+   // no hace falta chequear si hay internet, acaba de chequear el metodo que llama a este 50 milisegundos antes.
 
       this.arrAux[0] = '1';
       this.arrAux[1] = '2';
@@ -149,11 +77,20 @@ class AddCallSigns extends Component {
                  console.log("Data to Send API: "+ JSON.stringify(data));  
                  console.log('qsoqras 11: '+ JSON.stringify(this.props.qsoqras))
                  this.props.close();
-                 this.props.actindicatorPostQsoNewTrue();
-               
-                this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
-                
-           }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+                 setTimeout(() => {
+              
+                  this.props.actindicatorPostQsoNewTrue();
+                  this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
+                  this.props.setQsoCallsigns('DELETEALL',''); 
+                }
+                , 750);
+            
+           }else {
+             console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+             this.props.close();
+             this.props.setQsoCallsigns('DELETEALL',''); 
+
+            }
              
            }
            else {
@@ -170,7 +107,7 @@ class AddCallSigns extends Component {
                    })
               // qraToAddRds.push(qra);
               console.log('qratoadd: '+ JSON.stringify(qraToAddRds))
-              //this.props.close();
+              this.props.close();
               await this.props.postQsoQras("ALL",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
                 } 
 
@@ -179,72 +116,27 @@ class AddCallSigns extends Component {
     
 
     addCallsignToqsoqras = async () => {
-    
-     
 
+      if (await hasAPIConnection())
+      {
       this.props.copyQsoCallSignsToQsoQras(this.props.qsocallsigns);
 
-
       setTimeout(() => {
-                     
-       
+
         // una espera para que copie los array en redux y se actualicen en este compoennte
         // porque el metodo de abajo usa el nuevo array
         this.addCallsignToqsoqras_despuesDelay();
         
       }
-      , 100);
-
-      // invento para llenar array para que funcione la funcion de abajo porque REDUX tarda unos segudnos en actualizar
-      // y en realidad el qsoqras ya esta lleno
-      //   this.arrAux[0] = '1';
-      //   this.arrAux[1] = '2';
-
-      // //  update si el QSO esta onProress 
-      //  if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.arrAux,this.props.mediafiles))
-      //          await this.props.onprogressTrue();
-      //     else
-      //           this.props.onprogressFalse();
-
-
-
-      //  if (this.props.sqlrdsid===''){
-      //    console.log('onprogress: '+ ONPROGRESS)
-               
-      //          // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
-      //        if (ONPROGRESS) {
-      //         data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
-      //               this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid,this.props.latitude,
-      //                                      this.props.longitude);
-      //              console.log("Data to Send API: "+ JSON.stringify(data));  
-      //              console.log('qsoqras 11: '+ JSON.stringify(this.props.qsoqras))
-      //             this.props.actindicatorPostQsoNewTrue();
-                 
-      //             this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
-                  
-      //        }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-               
-      //        }
-      //        else {
-      //           qraToAddRds = [];
-      //           this.props.qsoqras.map(item => {
-      //                if(item.status === 'false'){
-      //                   qraToAddRds.push(item.qra);
-
-      //                }
-                     
-      //                })
-      //           // qraToAddRds.push(qra);
-      //           await this.props.postQsoQras("ALL",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
-      //             } 
-
+      , 50);
+    }
+    else this.setState({nointernet: true});
 
     }
     
       
         addQraCallsigns = async () => {
-        //     this.setState({pickerSelection: value});
-   
+    
    
        if (await hasAPIConnection())
            {
@@ -499,7 +391,8 @@ const mapDispatchToProps = {
   onprogressFalse,
   postQsoNew,
   postQsoQras,
-  actindicatorPostQsoNewTrue
+  actindicatorPostQsoNewTrue,
+  setQsoCallsigns
 
  
    }

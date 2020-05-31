@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { QsoQraDelete, deleteQsoQra, followAdd, unfollow, getUserInfo, deletePost, deletedFlag } from '../../actions';
+import { QsoQraDelete, deleteQsoQra, followAdd, unfollow, getUserInfo, deletePost, deletedFlag, setQsoCallsigns } from '../../actions';
 import { getDate, getFollowStatus, hasAPIConnection} from '../../helper';
 import PropTypes from 'prop-types';
 import VariosModales from './VariosModales';
@@ -107,7 +107,11 @@ class QraAddCallSign extends Component {
               
             }
 
+            deleteCallSign = async (qra) => {
+              console.log('se presiono delete callsign: '+qra)
+              this.props.setQsoCallsigns('DELETEONE',qra);
 
+            }
 
             delete = async (qra) => {
             // depende si el QSO esta Onprogress o si tiene un sqlrdsid creado borra llamando a la API o no.
@@ -163,7 +167,7 @@ class QraAddCallSign extends Component {
              <Text style={styles.name} >
                 {this.props.qra}
              </Text>
-             <TouchableOpacity  style={{marginLeft: 11}} onPress={() => this.delete(this.props.qra)} >
+             <TouchableOpacity  style={{marginLeft: 11}} onPress={() => this.deleteCallSign(this.props.qra)} >
                                 <Image source={require('../../images/removecircle.png')}  style={{width: 19, height: 19 } } 
                                    resizeMode="contain" />  
                                     {/* <Text style={{ color: 'grey',  fontSize: 16}}>Delete</Text> */}
@@ -359,7 +363,8 @@ const mapDispatchToProps = {
   unfollow,
   getUserInfo,
   deletePost,
-  deletedFlag
+  deletedFlag,
+  setQsoCallsigns
  
    }
 
