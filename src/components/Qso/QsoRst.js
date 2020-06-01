@@ -289,24 +289,30 @@ class QsoRst extends Component {
     //  }
 
 
-    render() { console.log("RENDER qso BAND" );
+    render() { console.log("RENDER qso RST" );
               
               
               // 6 tenia android
 
 
-        return <View>               
+        return <View style={{flex:1, flexDirection: 'row' }}>               
                                  
-                                 {/* , marginLeft: 33 */}
-               <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                  
-               {/* { (this.props.digitalmode) ?
-               <Text style={{ fontSize: 17, color: '#999', marginTop: 0, marginLeft: 4  }} onPress={() => this.togglePicker()} >  dB</Text>
-               : */}
-               <Text style={{ fontSize: 17, color: '#999', marginTop: 0, marginLeft: 4  }} onPress={() => this.togglePicker()} >  RST</Text>
-            {/* } */}
-               <Text style={{ fontSize: 17, color: '#999', marginTop: 0, marginLeft: 4  }} onPress={() => this.togglePicker()} >  {this.props.rst}</Text>
+                                 {/* , marginLeft: 33    style={{ width: 42, height: 50 }} */}
+               <View style={{ flex: 0.45,marginTop: 8, alignItems: 'flex-end' }}>
+                 <TouchableOpacity   onPress={() => this.togglePicker()} >                  
+              
+        
+               <Text style={{ fontSize: 19, color: '#999' }} onPress={() => this.togglePicker()} >RST</Text>
                </TouchableOpacity >
-               <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
+               </View>
+            {/* } */}
+            <View style={{ flex: 0.55, marginTop: 8}}>
+            <TouchableOpacity   onPress={() => this.togglePicker()} > 
+               <Text style={{ fontSize: 19, color: '#999'   }} onPress={() => this.togglePicker()} > {this.props.rst}</Text>
+               </TouchableOpacity >
+            </View>
+
+            <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,
                       padding:20, 
                          backgroundColor: '#efefef',
@@ -408,80 +414,9 @@ class QsoRst extends Component {
                </View>  
                </View>              
                
-               {/* :
- // db para modos DIGITALES
-                        <View style={{flexDirection: 'row', marginTop: 6, flex:1, marginLeft: 10 }}>
-                <View style={{flex: 0.3}}>
-                    <View style={{flex: 0.2, alignItems: "center"}}>
-                    {Platform.OS==='ios' ?
-                      <Text style={{ color: 'black', fontSize: 16, fontWeight: "bold"  }}>d</Text>
-                       :
-                       <Text style={{ color: 'black', fontSize: 16, fontWeight: "bold", alignSelf: "flex-start", marginLeft: 7.5  }}>d</Text>
-                             } 
-                      </View> 
-                    <View style={{flex: 0.8}}>
-                 
-                            <Picker   mode="dialog"
-                                        style={{width: 75}}  selectedValue = {this.state.db1} onValueChange = {this.updatedb1}>
-                                        <Picker.Item label = "-" value = "-" />
-                                        <Picker.Item label = "+" value = "+" />
-                                       
-                            </Picker>
-                      </View>
-                  
-                </View>
            
-             <View style={{flex: 0.3}}>
-                    <View style={{flex: 0.2, alignItems: "center"}}>
-                    {Platform.OS==='ios' ?
-                      <Text style={{ color: 'black', fontSize: 16, fontWeight: "bold"  }}>S</Text>
-                       :
-                       <Text style={{ color: 'black', fontSize: 16, fontWeight: "bold", alignSelf: "flex-start", marginLeft: 7.5  }}>S</Text>
-                             } 
-                    </View> 
-                    <View style={{flex: 0.8, alignItems: "flex-start"}}>
-                       <Picker   mode="dialog"
-                                     style={{width: 85}}  selectedValue = {this.state.db2} onValueChange = {this.updatedb2}>
-                                    <Picker.Item label = "0" value = "0" />
-                                    <Picker.Item label = "1" value = "1" />
-                                    <Picker.Item label = "2" value = "2" />
-                                    <Picker.Item label = "3" value = "3" />
-                                    <Picker.Item label = "4" value = "4" />
-                                    <Picker.Item label = "5" value = "5" />
-                                    <Picker.Item label = "6" value = "6" />
-                                    <Picker.Item label = "7" value = "7" />
-                                    <Picker.Item label = "8" value = "8" />
-                                    <Picker.Item label = "9" value = "9" />
-                         </Picker> 
-                     </View>
-               </View> 
-               <View style={{flex: 0.3}}>
-               <View style={{flex: 0.2, alignItems: "center"}}>
-               {Platform.OS==='ios' ?
-                      <Text style={{ color: 'black', fontSize: 16, fontWeight: "bold"  }}>T</Text>
-                       :
-                       <Text style={{ color: 'black', fontSize: 16, fontWeight: "bold", alignSelf: "flex-start", marginLeft: 7.5  }}>T</Text>
-                             } 
-                    </View> 
-                    <View style={{flex: 0.8, alignItems: "flex-start"}}>
-                       <Picker   mode="dialog"
-                                     style={{width: 75}}  selectedValue = {this.state.db3} onValueChange = {this.updatedb3}>
-                                    <Picker.Item label = "0" value = "0" />
-                                    <Picker.Item label = "1" value = "1" />
-                                    <Picker.Item label = "2" value = "2" />
-                                    <Picker.Item label = "3" value = "3" />
-                                    <Picker.Item label = "4" value = "4" />
-                                    <Picker.Item label = "5" value = "5" />
-                                    <Picker.Item label = "6" value = "6" />
-                                    <Picker.Item label = "7" value = "7" />
-                                    <Picker.Item label = "8" value = "8" />
-                                    <Picker.Item label = "9" value = "9" />
-                         </Picker> 
-                    </View>
-               </View>  
-               </View>  
 
-                           } */}
+                     
 
                   
                     <TouchableOpacity   onPress={() => this.togglePicker()} style={{ paddingTop: 4, paddingBottom: 4, alignItems: 'center'}}>
@@ -492,10 +427,11 @@ class QsoRst extends Component {
 
                
                </Modal>
-               {(this.state.nointernet) && 
+ {(this.state.nointernet) && 
                <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
                }
-          
+               
+              
 
             </View>
        

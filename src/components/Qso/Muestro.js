@@ -242,7 +242,9 @@ class Muestro extends Component {
          
               }
                   else
-              coef = valor / 650;
+              coef = valor / 650; // esta coeficiente es para todas las fotos que no vienen de la galeria
+                                  // posiblemente en un futuro alla q bajar esta valor para achicar mas las fotos
+                                  // para una ahorro en tranferencia de datos en aws mas que en s3 de alamcenamiento
          }
         else{
           valor = this.height;

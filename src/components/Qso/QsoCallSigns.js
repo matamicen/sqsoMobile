@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, FlatList  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
-import Qra from './Qra';
+import QraAddCallSign from './QraAddCallSign';
 //import PropTypes from 'prop-types';
 
-class QsoQras extends Component {
+class QsoCallSigns extends Component {
 
     constructor(props) {
         super(props);
@@ -35,7 +35,7 @@ class QsoQras extends Component {
     return (
       <View>
        <View style={{ paddingRight: 8 }}>
-        <Qra qra={qra} imageurl={url} following={following}/>
+        <QraAddCallSign qra={qra} imageurl={url} following={following}/>
         </View>
        
       </View>
@@ -43,16 +43,16 @@ class QsoQras extends Component {
   };
 
 
-    render() { console.log("RENDER qso QsoQras");
-    console.log("QsoQRAS:" +  JSON.stringify(this.props.qsoqras));
+    render() { console.log("RENDER qsocallsigns");
+    console.log("qsocallsigns:" +  JSON.stringify(this.props.qsocallsigns));
            
                            
               
         return( <View >
-             { (this.props.qsoqras.length>0) ?
+               
               <FlatList  style={styles.qralist }
                
-                data={this.props.qsoqras}
+                data={this.props.qsocallsigns}
                 keyExtractor={this._keyExtractor}
                 renderItem={this._renderItem}
                 showsVerticalScrollIndicator={false}
@@ -60,9 +60,6 @@ class QsoQras extends Component {
                 horizontal={true}
                
                 />
-                :(this.props.qsotype!=='POST') &&
-                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>Please, Add a Callsign</Text>
-             }
 
          </View>
             
@@ -91,8 +88,7 @@ class QsoQras extends Component {
 
  const mapStateToProps = state => {
     return {
-        qsoqras: state.sqso.currentQso.qsoqras,
-        qsotype: state.sqso.currentQso.qsotype,
+        qsocallsigns: state.sqso.currentQso.qsocallsigns
         
       };
 };
@@ -102,4 +98,4 @@ const mapDispatchToProps = {
    
    }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QsoQras);
+export default connect(mapStateToProps, mapDispatchToProps)(QsoCallSigns);
