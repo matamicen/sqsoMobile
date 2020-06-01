@@ -95,11 +95,11 @@ class QsoHeader extends Component {
               {/* flex: 1 */}
          <View style={{flex:0.4}}>
              <View style={{flexDirection: 'row', marginTop: 6, flex:1 }}>
-                    <View style={{flex: Platform.OS==='ios' ? 0.47 : 0.47}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
               { this.props.sqsonewqsoactive ?
                                <TouchableOpacity   onPress={() => this.togglePicker()} >                                       
-                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}} onPress={() => this.setState({addCallsigns: true})} >Add CallSign</Text>
+                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}} onPress={() => this.setState({addCallsigns: true})} >Add Callsign</Text>
                                </TouchableOpacity>
           
                                   : null }
@@ -109,18 +109,18 @@ class QsoHeader extends Component {
                  
                     </View>
                    
-                    <View style={{flex: Platform.OS==='ios' ? 0.170 : 0.170 , alignItems: 'center'}}>  
+                    <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.220 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?  
                         <QsoBand />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.170 : 0.170}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.224 : 0.224, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                         <QsoMode />  : null }
                     </View>  
 
-                    <View style={{flex: Platform.OS==='ios' ? 0.190 : 0.190, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.246 : 0.246, flexDirection: 'row'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                        (this.props.digitalmode) ? <QsodB /> : <QsoRst />
                         

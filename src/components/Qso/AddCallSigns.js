@@ -83,7 +83,7 @@ class AddCallSigns extends Component {
                   this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
                   this.props.setQsoCallsigns('DELETEALL',''); 
                 }
-                , 750);
+                , 500);
             
            }else {
              console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
@@ -226,7 +226,7 @@ class AddCallSigns extends Component {
                    left: 25,
                 //    right: 15,
                  //  width: 170,
-                   width: 345,
+                   width: 307,
                    height: 210,
                
                    paddingVertical: 5,
@@ -242,10 +242,10 @@ class AddCallSigns extends Component {
                       <QsoCallSigns /> 
                     </View>
                     <View style={{ flex:0.4, flexDirection: 'row', marginTop:9 }}>
-                    <View style={{ flex:0.3,alignItems: 'flex-end' }}>
-                    <Text style={{ color: 'grey', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>CallSign: </Text>
+                    <View style={{ flex:0.27,alignItems: 'flex-end' }}>
+                    <Text style={{ color: 'grey', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>Callsign: </Text>
                     </View>
-                    <View style={{ flex:0.40, alignItems: 'flex-start'}}> 
+                    <View style={{ flex:0.47, alignItems: 'flex-start'}}> 
                                 <TextInput 
                             // placeholder="email"
                             underlineColorAndroid='transparent'
@@ -262,25 +262,25 @@ class AddCallSigns extends Component {
                             keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                             />
                     </View> 
-                    <View style={{ flex:0.30, alignItems: 'flex-start'}}>
+                    <View style={{ flex:0.23}}>
                     <TouchableOpacity onPress={() => this.addQraCallsigns()} >
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 5}}>  Add</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 5}}>Add</Text>
                     </TouchableOpacity>
                     </View> 
                     {/* <Text style={{ color: 'grey', fontSize: 16}}>Enter CallSign</Text> */}
                     </View>
 
-                    <View style={{ flex:0.1 , flexDirection: 'row'}}>
+                    <View style={{ flex:0.13 , flexDirection: 'row'}}>
                       <View style={{ flex:0.5, alignItems: 'flex-start'}}>
-                              <TouchableOpacity onPress={() => this.props.close()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                              <TouchableOpacity onPress={() => this.props.close()} style={{ marginLeft: 5, marginBottom: 5}}>
+                            <Text style={{ color: 'grey', fontSize: 17}}>Cancel</Text>
                               </TouchableOpacity>
                             </View>
                        
                            <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                              {(this.props.qsocallsigns.length>0) &&
-                              <TouchableOpacity onPress={() => this.addCallsignToqsoqras()} >
-                            <Text style={{ color: 'white', fontSize: 17}}>Confirm</Text>
+                              <TouchableOpacity onPress={() => this.addCallsignToqsoqras()} style={{ marginRight: 5, marginBottom: 5}} >
+                            <Text style={{ color: 'white', fontSize: 18}}>Confirm</Text>
                               </TouchableOpacity>
                            }
                           </View>

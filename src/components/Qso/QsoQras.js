@@ -49,7 +49,7 @@ class QsoQras extends Component {
                            
               
         return( <View >
-               
+             { (this.props.qsoqras.length>0) ?
               <FlatList  style={styles.qralist }
                
                 data={this.props.qsoqras}
@@ -60,6 +60,9 @@ class QsoQras extends Component {
                 horizontal={true}
                
                 />
+                :(this.props.qsotype!=='POST') &&
+                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>Please, Add a Callsign</Text>
+             }
 
          </View>
             
@@ -88,7 +91,8 @@ class QsoQras extends Component {
 
  const mapStateToProps = state => {
     return {
-        qsoqras: state.sqso.currentQso.qsoqras
+        qsoqras: state.sqso.currentQso.qsoqras,
+        qsotype: state.sqso.currentQso.qsotype,
         
       };
 };
