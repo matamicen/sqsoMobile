@@ -691,7 +691,7 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
         }
 
       if (attribute==='type')
-        this.toast('Publishing qso type on the web ...',2500);
+        this.toast('Publishing post type on the web ...',2500);
      if (attribute==='mode')
         this.toast('Publishing mode on the web ...',2500);
       if (attribute==='band')
