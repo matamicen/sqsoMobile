@@ -51,6 +51,7 @@ import RNIap, {
 
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import Toast from 'react-native-root-toast';
 
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -493,7 +494,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
         dispatch(setShareUrlGuid(respuesta.body.message.guid_url));
    
-        await dispatch(postQsoQras("ALL",respuesta.body.message.newqso, qsoqras,jwtToken));
+        await dispatch(postQsoQras("ALLQSONEW",respuesta.body.message.newqso, qsoqras,jwtToken));
           console.log('mediafiles length:'+mediafiles.length);
          
 
@@ -592,6 +593,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
           
         }
 
+      // ALL quiere decir que se agrego un callsign despues de haberse creado el QSO
+      // entonces es una modificacion del post ya publicado con lo cual AVISO con TOAST
+      if (type==='ALL')
+      this.toast('Publishing callsigns on the web ...',2500);
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QSO_QRA_ADD");
@@ -606,7 +611,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
         console.log("error es 0 y SALIDA de QsoQraADD: "+JSON.stringify(respuesta.body.message));
       //  console.log("FOLLOWING: "+respuesta.message[0].following )
 
-        if (type==='ALL')
+        if (type==='ALL' || type==='ALLQSONEW')
         {
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo TODOS los QRAs");
@@ -654,7 +659,7 @@ export const updateQsoOnlyOneQraStatus = (status, qra) => {
     };
 }
 
-export const postQsoEdit = (qsoHeader,jwtToken) => {
+export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoEdit'));
       console.log("ejecuta llamada API QsoEdit");  
@@ -685,7 +690,14 @@ export const postQsoEdit = (qsoHeader,jwtToken) => {
           
         }
 
-
+      if (attribute==='type')
+        this.toast('Publishing qso type on the web ...',2500);
+     if (attribute==='mode')
+        this.toast('Publishing mode on the web ...',2500);
+      if (attribute==='band')
+        this.toast('Publishing band on the web ...',2500);
+        
+        
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QSO_EDIT");
     
@@ -1591,6 +1603,39 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
     };
   };
 
+  toast = async (message, timer) =>{
+
+
+     // Add a Toast on screen.
+     let toast = Toast.show(message, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.CENTER,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      onShow: () => {
+          // calls on toast\`s appear animation start
+      },
+      onShown: () => {
+          // calls on toast\`s appear animation end.
+      },
+      onHide: () => {
+          // calls on toast\`s hide animation start.
+      },
+      onHidden: () => {
+          // calls on toast\`s hide animation end.
+      }
+    });
+
+         // Toast.hide(toast);
+              // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+              setTimeout(function () {
+                Toast.hide(toast);
+              }, timer);
+
+  }
+
 
   export const updateMediaDescription = (mediaid,descrip,name,jwtToken) => {
     return async dispatch => {
@@ -1616,6 +1661,9 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
           
         }
 
+
+
+      this.toast('Publishing description on the web ...',2500);
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api updateMediaDescription");
@@ -1667,7 +1715,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
     };
   };
 
-  export const deleteMedia = (mediaid,nameMedia,jwtToken) => {
+  export const deleteMedia = (mediaid,nameMedia,type,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('DeletePost'));
       console.log("ejecuta llamada API DeletePost");  
@@ -1688,7 +1736,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
           
         }
 
-
+      this.toast('Deleting '+type+' from the web ...',2500);
       respuesta = await API.del(apiName, path, myInit);
       console.log("llamo api deleteMedia");
     
@@ -1764,7 +1812,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
           
         }
 
-
+      this.toast('Deleting post from the web ...',2000);
       respuesta = await API.del(apiName, path, myInit);
       console.log("llamo api deletePOST");
       
@@ -1846,6 +1894,7 @@ export const QsoQraDelete = (sqlrdsid, qra, jwtToken) => {
         }
 
 
+      this.toast('Deleting callsign on the web ...',2500);
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QsoQraDELETE");
       

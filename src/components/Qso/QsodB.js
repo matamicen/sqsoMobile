@@ -79,7 +79,7 @@ class QsodB extends Component {
                }
                console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-                await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
+                await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
              }
           
          }
@@ -116,7 +116,7 @@ class QsodB extends Component {
        }
        console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-        await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
+        await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
      }
  
   
@@ -158,7 +158,7 @@ class QsodB extends Component {
               }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-               await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
+               await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
             }
          
         }

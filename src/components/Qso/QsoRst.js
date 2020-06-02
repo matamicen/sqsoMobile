@@ -76,7 +76,7 @@ class QsoRst extends Component {
               }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-               await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
+               await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
             }
          
         }
@@ -113,7 +113,7 @@ class QsoRst extends Component {
       }
       console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-       await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
+       await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
     }
 
  
@@ -155,7 +155,7 @@ class QsoRst extends Component {
              }
              console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-              await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
+              await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
            }
         
        }
