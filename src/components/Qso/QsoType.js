@@ -90,7 +90,7 @@ class QsoType extends Component {
                         "qra": this.props.qra
                     }
           console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
-           this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   
+           this.props.postQsoEdit(qsoHeader,'type',this.props.jwtToken);   
         }
 
         this.closeQsoTypeModal();

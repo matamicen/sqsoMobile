@@ -22,6 +22,7 @@ import ConfirmSignUp from './ConfirmSignUp';
 import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './StopApp';
 import global_config from '../../global_config.json';
+import {APP_VERSION} from '../../appVersion';
 
 // nuevo push
 //import Analytics from '@aws-amplify/analytics';
@@ -516,8 +517,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-       if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-      //  if (1===2)
+        if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+    //  if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -1073,8 +1074,14 @@ if (!this.usernotfound)
              </View> 
              :
              <View style={styles.container}>
+              
                   <Text style={{ color: '#8BD8BD', textAlign: 'center', fontSize: 18, marginTop: 30 }}> {this.state.mess}.
                         </Text>
+             
+            
+             
+              {/* </View> */}
+                        
                         {/* <Image source={require('../../images/loading.jpg')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
                         {(this.state.nointernet) && 
                         <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
@@ -1103,6 +1110,8 @@ if (!this.usernotfound)
           />
         }
    
+   <Text style={{ color: '#8BD8BD', textAlign: 'center', fontSize: 17, marginTop: 255 }}>v{APP_VERSION}
+                        </Text>
            </View>
            
         );

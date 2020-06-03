@@ -86,6 +86,7 @@ import CamaraSelect from './CamaraSelect';
 
 
 
+
 import RNIap, {
   Product,
   ProductPurchase,
@@ -1255,6 +1256,8 @@ latestPosts = async () => {
         });
       }
 
+      
+
   render() {
     const interpolatedRotateAnimation = this.state.rotateValue.interpolate({
       inputRange: [0,  100],
@@ -1290,11 +1293,11 @@ latestPosts = async () => {
                 margin: 15,
                 backgroundColor: "rgba(0,0,0,0.85)",
                 marginTop: 210,
-                left: 95,
+                left: 20,
                 //  right: 15,
                 // alignItems: 'center',
                 // alignContent: 'center',
-                width: 155,
+                width: 300,
                 height: 45,
                 paddingVertical: 5,
                 //   position: 'absolute',
@@ -1312,7 +1315,7 @@ latestPosts = async () => {
                   marginTop: 5
                 }}
               >
-                Publishing ...
+                Publishing post on the web ...
               </Text>
             </View>
             {/* </KeyboardAvoidingView > */}
@@ -1669,7 +1672,7 @@ latestPosts = async () => {
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.25, alignItems: "center", marginTop: 5 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
-            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}> 
+            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>     
                 <Image
                   source={require("../../images/camera.png")}
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}

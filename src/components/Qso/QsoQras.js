@@ -61,7 +61,7 @@ class QsoQras extends Component {
                
                 />
                 :(this.props.qsotype!=='POST') &&
-                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>Please, Add a Callsign</Text>
+                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>Please Add a Callsign</Text>
              }
 
          </View>

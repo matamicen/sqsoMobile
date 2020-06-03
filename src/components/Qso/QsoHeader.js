@@ -98,8 +98,8 @@ class QsoHeader extends Component {
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
               { this.props.sqsonewqsoactive ?
-                               <TouchableOpacity   onPress={() => this.togglePicker()} >                                       
-                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}} onPress={() => this.setState({addCallsigns: true})} >Add Callsign</Text>
+                               <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >                                       
+                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>Add Callsign</Text>
                                </TouchableOpacity>
           
                                   : null }
