@@ -83,7 +83,7 @@ import StopApp from './../Profile/StopApp';
 import analytics from '@react-native-firebase/analytics';
 import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
-import Toast from 'react-native-root-toast';
+
 
 
 
@@ -1256,36 +1256,7 @@ latestPosts = async () => {
         });
       }
 
-      toast = async () => {
-// Add a Toast on screen.
-        let toast = Toast.show('This is a message', {
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-          shadow: true,
-          animation: true,
-          hideOnPress: true,
-          delay: 0,
-          onShow: () => {
-              // calls on toast\`s appear animation start
-          },
-          onShown: () => {
-              // calls on toast\`s appear animation end.
-          },
-          onHide: () => {
-              // calls on toast\`s hide animation start.
-          },
-          onHidden: () => {
-              // calls on toast\`s hide animation end.
-          }
-        });
-
-        // Toast.hide(toast);
-        // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-        setTimeout(function () {
-          Toast.hide(toast);
-        }, 1500);
-
-      }
+      
 
   render() {
     const interpolatedRotateAnimation = this.state.rotateValue.interpolate({
@@ -1701,8 +1672,7 @@ latestPosts = async () => {
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.25, alignItems: "center", marginTop: 5 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
-            {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>  */}
-            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.toast()}> 
+            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>     
                 <Image
                   source={require("../../images/camera.png")}
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
