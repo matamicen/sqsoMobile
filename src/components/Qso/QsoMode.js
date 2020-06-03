@@ -107,7 +107,7 @@ class QsoMode extends Component {
                               "db" : this.props.db
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
-              await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);   
+              this.props.postQsoEdit(qsoHeader,'mode',this.props.jwtToken);   
 
                  }  
      }

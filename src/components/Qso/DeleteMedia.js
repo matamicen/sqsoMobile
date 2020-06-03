@@ -80,12 +80,15 @@ class DeleteMedia extends Component {
            { // hay un QSO creado en BD puede ir borrando pero si quiere borrar 
             // el ultimo se pregunta si quiere borrar todo el QSO
             if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
-                this.deletePost();
-                else
+            {  this.deletePost();
+                this.props.closeDelete()
+            }
+                else{
                  // borro del backend el media con la API y luego en el action de esta API borro 
                  // de mediafiles el media si se confirma ok el borrado de API
-                this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.jwtToken);
-
+                this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
+                this.props.closeDelete()
+              }
 
 
            }

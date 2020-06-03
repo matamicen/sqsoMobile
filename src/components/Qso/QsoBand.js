@@ -68,7 +68,7 @@ class QsoBand extends Component {
                                   }
                                   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-                         await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);         
+                         this.props.postQsoEdit(qsoHeader,'band',this.props.jwtToken);         
 
                        }  
 
