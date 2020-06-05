@@ -166,12 +166,12 @@ class QsoScreen extends Component {
           }}
         >
           <Image
-            style={{  width: 31, height: 31, marginLeft: 5}}
+            style={{  width: 31, height: 31, marginLeft: 0}}
          //   source={require("../../images/qsoicon3.png")}
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 11 }}>POST</Text>
+          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 6 }}>POST</Text>
         </View>
       );
     }
@@ -1566,15 +1566,10 @@ latestPosts = async () => {
 
              </Animated.View>
 
-              {/* <TouchableOpacity style={{  width: 110,height:100 }} onPress={() => this.setState({iap: true}) }>
-                <Image
-                  source={require("../../images/iaddcircleTurquesa.png")}
-                  style={{ width: 80, height: 80, alignItems:"center", alignContent:"center"}}
-                  resizeMode="contain"
-                />
-                
-                <Text style={{ fontSize: 16,  color: '#243665',  fontWeight: 'bold',alignItems:"center", alignContent:"center" }}>IAP</Text>
-              </TouchableOpacity> */}
+
+
+{/*    // Saco Latest Post y Your Post del menu de POST
+        
              {(this.state.iconosWeb) &&
               <View style={{ flexDirection: "row", marginTop: 90}}>
               
@@ -1606,7 +1601,7 @@ latestPosts = async () => {
 
               
                </View>
-               }
+               } */}
 
 
 

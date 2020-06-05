@@ -22,9 +22,9 @@ class Search extends Component {
       tabBarIcon: ({ tintColor }) => {
         return (<View style={{width: 55, height: 20,marginTop: (Platform.OS==='ios') ? 5 : 5}}>
         <Image
-            style={{ width: 28, height: 28, marginLeft: 3 }}
+            style={{ width: 28, height: 28, marginLeft: 13 }}
             source={require('../../images/search.png')}/>
-            <Text style={{fontSize:9, marginTop: 3.5}}>SEARCH</Text>
+            <Text style={{fontSize:9, marginTop: 3.5, marginLeft: 9}}>SEARCH</Text>
             </View>
             
             );}

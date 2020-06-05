@@ -19,6 +19,7 @@ import QsoLink from './QslScan/QsoLink';
 import QslScanResult from './QslScan/QslScanResult';
 // import BePremium from './Qso/BePremium';
 import ErrorBoundary from './Qso/ErrorBoundary';
+import Home from './Qso/Home';
 
 
 
@@ -98,8 +99,9 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
 
 //  const AppNavigator2 = TabNavigator({
   const AppNavigator2 = createBottomTabNavigator({
+    Home: { screen: Home, },
     QsoScreen: { screen: QsoScreen, },
-    Search: { screen: SearchScreen, },
+    
     //   tabBarOptions: { 
 
     //     showIcon: true,
@@ -120,11 +122,13 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
     //  }},
     // CameraScreen: { screen: CameraScreen, },
     Notifications: { screen: Notifications, },
-    QslScanScreen: { screen: QslScanScreen, },  
+    Search: { screen: SearchScreen, },
+    // QslScanScreen: { screen: QslScanScreen, },  
     ProfileScreen: { screen: ProfileScreen, },
    
 }, {
-  initialRouteName: 'QsoScreen',
+  // initialRouteName: 'QsoScreen',
+  initialRouteName: 'Home',
   tabBarPosition: 'bottom',
   swipeEnabled: true, // fixes a bug in react navigation
     lazy: false, // fixes a bug in react navigation
