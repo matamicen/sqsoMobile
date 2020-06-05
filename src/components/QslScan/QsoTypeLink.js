@@ -50,7 +50,7 @@ class QsoTypeLink extends Component {
 
                :  (this.props.type==='LISTEN') ? 
               
-                 <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/swl.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                
                   :

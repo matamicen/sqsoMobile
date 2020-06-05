@@ -148,7 +148,7 @@ class QsoType extends Component {
 
                :  (this.props.qsotype==='LISTEN') ? 
                <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
-                 <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50} } 
+                 <Image source={require('../../images/swl.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity>
                   :
@@ -192,7 +192,7 @@ class QsoType extends Component {
                    { (this.props.qsotype==='QSO') ? 
                       <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                       <View style={{flexDirection: 'row', flex:1}}>
-                          <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                          <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
                           <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>Post other hams QSO that you are listening, they will be notified! </Text>
                       </View>
@@ -246,7 +246,7 @@ class QsoType extends Component {
                   { (this.props.qsotype==='POST') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/listenAzul1.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
                       <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Post other hams QSO that you are listening, they will be notified! </Text>
                 
