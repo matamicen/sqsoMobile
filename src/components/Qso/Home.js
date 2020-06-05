@@ -365,13 +365,13 @@ resizeMode="contain" />
 </View> 
 
 <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
-
- <TouchableOpacity  style={{alignItems:"center", alignContent:"center", marginTop:30}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
+{/* // por ahora dejo afuera link QSO porque son muchos features */}
+ {/* <TouchableOpacity  style={{alignItems:"center", alignContent:"center", marginTop:30}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
    
    <Image source={require('../../images/link2.png')}  style={{width: 36, height: 36 } } 
 resizeMode="contain" />    
 <Text style={{ fontSize: 16, color: '#243665'}}>Link Qso</Text>          
-</TouchableOpacity> 
+</TouchableOpacity>  */}
 
 
 
