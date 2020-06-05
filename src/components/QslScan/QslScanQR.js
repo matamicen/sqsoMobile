@@ -72,6 +72,9 @@ class QslScanQR extends Component {
 
            if (param==='qslscanScreen')   
            this.props.navigation.navigate("QslScanScreen");
+
+           if (param==='Home')   
+           this.props.navigation.navigate("Home");
      }
 
   onSuccess = async function(e) {

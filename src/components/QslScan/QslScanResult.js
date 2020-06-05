@@ -247,7 +247,8 @@ checkInternetScanQR = async (param) => {
 
  gotoQslScanScreen = async () => {
 
-    this.props.navigation.navigate("QslScanScreen");
+    // this.props.navigation.navigate("QslScanScreen");
+    this.props.navigation.navigate("Home");
 
 }
    
