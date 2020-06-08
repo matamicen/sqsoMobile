@@ -475,6 +475,12 @@ class QsoScreen extends Component {
       //  this.props.manageLocationPermissions("iapshowed", 0);
       }
       else {
+       // si la app viene de background por usar photoGallery entonces no hago nada 
+       console.log('photofromgallery valor: '+this.props.photofromgallery)
+      if (this.props.photofromgallery===0)
+        // Todos estos llamados requieren INTERNET, entonces chequeo internet para que despues no intenten llamar y salgan todos por su respectivo CATCH
+        if (await hasAPIConnection())
+        {
 
          // chequeo version minima de APP  
             apiCall = await apiVersionCheck();
@@ -505,7 +511,53 @@ class QsoScreen extends Component {
 
         if (this.props.currentlocationpermission && !this.props.adshowed)
           this._startUpdatingLocation();
-      }
+
+        }
+        else
+            console.log('no hay internet'); 
+      
+            else{
+              // estos estados se hacen porque el ImagePicker se va a background y no quiero
+              // que llame a todas las APIs de arriba, no tiene sentido y ademas el ek ImagePicker de Gallery
+              // es pesado en recursos mejor dejalo solito que trabaje sin APIs en background
+              // esto evita esos llamados pero iOS funciona distinto q android entonces si ImagePicker se cancela, 
+              // en android si el user se a a background y vuelve la primera vez no llama a las APIs, la segunda vez si, en IOS recien la tercera vez
+              // Pero solo en el caso que cancel, si ambos llegan a subir la foto del picker (ya sea en un POST o PROFILE, la proxima vez el background funciona)
+              if (this.props.photofromgallery===1)
+               {console.log('photoFromGallery envio background primer vez');
+               setTimeout(() => {
+                
+             
+                  this.props.manageLocationPermissions("photofromgallery", 2);
+          
+                
+              }, 500);
+              
+               }
+               if (this.props.photofromgallery===2)
+               {console.log('photoFromGallery envio background segunda vez');
+               // es 2 entonces ya termino el picker y lo vuelve a 0
+               
+               setTimeout(() => {
+                
+             
+                this.props.manageLocationPermissions("photofromgallery", 0);
+          
+                
+              }, 500);
+               } 
+
+              //  if (this.props.photofromgallery===3)
+              //  {console.log('photoFromGallery envio background tercera vez');
+              //  // es 2 entonces ya termino el picker y lo vuelve a 0
+              //  this.props.manageLocationPermissions("photofromgallery", 0);
+              //  } 
+
+            }
+
+      
+    }
+  
     }
     // }
     // this.setState({appState: nextAppState});
@@ -612,12 +664,14 @@ class QsoScreen extends Component {
 
   closeModalPhotoConfirmation = () => {
     // console.log("closeModalPhotoConfirmation");
+    // this.props.manageLocationPermissions("photofromgallery", 0);
     this.props.closeModalConfirmPhoto();
 
     // this.navigateRoot();
     this.setState({
       photoConfirm: false
     });
+   
   };
 
   CancelEndQsoModal = () => {
@@ -643,6 +697,19 @@ class QsoScreen extends Component {
   };
 
   photoFromGallery = async () => {
+
+    if (await hasAPIConnection()) {
+    // envio a reducer que se fue a background por usar la GELRIA de FOTOS
+    // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
+    // se fue a background por la galeria y mejorar performance y llamados a APIs  
+
+    //el picker manda dos veces a Background la APP, entonces necesito tener tres estados y no dos,
+    // 0: el picker no fue usado
+    // 1: el picker envio a background la primera vez
+    // 2: el picker envio a background la segunda vez
+
+    this.props.manageLocationPermissions("photofromgallery", 1);
+
 
 console.log('tomo imagen de galeria');
 // openCamera
@@ -700,13 +767,17 @@ console.log('tomo imagen de galeria');
       //  este metodo es para cuando es foto profile
         // this.props.setConfirmProfilePhotoModal(true);
         this.props.openModalConfirmPhoto(490);
+       
+       
       
     }, timer);
 
 
+      // ya tomo la foto del picker entonces el flag vuelve a 0.
+      // this.props.manageLocationPermissions("photofromgallery", 0);
   
     console.log('este debe aparecer primero');
-
+   
 
 
 
@@ -715,8 +786,17 @@ console.log('tomo imagen de galeria');
 
     }).catch((err) => {
       console.log("cropImage Error", err.message);
-      // this.setState({showCamera: true});
-      // this.setState({buttonStatus: false});
+
+     // el usuario cancelo por alguna razon y debe pasar a 2 el flag de photoFromGallery
+      // para que siga funcionando las rutinas de ejecucion cuando vuelvan de background
+      // this.props.manageLocationPermissions("photofromgallery", 2);
+      //  setTimeout(() => {
+      //   this.props.manageLocationPermissions("photofromgallery", 0);
+         
+  
+        
+      // }, 500);
+      
       crashlytics().setUserId(this.props.qra);
       crashlytics().log('error: ' + JSON.stringify(err)) ;
       if(__DEV__)
@@ -724,6 +804,10 @@ console.log('tomo imagen de galeria');
       else
       crashlytics().recordError(new Error('openCropperPOST_PRD'));
   });
+
+   }
+   else this.setState({ nointernet: true });
+     
 
   }
 
@@ -1760,7 +1844,8 @@ const mapStateToProps = state => {
     qsoscreendidmount: state.sqso.qsoScreenDidmount,
     currentlocationpermission: state.sqso.currentLocationPermission,
     adshowed: state.sqso.adShowed,
-    iapshowed: state.sqso.iapShowed,
+    iapshowed: state.sqso.iapShowed, 
+    photofromgallery: state.sqso.photoFromGallery,
     qsoscreendidmountfirsttime: state.sqso.qsoScreenDidMountFirstTime,
     rdsurls3: state.sqso.urlRdsS3,
     band: state.sqso.currentQso.band,
