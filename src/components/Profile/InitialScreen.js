@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
   followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall,
   setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat,
-  getUserInfo,sendActualMedia } from '../../actions';
+  getUserInfo,sendActualMedia, manageLocationPermissions } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
@@ -358,8 +358,15 @@ signOut = async () => {
     }
 
     photoFromGallery = async () => {
+  
+      if (await hasAPIConnection()) {
 
-      console.log('tomo imagen de galeria');
+    // envio a reducer que se fue a background por usar la GELRIA de FOTOS
+    // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
+    // se fue a background por la galeria y mejorar performance y llamados a APIs  
+    this.props.manageLocationPermissions("photofromgallery", 1);
+    
+        console.log('tomo imagen de galeria');
       // openCamera
            ImagePicker.openPicker({
          //   ImagePicker.openCamera({
@@ -408,10 +415,16 @@ signOut = async () => {
       
         
           console.log('este debe aparecer primero');
+          //   // ya tomo la foto del picker entonces el flag vuelve a 0.
+          //  this.props.manageLocationPermissions("photofromgallery", 0);
       
 
           }).catch((err) => {
             console.log("cropImage Error", err.message);
+
+            // el usuario cancelo por alguna razon y debe volver a 0 el flag de photoFromGallery
+            // para que siga funcionando las rutinas de ejecucion cuando vuelvan de background
+            // this.props.manageLocationPermissions("photofromgallery", 2);
             // this.setState({showCamera: true});
             // this.setState({buttonStatus: false});
             crashlytics().setUserId(this.props.qra);
@@ -421,6 +434,8 @@ signOut = async () => {
             else
             crashlytics().recordError(new Error('openCropperPROF_PRD'));
         });
+      }
+      else this.setState({ nointernet: true });
       
         }
       
@@ -779,7 +794,8 @@ const mapDispatchToProps = {
   setConfirmProfilePhotoModal,
   setProfileModalStat,
   getUserInfo,
-  sendActualMedia
+  sendActualMedia,
+  manageLocationPermissions
 
     
    }

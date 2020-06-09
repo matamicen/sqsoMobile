@@ -29,20 +29,7 @@ class CamaraSelect extends Component {
     
   
 
-    // session = await Auth.currentSession();
-      
     
-    // //  session = await Auth.currentAuthenticatedUser();
-    //   console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
-    //    this.props.setToken(session.idToken.jwtToken);
-    
-
-    //     // si tiene 2 de length es porque solo tiene 1 media solo ya que el otro siempre es un registro de type VACIO 
-    //     // que se usa para que haya algo y el usuario pueda tocar la pantalla u bajar el teclado
-
-    //     if (this.props.sqlrdsid && this.props.mediafiles.length===2) // quiere decir que tiene QSO en base de datos y solo le queda un media
-    //          this.setState({warningMessage: true});
-
     
 
 
@@ -52,39 +39,39 @@ class CamaraSelect extends Component {
        
 
        
-       deleteMedia = async  () => {
+      //  deleteMedia = async  () => {
        
-        if (await hasAPIConnection())
-      {
-        this.props.deletedFlag(false,'');
+      //   if (await hasAPIConnection())
+      // {
+      //   this.props.deletedFlag(false,'');
 
-        // chequeo si se creo QSO en BD
-        if (!this.props.sqlrdsid)
-           { // no tiene QSO creado con lo cual puede borrar todo lo que quiere
-            // de la memoria de mediafiles
+      //   // chequeo si se creo QSO en BD
+      //   if (!this.props.sqlrdsid)
+      //      { // no tiene QSO creado con lo cual puede borrar todo lo que quiere
+      //       // de la memoria de mediafiles
      
-              this.props.deleteMediaInMemory(this.props.name);
-              // this.props.closeDelete();
+      //         this.props.deleteMediaInMemory(this.props.name);
+      //         // this.props.closeDelete();
 
-           }
-           else
-           { // hay un QSO creado en BD puede ir borrando pero si quiere borrar 
-            // el ultimo se pregunta si quiere borrar todo el QSO
-            if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
-                this.deletePost();
-                else
-                 // borro del backend el media con la API y luego en el action de esta API borro 
-                 // de mediafiles el media si se confirma ok el borrado de API
-                this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.jwtToken);
+      //      }
+      //      else
+      //      { // hay un QSO creado en BD puede ir borrando pero si quiere borrar 
+      //       // el ultimo se pregunta si quiere borrar todo el QSO
+      //       if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
+      //           this.deletePost();
+      //           else
+      //            // borro del backend el media con la API y luego en el action de esta API borro 
+      //            // de mediafiles el media si se confirma ok el borrado de API
+      //           this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.jwtToken);
 
 
 
-           }
+      //      }
 
-       // this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
-      }else
-          this.setState({nointernet: true});
-        }
+      //  // this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
+      // }else
+      //     this.setState({nointernet: true});
+      //   }
 
         closeVariosModales = () => {
           this.setState({nointernet: false}); 
@@ -92,15 +79,15 @@ class CamaraSelect extends Component {
         }
 
 
-          deletePost = async  () => {
-            if (await hasAPIConnection())
-          {
-            this.props.deletedFlag(false,'');
-          //  this.setState({warningMessage: false});
-            this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
-          }else
-              this.setState({nointernet: true});
-            }
+          // deletePost = async  () => {
+          //   if (await hasAPIConnection())
+          // {
+          //   this.props.deletedFlag(false,'');
+          // //  this.setState({warningMessage: false});
+          //   this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
+          // }else
+          //     this.setState({nointernet: true});
+          //   }
 
             closeVariosModales = () => {
               this.setState({nointernet: false}); 
