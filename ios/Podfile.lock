@@ -238,6 +238,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
+  - RNLocalize (1.4.0):
+    - React
   - RNReanimated (1.2.0):
     - React
   - RNShare (3.0.0):
@@ -285,6 +287,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNShare (from `../node_modules/react-native-share`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -394,6 +397,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-iap"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNShare:
@@ -463,6 +468,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597
+  RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a

@@ -23,6 +23,8 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './StopApp';
 import global_config from '../../global_config.json';
 import {APP_VERSION} from '../../appVersion';
+import I18n from '../../utils/i18n';
+// I18n.locale = 'en-US';
 
 // nuevo push
 //import Analytics from '@aws-amplify/analytics';
@@ -102,7 +104,7 @@ constructor(props) {
      loginerror: 0,
      nointernet: false,
      showloginForm: false,
-     mess: 'Loading ...',
+     mess: I18n.t("loading"),
      stopApp: false,
      pushTokenNotFound: false,
      confirmSignup: false,
@@ -517,8 +519,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-        // if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-     if (1===2)
+        if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+    //  if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -1005,7 +1007,7 @@ if (!this.usernotfound)
                    <View style={{flex:1, alignItems: 'center'}} >
                
                <TextInput 
-                  placeholder="email"
+                  placeholder={I18n.t("email")}
                   onFocus={() => this.setState({ loginerror: 0})}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1020,7 +1022,7 @@ if (!this.usernotfound)
                
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}
-                 placeholder="password"
+                 placeholder={I18n.t("password")}
                  onFocus={() => this.setState({ loginerror: 0})}
                  underlineColorAndroid='transparent'
                  placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1037,18 +1039,18 @@ if (!this.usernotfound)
          
                 
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signIn()} >
-                    <Text style={styles.buttonText} >LOGIN</Text>
+                    <Text style={styles.buttonText} >{I18n.t("login")}</Text>
                  </TouchableOpacity>
 
                  <View style={{flex:1, flexDirection: 'row'}}>
                  <View style={{flex:0.4,  height: 45, alignItems: 'center'}}>
                  <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.SignUpForm()} >
-                    <Text style={styles.buttonText2} >Sign Up</Text>
+                    <Text style={styles.signup} >{I18n.t("signup")}</Text>
                  </TouchableOpacity>
                  </View>
                  <View style={{flex:0.6, height: 45, alignItems: 'center'}}>
                  <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.ForgotPassword()} >
-                    <Text style={styles.buttonText2} >Forgot Password</Text>
+                    <Text style={styles.forgot} >{I18n.t("forgot")}</Text>
                  </TouchableOpacity>
                  </View>
 
@@ -1158,11 +1160,28 @@ if (!this.usernotfound)
            buttonText2: {
        //     textAlign: 'center',
             color: '#FFFFFF',
-          
+            
             fontSize: 16,
            // fontWeight: '700'
            
                    },
+                   signup: {
+                    //     textAlign: 'center',
+                         color: '#FFFFFF',
+           
+                         fontSize: 16,
+                        // fontWeight: '700'
+                        
+                                },
+                                forgot: {
+                                  //     textAlign: 'center',
+                                       color: '#FFFFFF',
+                                     
+                                       fontSize: 16,
+                                 
+                                      // fontWeight: '700'
+                                      
+                                              },
    activityindicator: {
     flexDirection: 'row',
      justifyContent: 'space-around',
