@@ -48,6 +48,7 @@ const initialState = {
     qsoScreenDidmount: true,
     currentLocationPermission: false,
     adShowed: false,
+    photoFromGallery: 0,
     qsoScreenDidMountFirstTime: true,
     welcomeUserFirstTime: false,
     confirmedPurchaseFlag: false,
@@ -270,6 +271,19 @@ const qsoReducer = (state = initialState, action) => {
          
                               return newStore;
                              }
+
+                             if (action.param==='photofromgallery'){
+
+            
+                                newStore = Object.assign({}, state,
+                                         {
+                                                  ...state,
+                                                  photoFromGallery: action.payload
+                                                 
+                                              });
+                         
+                                              return newStore;
+                                             }
          
 
                return state;
@@ -728,10 +742,13 @@ const qsoReducer = (state = initialState, action) => {
         modalconfirmphoto: false,
         phototype: action.phototype          
     };
+    // se agrego photGallery por si lo que tenia en MUESTRO es una foto de la galeria
+    // inicializa el flag para que cuando venga de background se llamen las APIS
     newStore = Object.assign({}, state,
         {
             ...state,
-            currentQso: auxcurrentQso
+            currentQso: auxcurrentQso,
+            photoFromGallery: 0
         });
     return newStore; 
 
@@ -850,7 +867,8 @@ const qsoReducer = (state = initialState, action) => {
             newStore = Object.assign({}, state,
                 {
                     ...state,
-                    confirmProfileModal: action.status  
+                    confirmProfileModal: action.status,
+                    photoFromGallery: 0
                 });
             return newStore; 
 
