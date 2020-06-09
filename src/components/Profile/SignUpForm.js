@@ -19,6 +19,7 @@ import CountryPicker, {
 } from 'react-native-country-picker-modal'
 import crashlytics from '@react-native-firebase/crashlytics';
 import global_config from '../../global_config.json';
+import I18n from '../../utils/i18n';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -53,10 +54,10 @@ constructor(props) {
      qra: '',
      email: '',
      emailVerification: '',
-     birthdate: 'birthdate',
+     birthdate: I18n.t("signupBirthdate"),
      password: '',
      passwordConfirm: '',
-     country: 'country',
+     country: I18n.t("signupCountry"),
      lastname: '',
      firstname: '',
      indicator: 0,
@@ -220,7 +221,7 @@ signUp = async () => {
           if (this.state.password!==this.state.passwordConfirm)
           {
 
-            this.setState({errormessage: 'The Passwords are not identical',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValidPass"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.passwordRef.focus();
           }
@@ -228,19 +229,25 @@ signUp = async () => {
           if (this.state.password.length<6)
           {
 
-            this.setState({errormessage: 'The Passwords must have 6 characters at least',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValidPassMin"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true; 
             this.passwordRef.focus();
             // this.flatlist.scrollToIndex(0);
          //   this.flatlist.scrollToIndex({animated:true , index: 1, viewPosition: 0.5})
           }
           
-         
-        
           if (this.state.email!==this.state.emailVerification)
           {
 
-            this.setState({errormessage: 'The Emails are not identical',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValEmailIdent"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true;
+            this.emailRef.focus();
+          }
+        
+          if (this.state.email.length===0 || this.state.emailVerification.length===0)
+          {
+
+            this.setState({errormessage: I18n.t("signupValEmailEmpty"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.emailRef.focus();
           }
@@ -249,7 +256,7 @@ signUp = async () => {
           if (!re.exec(this.state.qra))
           {
      
-            this.setState({errormessage: 'Invalid characters in callsign',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValInvalidCharact"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.qraRef.focus();
           }
@@ -258,7 +265,7 @@ signUp = async () => {
           if (this.state.qra=='')
           {
 
-            this.setState({errormessage: 'The callsign is empty',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValcallsignEmpty"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.qraRef.focus();
           }
@@ -266,7 +273,7 @@ signUp = async () => {
           if (this.state.qra.length>10)
           {
 
-            this.setState({errormessage: 'The callsign is too long!',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValcallsignLong"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.qraRef.focus();
           }
@@ -274,22 +281,22 @@ signUp = async () => {
           if (this.state.firstname=='')
           {
 
-            this.setState({errormessage: 'You must enter your First Name',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValFirstName"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.firstnameRef.focus();
           }
           if (this.state.lastname=='')
           {
 
-            this.setState({errormessage: 'You must enter your Last Name',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValLastName"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.lastnameRef.focus();
-          }
+          }  
 
-          if (this.state.country=='country')
+          if (this.state.country==I18n.t("signupCountry"))
           {
 
-            this.setState({errormessage: 'You must enter your Country',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValCountry"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.countryRef.focus();
           }
@@ -297,7 +304,7 @@ signUp = async () => {
 
          if (this.diffyears < 13)
           {
-            this.setState({errormessage: 'You must be older than 13 years old use SuperQSO.',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValDiffYears"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
           //  this.birthdateRef.focus();
 
@@ -306,7 +313,7 @@ signUp = async () => {
           if (this.state.birthdate=='birthdate')
           {
 
-            this.setState({errormessage: 'You must enter your Birthdate',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.setState({errormessage: I18n.t("signupValBirthDate"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
           //  this.birthdateRef.focus();
           }
@@ -356,10 +363,10 @@ signUp = async () => {
 
    await Auth.resendSignUp(this.state.email.toLowerCase())
                   .then(() => { console.log('Resend Ok!')
-                  this.setState({ errormessage2:'Your confirmation code has been sent!',color: '#8BD8BD',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
+                  this.setState({ errormessage2:I18n.t("signupValConfirmCode"),color: '#8BD8BD',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
-                  this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
+                  this.setState({errormessage2: I18n.t("signupValErrorSendingConfCode"),color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                   // kinesis_catch('#021',err,this.state.qra.toUpperCase());
                   crashlytics().setUserId(this.state.qra.toUpperCase());
                   crashlytics().log('error: ' + JSON.stringify(err)) ;
@@ -514,7 +521,7 @@ signUp = async () => {
                   // this.props.navigation.navigate("AppNavigator2");
                                    })
     .catch (err => {console.log('SignUp confirmed error: ', err);
-    this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
+    this.setState({errormessage2: I18n.t("signupValConfirmationFailed"),color: 'red',
       confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
       // kinesis_catch('#026',err,this.state.qra.toUpperCase());
       crashlytics().setUserId(this.qra);
@@ -645,251 +652,251 @@ chooseCountry = () => {
             const fakedValues = [ 
               {"name": "Afghanistan", "code": "AF"} ] 
 
-            const pickerValues = [ 
-              {"name": "Afghanistan", "code": "AF"}, 
-              {"name": "land Isl.", "code": "AX"}, 
-              {"name": "Albania", "code": "AL"}, 
-              {"name": "Algeria", "code": "DZ"}, 
-              {"name": "American Samoa", "code": "AS"}, 
-              {"name": "Andorra", "code": "AD"}, 
-              {"name": "Angola", "code": "AO"}, 
-              {"name": "Anguilla", "code": "AI"}, 
-              {"name": "Antarctica", "code": "AQ"}, 
-              {"name": "Antigua and Barbuda", "code": "AG"}, 
-              {"name": "Argentina", "code": "AR"}, 
-              {"name": "Armenia", "code": "AM"}, 
-              {"name": "Aruba", "code": "AW"}, 
-              {"name": "Australia", "code": "AU"}, 
-              {"name": "Austria", "code": "AT"}, 
-              {"name": "Azerbaijan", "code": "AZ"}, 
-              {"name": "Bahamas", "code": "BS"}, 
-              {"name": "Bahrain", "code": "BH"}, 
-              {"name": "Bangladesh", "code": "BD"}, 
-              {"name": "Barbados", "code": "BB"}, 
-              {"name": "Belarus", "code": "BY"}, 
-              {"name": "Belgium", "code": "BE"}, 
-              {"name": "Belize", "code": "BZ"}, 
-              {"name": "Benin", "code": "BJ"}, 
-              {"name": "Bermuda", "code": "BM"}, 
-              {"name": "Bhutan", "code": "BT"}, 
-              {"name": "Bolivia", "code": "BO"}, 
-              {"name": "Bosnia and Herzegovina", "code": "BA"}, 
-              {"name": "Botswana", "code": "BW"}, 
-              {"name": "Bouvet Isl.", "code": "BV"}, 
-              {"name": "Brazil", "code": "BR"}, 
-              {"name": "British Indian", "code": "IO"}, 
-              {"name": "Brunei Darussalam", "code": "BN"}, 
-              {"name": "Bulgaria", "code": "BG"}, 
-              {"name": "Burkina Faso", "code": "BF"}, 
-              {"name": "Burundi", "code": "BI"}, 
-              {"name": "Cambodia", "code": "KH"}, 
-              {"name": "Cameroon", "code": "CM"}, 
-              {"name": "Canada", "code": "CA"}, 
-              {"name": "Cape Verde", "code": "CV"}, 
-              {"name": "Cayman Isl.", "code": "KY"}, 
-              {"name": "Central African Republic", "code": "CF"}, 
-              {"name": "Chad", "code": "TD"}, 
-              {"name": "Chile", "code": "CL"}, 
-              {"name": "China", "code": "CN"}, 
-              {"name": "Christmas Isl.", "code": "CX"}, 
-              {"name": "Cocos (Keeling) Isl.", "code": "CC"}, 
-              {"name": "Colombia", "code": "CO"}, 
-              {"name": "Comoros", "code": "KM"}, 
-              {"name": "Congo", "code": "CG"}, 
-              {"name": "Congo", "code": "CD"}, 
-              {"name": "Cook Isl.", "code": "CK"}, 
-              {"name": "Costa Rica", "code": "CR"}, 
-              {"name": "Cote D Ivoire", "code": "CI"}, 
-              {"name": "Croatia", "code": "HR"}, 
-              {"name": "Cuba", "code": "CU"}, 
-              {"name": "Cyprus", "code": "CY"}, 
-              {"name": "Czech Republic", "code": "CZ"}, 
-              {"name": "Denmark", "code": "DK"}, 
-              {"name": "Djibouti", "code": "DJ"}, 
-              {"name": "Dominica", "code": "DM"}, 
-              {"name": "Dominican Republic", "code": "DO"}, 
-              {"name": "Ecuador", "code": "EC"}, 
-              {"name": "Egypt", "code": "EG"}, 
-              {"name": "El Salvador", "code": "SV"}, 
-              {"name": "Equatorial Guinea", "code": "GQ"}, 
-              {"name": "Eritrea", "code": "ER"}, 
-              {"name": "Estonia", "code": "EE"}, 
-              {"name": "Ethiopia", "code": "ET"}, 
-              {"name": "Falkland Isl.", "code": "FK"}, 
-              {"name": "Faroe Isl.", "code": "FO"}, 
-              {"name": "Fiji", "code": "FJ"}, 
-              {"name": "Finland", "code": "FI"}, 
-              {"name": "France", "code": "FR"}, 
-              {"name": "French Guiana", "code": "GF"}, 
-              {"name": "French Polynesia", "code": "PF"}, 
-              {"name": "French Southern Territories", "code": "TF"}, 
-              {"name": "Gabon", "code": "GA"}, 
-              {"name": "Gambia", "code": "GM"}, 
-              {"name": "Georgia", "code": "GE"}, 
-              {"name": "Germany", "code": "DE"}, 
-              {"name": "Ghana", "code": "GH"}, 
-              {"name": "Gibraltar", "code": "GI"}, 
-              {"name": "Greece", "code": "GR"}, 
-              {"name": "Greenland", "code": "GL"}, 
-              {"name": "Grenada", "code": "GD"}, 
-              {"name": "Guadeloupe", "code": "GP"}, 
-              {"name": "Guam", "code": "GU"}, 
-              {"name": "Guatemala", "code": "GT"}, 
-              {"name": "Guernsey", "code": "GG"}, 
-              {"name": "Guinea", "code": "GN"}, 
-              {"name": "Guinea-Bissau", "code": "GW"}, 
-              {"name": "Guyana", "code": "GY"}, 
-              {"name": "Haiti", "code": "HT"}, 
-              {"name": "Heard Isl. and Mc. Isl.", "code": "HM"}, 
-              {"name": "Holy See (Vatican City State)", "code": "VA"}, 
-              {"name": "Honduras", "code": "HN"}, 
-              {"name": "Hong Kong", "code": "HK"}, 
-              {"name": "Hungary", "code": "HU"}, 
-              {"name": "Iceland", "code": "IS"}, 
-              {"name": "India", "code": "IN"}, 
-              {"name": "Indonesia", "code": "ID"}, 
-              {"name": "Iran", "code": "IR"}, 
-              {"name": "Iraq", "code": "IQ"}, 
-              {"name": "Ireland", "code": "IE"}, 
-              {"name": "Isle of Man", "code": "IM"}, 
-              {"name": "Israel", "code": "IL"}, 
-              {"name": "Italy", "code": "IT"}, 
-              {"name": "Jamaica", "code": "JM"}, 
-              {"name": "Japan", "code": "JP"}, 
-              {"name": "Jersey", "code": "JE"}, 
-              {"name": "Jordan", "code": "JO"}, 
-              {"name": "Kazakhstan", "code": "KZ"}, 
-              {"name": "Kenya", "code": "KE"}, 
-              {"name": "Kiribati", "code": "KI"}, 
-              {"name": "Korea Democratic", "code": "KP"}, 
-              {"name": "Korea Republic", "code": "KR"}, 
-              {"name": "Kuwait", "code": "KW"}, 
-              {"name": "Kyrgyzstan", "code": "KG"}, 
-              {"name": "Lao Dem. Rep.", "code": "LA"}, 
-              {"name": "Latvia", "code": "LV"}, 
-              {"name": "Lebanon", "code": "LB"}, 
-              {"name": "Lesotho", "code": "LS"}, 
-              {"name": "Liberia", "code": "LR"}, 
-              {"name": "Libyan Arab", "code": "LY"}, 
-              {"name": "Liechtenstein", "code": "LI"}, 
-              {"name": "Lithuania", "code": "LT"}, 
-              {"name": "Luxembourg", "code": "LU"}, 
-              {"name": "Macao", "code": "MO"}, 
-              {"name": "Macedonia", "code": "MK"}, 
-              {"name": "Madagascar", "code": "MG"}, 
-              {"name": "Malawi", "code": "MW"}, 
-              {"name": "Malaysia", "code": "MY"}, 
-              {"name": "Maldives", "code": "MV"}, 
-              {"name": "Mali", "code": "ML"}, 
-              {"name": "Malta", "code": "MT"}, 
-              {"name": "Marshall Isl.", "code": "MH"}, 
-              {"name": "Martinique", "code": "MQ"}, 
-              {"name": "Mauritania", "code": "MR"}, 
-              {"name": "Mauritius", "code": "MU"}, 
-              {"name": "Mayotte", "code": "YT"}, 
-              {"name": "Mexico", "code": "MX"}, 
-              {"name": "Micronesia", "code": "FM"}, 
-              {"name": "Moldova", "code": "MD"}, 
-              {"name": "Monaco", "code": "MC"}, 
-              {"name": "Mongolia", "code": "MN"}, 
-              {"name": "Montenegro", "code": "ME"},
-              {"name": "Montserrat", "code": "MS"},
-              {"name": "Morocco", "code": "MA"}, 
-              {"name": "Mozambique", "code": "MZ"}, 
-              {"name": "Myanmar", "code": "MM"}, 
-              {"name": "Namibia", "code": "NA"}, 
-              {"name": "Nauru", "code": "NR"}, 
-              {"name": "Nepal", "code": "NP"}, 
-              {"name": "Netherlands", "code": "NL"}, 
-              {"name": "Netherlands Antilles", "code": "AN"}, 
-              {"name": "New Caledonia", "code": "NC"}, 
-              {"name": "New Zealand", "code": "NZ"}, 
-              {"name": "Nicaragua", "code": "NI"}, 
-              {"name": "Niger", "code": "NE"}, 
-              {"name": "Nigeria", "code": "NG"}, 
-              {"name": "Niue", "code": "NU"}, 
-              {"name": "Norfolk Isl.", "code": "NF"}, 
-              {"name": "Northern Mariana Isl.", "code": "MP"}, 
-              {"name": "Norway", "code": "NO"}, 
-              {"name": "Oman", "code": "OM"}, 
-              {"name": "Pakistan", "code": "PK"}, 
-              {"name": "Palau", "code": "PW"}, 
-              {"name": "Palestinian", "code": "PS"}, 
-              {"name": "Panama", "code": "PA"}, 
-              {"name": "Papua New Guinea", "code": "PG"}, 
-              {"name": "Paraguay", "code": "PY"}, 
-              {"name": "Peru", "code": "PE"}, 
-              {"name": "Philippines", "code": "PH"}, 
-              {"name": "Pitcairn", "code": "PN"}, 
-              {"name": "Poland", "code": "PL"}, 
-              {"name": "Portugal", "code": "PT"}, 
-              {"name": "Puerto Rico", "code": "PR"}, 
-              {"name": "Qatar", "code": "QA"}, 
-              {"name": "Reunion", "code": "RE"}, 
-              {"name": "Romania", "code": "RO"}, 
-              {"name": "Russian Federation", "code": "RU"}, 
-              {"name": "Rwanda", "code": "RW"}, 
-              {"name": "Saint Helena", "code": "SH"}, 
-              {"name": "Saint Kitts and Nevis", "code": "KN"}, 
-              {"name": "Saint Lucia", "code": "LC"}, 
-              {"name": "Saint Pierre and Miquelon", "code": "PM"}, 
-              {"name": "Saint Vincent", "code": "VC"}, 
-              {"name": "Samoa", "code": "WS"}, 
-              {"name": "San Marino", "code": "SM"}, 
-              {"name": "Sao Tome and Principe", "code": "ST"}, 
-              {"name": "Saudi Arabia", "code": "SA"}, 
-              {"name": "Senegal", "code": "SN"}, 
-              {"name": "Serbia", "code": "RS"}, 
-              {"name": "Seychelles", "code": "SC"}, 
-              {"name": "Sierra Leone", "code": "SL"}, 
-              {"name": "Singapore", "code": "SG"}, 
-              {"name": "Slovakia", "code": "SK"}, 
-              {"name": "Slovenia", "code": "SI"}, 
-              {"name": "Solomon Isl.", "code": "SB"}, 
-              {"name": "Somalia", "code": "SO"}, 
-              {"name": "South Africa", "code": "ZA"}, 
-              {"name": "Georgia and Sandwich Isl.", "code": "GS"}, 
-              {"name": "Spain", "code": "ES"}, 
-              {"name": "Sri Lanka", "code": "LK"}, 
-              {"name": "Sudan", "code": "SD"}, 
-              {"name": "Suriname", "code": "SR"}, 
-              {"name": "Svalbard and Jan Mayen", "code": "SJ"}, 
-              {"name": "Swaziland", "code": "SZ"}, 
-              {"name": "Sweden", "code": "SE"}, 
-              {"name": "Switzerland", "code": "CH"}, 
-              {"name": "Syrian Arab Republic", "code": "SY"}, 
-              {"name": "Taiwan", "code": "TW"}, 
-              {"name": "Tajikistan", "code": "TJ"}, 
-              {"name": "Tanzania", "code": "TZ"}, 
-              {"name": "Thailand", "code": "TH"}, 
-              {"name": "Timor-Leste", "code": "TL"}, 
-              {"name": "Togo", "code": "TG"}, 
-              {"name": "Tokelau", "code": "TK"}, 
-              {"name": "Tonga", "code": "TO"}, 
-              {"name": "Trinidad and Tobago", "code": "TT"}, 
-              {"name": "Tunisia", "code": "TN"}, 
-              {"name": "Turkey", "code": "TR"}, 
-              {"name": "Turkmenistan", "code": "TM"}, 
-              {"name": "Turks and Caicos Is.", "code": "TC"}, 
-              {"name": "Tuvalu", "code": "TV"}, 
-              {"name": "Uganda", "code": "UG"}, 
-              {"name": "Ukraine", "code": "UA"}, 
-              {"name": "United Arab Emirates", "code": "AE"}, 
-              {"name": "United Kingdom", "code": "GB"}, 
-              {"name": "United States", "code": "US"}, 
-              {"name": "Minor Outlying Isl.", "code": "UM"}, 
-              {"name": "Uruguay", "code": "UY"}, 
-              {"name": "Uzbekistan", "code": "UZ"}, 
-              {"name": "Vanuatu", "code": "VU"}, 
-              {"name": "Venezuela", "code": "VE"}, 
-              {"name": "Viet Nam", "code": "VN"}, 
-              {"name": "Virgin Isl., British", "code": "VG"}, 
-              {"name": "Wallis and Futuna", "code": "WF"}, 
-              {"name": "Western Sahara", "code": "EH"}, 
-              {"name": "Yemen", "code": "YE"}, 
-              {"name": "Zambia", "code": "ZM"}, 
-              {"name": "Zimbabwe", "code": "ZW"} 
-              ]
+            // const pickerValues = [ 
+            //   {"name": "Afghanistan", "code": "AF"}, 
+            //   {"name": "land Isl.", "code": "AX"}, 
+            //   {"name": "Albania", "code": "AL"}, 
+            //   {"name": "Algeria", "code": "DZ"}, 
+            //   {"name": "American Samoa", "code": "AS"}, 
+            //   {"name": "Andorra", "code": "AD"}, 
+            //   {"name": "Angola", "code": "AO"}, 
+            //   {"name": "Anguilla", "code": "AI"}, 
+            //   {"name": "Antarctica", "code": "AQ"}, 
+            //   {"name": "Antigua and Barbuda", "code": "AG"}, 
+            //   {"name": "Argentina", "code": "AR"}, 
+            //   {"name": "Armenia", "code": "AM"}, 
+            //   {"name": "Aruba", "code": "AW"}, 
+            //   {"name": "Australia", "code": "AU"}, 
+            //   {"name": "Austria", "code": "AT"}, 
+            //   {"name": "Azerbaijan", "code": "AZ"}, 
+            //   {"name": "Bahamas", "code": "BS"}, 
+            //   {"name": "Bahrain", "code": "BH"}, 
+            //   {"name": "Bangladesh", "code": "BD"}, 
+            //   {"name": "Barbados", "code": "BB"}, 
+            //   {"name": "Belarus", "code": "BY"}, 
+            //   {"name": "Belgium", "code": "BE"}, 
+            //   {"name": "Belize", "code": "BZ"}, 
+            //   {"name": "Benin", "code": "BJ"}, 
+            //   {"name": "Bermuda", "code": "BM"}, 
+            //   {"name": "Bhutan", "code": "BT"}, 
+            //   {"name": "Bolivia", "code": "BO"}, 
+            //   {"name": "Bosnia and Herzegovina", "code": "BA"}, 
+            //   {"name": "Botswana", "code": "BW"}, 
+            //   {"name": "Bouvet Isl.", "code": "BV"}, 
+            //   {"name": "Brazil", "code": "BR"}, 
+            //   {"name": "British Indian", "code": "IO"}, 
+            //   {"name": "Brunei Darussalam", "code": "BN"}, 
+            //   {"name": "Bulgaria", "code": "BG"}, 
+            //   {"name": "Burkina Faso", "code": "BF"}, 
+            //   {"name": "Burundi", "code": "BI"}, 
+            //   {"name": "Cambodia", "code": "KH"}, 
+            //   {"name": "Cameroon", "code": "CM"}, 
+            //   {"name": "Canada", "code": "CA"}, 
+            //   {"name": "Cape Verde", "code": "CV"}, 
+            //   {"name": "Cayman Isl.", "code": "KY"}, 
+            //   {"name": "Central African Republic", "code": "CF"}, 
+            //   {"name": "Chad", "code": "TD"}, 
+            //   {"name": "Chile", "code": "CL"}, 
+            //   {"name": "China", "code": "CN"}, 
+            //   {"name": "Christmas Isl.", "code": "CX"}, 
+            //   {"name": "Cocos (Keeling) Isl.", "code": "CC"}, 
+            //   {"name": "Colombia", "code": "CO"}, 
+            //   {"name": "Comoros", "code": "KM"}, 
+            //   {"name": "Congo", "code": "CG"}, 
+            //   {"name": "Congo", "code": "CD"}, 
+            //   {"name": "Cook Isl.", "code": "CK"}, 
+            //   {"name": "Costa Rica", "code": "CR"}, 
+            //   {"name": "Cote D Ivoire", "code": "CI"}, 
+            //   {"name": "Croatia", "code": "HR"}, 
+            //   {"name": "Cuba", "code": "CU"}, 
+            //   {"name": "Cyprus", "code": "CY"}, 
+            //   {"name": "Czech Republic", "code": "CZ"}, 
+            //   {"name": "Denmark", "code": "DK"}, 
+            //   {"name": "Djibouti", "code": "DJ"}, 
+            //   {"name": "Dominica", "code": "DM"}, 
+            //   {"name": "Dominican Republic", "code": "DO"}, 
+            //   {"name": "Ecuador", "code": "EC"}, 
+            //   {"name": "Egypt", "code": "EG"}, 
+            //   {"name": "El Salvador", "code": "SV"}, 
+            //   {"name": "Equatorial Guinea", "code": "GQ"}, 
+            //   {"name": "Eritrea", "code": "ER"}, 
+            //   {"name": "Estonia", "code": "EE"}, 
+            //   {"name": "Ethiopia", "code": "ET"}, 
+            //   {"name": "Falkland Isl.", "code": "FK"}, 
+            //   {"name": "Faroe Isl.", "code": "FO"}, 
+            //   {"name": "Fiji", "code": "FJ"}, 
+            //   {"name": "Finland", "code": "FI"}, 
+            //   {"name": "France", "code": "FR"}, 
+            //   {"name": "French Guiana", "code": "GF"}, 
+            //   {"name": "French Polynesia", "code": "PF"}, 
+            //   {"name": "French Southern Territories", "code": "TF"}, 
+            //   {"name": "Gabon", "code": "GA"}, 
+            //   {"name": "Gambia", "code": "GM"}, 
+            //   {"name": "Georgia", "code": "GE"}, 
+            //   {"name": "Germany", "code": "DE"}, 
+            //   {"name": "Ghana", "code": "GH"}, 
+            //   {"name": "Gibraltar", "code": "GI"}, 
+            //   {"name": "Greece", "code": "GR"}, 
+            //   {"name": "Greenland", "code": "GL"}, 
+            //   {"name": "Grenada", "code": "GD"}, 
+            //   {"name": "Guadeloupe", "code": "GP"}, 
+            //   {"name": "Guam", "code": "GU"}, 
+            //   {"name": "Guatemala", "code": "GT"}, 
+            //   {"name": "Guernsey", "code": "GG"}, 
+            //   {"name": "Guinea", "code": "GN"}, 
+            //   {"name": "Guinea-Bissau", "code": "GW"}, 
+            //   {"name": "Guyana", "code": "GY"}, 
+            //   {"name": "Haiti", "code": "HT"}, 
+            //   {"name": "Heard Isl. and Mc. Isl.", "code": "HM"}, 
+            //   {"name": "Holy See (Vatican City State)", "code": "VA"}, 
+            //   {"name": "Honduras", "code": "HN"}, 
+            //   {"name": "Hong Kong", "code": "HK"}, 
+            //   {"name": "Hungary", "code": "HU"}, 
+            //   {"name": "Iceland", "code": "IS"}, 
+            //   {"name": "India", "code": "IN"}, 
+            //   {"name": "Indonesia", "code": "ID"}, 
+            //   {"name": "Iran", "code": "IR"}, 
+            //   {"name": "Iraq", "code": "IQ"}, 
+            //   {"name": "Ireland", "code": "IE"}, 
+            //   {"name": "Isle of Man", "code": "IM"}, 
+            //   {"name": "Israel", "code": "IL"}, 
+            //   {"name": "Italy", "code": "IT"}, 
+            //   {"name": "Jamaica", "code": "JM"}, 
+            //   {"name": "Japan", "code": "JP"}, 
+            //   {"name": "Jersey", "code": "JE"}, 
+            //   {"name": "Jordan", "code": "JO"}, 
+            //   {"name": "Kazakhstan", "code": "KZ"}, 
+            //   {"name": "Kenya", "code": "KE"}, 
+            //   {"name": "Kiribati", "code": "KI"}, 
+            //   {"name": "Korea Democratic", "code": "KP"}, 
+            //   {"name": "Korea Republic", "code": "KR"}, 
+            //   {"name": "Kuwait", "code": "KW"}, 
+            //   {"name": "Kyrgyzstan", "code": "KG"}, 
+            //   {"name": "Lao Dem. Rep.", "code": "LA"}, 
+            //   {"name": "Latvia", "code": "LV"}, 
+            //   {"name": "Lebanon", "code": "LB"}, 
+            //   {"name": "Lesotho", "code": "LS"}, 
+            //   {"name": "Liberia", "code": "LR"}, 
+            //   {"name": "Libyan Arab", "code": "LY"}, 
+            //   {"name": "Liechtenstein", "code": "LI"}, 
+            //   {"name": "Lithuania", "code": "LT"}, 
+            //   {"name": "Luxembourg", "code": "LU"}, 
+            //   {"name": "Macao", "code": "MO"}, 
+            //   {"name": "Macedonia", "code": "MK"}, 
+            //   {"name": "Madagascar", "code": "MG"}, 
+            //   {"name": "Malawi", "code": "MW"}, 
+            //   {"name": "Malaysia", "code": "MY"}, 
+            //   {"name": "Maldives", "code": "MV"}, 
+            //   {"name": "Mali", "code": "ML"}, 
+            //   {"name": "Malta", "code": "MT"}, 
+            //   {"name": "Marshall Isl.", "code": "MH"}, 
+            //   {"name": "Martinique", "code": "MQ"}, 
+            //   {"name": "Mauritania", "code": "MR"}, 
+            //   {"name": "Mauritius", "code": "MU"}, 
+            //   {"name": "Mayotte", "code": "YT"}, 
+            //   {"name": "Mexico", "code": "MX"}, 
+            //   {"name": "Micronesia", "code": "FM"}, 
+            //   {"name": "Moldova", "code": "MD"}, 
+            //   {"name": "Monaco", "code": "MC"}, 
+            //   {"name": "Mongolia", "code": "MN"}, 
+            //   {"name": "Montenegro", "code": "ME"},
+            //   {"name": "Montserrat", "code": "MS"},
+            //   {"name": "Morocco", "code": "MA"}, 
+            //   {"name": "Mozambique", "code": "MZ"}, 
+            //   {"name": "Myanmar", "code": "MM"}, 
+            //   {"name": "Namibia", "code": "NA"}, 
+            //   {"name": "Nauru", "code": "NR"}, 
+            //   {"name": "Nepal", "code": "NP"}, 
+            //   {"name": "Netherlands", "code": "NL"}, 
+            //   {"name": "Netherlands Antilles", "code": "AN"}, 
+            //   {"name": "New Caledonia", "code": "NC"}, 
+            //   {"name": "New Zealand", "code": "NZ"}, 
+            //   {"name": "Nicaragua", "code": "NI"}, 
+            //   {"name": "Niger", "code": "NE"}, 
+            //   {"name": "Nigeria", "code": "NG"}, 
+            //   {"name": "Niue", "code": "NU"}, 
+            //   {"name": "Norfolk Isl.", "code": "NF"}, 
+            //   {"name": "Northern Mariana Isl.", "code": "MP"}, 
+            //   {"name": "Norway", "code": "NO"}, 
+            //   {"name": "Oman", "code": "OM"}, 
+            //   {"name": "Pakistan", "code": "PK"}, 
+            //   {"name": "Palau", "code": "PW"}, 
+            //   {"name": "Palestinian", "code": "PS"}, 
+            //   {"name": "Panama", "code": "PA"}, 
+            //   {"name": "Papua New Guinea", "code": "PG"}, 
+            //   {"name": "Paraguay", "code": "PY"}, 
+            //   {"name": "Peru", "code": "PE"}, 
+            //   {"name": "Philippines", "code": "PH"}, 
+            //   {"name": "Pitcairn", "code": "PN"}, 
+            //   {"name": "Poland", "code": "PL"}, 
+            //   {"name": "Portugal", "code": "PT"}, 
+            //   {"name": "Puerto Rico", "code": "PR"}, 
+            //   {"name": "Qatar", "code": "QA"}, 
+            //   {"name": "Reunion", "code": "RE"}, 
+            //   {"name": "Romania", "code": "RO"}, 
+            //   {"name": "Russian Federation", "code": "RU"}, 
+            //   {"name": "Rwanda", "code": "RW"}, 
+            //   {"name": "Saint Helena", "code": "SH"}, 
+            //   {"name": "Saint Kitts and Nevis", "code": "KN"}, 
+            //   {"name": "Saint Lucia", "code": "LC"}, 
+            //   {"name": "Saint Pierre and Miquelon", "code": "PM"}, 
+            //   {"name": "Saint Vincent", "code": "VC"}, 
+            //   {"name": "Samoa", "code": "WS"}, 
+            //   {"name": "San Marino", "code": "SM"}, 
+            //   {"name": "Sao Tome and Principe", "code": "ST"}, 
+            //   {"name": "Saudi Arabia", "code": "SA"}, 
+            //   {"name": "Senegal", "code": "SN"}, 
+            //   {"name": "Serbia", "code": "RS"}, 
+            //   {"name": "Seychelles", "code": "SC"}, 
+            //   {"name": "Sierra Leone", "code": "SL"}, 
+            //   {"name": "Singapore", "code": "SG"}, 
+            //   {"name": "Slovakia", "code": "SK"}, 
+            //   {"name": "Slovenia", "code": "SI"}, 
+            //   {"name": "Solomon Isl.", "code": "SB"}, 
+            //   {"name": "Somalia", "code": "SO"}, 
+            //   {"name": "South Africa", "code": "ZA"}, 
+            //   {"name": "Georgia and Sandwich Isl.", "code": "GS"}, 
+            //   {"name": "Spain", "code": "ES"}, 
+            //   {"name": "Sri Lanka", "code": "LK"}, 
+            //   {"name": "Sudan", "code": "SD"}, 
+            //   {"name": "Suriname", "code": "SR"}, 
+            //   {"name": "Svalbard and Jan Mayen", "code": "SJ"}, 
+            //   {"name": "Swaziland", "code": "SZ"}, 
+            //   {"name": "Sweden", "code": "SE"}, 
+            //   {"name": "Switzerland", "code": "CH"}, 
+            //   {"name": "Syrian Arab Republic", "code": "SY"}, 
+            //   {"name": "Taiwan", "code": "TW"}, 
+            //   {"name": "Tajikistan", "code": "TJ"}, 
+            //   {"name": "Tanzania", "code": "TZ"}, 
+            //   {"name": "Thailand", "code": "TH"}, 
+            //   {"name": "Timor-Leste", "code": "TL"}, 
+            //   {"name": "Togo", "code": "TG"}, 
+            //   {"name": "Tokelau", "code": "TK"}, 
+            //   {"name": "Tonga", "code": "TO"}, 
+            //   {"name": "Trinidad and Tobago", "code": "TT"}, 
+            //   {"name": "Tunisia", "code": "TN"}, 
+            //   {"name": "Turkey", "code": "TR"}, 
+            //   {"name": "Turkmenistan", "code": "TM"}, 
+            //   {"name": "Turks and Caicos Is.", "code": "TC"}, 
+            //   {"name": "Tuvalu", "code": "TV"}, 
+            //   {"name": "Uganda", "code": "UG"}, 
+            //   {"name": "Ukraine", "code": "UA"}, 
+            //   {"name": "United Arab Emirates", "code": "AE"}, 
+            //   {"name": "United Kingdom", "code": "GB"}, 
+            //   {"name": "United States", "code": "US"}, 
+            //   {"name": "Minor Outlying Isl.", "code": "UM"}, 
+            //   {"name": "Uruguay", "code": "UY"}, 
+            //   {"name": "Uzbekistan", "code": "UZ"}, 
+            //   {"name": "Vanuatu", "code": "VU"}, 
+            //   {"name": "Venezuela", "code": "VE"}, 
+            //   {"name": "Viet Nam", "code": "VN"}, 
+            //   {"name": "Virgin Isl., British", "code": "VG"}, 
+            //   {"name": "Wallis and Futuna", "code": "WF"}, 
+            //   {"name": "Western Sahara", "code": "EH"}, 
+            //   {"name": "Yemen", "code": "YE"}, 
+            //   {"name": "Zambia", "code": "ZM"}, 
+            //   {"name": "Zimbabwe", "code": "ZW"} 
+            //   ]
 
    
         return (
@@ -927,10 +934,10 @@ chooseCountry = () => {
            
            renderItem={({item}) =>     
              <View>
-                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>Sign Up Form</Text>
+                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>{I18n.t("signupForm")}</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
-                  placeholder="callsign"
+                  placeholder={I18n.t("signupCallsign")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -943,7 +950,7 @@ chooseCountry = () => {
 
                   <TextInput 
                   ref={firstname => this.firstname  = firstname }
-                  placeholder="first name"
+                  placeholder={I18n.t("signupFirstName")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -956,7 +963,7 @@ chooseCountry = () => {
 
                      <TextInput 
                   ref={lastname => this.lastname = lastname}
-                  placeholder="last Name"
+                  placeholder={I18n.t("signupLastName")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -969,7 +976,7 @@ chooseCountry = () => {
 
                     <TextInput 
                   ref={emailRef => this.emailRef = emailRef}
-                  placeholder="email"
+                  placeholder={I18n.t("signupEmail")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -983,7 +990,7 @@ chooseCountry = () => {
             
             <TextInput 
                   ref={emailRefverification => this.emailRefverification = emailRefverification}
-                  placeholder="email confirm"
+                  placeholder={I18n.t("signupEmailConfirm")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -1012,7 +1019,7 @@ chooseCountry = () => {
        
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}
-                 placeholder="password"
+                 placeholder={I18n.t("signupPassword")}
                  underlineColorAndroid='transparent'
                  placeholderTextColor="rgba(255,255,255,0.7)"
                  returnKeyType="go"
@@ -1028,7 +1035,7 @@ chooseCountry = () => {
 
                   <TextInput
                  ref={passwordConfRef => this.passwordConfRef = passwordConfRef}
-                 placeholder="password confirm"
+                 placeholder={I18n.t("signupPasswordConfirm")}
                  underlineColorAndroid='transparent'
                  placeholderTextColor="rgba(255,255,255,0.7)"
                  returnKeyType="go"
@@ -1041,28 +1048,28 @@ chooseCountry = () => {
                 
                  />
                  {/* <View  style={{flex:1, flexDirection: "row"}}> */}
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >By clicking "Sign Up and accept", you confirm that you</Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept1")}</Text>
                  <View style={{flex:1, flexDirection: "row"}}>
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >have read, understand and agree the </Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept12")} </Text>
                  <TouchableOpacity onPress={ () => this.setState({privacy: true}) } > 
-                 <Text style={{ fontSize: 11, color: "white"}} >privacy policy </Text></TouchableOpacity>
+                 <Text style={{ fontSize: 11, color: "white"}} >{I18n.t("signupAccept2")} </Text></TouchableOpacity>
                 
                  </View>
 
                  <View style={{flex:1, flexDirection: "row"}}>
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >and the</Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept3")}</Text>
                  <TouchableOpacity onPress={ () => this.setState({terms: true}) } > 
-                  <Text style={{ fontSize: 11, color: "white"}} > terms of service</Text>
+                  <Text style={{ fontSize: 11, color: "white"}} > {I18n.t("signupAccept4")}</Text>
                   </TouchableOpacity>
                   </View>
 
                  {/* </View> */}
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signUp()} >
-                    <Text style={styles.buttonText}>Sign Up and accept </Text>
+                    <Text style={styles.buttonText}>{I18n.t("signupAcceptButton")} </Text>
                  </TouchableOpacity>
 
                  <TouchableOpacity  style={{marginTop: 5}} onPress={ () => this.props.navigation.navigate("Root")} >
-                    <Text style={styles.buttonText2} >Back to Login Screen</Text>
+                    <Text style={styles.buttonText2} >{I18n.t("signupBackToLogin")}</Text>
                  </TouchableOpacity>
 
                   <Text style={styles.buttonText2} > </Text>
@@ -1211,7 +1218,7 @@ chooseCountry = () => {
           />
         }
 
-
+{/* 
                 <Modal visible ={this.state.pickerCountry} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,
                          padding:20, 
@@ -1248,7 +1255,7 @@ chooseCountry = () => {
                     </View>
 
                
-               </Modal>
+               </Modal> */}
 
 
 {/* </ScrollView>   */}
