@@ -42,5 +42,11 @@ export default {
     confirmSignUpCancelButton: "Cancelar",
     confirmSignUpResendCodeButton: "Reenviar Código",
     confirmSignUpConfirmButton: "CONFIRMAR",
-    
+    variosModWelcWelcome: "Bienvenido a SuperQSO!",
+    variosModWelc3Months: "Tenes una subsripción PREMIUM de prueba por 3 meses",
+    variosModWelcEnjoy: "Disfruta SuperQSO 59+100 !!!",
+    variosModWelc3After: "Despues de 3 meses vas a poder seguir usando SuperQSO con la subscripción gratuita.",
+    variosModWelOKButton: "OK",
+    variosModNointernet: "No hay conexión a Internet.",
+    variosModNointernetOKButton: "OK",
   };

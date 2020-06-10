@@ -14,6 +14,7 @@ import {
 import { connect } from "react-redux";
 import Terms from './Terms';
 import Privacy from './Privacy';
+import I18n from '../../utils/i18n';
 // import Iap from './Iap';
 
 
@@ -175,16 +176,16 @@ class VariosModales extends Component {
                 resizeMode="contain"
               />
 
-              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to Super QSO!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>You have 3 month of trial Premium Subscription!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy Super QSO 59+100 !!!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using Super QSO with the FREE subscription.</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>{I18n.t("variosModWelcWelcome")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>{I18n.t("variosModWelc3Months")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>{I18n.t("variosModWelcEnjoy")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>{I18n.t("variosModWelc3After")}</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}
                 style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
               >
-                <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
+                <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModWelOKButton")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -227,14 +228,14 @@ class VariosModales extends Component {
                 />
 
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  There is no Internet connection.
+                {I18n.t("variosModNointernet")}
                 </Text>
 
                 <TouchableOpacity
                   onPress={() => this.props.closeInternetModal('nointernet')}
                   style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                 >
-                  <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
+                  <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModNointernetOKButton")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
