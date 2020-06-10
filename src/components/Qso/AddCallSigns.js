@@ -251,12 +251,12 @@ class AddCallSigns extends Component {
                             underlineColorAndroid='transparent'
                             placeholderTextColor="rgba(255,255,255,0.7)"
                             returnKeyType="next"
-                            autoCapitalize="none"
+                            // autoCapitalize="none"
                             style={styles.input}
                             autoCorrect={false}
                             // onSubmitEditing={() => this.passwordRef.focus()} 
                             value={this.state.qra}
-                                onChangeText={(text) => {  this.setState({qra: text}) }}
+                                onChangeText={(text) => {  this.setState({qra: text.toUpperCase()}) }}
                                     
                             onSubmitEditing={() => this.addQraCallsigns() }
                             keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
