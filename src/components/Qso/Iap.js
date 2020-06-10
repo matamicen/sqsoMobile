@@ -376,11 +376,11 @@ class Iap extends Component {
                    </View>
            
                 <View style={{ flex: 0.2, alignItems: "center" }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 5 }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
                    {/* Enjoy superQso at full scale!  */}
                    {this.props.userinfo.account_type.app_upgrade_t2}
                 </Text>
-                <Text style={{ color: "#999", fontSize: 14, padding: 5 }}>
+                <Text style={{ color: "#999", fontSize: 16, padding: 5 }}>
                    {/* Became a PREMIUM member:  */}
                    {this.props.userinfo.account_type.app_upgrade_t3}
                 </Text>
@@ -388,16 +388,16 @@ class Iap extends Component {
  
 
                 <View style={{ flex: 0.2, alignItems: "center" }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 1 }}>
                   {/* Speed up the App */}
                   {this.props.userinfo.account_type.app_upgrade_t4}
                 </Text>
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 1 }}>
                   {/* No Mobile/Web PopUp Ads */}
                   {this.props.userinfo.account_type.app_upgrade_t5}
                 </Text>
            
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 1 }}> 
+                <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 1 }}> 
                   {/* 10 audios & photos per QSO */}
                   {this.props.userinfo.account_type.app_upgrade_t6} 
                 </Text>
@@ -415,7 +415,7 @@ class Iap extends Component {
                   // Unlimited QsosLinks 
                   {this.props.userinfo.account_type.app_upgrade_t9}
                 </Text> */}
-                <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 2 }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 15, padding: 2 }}>
                   {/* Unlimited Web Navigation */}
                   {this.props.userinfo.account_type.app_upgrade_t10}
                 </Text>
@@ -427,7 +427,7 @@ class Iap extends Component {
                    onPress={() => this.props.closeiapmodal()}
                   
                  >
-                   <Text style={{ color: "#999", fontSize: 14 }}>Do not Upgrade</Text>
+                   <Text style={{ color: "#999", fontSize: 15 }}>Do not Upgrade</Text>
                  </TouchableOpacity>
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
@@ -435,8 +435,8 @@ class Iap extends Component {
                  <TouchableOpacity
                    onPress={() =>  this.buySubscription() } >
                
-                   <Text style={{ color: "#FFFFFF", fontSize: 14}}>Upgrade Premium</Text>
-                   <Text style={{ color: "#FFFFFF", fontSize: 12, alignSelf:"center" }}>{this.props.localizedprice}/month</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 15}}>Upgrade Premium</Text>
+                   <Text style={{ color: "#FFFFFF", fontSize: 13, alignSelf:"center" }}>{this.props.localizedprice}/month</Text>
                  </TouchableOpacity>
                  </View> 
 

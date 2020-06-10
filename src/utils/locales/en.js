@@ -50,6 +50,29 @@ export default {
     variosModWelOKButton: "OK",
     variosModNointernet: "There is no Internet connection.",
     variosModNointernetOKButton: "OK",
+    variosModprevideoRewFreeUser: "Free User",
+    variosModprevideoRewHaveToWatchLink: "You have to watch a video reward to link these Qsos.",
+    variosModprevideoRewHaveToWatchMedia: "You have to watch a video reward to send the media to the cloud.",
+    variosModprevideoRewHaveToWatchNewQSO: "You have to watch a video reward to create a NewQso.",
+    variosModprevideoRewHaveToWatchScanQR: "You have to watch a video reward to Scan the QR.",
+    variosModprevideoRewDontWatch: "Don't watch",
+    variosModprevideoRewWatchVideo: "Watch the video",
+    variosModprevideoRewAreYouSureFree: "Free User",
+    variosModprevideoRewAreYouSureLink: "Are you sure to not link theses Qsos ?",
+    variosModprevideoRewAreYouSureMedia: "Are you sure to discard the media just created?",
+    variosModprevideoRewAreYouSureNewQSO: "Are you sure to not start a New Qso ?",
+    variosModprevideoRewAreYouSureScanQR: "Are you sure to not scan the Qr code ?",
+    variosModprevideoRewAreYouSureDontLink: "Don't link these Qsos",
+    variosModprevideoRewAreYouSureDiscardMedia: "Discard the Media",
+    variosModprevideoRewAreYouSureDontStart: "Don't start",
+    variosModprevideoRewAreYouSureDontScan: "Don't scan",
+    variosModprevideoRewLinkQsos: "Links these Qsos.",
+    variosModprevideoRewSendMedia: "Send the media",
+    variosModprevideoRewStartPost: "Start a Post",
+    variosModprevideoRewScanQR: "Scan QR",
+
+     
+
     
 
 

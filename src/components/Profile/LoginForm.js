@@ -500,7 +500,7 @@ if (this.debeHacerUpgrade===false)
       // var res = identityId.replace(":", "%3A");
       // console.log('la credencial RES:' + res);
       console.log('Antes d Auth.currentCredentials() getItem ');
-      this.setState({mess: 'Loading ...'})
+      this.setState({mess: I18n.t("loading") })
       const res = await AsyncStorage.getItem('identity');
       console.log('identityID: '+res);
 
