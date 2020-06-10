@@ -18,6 +18,7 @@ import VariosModales from './VariosModales';
 import Permissions from 'react-native-permissions'
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
+import I18n from '../../utils/i18n';
 
 
 class Home extends Component {
@@ -30,7 +31,7 @@ class Home extends Component {
              style={{ width: 28, height: 28, marginLeft: 18 }}
             // style={{ width: 28, height: 28, marginLeft: 7 }}
             source={require("../../images/home4.png")}/>
-            <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>HOME</Text>
+            <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}</Text>
             </View>
             
             );}
@@ -321,7 +322,7 @@ return   <View style={{flex: 1}}>
                  resizeMode="contain"
                />
                     
-                     <Text style={{fontSize: 16, color: '#243665'}}>Latest Posts</Text>
+                     <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts")}</Text>
              
                    </TouchableOpacity>
     
@@ -338,7 +339,7 @@ return   <View style={{flex: 1}}>
                   style={{ width: 36, height: 36}}
                   resizeMode="contain"
                 />
-                      <Text style={{fontSize: 16, color: '#243665'}}>Your Posts</Text>
+                      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts")}</Text>
                   
                     </TouchableOpacity>
 
@@ -358,7 +359,7 @@ return   <View style={{flex: 1}}>
    
    <Image source={require('../../images/qrcodescan.png')}  style={{width: 36, height: 36 } } 
 resizeMode="contain" />    
-<Text style={{ fontSize: 16, color: '#243665'}}>Scan Qsl Card</Text>          
+<Text style={{ fontSize: 16, fontWeight: 'bold',color: '#243665'}}>{I18n.t("HomeScanQslCard")}</Text>          
 </TouchableOpacity> 
 
 

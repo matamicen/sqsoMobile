@@ -70,6 +70,28 @@ export default {
     variosModprevideoRewSendMedia: "Send the media",
     variosModprevideoRewStartPost: "Start a Post",
     variosModprevideoRewScanQR: "Scan QR",
+    forgotPasswordPassRecovery: "Password Recovery",
+    forgotPasswordEnterEmail: "enter your email",
+    forgotPasswordSubmit: "Submit",
+    forgotPasswordBackLogin: "Back to Login Screen",
+    forgotPasswordSentCode: "We have sent the code to your email",
+    forgotPasswordemail: "email",
+    forgotPasswordNewPassword: "new password",
+    forgotPasswordConfirmCode: "code",
+    forgotPasswordSuccesfull: "Your Password has been changed succesfull.",
+    forgotPasswordClosePasswordChange: "OK",
+    forgotPasswordAttempts: "Attempt limit exceeded, please try after some time",
+    forgotPasswordEmailAgain: "Error! Please enter the email again",
+    forgotPassword6CharactersPassword: "The Passwords must have 6 characters at least",
+    forgotPasswordYouMustEnter: "You must enter the code that you received in your email",
+    forgotPasswordCodeInvalid: "The code is invalid, check your email and try again.",
+    forgotPasswordInvalidCodeProvided: "Invalid code provided, please request a code again.",
+    HomeTitle: "HOME",
+    HomeLatestPosts: "Latest Posts",
+    HomeMyPosts: "My Posts",
+    HomeScanQslCard: "Scan Qsl Card",
+
+
 
      
 

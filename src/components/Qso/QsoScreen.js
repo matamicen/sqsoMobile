@@ -83,6 +83,7 @@ import StopApp from './../Profile/StopApp';
 import analytics from '@react-native-firebase/analytics';
 import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
+import I18n from '../../utils/i18n';
 
 
 

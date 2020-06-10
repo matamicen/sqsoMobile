@@ -15,6 +15,7 @@ import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 // import { kinesis_catch } from '../../helper';
 import crashlytics from '@react-native-firebase/crashlytics';
+import I18n from '../../utils/i18n';
 
 
 
@@ -157,9 +158,9 @@ constructor(props) {
             .catch(err => {console.log(err)
 
                 if (err.code==='LimitExceededException')
-                  this.setState({errormessage: 'Attempt limit exceeded, please try after some time',  confirmationcodeError: 1, indicator:0}) 
+                  this.setState({errormessage: I18n.t("forgotPasswordAttempts"),  confirmationcodeError: 1, indicator:0}) 
               else
-                this.setState({errormessage: 'Error! Please enter the email again',  confirmationcodeError: 1, indicator:0 })
+                this.setState({errormessage: I18n.t("forgotPasswordEmailAgain"),  confirmationcodeError: 1, indicator:0 })
               
 
                 crashlytics().setUserId(this.state.email.toLowerCase());
@@ -196,7 +197,7 @@ constructor(props) {
         if (this.state.newPassword.length<6)
         {
     
-          this.setState({errormessage: 'The Passwords must have 6 characters at least', confirmationcodeError: 1, indicator:0});
+          this.setState({errormessage: I18n.t("forgotPassword6CharactersPassword"), confirmationcodeError: 1, indicator:0});
           this.error = true;
           this.newPass.focus();
         }
@@ -204,7 +205,7 @@ constructor(props) {
         if (this.state.code.length<1)
         {
     
-          this.setState({errormessage: 'You must enter the code that you received in your email', confirmationcodeError: 1, indicator:0});
+          this.setState({errormessage: I18n.t("forgotPasswordYouMustEnter"), confirmationcodeError: 1, indicator:0});
           this.error = true;
           this.code.focus();
         }
@@ -230,10 +231,10 @@ constructor(props) {
                 console.log(err);
                 console.log(err.code);
             if(err.code==='CodeMismatchException') 
-                    this.setState({errormessage: 'The code is invalid, check your email and try again.',confirmationcodeError: 1, indicator:0});
+                    this.setState({errormessage: I18n.t("forgotPasswordCodeInvalid"),confirmationcodeError: 1, indicator:0});
             
             if(err.code==='ExpiredCodeException') 
-                    this.setState({errormessage: 'Invalid code provided, please request a code again.',confirmationcodeError: 1, indicator:0});
+                    this.setState({errormessage: I18n.t("forgotPasswordInvalidCodeProvided"),confirmationcodeError: 1, indicator:0});
                   
                     crashlytics().setUserId(this.state.email.toLowerCase());
                     crashlytics().log('error: ' + JSON.stringify(err)) ;
@@ -294,10 +295,10 @@ constructor(props) {
           <KeyboardAvoidingView behavior="padding"    style={{  justifyContent: 'space-around',   padding: 1,
                           opacity: this.state.indicatorQRA }}   >
                 
-                <Text style={{ color: '#FFFFFF', fontSize: 18, marginBottom: 10  }}>Password Recovery</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 18, marginBottom: 10  }}>{I18n.t("forgotPasswordPassRecovery")}</Text>
                <TextInput 
                   ref={emailRef => this.emailRef = emailRef}
-                  placeholder="enter your email"
+                  placeholder={I18n.t("forgotPasswordEnterEmail")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -311,11 +312,11 @@ constructor(props) {
     
 
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.next()} >
-                    <Text style={styles.buttonText}>Submit</Text>
+                    <Text style={styles.buttonText}>{I18n.t("forgotPasswordSubmit")}</Text>
                  </TouchableOpacity>
 
                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
-                    <Text style={styles.buttonText2} >Back to Login Screen</Text>
+                    <Text style={styles.buttonText2} >{I18n.t("forgotPasswordBackLogin")}</Text>
                  </TouchableOpacity>
 
                  </KeyboardAvoidingView>
@@ -325,10 +326,10 @@ constructor(props) {
                 <View style={{  justifyContent: 'space-around',   padding: 1,
                         opacity: this.state.indicatorNewPassword }} >
                 
-                <Text style={{ color: '#FFFFFF', fontSize: 15  }}>We have sent the code to your email</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 15  }}>{I18n.t("forgotPasswordSentCode")}</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
-                  placeholder="email"
+                  placeholder={I18n.t("forgotPasswordemail")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -341,7 +342,7 @@ constructor(props) {
 
                     <TextInput 
                   ref={newPass => this.newPass = newPass}
-                  placeholder="new password"
+                  placeholder={I18n.t("forgotPasswordNewPassword")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -355,7 +356,7 @@ constructor(props) {
 
                       <TextInput 
                   ref={code => this.code = code}
-                  placeholder="code"
+                  placeholder={I18n.t("forgotPasswordConfirmCode")}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
@@ -368,11 +369,11 @@ constructor(props) {
 
   
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.sendNewPassword()} >
-                    <Text style={styles.buttonText}>Submit</Text>
+                    <Text style={styles.buttonText}>{I18n.t("forgotPasswordSubmit")}</Text>
                  </TouchableOpacity>
 
                  <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
-                    <Text style={styles.buttonText2} >Back to Login Screen</Text>
+                    <Text style={styles.buttonText2} >{I18n.t("forgotPasswordBackLogin")}</Text>
                  </TouchableOpacity>
             </View>
          }
@@ -402,11 +403,11 @@ constructor(props) {
                           
                   
                    
-                   <Text style={{ color: '#999', fontSize: 20}}>Your Password has been changed succesfull.</Text>
+                   <Text style={{ color: '#999', fontSize: 20}}>{I18n.t("forgotPasswordSuccesfull")}</Text>
                    <View style={{ marginTop: 15,  alignItems: 'center',  justifyContent: 'center'}}>
                     {/* <TouchableOpacity  onPress={() => this.closePasswordChanged()} style={styles.buttonContainer}> */}
                     <TouchableOpacity  onPress={() => this.closePasswordChanged()} >
-                      <Text style={{color: 'white', fontSize: 18}}>OK</Text>
+                      <Text style={{color: 'white', fontSize: 18}}>{I18n.t("forgotPasswordClosePasswordChange")}</Text>
                     </TouchableOpacity >
                  </View>
         
