@@ -112,7 +112,8 @@ constructor(props) {
      color: 'red',
      appNeedUpgrade: false,
      forceChangePassword: false,
-     upgradeText: ''
+     upgradeText: '',
+     loginerrorMessage: ''
      
     }
   }
@@ -645,6 +646,15 @@ signIn = async () => {
  //this.setState({indicator: 1, loginerror: 0});
  this.state.username = this.state.username.trim()
   console.log("username: "+this.state.username.toLowerCase() + "password: "+ this.state.password);
+
+
+// Validacion previa al llamado de LOGIN
+  if (this.state.username.length===0)
+  {
+  this.setState({ loginerror: 1, indicator: 0, loginerrorMessage: I18n.t("loginerrorMessUserEmpty") });
+      this.usernotfound = true;
+  }
+else
     await Auth.signIn(this.state.username.toLowerCase(), this.state.password)
       .then((result) => { console.log('entro!');
       console.log(result);
@@ -674,7 +684,7 @@ signIn = async () => {
              } 
              else
              {
-             this.setState({ loginerror: 1, indicator: 0});
+             this.setState({ loginerror: 1, indicator: 0, loginerrorMessage: I18n.t("loginerrorMessUserNotFound") });
              this.usernotfound = true;
 
 
@@ -998,7 +1008,7 @@ if (!this.usernotfound)
                  </View>
                  <View style={{ justifyContent: 'space-around',   padding: 10,
                         opacity: this.state.loginerror }}>
-                        <Text style={{ color: '#ff3333', textAlign: 'center', }}> Login error, try again
+                        <Text style={{ color: '#ff3333', textAlign: 'center', }}> {this.state.loginerrorMessage}
                         </Text>
                    </View>
 

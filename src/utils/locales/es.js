@@ -5,6 +5,8 @@ export default {
     email: "correo electrónico",
     password: "contraseña",
     loading: "Cargando ...",
+    loginerrorMessUserNotFound: "Error de inicio de sesión, usuario/contraseña no encontrado, intente nuevamente",
+    loginerrorMessUserEmpty: "El correo electrónico esta vacío",
     signupForm: "Formulario de Registración",
     signupCallsign: "señal distintiva",
     signupFirstName: "nombre",

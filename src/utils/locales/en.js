@@ -5,6 +5,8 @@ export default {
     email: "email",
     password: "password",
     loading: "Loading ...",
+    loginerrorMessUserNotFound: "Login error, user/password not found, try again",
+    loginerrorMessUserEmpty: "The email is empty",
     signupCallsign: "callsign",
     signupFirstName: "first name",
     signupLastName: "last name",

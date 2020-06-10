@@ -223,7 +223,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValidPass"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.passwordRef.focus();
+            // this.passwordRef.focus();
           }
 
           if (this.state.password.length<6)
@@ -231,7 +231,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValidPassMin"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true; 
-            this.passwordRef.focus();
+            // this.passwordRef.focus();
             // this.flatlist.scrollToIndex(0);
          //   this.flatlist.scrollToIndex({animated:true , index: 1, viewPosition: 0.5})
           }
@@ -241,7 +241,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValEmailIdent"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.emailRef.focus();
+            // this.emailRef.focus();
           }
         
           if (this.state.email.length===0 || this.state.emailVerification.length===0)
@@ -249,7 +249,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValEmailEmpty"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.emailRef.focus();
+            // this.emailRef.focus();
           }
 
           var re = /^[a-zA-Z0-9]+$/;
@@ -258,7 +258,7 @@ signUp = async () => {
      
             this.setState({errormessage: I18n.t("signupValInvalidCharact"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.qraRef.focus();
+            // this.qraRef.focus();
           }
        
 
@@ -267,7 +267,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValcallsignEmpty"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.qraRef.focus();
+            // this.qraRef.focus();
           }
 
           if (this.state.qra.length>10)
@@ -275,7 +275,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValcallsignLong"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.qraRef.focus();
+            // this.qraRef.focus();
           }
 
           if (this.state.firstname=='')
@@ -283,14 +283,14 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValFirstName"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.firstnameRef.focus();
+            // this.firstnameRef.focus();
           }
           if (this.state.lastname=='')
           {
 
             this.setState({errormessage: I18n.t("signupValLastName"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.lastnameRef.focus();
+            // this.lastnameRef.focus();
           }  
 
           if (this.state.country==I18n.t("signupCountry"))
@@ -298,7 +298,7 @@ signUp = async () => {
 
             this.setState({errormessage: I18n.t("signupValCountry"),heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
-            this.countryRef.focus();
+            // this.countryRef.focus();
           }
 
 
