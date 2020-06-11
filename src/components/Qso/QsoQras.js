@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
 import Qra from './Qra';
 //import PropTypes from 'prop-types';
+import I18n from '../../utils/i18n';
 
 class QsoQras extends Component {
 
@@ -61,7 +62,7 @@ class QsoQras extends Component {
                
                 />
                 :(this.props.qsotype!=='POST') &&
-                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>Please Add a Callsign</Text>
+                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>{I18n.t("QsoQrasPleaseAdd")}</Text>
              }
 
          </View>

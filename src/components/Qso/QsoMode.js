@@ -5,6 +5,7 @@ import { setMode, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, acti
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress, hasAPIConnection} from '../../helper';
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 class QsoMode extends Component {
 
@@ -217,7 +218,7 @@ class QsoMode extends Component {
                          borderTopRightRadius: 22,                      
                           }}>
                           
-                    <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Mode </Text>
+                    <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>{I18n.t("QsoModePleasePick")} </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
                                  <Text style={{ fontSize: 18, padding:1.25}} >{value.title}</Text>
@@ -225,7 +226,7 @@ class QsoMode extends Component {
                     })}
 
                     <TouchableOpacity  onPress={() => this.togglePicker()} style={{ paddingTop: 4, paddingBottom: 4}}>
-                      <Text style={{ color: '#999'}}>Cancel</Text>
+                      <Text style={{ color: '#999'}}>{I18n.t("QsoModeCancel")}</Text>
                     </TouchableOpacity>
                     </View>
 

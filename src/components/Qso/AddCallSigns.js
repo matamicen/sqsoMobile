@@ -11,6 +11,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports'
 import QsoCallSigns from './QsoCallSigns';
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 
 Auth.configure(awsconfig);
@@ -243,7 +244,7 @@ class AddCallSigns extends Component {
                     </View>
                     <View style={{ flex:0.4, flexDirection: 'row', marginTop:9 }}>
                     <View style={{ flex:0.27,alignItems: 'flex-end' }}>
-                    <Text style={{ color: 'grey', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>Callsign: </Text>
+                    <Text style={{ color: 'grey', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>{I18n.t("AddCallSignsCallsign")} </Text>
                     </View>
                     <View style={{ flex:0.47, alignItems: 'flex-start'}}> 
                                 <TextInput 
@@ -264,7 +265,7 @@ class AddCallSigns extends Component {
                     </View> 
                     <View style={{ flex:0.23}}>
                     <TouchableOpacity onPress={() => this.addQraCallsigns()} >
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 5}}>Add</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, marginTop: 5}}>{I18n.t("AddCallSignsAdd")}</Text>
                     </TouchableOpacity>
                     </View> 
                     {/* <Text style={{ color: 'grey', fontSize: 16}}>Enter CallSign</Text> */}
@@ -273,14 +274,14 @@ class AddCallSigns extends Component {
                     <View style={{ flex:0.13 , flexDirection: 'row'}}>
                       <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                               <TouchableOpacity onPress={() => this.props.close()} style={{ marginLeft: 5, marginBottom: 5}}>
-                            <Text style={{ color: 'grey', fontSize: 17}}>Cancel</Text>
+                            <Text style={{ color: 'grey', fontSize: 17}}>{I18n.t("AddCallSignsCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                        
                            <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                              {(this.props.qsocallsigns.length>0) &&
                               <TouchableOpacity onPress={() => this.addCallsignToqsoqras()} style={{ marginRight: 5, marginBottom: 5}} >
-                            <Text style={{ color: 'white', fontSize: 18}}>Confirm</Text>
+                            <Text style={{ color: 'white', fontSize: 18}}>{I18n.t("AddCallSignsConfirm")}</Text>
                               </TouchableOpacity>
                            }
                           </View>

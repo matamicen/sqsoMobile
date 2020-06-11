@@ -12,6 +12,7 @@ import QsoRst from './QsoRst';
 import QsodB from './QsodB';
 import QsoEnterQra from './QsoEnterQra';
 import AddCallSigns from './AddCallSigns';
+import I18n from '../../utils/i18n';
 
 
 class QsoHeader extends Component {
@@ -99,7 +100,7 @@ class QsoHeader extends Component {
                  
               { this.props.sqsonewqsoactive ?
                                <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >                                       
-                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>Add Callsign</Text>
+                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
                                </TouchableOpacity>
           
                                   : null }

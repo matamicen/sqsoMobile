@@ -161,18 +161,19 @@ class QsoScreen extends Component {
       return (
         <View
           style={{
-            width: 35,
+            width: 44,
             height: 20,
             marginTop: Platform.OS === "ios" ? 3 : 3
           }}
         >
+          
           <Image
-            style={{  width: 31, height: 31, marginLeft: 0}}
+            style={{  width: 31, height: 31, marginLeft: I18n.locale.substring(0, 2)==='es' ? 8:0}}
          //   source={require("../../images/qsoicon3.png")}
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 6 }}>POST</Text>
+          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 4 }}>{I18n.t("QsoScrTitle")}</Text>
         </View>
       );
     }
@@ -208,6 +209,8 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+    // console.log('i18n print:'+I18n.locale);
+    // console.log('i18n print2:'+JSON.stringify(I18n));
 
 // agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
 // entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
@@ -1400,7 +1403,7 @@ latestPosts = async () => {
                   marginTop: 5
                 }}
               >
-                Publishing post on the web ...
+                {I18n.t("QsoScrPublishingPost")}
               </Text>
             </View>
             {/* </KeyboardAvoidingView > */}
@@ -1563,7 +1566,7 @@ latestPosts = async () => {
                   marginBottom: 10
                 }}
               >
-                Are you sure to END this {this.props.qsotype} post?{" "}
+                {I18n.t("QsoScrAreYouSureEnd")} {I18n.t("QsoScrAreYouSureEndPost")}{" "}
               </Text>
 
               <View style={{ flexDirection: "row", flex: 1 }}>
@@ -1580,7 +1583,7 @@ latestPosts = async () => {
                       fontSize: 14
                     }}
                   >
-                    Cancel
+                    {I18n.t("QsoScrAreYouSureCancel")}
                   </Text>
                 </TouchableOpacity>
                 </View>
@@ -1601,7 +1604,7 @@ latestPosts = async () => {
                       fontSize: 14, marginRight: 15
                     }}
                   >
-                    End this Post
+                    {I18n.t("QsoScrAreYouSureEndThisPost")}
                   </Text>
                 </TouchableOpacity>
                 </View>
@@ -1644,7 +1647,7 @@ latestPosts = async () => {
                       style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
                       
                           ]}>
-                      <Text style={{fontSize: 16, color: '#243665'}}>Start a POST</Text>
+                      <Text style={{fontSize: 16, color: '#243665'}}>{I18n.t("QsoScrStartPost")}</Text>
                       </Animated.View>
                     </TouchableOpacity>
                   
@@ -1712,7 +1715,7 @@ latestPosts = async () => {
                   resizeMode="contain"
                 />
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>End POST</Text>
+                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>{I18n.t("QsoScrEndPost")}</Text>
               </TouchableOpacity>
               
             }
@@ -1740,7 +1743,7 @@ latestPosts = async () => {
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",  marginLeft: 10  }}>Record</Text>
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: 10  }}>{I18n.t("QsoScrRecord")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1758,7 +1761,7 @@ latestPosts = async () => {
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",   marginLeft: 14 }}>Photo</Text>
+                <Text style={{ fontSize: 13, color: "black",   marginLeft: 14 }}>{I18n.t("QsoScrPhoto")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}

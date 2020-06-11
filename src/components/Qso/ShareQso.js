@@ -4,7 +4,7 @@ import { View, Platform, Text, TouchableOpacity, Image,  Animated,
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import analytics from '@react-native-firebase/analytics';
-
+import I18n from '../../utils/i18n';
 
   
 
@@ -69,8 +69,8 @@ class ShareQso extends Component {
     // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
     // const url = 'http://superqso-dev.us-east-1.elasticbeanstalk.com/qso/'+this.props.sharerluid;
     const url = 'https://www.superqso.com/qso/'+this.props.sharerluid;
-    const title = 'Awesome Contents';
-    const message = 'Please check out this activity';
+    const title = I18n.t("ShareTitle");
+    const message = I18n.t("ShareMessage");
     const options = {
           title,
           subject: title,
@@ -159,7 +159,7 @@ return <View>
                       
                           ]}>
                          <Text style={{ fontSize: 13, color: "black", marginLeft: 6, marginTop: 0 }}>
-                          Share
+                         {I18n.t("ShareShare")}
                           </Text>
                       </Animated.View>
                     </TouchableOpacity>
