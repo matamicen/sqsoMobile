@@ -136,6 +136,18 @@ export default {
     InitialScreenFollowers: "Followers",
     InitialScreenRefrescar: "Refresh",
     InitialScreenProfile: "PROFILE",
+    RestoreSubscriptionWeDidntFound: "Sorry, we did not find any active subscription.",
+    RestoreSubscriptionSearchingPurchases: "Searching purchases ...",
+    RestoreSubscriptionClose: "Close",
+    RestoreSubscriptionPremiumActive: "Your premium subscription is active.",
+    SearchTitle: "SEARCH",
+    SearchSearchCallsign: "Search CallSign",
+    SearchWeStartToSearch: "We start to search automatically",
+    SearchAfter4Digit: "after the 4th digit",
+    SearchSearching: "Searching ...",
+    UserFollow : "Follow",
+    UserUnFollow : "UnFollow",
+
    
 
 

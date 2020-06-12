@@ -21,6 +21,7 @@ import RNIap, {
 import { connect } from 'react-redux';
 import { confirmReceiptiOS, manageLocationPermissions, restoreCall, confirmReceiptAndroid } from '../../actions';
 import crashlytics from '@react-native-firebase/crashlytics';
+import I18n from '../../utils/i18n';
 
 // App Bundle > com.dooboolab.test
 
@@ -81,7 +82,7 @@ class RestoreSubscription extends Component {
    // chequeo si el usuario ya es premium y toca Restore, si fuese asi evito llamar a todo 
    // el chequeo y le aviso que ya es premium. 
 if (this.props.userinfo.account_type.idaccount_types===2)
-     this.props.restoreCall(true,'Your premium subscription is active.')
+     this.props.restoreCall(true,I18n.t("RestoreSubscriptionPremiumActive"))
   else
       {
         this.props.manageLocationPermissions("iapshowed",1);
@@ -343,7 +344,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
        if (Platform.OS==='android') 
        {
             this.props.manageLocationPermissions("iapshowed",0); 
-            this.props.restoreCall(true,'Sorry, we did not find any active subscription.')
+            this.props.restoreCall(true,I18n.t("RestoreSubscriptionWeDidntFound"))
  
          }
       }
@@ -399,7 +400,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
                 <View style={{ flex: 0.30, alignItems: "center" }}>
                 <Text style={{ color: "#999", fontSize: 20, padding: 10 }}>
                   {/* Dear Ham: */}
-                   Searching Purchases ...
+                  {I18n.t("RestoreSubscriptionSearchingPurchases")}
                   
                 </Text>
                 <Text>
@@ -430,7 +431,7 @@ if (this.props.userinfo.account_type.idaccount_types===2)
                    onPress={() => this.props.closerestoremodal()}
                   
                  >
-                   <Text style={{ color: "#999", fontSize: 14 }}>Close</Text>
+                   <Text style={{ color: "#999", fontSize: 14 }}>{I18n.t("RestoreSubscriptionClose")}</Text>
                  </TouchableOpacity>
 
                  </View>

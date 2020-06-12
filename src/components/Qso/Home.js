@@ -24,14 +24,17 @@ import I18n from '../../utils/i18n';
 class Home extends Component {
   static navigationOptions = {
       tabBarLabel: ' ',
-
+// 50
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7}}>
+        // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
+        return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Image
-             style={{ width: 28, height: 28, marginLeft: 18 }}
-            // style={{ width: 28, height: 28, marginLeft: 7 }}
+           style={{ width: 28, height: 28, marginLeft: 5, marginTop: (Platform.OS==='ios') ? 24 : 28 }}
+            //  style={{ width: 28, height: 28, marginLeft: 18 }}
+           
             source={require("../../images/home4.png")}/>
-            <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}</Text>
+             {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
+            <Text style={{fontSize:9, marginTop: 3, marginLeft: 5}}>{I18n.t("HomeTitle")}</Text>
             </View>
             
             );}

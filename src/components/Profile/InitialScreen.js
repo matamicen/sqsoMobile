@@ -38,11 +38,14 @@ class InitialScreen extends Component {
       tabBarLabel: ' ',
 
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 1 : 2}}>
+        // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 1 : 2, backgroundColor:'yellow'}}>
+        return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Image
-            style={{ width: 31, height: 31, marginLeft: 9 }}
+            // style={{ width: 31, height: 31, marginLeft: 9 }}
+            style={{ width: 31, height: 31, marginLeft: 0, marginTop: (Platform.OS==='ios') ? 14 : 24 }}
             source={require('../../images/profile1.png')}/>
-            <Text style={{fontSize:9, marginTop: 3, marginLeft: 7}}>{I18n.t("InitialScreenProfile")}</Text>
+             <Text style={{fontSize:9, marginTop: 3, marginLeft: 0}}>{I18n.t("InitialScreenProfile")}</Text>
+            {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: I18n.locale.substring(0, 2)==='es' ? 11:7}}>{I18n.t("InitialScreenProfile")}</Text> */}
             </View>
             
             );}
@@ -471,7 +474,7 @@ signOut = async () => {
                    <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
                   </TouchableOpacity>
               </View>  
-              <View style={{flex:0.15}}>
+              <View style={{flex:0.17}}>
                   {/* <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }> */}
                   
                   <TouchableOpacity style={{marginLeft: 18, marginTop: 13}} onPress={() => this.setState({camaraSelect: true})}>
@@ -489,7 +492,7 @@ signOut = async () => {
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flex:0.27, alignItems: 'flex-end', marginRight: 20}}>
+                <View style={{flex:0.25, alignItems: 'flex-end', marginRight: 20}}>
                 <TouchableOpacity style={{marginTop: 17}} onPress={ () => this.signOut() }>
                     <Image source={require('../../images/logout.png')}  style={{width: 20, height: 20, marginLeft: I18n.locale.substring(0, 2)==='es' ? 3:15  } } 
                  resizeMode="contain" /> 
