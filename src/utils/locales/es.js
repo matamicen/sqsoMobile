@@ -148,6 +148,10 @@ export default {
     SearchSearching: "Buscando ...",
     UserFollow : "Seguir",
     UserUnFollow : "Siguiendo",
+    ProfileQraFollow: "Seguir",
+    ProfileQraUnFollow: "Siguiendo",
+    ProfileQraCancel: "Cancelar",
+    ProfileQraViewProfile: "Ver Perfil",
 
 
 
