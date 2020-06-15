@@ -10,6 +10,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import { getDateQslScan } from '../../helper';
 // import moment from "moment";
 import MomentAgo from './MomentAgo';
+import I18n from '../../utils/i18n';
 
 class NotifItem extends Component {
 
@@ -259,7 +260,7 @@ if (urlnotif!=null)
                           style={{ width: 21, height: 21, marginLeft: 4  }}
                           resizeMode="contain"
                         />
-                         <Text style={{fontSize:11,  color: 'red',fontWeight: 'bold' }}>Delete</Text>
+                         <Text style={{fontSize:11,  color: 'red',fontWeight: 'bold' }}>{I18n.t("NotifItemDelete")}</Text>
 
                     </TouchableOpacity>
                    

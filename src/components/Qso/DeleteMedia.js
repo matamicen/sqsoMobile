@@ -7,6 +7,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports'
 
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 
 Auth.configure(awsconfig);
@@ -153,8 +154,8 @@ class DeleteMedia extends Component {
                    {/* { (!this.props.deletedflag) ? */}
                       { (this.state.warningMessage) ?
                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
-                       <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>WARNING</Text>
-                        <Text style={{ color: 'white', fontSize: 16}}>The entire post will be DELETED if you delete the last {this.props.desc}. Are you sure to delete the entire post ?</Text>
+                       <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("DeleteMediaWarning")}</Text>
+                        <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeleteMediaTheentire1")} {this.props.desc}. {I18n.t("DeleteMediaTheentire2")}</Text>
                       </View>
                       :
                       <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
@@ -165,7 +166,7 @@ class DeleteMedia extends Component {
                         resizeMethod="resize"
                         source={require('../../images/delete3.png')}
                           />
-                      <Text style={{ color: 'white', fontSize: 16, alignItems: "center"}}>Are you sure to delete the {this.props.desc} ?</Text>
+                      <Text style={{ color: 'white', fontSize: 16, alignItems: "center"}}>{(this.props.desc==='photo') ? I18n.t("DeleteMediaAreYouSurePhoto") : I18n.t("DeleteMediaAreYouSureAudio")  } {(this.props.desc==='photo') ? I18n.t("DeleteMediaPhoto") : I18n.t("DeleteMediaAudio")}?</Text>
                       </View> }
                 {/* :
                   <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
@@ -179,13 +180,13 @@ class DeleteMedia extends Component {
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
                             <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                               <TouchableOpacity onPress={() => this.props.closeDelete()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                            <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("DeleteMediaCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                            {/* {(!this.props.deletedflag) && */}
                             <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                               <TouchableOpacity onPress={() => this.deleteMedia()} >
-                            <Text style={{ color: 'red', fontSize: 16}}>Delete</Text>
+                            <Text style={{ color: 'red', fontSize: 16}}>{I18n.t("DeleteMediaDelete")}</Text>
                               </TouchableOpacity>
                           </View>
                      {/* }  */}

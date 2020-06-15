@@ -9,6 +9,7 @@ import { getUserInfo, followersAlreadyCalled } from '../../actions';
  import NotificationList from './NotificationList';
  import UnreadCounter from './UnreadCounter';
 // import SearchHeader from './SearchHeader';
+import I18n from '../../utils/i18n';
 
 
 //Amplify.configure(awsconfig);
@@ -25,7 +26,7 @@ class Notification extends Component {
             // style={{ width: 28, height: 28, marginLeft: 19 }}
             style={{ width: 28, height: 28, marginLeft: 6,  marginTop: (Platform.OS==='ios') ? 23 : 28 }}
             source={require('../../images/notifications.png')}/>
-            <Text  style={{fontSize:8.5, marginTop: 3,marginLeft: 6}}>NOTIFICATIONES</Text>
+            <Text  style={{fontSize:8.5, marginTop: 3,marginLeft: 6}}>{I18n.t("NotificationTitle1")}</Text>
             {/* <Text  style={{fontSize:9, marginTop: 3}}>NOTIFICATIONS</Text> */}
             <UnreadCounter />
            
@@ -67,7 +68,7 @@ return   <View style={{flex: 1}}>
        {/* <View style={{flex: 1, marginTop: 30, marginLeft: 10}}> */}
        <View style={{flex: 0.06, marginTop: Platform.OS === 'ios' ? 13 : 13, marginLeft: 6}}>
           {/* <SearchHeader />  */}
-          <Text style={styles.FollowingsText} >Notifications</Text>
+          <Text style={styles.FollowingsText} >{I18n.t("NotificationTitle2")}</Text>
           </View>   
 
               

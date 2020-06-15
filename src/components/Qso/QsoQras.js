@@ -50,7 +50,7 @@ class QsoQras extends Component {
                            
               
         return( <View >
-             { (this.props.qsoqras.length>0) ?
+             { (this.props.qsoqras.length>0) &&
               <FlatList  style={styles.qralist }
                
                 data={this.props.qsoqras}
@@ -61,8 +61,8 @@ class QsoQras extends Component {
                 horizontal={true}
                
                 />
-                :(this.props.qsotype!=='POST') &&
-                <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>{I18n.t("QsoQrasPleaseAdd")}</Text>
+                // :(this.props.qsotype!=='POST') &&
+                // <Text style={{marginTop: 20, marginLeft: 35, fontSize:15}}>{I18n.t("QsoQrasPleaseAdd")}</Text>
              }
 
          </View>

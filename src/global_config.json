@@ -1,9 +1,9 @@
 {
-    "s3Cloudfront": "https://d1dwfud4bi54v7.cloudfront.net/1/",
-    "apiEndpoint": "https://api.zxcvbnmasd.com",
+    "s3Cloudfront_prd": "https://d1dwfud4bi54v7.cloudfront.net/1/",
+    "apiEndpoint-prd": "https://api.zxcvbnmasd.com",
 
-    "s3Cloudfront_dev": "https://d30o7j00smmz5f.cloudfront.net/1/",
-    "apiEndpoint_dev": "https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod"
+    "s3Cloudfront": "https://d30o7j00smmz5f.cloudfront.net/1/",
+    "apiEndpoint": "https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod"
 
 }
 

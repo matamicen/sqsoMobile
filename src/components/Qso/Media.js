@@ -8,6 +8,7 @@ import * as Progress from 'react-native-progress';
 import PlayMediaAudioPost from './PlayMediaAudioPost';
 import EditMedia from './EditMedia';
 import DeleteMedia from './DeleteMedia';
+import I18n from '../../utils/i18n';
 
 class Media extends Component {
 
@@ -121,26 +122,28 @@ class Media extends Component {
                           //indeterminate={true}
                         />
                     </View>
-                    <View  style={{flex:0.8, marginTop: 5, alignItems: 'flex-end' }}>
+             
+                    <View  style={{flex:0.8, marginTop: 5 , alignItems: 'flex-end' }}>
                             { (this.props.status==='sent') && 
-                         <Text style={styles.status} >   SENT</Text>
+                         <Text style={styles.status} >   {I18n.t("MediaSent")}</Text>
                         }
                        
                         { (this.props.status==='inprogress') && 
-                         <Text style={styles.status} >   IN PROGRESS</Text>
+                         <Text style={styles.status} >   {I18n.t("MediaInProgress")}</Text>
                          }
 
                           { (this.props.status==='failed') && 
-                         <Text style={styles.status} >   FAILED </Text>
+                         <Text style={styles.status} >   {I18n.t("MediaFailed")} </Text>
                         }
 
                             { (this.props.status==='waiting') && 
-                         <Text style={styles.status} >  Enter callsign, Band and Mode</Text>
+                         <Text style={styles.waiting} >{I18n.t("MediaWaiting")}</Text>
+                       
                         } 
 
 
                           { (this.props.status==='inappropriate content') && 
-                         <Text style={styles.inapropiate} >   inappropriate content</Text>
+                         <Text style={styles.inapropiate} >   {I18n.t("MediaInappropiate")}</Text>
                         }
 
                         {/* { (this.props.sent) ? 
@@ -154,7 +157,7 @@ class Media extends Component {
                             <TouchableOpacity onPress={() => this.onPressItem(this.props.name,this.props.description,this.props.imageurl,this.props.fileauxProfileAvatar,
                                 this.props.sqlrdsid, this.props.size, this.props.type, this.props.rdsUrlS3,this.props.urlNSFW,this.props.urlAvatar, this.props.date, this.props.width, this.props.height,
                                 this.props.qra, this.props.rectime)} underlayColor="white">
-                            <Text style={styles.status} >   Send again</Text>
+                            <Text style={styles.status} >   {I18n.t("MediaSendAgain")}</Text>
                             </TouchableOpacity>
                         }
                        </View>        
@@ -169,13 +172,13 @@ class Media extends Component {
               <View style={{flex: 0.27, flexDirection: 'row', marginLeft: 6}}>
              
               <View style={{flex: 0.25, alignItems: "flex-start"}}>
-                <Text style={{fontSize: 14,color: '#243665',fontWeight: 'bold'}} >Description:</Text>
+                <Text style={{fontSize: 14,color: '#243665',fontWeight: 'bold'}} >{I18n.t("MediaDescription")}</Text>
               </View>
               <View style={{flex: 0.55, alignItems: "flex-start"}}>
                 {(this.props.description) ?
                 <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold', marginLeft: Platform.OS === "ios" ? 1 : 1}} >{this.props.description}</Text>
                 :
-                <Text style={{fontSize: 14,color: 'grey', fontWeight: 'bold'}} >no description</Text>
+                <Text style={{fontSize: 14,color: 'grey', fontWeight: 'bold'}} >{I18n.t("MediaEmptyDescription")}</Text>
                 }
                 </View>
               <View style={{flex: 0.10, alignItems: "center"}}>
@@ -293,6 +296,17 @@ const styles = StyleSheet.create({
       // color: 'grey'   
       color: 'black'     
   },
+  waiting:{
+    fontSize: 14,
+    marginTop: 2,
+   // alignItems: 'flex-end',
+    // textAlign: 'right',
+    // marginRight: 2,
+   // padding: 2,
+   // fontWeight: 'bold',        
+    // color: 'grey'   
+    color: 'black'     
+},
   inapropiate:{
     fontSize: 14,
     marginTop: 2,

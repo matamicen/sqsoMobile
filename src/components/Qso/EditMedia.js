@@ -15,6 +15,7 @@ import VariosModales from "./VariosModales";
 import crashlytics from '@react-native-firebase/crashlytics';
 import PlayMediaAudioPreview from './PlayMediaAudioPreview';
 import { hasAPIConnection} from '../../helper';
+import I18n from '../../utils/i18n';
 
 
 
@@ -154,7 +155,7 @@ class EditMedia extends Component {
 
               
               <TextInput 
-                  placeholder="description (Optional)"
+                  placeholder={I18n.t("EditMediaDescription")}
                   
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
@@ -183,13 +184,13 @@ class EditMedia extends Component {
                       <Text
                         style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}
                       >
-                        Cancel
+                        {I18n.t("EditMediaCancel")}
                       </Text>
                     </TouchableOpacity>
                   </View>
                   <View style={{flex:0.5, alignItems: "flex-end"}}>
                     <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.savedescription()} >
-                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Save</Text>
+                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("EditMediaSave")}</Text>
                     </TouchableOpacity>
                    </View>
                 </View>  
@@ -206,7 +207,7 @@ class EditMedia extends Component {
                     </View>
                     <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                     <TouchableOpacity  style={{ height: 40, marginRight: 10 }} onPress={() => this.subo_Profile_Photo_s3()} >
-                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>Send</Text>
+                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>{I18n.t("EditMediaSend")}</Text>
                     </TouchableOpacity>
                        
                     </View>

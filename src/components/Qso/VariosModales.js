@@ -678,13 +678,13 @@ class VariosModales extends Component {
                     />
 
                     <Text style={{ color: "#FFFFFF", fontSize: 20}}>
-                      Contact us
+                    {I18n.t("variosModContactUsTitle")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
                 </View>
                 <View style={{ flex: 0.6 }}>
                     <Text style={{ color: "#FFFFFF", fontSize: 18, marginTop: 10, marginLeft:7}}>
-                      Message
+                    {I18n.t("variosModContactUsMessage")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
 
@@ -713,7 +713,7 @@ class VariosModales extends Component {
                       onPress={() => this.props.closecontact()}
                       style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                     >
-                      <Text style={{ color: "#999", fontSize: 20 }}>Cancel</Text>
+                      <Text style={{ color: "#999", fontSize: 20 }}>{I18n.t("variosModContactUsCancel")}</Text>
                     </TouchableOpacity>
                    
                     </View>
@@ -727,7 +727,7 @@ class VariosModales extends Component {
                           }} 
                           style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
                         >
-                          <Text style={{ color: "#FFF", fontSize: 20 }}>Send</Text>
+                          <Text style={{ color: "#FFF", fontSize: 20 }}>{I18n.t("variosModContactUsSend")}</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -775,17 +775,17 @@ class VariosModales extends Component {
                 />
 
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  Your message was sent! 
+                {I18n.t("variosModContactUsSentYourMessage")}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 10 }}>
-                 We will contact you soon.  
+                {I18n.t("variosModContactUsSentWeWill")}  
                 </Text>
 
                 <TouchableOpacity
                   onPress={() => this.props.closecontact()}
                   style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                 >
-                  <Text style={{ color: "#999", fontSize: 22 }}>Close</Text>
+                  <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModContactUsSentClose")}</Text>
                 </TouchableOpacity>
                
               </View>
