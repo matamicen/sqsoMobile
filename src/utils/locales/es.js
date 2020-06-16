@@ -1,6 +1,6 @@
 export default {
     login: "INICIAR SESION",
-    forgot: "Olvide la Contraseña",
+    forgot: "Olvide la contraseña",
     signup: "Registrarme",
     email: "correo electrónico",
     password: "contraseña",

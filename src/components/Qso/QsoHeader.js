@@ -99,8 +99,10 @@ class QsoHeader extends Component {
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
               { this.props.sqsonewqsoactive ?
-                               <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >                                       
-                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
+                              //  <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >  
+                                <TouchableOpacity  style={styles.buttonAddCallSignContainer} onPress={() => this.setState({addCallsigns: true})} >                                                                            
+                                  {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text> */}
+                                  <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
                                </TouchableOpacity>
           
                                   : null }
@@ -110,13 +112,13 @@ class QsoHeader extends Component {
                  
                     </View>
                    
-                    <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.220 , alignItems: 'center'  }}>  
+                    <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.222 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?  
                         <QsoBand />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.224 : 0.224, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.224 : 0.222, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                         <QsoMode />  : null }
                     </View>  
@@ -158,7 +160,16 @@ class QsoHeader extends Component {
         width: 65,
         height: 65,
         borderRadius: 30
-         }
+         },
+         buttonAddCallSignContainer:{
+          //   backgroundColor: '#2980b9',
+          backgroundColor: '#8BD8BD',
+             paddingVertical: 5,
+             borderRadius: 22,
+             width: 115,
+             height: 36,
+             marginTop: 0
+             },
 });
 
 

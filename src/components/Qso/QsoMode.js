@@ -198,9 +198,9 @@ class QsoMode extends Component {
 
         return <View >               
                                  
-                                 {/* marginLeft: 48 */}
-              <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                                       
-               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}} onPress={() => this.togglePicker()} >{this.props.mode}</Text>
+                                 {/* marginLeft: 48  style={{ width: 70, height: 50 }}*/}
+              <TouchableOpacity style={styles.buttonModeContainer} onPress={() => this.togglePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center' }} onPress={() => this.togglePicker()} >{this.props.mode}</Text>
               </TouchableOpacity>
 
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
@@ -246,6 +246,19 @@ class QsoMode extends Component {
  QsoMode.propTypes = {
    
 };
+
+const styles = StyleSheet.create({
+
+    buttonModeContainer:{
+    //   backgroundColor: '#2980b9',
+    backgroundColor: '#8BD8BD',
+       paddingVertical: 5,
+       borderRadius: 22,
+       width: 70,
+       height: 36,
+       marginTop: 0
+       }
+    });
 
 
  const mapStateToProps = state => {

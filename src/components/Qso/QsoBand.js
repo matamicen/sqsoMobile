@@ -163,8 +163,10 @@ class QsoBand extends Component {
         return <View>               
                                  
                                  {/* , marginLeft: 33 */}
-               <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                  
-               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 10  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
+             {/* <TouchableOpacity   style={styles.buttonBandContainer} onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                   */}
+               <TouchableOpacity   style={styles.buttonBandContainer} onPress={() => this.togglePicker()} >                  
+               {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 10  }} onPress={() => this.togglePicker()} >{this.props.band}</Text> */}
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
                </TouchableOpacity >
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:5,
@@ -210,6 +212,19 @@ class QsoBand extends Component {
    
 };
 
+const styles = StyleSheet.create({
+
+    buttonBandContainer:{
+    //   backgroundColor: '#2980b9',
+    backgroundColor: '#8BD8BD',
+       paddingVertical: 5,
+       borderRadius: 22,
+       width: 70,
+       height: 36,
+       marginTop: 0,
+       marginLeft: 8
+       }
+    });
 
  const mapStateToProps = state => {
     return {        
