@@ -744,7 +744,7 @@ class Muestro extends Component {
               <View style={{flex:0.3, flexDirection: 'row'}}>
                  <View style={{flex:0.5, alignItems:"flex-start"}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
-                    <TouchableOpacity style={{ width: 65 }}
+                    <TouchableOpacity style={{ width: 70 }}
                       onPress={() => this.props.close()}
                     >
                       <Text

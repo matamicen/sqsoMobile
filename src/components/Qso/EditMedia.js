@@ -178,7 +178,7 @@ class EditMedia extends Component {
               <View style={{flex:0.3, flexDirection: 'row'}}>
                  <View style={{flex:0.5, alignItems:"flex-start"}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
-                    <TouchableOpacity style={{ width: 65 }}
+                    <TouchableOpacity style={{ width: 70 }}
                       onPress={() => this.props.close()}
                     >
                       <Text
@@ -189,7 +189,7 @@ class EditMedia extends Component {
                     </TouchableOpacity>
                   </View>
                   <View style={{flex:0.5, alignItems: "flex-end"}}>
-                    <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.savedescription()} >
+                    <TouchableOpacity  style={{ height: 50, width: 65 }} onPress={() => this.savedescription()} >
                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("EditMediaSave")}</Text>
                     </TouchableOpacity>
                    </View>

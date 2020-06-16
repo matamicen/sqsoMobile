@@ -20,7 +20,7 @@ class Notification extends Component {
         
       tabBarIcon: ({ tintColor }) => {
         // return (<View style={{width: 74, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7, backgroundColor:'yellow'}}>
-       return ( <View style={{ flex: 1,width: 76,justifyContent: 'center', alignItems: 'center'}}>
+       return ( <View style={{ flex: 1,width: 78,justifyContent: 'center', alignItems: 'center'}}>
        
         <Image
             // style={{ width: 28, height: 28, marginLeft: 19 }}
