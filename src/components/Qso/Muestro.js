@@ -755,7 +755,7 @@ class Muestro extends Component {
                     </TouchableOpacity>
                   </View>
                   <View style={{flex:0.5, alignItems: "flex-end"}}>
-                    <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.send_and_check_ad()} >
+                    <TouchableOpacity  style={{ height: 50, width: 80 }} onPress={() => this.send_and_check_ad()} >
                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("MuestroSend")}</Text>
                     </TouchableOpacity>
                    </View>

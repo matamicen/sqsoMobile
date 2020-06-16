@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { cambioqsotype, postQsoEdit, resetQso } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 
 
@@ -183,8 +184,8 @@ class QsoType extends Component {
                         //  alignItems: 'center'                      
                           }}>
                           
-                  <Text style={{ color: '#4F4F4F', fontSize: 20, padding: 5 }}>Select the Post Type</Text>
-                  
+                  <Text style={{ color: 'black', fontSize: 20, padding: 5 }}>{I18n.t("QsoTypeSelect")}</Text>
+                  {/* color: '#4F4F4F' */}
 
                   <View style={{ justifyContent: 'space-around', 
                       flex: 1, flexDirection: 'column' }}>
@@ -194,7 +195,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>Post other hams QSO that you are listening, they will be notified! </Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -205,7 +206,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Post anything you want to share :)
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdesc")}
                       </Text>
                     </View>  
                    </TouchableOpacity> 
@@ -216,7 +217,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>You participate in the QSO</Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7 , marginLeft: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -227,7 +228,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Post anything you want to share :)</Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdesc")}</Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
@@ -237,7 +238,7 @@ class QsoType extends Component {
                       <View style={{flexDirection: 'row', flex:1}}>
                           <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
                           resizeMode="contain" />
-                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>You participate in the QSO</Text>
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeQSOdesc")}</Text>
                       </View>
                       </TouchableOpacity>
                       : null }
@@ -248,7 +249,7 @@ class QsoType extends Component {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>Post other hams QSO that you are listening, they will be notified! </Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeSWLdesc")} </Text>
                 
                     </View>  
                    </TouchableOpacity> 

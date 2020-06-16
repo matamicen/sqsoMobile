@@ -52,7 +52,7 @@ import RNIap, {
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-root-toast';
-
+import I18n from '../utils/i18n';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -596,7 +596,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       // ALL quiere decir que se agrego un callsign despues de haberse creado el QSO
       // entonces es una modificacion del post ya publicado con lo cual AVISO con TOAST
       if (type==='ALL')
-      this.toast('Publishing callsigns on the web ...',2500);
+      this.toast(I18n.t("qsoActionsPublishingCallsigns"),2500);
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QSO_QRA_ADD");
@@ -691,11 +691,11 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
         }
 
       if (attribute==='type')
-        this.toast('Publishing post type on the web ...',2500);
+        this.toast(I18n.t("qsoActionsPublishingPostType"),2500);
      if (attribute==='mode')
-        this.toast('Publishing mode on the web ...',2500);
+        this.toast(I18n.t("qsoActionsPublishingMode"),2500);
       if (attribute==='band')
-        this.toast('Publishing band on the web ...',2500);
+        this.toast(I18n.t("qsoActionsPublishingBand"),2500);
         
         
       respuesta = await API.post(apiName, path, myInit);
@@ -1663,7 +1663,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
 
 
 
-      this.toast('Publishing description on the web ...',2500);
+      this.toast(I18n.t("qsoActionsPublishingDescription"),2500);
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api updateMediaDescription");
@@ -1736,7 +1736,8 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
           
         }
 
-      this.toast('Deleting '+type+' from the web ...',2500);
+      // this.toast('Deleting '+type+' from the web ...',2500);
+      this.toast((type==='photo' ? I18n.t("qsoActionsDeletingPhoto") : I18n.t("qsoActionsDeletingAudio")),2500);
       respuesta = await API.del(apiName, path, myInit);
       console.log("llamo api deleteMedia");
     
@@ -1812,7 +1813,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
           
         }
 
-      this.toast('Deleting post from the web ...',2000);
+      this.toast(I18n.t("qsoActionsDeletingCompletePost"),2000);
       respuesta = await API.del(apiName, path, myInit);
       console.log("llamo api deletePOST");
       
@@ -1894,7 +1895,7 @@ export const QsoQraDelete = (sqlrdsid, qra, jwtToken) => {
         }
 
 
-      this.toast('Deleting callsign on the web ...',2500);
+      this.toast(I18n.t("qsoActionsDeletingCallsign"),2500);
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QsoQraDELETE");
       

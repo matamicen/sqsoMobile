@@ -176,7 +176,7 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
                 <TextInput
                     style={styles.input}
                     placeholder={I18n.t("SearchSearchCallsign")}
-                    onChangeText={(text) => this.onChange(text)}
+                    onChangeText={(text) => this.onChange(text.toUpperCase())}
                  //   onChangeText={(text) => {this.setState({text})}}
                     value={this.state.qra}
                     underlineColorAndroid="transparent"

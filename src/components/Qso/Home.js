@@ -325,8 +325,8 @@ return   <View style={{flex: 1}}>
                  resizeMode="contain"
                />
                     
-                     <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts")}</Text>
-             
+                     <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts1")}</Text>
+                     <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts2")}</Text>
                    </TouchableOpacity>
     
  
@@ -342,8 +342,8 @@ return   <View style={{flex: 1}}>
                   style={{ width: 36, height: 36}}
                   resizeMode="contain"
                 />
-                      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts")}</Text>
-                  
+                      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts1")}</Text>
+                      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts2")}</Text>
                     </TouchableOpacity>
 
 

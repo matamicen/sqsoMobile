@@ -1384,11 +1384,11 @@ latestPosts = async () => {
                 margin: 15,
                 backgroundColor: "rgba(0,0,0,0.85)",
                 marginTop: 210,
-                left: 20,
+                left: 95,
                 //  right: 15,
                 // alignItems: 'center',
                 // alignContent: 'center',
-                width: 300,
+                width: 150,
                 height: 45,
                 paddingVertical: 5,
                 //   position: 'absolute',
@@ -1746,7 +1746,7 @@ latestPosts = async () => {
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",  marginLeft: 10  }}>{I18n.t("QsoScrRecord")}</Text>
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 12:10 }}>{I18n.t("QsoScrRecord")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1764,7 +1764,7 @@ latestPosts = async () => {
                   style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",   marginLeft: 14 }}>{I18n.t("QsoScrPhoto")}</Text>
+                <Text style={{ fontSize: 13, color: "black",   marginLeft: I18n.locale.substring(0, 2)==='es' ? 17:14 }}>{I18n.t("QsoScrPhoto")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}

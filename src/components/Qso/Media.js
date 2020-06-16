@@ -304,7 +304,8 @@ const styles = StyleSheet.create({
     // marginRight: 2,
    // padding: 2,
    // fontWeight: 'bold',        
-    // color: 'grey'   
+    // color: 'grey' 
+    fontWeight: 'bold',  
     color: 'black'     
 },
   inapropiate:{
