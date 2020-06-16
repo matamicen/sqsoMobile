@@ -22,6 +22,7 @@ class DeleteMedia extends Component {
           nointernet: false,
           warningMessage: false
         };
+        this.conta = 0;
       }
 
   
@@ -39,6 +40,8 @@ class DeleteMedia extends Component {
     //     console.log('tiene sqlrdsid:'+this.props.sqlrdsid)
     //     else
     //     console.log('NO TIENE sqlrdsid:');
+
+
     session = await Auth.currentSession();
       
     
@@ -47,10 +50,25 @@ class DeleteMedia extends Component {
        this.props.setToken(session.idToken.jwtToken);
     
 
+
+
+       // cuento cuantas imagens o audios tiene la publicacion
+       // porque el length a veces no es correcto porque se tuvo que inventar un media vacio que no es ni audio ni imagen
+       // para que el usuario pueda bajar el teclado en iOS desde la QsoScreen, entonces el usuario toca el sector de MEDIA
+       // que hay un media que no se muestra pero ocupa Height en la pantalla y el teclado se baja cuando se toca ese sector
+
+     this.conta = 0;
+
+       this.props.mediafiles.map(item => {
+    if(item.type === 'audio' || item.type === 'image') {
+      this.conta = this.conta + 1; 
+    }
+  })
+
         // si tiene 2 de length es porque solo tiene 1 media solo ya que el otro siempre es un registro de type VACIO 
         // que se usa para que haya algo y el usuario pueda tocar la pantalla u bajar el teclado
-
-        if (this.props.sqlrdsid && this.props.mediafiles.length===2) // quiere decir que tiene QSO en base de datos y solo le queda un media
+        console.log('sqlrdsid: '+ this.props.sqlrdsid + ' mediafiles.length: '+ this.props.mediafiles.length + 'conta: '+ this.conta)
+        if (this.props.sqlrdsid && this.conta===1) // quiere decir que tiene QSO en base de datos y solo le queda un media
              this.setState({warningMessage: true});
 
     
@@ -80,7 +98,8 @@ class DeleteMedia extends Component {
            else
            { // hay un QSO creado en BD puede ir borrando pero si quiere borrar 
             // el ultimo se pregunta si quiere borrar todo el QSO
-            if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
+            // if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
+            if (this.props.sqlrdsid && this.conta===1) 
             {  this.deletePost();
                 this.props.closeDelete()
             }

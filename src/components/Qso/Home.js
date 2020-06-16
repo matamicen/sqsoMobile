@@ -19,6 +19,7 @@ import Permissions from 'react-native-permissions'
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import I18n from '../../utils/i18n';
+import global_config from '../../global_config.json';
 
 
 class Home extends Component {
@@ -248,7 +249,8 @@ checkInternetScanQR = async (param) => {
 
    yourPosts = async (qra) => {
     console.log('yourlatest');
-    urlnotif = 'https://www.superqso.com/'+qra;
+    // urlnotif = 'https://www.superqso.com/'+qra;
+    urlnotif = global_config.urlWeb+qra;
     Linking.canOpenURL(urlnotif).then(supported => {
       if (!supported) {
         console.log('Can\'t handle url: ' + urlnotif);
@@ -277,7 +279,8 @@ checkInternetScanQR = async (param) => {
   
   latestPosts = async () => {
     console.log('latest');
-    urlnotif = 'https://www.superqso.com/';
+    urlnotif = urlnotif = global_config.urlWeb;
+    // 'https://www.superqso.com/';
     Linking.canOpenURL(urlnotif).then(supported => {
       if (!supported) {
         console.log('Can\'t handle url: ' + urlnotif);

@@ -84,7 +84,7 @@ import analytics from '@react-native-firebase/analytics';
 import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
 import I18n from '../../utils/i18n';
-
+// import global_config from '../../global_config.json';
 
 
 
@@ -1290,62 +1290,62 @@ console.log('tomo imagen de galeria');
 
 
 
-yourPosts = async (qra) => {
-  console.log('yourlatest');
-  urlnotif = 'https://www.superqso.com/'+qra;
-  Linking.canOpenURL(urlnotif).then(supported => {
-    if (!supported) {
-      console.log('Can\'t handle url: ' + urlnotif);
-    } else {
-      if(__DEV__)
-        analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
-      else
-        analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
+// yourPosts = async (qra) => {
+//   console.log('yourlatest url: '+global_config.urlWeb+qra);
+//   urlnotif = global_config.urlWeb+qra;
+//   Linking.canOpenURL(urlnotif).then(supported => {
+//     if (!supported) {
+//       console.log('Can\'t handle url: ' + urlnotif);
+//     } else {
+//       if(__DEV__)
+//         analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
+//       else
+//         analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
     
-      return Linking.openURL(urlnotif);
+//       return Linking.openURL(urlnotif);
     
-    }
-  }).catch(err => {
-          console.error('An error occurred', err)
-          crashlytics().setUserId(this.props.qra);
-          crashlytics().log('error: ' + JSON.stringify(err)) ;
-          if(__DEV__)
-          crashlytics().recordError(new Error('Linking.yourposts_DEV'));
-          else
-          crashlytics().recordError(new Error('Linking.yourposts_PRD'));
+//     }
+//   }).catch(err => {
+//           console.error('An error occurred', err)
+//           crashlytics().setUserId(this.props.qra);
+//           crashlytics().log('error: ' + JSON.stringify(err)) ;
+//           if(__DEV__)
+//           crashlytics().recordError(new Error('Linking.yourposts_DEV'));
+//           else
+//           crashlytics().recordError(new Error('Linking.yourposts_PRD'));
 
 
-        });
-      }
+//         });
+//       }
 
 
-latestPosts = async () => {
-  console.log('latest');
-  urlnotif = 'https://www.superqso.com/';
-  Linking.canOpenURL(urlnotif).then(supported => {
-    if (!supported) {
-      console.log('Can\'t handle url: ' + urlnotif);
-    } else {
-      if(__DEV__)
-        analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
-      else
-        analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
+// latestPosts = async () => {
+//   console.log('latest url: '+global_config.urlWeb);
+//   urlnotif = global_config.urlWeb;
+//   Linking.canOpenURL(urlnotif).then(supported => {
+//     if (!supported) {
+//       console.log('Can\'t handle url: ' + urlnotif);
+//     } else {
+//       if(__DEV__)
+//         analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
+//       else
+//         analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
     
-      return Linking.openURL(urlnotif);
+//       return Linking.openURL(urlnotif);
     
-    }
-  }).catch(err => {
-          console.error('An error occurred', err)
-          crashlytics().setUserId(this.props.qra);
-          crashlytics().log('error: ' + JSON.stringify(err)) ;
-          if(__DEV__)
-          crashlytics().recordError(new Error('Linking.latestposts_DEV'));
-          else
-          crashlytics().recordError(new Error('Linking.latestposts_PRD'));
+//     }
+//   }).catch(err => {
+//           console.error('An error occurred', err)
+//           crashlytics().setUserId(this.props.qra);
+//           crashlytics().log('error: ' + JSON.stringify(err)) ;
+//           if(__DEV__)
+//           crashlytics().recordError(new Error('Linking.latestposts_DEV'));
+//           else
+//           crashlytics().recordError(new Error('Linking.latestposts_PRD'));
 
 
-        });
-      }
+//         });
+//       }
 
       
 

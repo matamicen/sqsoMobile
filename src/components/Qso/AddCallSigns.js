@@ -110,6 +110,7 @@ class AddCallSigns extends Component {
               console.log('qratoadd: '+ JSON.stringify(qraToAddRds))
               this.props.close();
               await this.props.postQsoQras("ALL",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
+              this.props.setQsoCallsigns('DELETEALL','');
                 } 
 
 
