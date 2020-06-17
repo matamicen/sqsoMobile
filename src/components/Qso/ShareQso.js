@@ -158,7 +158,7 @@ return <View>
                       style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
                       
                           ]}>
-                         <Text style={{ fontSize: 13, color: "black", marginLeft: 6, marginTop: 0 }}>
+                         <Text style={{ fontSize: 12, color: "black", marginLeft: 6, marginTop: 0 }}>
                          {I18n.t("ShareShare")}
                           </Text>
                       </Animated.View>
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
   //  backgroundColor: 'skyblue',
   },
   imageView: {
-    width: 29,
-    height: 29,
+    width: 24,
+    height: 24,
     resizeMode : 'contain'
     
     

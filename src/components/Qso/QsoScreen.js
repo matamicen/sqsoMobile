@@ -84,7 +84,10 @@ import analytics from '@react-native-firebase/analytics';
 import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
 import I18n from '../../utils/i18n';
+import DeletePost from './DeletePost';
 // import global_config from '../../global_config.json';
+import StartNewPost from './StartNewPost';
+
 
 
 
@@ -148,7 +151,9 @@ class QsoScreen extends Component {
       forceChangePassword: false,
       upgradeText: '',
       iconosWeb: false,
-      camaraSelect: false
+      camaraSelect: false,
+      deletePost: false,
+      startNewPost: false,
      
     };
   }
@@ -697,6 +702,14 @@ class QsoScreen extends Component {
 
   }
 
+  CloseDeletePost = () => {
+    this.setState({deletePost: false})
+  }
+
+  closeStartNewPost = () => {
+    this.setState({startNewPost: false})
+  }
+
   OpenEndQsoModal = () => {
     this.setState({
       endQsoModal: true
@@ -1156,7 +1169,8 @@ console.log('tomo imagen de galeria');
   endQso = () => {
     this.props.newqsoactiveFalse();
     this.props.resetQso();
-    this.CancelEndQsoModal();
+    // this.CancelEndQsoModal(); // esta no iria mas la reemplaza startNewPost
+    this.closeStartNewPost();
     // if (!this.intersitialLoaded) this.loadInter();
     // else console.log("ya esta cargado previamente intersitial");
     // if (!this.videorewardLoaded) this.loadVideoReward();
@@ -1540,7 +1554,7 @@ console.log('tomo imagen de galeria');
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
-
+{/* 
           <Modal
             visible={this.state.endQsoModal}
             animationType={"slide"}
@@ -1614,7 +1628,8 @@ console.log('tomo imagen de galeria');
 
               </View>
             </View>
-          </Modal>
+          </Modal> */}
+
           {/* width:this.width-10 */}
         </View>
         </TouchableWithoutFeedback> 
@@ -1709,26 +1724,47 @@ console.log('tomo imagen de galeria');
        
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
-          <View style={{ flex: 0.25, marginTop: 3, marginLeft: 5 }}>
+          <View style={{ flex: 0.23, marginTop: 15, marginLeft: 5 }}>
             {this.props.sqsonewqsoactive && 
-              <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
-                <Image
+              // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
+                  <TouchableOpacity style={styles.buttonDeletePostContainer} onPress={() => this.setState({deletePost: true})}>
+                {/* <Image
                   source={require("../../images/endQso2.png")}
                   style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
                   resizeMode="contain"
-                />
+                /> */}
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>{I18n.t("QsoScrEndPost")}</Text>
+                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+                     <Text style={{ fontSize: 12, color: '#243665',  textAlign: 'center', fontWeight: 'bold'  }}>{I18n.t("QsoScrDeletePost")}</Text>
               </TouchableOpacity>
               
             }
-            {/* <ShareQso /> */}
+          
+        
+          </View>
+
+          <View style={{ flex: 0.26, marginTop: 15, marginLeft: 9 }}>
+            {this.props.sqsonewqsoactive && 
+              // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
+                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
+                {/* <Image  
+                  source={require("../../images/endQso2.png")}
+                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
+                  resizeMode="contain"
+                /> */}
+                {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
+                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+                <Text style={{ fontSize: 12 ,color: '#243665',  textAlign: 'center', fontWeight: 'bold' }}>{I18n.t("QsoScrStartNewPost")}</Text>
+              </TouchableOpacity>
+              
+            }
+          
         
           </View>
 
           {/* {this.props.sqsonewqsoactive ? ( */}
        {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
-            <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 9 }}>
+            <View style={{ flex: 0.19, alignItems: "flex-end", marginTop: 15 }}>
                   { (this.props.sqsosqlrdsid !== '') &&
                       <ShareQso qra={this.props.qra} qsotype={this.props.qsotype} band={this.props.band} mode={this.props.mode} sqlrdsid={this.props.sqsosqlrdsid}/>
                   }
@@ -1737,16 +1773,16 @@ console.log('tomo imagen de galeria');
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (
-            <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 5 }}>
+            <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
               <TouchableOpacity style={{width: 65,height:63 }}
                 onPress={() => this.checkInternetOpenRecording()}
               >
                 <Image
                   source={require("../../images/mic.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
+                  style={{ width: 26, height: 26, marginLeft: 22, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 12:10 }}>{I18n.t("QsoScrRecord")}</Text>
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>{I18n.t("QsoScrRecord")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1756,15 +1792,15 @@ console.log('tomo imagen de galeria');
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (
-            <View style={{ flex: 0.25, alignItems: "center", marginTop: 5 }}>
+            <View style={{ flex: 0.16, alignItems: "center", marginTop: 11 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
             <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>     
                 <Image
                   source={require("../../images/camera.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
+                  style={{ width: 26, height: 26, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",   marginLeft: I18n.locale.substring(0, 2)==='es' ? 17:14 }}>{I18n.t("QsoScrPhoto")}</Text>
+                <Text style={{ fontSize: 13, color: "black",   marginLeft: I18n.locale.substring(0, 2)==='es' ? 16:14 }}>{I18n.t("QsoScrPhoto")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1787,6 +1823,15 @@ console.log('tomo imagen de galeria');
                               <StopApp appNeedUpgrade={this.state.appNeedUpgrade} pushTokenNotFound={this.state.pushTokenNotFound} 
                               forceChangePassword={this.state.forceChangePassword} upgradeText={this.state.upgradeText}/>
       }
+
+     {(this.state.deletePost) &&
+              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()}/>
+            }
+            
+    
+            {(this.state.startNewPost) &&
+              <StartNewPost sqlrdsid={this.props.sqsosqlrdsid} endQso={this.endQso.bind()} closeStartNewPost={this.closeStartNewPost.bind()}/>
+            }
 
       </View>
       </HandleBack>
@@ -1824,10 +1869,27 @@ const styles = StyleSheet.create({
     shadowOffset: {x:2, y:0},
     shadowRadius: 2,
     borderRadius: 35,
-    backgroundColor: '#243665'
+    backgroundColor: '#243665',
+  },
+    buttonDeletePostContainer:{
+      //   backgroundColor: '#2980b9',
+      backgroundColor: '#8BD8BD',
+         paddingVertical: 2,
+         borderRadius: 22,
+         width: 85,
+         height: 36,
+         marginTop: 0,
+         },
+         buttonStartNewPostContainer:{
+          //   backgroundColor: '#2980b9',
+          backgroundColor: '#8BD8BD',
+             paddingVertical: 2,
+             borderRadius: 22,
+             width: 90,
+             height: 36,
+             marginTop: 0,
+             },
 
-
-  }
   
 });
 

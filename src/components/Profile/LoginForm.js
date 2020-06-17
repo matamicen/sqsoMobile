@@ -485,7 +485,7 @@ if (this.debeHacerUpgrade===false)
   // Compruebo si ya estaba logueado con sus credenciales
     try {
       console.log('Antes de Auth.currentSession() ');
-      this.setState({mess: 'Current Session ...'})
+      this.setState({mess: I18n.t("currentSession")})
       session = await Auth.currentSession();
       
     

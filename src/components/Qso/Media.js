@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
    // fontWeight: 'bold',        
     // color: 'grey' 
     fontWeight: 'bold',  
-    color: 'black'     
+    color: 'red'     
 },
   inapropiate:{
     fontSize: 14,
