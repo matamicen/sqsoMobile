@@ -11,6 +11,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports'
 import QsoCallSigns from './QsoCallSigns';
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 
 Auth.configure(awsconfig);
@@ -109,6 +110,7 @@ class AddCallSigns extends Component {
               console.log('qratoadd: '+ JSON.stringify(qraToAddRds))
               this.props.close();
               await this.props.postQsoQras("ALL",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
+              this.props.setQsoCallsigns('DELETEALL','');
                 } 
 
 
@@ -221,7 +223,7 @@ class AddCallSigns extends Component {
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
-                  backgroundColor : 'rgba(0,0,0,0.90)',
+                  backgroundColor : 'rgba(36,54,101,0.93)',
                    marginTop: 120,
                    left: 25,
                 //    right: 15,
@@ -243,7 +245,7 @@ class AddCallSigns extends Component {
                     </View>
                     <View style={{ flex:0.4, flexDirection: 'row', marginTop:9 }}>
                     <View style={{ flex:0.27,alignItems: 'flex-end' }}>
-                    <Text style={{ color: 'grey', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>Callsign: </Text>
+                    <Text style={{ color: '#c0c0c0', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>{I18n.t("AddCallSignsCallsign")} </Text>
                     </View>
                     <View style={{ flex:0.47, alignItems: 'flex-start'}}> 
                                 <TextInput 
@@ -251,12 +253,12 @@ class AddCallSigns extends Component {
                             underlineColorAndroid='transparent'
                             placeholderTextColor="rgba(255,255,255,0.7)"
                             returnKeyType="next"
-                            autoCapitalize="none"
+                            // autoCapitalize="none"
                             style={styles.input}
                             autoCorrect={false}
                             // onSubmitEditing={() => this.passwordRef.focus()} 
                             value={this.state.qra}
-                                onChangeText={(text) => {  this.setState({qra: text}) }}
+                                onChangeText={(text) => {  this.setState({qra: text.toUpperCase()}) }}
                                     
                             onSubmitEditing={() => this.addQraCallsigns() }
                             keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
@@ -264,7 +266,7 @@ class AddCallSigns extends Component {
                     </View> 
                     <View style={{ flex:0.23}}>
                     <TouchableOpacity onPress={() => this.addQraCallsigns()} >
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 5}}>Add</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, marginTop: 5}}>{I18n.t("AddCallSignsAdd")}</Text>
                     </TouchableOpacity>
                     </View> 
                     {/* <Text style={{ color: 'grey', fontSize: 16}}>Enter CallSign</Text> */}
@@ -273,14 +275,14 @@ class AddCallSigns extends Component {
                     <View style={{ flex:0.13 , flexDirection: 'row'}}>
                       <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                               <TouchableOpacity onPress={() => this.props.close()} style={{ marginLeft: 5, marginBottom: 5}}>
-                            <Text style={{ color: 'grey', fontSize: 17}}>Cancel</Text>
+                            <Text style={{ color: '#c0c0c0', fontSize: 17}}>{I18n.t("AddCallSignsCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                        
                            <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                              {(this.props.qsocallsigns.length>0) &&
                               <TouchableOpacity onPress={() => this.addCallsignToqsoqras()} style={{ marginRight: 5, marginBottom: 5}} >
-                            <Text style={{ color: 'white', fontSize: 18}}>Confirm</Text>
+                            <Text style={{ color: 'white', fontSize: 18}}>{I18n.t("AddCallSignsConfirm")}</Text>
                               </TouchableOpacity>
                            }
                           </View>

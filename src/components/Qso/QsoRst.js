@@ -297,20 +297,21 @@ class QsoRst extends Component {
 
         return <View style={{flex:1, flexDirection: 'row' }}>               
                                  
-                                 {/* , marginLeft: 33    style={{ width: 42, height: 50 }} */}
-               <View style={{ flex: 0.45,marginTop: 8, alignItems: 'flex-end' }}>
-                 <TouchableOpacity   onPress={() => this.togglePicker()} >                  
+                                 {/* , marginLeft: 33    marginTop: 8 style={{ width: 42, height: 50 }} */}
+               {/* <View style={{ flex: 0.45,marginTop: 0, alignItems: 'flex-end',  }}> */}
+               <View style={{ flex: 1,marginTop: 0 }}>
+                 <TouchableOpacity  style={styles.buttonRSTContainer}  onPress={() => this.togglePicker()} >                  
               
         
-               <Text style={{ fontSize: 19, color: '#999' }} onPress={() => this.togglePicker()} >RST</Text>
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center' }} onPress={() => this.togglePicker()} >RST {this.props.rst}</Text>
                </TouchableOpacity >
                </View>
             {/* } */}
-            <View style={{ flex: 0.55, marginTop: 8}}>
-            <TouchableOpacity   onPress={() => this.togglePicker()} > 
-               <Text style={{ fontSize: 19, color: '#999'   }} onPress={() => this.togglePicker()} > {this.props.rst}</Text>
+            {/* <View style={{ flex: 0.55, marginTop: 0}}>
+            <TouchableOpacity  style={styles.buttonRSTContainer} onPress={() => this.togglePicker()} > 
+               <Text style={{ fontSize: 19, color: '#243665'   }} onPress={() => this.togglePicker()} > {this.props.rst}</Text>
                </TouchableOpacity >
-            </View>
+            </View> */}
 
             <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,
@@ -444,8 +445,18 @@ class QsoRst extends Component {
        fontSize: 30,
        alignSelf: 'center',
        color: 'red'
-    }
+    },
+    buttonRSTContainer:{
+      //   backgroundColor: '#2980b9',
+      backgroundColor: '#8BD8BD',
+         paddingVertical: 5,
+         borderRadius: 22,
+         width: 85,
+         height: 36,
+         marginTop: 0
+         }
  })
+
 
  const stylesPicker = StyleSheet.create({
     // placeholder: {

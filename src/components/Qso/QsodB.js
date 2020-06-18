@@ -186,20 +186,20 @@ class QsodB extends Component {
         return <View style={{flex:1, flexDirection: 'row' }}>               
                                  
                                  {/* , marginLeft: 33 */}
-           <View style={{ flex: 0.45,marginTop: 8, alignItems: 'flex-end' }}>
-               <TouchableOpacity   onPress={() => this.togglePicker()}>                  
+           <View style={{ flex: 1,marginTop: 0 }}>
+               <TouchableOpacity   style={styles.buttonDBContainer} onPress={() => this.togglePicker()}>                  
                {/* { (this.props.digitalmode) ?
                <Text style={{ fontSize: 17, color: '#999', marginTop: 0, marginLeft: 4  }} onPress={() => this.togglePicker()} >  dB</Text>
                : */}
-               <Text style={{ fontSize: 19, color: '#999'  }} onPress={() => this.togglePicker()} >dB</Text>
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'  }} onPress={() => this.togglePicker()} >dB {this.props.db}</Text>
                </TouchableOpacity >
              </View>
             {/* } */}
-            <View style={{ flex: 0.55, marginTop: 8}}>
+            {/* <View style={{ flex: 0.55, marginTop: 8}}>
                <TouchableOpacity   onPress={() => this.togglePicker()}>        
                   <Text style={{ fontSize: 19, color: '#999' }} onPress={() => this.togglePicker()} > {this.props.db}</Text>
                   </TouchableOpacity >
-             </View>
+             </View> */}
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:20,
                       padding:20, 
@@ -316,7 +316,16 @@ class QsodB extends Component {
        fontSize: 30,
        alignSelf: 'center',
        color: 'red'
-    }
+    },
+    buttonDBContainer:{
+      //   backgroundColor: '#2980b9',
+      backgroundColor: '#8BD8BD',
+         paddingVertical: 5,
+         borderRadius: 22,
+         width: 85,
+         height: 36,
+         marginTop: 0
+         }
  })
 
  const stylesPicker = StyleSheet.create({

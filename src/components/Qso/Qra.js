@@ -5,6 +5,7 @@ import { QsoQraDelete, deleteQsoQra, followAdd, unfollow, getUserInfo, deletePos
 import { getDate, getFollowStatus, hasAPIConnection} from '../../helper';
 import PropTypes from 'prop-types';
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 
 
@@ -199,7 +200,7 @@ class Qra extends Component {
                           <TouchableOpacity  style={{ marginTop: 5,  padding:5, marginLeft: 5}} onPress={() => this.delete(this.props.qra)} >
                                 <Image source={require('../../images/removecircle.png')}  style={{width: 24, height: 24, marginLeft:10 } } 
                                    resizeMode="contain" />  
-                                    <Text style={{ color: 'grey',  fontSize: 16}}>Delete</Text>
+                                    <Text style={{ color: 'grey',  fontSize: 16}}>{I18n.t("QraDelete")}</Text>
                              
                           </TouchableOpacity>
                     
@@ -220,7 +221,7 @@ class Qra extends Component {
                      {this.state.followstatus==="false" &&
 
                      <TouchableOpacity  onPress={() => this.follow(this.props.qra,this.props.imageurl)} >
-                       <Text style={{ color: 'white', fontSize: 17}}>Follow</Text>
+                       <Text style={{ color: 'white', fontSize: 17}}>{I18n.t("QraFollow")}</Text>
                       </TouchableOpacity>
                         
                          
@@ -230,7 +231,7 @@ class Qra extends Component {
                        {this.state.followstatus==="true" &&
 
                         <TouchableOpacity  onPress={() => this.follow(this.props.qra,this.props.imageurl)} >
-                          <Text style={{ color: 'white', fontSize: 17}}>UnFollow</Text>
+                          <Text style={{ color: 'white', fontSize: 17}}>{I18n.t("QraUnFollow")}</Text>
                         </TouchableOpacity>
                       
                          
@@ -240,7 +241,7 @@ class Qra extends Component {
                     
                      <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
                         <TouchableOpacity onPress={() => this.closeModaldeleteqra()} >
-                       <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                       <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("QraCancel")}</Text>
                          </TouchableOpacity>
 
                      </View>   
@@ -254,12 +255,12 @@ class Qra extends Component {
                     <View style={{ flex:1, alignItems: "center", marginTop:3 }}>
                       {(!this.props.deletedflag) ?
                        <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
-                       <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>WARNING</Text>
-                        <Text style={{ color: 'white', fontSize: 16}}>The entire post will be DELETED if you delete the last callsign. If you want to change the callsign, add the new one first and then delete this one.</Text>
+                       <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("QraWarning")}</Text>
+                        <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("QraTheEntirePost")}</Text>
                       </View>
                       :
                       <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
-                      <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>Message</Text>
+                      <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("QraMessage")}</Text>
                        <Text style={{ color: 'white', fontSize: 16}}>{this.props.deletepostmessage}</Text>
                      </View>
                   }
@@ -268,13 +269,13 @@ class Qra extends Component {
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
                             <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                               <TouchableOpacity onPress={() => this.closeModaldeleteqra()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                            <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("QraCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                            {(!this.props.deletedflag) &&
                             <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                               <TouchableOpacity onPress={() => this.deletePost()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>Delete the POST</Text>
+                            <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("QraDeletePost")} </Text>
                               </TouchableOpacity>
                           </View>
                      } 

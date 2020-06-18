@@ -14,6 +14,7 @@ import {
 import { connect } from "react-redux";
 import Terms from './Terms';
 import Privacy from './Privacy';
+import I18n from '../../utils/i18n';
 // import Iap from './Iap';
 
 
@@ -87,59 +88,7 @@ class VariosModales extends Component {
     
     
 
-    if (this.props.modalType === "bepremium")
-      return (
-        <View>
-          {/* {(this.props.modalType==='bepremium') ? */}
 
-          <Modal
-            visible={this.state.show}
-            transparent={true}
-            onRequestClose={() => console.log("Close was requested")}
-          >
-            <View
-              style={{
-                //  margin:20,
-                padding: 20,
-                backgroundColor: "#475788",
-                top: 90,
-                left: 30,
-                right: 30,
-                position: "absolute",
-                borderBottomLeftRadius: 22,
-                borderBottomRightRadius: 22,
-                borderTopLeftRadius: 22,
-                borderTopRightRadius: 22
-
-                //  alignItems: 'center'
-              }}
-            >
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <Image
-                  source={require("../../images/noInternet.png")}
-                  style={{ width: 60, height: 60 }}
-                  resizeMode="contain"
-                />
-
-                <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  Be Premium {this.props.feature}
-                </Text>
-
-                <TouchableOpacity
-                  onPress={() => this.props.closeInternetModal('bepremium')}
-                  style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
-                >
-                  <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-        </View>
-      );
-
-    {
-      /* : */
-    }
 
     if (this.props.modalType === "welcomefirsttime")
     return (
@@ -175,16 +124,16 @@ class VariosModales extends Component {
                 resizeMode="contain"
               />
 
-              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>Welcome to Super QSO!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>You have 3 month of trial Premium Subscription!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>Enjoy Super QSO 59+100 !!!</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>After the 3 month you can continue using Super QSO with the FREE subscription.</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>{I18n.t("variosModWelcWelcome")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>{I18n.t("variosModWelc3Months")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>{I18n.t("variosModWelcEnjoy")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>{I18n.t("variosModWelc3After")}</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}
                 style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
               >
-                <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
+                <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModWelOKButton")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -227,14 +176,14 @@ class VariosModales extends Component {
                 />
 
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  There is no Internet connection.
+                {I18n.t("variosModNointernet")}
                 </Text>
 
                 <TouchableOpacity
                   onPress={() => this.props.closeInternetModal('nointernet')}
                   style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                 >
-                  <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
+                  <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModNointernetOKButton")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -242,54 +191,57 @@ class VariosModales extends Component {
         </View>
       );
 
-      if (this.props.modalType === "notvideorewarded")
-      return (
-        <View>
-          <Modal
-            visible={this.state.show}
-            transparent={true}
-            onRequestClose={() => console.log("Close was requested")}
-          >
-            <View
-              style={{
-                //  margin:20,
-                padding: 20,
-                backgroundColor: "#475788",
-                top: 90,
-                left: 30,
-                right: 30,
-                position: "absolute",
-                borderBottomLeftRadius: 22,
-                borderBottomRightRadius: 22,
-                borderTopLeftRadius: 22,
-                borderTopRightRadius: 22
+      // este no se usa mas y habia quedado viejo, comento por las dudas 
+      // pero salvo que me haya comido algo no lo llama nadie por eso no entra en i18n
 
-                //  alignItems: 'center'
-              }}
-            >
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <Image
-                  source={require("../../images/noInternet.png")}
-                  style={{ width: 60, height: 60 }}
-                  resizeMode="contain"
-                />
+      // if (this.props.modalType === "notvideorewarded")
+      // return (
+      //   <View>
+      //     <Modal
+      //       visible={this.state.show}
+      //       transparent={true}
+      //       onRequestClose={() => console.log("Close was requested")}
+      //     >
+      //       <View
+      //         style={{
+      //           //  margin:20,
+      //           padding: 20,
+      //           backgroundColor: "#475788",
+      //           top: 90,
+      //           left: 30,
+      //           right: 30,
+      //           position: "absolute",
+      //           borderBottomLeftRadius: 22,
+      //           borderBottomRightRadius: 22,
+      //           borderTopLeftRadius: 22,
+      //           borderTopRightRadius: 22
 
-                <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                {this.props.message}
-                  {/* Free User: You need to watch the Ad video to create a new qso. */}
-                </Text>
+      //           //  alignItems: 'center'
+      //         }}
+      //       >
+      //         <View style={{ flex: 1, alignItems: "center" }}>
+      //           <Image
+      //             source={require("../../images/noInternet.png")}
+      //             style={{ width: 60, height: 60 }}
+      //             resizeMode="contain"
+      //           />
 
-                <TouchableOpacity
-                  onPress={() => this.props.closeInternetModal('notvideorewarded')}
-                  style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
-                >
-                  <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-        </View>
-      );
+      //           <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
+      //           {this.props.message}
+      //             {/* Free User: You need to watch the Ad video to create a new qso. */}
+      //           </Text>
+
+      //           <TouchableOpacity
+      //             onPress={() => this.props.closeInternetModal('notvideorewarded')}
+      //             style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
+      //           >
+      //             <Text style={{ color: "#999", fontSize: 22 }}>OK</Text>
+      //           </TouchableOpacity>
+      //         </View>
+      //       </View>
+      //     </Modal>
+      //   </View>
+      // );
 
       if (this.props.modalType === "prevideorewarded")
       return (
@@ -325,31 +277,31 @@ class VariosModales extends Component {
                 /> */}
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  Free User
+                {I18n.t("variosModprevideoRewFreeUser")}
                   
                 </Text>
                 </View>
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 { (this.props.sender==='linkqso') && 
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                   You have to watch a video reward to link these Qsos. 
+                   {I18n.t("variosModprevideoRewHaveToWatchLink")}
               </Text> 
             }
 
                  { (this.props.sender==='sendmedia') && 
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                You have to watch a video reward to send the media to the cloud. 
+                {I18n.t("variosModprevideoRewHaveToWatchMedia")}
                 </Text>
                 }
                  { (this.props.sender==='newqso') && 
                  <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                 You have to watch a video reward to create a NewQso. 
+                 {I18n.t("variosModprevideoRewHaveToWatchNewQSO")} 
                  </Text>
                  }
 
                 { (this.props.sender==='scanqr') && 
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                   You have to watch a video reward to Scan the QR. 
+                   {I18n.t("variosModprevideoRewHaveToWatchScanQR")} 
               </Text> 
                 }
 
@@ -370,7 +322,7 @@ class VariosModales extends Component {
                   onPress={() => this.setState({watchvideo: false}) }
                  
                 >
-                  <Text style={{ color: "#999", fontSize: 16 }}>Don't watch</Text>
+                  <Text style={{ color: "#999", fontSize: 16 }}>{I18n.t("variosModprevideoRewDontWatch")}</Text>
                 </TouchableOpacity>
                  </View> 
                  <View style={{ flex: 0.5, alignItems: "center", marginTop: 12}}>
@@ -378,7 +330,7 @@ class VariosModales extends Component {
                   onPress={() => { 
                     this.props.closeInternetModal("yes")      
                 }}   >
-                  <Text style={{ color: "#FFFFFF", fontSize: 16 }}>Watch the video</Text>
+                  <Text style={{ color: "#FFFFFF", fontSize: 16 }}>{I18n.t("variosModprevideoRewWatchVideo")}</Text>
                 </TouchableOpacity>
                  </View> 
 
@@ -422,7 +374,7 @@ class VariosModales extends Component {
                 /> */}
                 <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  Free User
+                {I18n.t("variosModprevideoRewAreYouSureFree")}
                   
                 </Text>
                 </View>
@@ -430,22 +382,22 @@ class VariosModales extends Component {
                
                 { (this.props.sender==='linkqso') &&
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                Are you sure to not link theses Qsos ?  
+                {I18n.t("variosModprevideoRewAreYouSureLink")} 
                 </Text>
                 }
                   { (this.props.sender==='sendmedia') &&
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                Are you sure to discard the media just created?  
+                {I18n.t("variosModprevideoRewAreYouSureMedia")}  
                 </Text>
                 }
                     { (this.props.sender==='newqso') &&
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                  Are you sure to not start a New Qso ? 
+                  {I18n.t("variosModprevideoRewAreYouSureNewQSO")} 
                 </Text>
                 }
                        { (this.props.sender==='scanqr') &&
                 <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>
-                  Are you sure to not scan the Qr code ? 
+                  {I18n.t("variosModprevideoRewAreYouSureScanQR")} 
                 </Text>
                 }
                
@@ -472,7 +424,7 @@ class VariosModales extends Component {
                     this.props.closeInternetModal("no")
                 }}   >
                   
-                  <Text style={{ color: "#999", fontSize: 15 }}>Don't link these Qsos.</Text>
+                  <Text style={{ color: "#999", fontSize: 15 }}>{I18n.t("variosModprevideoRewAreYouSureDontLink")}</Text>
                 </TouchableOpacity>
                 }
 
@@ -483,7 +435,7 @@ class VariosModales extends Component {
                     this.props.closeInternetModal("no")
                 }}   >
                   
-                  <Text style={{ color: "#999", fontSize: 15 }}>Discard the Media</Text>
+                  <Text style={{ color: "#999", fontSize: 15 }}>{I18n.t("variosModprevideoRewAreYouSureDiscardMedia")}</Text>
                 </TouchableOpacity>
 
              }
@@ -495,7 +447,7 @@ class VariosModales extends Component {
                     this.props.closeInternetModal("no")
                 }}   >
                   
-                  <Text style={{ color: "#999", fontSize: 15 }}>Don't start</Text>
+                  <Text style={{ color: "#999", fontSize: 15 }}>{I18n.t("variosModprevideoRewAreYouSureDontStart")}</Text>
                 </TouchableOpacity>
 
              }
@@ -507,7 +459,7 @@ class VariosModales extends Component {
                     this.props.closeInternetModal("no")
                 }}   >
                   
-                  <Text style={{ color: "#999", fontSize: 15 }}>Don't scan</Text>
+                  <Text style={{ color: "#999", fontSize: 15 }}>{I18n.t("variosModprevideoRewAreYouSureDontScan")}</Text>
                 </TouchableOpacity>
 
              }
@@ -524,7 +476,7 @@ class VariosModales extends Component {
                }}
                   
                 >
-                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Links these Qsos.</Text>
+                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>{I18n.t("variosModprevideoRewLinkQsos")}</Text>
                 </TouchableOpacity>
            }
                  { (this.props.sender==='sendmedia') &&      
@@ -535,7 +487,7 @@ class VariosModales extends Component {
                }}
                   
                 >
-                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Send the media</Text>
+                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>{I18n.t("variosModprevideoRewSendMedia")}</Text>
                 </TouchableOpacity>
                 }
                    { (this.props.sender==='newqso') &&      
@@ -546,7 +498,7 @@ class VariosModales extends Component {
                }}
                   
                 >
-                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Create a NewQso</Text>
+                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>{I18n.t("variosModprevideoRewStartPost")}</Text>
                 </TouchableOpacity>
                 }
                    { (this.props.sender==='scanqr') &&      
@@ -557,7 +509,7 @@ class VariosModales extends Component {
                }}
                   
                 >
-                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>Scan the QR Code</Text>
+                  <Text style={{ color: "#FFFFFF", fontSize: 15 }}>{I18n.t("variosModprevideoRewScanQR")}</Text>
                 </TouchableOpacity>
                 }
 
@@ -726,13 +678,13 @@ class VariosModales extends Component {
                     />
 
                     <Text style={{ color: "#FFFFFF", fontSize: 20}}>
-                      Contact us
+                    {I18n.t("variosModContactUsTitle")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
                 </View>
                 <View style={{ flex: 0.6 }}>
                     <Text style={{ color: "#FFFFFF", fontSize: 18, marginTop: 10, marginLeft:7}}>
-                      Message
+                    {I18n.t("variosModContactUsMessage")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
 
@@ -761,7 +713,7 @@ class VariosModales extends Component {
                       onPress={() => this.props.closecontact()}
                       style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                     >
-                      <Text style={{ color: "#999", fontSize: 20 }}>Cancel</Text>
+                      <Text style={{ color: "#999", fontSize: 20 }}>{I18n.t("variosModContactUsCancel")}</Text>
                     </TouchableOpacity>
                    
                     </View>
@@ -775,7 +727,7 @@ class VariosModales extends Component {
                           }} 
                           style={{ paddingTop: 8, paddingBottom: 4, marginRight: 15}}
                         >
-                          <Text style={{ color: "#FFF", fontSize: 20 }}>Send</Text>
+                          <Text style={{ color: "#FFF", fontSize: 20 }}>{I18n.t("variosModContactUsSend")}</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -823,17 +775,17 @@ class VariosModales extends Component {
                 />
 
                 <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
-                  Your message was sent! 
+                {I18n.t("variosModContactUsSentYourMessage")}
                 </Text>
                 <Text style={{ color: "#FFFFFF", fontSize: 14, padding: 10 }}>
-                 We will contact you soon.  
+                {I18n.t("variosModContactUsSentWeWill")}  
                 </Text>
 
                 <TouchableOpacity
                   onPress={() => this.props.closecontact()}
                   style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
                 >
-                  <Text style={{ color: "#999", fontSize: 22 }}>Close</Text>
+                  <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModContactUsSentClose")}</Text>
                 </TouchableOpacity>
                
               </View>

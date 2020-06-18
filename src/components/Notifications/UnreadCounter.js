@@ -37,8 +37,9 @@ class UnreadCounter extends Component {
          <Text 
                style={{color: 'white',
                        position:'absolute',
-                       top:1,
-                       left:32,
+                    //    top:1,
+                    top:1,
+                       left:38,
                    //    margin: -1,
                        minWidth:18,
                         // height:18,

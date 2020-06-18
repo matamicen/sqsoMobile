@@ -10,6 +10,7 @@ import {  followingsSelected, getQrasFromSearch, insertQraSearched, getUserInfo,
 import { hasAPIConnection} from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import User from './User';
+import I18n from '../../utils/i18n';
 
 
 
@@ -20,11 +21,14 @@ class Search extends Component {
       tabBarLabel: ' ',  
 
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 55, height: 20,marginTop: (Platform.OS==='ios') ? 5 : 5}}>
+        // return (<View style={{width: 55, height: 20,marginTop: (Platform.OS==='ios') ? 5 : 5,marginLeft:15, backgroundColor:'green'}}>
+    return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Image
-            style={{ width: 28, height: 28, marginLeft: 13 }}
+            // style={{ width: 28, height: 28, marginLeft: 13 }}
+            style={{ width: 28, height: 28, marginLeft: 10, marginTop: (Platform.OS==='ios') ? 19 : 26 }}
             source={require('../../images/search.png')}/>
-            <Text style={{fontSize:9, marginTop: 3.5, marginLeft: 9}}>SEARCH</Text>
+             <Text style={{fontSize:9, marginTop: 3, marginLeft: 10}}>{I18n.t("SearchTitle")}</Text>
+            {/* <Text style={{fontSize:9, marginTop: 3.5, marginLeft: 9}}>{I18n.t("SearchTitle")}</Text> */}
             </View>
             
             );}
@@ -171,8 +175,8 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
                 {/* <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000"/> */}
                 <TextInput
                     style={styles.input}
-                    placeholder="Search CallSign"
-                    onChangeText={(text) => this.onChange(text)}
+                    placeholder={I18n.t("SearchSearchCallsign")}
+                    onChangeText={(text) => this.onChange(text.toUpperCase())}
                  //   onChangeText={(text) => {this.setState({text})}}
                     value={this.state.qra}
                     underlineColorAndroid="transparent"
@@ -192,12 +196,12 @@ return   <View style={{flex: 1,  backgroundColor: '#fff'}}>
      
         {!this.state.searching ? 
        <View style={{flex: 0.06, alignItems:"center"}}>
-         <Text style={{fontSize: 12, color:"grey"}}>We start to search automatically</Text>
-         <Text style={{fontSize: 12, color:"grey"}}>after the 4th digit</Text>
+         <Text style={{fontSize: 12, color:"grey"}}>{I18n.t("SearchWeStartToSearch")}</Text>
+         <Text style={{fontSize: 12, color:"grey"}}>{I18n.t("SearchAfter4Digit")}</Text>
        </View>
        :
        <View style={{flex: 0.06, alignItems:"center"}}>
-       <Text style={{fontSize: 13, color:"grey"}}>Searching ...</Text>
+       <Text style={{fontSize: 13, color:"grey"}}>{I18n.t("SearchSearching")}</Text>
       
      </View>
      }
@@ -258,7 +262,7 @@ input: {
     marginRight: 10,
     marginTop:2,
     marginBottom: 3,
-    fontSize:17,
+    fontSize:16,
  
    
     color: '#424242',

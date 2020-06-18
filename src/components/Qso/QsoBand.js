@@ -5,7 +5,7 @@ import { setBand, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, acti
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress, hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
-
+import I18n from '../../utils/i18n';
 
 
 class QsoBand extends Component {
@@ -163,8 +163,10 @@ class QsoBand extends Component {
         return <View>               
                                  
                                  {/* , marginLeft: 33 */}
-               <TouchableOpacity   onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                  
-               <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 10  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
+             {/* <TouchableOpacity   style={styles.buttonBandContainer} onPress={() => this.togglePicker()} style={{ width: 70, height: 50 }}>                   */}
+               <TouchableOpacity   style={styles.buttonBandContainer} onPress={() => this.togglePicker()} >                  
+               {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 10  }} onPress={() => this.togglePicker()} >{this.props.band}</Text> */}
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'  }} onPress={() => this.togglePicker()} >{this.props.band}</Text>
                </TouchableOpacity >
                <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{ margin:5,
@@ -181,7 +183,7 @@ class QsoBand extends Component {
                          borderTopRightRadius: 22,                     
                           }}>
                           
-                    <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Band </Text>
+                    <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>{I18n.t("QsoBandPleasePick")} </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
                                  <Text style={{ fontSize: 18, padding:1.25}} >{value.title}</Text>
@@ -189,7 +191,7 @@ class QsoBand extends Component {
                     })}
 
                     <TouchableOpacity   onPress={() => this.togglePicker()} style={{ paddingTop: 4, paddingBottom: 4}}>
-                      <Text style={{ color: '#999'}}>Cancel</Text>
+                      <Text style={{ color: '#999'}}>{I18n.t("QsoBandCancel")}</Text>
                     </TouchableOpacity >
                     </View>
 
@@ -210,6 +212,19 @@ class QsoBand extends Component {
    
 };
 
+const styles = StyleSheet.create({
+
+    buttonBandContainer:{
+    //   backgroundColor: '#2980b9',
+    backgroundColor: '#8BD8BD',
+       paddingVertical: 5,
+       borderRadius: 22,
+       width: 70,
+       height: 36,
+       marginTop: 0,
+       marginLeft: 8
+       }
+    });
 
  const mapStateToProps = state => {
     return {        
