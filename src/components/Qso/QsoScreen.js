@@ -83,6 +83,10 @@ import StopApp from './../Profile/StopApp';
 import analytics from '@react-native-firebase/analytics';
 import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
+import I18n from '../../utils/i18n';
+import DeletePost from './DeletePost';
+// import global_config from '../../global_config.json';
+import StartNewPost from './StartNewPost';
 
 
 
@@ -147,7 +151,9 @@ class QsoScreen extends Component {
       forceChangePassword: false,
       upgradeText: '',
       iconosWeb: false,
-      camaraSelect: false
+      camaraSelect: false,
+      deletePost: false,
+      startNewPost: false,
      
     };
   }
@@ -158,20 +164,24 @@ class QsoScreen extends Component {
 
     tabBarIcon: ({ tintColor }) => {
       return (
-        <View
-          style={{
-            width: 35,
-            height: 20,
-            marginTop: Platform.OS === "ios" ? 3 : 3
-          }}
-        >
+        // <View
+        //   style={{
+        //     width: 44,
+        //     height: 20,
+        //     marginTop: Platform.OS === "ios" ? 3 : 3, backgroundColor:'green'
+        //   }}
+        // >   marginTop: Platform.OS === "ios" ? 9 : 26
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          
           <Image
-            style={{  width: 31, height: 31, marginLeft: 0}}
+           style={{  width: 31, height: 31, marginLeft: I18n.locale.substring(0, 2)==='es' ? 0:0, marginTop: Platform.OS === "ios" ? 22 : 26}}
+          // style={{  width: 31, height: 31, marginLeft: I18n.locale.substring(0, 2)==='es' ? 8:0}}
          //   source={require("../../images/qsoicon3.png")}
             source={require("../../images/MicrofonoGris.png")}
             resizeMode="contain"
           />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 6 }}>POST</Text>
+           <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 0 }}>{I18n.t("QsoScrTitle")}</Text>
+          {/* <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 4 }}>{I18n.t("QsoScrTitle")}</Text> */}
         </View>
       );
     }
@@ -207,6 +217,8 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+    // console.log('i18n print:'+I18n.locale);
+    // console.log('i18n print2:'+JSON.stringify(I18n));
 
 // agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
 // entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
@@ -690,6 +702,14 @@ class QsoScreen extends Component {
 
   }
 
+  CloseDeletePost = () => {
+    this.setState({deletePost: false})
+  }
+
+  closeStartNewPost = () => {
+    this.setState({startNewPost: false})
+  }
+
   OpenEndQsoModal = () => {
     this.setState({
       endQsoModal: true
@@ -1149,7 +1169,8 @@ console.log('tomo imagen de galeria');
   endQso = () => {
     this.props.newqsoactiveFalse();
     this.props.resetQso();
-    this.CancelEndQsoModal();
+    // this.CancelEndQsoModal(); // esta no iria mas la reemplaza startNewPost
+    this.closeStartNewPost();
     // if (!this.intersitialLoaded) this.loadInter();
     // else console.log("ya esta cargado previamente intersitial");
     // if (!this.videorewardLoaded) this.loadVideoReward();
@@ -1283,62 +1304,62 @@ console.log('tomo imagen de galeria');
 
 
 
-yourPosts = async (qra) => {
-  console.log('yourlatest');
-  urlnotif = 'https://www.superqso.com/'+qra;
-  Linking.canOpenURL(urlnotif).then(supported => {
-    if (!supported) {
-      console.log('Can\'t handle url: ' + urlnotif);
-    } else {
-      if(__DEV__)
-        analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
-      else
-        analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
+// yourPosts = async (qra) => {
+//   console.log('yourlatest url: '+global_config.urlWeb+qra);
+//   urlnotif = global_config.urlWeb+qra;
+//   Linking.canOpenURL(urlnotif).then(supported => {
+//     if (!supported) {
+//       console.log('Can\'t handle url: ' + urlnotif);
+//     } else {
+//       if(__DEV__)
+//         analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
+//       else
+//         analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
     
-      return Linking.openURL(urlnotif);
+//       return Linking.openURL(urlnotif);
     
-    }
-  }).catch(err => {
-          console.error('An error occurred', err)
-          crashlytics().setUserId(this.props.qra);
-          crashlytics().log('error: ' + JSON.stringify(err)) ;
-          if(__DEV__)
-          crashlytics().recordError(new Error('Linking.yourposts_DEV'));
-          else
-          crashlytics().recordError(new Error('Linking.yourposts_PRD'));
+//     }
+//   }).catch(err => {
+//           console.error('An error occurred', err)
+//           crashlytics().setUserId(this.props.qra);
+//           crashlytics().log('error: ' + JSON.stringify(err)) ;
+//           if(__DEV__)
+//           crashlytics().recordError(new Error('Linking.yourposts_DEV'));
+//           else
+//           crashlytics().recordError(new Error('Linking.yourposts_PRD'));
 
 
-        });
-      }
+//         });
+//       }
 
 
-latestPosts = async () => {
-  console.log('latest');
-  urlnotif = 'https://www.superqso.com/';
-  Linking.canOpenURL(urlnotif).then(supported => {
-    if (!supported) {
-      console.log('Can\'t handle url: ' + urlnotif);
-    } else {
-      if(__DEV__)
-        analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
-      else
-        analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
+// latestPosts = async () => {
+//   console.log('latest url: '+global_config.urlWeb);
+//   urlnotif = global_config.urlWeb;
+//   Linking.canOpenURL(urlnotif).then(supported => {
+//     if (!supported) {
+//       console.log('Can\'t handle url: ' + urlnotif);
+//     } else {
+//       if(__DEV__)
+//         analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
+//       else
+//         analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
     
-      return Linking.openURL(urlnotif);
+//       return Linking.openURL(urlnotif);
     
-    }
-  }).catch(err => {
-          console.error('An error occurred', err)
-          crashlytics().setUserId(this.props.qra);
-          crashlytics().log('error: ' + JSON.stringify(err)) ;
-          if(__DEV__)
-          crashlytics().recordError(new Error('Linking.latestposts_DEV'));
-          else
-          crashlytics().recordError(new Error('Linking.latestposts_PRD'));
+//     }
+//   }).catch(err => {
+//           console.error('An error occurred', err)
+//           crashlytics().setUserId(this.props.qra);
+//           crashlytics().log('error: ' + JSON.stringify(err)) ;
+//           if(__DEV__)
+//           crashlytics().recordError(new Error('Linking.latestposts_DEV'));
+//           else
+//           crashlytics().recordError(new Error('Linking.latestposts_PRD'));
 
 
-        });
-      }
+//         });
+//       }
 
       
 
@@ -1375,13 +1396,13 @@ latestPosts = async () => {
               style={{
                 padding: 10,
                 margin: 15,
-                backgroundColor: "rgba(0,0,0,0.85)",
+                backgroundColor: 'rgba(36,54,101,0.93)',
                 marginTop: 210,
-                left: 20,
+                left: 95,
                 //  right: 15,
                 // alignItems: 'center',
                 // alignContent: 'center',
-                width: 300,
+                width: 150,
                 height: 45,
                 paddingVertical: 5,
                 //   position: 'absolute',
@@ -1399,7 +1420,7 @@ latestPosts = async () => {
                   marginTop: 5
                 }}
               >
-                Publishing post on the web ...
+                {I18n.t("QsoScrPublishingPost")}
               </Text>
             </View>
             {/* </KeyboardAvoidingView > */}
@@ -1533,7 +1554,7 @@ latestPosts = async () => {
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
-
+{/* 
           <Modal
             visible={this.state.endQsoModal}
             animationType={"slide"}
@@ -1562,7 +1583,7 @@ latestPosts = async () => {
                   marginBottom: 10
                 }}
               >
-                Are you sure to END this {this.props.qsotype} post?{" "}
+                {I18n.t("QsoScrAreYouSureEnd")} {I18n.t("QsoScrAreYouSureEndPost")}{" "}
               </Text>
 
               <View style={{ flexDirection: "row", flex: 1 }}>
@@ -1579,7 +1600,7 @@ latestPosts = async () => {
                       fontSize: 14
                     }}
                   >
-                    Cancel
+                    {I18n.t("QsoScrAreYouSureCancel")}
                   </Text>
                 </TouchableOpacity>
                 </View>
@@ -1600,14 +1621,15 @@ latestPosts = async () => {
                       fontSize: 14, marginRight: 15
                     }}
                   >
-                    End this Post
+                    {I18n.t("QsoScrAreYouSureEndThisPost")}
                   </Text>
                 </TouchableOpacity>
                 </View>
 
               </View>
             </View>
-          </Modal>
+          </Modal> */}
+
           {/* width:this.width-10 */}
         </View>
         </TouchableWithoutFeedback> 
@@ -1643,7 +1665,7 @@ latestPosts = async () => {
                       style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
                       
                           ]}>
-                      <Text style={{fontSize: 16, color: '#243665'}}>Start a POST</Text>
+                      <Text style={{fontSize: 16, color: '#243665'}}>{I18n.t("QsoScrStartPost")}</Text>
                       </Animated.View>
                     </TouchableOpacity>
                   
@@ -1702,26 +1724,47 @@ latestPosts = async () => {
        
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
-          <View style={{ flex: 0.25, marginTop: 3, marginLeft: 5 }}>
+          <View style={{ flex: 0.23, marginTop: 15, marginLeft: 5 }}>
             {this.props.sqsonewqsoactive && 
-              <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
-                <Image
+              // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
+                  <TouchableOpacity style={styles.buttonDeletePostContainer} onPress={() => this.setState({deletePost: true})}>
+                {/* <Image
                   source={require("../../images/endQso2.png")}
                   style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
                   resizeMode="contain"
-                />
+                /> */}
                 {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                <Text style={{ fontSize: 13, color: "black", marginLeft: 8 }}>End POST</Text>
+                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+                     <Text style={{ fontSize: 12, color: '#243665',  textAlign: 'center', fontWeight: 'bold'  }}>{I18n.t("QsoScrDeletePost")}</Text>
               </TouchableOpacity>
               
             }
-            {/* <ShareQso /> */}
+          
+        
+          </View>
+
+          <View style={{ flex: 0.26, marginTop: 15, marginLeft: 9 }}>
+            {this.props.sqsonewqsoactive && 
+              // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
+                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
+                {/* <Image  
+                  source={require("../../images/endQso2.png")}
+                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
+                  resizeMode="contain"
+                /> */}
+                {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
+                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+                <Text style={{ fontSize: 12 ,color: '#243665',  textAlign: 'center', fontWeight: 'bold' }}>{I18n.t("QsoScrStartNewPost")}</Text>
+              </TouchableOpacity>
+              
+            }
+          
         
           </View>
 
           {/* {this.props.sqsonewqsoactive ? ( */}
        {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
-            <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 9 }}>
+            <View style={{ flex: 0.19, alignItems: "flex-end", marginTop: 15 }}>
                   { (this.props.sqsosqlrdsid !== '') &&
                       <ShareQso qra={this.props.qra} qsotype={this.props.qsotype} band={this.props.band} mode={this.props.mode} sqlrdsid={this.props.sqsosqlrdsid}/>
                   }
@@ -1730,16 +1773,16 @@ latestPosts = async () => {
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (
-            <View style={{ flex: 0.25, alignItems: "flex-end", marginTop: 5 }}>
+            <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
               <TouchableOpacity style={{width: 65,height:63 }}
                 onPress={() => this.checkInternetOpenRecording()}
               >
                 <Image
                   source={require("../../images/mic.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
+                  style={{ width: 26, height: 26, marginLeft: 22, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",  marginLeft: 10  }}>Record</Text>
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>{I18n.t("QsoScrRecord")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1749,15 +1792,15 @@ latestPosts = async () => {
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
           {this.props.sqsonewqsoactive ? (
-            <View style={{ flex: 0.25, alignItems: "center", marginTop: 5 }}>
+            <View style={{ flex: 0.16, alignItems: "center", marginTop: 11 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
             <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>     
                 <Image
                   source={require("../../images/camera.png")}
-                  style={{ width: 33, height: 33, marginLeft: 15, marginTop: 2 }}
+                  style={{ width: 26, height: 26, marginLeft: 15, marginTop: 2 }}
                   resizeMode="contain"
                 />
-                <Text style={{ fontSize: 13, color: "black",   marginLeft: 14 }}>Photo</Text>
+                <Text style={{ fontSize: 13, color: "black",   marginLeft: I18n.locale.substring(0, 2)==='es' ? 16:14 }}>{I18n.t("QsoScrPhoto")}</Text>
               </TouchableOpacity>
             </View>
           ) : null}
@@ -1780,6 +1823,15 @@ latestPosts = async () => {
                               <StopApp appNeedUpgrade={this.state.appNeedUpgrade} pushTokenNotFound={this.state.pushTokenNotFound} 
                               forceChangePassword={this.state.forceChangePassword} upgradeText={this.state.upgradeText}/>
       }
+
+     {(this.state.deletePost) &&
+              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()}/>
+            }
+            
+    
+            {(this.state.startNewPost) &&
+              <StartNewPost sqlrdsid={this.props.sqsosqlrdsid} endQso={this.endQso.bind()} closeStartNewPost={this.closeStartNewPost.bind()}/>
+            }
 
       </View>
       </HandleBack>
@@ -1817,10 +1869,27 @@ const styles = StyleSheet.create({
     shadowOffset: {x:2, y:0},
     shadowRadius: 2,
     borderRadius: 35,
-    backgroundColor: '#243665'
+    backgroundColor: '#243665',
+  },
+    buttonDeletePostContainer:{
+      //   backgroundColor: '#2980b9',
+      backgroundColor: '#8BD8BD',
+         paddingVertical: 2,
+         borderRadius: 22,
+         width: 85,
+         height: 36,
+         marginTop: 0,
+         },
+         buttonStartNewPostContainer:{
+          //   backgroundColor: '#2980b9',
+          backgroundColor: '#8BD8BD',
+             paddingVertical: 2,
+             borderRadius: 22,
+             width: 90,
+             height: 36,
+             marginTop: 0,
+             },
 
-
-  }
   
 });
 

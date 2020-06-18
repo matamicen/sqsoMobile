@@ -7,6 +7,7 @@ import { getDate, hasAPIConnection} from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import I18n from '../../utils/i18n';
 
 
 class User extends Component {
@@ -111,7 +112,7 @@ class User extends Component {
                      {this.props.following==="FALSE" &&   
                   this.props.qraLoggedIn!==this.props.name &&
                      <TouchableOpacity style={{ marginTop: 15, marginLeft: 20}} onPress={() => this.follow(this.props.name,this.props.following,this.props.imageurl)} >
-                       <Text style={{ color: 'grey', fontSize: 17}}>Follow </Text>
+                       <Text style={{ color: 'grey', fontSize: 17}}>{I18n.t("UserFollow")} </Text>
                       </TouchableOpacity>
                      
                        }
@@ -120,7 +121,7 @@ class User extends Component {
                            this.props.qraLoggedIn!==this.props.name &&
 
                         <TouchableOpacity style={{ marginTop: 15, marginLeft: 20 }} onPress={() => this.follow(this.props.name,this.props.following,this.props.imageurl)} >
-                          <Text style={{ color: 'grey', fontSize: 17}}>UnFollow </Text>
+                          <Text style={{ color: 'grey', fontSize: 17}}>{I18n.t("UserUnFollow")} </Text>
                         </TouchableOpacity>    
                         } 
 

@@ -12,6 +12,8 @@ import QsoRst from './QsoRst';
 import QsodB from './QsodB';
 import QsoEnterQra from './QsoEnterQra';
 import AddCallSigns from './AddCallSigns';
+import I18n from '../../utils/i18n';
+import HelpPublish from './HelpPublish';
 
 
 class QsoHeader extends Component {
@@ -25,7 +27,8 @@ class QsoHeader extends Component {
           isFetching: true,
           text: '',
           testCrash: 0,
-          addCallsigns: false
+          addCallsigns: false,
+          helpPublish: false
    
         };
       }
@@ -49,6 +52,12 @@ class QsoHeader extends Component {
           addCallsigns: false});
     
         };
+
+        CloseHelpPublish = () => {
+          this.setState({
+            helpPublish: false});
+      
+          };
     
       confirmAddCallsigns = () => {
          this.setState({
@@ -93,13 +102,15 @@ class QsoHeader extends Component {
               </View> 
             </View>
               {/* flex: 1 */}
-         <View style={{flex:0.4}}>
+         <View style={{flex:0.31}}>
              <View style={{flexDirection: 'row', marginTop: 6, flex:1 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
               { this.props.sqsonewqsoactive ?
-                               <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >                                       
-                                  <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>Add Callsign</Text>
+                              //  <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >  
+                                <TouchableOpacity  style={styles.buttonAddCallSignContainer} onPress={() => this.setState({addCallsigns: true})} >                                                                            
+                                  {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text> */}
+                                  <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
                                </TouchableOpacity>
           
                                   : null }
@@ -109,13 +120,13 @@ class QsoHeader extends Component {
                  
                     </View>
                    
-                    <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.220 , alignItems: 'center'  }}>  
+                    <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.222 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?  
                         <QsoBand />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.224 : 0.224, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.224 : 0.222, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?    
                         <QsoMode />  : null }
                     </View>  
@@ -128,11 +139,34 @@ class QsoHeader extends Component {
                     </View>  
 
                </View> 
-             </View>       
+             </View>  
+              {/* color: '#000080' */}
+
+               <View style={{flex:0.11, alignItems: 'flex-end'}}>
+               { this.props.sqsonewqsoactive &&
+               <TouchableOpacity  style={{marginRight: 10 }} onPress={() => this.setState({helpPublish: true})} >                                                                            
+                                  {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text> */}
+                                  {this.props.qsotype==='QSO' &&
+                                  <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderHelpQSO")}</Text>
+                                  }
+                                     {this.props.qsotype==='LISTEN' &&
+                                  <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderHelpSWL")}</Text>
+                                  }
+                                     {this.props.qsotype==='POST' &&
+                                  <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderHelpPOST")}</Text>
+                                  }
+                                  </TouchableOpacity>
+               }
+              
+               </View>    
              
     {(this.state.addCallsigns) &&
                   <AddCallSigns   close={this.CloseAddCallSigns.bind()} confirm={this.confirmAddCallsigns.bind()} />
                 }   
+
+    {(this.state.helpPublish) &&
+                  <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype={this.props.qsotype} />
+                } 
                 
             </View>
            
@@ -157,7 +191,16 @@ class QsoHeader extends Component {
         width: 65,
         height: 65,
         borderRadius: 30
-         }
+         },
+         buttonAddCallSignContainer:{
+          //   backgroundColor: '#2980b9',
+          backgroundColor: '#8BD8BD',
+             paddingVertical: 5,
+             borderRadius: 22,
+             width: 115,
+             height: 36,
+             marginTop: 0
+             },
 });
 
 

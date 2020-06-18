@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import VariosModales from '../Qso/VariosModales';
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
+import I18n from '../../utils/i18n';
 
 
 
@@ -199,7 +200,7 @@ class Qra extends Component {
                           <View style={{flex:0.32, alignItems:  'flex-end' }}>
                           <TouchableOpacity style={{alignItems:  'flex-end' }} onPress={() => this.qraProfile(this.props.qra)}  >
               
-                              <Text style={{fontSize: 14, color: 'lightgrey', marginTop: 12, marginLeft: 5}}>View Profile</Text>
+                              <Text style={{fontSize: 14, color: 'lightgrey', marginTop: 12, marginLeft: 5}}>{I18n.t("ProfileQraViewProfile")}</Text>
                   
                            </TouchableOpacity>
                              
@@ -220,7 +221,7 @@ class Qra extends Component {
                      {this.state.followstatus==="false" &&
 
                      <TouchableOpacity onPress={() => this.follow(this.props.qra,this.props.imageurl)} >
-                       <Text style={{ color: 'white', fontSize: 17}}>Follow</Text>
+                       <Text style={{ color: 'white', fontSize: 17}}>{I18n.t("ProfileQraFollow")}</Text>
                       </TouchableOpacity>
                         
                          
@@ -230,7 +231,7 @@ class Qra extends Component {
                        {this.state.followstatus==="true" &&
 
                         <TouchableOpacity  onPress={() => this.follow(this.props.qra)} >
-                          <Text style={{ color: 'white', fontSize: 17}}>UnFollow</Text>
+                          <Text style={{ color: 'white', fontSize: 17}}>{I18n.t("ProfileQraUnFollow")}</Text>
                         </TouchableOpacity>
                         
                       
@@ -244,7 +245,7 @@ class Qra extends Component {
                          <View style={{flex:0.2, flexDirection: 'row', justifyContent: "center"}}>
 
                         <TouchableOpacity   onPress={() => this.closeModaldeleteqra()} >
-                       <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                       <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("ProfileQraCancel")}</Text>
                          </TouchableOpacity>
                         
 

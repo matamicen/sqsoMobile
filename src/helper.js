@@ -7,6 +7,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import global_config from './global_config.json';
 // import firebase from '@react-native-firebase/app';
 // import * as config from '@react-native-firebase/remote-config';
+import I18n from './utils/i18n';
 
 Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -48,7 +49,7 @@ mediafilesSinProfile = [];
     else {
       // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
       // el body de los Media (TouchwithoutFeedback)
-        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== 'Band') && (mode !== 'Mode') && (mediafilesSinProfile.length > 1) )
+        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
         { 
             return true;
         } 

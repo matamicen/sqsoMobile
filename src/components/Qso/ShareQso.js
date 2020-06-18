@@ -4,8 +4,8 @@ import { View, Platform, Text, TouchableOpacity, Image,  Animated,
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 import analytics from '@react-native-firebase/analytics';
-
-
+import I18n from '../../utils/i18n';
+import global_config from '../../global_config.json';
   
 
 
@@ -68,9 +68,9 @@ class ShareQso extends Component {
     
     // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
     // const url = 'http://superqso-dev.us-east-1.elasticbeanstalk.com/qso/'+this.props.sharerluid;
-    const url = 'https://www.superqso.com/qso/'+this.props.sharerluid;
-    const title = 'Awesome Contents';
-    const message = 'Please check out this activity';
+    const url = global_config.urlWeb+'qso/'+this.props.sharerluid;
+    const title = I18n.t("ShareTitle");
+    const message = I18n.t("ShareMessage");
     const options = {
           title,
           subject: title,
@@ -158,8 +158,8 @@ return <View>
                       style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
                       
                           ]}>
-                         <Text style={{ fontSize: 13, color: "black", marginLeft: 6, marginTop: 0 }}>
-                          Share
+                         <Text style={{ fontSize: 12, color: "black", marginLeft: 6, marginTop: 0 }}>
+                         {I18n.t("ShareShare")}
                           </Text>
                       </Animated.View>
                     </TouchableOpacity>
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
   //  backgroundColor: 'skyblue',
   },
   imageView: {
-    width: 29,
-    height: 29,
+    width: 24,
+    height: 24,
     resizeMode : 'contain'
     
     

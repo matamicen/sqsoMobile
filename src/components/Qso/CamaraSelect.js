@@ -7,6 +7,7 @@ import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports'
 
 import VariosModales from './VariosModales';
+import I18n from '../../utils/i18n';
 
 
 Auth.configure(awsconfig);
@@ -169,7 +170,7 @@ class CamaraSelect extends Component {
                                 />
                                 
                     
-                                    <Text style={{ color: 'white', fontSize: 16,  marginTop: 3}}>Gallery</Text>
+                                    <Text style={{ color: 'white', fontSize: 16,  marginTop: 3}}>{I18n.t("CamaraSelectGallery")}</Text>
                              </TouchableOpacity>
                       </View> 
 
@@ -188,7 +189,7 @@ class CamaraSelect extends Component {
                                 />
                                 
                     
-                                    <Text style={{ color: 'white', fontSize: 16, marginTop: 3}}>Camera</Text>
+                                    <Text style={{ color: 'white', fontSize: 16, marginTop: 3}}>{I18n.t("CamaraSelectCamera")}</Text>
                              </TouchableOpacity>
                       </View> 
          
@@ -197,7 +198,7 @@ class CamaraSelect extends Component {
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
                             <View style={{ flex:1, alignItems: 'center'}}>
                               <TouchableOpacity onPress={() => this.props.close()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>Cancel</Text>
+                            <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("CamaraSelectCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                            {/* {(!this.props.deletedflag) && */}

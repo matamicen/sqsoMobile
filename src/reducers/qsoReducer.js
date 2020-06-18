@@ -23,6 +23,7 @@ import {FETCHING_API_REQUEST,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
      UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS   } from '../actions/types';
 import { SectionList } from 'react-native';
+import I18n from '../utils/i18n';
 
 const initialState = {
     qra: '',
@@ -75,9 +76,9 @@ const initialState = {
         qsocallsigns: [],
         qsotype: 'QSO',
         qsotypeSent: false,
-        band: 'Band',
+        band: I18n.t("ReducerBand"),
         bandSent: false,
-        mode: 'Mode',
+        mode: I18n.t("ReducerMode"),
         modeSent: false,
         rst: '59',
         db: '-07',
@@ -1191,9 +1192,9 @@ const qsoReducer = (state = initialState, action) => {
              qsocallsigns: [],
              qsotype: 'QSO',
              qsotypeSent: false,
-             band: 'Band',
+             band: I18n.t("ReducerBand"),
              bandSent: false,
-             mode: 'Mode',
+             mode: I18n.t("ReducerMode"),
              modeSent: false,
              rst: '59',
              db: '-07',

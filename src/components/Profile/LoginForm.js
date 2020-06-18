@@ -23,6 +23,8 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import StopApp from './StopApp';
 import global_config from '../../global_config.json';
 import {APP_VERSION} from '../../appVersion';
+import I18n from '../../utils/i18n';
+// I18n.locale = 'en-US';
 
 // nuevo push
 //import Analytics from '@aws-amplify/analytics';
@@ -102,7 +104,7 @@ constructor(props) {
      loginerror: 0,
      nointernet: false,
      showloginForm: false,
-     mess: 'Loading ...',
+     mess: I18n.t("loading"),
      stopApp: false,
      pushTokenNotFound: false,
      confirmSignup: false,
@@ -110,7 +112,8 @@ constructor(props) {
      color: 'red',
      appNeedUpgrade: false,
      forceChangePassword: false,
-     upgradeText: ''
+     upgradeText: '',
+     loginerrorMessage: ''
      
     }
   }
@@ -482,7 +485,7 @@ if (this.debeHacerUpgrade===false)
   // Compruebo si ya estaba logueado con sus credenciales
     try {
       console.log('Antes de Auth.currentSession() ');
-      this.setState({mess: 'Current Session ...'})
+      this.setState({mess: I18n.t("currentSession")})
       session = await Auth.currentSession();
       
     
@@ -497,7 +500,7 @@ if (this.debeHacerUpgrade===false)
       // var res = identityId.replace(":", "%3A");
       // console.log('la credencial RES:' + res);
       console.log('Antes d Auth.currentCredentials() getItem ');
-      this.setState({mess: 'Loading ...'})
+      this.setState({mess: I18n.t("loading") })
       const res = await AsyncStorage.getItem('identity');
       console.log('identityID: '+res);
 
@@ -518,7 +521,7 @@ if (this.debeHacerUpgrade===false)
 
         //apologize
         // if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-     if (1===2)
+      if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -643,6 +646,15 @@ signIn = async () => {
  //this.setState({indicator: 1, loginerror: 0});
  this.state.username = this.state.username.trim()
   console.log("username: "+this.state.username.toLowerCase() + "password: "+ this.state.password);
+
+
+// Validacion previa al llamado de LOGIN
+  if (this.state.username.length===0)
+  {
+  this.setState({ loginerror: 1, indicator: 0, loginerrorMessage: I18n.t("loginerrorMessUserEmpty") });
+      this.usernotfound = true;
+  }
+else
     await Auth.signIn(this.state.username.toLowerCase(), this.state.password)
       .then((result) => { console.log('entro!');
       console.log(result);
@@ -672,7 +684,7 @@ signIn = async () => {
              } 
              else
              {
-             this.setState({ loginerror: 1, indicator: 0});
+             this.setState({ loginerror: 1, indicator: 0, loginerrorMessage: I18n.t("loginerrorMessUserNotFound") });
              this.usernotfound = true;
 
 
@@ -996,7 +1008,7 @@ if (!this.usernotfound)
                  </View>
                  <View style={{ justifyContent: 'space-around',   padding: 10,
                         opacity: this.state.loginerror }}>
-                        <Text style={{ color: '#ff3333', textAlign: 'center', }}> Login error, try again
+                        <Text style={{ color: '#ff3333', textAlign: 'center', }}> {this.state.loginerrorMessage}
                         </Text>
                    </View>
 
@@ -1005,7 +1017,7 @@ if (!this.usernotfound)
                    <View style={{flex:1, alignItems: 'center'}} >
                
                <TextInput 
-                  placeholder="email"
+                  placeholder={I18n.t("email")}
                   onFocus={() => this.setState({ loginerror: 0})}
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1020,7 +1032,7 @@ if (!this.usernotfound)
                
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}
-                 placeholder="password"
+                 placeholder={I18n.t("password")}
                  onFocus={() => this.setState({ loginerror: 0})}
                  underlineColorAndroid='transparent'
                  placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1037,18 +1049,18 @@ if (!this.usernotfound)
          
                 
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signIn()} >
-                    <Text style={styles.buttonText} >LOGIN</Text>
+                    <Text style={styles.buttonText} >{I18n.t("login")}</Text>
                  </TouchableOpacity>
 
                  <View style={{flex:1, flexDirection: 'row'}}>
                  <View style={{flex:0.4,  height: 45, alignItems: 'center'}}>
                  <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.SignUpForm()} >
-                    <Text style={styles.buttonText2} >Sign Up</Text>
+                    <Text style={styles.signup} >{I18n.t("signup")}</Text>
                  </TouchableOpacity>
                  </View>
                  <View style={{flex:0.6, height: 45, alignItems: 'center'}}>
                  <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.ForgotPassword()} >
-                    <Text style={styles.buttonText2} >Forgot Password</Text>
+                    <Text style={styles.forgot} >{I18n.t("forgot")}</Text>
                  </TouchableOpacity>
                  </View>
 
@@ -1158,11 +1170,28 @@ if (!this.usernotfound)
            buttonText2: {
        //     textAlign: 'center',
             color: '#FFFFFF',
-          
+            
             fontSize: 16,
            // fontWeight: '700'
            
                    },
+                   signup: {
+                    //     textAlign: 'center',
+                         color: '#FFFFFF',
+           
+                         fontSize: 16,
+                        // fontWeight: '700'
+                        
+                                },
+                                forgot: {
+                                  //     textAlign: 'center',
+                                       color: '#FFFFFF',
+                                     
+                                       fontSize: 16,
+                                 
+                                      // fontWeight: '700'
+                                      
+                                              },
    activityindicator: {
     flexDirection: 'row',
      justifyContent: 'space-around',

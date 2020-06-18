@@ -19,6 +19,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import VariosModales from "./VariosModales";
 import crashlytics from '@react-native-firebase/crashlytics';
 import PlayMediaAudioPreview from './PlayMediaAudioPreview';
+import I18n from '../../utils/i18n';
 
 
 //Amplify.configure(awsconfig);
@@ -689,7 +690,7 @@ class Muestro extends Component {
           //                 /> }
           <View>
               <View>
-                <Text style={{ color: 'white', fontSize: 14}}>You can play the audio before send it</Text> 
+                <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text> 
                 </View>
              <View style={{ marginTop: 12}}>
               <PlayMediaAudioPreview url={this.props.sqsomedia.url}  /> 
@@ -706,7 +707,7 @@ class Muestro extends Component {
                       source={require('../../images/rotate.png')}
                           /> 
 
-                         <Text style={{ color: 'orange', fontSize: 11, marginTop: 3}}> Rotate</Text>
+                         <Text style={{ color: 'orange', fontSize: 11, marginTop: 3}}> {I18n.t("MuestroRotate")}</Text>
                      </View>     
                     </TouchableOpacity>
             }
@@ -721,7 +722,7 @@ class Muestro extends Component {
 
               
               <TextInput 
-                  placeholder="description (Optional)"
+                  placeholder={I18n.t("MuestroDescription")}
                   
                   underlineColorAndroid='transparent'
                   placeholderTextColor="rgba(255,255,255,0.7)"
@@ -743,19 +744,19 @@ class Muestro extends Component {
               <View style={{flex:0.3, flexDirection: 'row'}}>
                  <View style={{flex:0.5, alignItems:"flex-start"}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
-                    <TouchableOpacity style={{ width: 65 }}
+                    <TouchableOpacity style={{ width: 70 }}
                       onPress={() => this.props.close()}
                     >
                       <Text
                         style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}
                       >
-                        Cancel
+                        {I18n.t("MuestroCancel")}
                       </Text>
                     </TouchableOpacity>
                   </View>
                   <View style={{flex:0.5, alignItems: "flex-end"}}>
-                    <TouchableOpacity  style={{ height: 50, width: 60 }} onPress={() => this.send_and_check_ad()} >
-                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Send</Text>
+                    <TouchableOpacity  style={{ height: 50, width: 80 }} onPress={() => this.send_and_check_ad()} >
+                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("MuestroSend")}</Text>
                     </TouchableOpacity>
                    </View>
                 </View>  
@@ -763,16 +764,16 @@ class Muestro extends Component {
                 
                 <View style={{ flex:1 , flexDirection: 'row'}}>
                   <View style={{ flex:0.5, alignItems: 'flex-start'}}>
-                  <TouchableOpacity style={{ width: 65, marginLeft: 10 }} onPress={() => this.props.close()}   >
+                  <TouchableOpacity style={{ width: 85, marginLeft: 10 }} onPress={() => this.props.close()}   >
                           <Text
                             style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 18 }}   >
-                            Cancel
+                            {I18n.t("MuestroCancel")}
                           </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex:0.5, alignItems: 'flex-end'}}>
                     <TouchableOpacity  style={{ height: 40, marginRight: 10 }} onPress={() => this.subo_Profile_Photo_s3()} >
-                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>Update Photo</Text>
+                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18}}>{I18n.t("MuestroUpdatePhoto")}</Text>
                     </TouchableOpacity>
                        
                     </View>

@@ -25,6 +25,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import ImagePicker from 'react-native-image-crop-picker';
 import CamaraSelect from '../Qso/CamaraSelect';
+import I18n from '../../utils/i18n';
 
 
 
@@ -37,11 +38,14 @@ class InitialScreen extends Component {
       tabBarLabel: ' ',
 
       tabBarIcon: ({ tintColor }) => {
-        return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 1 : 2}}>
+        // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 1 : 2, backgroundColor:'yellow'}}>
+        return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Image
-            style={{ width: 31, height: 31, marginLeft: 9 }}
+            // style={{ width: 31, height: 31, marginLeft: 9 }}
+            style={{ width: 31, height: 31, marginLeft: 0, marginTop: (Platform.OS==='ios') ? 14 : 24 }}
             source={require('../../images/profile1.png')}/>
-            <Text style={{fontSize:9, marginTop: 3, marginLeft: 7}}>PROFILE</Text>
+             <Text style={{fontSize:9, marginTop: 3, marginLeft: 0}}>{I18n.t("InitialScreenProfile")}</Text>
+            {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: I18n.locale.substring(0, 2)==='es' ? 11:7}}>{I18n.t("InitialScreenProfile")}</Text> */}
             </View>
             
             );}
@@ -470,30 +474,30 @@ signOut = async () => {
                    <QraProfile qra={this.props.qra} imageurl={this.props.sqsoprofilepicrefresh } />  
                   </TouchableOpacity>
               </View>  
-              <View style={{flex:0.15}}>
+              <View style={{flex:0.17}}>
                   {/* <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }> */}
                   
-                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={() => this.setState({camaraSelect: true})}>
-                    <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23  } } 
+                  <TouchableOpacity style={{marginLeft: 18, marginTop: 13}} onPress={() => this.setState({camaraSelect: true})}>
+                    <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23, marginLeft: I18n.locale.substring(0, 2)==='es' ? 6:0  } } 
                  resizeMode="contain" /> 
-                  <Text  style={{ fontSize: 14, color: '#999'}}>Edit</Text>             
+                  <Text  style={{ fontSize: 14, color: '#999'}}>{I18n.t("InitialScreenEdit")}</Text>             
                 </TouchableOpacity>
                 </View>
 
                 <View style={{flex:0.37, alignItems: 'center'}}>
-                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.openContactForm() }>
-                  <Image source={require('../../images/email3.png')}  style={{width: 25, height: 23,  marginLeft: 17  } } 
+                  <TouchableOpacity style={{marginLeft: 18, marginTop: 13}} onPress={ () => this.openContactForm() }>
+                  <Image source={require('../../images/email3.png')}  style={{width: 25, height: 23,  marginLeft: I18n.locale.substring(0, 2)==='es' ? 23:17  } } 
                  resizeMode="contain" /> 
-                  <Text  style={{ fontSize: 14, color: '#999'}}>Contact us</Text>             
+                  <Text  style={{ fontSize: 14, color: '#999'}}>{I18n.t("InitialScreenContactUs")}</Text>             
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flex:0.27, alignItems: 'flex-end', marginRight: 20}}>
+                <View style={{flex:0.25, alignItems: 'flex-end', marginRight: 20}}>
                 <TouchableOpacity style={{marginTop: 17}} onPress={ () => this.signOut() }>
-                    <Image source={require('../../images/logout.png')}  style={{width: 20, height: 20, marginLeft: 15  } } 
+                    <Image source={require('../../images/logout.png')}  style={{width: 20, height: 20, marginLeft: I18n.locale.substring(0, 2)==='es' ? 3:15  } } 
                  resizeMode="contain" /> 
                 {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
-                    <Text style={{ fontSize: 13, color: '#999'}} >SignOut</Text>
+                    <Text style={{ fontSize: 13, color: '#999'}} >{I18n.t("InitialScreenSignOut")}</Text>
                  </TouchableOpacity>
                 </View>
                   {/* ProfileScreen */}
@@ -502,17 +506,17 @@ signOut = async () => {
 
               <View style={{flex: 0.08, alignItems: 'flex-end', marginRight: 17}}>
                 <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
-                   <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >Restore Subscription</Text>
+                   <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >{I18n.t("InitialScreenRestoreSubscriptions")}</Text>
                 </TouchableOpacity>
               </View>
 
               <View style={{flexDirection: 'row', flex: 0.08, marginLeft: 6}}>
                  <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.switchToFollowing()} >
-                    <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> Following</Text>
+                    <Text style={styles.buttonText2} >{this.props.followings.length}</Text><Text style={styles.followText}> {I18n.t("InitialScreenFollowing")}</Text>
                  </TouchableOpacity>
 
                   <TouchableOpacity style={{flexDirection: 'row', marginTop: 15, marginLeft: 15}} onPress={ () => this.switchToFollowers()} >
-                    <Text style={styles.buttonText2} >{this.props.followers.length}</Text><Text style={styles.followText}> Followers</Text>
+                    <Text style={styles.buttonText2} >{this.props.followers.length}</Text><Text style={styles.followText}> {I18n.t("InitialScreenFollowers")}</Text>
                  </TouchableOpacity>
 
                   {/* <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.gotoLoginScreen() } >
@@ -527,11 +531,11 @@ signOut = async () => {
                  <View style={{flex: 0.5}}>
                     {(this.props.followingsselected) ?
                           // <TouchableOpacity  >
-                              <Text style={styles.FollowingsText} >Following</Text>
+                              <Text style={styles.FollowingsText} >{I18n.t("InitialScreenFollowing")}</Text>
                           // </TouchableOpacity>
                       :
                       // <TouchableOpacity  style={{ flex:0.8}}  >
-                         <Text style={styles.FollowingsText} >Followers</Text>
+                         <Text style={styles.FollowingsText} >{I18n.t("InitialScreenFollowers")}</Text>
                       // </TouchableOpacity>
   
                       }
@@ -539,10 +543,10 @@ signOut = async () => {
                     <View style={{flex: 0.5, alignItems: 'flex-end', marginRight: 17}}>
 
                     <TouchableOpacity style={{}} onPress={ () => this.props.getUserInfo(this.props.jwtToken)}>
-                    <Image source={require('../../images/reload.png')}  style={{width: 20, height: 20, marginLeft: 12 } } 
+                    <Image source={require('../../images/reload.png')}  style={{width: 20, height: 20, marginLeft: I18n.locale.substring(0, 2)==='es' ? 15:12 } } 
                  resizeMode="contain" /> 
                 {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
-                    <Text style={{ fontSize: 13, color: '#999'}} >Refresh</Text>
+                    <Text style={{ fontSize: 13, color: '#999'}} >{I18n.t("InitialScreenRefrescar")}</Text>
                  </TouchableOpacity>
 
                        {/* <TouchableOpacity style={styles.FollowingsText}
@@ -647,7 +651,7 @@ signOut = async () => {
                   <Text
                     style={{ color: "white", fontSize: 16, marginTop: 5 }}
                   >
-                    Changing photo...
+                    {I18n.t("InitialScreenChangingPhoto")}
                   </Text>
               </View>
              }
@@ -656,7 +660,7 @@ signOut = async () => {
                   <Text
                     style={{ color: "red", fontSize: 16 }}
                   >
-                    Inappropriate content
+                    {I18n.t("InitialScreenInappropriateContent")}
                   </Text>
               </View>
              }
@@ -666,7 +670,7 @@ signOut = async () => {
                   <Text
                     style={{ color: "red", fontSize: 16 }}
                   >
-                    Failed
+                    {I18n.t("InitialScreenFailed")}
                   </Text>
               </View>
              }
@@ -679,7 +683,7 @@ signOut = async () => {
                   <Text
                     style={{ color: "white", fontSize: 16 }}
                   >
-                    Close
+                    {I18n.t("InitialScreenClose")}
                   </Text>
                 </TouchableOpacity>
                 </View>
