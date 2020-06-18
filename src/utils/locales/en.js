@@ -222,8 +222,33 @@ export default {
     QraUnFollow: 'UnFollow',
     QraCancel: 'Cancel',
     QraDelete: 'Delete',
+    helpPublishQSOtitle: 'How to publish a QSO?',
+    helpPublishQSOMessage1: 'In order to publish a QSO you should fill these obligatory fields:',
+    helpPublishQSOfield1: 'Band',
+    helpPublishQSOfield2: 'Mode',
+    helpPublishQSOfield3: 'at least one callsign',
+    helpPublishQSOfield4: 'at least one audio or photo',
+    helpPublishQSOMessage2: 'after filling these fields the QSO will be published automatically, then you can still editing the post and adding more audios & photos, it will be published automatically to the current post.',
+    helpPublishSWLtitle: 'How to publish a SWL?',
+    helpPublishSWLMessage1: 'In order to publish a SWL you should fill these obligatory fields:',
+    helpPublishSWLfield1: 'Band',
+    helpPublishSWLfield2: 'Mode',
+    helpPublishSWLfield3: 'at least one callsign',
+    helpPublishSWLfield4: 'at least one audio or photo',
+    helpPublishSWLMessage2: 'after filling these fields the SWL will be published automatically, then you can still editing the post and adding more audios & photos, it will be published automatically to the current post.',
+    helpPublishPOSTtitle: 'How to publish an ANY?',
+    helpPublishPOSTMessage1: 'In order to publish an ANY you should just need to add a photo or an audio.',
+    helpPublishPOSTfield1: '',
+    helpPublishPOSTfield2: '',
+    helpPublishPOSTfield3: '',
+    helpPublishPOSTfield4: '',
+    helpPublishPOSTMessage2: 'After this the post will be published automatically, then you can still editing the post and adding more audios & photos, it will be published automatically to the current post.',
+    helpPublishQSOClose: 'Close',
+    QsoHeaderHelpQSO: 'Help to publish a QSO? ¿Ayuda para publicar un QSO?',
+    QsoHeaderHelpSWL: 'Help to publish a SWL?',
+    QsoHeaderHelpPOST: 'Help to publish an ANY?',
 
-
+    
    
 
 

@@ -125,7 +125,7 @@ class StartNewPost extends Component {
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
-                  backgroundColor : 'rgba(0,0,0,0.90)',
+                  backgroundColor : 'rgba(36,54,101,0.93)',
                    marginTop: 230,
                    left: 30,
                    right: 15,
@@ -144,12 +144,12 @@ class StartNewPost extends Component {
                       { (this.state.alreadyPublished) ?
                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
                        {/* <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("DeletePostWarning")}</Text> */}
-                        <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("StartNewPostAlreadyPublished")}</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("StartNewPostAlreadyPublished")}</Text>
                       </View>
                       :
                       <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
                      
-                   <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("StartNewPostNotPublished")}</Text>
+                   <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("StartNewPostNotPublished")}</Text>
                       </View> }
                 {/* :
                   <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
@@ -164,7 +164,7 @@ class StartNewPost extends Component {
                             <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                             {/* {(this.state.alreadyPublished) &&   */}
                               <TouchableOpacity onPress={() => this.props.closeStartNewPost()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("StartNewPostContinueEditing")}</Text>
+                            <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("StartNewPostContinueEditing")}</Text>
                               </TouchableOpacity>
                                  {/* } */}
                             </View>

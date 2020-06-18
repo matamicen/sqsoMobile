@@ -170,7 +170,7 @@ class DeletePost extends Component {
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
-                  backgroundColor : 'rgba(0,0,0,0.90)',
+                  backgroundColor : 'rgba(36,54,101,0.93)',
                    marginTop: 230,
                    left: 30,
                    right: 15,
@@ -189,12 +189,12 @@ class DeletePost extends Component {
                       { (this.state.alreadyPublished) ?
                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
                        <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("DeletePostWarning")}</Text>
-                        <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeletePostPublishedMessage")}</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("DeletePostPublishedMessage")}</Text>
                       </View>
                       :
                       <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
                      
-                   <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeletePostCantDeletePost")}</Text>
+                   <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("DeletePostCantDeletePost")}</Text>
                       </View> }
                 {/* :
                   <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
@@ -221,7 +221,7 @@ class DeletePost extends Component {
                               </TouchableOpacity>
                               :
                               <TouchableOpacity onPress={() => this.props.closeDeletePost()} >
-                                <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("DeletePostCantDelete")}</Text>
+                                <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeletePostCantDelete")}</Text>
                              </TouchableOpacity>
                             }
                           </View>

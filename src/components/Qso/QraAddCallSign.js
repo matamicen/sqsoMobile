@@ -168,7 +168,7 @@ class QraAddCallSign extends Component {
                 {this.props.qra}
              </Text>
              <TouchableOpacity  style={{marginLeft: 11}} onPress={() => this.deleteCallSign(this.props.qra)} >
-                                <Image source={require('../../images/removecircle.png')}  style={{width: 19, height: 19 } } 
+                                <Image source={require('../../images/removecircle2.png')}  style={{width: 19, height: 19 } } 
                                    resizeMode="contain" />  
                                     {/* <Text style={{ color: 'grey',  fontSize: 16}}>Delete</Text> */}
                              

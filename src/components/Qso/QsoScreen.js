@@ -1396,7 +1396,7 @@ console.log('tomo imagen de galeria');
               style={{
                 padding: 10,
                 margin: 15,
-                backgroundColor: "rgba(0,0,0,0.85)",
+                backgroundColor: 'rgba(36,54,101,0.93)',
                 marginTop: 210,
                 left: 95,
                 //  right: 15,

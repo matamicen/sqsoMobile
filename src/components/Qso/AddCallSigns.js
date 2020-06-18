@@ -223,7 +223,7 @@ class AddCallSigns extends Component {
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
-                  backgroundColor : 'rgba(0,0,0,0.90)',
+                  backgroundColor : 'rgba(36,54,101,0.93)',
                    marginTop: 120,
                    left: 25,
                 //    right: 15,
@@ -245,7 +245,7 @@ class AddCallSigns extends Component {
                     </View>
                     <View style={{ flex:0.4, flexDirection: 'row', marginTop:9 }}>
                     <View style={{ flex:0.27,alignItems: 'flex-end' }}>
-                    <Text style={{ color: 'grey', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>{I18n.t("AddCallSignsCallsign")} </Text>
+                    <Text style={{ color: '#c0c0c0', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>{I18n.t("AddCallSignsCallsign")} </Text>
                     </View>
                     <View style={{ flex:0.47, alignItems: 'flex-start'}}> 
                                 <TextInput 
@@ -275,7 +275,7 @@ class AddCallSigns extends Component {
                     <View style={{ flex:0.13 , flexDirection: 'row'}}>
                       <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                               <TouchableOpacity onPress={() => this.props.close()} style={{ marginLeft: 5, marginBottom: 5}}>
-                            <Text style={{ color: 'grey', fontSize: 17}}>{I18n.t("AddCallSignsCancel")}</Text>
+                            <Text style={{ color: '#c0c0c0', fontSize: 17}}>{I18n.t("AddCallSignsCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                        
