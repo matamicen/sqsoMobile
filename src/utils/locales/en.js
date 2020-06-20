@@ -247,6 +247,12 @@ export default {
     QsoHeaderHelpQSO: 'Help to publish a QSO? ¿Ayuda para publicar un QSO?',
     QsoHeaderHelpSWL: 'Help to publish a SWL?',
     QsoHeaderHelpPOST: 'Help to publish an ANY?',
+    PUSH_FOLLOWSYOU_TITLE: '%{callsign} now follows you',
+    PUSH_FOLLOWSYOU_MESSAGE: 'Click to see his profile',
+    PUSH_COMMENTEDPARTICPATING_TITLE: '%{callsign} commented a QSO you are participating',
+    PUSH_COMMENTEDPARTICPATING_MESSAGE: '%{comment}'
+
+
 
     
    

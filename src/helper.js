@@ -837,3 +837,44 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       // return false 
       return true
     }
+
+// esta rutina traduce los push para ANDROID (ios lo hace nativo desde xcode) y tambien arma las notificaciones
+// traducidas par android y ios que se muetsra en la bandeja de notificaciones si la APP esta en FOREGROUND.
+    export const armoPushNotifyLocalNotif = (title_loc_key,loc_key,title_loc_args,loc_args) => {
+
+      titleLocArgs = [];
+      locArgs = [];
+      pushTitle = "";
+      pushMessage = "";
+      bandejaNotifLocal = "";
+      if (Platform.OS==='android'){
+          titleLocArgs = JSON.parse(title_loc_args);
+          locArgs = JSON.parse(loc_args);
+        }else
+        { 
+          titleLocArgs = title_loc_args;
+          locArgs = loc_args;
+        }
+      console.log('helper titleLocArgs:'+ titleLocArgs);
+      console.log('helper titleLocArgs:'+ locArgs);
+      console.log('helper titleLocKey:'+ title_loc_key);
+      console.log('helper LocKey:'+ loc_key);
+
+      if (title_loc_key==='PUSH_FOLLOWSYOU_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_COMMENTEDPARTICPATING_TITLE')
+      { 
+        pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        console.log('pushTitle dentroIF: '+pushTitle);
+        pushMessage = I18n.t(loc_key,{comment: locArgs[0]});
+        console.log('pushMessage dentroIF: '+pushMessage);
+        bandejaNotifLocal = pushTitle + ' | ' + pushMessage;
+      }
+ 
+      console.log('helper bandeja:' + bandejaNotifLocal )
+      return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};
+    }

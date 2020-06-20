@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 // import PushNotification from '@aws-amplify/pushnotification';
 //import {  kinesis_catch } from './src/helper';
 import reactotron from './ReactotronConfig';
+import { armoPushNotifyLocalNotif } from './src/helper';
 
 
 // PushNotification.configure(awsconfig);
@@ -43,13 +44,17 @@ PushNotification.configure({
     },
 
     onNotification: (notification) => {
-      console.log('onNotifications APPS.js');
+      console.log('onNotifications APPS.js esto funciona solo en Android cuando esta KILLED');
+
+      mensajes =  armoPushNotifyLocalNotif(notification.data['title-loc-key'],notification.data['loc-key'],notification.data['title-loc-args'],notification.data['loc-args']);
 
       PushNotification.localNotification({
         //     id: notification.id,
         userInfo: { id: notification.id },
-        title: notification.data['pinpoint.notification.title'],
-        message: notification.data['pinpoint.notification.body'],
+        // title: notification.data['pinpoint.notification.title'],
+        // message: notification.data['pinpoint.notification.body'],
+        title: mensajes.pushTitle,
+        message: mensajes.pushMessage,
         priority: "max",
         autoCancel: true,
               // title: 'Notification with my name',

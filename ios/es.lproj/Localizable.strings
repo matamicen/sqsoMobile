@@ -5,5 +5,7 @@
   Created by Matias Micenmacher on 18/06/2020.
   Copyright © 2020 Facebook. All rights reserved.
 */
-"NOTIFICATION_TITLE" = "Hola Mundo";
-"NOTIFICATION_MESSAGE" = "Esto es un mensaje";
+"PUSH_FOLLOWSYOU_TITLE" = "%@ comenzó a seguirte";
+"PUSH_FOLLOWSYOU_MESSAGE" = "Click para ver su perfil";
+"PUSH_COMMENTEDPARTICPATING_TITLE" = "%@ comentó un QSO que tú participás";
+"PUSH_COMMENTEDPARTICPATING_MESSAGE" =  "%@";

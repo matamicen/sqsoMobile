@@ -16,7 +16,7 @@ import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFals
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions, StackActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
-import { hasAPIConnection, apiVersionCheck } from '../../helper';
+import { hasAPIConnection, apiVersionCheck, armoPushNotifyLocalNotif } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -180,35 +180,73 @@ constructor(props) {
 
         try {
           console.log('paso por ANDROID')
-              let body = notification.data['pinpoint.jsonBody'];
-            // let body = notification._data['data.pinpoint.jsonBody'];
+              // let body = notification.data['pinpoint.jsonBody'];
+           
             
-              let bodyJson = JSON.parse(body)
+              // let bodyJson = JSON.parse(body)
             
-              console.log(bodyJson.AVATAR);
-              console.log(bodyJson.QRA);
-              console.log(bodyJson.IDACTIVITY);
-      //        console.log(notification.data['pinpoint.notification.body']);
+              // console.log(bodyJson.AVATAR);
+              // console.log(bodyJson.QRA);
+              // console.log(bodyJson.IDACTIVITY);
+  
+              // if (bodyJson.AVATAR)
+              //    avatar = bodyJson.AVATAR;
+              //   else
+              //    avatar = null;
 
-            // console.log(notification._data['data.pinpoint.notification.body']);
-              if (bodyJson.AVATAR)
-                 avatar = bodyJson.AVATAR;
-                else
-                 avatar = null;
         
-              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
-              "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-              "qra_avatarpic":avatar, "url": bodyJson.URL,
+              // envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.data['pinpoint.notification.title'],
+              // "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              // "qra_avatarpic":avatar, "url": bodyJson.URL,
+              // "qso_mode":null,"qso_band":null,"qso_type":null}
+            
+            
+
+              // comento esto para que no pinche de aca para abajo va todo
+
+          
+            //  let body = notification.data['pinpoint.jsonBody'];
+           
+            
+            //   let bodyJson = JSON.parse(body)
+   
+            
+            //   console.log(bodyJson.AVATAR);
+            //   console.log(bodyJson.QRA);
+            //   console.log(bodyJson.IDACTIVITY);
+  
+            //   if (bodyJson.AVATAR)
+            //      avatar = bodyJson.AVATAR;
+            //     else
+            //      avatar = null;
+              // titleLocArgs = [];
+              // locArgs = [];
+
+              // titleLocArgs = JSON.parse(notification.data['title-loc-args']);
+              // locArgs = JSON.parse(notification.data['loc-args']);
+
+              // console.log('titleLocArgs:'+ titleLocArgs);
+              // console.log('titleLocArgs:'+ locArgs);
+
+              // if (notification.data['title-loc-key']==='PUSH_FOLLOWSYOU_TITLE')
+              // {  pushTitle = I18n.t(notification.data['title-loc-key'],{callsign: titleLocArgs[0]});
+              //   pushMessage = I18n.t(notification.data['loc-key']);
+              // }
+
+              // if (notification.data['title-loc-key']==='PUSH_COMMENTEDPARTICPATING_TITLE')
+              // {  pushTitle = I18n.t(notification.data['title-loc-key'],{callsign: titleLocArgs[0]});
+              //   pushMessage = I18n.t(notification.data['loc-key'],{comment: locArgs[0]});
+              // }
+              mensajes =  armoPushNotifyLocalNotif(notification.data['title-loc-key'],notification.data['loc-key'],notification.data['title-loc-args'],notification.data['loc-args']);
+
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":6001,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":mensajes.bandejaNotifLocal,
+              "activity_type":108,"QRA":'QRA111',"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "qra_avatarpic":"https://d30o7j00smmz5f.cloudfront.net/1/us-east-1%3A37ac38c7-975c-4002-8da5-68a7c811a29d/profile/profile_av_1588363071761.jpg", "url": "bodyJson.URL",
               "qso_mode":null,"qso_band":null,"qso_type":null}
+        
 
                 this.props.manage_notifications('ADDONE',envioNotif);
-       } 
-        catch (error) {
-          console.log('error #010');
-          console.log(error);
-        //  kinesis_catch('#010',error,this.props.qra);
-              // Error retrieving data
-       }
+  
   
 
         if (notification.userInteraction===false && !notification.foreground)
@@ -217,8 +255,10 @@ constructor(props) {
             PushNotification.localNotification({
               //     id: notification.id,
               userInfo: { id: notification.id },
-              title: notification.data['pinpoint.notification.title'],
-              message: notification.data['pinpoint.notification.body'],
+              // title: notification.data['pinpoint.notification.title'],
+              // message: notification.data['pinpoint.notification.body'],
+              title: mensajes.pushTitle,
+              message: mensajes.pushMessage,
               priority: "max",
               autoCancel: true,
             
@@ -236,25 +276,25 @@ constructor(props) {
 // no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
 // las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
 // de las notificaciones push.
-     if(notification.foreground &&
-       ((notification.data['pinpoint.notification.title'].indexOf("included you") !== -1) || (notification.data['pinpoint.notification.title'].indexOf("listened you") !== -1)) )
-       {
+    //  if(notification.foreground &&
+    //    ((notification.data['pinpoint.notification.title'].indexOf("included you") !== -1) || (notification.data['pinpoint.notification.title'].indexOf("listened you") !== -1)) )
+    //    {
 
-          Alert.alert(
-            //title
-            'Someone mention you in a Post! 🚀' ,
-            //body
-            notification.data['pinpoint.notification.title'] +': '+notification.data['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
+    //       Alert.alert(
+    //         //title
+    //         'Someone mention you in a Post! 🚀' ,
+    //         //body
+    //         notification.data['pinpoint.notification.title'] +': '+notification.data['pinpoint.notification.body'] +' ➡ See more details on Notifications 🔔',
             
-            [
-              {text: 'CLOSE', onPress: () => console.log('CLOSE')
-            },
-              // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
-            ],
-            { cancelable: false}
-            //clicking out side of alert will not cancel
-          );
-        }
+    //         [
+    //           {text: 'CLOSE', onPress: () => console.log('CLOSE')
+    //         },
+    //           // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
+    //         ],
+    //         { cancelable: false}
+    //         //clicking out side of alert will not cancel
+    //       );
+    //     }
 
        // es por hizo click en la notificacion
        if (notification.userInteraction)
@@ -264,6 +304,14 @@ constructor(props) {
              console.log('user interaction es true!')
 
             }
+
+          } 
+          catch (error) {
+            console.log('error #010');
+            console.log(error);
+          //  kinesis_catch('#010',error,this.props.qra);
+                // Error retrieving data
+         }
 
 
        
@@ -276,36 +324,38 @@ constructor(props) {
   
              try {
             console.log('paso por IOS')
-            let bodyJson = notification.data.data.jsonBody;
+          //   let bodyJson = notification.data.data.jsonBody;
             
-            // let body = notification._data['data.pinpoint.jsonBody'];
-  
-              // let bodyJson = JSON.parse(body)
+   
             
-              console.log(bodyJson.AVATAR);
-              console.log(bodyJson.QRA);
-              console.log(bodyJson.IDACTIVITY);
-              console.log(notification.alert.title);
-             console.log( notification.data.data.pinpoint.deeplink);
+          //     console.log(bodyJson.AVATAR);
+          //     console.log(bodyJson.QRA);
+          //     console.log(bodyJson.IDACTIVITY);
+          //     console.log(notification.alert.title);
+          //    console.log( notification.data.data.pinpoint.deeplink);
 
   
-          console.log("antes de armar el json envioNotif")
+          // console.log("antes de armar el json envioNotif")
 
-          if (bodyJson.AVATAR)
-                 avatar = bodyJson.AVATAR;
-                else
-                 avatar = null;
-              // console.log(notification._data.body);
+          // if (bodyJson.AVATAR)
+          //        avatar = bodyJson.AVATAR;
+          //       else
+          //        avatar = null;
+          console.log('ios title-loc-key : ' + notification.alert['title-loc-key'])
+       
+          mensajes =  armoPushNotifyLocalNotif(notification.alert['title-loc-key'],notification.alert['loc-key'],notification.alert['title-loc-args'],notification.alert['loc-args']);
+   
   
-            
-              // notification.data.data.jsonBody.pinpoint.deeplink
-  
-              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.alert.title,
-              "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
-              "qra_avatarpic":avatar, "url": notification.data.data.pinpoint.deeplink,
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":6001,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":mensajes.bandejaNotifLocal,
+              "activity_type":108,"QRA":'QRA111',"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              "qra_avatarpic":"https://d30o7j00smmz5f.cloudfront.net/1/us-east-1%3A37ac38c7-975c-4002-8da5-68a7c811a29d/profile/profile_av_1588363071761.jpg", "url": "notification.data.data.pinpoint.deeplink",
               "qso_mode":null,"qso_band":null,"qso_type":null}
        
-              
+              // envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":notification.alert.title,
+              // "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+              // "qra_avatarpic":avatar, "url": notification.data.data.pinpoint.deeplink,
+              // "qso_mode":null,"qso_band":null,"qso_type":null}
+
 
        // si la notificaion llega y la APP esta en foreground, la libreria esta para iOS no 
        // genera la notificacion Local de push entonces creo un Alert. (en Android llega el push pero igual 
@@ -315,27 +365,27 @@ constructor(props) {
       // no mostramos las otras notificaciones porque puede joder la UX del usuario al usar la APP.
       // las demas notif las vera en su bandeja de notificaciones obvio si esta en background llegan el 100% 
       // de las notificaciones push.
-           if (notification.foreground && 
-            ((notification.alert.title.indexOf("included you") !== -1)  || (notification.alert.title.indexOf("listened you") !== -1)) )  
-              Alert.alert(
-                //title
-                'Someone mention you in a Post! 🚀' ,
-                //body
-                notification.alert.title +': '+notification.alert.body+' ➡ See more details on Notifications 🔔',
+          //  if (notification.foreground && 
+          //   ((notification.alert.title.indexOf("included you") !== -1)  || (notification.alert.title.indexOf("listened you") !== -1)) )  
+          //     Alert.alert(
+          //       //title
+          //       'Someone mention you in a Post! 🚀' ,
+          //       //body
+          //       notification.alert.title +': '+notification.alert.body+' ➡ See more details on Notifications 🔔',
                 
-                [
-                  {text: 'CLOSE', onPress: () => console.log('CLOSE')
-                },
-                  // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
-                ],
-                { cancelable: false}
-                //clicking out side of alert will not cancel
-              );
+          //       [
+          //         {text: 'CLOSE', onPress: () => console.log('CLOSE')
+          //       },
+          //         // {text: 'Watch this on the Notifications screen :)', onPress: () => console.log('CLOSE')}
+          //       ],
+          //       { cancelable: false}
+          //       //clicking out side of alert will not cancel
+          //     );
 
 
   
-          //    this.llamo_manage_notif();
-             this.props.manage_notifications('ADDONE',envioNotif);
+         
+              this.props.manage_notifications('ADDONE',envioNotif);
              
             // si viene de background lo lleva directo al notification tray
             // pero si esta foreground no le cambia la screen para respetar lo que el usuario
@@ -520,8 +570,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-        // if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-      if (1===2)
+        if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      // if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
