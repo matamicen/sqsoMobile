@@ -250,9 +250,19 @@ export default {
     PUSH_FOLLOWSYOU_TITLE: '%{callsign} now follows you',
     PUSH_FOLLOWSYOU_MESSAGE: 'Click to see his profile',
     PUSH_COMMENTEDPARTICPATING_TITLE: '%{callsign} commented a QSO you are participating',
-    PUSH_COMMENTEDPARTICPATING_MESSAGE: '%{comment}'
-
-
+    PUSH_COMMENTEDPARTICPATING_MESSAGE: '%{comment}',
+    PUSH_NEWPOSTANY_TITLE: '%{callsign} created a new POST',
+    PUSH_NEWPOSTANY_MESSAGE: 'Click to see more details',
+    PUSH_TAGYOUNEWPOSTANY_TITLE: '%{callsign} tag you in his new POST',
+    PUSH_TAGYOUNEWPOSTANY_MESSAGE: 'Click to see more details',
+    PUSH_WORKEDQSO_TITLE: '%{callsign} worked a QSO',
+    PUSH_WORKEDQSO_MESSAGE: 'Mode: %{mode} Band: %{band} UTC: %{utc}',
+    PUSH_INCLUDEDYOUWORKEDQSO_TITLE: '%{callsign} included you in his new QSO',
+    PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE: 'Mode: %{mode} Band: %{band}',
+    PUSH_LISTENEDDQSO_TITLE: '%{callsign} listened a QSO',
+    PUSH_LISTENEDDQSO_MESSAGE: 'Mode: %{mode} Band: %{band} UTC: %{utc}',
+    PUSH_LISTENEDYOUQSO_TITLE: '%{callsign} listened you in a QSO',
+    PUSH_LISTENEDYOUQSO_MESSAGE: 'Mode: %{mode} Band: %{band}',
 
     
    

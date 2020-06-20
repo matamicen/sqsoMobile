@@ -237,6 +237,8 @@ constructor(props) {
               // {  pushTitle = I18n.t(notification.data['title-loc-key'],{callsign: titleLocArgs[0]});
               //   pushMessage = I18n.t(notification.data['loc-key'],{comment: locArgs[0]});
               // }
+          
+          
               mensajes =  armoPushNotifyLocalNotif(notification.data['title-loc-key'],notification.data['loc-key'],notification.data['title-loc-args'],notification.data['loc-args']);
 
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":6001,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":mensajes.bandejaNotifLocal,

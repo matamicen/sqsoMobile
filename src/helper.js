@@ -874,7 +874,48 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         console.log('pushMessage dentroIF: '+pushMessage);
         bandejaNotifLocal = pushTitle + ' | ' + pushMessage;
       }
- 
+
+
+      if (title_loc_key==='PUSH_NEWPOSTANY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      
+      if (title_loc_key==='PUSH_TAGYOUNEWPOSTANY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+      
+      if (title_loc_key==='PUSH_WORKEDQSO_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
+        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+      }
+      
+      if (title_loc_key==='PUSH_INCLUDEDYOUWORKEDQSO_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1]});
+        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+      }
+
+      if (title_loc_key==='PUSH_LISTENEDDQSO_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
+        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+      }
+
+
+      if (title_loc_key==='PUSH_LISTENEDYOUQSO_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1]});
+        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+      }
+
+      
+
       console.log('helper bandeja:' + bandejaNotifLocal )
       return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};
     }

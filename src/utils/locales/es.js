@@ -248,10 +248,19 @@ export default {
     QsoHeaderHelpSWL: '¿Ayuda para publicar una Escucha?',
     QsoHeaderHelpPOST: '¿Ayuda para publicar un ANY?',
     PUSH_FOLLOWSYOU_TITLE: '%{callsign} comenzó a seguirte',
-    PUSH_FOLLOWSYOU_MESSAGE: 'Click para ver su profile',
+    PUSH_FOLLOWSYOU_MESSAGE: 'Clickea para ver su profile',
     PUSH_COMMENTEDPARTICPATING_TITLE: '%{callsign} comentó un QSO que tú participás',
-    PUSH_COMMENTEDPARTICPATING_MESSAGE: '%{comment}'
-
-
-
+    PUSH_COMMENTEDPARTICPATING_MESSAGE: '%{comment}',
+    PUSH_NEWPOSTANY_TITLE: '%{callsign} creó una publicación',
+    PUSH_NEWPOSTANY_MESSAGE: 'Clickea para ver los detalles',
+    PUSH_TAGYOUNEWPOSTANY_TITLE: '%{callsign} te etiquetó en su nueva publicación',
+    PUSH_TAGYOUNEWPOSTANY_MESSAGE: 'Clickea para ver los detalles',
+    PUSH_WORKEDQSO_TITLE: '%{callsign} trabajó un QSO',
+    PUSH_WORKEDQSO_MESSAGE: 'Modo: %{mode} Banda: %{band} UTC: %{utc}',
+    PUSH_INCLUDEDYOUWORKEDQSO_TITLE: '%{callsign} te incluyó a tí en su nuevo QSO',
+    PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE: 'Modo: %{mode} Banda: %{band}',
+    PUSH_LISTENEDDQSO_TITLE: '%{callsign} escuchó un QSO',
+    PUSH_LISTENEDDQSO_MESSAGE: 'Modo: %{mode} Banda: %{band} UTC: %{utc}',
+    PUSH_LISTENEDYOUQSO_TITLE: '%{callsign} te escuchó a tí en un QSO',
+    PUSH_LISTENEDYOUQSO_MESSAGE: 'Mode: %{mode} Band: %{band}',
   };

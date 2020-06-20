@@ -9,3 +9,15 @@
 "PUSH_FOLLOWSYOU_MESSAGE" = "Click para ver su perfil";
 "PUSH_COMMENTEDPARTICPATING_TITLE" = "%@ comentó un QSO que tú participás";
 "PUSH_COMMENTEDPARTICPATING_MESSAGE" =  "%@";
+"PUSH_NEWPOSTANY_TITLE" = "%@ creó una publicación";
+"PUSH_NEWPOSTANY_MESSAGE" =  "Clickea para ver los detalles";
+"PUSH_TAGYOUNEWPOSTANY_TITLE" = "%@ te etiquetó en su nueva publicación";
+"PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "Clickea para ver los detalles";
+"PUSH_WORKEDQSO_TITLE" = "%@ trabajó un QSO";
+"PUSH_WORKEDQSO_MESSAGE" =  "Modo: %@ Banda: %@ UTC: %@";
+"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ te incluyó a tí en su nuevo QSO";
+"PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE" =  "Modo: %@ Banda: %@";
+"PUSH_LISTENEDDQSO_TITLE" = "%@ escuchó un QSO";
+"PUSH_LISTENEDDQSO_MESSAGE" = "Modo: %@ Banda: %@ UTC: %@";
+"PUSH_LISTENEDYOUQSO_TITLE" = "%@ te escuchó a tí en un QSO";
+"PUSH_LISTENEDYOUQSO_MESSAGE" =  "Modo: %@ Banda: %@";
