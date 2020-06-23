@@ -204,28 +204,25 @@ PODS:
     - React
   - RNCPushNotificationIOS (1.0.5):
     - React
-  - RNFBAdMob (6.3.4):
+  - RNFBAdMob (7.0.0):
     - Firebase/AdMob (~> 6.13.0)
+    - PersonalizedAdConsent (~> 1.0.4)
+    - React
+    - RNFBApp
+  - RNFBAnalytics (7.0.0):
     - Firebase/Analytics (~> 6.13.0)
-    - Firebase/Core (~> 6.13.0)
-    - PersonalizedAdConsent
     - React
     - RNFBApp
-  - RNFBAnalytics (6.3.4):
-    - Firebase/Core (~> 6.13.0)
+  - RNFBApp (7.0.0):
+    - Firebase/CoreOnly (~> 6.13.0)
     - React
-    - RNFBApp
-  - RNFBApp (6.3.4):
-    - Firebase/Core (~> 6.13.0)
-    - React
-  - RNFBCrashlytics (6.3.4):
+  - RNFBCrashlytics (7.0.0):
     - Crashlytics (~> 3.14.0)
     - Fabric (~> 1.10.2)
-    - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBRemoteConfig (6.3.4):
-    - Firebase/Core (~> 6.13.0)
+  - RNFBRemoteConfig (7.0.0):
+    - Firebase/Analytics (~> 6.13.0)
     - Firebase/RemoteConfig (~> 6.13.0)
     - React
     - RNFBApp
@@ -460,11 +457,11 @@ SPEC CHECKSUMS:
   RNAWSCognito: 9fb91d3bfaebd85b3d6ee680f8e8d258580dec58
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNCPushNotificationIOS: 30ed75aa2981a4ee00b8a2c46599ff18a9c7fcf6
-  RNFBAdMob: 220fc6f8db48fc824ebbb6704f3887a2c779254e
-  RNFBAnalytics: b8bad44e6653af73219b1a7af24bf3452cb02c1b
-  RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
-  RNFBCrashlytics: 93e1cc09a93aa4bb1e9b5a07af0efb2702db5a39
-  RNFBRemoteConfig: acfef78587e8d544b53338c07ecbc172fae1b781
+  RNFBAdMob: 5daad76870e5f696b4c79ce447cc0b6c38d93088
+  RNFBAnalytics: 5ec128852c1c2104bcd9b336fed1e9b76299dc48
+  RNFBApp: 315b3b4caaf976ded57d5fbfe5bd9e00f6d78124
+  RNFBCrashlytics: 9f816d1188c20d9f9dd9b271a03e794342b3d59c
+  RNFBRemoteConfig: b9b375a55a208239bce1eccd6c752167f8475c3e
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597

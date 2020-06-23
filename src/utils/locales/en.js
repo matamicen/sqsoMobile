@@ -247,7 +247,27 @@ export default {
     QsoHeaderHelpQSO: 'Help to publish a QSO? ¿Ayuda para publicar un QSO?',
     QsoHeaderHelpSWL: 'Help to publish a SWL?',
     QsoHeaderHelpPOST: 'Help to publish an ANY?',
-
+    PUSH_FOLLOWSYOU_TITLE: '%{callsign} now follows you',
+    PUSH_FOLLOWSYOU_MESSAGE: 'See his profile here',
+    PUSH_COMMENTEDPARTICPATING_TITLE: '%{callsign} commented a QSO you are participating',
+    PUSH_COMMENTEDPARTICPATING_MESSAGE: '%{comment}',
+    PUSH_NEWPOSTANY_TITLE: '%{callsign} created a new POST',
+    PUSH_NEWPOSTANY_MESSAGE: 'See more details here',
+    PUSH_TAGYOUNEWPOSTANY_TITLE: '%{callsign} tag you in his new POST',
+    PUSH_TAGYOUNEWPOSTANY_MESSAGE: 'See more details here',
+    PUSH_WORKEDQSO_TITLE: '%{callsign} worked a QSO',
+    PUSH_WORKEDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band} UTC: %{utc}',
+    PUSH_INCLUDEDYOUWORKEDQSO_TITLE: '%{callsign} included you in his new QSO',
+    PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band}',
+    PUSH_LISTENEDDQSO_TITLE: '%{callsign} listened a QSO',
+    PUSH_LISTENEDDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band} UTC: %{utc}',
+    PUSH_LISTENEDYOUQSO_TITLE: '%{callsign} listened you in a QSO',
+    PUSH_LISTENEDYOUQSO_MESSAGE: 'on Mode: %{mode} Band: %{band}',
+    SOMEONE_INCLUDED_YOU: "Someone included you in a Post!",
+    SEEMOREDETAILSON_NOTIFICATIONS: "See more details on Notifications",
+    SOMEONE_CLOSE: "Close",
+    NOTIF_ACTIVTYPE_10_QSO: '%{callsign} worked a QSO on Band: %{band} Mode: %{mode}',
+    
     
    
 

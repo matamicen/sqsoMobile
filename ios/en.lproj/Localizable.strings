@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  sqsoMobile
+
+  Created by Matias Micenmacher on 18/06/2020.
+  Copyright © 2020 Facebook. All rights reserved.
+*/
+"PUSH_FOLLOWSYOU_TITLE" = "%@ now follows you";
+"PUSH_FOLLOWSYOU_MESSAGE" = "Click to see his profile";
+"PUSH_COMMENTEDPARTICPATING_TITLE" = "%@ commented a QSO you are participating";
+"PUSH_COMMENTEDPARTICPATING_MESSAGE" =  "%@";
+"PUSH_NEWPOSTANY_TITLE" = "%@ created a new POST";
+"PUSH_NEWPOSTANY_MESSAGE" =  "Click to see more details";
+"PUSH_TAGYOUNEWPOSTANY_TITLE" = "%@ tag you in his new POST";
+"PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "Click to see more details";
+"PUSH_WORKEDQSO_TITLE" = "%@ worked a QSO";
+"PUSH_WORKEDQSO_MESSAGE" =  "Mode: %@ Band: %@ UTC: %@";
+"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ included you in his new QSO";
+"PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE" =  "Mode: %@ Band: %@";
+"PUSH_LISTENEDDQSO_TITLE" = "%@ listened a QSO";
+"PUSH_LISTENEDDQSO_MESSAGE" = "Mode: %@ Band: %@ UTC: %@";
+"PUSH_LISTENEDYOUQSO_TITLE" = "%@ listened you in a QSO";
+"PUSH_LISTENEDYOUQSO_MESSAGE" =  "Mode: %@ Band: %@";

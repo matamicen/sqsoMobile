@@ -19,6 +19,7 @@
 		3BDA8A393C3969645573A98E /* libPods-sqsoMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E58AD73E85589968DF9D0E /* libPods-sqsoMobileTests.a */; };
 		673381CE232C3525009E5299 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673381CD232C3525009E5299 /* StoreKit.framework */; };
 		674D70C022F0DB9D001547BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */; };
+		675923F6249BFD9900E75612 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 675923F8249BFD9900E75612 /* Localizable.strings */; };
 		B9BE9F6267D01EAD59D25342 /* libPods-sqsoMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 810675BFAC246D9B49DADF10 /* libPods-sqsoMobile.a */; };
 		D860C1304493E9CA8A7B5D6E /* libPods-sqsoMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1018380BCFBAC0FC2C859C90 /* libPods-sqsoMobile-tvOSTests.a */; };
 		FEF12A389D33D00AB6F311E6 /* libPods-sqsoMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFB34683C4DE2A6C84D873FF /* libPods-sqsoMobile-tvOS.a */; };
@@ -64,7 +65,11 @@
 		54E58AD73E85589968DF9D0E /* libPods-sqsoMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		673381CD232C3525009E5299 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		675923F7249BFD9900E75612 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		675923F9249BFE0200E75612 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		678B016522EE53F500D17648 /* sqsoMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sqsoMobile.entitlements; path = sqsoMobile/sqsoMobile.entitlements; sourceTree = "<group>"; };
+		67B1F974249BEE59004E7530 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		67B1F976249BEEA1004E7530 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		69AE634E09588643A3C642D4 /* Pods-sqsoMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile.release.xcconfig"; sourceTree = "<group>"; };
 		810675BFAC246D9B49DADF10 /* libPods-sqsoMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3EA9B0611CB4FC9A56A9E0B /* Pods-sqsoMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobileTests.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobileTests/Pods-sqsoMobileTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +173,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				675923F8249BFD9900E75612 /* Localizable.strings */,
 				13B07FAE1A68108700A75B9A /* sqsoMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* sqsoMobileTests */,
@@ -340,6 +346,7 @@
 				English,
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -367,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				675923F6249BFD9900E75612 /* Localizable.strings in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				674D70C022F0DB9D001547BA /* GoogleService-Info.plist in Resources */,
 			);
@@ -682,9 +690,20 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				67B1F974249BEE59004E7530 /* es */,
+				67B1F976249BEEA1004E7530 /* en */,
 			);
 			name = LaunchScreen.xib;
 			path = sqsoMobile;
+			sourceTree = "<group>";
+		};
+		675923F8249BFD9900E75612 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				675923F7249BFD9900E75612 /* en */,
+				675923F9249BFE0200E75612 /* es */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
