@@ -183,16 +183,24 @@ if (urlnotif!=null)
                      
                            {(this.props.activity_type===10 && this.props.band!=='') &&
                            <View>
-                          <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"}   
-                          {/* <Text style={{fontSize:15}}>{this.props.message} {I18n.t("NOTIF_ACTIVTYPE_10_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})} {"\n"} */}
-                          <Text style={{fontSize:14, height: 60, color: 'grey'}}><MomentAgo date={this.props.utc}/>{"\n"} </Text>
+                       
+                           {(this.props.qsotype==='QSO') &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_10_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                           }
+                           {(this.props.qsotype==='LISTEN') &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_10_LISTEN",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                          }
+                          <Text style={{fontSize:14, height: 25, color: 'grey'}}><MomentAgo date={this.props.utc}/></Text>
                             {/* <Text style={{fontSize:14, height: 60, color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC{"\n"} </Text> */}
-                           </Text>
+                           
                           </View>
                        }
+
+                       {/* Si viene aca es porque es un post tipo ANY */}
                         {(this.props.activity_type===10 && this.props.band==='') &&
                          <View>
-                          <Text style={{fontSize:15}}>{this.props.message}</Text>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_10_ANY",{callsign: this.props.QRA})}</Text>
                           <Text style={{fontSize:14, height: 40, color: 'grey'}}><MomentAgo date={this.props.utc}/></Text>
                           {/* <Text style={{fontSize:14, height: 40, color: 'grey'}}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
                           </View>
@@ -200,11 +208,14 @@ if (urlnotif!=null)
 {/* {moment(this.props.datetimecomment).fromNow()} */}
                         {(this.props.activity_type===1) &&
                           <View>
-                          <Text style={{fontSize:15}}>{this.props.message} </Text>
+                          {/* <Text style={{fontSize:15}}>{this.props.message} </Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_01",{callsign: this.props.QRA})}</Text>
                           <Text style={{fontSize:14, color: 'grey', height: 40 }}><MomentAgo date={this.props.datetimecomment}/></Text>
                           {/* <Text style={{fontSize:14, color: 'grey', height: 40 }}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC</Text> */}
                           </View>
                         }
+
+                        {/* el 23 es de LIKES que no se esta usando */}
                          {(this.props.activity_type===23) &&
                           <Text style={{fontSize:15, height: 75}}>{this.props.message} </Text>
                           // <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
@@ -212,15 +223,23 @@ if (urlnotif!=null)
                            
                           {(this.props.activity_type===12 && this.props.band!=='') &&
                           <View>
-                          <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text>
-                           <Text style={{fontSize:14, height: 25,color: 'grey'}}><MomentAgo date={this.props.utc}/>{"\n"} </Text>
+                          {/* <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text> */}
+                          {(this.props.qsotype==='QSO') &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                          }
+                            {(this.props.qsotype==='LISTEN') &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTEN",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                          }
+                           <Text style={{fontSize:14, height: 25,color: 'grey'}}><MomentAgo date={this.props.utc}/></Text>
                             {/* <Text style={{fontSize:14, height: 25,color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC </Text>  */}
                           </View>
                        }
 
+                          {/* Si viene aca es porque es un post tipo ANY */}
                         {(this.props.activity_type===12 && this.props.band==='') &&
                          <View>
-                          <Text style={{fontSize:15}}>{this.props.message}</Text>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA})}</Text>
                           <Text style={{fontSize:14, height: 25,color: 'grey' }}><MomentAgo date={this.props.utc}/></Text>
                           {/* <Text style={{fontSize:14, height: 25,color: 'grey' }}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
                           </View>
@@ -228,7 +247,8 @@ if (urlnotif!=null)
 
                          {(this.props.activity_type===50) &&
                          <View>
-                          <Text style={{fontSize:15}}>{this.props.message}</Text>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_50",{callsign: this.props.QRA})}</Text>
                           <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
                           {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
                           </View>
