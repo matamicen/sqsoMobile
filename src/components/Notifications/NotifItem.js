@@ -183,7 +183,8 @@ if (urlnotif!=null)
                      
                            {(this.props.activity_type===10 && this.props.band!=='') &&
                            <View>
-                          <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"}
+                          <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"}   
+                          {/* <Text style={{fontSize:15}}>{this.props.message} {I18n.t("NOTIF_ACTIVTYPE_10_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})} {"\n"} */}
                           <Text style={{fontSize:14, height: 60, color: 'grey'}}><MomentAgo date={this.props.utc}/>{"\n"} </Text>
                             {/* <Text style={{fontSize:14, height: 60, color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC{"\n"} </Text> */}
                            </Text>

@@ -847,14 +847,17 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       pushTitle = "";
       pushMessage = "";
       bandejaNotifLocal = "";
-      if (Platform.OS==='android'){
-          titleLocArgs = JSON.parse(title_loc_args);
-          locArgs = JSON.parse(loc_args);
-        }else
-        { 
-          titleLocArgs = title_loc_args;
-          locArgs = loc_args;
-        }
+      // if (Platform.OS==='android'){
+      //     titleLocArgs = JSON.parse(title_loc_args);
+      //     locArgs = JSON.parse(loc_args);
+      //   }else
+      //   { 
+      //     titleLocArgs = title_loc_args;
+      //     locArgs = loc_args;
+      //   }
+        titleLocArgs = title_loc_args;
+        locArgs = loc_args;
+
       console.log('helper titleLocArgs:'+ titleLocArgs);
       console.log('helper titleLocArgs:'+ locArgs);
       console.log('helper titleLocKey:'+ title_loc_key);
@@ -892,26 +895,26 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       if (title_loc_key==='PUSH_WORKEDQSO_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
-        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+        bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
       
       if (title_loc_key==='PUSH_INCLUDEDYOUWORKEDQSO_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1]});
-        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+        bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
       if (title_loc_key==='PUSH_LISTENEDDQSO_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
-        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+        bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
 
       if (title_loc_key==='PUSH_LISTENEDYOUQSO_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1]});
-        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+        bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
       
