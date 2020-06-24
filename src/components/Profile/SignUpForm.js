@@ -416,7 +416,7 @@ signUp = async () => {
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
       // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
       this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
-      this.props.resetQso();
+      this.props.resetQso('QSO');  // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
       this.props.newqsoactiveFalse();
       
       // this.props.followersAlreadyCalled(false);

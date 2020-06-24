@@ -274,9 +274,13 @@ export default {
     NOTIF_ACTIVTYPE_12_ANY: '%{callsign} tagged you in his a new post',
     NOTIF_ACTIVTYPE_01: '%{callsign} started yo follow you',
     NOTIF_ACTIVTYPE_50: '%{callsign} updated his biography',
-
-
-
+    STOPAPP_SORRY: 'Sorry, there was a problem during the APP installation.',
+    STOPAPP_PLEASE: 'Please delete the APP and reinstall it from the store again.',
+    STOPAPP_APOLOGIZE: 'Apologize. SuperQSO.',
+    STOPAPP_CHANGEPASSWORD: 'Sorry, you have to change your password in order to use SuperQSO APP, please change your password in www.superqso.com',
+    STOPAPP_THENTRY: 'Then try login again with the App.',
+    STOPAPP_UPGRADE: 'We have built new features in order to improve the user experience and we need to upgrade the APP.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Thank you & 73!'
+    
      
 
     

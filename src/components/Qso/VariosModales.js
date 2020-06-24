@@ -681,6 +681,9 @@ class VariosModales extends Component {
                     {I18n.t("variosModContactUsTitle")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
+                    <Text style={{ color: "#FFFFFF", fontSize: 15}}>
+                    info@superqso.com
+                    </Text>
                 </View>
                 <View style={{ flex: 0.6 }}>
                     <Text style={{ color: "#FFFFFF", fontSize: 18, marginTop: 10, marginLeft:7}}>

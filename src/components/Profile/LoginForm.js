@@ -399,7 +399,8 @@ constructor(props) {
   if (apiCall.stop)
    {
     // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
-    this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+    // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+      this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")})
     this.debeHacerUpgrade = true;
             
    }
@@ -529,8 +530,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-        if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-      //  if (1===2)
+      //  if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+       if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -718,7 +719,7 @@ if (!this.usernotfound)
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
       // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
       this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
-      this.props.resetQso();
+      this.props.resetQso('QSO'); // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
       this.props.newqsoactiveFalse();
       
       // this.props.followersAlreadyCalled(false);

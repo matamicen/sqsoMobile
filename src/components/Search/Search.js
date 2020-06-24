@@ -252,9 +252,9 @@ searchIcon: {
 },
 input: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingRight: 10,
-    paddingBottom: 10,
+    paddingBottom: 5,
     borderRadius: 22,
     paddingLeft: 5,
     backgroundColor: Platform.OS==='android' ? '#f5f5f5':'#939393',

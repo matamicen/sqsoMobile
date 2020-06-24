@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TextInput, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import I18n from '../../utils/i18n';
 
 
 
@@ -45,7 +46,7 @@ class StopApp extends Component {
                       //  margin:20,
                           padding:20, 
                       //    backgroundColor:  '#475788',
-                          backgroundColor:"rgba(0,0,0,0.85)",
+                          backgroundColor:"rgba(139,216,189,0.93)",
                           top: 90,
                           left: 30,
                           right: 30,
@@ -63,15 +64,15 @@ class StopApp extends Component {
 
 
                      {(this.props.appNeedUpgrade) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>{this.props.upgradeText.split('<br/>').join('\n') }</Text> 
+                     <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 20, padding: 10 }}>{this.props.upgradeText.split('<br/>').join('\n') }</Text> 
                      }
 
                       {(this.props.pushTokenNotFound) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, there was a problem during the APP installation.{"\n\n"}Please delete the APP and reinstall it from the store again. {"\n\n"} Apologize. SuperQSO.</Text>
+                     <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 20, padding: 10 }}>{I18n.t("STOPAPP_SORRY")}{"\n\n"}{I18n.t("STOPAPP_PLEASE")} {"\n\n"} {I18n.t("STOPAPP_APOLOGIZE")}</Text>
                      }
 
                {(this.props.forceChangePassword) &&
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>Sorry, you have to change your password in order to use SuperQSO APP, please change your password in superqso.com {"\n\n"}Then try login again with the App. {"\n\n"} Apologize. SuperQSO.</Text>
+                     <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 20, padding: 10 }}>{I18n.t("STOPAPP_CHANGEPASSWORD")} {"\n\n"}{I18n.t("STOPAPP_THENTRY")} {"\n\n"} {I18n.t("STOPAPP_APOLOGIZE")}</Text>
                      }    
                  
                     

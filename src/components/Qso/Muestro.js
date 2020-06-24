@@ -725,7 +725,8 @@ class Muestro extends Component {
                   placeholder={I18n.t("MuestroDescription")}
                   
                   underlineColorAndroid='transparent'
-                  placeholderTextColor="rgba(255,255,255,0.7)"
+                 placeholderTextColor="rgba(255,255,255,0.7)"
+                  // placeholderTextColor='rgba(36,54,101,0.93)'
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -839,7 +840,8 @@ const styles = StyleSheet.create({
       height: 38,
       borderRadius: 22,  
       // backgroundColor: 'rgba(255,255,255,0.2)',
-      backgroundColor: 'black',
+      // backgroundColor: 'black',
+      backgroundColor: 'rgba(36,54,101,0.93)',
       marginBottom: 5,
       marginTop: 15,
       color: '#FFF',
