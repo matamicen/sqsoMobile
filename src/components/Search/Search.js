@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 22,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Platform.OS==='android' ? '#f5f5f5':'#939393',
     fontSize: 12
    // backgroundColor: 'grey',
 },
@@ -257,13 +257,13 @@ input: {
     paddingBottom: 10,
     borderRadius: 22,
     paddingLeft: 5,
-     backgroundColor: '#f5f5f5',
-   // backgroundColor: 'grey',
+    backgroundColor: Platform.OS==='android' ? '#f5f5f5':'#939393',
+    //backgroundColor: 'grey',
     marginRight: 10,
     marginTop:2,
     marginBottom: 3,
     fontSize:16,
- 
+     
    
     color: '#424242',
 },

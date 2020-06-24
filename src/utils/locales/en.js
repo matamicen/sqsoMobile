@@ -257,7 +257,7 @@ export default {
     PUSH_TAGYOUNEWPOSTANY_MESSAGE: 'See more details here',
     PUSH_WORKEDQSO_TITLE: '%{callsign} worked a QSO',
     PUSH_WORKEDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band} UTC: %{utc}',
-    PUSH_INCLUDEDYOUWORKEDQSO_TITLE: '%{callsign} included you in his new QSO',
+    PUSH_INCLUDEDYOUWORKEDQSO_TITLE: '%{callsign} worked you in his new QSO',
     PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band}',
     PUSH_LISTENEDDQSO_TITLE: '%{callsign} listened a QSO',
     PUSH_LISTENEDDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band} UTC: %{utc}',
@@ -267,10 +267,13 @@ export default {
     SEEMOREDETAILSON_NOTIFICATIONS: "See more details on Notifications",
     SOMEONE_CLOSE: "Close",
     NOTIF_ACTIVTYPE_10_QSO: '%{callsign} worked a QSO on Band: %{band} Mode: %{mode}',
-    
-    
-   
-
+    NOTIF_ACTIVTYPE_12_QSO: '%{callsign} worked you in a QSO on Band: %{band} Mode: %{mode}',
+    NOTIF_ACTIVTYPE_10_LISTEN: '%{callsign} listened a QSO on Band: %{band} Mode: %{mode}',
+    NOTIF_ACTIVTYPE_12_LISTEN: '%{callsign} listened you in a QSO on Band: %{band} Mode: %{mode}',
+    NOTIF_ACTIVTYPE_10_ANY: '%{callsign} published a new post',
+    NOTIF_ACTIVTYPE_12_ANY: '%{callsign} tagged you in his a new post',
+    NOTIF_ACTIVTYPE_01: '%{callsign} started yo follow you',
+    NOTIF_ACTIVTYPE_50: '%{callsign} updated his biography',
 
 
 
