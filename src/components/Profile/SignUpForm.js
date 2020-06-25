@@ -45,6 +45,7 @@ constructor(props) {
 
     this.jwtToken = '';
     this.qra = '';
+    this.errorSignin = '';
 
 
    
@@ -398,6 +399,7 @@ signUp = async () => {
   })
     .catch(err => {console.log('error:', err.code)
     this.usernotfound = true;
+    this.errorSignin = err.message;
     // kinesis_catch('#022',err,this.state.qra.toUpperCase());
     crashlytics().setUserId(this.state.qra.toUpperCase());
     crashlytics().log('error: ' + JSON.stringify(err)) ;
@@ -495,6 +497,19 @@ signUp = async () => {
      this.props.navigation.navigate("AppNavigator2");
   
 
+     }
+     else
+     {
+       this.setState({indicator: 0});
+
+       if (this.errorSignin==="User is disabled.")
+       {
+        this.props.welcomeUserFirstTime(true);
+        console.log('error signin:' + this.errorSignin);
+        this.props.navigation.navigate("Root")
+       }
+
+       
      }
 
 

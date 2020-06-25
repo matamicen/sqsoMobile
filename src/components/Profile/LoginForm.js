@@ -10,7 +10,7 @@ import Amplify from 'aws-amplify';
 import AmplifyAuthStorage from '../../AsyncStorage';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
-  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions} from '../../actions';
+  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions, welcomeUserFirstTime} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -641,6 +641,10 @@ if (this.debeHacerUpgrade===false)
         this.componentDidMount();
       }
 
+      closeWelcom = () => {
+        this.props.welcomeUserFirstTime(false);
+      }
+
   
 signIn = async () => {
 
@@ -694,7 +698,15 @@ else
              } 
              else
              {
-             this.setState({ loginerror: 1, indicator: 0, loginerrorMessage: I18n.t("loginerrorMessUserNotFound") });
+
+              if (err.message==="User is disabled.")
+                 errmess = I18n.t("loginerrorUserDisabled");
+                 else
+                 errmess = I18n.t("loginerrorMessUserNotFound");
+
+
+
+             this.setState({ loginerror: 1, indicator: 0, loginerrorMessage: errmess });
              this.usernotfound = true;
 
 
@@ -1092,6 +1104,12 @@ if (!this.usernotfound)
 {(this.state.nointernet) && 
                <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
 }
+{(this.props.welcomeuserfirsttime) && 
+            <VariosModales
+            show={true}
+            modalType="welcomefirsttime"
+            closeInternetModal={this.closeWelcom.bind()}
+          /> }
 
              </View> 
              :
@@ -1226,7 +1244,8 @@ if (!this.usernotfound)
   return { pushtoken: state.sqso.pushToken,
              qra: state.sqso.qra, 
              userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
-             env: state.sqso.env
+             env: state.sqso.env,
+             welcomeuserfirsttime: state.sqso.welcomeUserFirstTime
           
              };
 };
@@ -1247,7 +1266,8 @@ const mapDispatchToProps = {
     manage_notifications,
     confirmReceiptiOS,
     setSubscriptionInfo,
-    manageLocationPermissions
+    manageLocationPermissions,
+    welcomeUserFirstTime
     
    }
 

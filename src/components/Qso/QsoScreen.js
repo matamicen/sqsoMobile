@@ -1886,12 +1886,12 @@ console.log('tomo imagen de galeria');
           {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
           {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
           
-          {(this.props.welcomeuserfirsttime) && 
+          {/* {(this.props.welcomeuserfirsttime) && 
             <VariosModales
             show={true}
             modalType="welcomefirsttime"
             closeInternetModal={this.closeVariosModales.bind()}
-          /> }
+          /> } */}
 
   {(this.state.camaraSelect) &&
               <CamaraSelect   close={this.CloseCamaraSelect.bind()} photoGallery={this.photoFromGallery.bind()}  cameraScreen={this.gotoCameraScreen.bind()}/>
