@@ -695,6 +695,8 @@ else
              {
               // this.setState({confirmSignup: true})
               this.setState({ loginerror: 0, indicator: 0,confirmSignup: true});
+              this.usernotfound = true;
+
              } 
              else
              {
@@ -971,7 +973,13 @@ if (!this.usernotfound)
    .then(() => { console.log('SignUp confirmed ok!: ') 
                  this.close_confirmSignup();
                  this.setState({confirmationcodeError: 0, indicator:0, buttonsEnabled: false });
+                 setTimeout(() => {
+                // se hace tiempo porque ios necesita bajar el modal anterior antes
                  this.props.welcomeUserFirstTime(true);
+                }
+                , 200);
+               
+                
                 //  this.signIn(); no hago el SignIn porque el user esta deshabilitado hasta el envio de la licencia
              //    this.signInAfterConfirmed();
                  // this.setState({indicator:0});

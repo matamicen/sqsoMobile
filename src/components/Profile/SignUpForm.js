@@ -951,7 +951,7 @@ chooseCountry = () => {
            
            renderItem={({item}) =>     
              <View>
-                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>{I18n.t("signupForm")}</Text>
+                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 20, marginBottom: 4  }}>{I18n.t("signupForm")}</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder={I18n.t("signupCallsign")}
@@ -1079,15 +1079,15 @@ chooseCountry = () => {
                 
                  />
                  {/* <View  style={{flex:1, flexDirection: "row"}}> */}
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept1")}</Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD', marginLeft: 15}} >{I18n.t("signupAccept1")}</Text>
                  <View style={{flex:1, flexDirection: "row"}}>
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept12")} </Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD',marginLeft: 15}} >{I18n.t("signupAccept12")} </Text>
                  <TouchableOpacity onPress={ () => this.setState({privacy: true}) } > 
                  <Text style={{ fontSize: 11, color: "white"}} >{I18n.t("signupAccept2")} </Text></TouchableOpacity>
                 
                  </View>
 
-                 <View style={{flex:1, flexDirection: "row"}}>
+                 <View style={{flex:1, flexDirection: "row", marginLeft: 15}}>
                  <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept3")}</Text>
                  <TouchableOpacity onPress={ () => this.setState({terms: true}) } > 
                   <Text style={{ fontSize: 11, color: "white"}} > {I18n.t("signupAccept4")}</Text>
@@ -1346,6 +1346,7 @@ chooseCountry = () => {
     color: '#FFF',
     fontSize: 16,
     borderRadius: 22,
+    marginLeft: 15,
     paddingHorizontal: 10
           },
           input2: {
@@ -1356,7 +1357,8 @@ chooseCountry = () => {
             color: '#FFF',
             fontSize: 16,
             borderRadius: 22,
-            paddingHorizontal: 10
+            paddingHorizontal: 10,
+            marginLeft: 15
                   },
           inputConfirmation: {
             height: 40,    
@@ -1375,6 +1377,7 @@ chooseCountry = () => {
       borderRadius: 22,
       width: 270,
       height: 36,
+      marginLeft: 15,
       marginTop: 7
       },
   birthdateContainer:{
@@ -1383,6 +1386,7 @@ chooseCountry = () => {
         height: 37,
         width: 270,
         marginBottom: 8,
+        marginLeft: 15,
         paddingHorizontal: 8,
         borderRadius: 22
                },
