@@ -124,13 +124,13 @@ class VariosModales extends Component {
                 resizeMode="contain"
               />
 
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 5 }}>{I18n.t("variosModWelcWelcome")}</Text>
-              <Text style={{ color: "yellow", fontSize: 18, padding: 5 , fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelcSendLicense1")}<Text style={{ color: '#8BD8BD', fontSize: 18, fontWeight: 'bold' }}> info@superqso.com </Text>{I18n.t("variosModWelcSendLicense2")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 , fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelcEnableYou")}</Text>
-              <Text style={{ color: "yellow", fontSize: 18, padding: 5 ,fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelRemember")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 17, padding: 5 ,  textAlign: "center"}}>{I18n.t("variosModWelc3Months")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 17, padding: 5 }}>{I18n.t("variosModWelcEnjoy")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5,  textAlign: "center" }}>{I18n.t("variosModWelc3After")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 19, padding: 5 }}>{I18n.t("variosModWelcWelcome")}</Text>
+              <Text style={{ color: "yellow", fontSize: 17, padding: 5 , fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelcSendLicense1")}<Text style={{ color: '#8BD8BD', fontSize: 18, fontWeight: 'bold' }}> info@superqso.com </Text>{I18n.t("variosModWelcSendLicense2")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 15, padding: 5 , fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelcEnableYou")}</Text>
+              <Text style={{ color: "yellow", fontSize: 17, padding: 5 ,fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelRemember")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 ,  textAlign: "center"}}>{I18n.t("variosModWelc3Months")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>{I18n.t("variosModWelcEnjoy")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 15, padding: 5,  textAlign: "center" }}>{I18n.t("variosModWelc3After")}</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}
