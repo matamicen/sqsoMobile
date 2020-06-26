@@ -59,6 +59,7 @@ constructor(props) {
      password: '',
      passwordConfirm: '',
      country: I18n.t("signupCountry"),
+     phone: '',
      lastname: '',
      firstname: '',
      indicator: 0,
@@ -585,7 +586,8 @@ signUp = async () => {
         'custom:firstName': this.state.firstname ,
         'custom:lastName': this.state.lastname,
         'custom:country': this.state.cca2,
-        'custom:callsign': this.state.qra.toUpperCase()
+        'custom:callsign': this.state.qra.toUpperCase(),
+        'custom:phone': this.state.phone
       
         }
       })
@@ -1031,6 +1033,20 @@ chooseCountry = () => {
 
              </TouchableOpacity>
 
+             <TextInput
+                 ref={phoneRef => this.phoneRef = phoneRef}
+                 placeholder={I18n.t("signupPhone")}
+                 underlineColorAndroid='transparent'
+                 placeholderTextColor="rgba(255,255,255,0.7)"
+                 returnKeyType="go"
+                 autoCapitalize="none"
+                 autoCorrect={false}
+                 onSubmitEditing={() => this.passwordRef.focus()} 
+                 style={styles.input} 
+                 value={this.state.phone}
+                 onChangeText={(text) => this.setState({phone: text})}
+                
+                 />
        
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}

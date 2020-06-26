@@ -693,8 +693,8 @@ else
 
              if  (err.code==='UserNotConfirmedException')  
              {
-              this.setState({confirmSignup: true})
-
+              // this.setState({confirmSignup: true})
+              this.setState({ loginerror: 0, indicator: 0,confirmSignup: true});
              } 
              else
              {
@@ -970,6 +970,7 @@ if (!this.usernotfound)
     Auth.confirmSignUp(this.state.username.toLowerCase(),confirmationCode)
    .then(() => { console.log('SignUp confirmed ok!: ') 
                  this.close_confirmSignup();
+                 this.setState({confirmationcodeError: 0, indicator:0, buttonsEnabled: false });
                  this.props.welcomeUserFirstTime(true);
                 //  this.signIn(); no hago el SignIn porque el user esta deshabilitado hasta el envio de la licencia
              //    this.signInAfterConfirmed();

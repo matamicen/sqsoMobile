@@ -45,7 +45,8 @@ class ConfirmSignUp extends Component {
                       //  margin:20,
                           padding:20, 
                  //         backgroundColor:  '#475788',
-                          backgroundColor:"rgba(0,0,0,0.85)",
+                          // backgroundColor:"rgba(0,0,0,0.85)",
+                          backgroundColor:"rgba(139,216,189,0.97)",
                           top: 90,
                           left: 30,
                           right: 30,
@@ -62,13 +63,13 @@ class ConfirmSignUp extends Component {
                 <View style={{flex: 1}}> 
                 
                   <View style={{flex: 0.60}}>           
-                 
-                  <Text style={{ color: '#FFFFFF', fontSize: 17, padding: 10 }}>{I18n.t("confirmSignUpWeHaveSent")}</Text>
+                  
+                  <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 17, padding: 10 }}>{I18n.t("confirmSignUpWeHaveSent")}</Text>
                     <TextInput 
                     placeholder={I18n.t("confirmSignUpConfirmationCode")}
                     onFocus={() => this.setState({ confirmationcodeError: 0})}
                     underlineColorAndroid='transparent'
-                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    placeholderTextColor="#243665"
                     returnKeyType="next"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -86,17 +87,17 @@ class ConfirmSignUp extends Component {
                     <View style={{flex: 0.20, flexDirection: 'row'}}>
                      <View style={{flex: 0.25, alignItems: 'flex-start'}} > 
                     <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.props.close_confirmSignup()} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 14}}>{I18n.t("confirmSignUpCancelButton")}</Text>
+                      <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 14}}>{I18n.t("confirmSignUpCancelButton")}</Text>
                     </TouchableOpacity>
                     </View>
                     <View style={{flex: 0.40, alignItems: 'center'}} > 
                     <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.props.resendCode() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5, alignItems: 'flex-start'}}>
-                      <Text style={{ color: '#999', fontSize: 14}}>{I18n.t("confirmSignUpResendCodeButton")}</Text>
+                      <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 14}}>{I18n.t("confirmSignUpResendCodeButton")}</Text>
                     </TouchableOpacity>
                     </View>
                     <View style={{flex: 0.35, alignItems: 'flex-end' }} > 
                     <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.props.confirmSignup(this.state.confirmationcode.trim()) } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
-                      <Text style={{ color: 'white', fontSize: 17}}>{I18n.t("confirmSignUpConfirmButton")}</Text>
+                      <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 17}}>{I18n.t("confirmSignUpConfirmButton")}</Text>
                     </TouchableOpacity>
                     </View>
                     </View>
@@ -136,7 +137,8 @@ const styles = StyleSheet.create({
         width: 250,
         backgroundColor: 'rgba(255,255,255,0.2)',
         marginBottom: 5,
-        color: '#FFF',
+        color: '#243665',
+        fontWeight: 'bold',
         fontSize: 16,
         borderRadius: 22,
         paddingHorizontal: 10
