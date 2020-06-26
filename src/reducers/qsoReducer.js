@@ -1190,7 +1190,7 @@ const qsoReducer = (state = initialState, action) => {
              datetime: '',
              qsoqras: [],
              qsocallsigns: [],
-             qsotype: 'QSO',
+             qsotype: action.qsotype,
              qsotypeSent: false,
              band: I18n.t("ReducerBand"),
              bandSent: false,
