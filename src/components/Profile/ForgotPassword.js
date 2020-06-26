@@ -160,8 +160,13 @@ constructor(props) {
                 if (err.code==='LimitExceededException')
                   this.setState({errormessage: I18n.t("forgotPasswordAttempts"),  confirmationcodeError: 1, indicator:0}) 
               else
-                this.setState({errormessage: I18n.t("forgotPasswordEmailAgain"),  confirmationcodeError: 1, indicator:0 })
-              
+              {
+                if (err.message==="User is disabled.")
+                errmess = I18n.t("loginerrorUserDisabled");
+                else
+                errmess = I18n.t("forgotPasswordEmailAgain");
+                this.setState({errormessage: errmess,  confirmationcodeError: 1, indicator:0 })
+              }
 
                 crashlytics().setUserId(this.state.email.toLowerCase());
                 crashlytics().log('error: ' + JSON.stringify(err)) ;

@@ -44,8 +44,8 @@ class QsoType extends Component {
            if (this.props.mediafiles.length>1) 
               this.puedecambiar = false; 
               else {
-                await this.props.resetQso();
-                this.props.cambioqsotype('LISTEN');
+                await this.props.resetQso('LISTEN');
+                // this.props.cambioqsotype('LISTEN'); no haria falta por lo inicia resetQSO
             }
          else
            this.props.cambioqsotype('LISTEN');
@@ -56,8 +56,8 @@ class QsoType extends Component {
             if (this.props.mediafiles.length>1) 
              this.puedecambiar = false; 
              else {
-             await this.props.resetQso();  
-             this.props.cambioqsotype('QSO');
+             await this.props.resetQso('QSO');  
+            //  this.props.cambioqsotype('QSO'); no haria falta por lo inicia resetQSO
             }
         else
           this.props.cambioqsotype('QSO');
@@ -75,8 +75,8 @@ class QsoType extends Component {
                this.puedecambiar = false; 
         else
           {
-          await this.props.resetQso();
-          this.props.cambioqsotype('POST');
+          await this.props.resetQso('POST');
+          // this.props.cambioqsotype('POST'); no haria falta por lo inicia resetQSO
           }
          
         }

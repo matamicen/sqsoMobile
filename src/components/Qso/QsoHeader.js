@@ -55,7 +55,8 @@ class QsoHeader extends Component {
 
         CloseHelpPublish = () => {
           this.setState({
-            helpPublish: false});
+            helpPublish: false,
+            helpTag: false});
       
           };
     
@@ -110,7 +111,11 @@ class QsoHeader extends Component {
                               //  <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >  
                                 <TouchableOpacity  style={styles.buttonAddCallSignContainer} onPress={() => this.setState({addCallsigns: true})} >                                                                            
                                   {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text> */}
+                                  {this.props.qsotype==='POST' ?
+                                  <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderTagCallsign")}</Text>
+                                  :
                                   <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
+                                  }
                                </TouchableOpacity>
           
                                   : null }
@@ -142,7 +147,18 @@ class QsoHeader extends Component {
              </View>  
               {/* color: '#000080' */}
 
-               <View style={{flex:0.11, alignItems: 'flex-end'}}>
+               <View style={{flex:0.11, flexDirection: 'row'}}>
+               <View style={{flex:this.props.qsotype==='POST' ? 0.5:0.3, alignItems: 'flex-start'}}>
+               { this.props.sqsonewqsoactive &&
+               <TouchableOpacity  style={{marginRight: 10 }} onPress={() => this.setState({helpTag: true})} >                                                                            
+                               
+                                     {this.props.qsotype==='POST' &&
+                                  <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderHelpTag")}</Text>
+                                  }
+                                  </TouchableOpacity>
+               }
+               </View>
+               <View style={{flex:this.props.qsotype==='POST' ? 0.5:0.7, alignItems: 'flex-end'}}>
                { this.props.sqsonewqsoactive &&
                <TouchableOpacity  style={{marginRight: 10 }} onPress={() => this.setState({helpPublish: true})} >                                                                            
                                   {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text> */}
@@ -157,6 +173,7 @@ class QsoHeader extends Component {
                                   }
                                   </TouchableOpacity>
                }
+               </View>
               
                </View>    
              
@@ -165,7 +182,10 @@ class QsoHeader extends Component {
                 }   
 
     {(this.state.helpPublish) &&
-                  <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype={this.props.qsotype} />
+                  <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype={this.props.qsotype} hrlptag={false}/>
+                } 
+    {(this.state.helpTag) &&
+                  <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype="" helptag={true} />
                 } 
                 
             </View>

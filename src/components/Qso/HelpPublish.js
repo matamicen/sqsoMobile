@@ -133,15 +133,15 @@ class HelpPublish extends Component {
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
-                  backgroundColor : 'rgba(36,54,101,0.93)',
-                   marginTop: 80,
-                   left: 20,
+                  backgroundColor : 'rgba(36,54,101,0.95)',
+                   marginTop: 50,
+                   left: 15,
                    right: 15,
                  //  width: 170,
                    width: 320,
-                   height: this.props.qsotype==='POST' ? 260 : 398,
+                   height: this.props.helptag ? 440 : 398,
                
-                   paddingVertical: 10,
+                   paddingVertical: 5,
                  
                    borderRadius: 12                       
                     }}>
@@ -209,6 +209,29 @@ class HelpPublish extends Component {
                       </View> */}
                  </View>
                      }
+
+          { (this.props.helptag) &&
+                 <View style={{ flex:0.9, alignItems: "center" }}>
+                         <View style={{ flex:0.09, alignItems: "center" }}>
+                       <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishTagtitle")} {"\n"}</Text>
+                       </View> 
+                      <View style={{ flex:0.28, alignItems: "center" }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishTagMessage1")}{"\n"}</Text>
+                      </View>
+                      {/* <View style={{ flex:0.24, alignItems: 'flex-start' }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishSWLfield1")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishSWLfield2")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield3")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield4")}</Text>
+                      </View> */}
+                      <View style={{ flex:0.63, alignItems: "flex-start" }}>
+                        <Text style={{ color: 'yellow', fontSize: 15}}>{I18n.t("helpPublishTagExample")}</Text>
+                        <Text style={{ color: 'white', fontSize: 15}}>"{I18n.t("helpPublishTagMessage2")}"</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage3")}<Text style={{ color: 'white', fontSize: 15}}> "{I18n.t("helpPublishTagRePublicar")}".</Text></Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage4")}{"\n"}</Text>
+                      </View>
+                 </View>
+                     }   
                
            
       

@@ -165,15 +165,43 @@ if (urlnotif!=null)
                         que el CLICK sobre lo vacio haga click y tenga efecto
                         on {getDateQslScan(this.props.utc).substr(0,12)}  this.props.band!=='') ?
                          */}
-                        {(this.props.activity_type===18 && this.props.band!=='') &&
- 
-                         <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} |
+
+
+          {(this.props.activity_type===18 && this.props.band!=='') &&
+                           
+                           <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_01",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
+                             <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                           </Text>
+                           }
+                        {/* {(this.props.activity_type===18 && this.props.band!=='' && this.props.message.indexOf("by") !== -1 && this.props.qsotype==='QSO') &&
+                           
+                         <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_01",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
                            <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
                          </Text>
-                      }
+                         }
+                          {(this.props.activity_type===18 && this.props.band!=='' && this.props.message.indexOf("by") !== -1 && this.props.qsotype==='LISTEN') &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_02",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
+                            <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                          </Text>  
+                        } */}
+
+
+
+                          {/* {(this.props.activity_type===18 && this.props.band!=='' && this.props.message.indexOf("participating") !== -1 && this.props.qsotype==='QSO') &&
+                           
+                           <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_03",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
+                             <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                           </Text>
+                           }
+                            {(this.props.activity_type===18 && this.props.band!=='' && this.props.message.indexOf("participating") !== -1 && this.props.qsotype==='LISTEN') &&
+                            <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_04",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
+                              <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                            </Text>  
+                          } */}
+
                          {(this.props.activity_type===18 && this.props.band==='') &&
                          <View >
-                           <Text style={{fontSize:15 }}>{this.props.message} |
+                           <Text style={{fontSize:15 }}>{I18n.t("NOTIF_ACTIVTYPE_18_05",{callsign: this.props.QRA,refqra: this.props.refqra})} |
                              <Text style={{fontSize:15, fontWeight: "bold", height: 40, color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,57)}... </Text>  <Text style={{fontSize:14, height: 40, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
                            </Text>
                         </View>
@@ -206,10 +234,18 @@ if (urlnotif!=null)
                           </View>
                        }
 {/* {moment(this.props.datetimecomment).fromNow()} */}
-                        {(this.props.activity_type===1) &&
+                        {(this.props.activity_type===1 && this.props.qra===this.props.refqra) &&
                           <View>
                           {/* <Text style={{fontSize:15}}>{this.props.message} </Text> */}
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_01",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_01_YOU",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, color: 'grey', height: 40 }}><MomentAgo date={this.props.datetimecomment}/></Text>
+                          {/* <Text style={{fontSize:14, color: 'grey', height: 40 }}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC</Text> */}
+                          </View>
+                        }
+                          {(this.props.activity_type===1 && this.props.qra!==this.props.refqra) &&
+                          <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message} </Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_01_OTHER",{callsign: this.props.QRA,refqra: this.props.refqra })}</Text>
                           <Text style={{fontSize:14, color: 'grey', height: 40 }}><MomentAgo date={this.props.datetimecomment}/></Text>
                           {/* <Text style={{fontSize:14, color: 'grey', height: 40 }}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC</Text> */}
                           </View>

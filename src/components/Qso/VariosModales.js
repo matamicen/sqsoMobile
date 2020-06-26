@@ -102,12 +102,12 @@ class VariosModales extends Component {
       
             style={{
               //  margin:20,
-              padding: 20,
+              padding: 10,
            //   backgroundColor: "#475788",
                backgroundColor:"rgba(0,0,0,0.85)",
-              top: 60,
-              left: 30,
-              right: 30,
+              top: 20,
+              left: 15,
+              right: 15,
               position: "absolute",
               borderBottomLeftRadius: 22,
               borderBottomRightRadius: 22,
@@ -124,10 +124,13 @@ class VariosModales extends Component {
                 resizeMode="contain"
               />
 
-              <Text style={{ color: "#FFFFFF", fontSize: 22, padding: 10 }}>{I18n.t("variosModWelcWelcome")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 ,  textAlign: "center"}}>{I18n.t("variosModWelc3Months")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>{I18n.t("variosModWelcEnjoy")}</Text>
-              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 10,  textAlign: "center" }}>{I18n.t("variosModWelc3After")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 19, padding: 5 }}>{I18n.t("variosModWelcWelcome")}</Text>
+              <Text style={{ color: "yellow", fontSize: 17, padding: 5 , fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelcSendLicense1")}<Text style={{ color: '#8BD8BD', fontSize: 18, fontWeight: 'bold' }}> info@superqso.com </Text>{I18n.t("variosModWelcSendLicense2")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 15, padding: 5 , fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelcEnableYou")}</Text>
+              <Text style={{ color: "yellow", fontSize: 17, padding: 5 ,fontWeight: 'bold',  textAlign: "center"}}>{I18n.t("variosModWelRemember")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 ,  textAlign: "center"}}>{I18n.t("variosModWelc3Months")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 16, padding: 5 }}>{I18n.t("variosModWelcEnjoy")}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 15, padding: 5,  textAlign: "center" }}>{I18n.t("variosModWelc3After")}</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.closeInternetModal('nointernet')}
@@ -681,6 +684,9 @@ class VariosModales extends Component {
                     {I18n.t("variosModContactUsTitle")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
                     </Text>
+                    <Text style={{ color: "#FFFFFF", fontSize: 15}}>
+                    info@superqso.com
+                    </Text>
                 </View>
                 <View style={{ flex: 0.6 }}>
                     <Text style={{ color: "#FFFFFF", fontSize: 18, marginTop: 10, marginLeft:7}}>
@@ -794,6 +800,7 @@ class VariosModales extends Component {
         </View>
       )
 
+     
 
       if (this.props.modalType === "terms")
       return (

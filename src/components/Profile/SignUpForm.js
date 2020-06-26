@@ -45,6 +45,7 @@ constructor(props) {
 
     this.jwtToken = '';
     this.qra = '';
+    this.errorSignin = '';
 
 
    
@@ -58,6 +59,7 @@ constructor(props) {
      password: '',
      passwordConfirm: '',
      country: I18n.t("signupCountry"),
+     phone: '',
      lastname: '',
      firstname: '',
      indicator: 0,
@@ -398,6 +400,7 @@ signUp = async () => {
   })
     .catch(err => {console.log('error:', err.code)
     this.usernotfound = true;
+    this.errorSignin = err.message;
     // kinesis_catch('#022',err,this.state.qra.toUpperCase());
     crashlytics().setUserId(this.state.qra.toUpperCase());
     crashlytics().log('error: ' + JSON.stringify(err)) ;
@@ -416,7 +419,7 @@ signUp = async () => {
       // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
       // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
       this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
-      this.props.resetQso();
+      this.props.resetQso('QSO');  // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
       this.props.newqsoactiveFalse();
       
       // this.props.followersAlreadyCalled(false);
@@ -496,6 +499,19 @@ signUp = async () => {
   
 
      }
+     else
+     {
+       this.setState({indicator: 0});
+
+       if (this.errorSignin==="User is disabled.")
+       {
+        this.props.welcomeUserFirstTime(true);
+        console.log('error signin:' + this.errorSignin);
+        this.props.navigation.navigate("Root")
+       }
+
+       
+     }
 
 
 
@@ -570,7 +586,8 @@ signUp = async () => {
         'custom:firstName': this.state.firstname ,
         'custom:lastName': this.state.lastname,
         'custom:country': this.state.cca2,
-        'custom:callsign': this.state.qra.toUpperCase()
+        'custom:callsign': this.state.qra.toUpperCase(),
+        'custom:phone': this.state.phone
       
         }
       })
@@ -589,7 +606,7 @@ signUp = async () => {
                     else  
                         if (err.code==='UserLambdaValidationException')
                           {
-                              errmessage = 'The callSign is taken. Please send us a copy of your callsign license issued by your country to support@superqso.com';
+                              errmessage = I18n.t("callsignTaken");
                             if (Platform.OS === 'ios') 
                                       setheighterror = 60;
                                 else
@@ -912,7 +929,7 @@ chooseCountry = () => {
                  </View>
                 
                  { /* height: 42 para android y 60 para ios cuando el usuario existe mensaje largo*/ }
-                 <View style={{   padding: 3, height: this.state.heighterror, width: 340, 
+                 <View style={{   padding: 3, height: this.state.heighterror, width: 348, 
                         opacity: this.state.loginerror }}>
                         <Text style={{ color: 'red', textAlign: 'center', }}> {this.state.errormessage}
                         </Text>
@@ -925,7 +942,7 @@ chooseCountry = () => {
               {/* <View style={styles.container}> */}
               
                {/* <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 5, */}
-            <View style={{ height: 570, marginTop: 15  }}>
+            <View style={{ height: 598, marginTop: 15, width: 348  }}>
                <FlatList contentContainerStyle={styles.contentForm}
                ref={(ref) => this.flatlist = ref}    
               //  keyExtractor={item => Date.now().toString()}
@@ -934,7 +951,8 @@ chooseCountry = () => {
            
            renderItem={({item}) =>     
              <View>
-                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>{I18n.t("signupForm")}</Text>
+                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 20, marginBottom: 4  }}>{I18n.t("signupForm")}</Text>
+              <View style={{flexDirection: 'row'}}>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder={I18n.t("signupCallsign")}
@@ -947,7 +965,9 @@ chooseCountry = () => {
                   style={styles.input}
                   value={this.state.qra}
                     onChangeText={(text) => this.setState({qra: text})} />
-
+                     <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
+              <View style={{flexDirection: 'row'}}>
                   <TextInput 
                   ref={firstname => this.firstname  = firstname }
                   placeholder={I18n.t("signupFirstName")}
@@ -960,7 +980,9 @@ chooseCountry = () => {
                   style={styles.input}
                   value={this.state.firstname }
                     onChangeText={(text) => this.setState({firstname : text})} />
-
+                  <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
+              <View style={{flexDirection: 'row'}}>
                      <TextInput 
                   ref={lastname => this.lastname = lastname}
                   placeholder={I18n.t("signupLastName")}
@@ -973,7 +995,9 @@ chooseCountry = () => {
                   style={styles.input}
                   value={this.state.lastname}
                     onChangeText={(text) => this.setState({lastname: text})} />
-
+                  <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
+              <View style={{flexDirection: 'row'}}>
                     <TextInput 
                   ref={emailRef => this.emailRef = emailRef}
                   placeholder={I18n.t("signupEmail")}
@@ -986,8 +1010,10 @@ chooseCountry = () => {
                   style={styles.input}
                   value={this.state.email}
                     onChangeText={(text) => this.setState({email: text})} />
-
+                  <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
             
+              <View style={{flexDirection: 'row'}}>
             <TextInput 
                   ref={emailRefverification => this.emailRefverification = emailRefverification}
                   placeholder={I18n.t("signupEmailConfirm")}
@@ -1001,22 +1027,47 @@ chooseCountry = () => {
                   value={this.state.emailVerification}
                     onChangeText={(text) => this.setState({emailVerification: text})} />
 
-
+              <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
   
+              <View style={{flexDirection: 'row'}}>
             <TouchableOpacity  style={styles.birthdateContainer} onPress={ () => this.date_picker()} >
             <Text  style={styles.birthdateText} 
             ref={birthdatedRef => this.birthdatedRef = birthdatedRef}> {this.state.birthdate}</Text>
                    
                     </TouchableOpacity>
-                    
+                    <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
+
                     {/* this.toggleCountryPicker() */}
+        <View style={{flexDirection: 'row'}}>          
              <TouchableOpacity  style={styles.birthdateContainer} onPress={ () =>  this.chooseCountry()} >
             <Text  style={styles.birthdateText} 
             ref={countryRef => this.countryRef = countryRef}> {this.state.country}</Text>
 
              </TouchableOpacity>
+             <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
 
+              <View style={{flexDirection: 'row'}}>         
+             <TextInput
+                 ref={phoneRef => this.phoneRef = phoneRef}
+                 placeholder={I18n.t("signupPhone")}
+                 underlineColorAndroid='transparent'
+                 placeholderTextColor="rgba(255,255,255,0.7)"
+                 returnKeyType="go"
+                 autoCapitalize="none"
+                 autoCorrect={false}
+                 onSubmitEditing={() => this.passwordRef.focus()} 
+                 style={styles.input} 
+                 value={this.state.phone}
+                 onChangeText={(text) => this.setState({phone: text})}
+                
+                 />
+          <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
        
+              <View style={{flexDirection: 'row'}}>  
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}
                  placeholder={I18n.t("signupPassword")}
@@ -1032,7 +1083,10 @@ chooseCountry = () => {
                  onChangeText={(text) => this.setState({password: text})}
                 
                  />
+          <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
 
+              <View style={{flexDirection: 'row'}}> 
                   <TextInput
                  ref={passwordConfRef => this.passwordConfRef = passwordConfRef}
                  placeholder={I18n.t("signupPasswordConfirm")}
@@ -1047,16 +1101,19 @@ chooseCountry = () => {
                  onChangeText={(text) => this.setState({passwordConfirm: text})}
                 
                  />
+            <TouchableOpacity style={{ height: 40, width:60}}><Text>                    </Text></TouchableOpacity>
+              </View>
+
                  {/* <View  style={{flex:1, flexDirection: "row"}}> */}
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept1")}</Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD', marginLeft: 15}} >{I18n.t("signupAccept1")}</Text>
                  <View style={{flex:1, flexDirection: "row"}}>
-                 <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept12")} </Text>
+                 <Text style={{ fontSize: 11, color: '#8BD8BD',marginLeft: 15}} >{I18n.t("signupAccept12")} </Text>
                  <TouchableOpacity onPress={ () => this.setState({privacy: true}) } > 
                  <Text style={{ fontSize: 11, color: "white"}} >{I18n.t("signupAccept2")} </Text></TouchableOpacity>
                 
                  </View>
 
-                 <View style={{flex:1, flexDirection: "row"}}>
+                 <View style={{flex:1, flexDirection: "row", marginLeft: 15}}>
                  <Text style={{ fontSize: 11, color: '#8BD8BD'}} >{I18n.t("signupAccept3")}</Text>
                  <TouchableOpacity onPress={ () => this.setState({terms: true}) } > 
                   <Text style={{ fontSize: 11, color: "white"}} > {I18n.t("signupAccept4")}</Text>
@@ -1315,6 +1372,7 @@ chooseCountry = () => {
     color: '#FFF',
     fontSize: 16,
     borderRadius: 22,
+    marginLeft: 15,
     paddingHorizontal: 10
           },
           input2: {
@@ -1325,7 +1383,8 @@ chooseCountry = () => {
             color: '#FFF',
             fontSize: 16,
             borderRadius: 22,
-            paddingHorizontal: 10
+            paddingHorizontal: 10,
+            marginLeft: 15
                   },
           inputConfirmation: {
             height: 40,    
@@ -1344,6 +1403,7 @@ chooseCountry = () => {
       borderRadius: 22,
       width: 270,
       height: 36,
+      marginLeft: 15,
       marginTop: 7
       },
   birthdateContainer:{
@@ -1352,6 +1412,7 @@ chooseCountry = () => {
         height: 37,
         width: 270,
         marginBottom: 8,
+        marginLeft: 15,
         paddingHorizontal: 8,
         borderRadius: 22
                },
@@ -1374,7 +1435,7 @@ chooseCountry = () => {
                  color: '#FFFFFF',
                  fontSize: 16,
               //   fontWeight: '700',
-                 marginLeft: 5
+                 marginLeft: 15
                 
                         },  
    activityindicator: {

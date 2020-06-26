@@ -313,65 +313,108 @@ render() { console.log("RENDER QSL SCAN SCREEN!" );
 
 return   <View style={{flex: 1}}>
 
-
+{/* <View style={{flex: 0.4, flexDirection: 'column', alignItems: 'flex-end'}}>    
+</View> */}
    
-   <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'flex-end'}}>    
+   <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>    
 
-       <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
+
+   <View style={{ flex:0.12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
        
-      
-       <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:100}}  onPress={() => this.latestPosts()}  >
+       <View style={{ flex:0.2}}>
+        <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:60}}  onPress={() => this.props.navigation.navigate('QsoScreen')}  >
+              
+              <Image  
+                  source={require("../../images/startPost.png")}
+                  style={{ width: 39, height: 39  }}
+                  resizeMode="contain"
+                />
+                 </TouchableOpacity>
+       </View>
+       <View style={{ flex:0.8}}>
+              <TouchableOpacity  style={{ height:50 }}  onPress={() => this.props.navigation.navigate('QsoScreen')}  >
+                      <Text style={{fontSize: 16, marginTop:12, fontWeight: 'bold', color: '#243665'}}>{I18n.t("variosModprevideoRewStartPost")}</Text>
+                      {/* <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts2")}</Text> */}
+                      </TouchableOpacity>            
+     
+        </View>
+ 
+       </View>
+
+       <View style={{ flex:0.12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
+       
+      <View style={{ flex:0.2}}>
+       <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.latestPosts()}  >
              
              <Image
                  source={require("../../images/home.png")}
                  style={{ width: 36, height: 36  }}
                  resizeMode="contain"
                />
-                    
-                     <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts1")}</Text>
-                     <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts2")}</Text>
-                   </TouchableOpacity>
+                </TouchableOpacity>
+      </View>
+      <View style={{ flex:0.8}}>
+             <TouchableOpacity  style={{ height:50 }}  onPress={() => this.latestPosts()}  >
+                     <Text style={{fontSize: 16, marginTop:12, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts1")} {I18n.t("HomeLatestPosts2")}</Text>
+                     {/* <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeLatestPosts2")}</Text> */}
+                     </TouchableOpacity>            
     
- 
+       </View>
 
       </View> 
       
-      <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
+      {/* <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}>  */}
+      <View style={{ flex:0.12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
+      <View style={{ flex:0.2}}>
       
-      
-      <TouchableOpacity style={{  alignItems:"center", alignContent:"center", height:100}} onPress={() => this.yourPosts(this.props.qra)}  >
+      <TouchableOpacity style={{  alignItems:"center", alignContent:"center", height:50}} onPress={() => this.yourPosts(this.props.qra)}  >
               <Image 
                   source={require("../../images/activity2.png")}
                   style={{ width: 36, height: 36}}
                   resizeMode="contain"
                 />
-                      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts1")}</Text>
-                      <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts2")}</Text>
-                    </TouchableOpacity>
+                  </TouchableOpacity>
 
+      </View>
+      <View style={{ flex:0.8}}>
+              <TouchableOpacity style={{height:50 }} onPress={() => this.yourPosts(this.props.qra)}  >
+             
+                      <Text style={{fontSize: 16, marginTop:12,fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts1")} {I18n.t("HomeMyPosts2")}</Text>
+                      {/* <Text style={{fontSize: 16, fontWeight: 'bold', color: '#243665'}}>{I18n.t("HomeMyPosts2")}</Text> */}
+                      </TouchableOpacity>           
+          </View>
 
 
        </View>
-
+{/* 
      </View>
 
-     <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'flex-start'}}>    
+     <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'flex-start'}}>     */}
 
-<View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
+{/* <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}>  */}
+<View style={{ flex:0.12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
 
+     
+      <View style={{ flex:0.2}}>
 
+      <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
+        
+        <Image source={require('../../images/qrcodescan.png')}  style={{width: 36, height: 36 } } 
+      resizeMode="contain" />  
+      </TouchableOpacity> 
+     </View>
+      <View style={{ flex:0.8}}>
+      <TouchableOpacity  style={{height:50}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
+                <Text style={{ fontSize: 16, marginTop:12, fontWeight: 'bold',color: '#243665'}}>{I18n.t("HomeScanQslCard")}</Text>          
+                </TouchableOpacity> 
 
-<TouchableOpacity  style={{alignItems:"center", alignContent:"center", marginTop:30}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
-   
-   <Image source={require('../../images/qrcodescan.png')}  style={{width: 36, height: 36 } } 
-resizeMode="contain" />    
-<Text style={{ fontSize: 16, fontWeight: 'bold',color: '#243665'}}>{I18n.t("HomeScanQslCard")}</Text>          
-</TouchableOpacity> 
+     
+      </View>
 
 
 </View> 
 
-<View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
+{/* <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}>  */}
 {/* // por ahora dejo afuera link QSO porque son muchos features */}
  {/* <TouchableOpacity  style={{alignItems:"center", alignContent:"center", marginTop:30}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
    
@@ -382,7 +425,7 @@ resizeMode="contain" />
 
 
 
-</View>
+{/* </View> */}
 
 </View>
        

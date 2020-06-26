@@ -753,9 +753,10 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
     };
 }
 
-export const resetQso = () => {
+export const resetQso = (qsotype) => {
     return {
-        type: RESET_QSO
+        type: RESET_QSO,
+        qsotype: qsotype
     };
 }
 

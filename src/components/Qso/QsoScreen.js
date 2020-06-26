@@ -499,7 +499,8 @@ class QsoScreen extends Component {
             console.log('despues de apiVersionCheck: '+apiCall)
 
             if (apiCall.stop)
-              this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+              // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+              this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
            // fin chequeo de version minima de la APP
 
         var session = await Auth.currentSession();
@@ -916,7 +917,7 @@ console.log('tomo imagen de galeria');
     this.props.navigation.dispatch(NavigationActions.init());
   };
 
-  newQso = async () => {
+  newQso = async (qsotype) => {
     if (await hasAPIConnection()) {
       this.videorewardmustbeshown = false;
       this.intersitialmustbeshown = false;
@@ -946,12 +947,12 @@ console.log('tomo imagen de galeria');
       }
 
       if (!this.intersitialmustbeshown && !this.videorewardmustbeshown)
-        this.newqso_after_ad();
+        this.newqso_after_ad(qsotype);
 
     } else this.setState({ nointernet: true });
   };
 
-  newqso_after_ad = async () => {
+  newqso_after_ad = async (qsotype) => {
     RNLocation.getCurrentPermission().then(currentPermission => {
       console.log("el permiso es:" + currentPermission);
       if (
@@ -969,7 +970,7 @@ console.log('tomo imagen de galeria');
       this.setState({showIntersitial:false});
       this.setState({showVideoReward:false});
       this.props.newqsoactiveTrue();
-      this.props.resetQso();
+      this.props.resetQso(qsotype);
     } else {
       if (Platform.OS === "android") {
         Alert.alert(
@@ -1168,7 +1169,8 @@ console.log('tomo imagen de galeria');
 
   endQso = () => {
     this.props.newqsoactiveFalse();
-    this.props.resetQso();
+    this.props.resetQso('QSO');   // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
+
     // this.CancelEndQsoModal(); // esta no iria mas la reemplaza startNewPost
     this.closeStartNewPost();
     // if (!this.intersitialLoaded) this.loadInter();
@@ -1520,7 +1522,8 @@ console.log('tomo imagen de galeria');
             <View
               style={{
                 padding: 10,
-                backgroundColor: "rgba(0,0,0,0.85)",
+                //  backgroundColor: "rgba(0,0,0,0.85)",
+                backgroundColor:'rgba(36,54,101,0.97)',
                 marginTop: Platform.OS === "ios" ? 20 : 5,
                 left: 15,
                 right: 35,
@@ -1637,10 +1640,85 @@ console.log('tomo imagen de galeria');
         <View style={{ flex: 0.58 }}>
        
         { !this.props.sqsonewqsoactive && 
-        <View  style={{ alignItems:"center", alignContent:"center"}}>
-         
+        // <View  style={{
+        //           top: -75,
+        //           left: 5,
+        //                   right: 5,
+          
+        //   position: 'absolute'}}>
+             <View>
         
-              <Animated.View style={[styles.animationView,
+          <View style={{  backgroundColor: '#f5f5f5',
+                            borderBottomLeftRadius: 22,
+                            borderBottomRightRadius: 22,
+                            borderTopLeftRadius: 22,
+                            borderTopRightRadius: 22,
+                            marginLeft: 5,
+                            marginRight: 5,
+                           }}>
+
+                              <TouchableOpacity  style={{height: 100 }} onPress={() => this.newQso('QSO')}  >
+
+          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+         
+                            <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
+                          
+                        </View>
+                        </TouchableOpacity>
+          </View>
+   
+       
+
+        {/* <TouchableOpacity  style={{ marginTop: 16}} onPress={() => this.newQso('LISTEN')}  > */}
+     
+        
+        <TouchableOpacity  style={{ height: 100, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
+          <View style={{height: 100, backgroundColor: '#f5f5f5',
+                            borderBottomLeftRadius: 22,
+                            borderBottomRightRadius: 22,
+                            borderTopLeftRadius: 22,
+                            borderTopRightRadius: 22,
+                            marginLeft: 5,
+                            marginRight: 5}}>
+     
+          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+          
+                            <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
+                          
+                        </View>
+   
+                        
+          </View>
+          </TouchableOpacity>
+        
+        
+         
+         
+        <TouchableOpacity  style={{ height: 100, marginTop: 16}} onPress={() => this.newQso('POST')}  >
+         
+            <View style={{height: 110, backgroundColor: '#f5f5f5',
+              borderBottomLeftRadius: 22,
+              borderBottomRightRadius: 22,
+              borderTopLeftRadius: 22,
+              borderTopRightRadius: 22,
+              marginLeft: 5,
+              marginRight: 5}}>
+               
+            <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                          <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                          resizeMode="contain" />
+                          <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdesc")}
+                          </Text>
+                        </View>
+                        
+            </View>
+            </TouchableOpacity>
+         
+              {/* <Animated.View style={[styles.animationView,
                     {opacity: this.state.fadeValue},
                     // {transform: [{scale: this.state.springValue}], alignSelf: 'center'}
                   // {left: this.state.xValue}
@@ -1670,7 +1748,7 @@ console.log('tomo imagen de galeria');
                     </TouchableOpacity>
                   
 
-             </Animated.View>
+             </Animated.View> */}
 
 
 
@@ -1808,12 +1886,12 @@ console.log('tomo imagen de galeria');
           {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
           {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
           
-          {(this.props.welcomeuserfirsttime) && 
+          {/* {(this.props.welcomeuserfirsttime) && 
             <VariosModales
             show={true}
             modalType="welcomefirsttime"
             closeInternetModal={this.closeVariosModales.bind()}
-          /> }
+          /> } */}
 
   {(this.state.camaraSelect) &&
               <CamaraSelect   close={this.CloseCamaraSelect.bind()} photoGallery={this.photoFromGallery.bind()}  cameraScreen={this.gotoCameraScreen.bind()}/>
