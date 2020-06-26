@@ -167,7 +167,7 @@ if (urlnotif!=null)
                          */}
 
 
-          {(this.props.activity_type===18 && this.props.band!=='' && this.props.message.indexOf("by") !== -1) &&
+          {(this.props.activity_type===18 && this.props.band!=='') &&
                            
                            <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_01",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
                              <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
@@ -184,14 +184,6 @@ if (urlnotif!=null)
                             <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
                           </Text>  
                         } */}
-
-
-                        {(this.props.activity_type===18 && this.props.band!=='' && this.props.message.indexOf("participating") !== -1) &&
-                           
-                           <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_18_03",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra: this.props.refqra})} |
-                             <Text style={{fontSize:15, fontWeight: "bold", color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,50)}... </Text> <Text style={{fontSize:14, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
-                           </Text>
-                           }
 
 
 
