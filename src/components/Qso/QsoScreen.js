@@ -1674,8 +1674,8 @@ console.log('tomo imagen de galeria');
         {/* <TouchableOpacity  style={{ marginTop: 16}} onPress={() => this.newQso('LISTEN')}  > */}
      
         
-        <TouchableOpacity  style={{ height: 100, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
-          <View style={{height: 100, backgroundColor: '#f5f5f5',
+        <TouchableOpacity  style={{ height: 110, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
+          <View style={{height: 110, backgroundColor: '#f5f5f5',
                             borderBottomLeftRadius: 22,
                             borderBottomRightRadius: 22,
                             borderTopLeftRadius: 22,
@@ -1698,9 +1698,9 @@ console.log('tomo imagen de galeria');
         
          
          
-        <TouchableOpacity  style={{ height: 100, marginTop: 16}} onPress={() => this.newQso('POST')}  >
+        <TouchableOpacity  style={{ height: 128, marginTop: 16}} onPress={() => this.newQso('POST')}  >
          
-            <View style={{height: 110, backgroundColor: '#f5f5f5',
+            <View style={{height: 128, backgroundColor: '#f5f5f5',
               borderBottomLeftRadius: 22,
               borderBottomRightRadius: 22,
               borderTopLeftRadius: 22,
