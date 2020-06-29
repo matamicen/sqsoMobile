@@ -260,11 +260,17 @@ if (urlnotif!=null)
                           {(this.props.activity_type===12 && this.props.band!=='') &&
                           <View>
                           {/* <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text> */}
-                          {(this.props.qsotype==='QSO') &&
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                          {(this.props.qsotype==='QSO' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSOYOU",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
                           }
-                            {(this.props.qsotype==='LISTEN') &&
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTEN",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                             {(this.props.qsotype==='QSO' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                          }
+                            {(this.props.qsotype==='LISTEN' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTEN",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                          }
+                          {(this.props.qsotype==='LISTEN' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTENYOU",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
                           }
                            <Text style={{fontSize:14, height: 25,color: 'grey'}}><MomentAgo date={this.props.utc}/></Text>
                             {/* <Text style={{fontSize:14, height: 25,color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC </Text>  */}
