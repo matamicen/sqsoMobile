@@ -138,7 +138,7 @@ signOut = async () => {
       .then(data => {
         console.log(JSON.stringify(data))
         this.props.profilePictureRefresh('');
-        this.props.manage_notifications('DELETE_NOTIF','');
+        this.props.manage_notifications('DELETE_NOTIF','','');
 
         // crashlytics().setUserId(this.props.qra);
         // crashlytics().log('error: ' + JSON.stringify(data)) ;

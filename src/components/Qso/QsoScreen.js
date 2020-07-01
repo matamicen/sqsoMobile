@@ -512,7 +512,7 @@ class QsoScreen extends Component {
         // actualizadas si le llego algun PUSH mientras estaba en el browser de Interne
         if (this.props.notifbackground === false)
           this.props.get_notifications(session.idToken.jwtToken);
-        else this.props.manage_notifications("NOTIF_BACKGROUND_FALSE", "");
+        else this.props.manage_notifications("NOTIF_BACKGROUND_FALSE", "",'');
         // le cambio el flag a FALSE si volvio de navegar por hacer click en una notificacion,
         //la idea es que si se va a background de manera natural que al regresar si vaya al
         // backend ya que esto sucede con menos frecuencia
