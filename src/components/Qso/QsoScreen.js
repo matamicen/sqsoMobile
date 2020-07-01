@@ -512,7 +512,7 @@ class QsoScreen extends Component {
         // actualizadas si le llego algun PUSH mientras estaba en el browser de Interne
         if (this.props.notifbackground === false)
           this.props.get_notifications(session.idToken.jwtToken);
-        else this.props.manage_notifications("NOTIF_BACKGROUND_FALSE", "");
+        else this.props.manage_notifications("NOTIF_BACKGROUND_FALSE", "",'');
         // le cambio el flag a FALSE si volvio de navegar por hacer click en una notificacion,
         //la idea es que si se va a background de manera natural que al regresar si vaya al
         // backend ya que esto sucede con menos frecuencia
@@ -1674,8 +1674,8 @@ console.log('tomo imagen de galeria');
         {/* <TouchableOpacity  style={{ marginTop: 16}} onPress={() => this.newQso('LISTEN')}  > */}
      
         
-        <TouchableOpacity  style={{ height: 100, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
-          <View style={{height: 100, backgroundColor: '#f5f5f5',
+        <TouchableOpacity  style={{ height: 110, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
+          <View style={{height: 110, backgroundColor: '#f5f5f5',
                             borderBottomLeftRadius: 22,
                             borderBottomRightRadius: 22,
                             borderTopLeftRadius: 22,
@@ -1698,9 +1698,9 @@ console.log('tomo imagen de galeria');
         
          
          
-        <TouchableOpacity  style={{ height: 100, marginTop: 16}} onPress={() => this.newQso('POST')}  >
+        <TouchableOpacity  style={{ height: 128, marginTop: 16}} onPress={() => this.newQso('POST')}  >
          
-            <View style={{height: 110, backgroundColor: '#f5f5f5',
+            <View style={{height: 128, backgroundColor: '#f5f5f5',
               borderBottomLeftRadius: 22,
               borderBottomRightRadius: 22,
               borderTopLeftRadius: 22,

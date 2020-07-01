@@ -809,11 +809,12 @@ export const deleteQsoQra = (qra) => {
 }
 
 
-export const manage_notifications = (notiftype, notif) => {
+export const manage_notifications = (notiftype, notif,date) => {
   return {
       type: MANAGE_NOTIFICATIONS,
       notifType: notiftype,
-      notifications: notif
+      notifications: notif,
+      date: date
   };
 }
 
@@ -1172,7 +1173,11 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
       if (respuesta.body.error===0)
       {
 
-        dispatch(manage_notifications('ADD',respuesta.body.message));
+        // dispatch(manage_notifications('ADD',respuesta.body.message));
+        var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+        formateo = new Date(ultimaFechaDeIngreso);
+        console.log('ultimafecha: '+ formateo);
+        dispatch(manage_notifications('CALCULOUNREAD',respuesta.body.message,formateo));
 
 
       }
@@ -2224,7 +2229,11 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
               avatar_profile = respuesta.body.message.qra.avatarpic;
 
             dispatch(profilePictureRefresh(avatar_profile));
-            dispatch(manage_notifications('ADD',respuesta.body.message.notifications));
+            // dispatch(manage_notifications('ADD',respuesta.body.message.notifications));
+            var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+            formateo = new Date(ultimaFechaDeIngreso);
+            console.log('ultimafecha: '+ formateo);
+            dispatch(manage_notifications('CALCULOUNREAD',respuesta.body.message.notifications,formateo));
       }
        
 
