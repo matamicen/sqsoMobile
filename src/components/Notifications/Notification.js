@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
-import { getUserInfo, followersAlreadyCalled } from '../../actions';
+import { getUserInfo, followersAlreadyCalled, manage_notifications } from '../../actions';
  import NotificationList from './NotificationList';
  import UnreadCounter from './UnreadCounter';
 // import SearchHeader from './SearchHeader';
 import I18n from '../../utils/i18n';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 //Amplify.configure(awsconfig);
@@ -54,7 +55,35 @@ class Notification extends Component {
   async componentDidMount() {
     console.log("component Did Mount Notifications");
    
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
+    this.props.navigation.setParams({
+      tapOnTabNavigator: this.tapOnTabNavigator
+    })
 
+  }
+
+  tapOnTabNavigator = async () => {
+    console.log('PRESS NOTIF!');
+    today = new Date();
+    var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+    formateo = new Date(ultimaFechaDeIngreso);
+    // le envio la fecha del storage antes de grabar la nueva fecha justamente para que la primera vez que pulse NOTIFICACIONES
+    // le siga mostrando en GRIS las nuevas notificaciones, ya si apreta la segunda vez se le va el grisado.
+    // este metodo pone en 0 las notificaiones pero le deja grisado aun las nuevas para que las vea comodamente o resalten
+    this.props.manage_notifications('CALCULOUNREADPRESSNOTIFICATIONS',this.props.notifications,formateo);
+    AsyncStorage.setItem('ultimafecha', today.toString());
+  }
+
+  onScreenFocus = async () => {
+    // Screen was focused, our on focus logic goes here
+    console.log('NOTIF en FOCUS!')
+    // var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+    // formateo = new Date(ultimaFechaDeIngreso);
+    // console.log('utlimafecha:'+ ultimaFechaDeIngreso);
+    // console.log('utlimafechaformateada:'+ ultimaFechaDeIngreso);
+    // this.props.manage_notifications('CALCULOUNREAD',formateo);
+    // today = new Date();
+    // AsyncStorage.setItem('ultimafecha', today.toString());
 
   }
 
@@ -123,7 +152,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = {
   getUserInfo,
-  followersAlreadyCalled
+  followersAlreadyCalled,
+  manage_notifications
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

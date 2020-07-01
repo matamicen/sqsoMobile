@@ -24,6 +24,7 @@ import {FETCHING_API_REQUEST,
      UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS   } from '../actions/types';
 import { SectionList } from 'react-native';
 import I18n from '../utils/i18n';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const initialState = {
     qra: '',
@@ -1556,7 +1557,107 @@ const qsoReducer = (state = initialState, action) => {
 
     case MANAGE_NOTIFICATIONS:
     let auxcurrentQso;
+
+    if (action.notifType==='CALCULOUNREADPRESSNOTIFICATIONS')
+    {
+      
+        cont = 0;
+        today = new Date();
+
+
+                // Esta rutina la marca como leida, le cambia el color
+                // pero la fecha que recibe es la del asyncstorage anterior
+                // esto permite dejarle al usuario en GRIS las notificaciones
+                // cuando aprete la primera vez, si despues se va y apreta NOTIFICATIONS de nuevo
+                // ya va a ser con la fecha nueva del asynstorage y ya no apaecen grisadas.
+                const updatedItems5 = action.notifications.map(item => {
+                    date = new Date(item.DATETIME);
+                   console.log('dateconvertida: '+ date )
+                 if(date > action.date) {
+                   modif = {"read" : 'unread'};
+                      
+                     // console.log(item.idqra_notifications);
+                    //   cont++;
+                      return { ...item, ...modif }
+                   }
+                   else
+                   {
+                       modif = {"read" : null};
+                       return { ...item, ...modif }
+                   }
+               
+                   return item
+               })
+
+        // Esta rutina la marca como leida, le cambia el color
+
+       action.notifications.map(item => {
+             date = new Date(item.DATETIME);
+            console.log('dateconvertida: '+ date )
+          if(date > today) {
+ 
+               cont++;
+              
+            }
+        })
+     
+
+          
+          console.log('cant mess no leidos: '+cont);
+        //   AsyncStorage.setItem('ultimafecha', today);
+
+          auxUnread = cont;
+          auxcurrentQso = {
+            ...state.currentQso,
+            // notifications: action.notifications     
+            notifications: updatedItems5
+        };
+
+      }
+
+    if (action.notifType==='CALCULOUNREAD')
+    {
+    
+        cont = 0;
   
+
+        // Esta rutina la marca como leida, le cambia el color
+        const updatedItems5 = action.notifications.map(item => {
+             date = new Date(item.DATETIME);
+            console.log('dateconvertida: '+ date )
+          if(date > action.date) {
+            modif = {"read" : 'unread'};
+               
+              // console.log(item.idqra_notifications);
+               cont++;
+               return { ...item, ...modif }
+            }
+            else
+            {
+                modif = {"read" : null};
+                return { ...item, ...modif }
+            }
+            //    if(item.idqra_activity === action.notifications){
+            // return { ...item, ...modif }
+            // }
+            return item
+        })
+
+          
+          console.log('cant mess no leidos: '+cont);
+        //   AsyncStorage.setItem('ultimafecha', today);
+
+          auxUnread = cont;
+          auxcurrentQso = {
+            ...state.currentQso,
+            // notifications: action.notifications     
+            notifications: updatedItems5
+        };
+
+      }
+  
+   
+
     if (action.notifType==='ADD')
       {
                 auxcurrentQso = {
@@ -1611,7 +1712,7 @@ const qsoReducer = (state = initialState, action) => {
      if (action.notifType==='SET_READ')
 
         {
-            let modif = {"read" : 'read'};
+            let modif = {"read" : 'unread'};
 
             // Esta rutina la marca como leida, le cambia el color
             // const updatedItems5 = state.currentQso.notifications.map(item => {
@@ -1631,7 +1732,7 @@ const qsoReducer = (state = initialState, action) => {
             ...state.currentQso,
             notifications: updatedItems5     
         };
-        auxUnread = state.notificationsUnread - 1;
+        auxUnread = state.notificationsUnread;
 
     }
     if (action.notifType==='NOTIF_BACKGROUND_FALSE')
@@ -1646,7 +1747,7 @@ const qsoReducer = (state = initialState, action) => {
 
     {
         console.log('NOTIF_BACKGROUND_TRUE');
-        let modif = {"read" : 'read'};
+        let modif = {"read" : 'unread'};
 
         // const updatedItems5 = state.currentQso.notifications.map(item => {
         //     if(item.idqra_activity === action.notifications){
@@ -1664,7 +1765,8 @@ const qsoReducer = (state = initialState, action) => {
         notifications: updatedItems5,
         notifBackground: true     
     };
-    auxUnread = state.notificationsUnread - 1;
+    // auxUnread = state.notificationsUnread;
+    auxUnread = 0;
 
    }
 

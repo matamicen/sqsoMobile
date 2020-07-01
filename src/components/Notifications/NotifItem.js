@@ -71,7 +71,7 @@ if (urlnotif!=null)
           // delay de 2.5 segundos para que borre el item asi no no lo borra inmediato y no confune
           // al usuario
           setTimeout(() => {
-            this.props.manage_notifications('SET_READ_URL',idqra_notifications);
+            this.props.manage_notifications('SET_READ_URL',idqra_notifications,'');
           }
           , 2500)
           return Linking.openURL(urlnotif);
@@ -100,7 +100,7 @@ if (urlnotif!=null)
         // let url = 'http://d3cevjpdxmn966.cloudfront.net/qso/'+urlnotif;
  
        this.props.set_notification_read(idqra_notifications,this.props.jwtToken); // llamo api de borrado de notificacion en backend
-        this.props.manage_notifications('SET_READ',idqra_notifications); // borro del array de notificacion en memoria asi el usuario ve el efecto inmediato
+        this.props.manage_notifications('SET_READ',idqra_notifications,''); // borro del array de notificacion en memoria asi el usuario ve el efecto inmediato
  
     //     Linking.canOpenURL(url).then(supported => {
     //      if (!supported) {
@@ -260,11 +260,17 @@ if (urlnotif!=null)
                           {(this.props.activity_type===12 && this.props.band!=='') &&
                           <View>
                           {/* <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text> */}
-                          {(this.props.qsotype==='QSO') &&
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                          {(this.props.qsotype==='QSO' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSOYOU",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
                           }
-                            {(this.props.qsotype==='LISTEN') &&
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTEN",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                             {(this.props.qsotype==='QSO' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QSO",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                          }
+                            {(this.props.qsotype==='LISTEN' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTEN",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                          }
+                          {(this.props.qsotype==='LISTEN' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_LISTENYOU",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
                           }
                            <Text style={{fontSize:14, height: 25,color: 'grey'}}><MomentAgo date={this.props.utc}/></Text>
                             {/* <Text style={{fontSize:14, height: 25,color: 'grey'}}> on {getDateQslScan(this.props.utc).substr(0,19)} UTC </Text>  */}
@@ -302,16 +308,13 @@ if (urlnotif!=null)
 
 
                     <View  style={{flex: 0.15, marginRight: 7, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-
+                      {/* Se decide sacar el tacho de basura porque las notificaciones se resetean solas y creemos que los usuarios se van a calmar
+                      con el tema de borrar porque van a ver que el contador se resetea solo */}
+{/* 
                    {this.props.read===null ? 
-                    // <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_notifications,this.props.QSO_GUID)} underlayColor="white">  
+               
                     <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_activity,this.props.QSO_GUID)} underlayColor="white">  
-                      {/* <View>
-                        <Text style={{fontSize:11,  color: '#243665',fontWeight: 'bold' }}>Mark As</Text>
-                        </View>
-                        <View style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-                        <Text style={{fontSize:11, color: '#243665',fontWeight: 'bold' }}>Read</Text>
-                        </View> */}
+          
                         <Image
                           source={require("../../images/delete2.png")}
                           style={{ width: 21, height: 21, marginLeft: 4  }}
@@ -322,14 +325,14 @@ if (urlnotif!=null)
                     </TouchableOpacity>
                    
                    :
-                //    <TouchableOpacity onPress={() => this.markAsRead(this.props.idqra_notifications,this.props.QSO_GUID)} underlayColor="white">  
+             
                         <View>
                         <Text style={{fontSize:10, color: '#243665',fontWeight: 'bold' }}>Read</Text>
                         </View>
                         
 
-                    // </TouchableOpacity>
-                    }
+              
+                    } */}
 
                 
 

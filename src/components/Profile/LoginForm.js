@@ -201,13 +201,15 @@ constructor(props) {
           mensajes =  armoPushNotifyLocalNotif(parseo['title-loc-key'],parseo['loc-key'],parseo['title-loc-args'],parseo['loc-args']);
               // mensajes =  armoPushNotifyLocalNotif(notification.data.message['title-loc-key'],notification.data.message['loc-key'],notification.data.message['title-loc-args'],notification.data.message['loc-args']);
 
-              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":mensajes.bandejaNotifLocal,
+              today = new Date();
+
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":"unread","DATETIME":today.toString(),"message":mensajes.bandejaNotifLocal,
               "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":avatar, "url": bodyJson.URL,
-              "qso_mode":null,"qso_band":null,"qso_type":null}
+              "qso_mode":null,"qso_band":null,"qso_type":null}   
         
 
-                this.props.manage_notifications('ADDONE',envioNotif);
+                this.props.manage_notifications('ADDONE',envioNotif,'');
   
   
 
@@ -302,9 +304,9 @@ constructor(props) {
           console.log('ios title-loc-key : ' + notification.alert['title-loc-key'])
        
           mensajes =  armoPushNotifyLocalNotif(notification.alert['title-loc-key'],notification.alert['loc-key'],notification.alert['title-loc-args'],notification.alert['loc-args']);
-   
+          today = new Date();
   
-              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":null,"DATETIME":"2018-12-08T15:20:14.000Z","message":mensajes.bandejaNotifLocal,
+              envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":"unread","DATETIME":today.toString(),"message":mensajes.bandejaNotifLocal,
               "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":avatar, "url": notification.alert.Url,
               "qso_mode":null,"qso_band":null,"qso_type":null}
@@ -344,7 +346,7 @@ constructor(props) {
               }
   
          
-              this.props.manage_notifications('ADDONE',envioNotif);
+              this.props.manage_notifications('ADDONE',envioNotif,'');
              
             // si viene de background lo lleva directo al notification tray
             // pero si esta foreground no le cambia la screen para respetar lo que el usuario
@@ -530,8 +532,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-      //  if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-       if (1===2)
+       if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      //  if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -988,7 +990,7 @@ if (!this.usernotfound)
                  // this.props.navigation.navigate("AppNavigator2");
                                   })
    .catch (err => {console.log('SignUp confirmed error: ', err);
-   this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
+   this.setState({errormessage2: I18n.t("signupValConfirmationFailed"),color: 'red',
      confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
     //  kinesis_catch('#026',err,this.state.username.toUpperCase());
     crashlytics().setUserId(this.state.username.toLowerCase());

@@ -96,6 +96,19 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
 //     console.log('version: '+ majorVersionIOS);
 //    // const varheight = 45;
 // }
+const getScreenRegisteredFunctions = navState => {
+  // When we use stack navigators. 
+  // Also needed for react-navigation@2
+  const { routes, index, params } = navState;
+
+  if (navState.hasOwnProperty('index')) {
+    return getScreenRegisteredFunctions(routes[index]);
+  }
+  // When we have the final screen params
+  else {
+    return params;
+  }
+}
 
 //  const AppNavigator2 = TabNavigator({
   const AppNavigator2 = createBottomTabNavigator({
@@ -162,7 +175,22 @@ console.log('es iphoneX o mas: '+isIphoneXorAbove());
     paddingLeft: 5
 },
 
-  }
+  },
+  defaultNavigationOptions: ({ navigation }) => ({
+    tabBarOnPress: ({ defaultHandler }) => {
+
+      if (navigation) {
+        const screenFunctions = getScreenRegisteredFunctions(navigation.state);
+
+        if (screenFunctions && typeof screenFunctions.tapOnTabNavigator === 'function') {
+          screenFunctions.tapOnTabNavigator()
+        }
+      }
+
+      // Always call defaultHandler()
+      defaultHandler();
+    },
+  })
     
 });
 
