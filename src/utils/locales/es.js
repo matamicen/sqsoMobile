@@ -6,7 +6,7 @@ export default {
     password: "contraseña",
     loading: "Cargando ...",
     currentSession: "Cargando ...",
-    loginerrorMessUserNotFound: "Error de inicio de sesión, usuario/contraseña no encontrado, intente nuevamente",
+    loginerrorMessUserNotFound: "Error de inicio de sesión, usuario/contraseña incorrecto, intente nuevamente",
     loginerrorUserDisabled: "El usuario aún no esta hablitado, recuerde de envíar su licencia a info@superqso.com",
     loginerrorMessUserEmpty: "El correo electrónico esta vacío",
     signupForm: "Formulario de Registración",

@@ -739,10 +739,10 @@ console.log('tomo imagen de galeria');
       // path: data.uri,
       cropping: true,
       //  compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1
-      // width: (Platform.OS==='ios') ? 1100 : 1800,
+      // width: (Platform.OS==='ios') ? 1100 : 1800, // anda bien 2800 x 2000    // 3080x 2200 // 4312 : 3080
       // height: (Platform.OS==='ios') ? 1100 : 1200,
-         width: (Platform.OS==='ios') ? 2000 : 2000,
-      height: (Platform.OS==='ios') ? 1800 : 1800,
+         width: (Platform.OS==='ios') ? 3080 : 3080,
+      height: (Platform.OS==='ios') ? 2200: 2200,
     }).then(image => {
       console.log(image);
 
