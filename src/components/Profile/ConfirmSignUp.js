@@ -27,12 +27,17 @@ class ConfirmSignUp extends Component {
        }
 
 
+       confirm = () => {
+       auxCode = this.state.confirmationcode.trim();
+       console.log('sin trim Length: '+this.state.confirmationcode.length)
+       console.log('sin trim: '+ this.state.confirmationcode);
+       //auxCode.trim()
+       console.log('con trim: '+ auxCode);
+       console.log('con trim Length: '+auxCode.length);
+      this.props.confirmSignup(auxCode);
 
 
-
-
-
-            
+       }     
 
     render() { console.log("RENDER confirmSignUp");
        
@@ -70,6 +75,7 @@ class ConfirmSignUp extends Component {
                     onFocus={() => this.setState({ confirmationcodeError: 0})}
                     underlineColorAndroid='transparent'
                     placeholderTextColor="white"
+                    keyboardType={Platform.OS==='android' ? 'visible-password' : 'default'}
                     returnKeyType="next"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -87,16 +93,16 @@ class ConfirmSignUp extends Component {
                     <View style={{flex: 0.20, flexDirection: 'row'}}>
                      <View style={{flex: 0.25}} > 
                     <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.props.close_confirmSignup()} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: 'white',  fontSize: 14, margintLeft: 5}}>{I18n.t("confirmSignUpCancelButton")}</Text>
+                      <Text style={{ color: 'white',  fontSize: 14, marginLeft: 5}}>{I18n.t("confirmSignUpCancelButton")}</Text>
                     </TouchableOpacity>
                     </View>
                     <View style={{flex: 0.40}} > 
                     <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.props.resendCode() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5, alignItems: 'flex-start'}}>
-                      <Text style={{ color: 'white', fontSize: 14, margintLeft: 5}}>{I18n.t("confirmSignUpResendCodeButton")}</Text>
+                      <Text style={{ color: 'white', fontSize: 14, marginLeft: 5}}>{I18n.t("confirmSignUpResendCodeButton")}</Text>
                     </TouchableOpacity>
                     </View>
                     <View style={{flex: 0.35 }} > 
-                    <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.props.confirmSignup(this.state.confirmationcode.trim()) } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
+                    <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.confirm() } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
                       <Text style={{ color: 'white', fontSize: 17}}>{I18n.t("confirmSignUpConfirmButton")}</Text>
                     </TouchableOpacity>
                     </View>
