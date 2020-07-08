@@ -197,6 +197,7 @@ export default {
     DeleteMediaAudio: "Audio",
     DeleteMediaCancel: "Cancel",
     DeleteMediaDelete: "Delete",
+    QsoTypeSWLpng: "swl.png",
     QsoTypeSelect: "Select the Post Type",
     QsoTypeQSOdesc: "Post a QSO that you are participating",
     QsoTypeSWLdesc: "Post other hams QSO that you are listening.",

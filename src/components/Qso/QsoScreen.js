@@ -1788,7 +1788,7 @@ console.log('tomo imagen de galeria');
                        
          </View>
         
-                   <View style={{ flex:0.14, backgroundColor: '#f5f5f5',
+                   <View style={{ flex:0.17, backgroundColor: '#f5f5f5',
                             borderBottomLeftRadius: 22,
                             borderBottomRightRadius: 22,
                             borderTopLeftRadius: 22,
@@ -1802,7 +1802,7 @@ console.log('tomo imagen de galeria');
 
           <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
          
-                            <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/qso10.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                             <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
                           
@@ -1812,7 +1812,7 @@ console.log('tomo imagen de galeria');
 
       
           
-          <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+          <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
                             borderBottomLeftRadius: 22,
                             borderBottomRightRadius: 22,
                             borderTopLeftRadius: 22,
@@ -1824,7 +1824,7 @@ console.log('tomo imagen de galeria');
                <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('LISTEN')}  >
                    <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
           
-                            <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/escucha10.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                             <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
                           
@@ -1834,7 +1834,7 @@ console.log('tomo imagen de galeria');
 
          
          
-         <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+         <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
            borderBottomLeftRadius: 22,
            borderBottomRightRadius: 22,
            borderTopLeftRadius: 22,
@@ -1845,7 +1845,7 @@ console.log('tomo imagen de galeria');
 
             <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('FLDDAY')}  >
               <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       <Image source={require('../../images/activacion.png')} style={{width: 50, height: 50, flex: 0.3} } 
                        resizeMode="contain" />
                        <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescFieldDay")}
                        </Text>
@@ -1853,7 +1853,7 @@ console.log('tomo imagen de galeria');
             </TouchableOpacity>              
          </View>
 
-         <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+         <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
            borderBottomLeftRadius: 22,
            borderBottomRightRadius: 22,
            borderTopLeftRadius: 22,
@@ -1862,17 +1862,17 @@ console.log('tomo imagen de galeria');
            marginRight: 5,
            marginTop: 12}}>
 
-            <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('QAP')}  >
+            <TouchableOpacity  style={{ height: 85, marginTop: 9}} onPress={() => this.newQso('QAP')}  >
               <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       <Image source={require('../../images/qap10.png')} style={{width: 50, height: 50, flex: 0.3} } 
                        resizeMode="contain" />
-                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescQAP")}
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18, height:85, marginTop:7 }}>{I18n.t("QsoTypeANYdescQAP")}
                        </Text>
                      </View>
             </TouchableOpacity>              
          </View>
 
-         <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+         <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
            borderBottomLeftRadius: 22,
            borderBottomRightRadius: 22,
            borderTopLeftRadius: 22,
@@ -1883,7 +1883,7 @@ console.log('tomo imagen de galeria');
 
             <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('POST')}  >
               <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       <Image source={require('../../images/otro10.png')} style={{width: 50, height: 50, flex: 0.3} } 
                        resizeMode="contain" />
                        <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescOther")}
                        </Text>
