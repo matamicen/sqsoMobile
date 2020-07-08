@@ -1375,9 +1375,12 @@ console.log('tomo imagen de galeria');
     
 
     return (
+
+     
+   
     
-      //  <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-      <HandleBack onBack={this.onBack}>
+      (this.props.sqsonewqsoactive) ? 
+     <HandleBack onBack={this.onBack}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
         <View style={{ flex: 0.3 }}>
@@ -1557,83 +1560,7 @@ console.log('tomo imagen de galeria');
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
-{/* 
-          <Modal
-            visible={this.state.endQsoModal}
-            animationType={"slide"}
-            transparent={true}
-            onRequestClose={() => console.log("Close was requested")}
-          >
-            <View
-              style={{
-                margin: 20,
-                padding: 20,
-                backgroundColor: "rgba(0,0,0,0.85)",
-                bottom: 230,
-                left: 10,
-                right: 10,
-                position: "absolute",
-                alignItems: "center",
-                borderRadius: 12
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  alignItems: "center",
-                  fontSize: 16,
-                  color: "#999",
-                  marginBottom: 10
-                }}
-              >
-                {I18n.t("QsoScrAreYouSureEnd")} {I18n.t("QsoScrAreYouSureEndPost")}{" "}
-              </Text>
 
-              <View style={{ flexDirection: "row", flex: 1 }}>
-
-              <View style={{ flex: 0.35 }}>
-                <TouchableOpacity
-                  onPress={() => this.CancelEndQsoModal()}
-                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4, marginLeft: 17 }}
-                >
-                  <Text
-                    style={{
-                      color: "#999",
-                      fontWeight: "bold",
-                      fontSize: 14
-                    }}
-                  >
-                    {I18n.t("QsoScrAreYouSureCancel")}
-                  </Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{ flex: 0.65, alignItems: "flex-end" }}>
-                <TouchableOpacity
-                  onPress={() => this.endQso()}
-                  style={{
-                    flex: 0.7,
-                    paddingTop: 20,
-                    paddingBottom: 4,
-                    paddingHorizontal: 4
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#FFFFFF",
-                      fontWeight: "bold",
-                      fontSize: 14, marginRight: 15
-                    }}
-                  >
-                    {I18n.t("QsoScrAreYouSureEndThisPost")}
-                  </Text>
-                </TouchableOpacity>
-                </View>
-
-              </View>
-            </View>
-          </Modal> */}
-
-          {/* width:this.width-10 */}
         </View>
         </TouchableWithoutFeedback> 
        
@@ -1718,75 +1645,7 @@ console.log('tomo imagen de galeria');
             </View>
             </TouchableOpacity>
          
-              {/* <Animated.View style={[styles.animationView,
-                    {opacity: this.state.fadeValue},
-                    // {transform: [{scale: this.state.springValue}], alignSelf: 'center'}
-                  // {left: this.state.xValue}
-                    ]} >
-                    <TouchableOpacity  onPress={() => this.newQso()}  >
-                        <Animated.View style={[styles.button,{alignSelf: 'center' } ]} >
-                            <Animated.Image 
-                                    source={require('../../images/SuperQSOIcono01.png')}
-                                    style={[styles.imageView,
-                                    //  {opacity: this.state.fadeValue},
-                                    {left: this.state.xValue },
-                                    // {transform: [{scale: this.state.springValue}], alignSelf: 'center'}
-                                    {transform: [{rotate: interpolatedRotateAnimation}], alignSelf: 'center'}
-                                  ]}>
-                                  
-                                </Animated.Image>
-                        </Animated.View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity  onPress={() => this.newQso()}  >
-                      <Animated.View 
-                      style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
-                      
-                          ]}>
-                      <Text style={{fontSize: 16, color: '#243665'}}>{I18n.t("QsoScrStartPost")}</Text>
-                      </Animated.View>
-                    </TouchableOpacity>
-                  
-
-             </Animated.View> */}
-
-
-
-{/*    // Saco Latest Post y Your Post del menu de POST
-        
-             {(this.state.iconosWeb) &&
-              <View style={{ flexDirection: "row", marginTop: 90}}>
               
-              <View style={{flex: 0.5,  alignItems:"center", alignContent:"center"}}>
-              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:100}}  onPress={() => this.latestPosts()}  >
-             
-              <Image
-                  source={require("../../images/home.png")}
-                  style={{ width: 36, height: 36, marginTop: 25  }}
-                  resizeMode="contain"
-                />
-                     
-                      <Text style={{fontSize: 16, color: '#243665'}}>Latest Posts</Text>
-              
-                    </TouchableOpacity>
-                  
-              </View>
-              <View style={{flex: 0.5,  alignItems:"center", alignContent:"center"}}>
-              <TouchableOpacity style={{  alignItems:"center", alignContent:"center", height:100}} onPress={() => this.yourPosts(this.props.qra)}  >
-              <Image 
-                  source={require("../../images/activity2.png")}
-                  style={{ width: 36, height: 36, marginTop: 25 }}
-                  resizeMode="contain"
-                />
-                      <Text style={{fontSize: 16, color: '#243665'}}>Your Posts</Text>
-                  
-                    </TouchableOpacity>
-              </View>
-
-              
-               </View>
-               } */}
-
 
 
             
@@ -1913,6 +1772,172 @@ console.log('tomo imagen de galeria');
 
       </View>
       </HandleBack>
+     
+     :
+
+       <View style={{ flex: 1}} >
+
+
+    <View style={{flex:0.10, 
+           alignItems: 'center',
+              marginTop: 10}}>
+
+            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 22 }}>{I18n.t("QsoTypeSelect")} </Text>
+           
+    
+                       
+         </View>
+        
+                   <View style={{ flex:0.14, backgroundColor: '#f5f5f5',
+                            borderBottomLeftRadius: 22,
+                            borderBottomRightRadius: 22,
+                            borderTopLeftRadius: 22,
+                            borderTopRightRadius: 22,
+                            marginLeft: 5,
+                            marginRight: 5,
+                            marginTop: 12
+                           }}>
+
+                              <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('QSO')}  >
+
+          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+         
+                            <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
+                          
+                        </View>
+                        </TouchableOpacity>
+          </View>
+
+      
+          
+          <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+                            borderBottomLeftRadius: 22,
+                            borderBottomRightRadius: 22,
+                            borderTopLeftRadius: 22,
+                            borderTopRightRadius: 22,
+                            marginLeft: 5,
+                            marginRight: 5,
+                            marginTop: 12}}>
+             
+               <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('LISTEN')}  >
+                   <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+          
+                            <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
+                          
+                        </View>
+                        </TouchableOpacity>              
+          </View>
+
+         
+         
+         <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+           borderBottomLeftRadius: 22,
+           borderBottomRightRadius: 22,
+           borderTopLeftRadius: 22,
+           borderTopRightRadius: 22,
+           marginLeft: 5,
+           marginRight: 5,
+           marginTop: 12}}>
+
+            <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('FLDDAY')}  >
+              <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       resizeMode="contain" />
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescFieldDay")}
+                       </Text>
+                     </View>
+            </TouchableOpacity>              
+         </View>
+
+         <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+           borderBottomLeftRadius: 22,
+           borderBottomRightRadius: 22,
+           borderTopLeftRadius: 22,
+           borderTopRightRadius: 22,
+           marginLeft: 5,
+           marginRight: 5,
+           marginTop: 12}}>
+
+            <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('QAP')}  >
+              <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       resizeMode="contain" />
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescQAP")}
+                       </Text>
+                     </View>
+            </TouchableOpacity>              
+         </View>
+
+         <View style={{flex:0.14,height: 60, backgroundColor: '#f5f5f5',
+           borderBottomLeftRadius: 22,
+           borderBottomRightRadius: 22,
+           borderTopLeftRadius: 22,
+           borderTopRightRadius: 22,
+           marginLeft: 5,
+           marginRight: 5,
+           marginTop: 12}}>
+
+            <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('POST')}  >
+              <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       resizeMode="contain" />
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescOther")}
+                       </Text>
+                     </View>
+            </TouchableOpacity>              
+         </View>
+         
+         {/* Pongo componente de INTERNET, ADS y IAP porque pueden llamarse esta en la pantalla de Elegir Publicacion */}
+        {/*  Estoy copiando los mismo componentes que estan cuando el QSO esta ACTIVO porque no encontre rapidamente un lugar donde este disponible para ambos*/}
+        {/* Despues hay que optimizar esto */}
+         <View>
+         {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
+          {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
+           {(this.state.nointernet) &&  <VariosModales show={this.state.nointernet} modalType="nointernet"  closeInternetModal={this.closeVariosModales.bind()} /> }
+
+           <Modal
+            visible={this.state.iap}
+            animationType={"slide"}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            <View
+              style={{
+                margin: 10,
+                padding: 10,
+                backgroundColor: "rgba(0,0,0,0.85)",
+                marginTop: 120,
+                //  bottom: 150,
+                left: 55,
+                right: 55,
+                height: 400,
+                position: "absolute",
+                alignItems: "center",
+                borderRadius: 12
+              }}
+            >
+              {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
+               <Iap />
+              <Button onPress={() => this.setState({iap:false})} title="Cierro" />
+              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
+                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
+                          </TouchableHighlight> */}
+            </View>
+          </Modal>
+          </View> 
+        
+          
+       </View> 
+
+                       
+
+
+ 
+  
       //  </TouchableWithoutFeedback>
   
     );

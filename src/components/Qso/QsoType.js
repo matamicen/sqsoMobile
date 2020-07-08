@@ -34,13 +34,20 @@ class QsoType extends Component {
 
         if (await hasAPIConnection())
         {
-           if (typetochange==='POST')
-               this.typetochange = 'ANY';
-              else
-              this.typetochange = typetochange;
+          this.typetochange = typetochange;
+
+                if (typetochange==='POST')
+               this.typetochange = I18n.t("QsoTypePOST");
+                if (typetochange==='QAP')
+               this.typetochange = I18n.t("QsoTypeQAP");         
+                if (typetochange==='FLDDAY')
+               this.typetochange = I18n.t("QsoTypeFLDDAY");        
+               if (typetochange==='LISTEN')
+               this.typetochange = I18n.t("QsoTypeLISTEN");               
+               
 
         if(typetochange==='LISTEN'){
-         if (this.props.qsotype==='POST')
+         if (this.props.qsotype==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
            if (this.props.mediafiles.length>1) 
               this.puedecambiar = false; 
               else {
@@ -52,7 +59,7 @@ class QsoType extends Component {
          
         }
         if(typetochange==='QSO'){
-          if (this.props.qsotype==='POST')
+          if (this.props.qsotype==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
             if (this.props.mediafiles.length>1) 
              this.puedecambiar = false; 
              else {
@@ -63,7 +70,7 @@ class QsoType extends Component {
           this.props.cambioqsotype('QSO');
         
        }
-        if(typetochange==='POST'){
+        if(typetochange==='POST' || typetochange==='QAP' || typetochange==='FLDDAY'){
 
          // si quiere cambiar a ANY y ya hay alguna media creda no le deja cambiar
          // se pone mayor a 1 porque hay siempre una media creada en blanco por el tema
@@ -75,7 +82,8 @@ class QsoType extends Component {
                this.puedecambiar = false; 
         else
           {
-          await this.props.resetQso('POST');
+          // await this.props.resetQso('POST');
+          await this.props.resetQso(typetochange);
           // this.props.cambioqsotype('POST'); no haria falta por lo inicia resetQSO
           }
          
@@ -159,6 +167,20 @@ class QsoType extends Component {
                  <Image source={require('../../images/any.png')} style={{width: 50, height: 50} } 
                  resizeMode="contain" />
                  </TouchableOpacity> 
+                    :
+
+                    (this.props.qsotype==='FLDDAY') ? 
+                     <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
+                       <Image source={require('../../images/swl.png')} style={{width: 50, height: 50} } 
+                             resizeMode="contain" />
+                     </TouchableOpacity> 
+                    :
+
+                    (this.props.qsotype==='QAP') ? 
+                     <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
+                       <Image source={require('../../images/swl.png')} style={{width: 50, height: 50} } 
+                             resizeMode="contain" />
+                     </TouchableOpacity>
                  
                  : null
                 }
@@ -201,16 +223,41 @@ class QsoType extends Component {
                       : null }
                 
 
-                  { (this.props.qsotype==='QSO') ? 
-                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
+              { (this.props.qsotype==='QSO') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('FLDDAY') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdesc")}
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescFieldDay")}
                       </Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
+
+
+
+              { (this.props.qsotype==='QSO') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}
+                      </Text>
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }
+
+              { (this.props.qsotype==='QSO') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")}
+                      </Text>
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }
+                    
                   
                   { (this.props.qsotype==='LISTEN') ? 
                       <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
@@ -221,17 +268,40 @@ class QsoType extends Component {
                       </View>
                       </TouchableOpacity>
                       : null }
-                
+
+              { (this.props.qsotype==='LISTEN') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('FLDDAY') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescFieldDay")}</Text>
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }                      
+
+
+              { (this.props.qsotype==='LISTEN') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}</Text>
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }                
 
                   { (this.props.qsotype==='LISTEN') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdesc")}</Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")}</Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }
+
+
+
 
                       { (this.props.qsotype==='POST') ? 
                       <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
@@ -254,6 +324,123 @@ class QsoType extends Component {
                     </View>  
                    </TouchableOpacity> 
                     : null }
+
+              { (this.props.qsotype==='POST') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('FLDDAY') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescFieldDay")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null } 
+
+                   { (this.props.qsotype==='POST') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }       
+
+
+              { (this.props.qsotype==='FLDDAY') ? 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
+                      <View style={{flexDirection: 'row', flex:1}}>
+                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                          resizeMode="contain" />
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeQSOdesc")}</Text>
+                      </View>
+                      </TouchableOpacity>
+                      : null }
+                
+
+                  { (this.props.qsotype==='FLDDAY') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeSWLdesc")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }
+
+
+                   { (this.props.qsotype==='FLDDAY') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }   
+
+                { (this.props.qsotype==='FLDDAY') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null } 
+
+
+            { (this.props.qsotype==='QAP') ? 
+                      <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QSO') }> 
+                      <View style={{flexDirection: 'row', flex:1}}>
+                          <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                          resizeMode="contain" />
+                          <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeQSOdesc")}</Text>
+                      </View>
+                      </TouchableOpacity>
+                      : null }
+                
+
+                  { (this.props.qsotype==='QAP') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('LISTEN') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeSWLdesc")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }
+
+
+                   { (this.props.qsotype==='QAP') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('FLDDAY') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescFieldDay")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null }   
+
+                { (this.props.qsotype==='QAP') ? 
+                   <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
+                   <View style={{flexDirection: 'row', flex:1}}>
+                      <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      resizeMode="contain" />
+                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")} </Text>
+                
+                    </View>  
+                   </TouchableOpacity> 
+                    : null } 
+
+
+
     
                    </View>
 
