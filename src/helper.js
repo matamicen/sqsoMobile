@@ -904,7 +904,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
-      if (title_loc_key==='PUSH_LISTENEDDQSO_TITLE')
+      if (title_loc_key==='PUSH_LISTENEDQSO_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
         bandejaNotifLocal = pushTitle +' ' +pushMessage;

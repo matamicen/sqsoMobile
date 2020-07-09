@@ -15,7 +15,7 @@
 "PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "Click to see more details";
 "PUSH_WORKEDQSO_TITLE" = "%@ worked a QSO";
 "PUSH_WORKEDQSO_MESSAGE" =  "Mode: %@ Band: %@ UTC: %@";
-"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ included you in his new QSO";
+"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ worked you in his QSO";
 "PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE" =  "Mode: %@ Band: %@";
 "PUSH_LISTENEDQSO_TITLE" = "%@ listened a QSO";
 "PUSH_LISTENEDQSO_MESSAGE" = "Mode: %@ Band: %@ UTC: %@";
