@@ -42,14 +42,14 @@ mediafilesSinProfile = [];
   })
 
   let devuelvo;
-    if(qsotype==='POST' && mediafilesSinProfile.length > 1){
+    if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY') && mediafilesSinProfile.length > 1){
       
       return true;
     }
     else {
       // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
       // el body de los Media (TouchwithoutFeedback)
-        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
+        if ((qsotype!=='POST' && qsotype!=='QAP' && qsotype!=='FLDDAY') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
         { 
             return true;
         } 

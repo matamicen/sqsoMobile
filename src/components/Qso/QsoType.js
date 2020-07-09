@@ -47,7 +47,7 @@ class QsoType extends Component {
                
 
         if(typetochange==='LISTEN'){
-         if (this.props.qsotype==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
+         if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
            if (this.props.mediafiles.length>1) 
               this.puedecambiar = false; 
               else {
@@ -59,7 +59,7 @@ class QsoType extends Component {
          
         }
         if(typetochange==='QSO'){
-          if (this.props.qsotype==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
+          if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
             if (this.props.mediafiles.length>1) 
              this.puedecambiar = false; 
              else {
@@ -73,7 +73,7 @@ class QsoType extends Component {
         if(typetochange==='POST' || typetochange==='QAP' || typetochange==='FLDDAY'){
           yacambio = false;
 
-          if (this.props.qsotype==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
+          if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
              {
                this.props.cambioqsotype(typetochange);
                yacambio = true;

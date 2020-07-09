@@ -210,7 +210,7 @@ export default {
     QsoTypeLISTEN: "Listen",
     QsoTypecannotchange1: "You have media created, so you can't change to",
     QsoTypecannotchange2: "you should start a new Post and select",
-    QsoTypecannotchange3: "But, you always could change from QSO to SWL or SWL to QSO",
+    QsoTypecannotchange3: "But, you always could change from QSO to Listen or Listen to QSO",
     QsoTypeclose: "Close",
     qsoActionsPublishingCallsigns: 'Publishing callsigns ...',
     qsoActionsPublishingPostType: 'Publishing post type ...',
