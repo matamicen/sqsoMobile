@@ -103,12 +103,29 @@ class QsoType extends Component {
 
         if (this.props.sqlrdsid!=='' && this.puedecambiar) {
 
-          qsoHeader = { "mode" : this.props.mode,
-                        "band" : this.props.band,
-                        "rst" : this.props.rst,
+          if (typetochange==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
+          {
+            bandAux = '';
+            modeAux = '';
+            rstAux = '';
+            dbAux = '';
+          }
+          else
+          {
+            bandAux = this.props.band;
+            modeAux = this.props.mode;
+            rstAux = this.props.rst;
+            dbAux = this.props.db;
+
+          }
+
+          qsoHeader = { "mode" : modeAux,
+                        "band" : bandAux,
+                        "rst" : rstAux,
                         "type" : typetochange,
                         "sqlrdsid" : this.props.sqlrdsid,
-                        "qra": this.props.qra
+                        "qra": this.props.qra,
+                        "db" : dbAux
                     }
           console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
            this.props.postQsoEdit(qsoHeader,'type',this.props.jwtToken);   
@@ -640,6 +657,7 @@ QsoType.propTypes = {
              band: state.sqso.currentQso.band,
              mode: state.sqso.currentQso.mode,
              rst: state.sqso.currentQso.rst,
+             db: state.sqso.currentQso.db,
              qra: state.sqso.qra, 
              mediafiles: state.sqso.currentQso.mediafiles,
              qsoqras: state.sqso.currentQso.qsoqras,

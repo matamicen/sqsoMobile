@@ -293,7 +293,7 @@ export default {
     PUSH_NEWFLDDAY_MESSAGE: 'See more details here',
     PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign} tagged you in a Field Day post',
     PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'See more details here',
-    PUSH_NEWQAP_TITLE: '%{callsign} post that is QAP',
+    PUSH_NEWQAP_TITLE: '%{callsign} posted that is QAP',
     PUSH_NEWQAP_MESSAGE: 'See more details here',   
     PUSH_TAGYOUNEWQAP_TITLE: '%{callsign} tagged you in his QAP post',
     PUSH_TAGYOUNEWQAP_MESSAGE: 'See more details here',

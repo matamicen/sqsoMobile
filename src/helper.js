@@ -150,7 +150,7 @@ mediafilesSinProfile = [];
       fechaqso = this.getDateHelper();
       console.log("FECHAAA: " + fechaqso);
 
-      if (qsotype==='POST')
+      if (qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY')
        {
          db = '';
          rst = '';

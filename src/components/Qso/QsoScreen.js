@@ -219,9 +219,7 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
-    // console.log('i18n print:'+I18n.locale);
-    // console.log('i18n print2:'+JSON.stringify(I18n));
-    console.log('pngi18:'+  asd)
+
     
 
 // agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
@@ -526,6 +524,7 @@ class QsoScreen extends Component {
         // pero chequeo que no haya venido del background por haber mostrado
         // la publicidad
 
+        // saco location
         if (this.props.currentlocationpermission && !this.props.adshowed)
           this._startUpdatingLocation();
 
@@ -972,7 +971,10 @@ console.log('tomo imagen de galeria');
       // this.currentLocationPermission = true;
     });
 
-    if (this.props.currentlocationpermission) {
+    // saco el chequeo de poder publicar unicamente si habilito LOCATION
+    // if (this.props.currentlocationpermission) {
+      // lo dejo siempre publicar haya o no hay autorizado LOCATION
+      if (1===1){
       console.log("newqsoafterad");
       this.setState({showIntersitial:false});
       this.setState({showVideoReward:false});
@@ -1036,54 +1038,57 @@ console.log('tomo imagen de galeria');
         from !== "qsonew" &&
         loc === "false"
       ) {
-        console.log("IOS fue negado la primera vez");
 
-        await RNLocation.getCurrentPermission().then(currentPermission => {
-          console.log("el permiso es:" + currentPermission);
-          if (
-            currentPermission === "notDetermined" ||
-            currentPermission === "denied"
-          )
-            // this.currentLocationPermission = false;
-            this.props.manageLocationPermissions("locationpermission", false);
-          else {
-            this.props.manageLocationPermissions("locationpermission", true);
-            AsyncStorage.setItem("locationPermission", "true");
-          }
-          // this.currentLocationPermission = true;
-        });
+        // se coemnto todo esto para que no le salga el mensaje al usuario que Por favor habilite el LOCATION (quiere decir que nego location) 
 
-        if (!this.props.currentlocationpermission) {
-          if (Platform.OS === "ios")
-            Alert.alert(
-              "You denied the access to the Location",
-              "In order to Authorize choose Open Settings",
-              [
-                {
-                  text: "No, thanks",
-                  onPress: () => {
-                    this._location_permissions("qsonew");
-                    console.log("Permission denied");
-                  },
-                  style: "cancel"
-                },
-                { text: "Open Settings", onPress: Permissions.openSettings }
-              ]
-            );
-          else {
-            Alert.alert(
-              "You denied the access to the Location",
-              "In order to Authorize go to settings->Apps->superQso->Permissions",
-              [
-                {
-                  text: "Ok",
-                  onPress: () => console.log("ok"),
-                  style: "cancel"
-                }
-              ]
-            );
-          }
-        }
+        // console.log("IOS fue negado la primera vez");
+
+        // await RNLocation.getCurrentPermission().then(currentPermission => {
+        //   console.log("el permiso es:" + currentPermission);
+        //   if (
+        //     currentPermission === "notDetermined" ||
+        //     currentPermission === "denied"
+        //   )
+        //     // this.currentLocationPermission = false;
+        //     this.props.manageLocationPermissions("locationpermission", false);
+        //   else {
+        //     this.props.manageLocationPermissions("locationpermission", true);
+        //     AsyncStorage.setItem("locationPermission", "true");
+        //   }
+        //   // this.currentLocationPermission = true;
+        // });
+
+        // if (!this.props.currentlocationpermission) {
+        //   if (Platform.OS === "ios")
+        //     Alert.alert(
+        //       "You denied the access to the Location",
+        //       "In order to Authorize choose Open Settings",
+        //       [
+        //         {
+        //           text: "No, thanks",
+        //           onPress: () => {
+        //             this._location_permissions("qsonew");
+        //             console.log("Permission denied");
+        //           },
+        //           style: "cancel"
+        //         },
+        //         { text: "Open Settings", onPress: Permissions.openSettings }
+        //       ]
+        //     );
+        //   else {
+        //     Alert.alert(
+        //       "You denied the access to the Location",
+        //       "In order to Authorize go to settings->Apps->superQso->Permissions",
+        //       [
+        //         {
+        //           text: "Ok",
+        //           onPress: () => console.log("ok"),
+        //           style: "cancel"
+        //         }
+        //       ]
+        //     );
+        //   }
+        // }
       } else {
         if (this.props.qsoscreendidmount)
           AsyncStorage.setItem("locationPermission", "false");
