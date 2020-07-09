@@ -122,9 +122,7 @@ class QsoScreen extends Component {
     this.closeAd = null;
     this.auxMedia = [];
 
- 
-   
-
+    
     this.state = {
       people: [],
       errorMessage: "",
@@ -154,9 +152,13 @@ class QsoScreen extends Component {
       camaraSelect: false,
       deletePost: false,
       startNewPost: false,
+  
+
      
     };
   }
+
+  
 
   static navigationOptions = {
     tabBarLabel: " ",
@@ -212,13 +214,15 @@ class QsoScreen extends Component {
     return null;
   }
 
- 
+
  
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
     // console.log('i18n print:'+I18n.locale);
     // console.log('i18n print2:'+JSON.stringify(I18n));
+    console.log('pngi18:'+  asd)
+    
 
 // agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
 // entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
@@ -1306,62 +1310,7 @@ console.log('tomo imagen de galeria');
 
 
 
-// yourPosts = async (qra) => {
-//   console.log('yourlatest url: '+global_config.urlWeb+qra);
-//   urlnotif = global_config.urlWeb+qra;
-//   Linking.canOpenURL(urlnotif).then(supported => {
-//     if (!supported) {
-//       console.log('Can\'t handle url: ' + urlnotif);
-//     } else {
-//       if(__DEV__)
-//         analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
-//       else
-//         analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
-    
-//       return Linking.openURL(urlnotif);
-    
-//     }
-//   }).catch(err => {
-//           console.error('An error occurred', err)
-//           crashlytics().setUserId(this.props.qra);
-//           crashlytics().log('error: ' + JSON.stringify(err)) ;
-//           if(__DEV__)
-//           crashlytics().recordError(new Error('Linking.yourposts_DEV'));
-//           else
-//           crashlytics().recordError(new Error('Linking.yourposts_PRD'));
 
-
-//         });
-//       }
-
-
-// latestPosts = async () => {
-//   console.log('latest url: '+global_config.urlWeb);
-//   urlnotif = global_config.urlWeb;
-//   Linking.canOpenURL(urlnotif).then(supported => {
-//     if (!supported) {
-//       console.log('Can\'t handle url: ' + urlnotif);
-//     } else {
-//       if(__DEV__)
-//         analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
-//       else
-//         analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
-    
-//       return Linking.openURL(urlnotif);
-    
-//     }
-//   }).catch(err => {
-//           console.error('An error occurred', err)
-//           crashlytics().setUserId(this.props.qra);
-//           crashlytics().log('error: ' + JSON.stringify(err)) ;
-//           if(__DEV__)
-//           crashlytics().recordError(new Error('Linking.latestposts_DEV'));
-//           else
-//           crashlytics().recordError(new Error('Linking.latestposts_PRD'));
-
-
-//         });
-//       }
 
       
 
@@ -1372,7 +1321,7 @@ console.log('tomo imagen de galeria');
     });
     console.log("RENDER qso Screen");
 
-    
+ 
 
     return (
 
@@ -1612,7 +1561,7 @@ console.log('tomo imagen de galeria');
      
           <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
           
-                            <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/swl9.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                             <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
                           
@@ -1801,9 +1750,10 @@ console.log('tomo imagen de galeria');
                               <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('QSO')}  >
 
           <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-         
-                            <Image source={require('../../images/qso10.png')} style={{width: 50, height: 50, flex: 0.3}} 
-                            resizeMode="contain" />
+                      
+                                  <Image source={require('../../images/qso10.png')} style={{width: 50, height: 50, flex: 0.3}}
+                                  resizeMode="contain" />      
+                    
                             <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
                           
                         </View>
@@ -1823,9 +1773,15 @@ console.log('tomo imagen de galeria');
              
                <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('LISTEN')}  >
                    <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-          
+                
+                           {(I18n.locale.substring(0, 2)==='es') &&
                             <Image source={require('../../images/escucha10.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
+                          }
+                           {(I18n.locale.substring(0, 2)==='en') &&
+                            <Image source={require('../../images/swl10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
                             <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
                           
                         </View>
@@ -1845,15 +1801,24 @@ console.log('tomo imagen de galeria');
 
             <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('FLDDAY')}  >
               <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                       <Image source={require('../../images/activacion.png')} style={{width: 50, height: 50, flex: 0.3} } 
-                       resizeMode="contain" />
+
+
+                         {(I18n.locale.substring(0, 2)==='es') &&
+                            <Image source={require('../../images/activacion.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                           {(I18n.locale.substring(0, 2)==='en') &&
+                            <Image source={require('../../images/fieldday10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+
                        <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescFieldDay")}
                        </Text>
                      </View>
             </TouchableOpacity>              
          </View>
 
-         <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
+         <View style={{flex:0.17,height: 65, backgroundColor: '#f5f5f5',
            borderBottomLeftRadius: 22,
            borderBottomRightRadius: 22,
            borderTopLeftRadius: 22,
@@ -1862,11 +1827,12 @@ console.log('tomo imagen de galeria');
            marginRight: 5,
            marginTop: 12}}>
 
-            <TouchableOpacity  style={{ height: 85, marginTop: 9}} onPress={() => this.newQso('QAP')}  >
+            <TouchableOpacity  style={{ height: 85, marginTop: 1}} onPress={() => this.newQso('QAP')}  >
               <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                
                        <Image source={require('../../images/qap10.png')} style={{width: 50, height: 50, flex: 0.3} } 
                        resizeMode="contain" />
-                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18, height:85, marginTop:7 }}>{I18n.t("QsoTypeANYdescQAP")}
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 8, height:85, marginTop:3 }}>{I18n.t("QsoTypeANYdescQAP")}
                        </Text>
                      </View>
             </TouchableOpacity>              
@@ -1883,8 +1849,14 @@ console.log('tomo imagen de galeria');
 
             <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('POST')}  >
               <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                       <Image source={require('../../images/otro10.png')} style={{width: 50, height: 50, flex: 0.3} } 
-                       resizeMode="contain" />
+                       {(I18n.locale.substring(0, 2)==='es') &&
+                            <Image source={require('../../images/otro10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                           {(I18n.locale.substring(0, 2)==='en') &&
+                            <Image source={require('../../images/other10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
                        <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescOther")}
                        </Text>
                      </View>

@@ -917,7 +917,62 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
+
+      if (title_loc_key==='PUSH_NEWFLDDAY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
       
+      if (title_loc_key==='PUSH_TAGYOUNEWFLDDAY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_NEWQAP_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      
+      if (title_loc_key==='PUSH_TAGYOUNEWQAP_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTQSO_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTLISTEN_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTANY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTFLDDAY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTQAP_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
 
       console.log('helper bandeja:' + bandejaNotifLocal )
       return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};
