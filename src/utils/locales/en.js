@@ -350,11 +350,15 @@ export default {
     STOPAPP_APOLOGIZE: 'Apologize. SuperQSO.',
     STOPAPP_CHANGEPASSWORD: 'Sorry, you have to change your password in order to use SuperQSO APP, please change your password in www.superqso.com',
     STOPAPP_THENTRY: 'Then try login again with the App.',
-    STOPAPP_UPGRADE: 'We have built new features in order to improve the user experience and we need to upgrade the APP.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Thank you & 73!'
-    
+    STOPAPP_UPGRADE: 'We have built new features in order to improve the user experience and we need to upgrade the APP.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Thank you & 73!',
+    DENIED_ACCESS_1: 'You denied the access to the Camera.',
+    TO_AUTHORIZE_2_IOS: 'In order to Authorize choose Open Settings->SuperQSO',
+    TO_AUTHORIZE_2_ANDROID: 'In order to Authorize go to settings->Apps->superQso->Permissions',
+    DENIED_ACCESS_2: 'You denied the access to the Microphone.',
+    ACCESS_TO_CAMERA: 'You do not have access to the Camera',
+    ACCESS_TO_MICROPHONE: 'You do not have access to the Microphone',
+    PARENTAL_CONTROLS: 'Cause: it is not supported by the device or because it has been blocked by parental controls',
      
-
-    
 
 
 

@@ -139,7 +139,7 @@ class HelpPublish extends Component {
                    right: 15,
                  //  width: 170,
                    width: 320,
-                   height: this.props.helptag ? 440 : 430,
+                   height: this.props.helptag ? 250 : 430,
                
                    paddingVertical: 5,
                  
@@ -256,10 +256,10 @@ class HelpPublish extends Component {
 
           { (this.props.helptag) &&
                  <View style={{ flex:0.9, alignItems: "center" }}>
-                         <View style={{ flex:0.09, alignItems: "center" }}>
+                         <View style={{ flex:0.2, alignItems: "center" }}>
                        <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishTagtitle")} {"\n"}</Text>
                        </View> 
-                      <View style={{ flex:0.28, alignItems: "center" }}>
+                      <View style={{ flex:0.8 }}>
                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishTagMessage1")}{"\n"}</Text>
                       </View>
                       {/* <View style={{ flex:0.24, alignItems: 'flex-start' }}>
@@ -268,12 +268,12 @@ class HelpPublish extends Component {
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield3")}</Text>
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield4")}</Text>
                       </View> */}
-                      <View style={{ flex:0.63, alignItems: "flex-start" }}>
-                        <Text style={{ color: 'yellow', fontSize: 15}}>{I18n.t("helpPublishTagExample")}</Text>
+                      {/* <View style={{ flex:0.1, alignItems: "flex-start" }}>
+                       <Text style={{ color: 'yellow', fontSize: 15}}>{I18n.t("helpPublishTagExample")}</Text>
                         <Text style={{ color: 'white', fontSize: 15}}>"{I18n.t("helpPublishTagMessage2")}"</Text>
                         <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage3")}<Text style={{ color: 'white', fontSize: 15}}> "{I18n.t("helpPublishTagRePublicar")}".</Text></Text>
-                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage4")}{"\n"}</Text>
-                      </View>
+                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage4")}{"\n"}</Text> 
+                      </View> */}
                  </View>
                      }   
                

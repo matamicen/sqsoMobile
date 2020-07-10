@@ -98,8 +98,8 @@ checkInternetScanQR = async (param) => {
         if (response==='denied' &&  Platform.OS !== 'android')
         {
          Alert.alert(
-          'You denied the access to the Microphone',
-          'In order to Authorize choose Open Settings',
+          I18n.t("DENIED_ACCESS_2"),
+          I18n.t("TO_AUTHORIZE_2_IOS"),
           [
             {
               text: 'No, thanks',
@@ -116,8 +116,8 @@ checkInternetScanQR = async (param) => {
         if (response==='restricted' &&  Platform.OS === 'android')
         {
          Alert.alert(
-          'You denied the access to the Microphone',
-          'In order to Authorize go to settings->Apps->superQso->Permissions',
+          I18n.t("DENIED_ACCESS_2"),
+          I18n.t("TO_AUTHORIZE_2_ANDROID"),
           [
             {
               text: 'Ok',
@@ -134,8 +134,8 @@ checkInternetScanQR = async (param) => {
       if (response==='restricted' &&  Platform.OS !== 'android')
       {
        Alert.alert(
-        'You do not have access to the Microphone',
-        'Cause: it is not supported by the device or because it has been blocked by parental controls',
+        I18n.t("ACCESS_TO_MICROPHONE"),
+        I18n.t("PARENTAL_CONTROLS"),
         [
           {
             text: 'Ok',
@@ -163,8 +163,8 @@ checkInternetScanQR = async (param) => {
         if (response==='denied' &&  Platform.OS !== 'android')
         {
          Alert.alert(
-          'You denied the access to the Camera',
-          'In order to Authorize choose Open Settings',
+          I18n.t("DENIED_ACCESS_1"),
+          I18n.t("TO_AUTHORIZE_2_IOS"),
           [
             {
               text: 'No, thanks',
@@ -181,8 +181,8 @@ checkInternetScanQR = async (param) => {
         if (response==='restricted' &&  Platform.OS === 'android')
         {
          Alert.alert(
-          'You denied the access to the Camera',
-          'In order to Authorize go to settings->Apps->superQso->Permissions',
+          I18n.t("DENIED_ACCESS_1"),
+          I18n.t("TO_AUTHORIZE_2_ANDROID"),
           [
             {
               text: 'Ok',
@@ -199,8 +199,8 @@ checkInternetScanQR = async (param) => {
       if (response==='restricted' &&  Platform.OS !== 'android')
       {
        Alert.alert(
-        'You do not have access to the Camera',
-        'Cause: it is not supported by the device or because it has been blocked by parental controls',
+        I18n.t("ACCESS_TO_CAMERA"),
+        I18n.t("PARENTAL_CONTROLS"),
         [
           {
             text: 'Ok',

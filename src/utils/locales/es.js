@@ -271,7 +271,7 @@ export default {
     helpPublishQAPfield2: 'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
     helpPublishQSOClose: 'Cerrar',
     helpPublishTagtitle: '¿Que significa Etiquetar?',
-    helpPublishTagMessage1: 'Etiquetar una SD hace que le llegue una notificación de esta publicación a dicha SD, se usa para cuando queres que se entere de la publicación alguien que no te sigue.',
+    helpPublishTagMessage1: 'Etiquetar una SD hace que le llegue una notificación de esta publicación a dicha SD, se usa para cuando queres que se entere de la publicación una SD que no te sigue.',
     helpPublishTagExample: 'Ejemplo:',
     helpPublishTagMessage2: 'Tú quieres promocionar una activación y queres que se enteren la mayor cantidad de colegas posibles',
     helpPublishTagMessage3: 'Entonces tú etiquetas algunas SD que sabes que tienen muchos seguidores y en el texto descripción de la foto que publicas escribís:',
@@ -350,5 +350,12 @@ export default {
     STOPAPP_APOLOGIZE: 'Disculpas. SuperQSO.',
     STOPAPP_CHANGEPASSWORD: 'Lo sentimos, para poder usar la APP de SuperQSO debes cambiar la contraseña, cámbiala en www.superqso.com',
     STOPAPP_THENTRY: 'Luego intenta ingresar a la APP nuevamente.',
-    STOPAPP_UPGRADE: 'Hemos desarrollado nuevas funcionalidades para mejorar tú experiencia, necesitamos que actualices la APP.<br/><br/>Por favor hacelo desde tú tienda de aplicaciones.<br/><br/>Gracias y 73!'
+    STOPAPP_UPGRADE: 'Hemos desarrollado nuevas funcionalidades para mejorar tú experiencia, necesitamos que actualices la APP.<br/><br/>Por favor hacelo desde tú tienda de aplicaciones.<br/><br/>Gracias y 73!',
+    DENIED_ACCESS_1: 'Ud. denego el acceso a la Camara.',
+    TO_AUTHORIZE_2_IOS: 'Para autorizar vaya a Configuración->SuperQSO',
+    TO_AUTHORIZE_2_ANDROID: 'Para autorizar vaya a Ajustes->Aplicaciones->SuperQSO->Accesos',
+    DENIED_ACCESS_2: 'Ud. denego el acceso al Microfono.',
+    ACCESS_TO_CAMERA: 'Ud. no tiene acceso a la Camara',
+    ACCESS_TO_MICROPHONE: 'Ud. no tiene acceso al Microfono',
+    PARENTAL_CONTROLS: 'Causa: No es soportado por el dispositivo o fue bloqueado por control parental.',
   };
