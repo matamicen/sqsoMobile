@@ -295,6 +295,98 @@ if (urlnotif!=null)
                           {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
                           </View>
                       }
+
+                      {/* 60 - CREATE LISTEN */}
+                     {(this.props.activity_type===60) &&
+                         <View>
+                         
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_60",{mode: this.props.mode,band: this.props.band,callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+                      {/* 61 - CREATE QAP */}
+                         {(this.props.activity_type===61) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_61",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+                      {/* 62 - CREATE FIELD DAY */}
+                      {(this.props.activity_type===62) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_62",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+                       {/* 63 - CREATE POST */}
+                       {(this.props.activity_type===63) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_63",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+                        {/* 64 - SHARE a QSO */}
+                        {(this.props.activity_type===64) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_64",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+                        {/* 65 - SHARE a QSO */}
+                        {(this.props.activity_type===65) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_65",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+                           {/* 66 - SHARE a QAP */}
+                           {(this.props.activity_type===66) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_66",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+
+                           {/* 67 - SHARE FIELD DAY */}
+                           {(this.props.activity_type===67) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_67",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+
+                         {/* 68 - SHARE POST */}
+                        {(this.props.activity_type===68) &&
+                         <View>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_68",{callsign: this.props.QRA})}</Text>
+                          <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                          {/* <Text style={{fontSize:14, height: 40, color:'grey'}}>on {getDateQslScan(this.props.datetimecomment).substr(0,19)} UTC </Text> */}
+                          </View>
+                      }
+
+
+
+
+
+
+
+
                         {/* El 108 es el de la notificacion que viene por push pero el telefono esta en Foreground entonces la capturo y 
                            y la doy de alta en la bandeja de notificaciones */}
                           {(this.props.activity_type===108) &&
