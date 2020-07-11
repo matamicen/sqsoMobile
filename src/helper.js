@@ -42,14 +42,14 @@ mediafilesSinProfile = [];
   })
 
   let devuelvo;
-    if(qsotype==='POST' && mediafilesSinProfile.length > 1){
+    if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY') && mediafilesSinProfile.length > 1){
       
       return true;
     }
     else {
       // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
       // el body de los Media (TouchwithoutFeedback)
-        if ((qsotype!=='POST') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
+        if ((qsotype!=='POST' && qsotype!=='QAP' && qsotype!=='FLDDAY') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
         { 
             return true;
         } 
@@ -150,7 +150,7 @@ mediafilesSinProfile = [];
       fechaqso = this.getDateHelper();
       console.log("FECHAAA: " + fechaqso);
 
-      if (qsotype==='POST')
+      if (qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY')
        {
          db = '';
          rst = '';
@@ -904,7 +904,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
-      if (title_loc_key==='PUSH_LISTENEDDQSO_TITLE')
+      if (title_loc_key==='PUSH_LISTENEDQSO_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
@@ -917,7 +917,62 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
+
+      if (title_loc_key==='PUSH_NEWFLDDAY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
       
+      if (title_loc_key==='PUSH_TAGYOUNEWFLDDAY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_NEWQAP_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      
+      if (title_loc_key==='PUSH_TAGYOUNEWQAP_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTQSO_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTLISTEN_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTANY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTFLDDAY_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
+
+      if (title_loc_key==='PUSH_REPOSTQAP_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key);
+        bandejaNotifLocal = pushTitle;
+      }
 
       console.log('helper bandeja:' + bandejaNotifLocal )
       return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};

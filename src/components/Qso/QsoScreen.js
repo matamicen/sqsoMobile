@@ -122,9 +122,7 @@ class QsoScreen extends Component {
     this.closeAd = null;
     this.auxMedia = [];
 
- 
-   
-
+    
     this.state = {
       people: [],
       errorMessage: "",
@@ -154,9 +152,13 @@ class QsoScreen extends Component {
       camaraSelect: false,
       deletePost: false,
       startNewPost: false,
+  
+
      
     };
   }
+
+  
 
   static navigationOptions = {
     tabBarLabel: " ",
@@ -212,13 +214,13 @@ class QsoScreen extends Component {
     return null;
   }
 
- 
+
  
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
-    // console.log('i18n print:'+I18n.locale);
-    // console.log('i18n print2:'+JSON.stringify(I18n));
+
+    
 
 // agrego listener de Purchase IAP, se pone aca porque a esta altura el usuario ya esta logueado
 // entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
@@ -522,6 +524,7 @@ class QsoScreen extends Component {
         // pero chequeo que no haya venido del background por haber mostrado
         // la publicidad
 
+        // saco location
         if (this.props.currentlocationpermission && !this.props.adshowed)
           this._startUpdatingLocation();
 
@@ -607,8 +610,8 @@ class QsoScreen extends Component {
 
         if (response === "denied" && Platform.OS !== "android") {
           Alert.alert(
-            "You denied the access to the Microphone",
-            "In order to Authorize choose Open Settings",
+            I18n.t("DENIED_ACCESS_2"),
+            I18n.t("TO_AUTHORIZE_2_IOS"),
             [
               {
                 text: "No, thanks",
@@ -622,8 +625,8 @@ class QsoScreen extends Component {
 
         if (response === "restricted" && Platform.OS === "android") {
           Alert.alert(
-            "You denied the access to the Microphone",
-            "In order to Authorize go to settings->Apps->superQso->Permissions",
+            I18n.t("DENIED_ACCESS_2"),
+            I18n.t("TO_AUTHORIZE_2_ANDROID"),
             [
               {
                 text: "Ok",
@@ -636,8 +639,8 @@ class QsoScreen extends Component {
 
         if (response === "restricted" && Platform.OS !== "android") {
           Alert.alert(
-            "You do not have access to the Microphone",
-            "Cause: it is not supported by the device or because it has been blocked by parental controls",
+            I18n.t("ACCESS_TO_MICROPHONE"),
+            I18n.t("PARENTAL_CONTROLS"),
             [
               {
                 text: "Ok",
@@ -719,6 +722,7 @@ class QsoScreen extends Component {
 
   photoFromGallery = async () => {
 
+
     if (await hasAPIConnection()) {
     // envio a reducer que se fue a background por usar la GELRIA de FOTOS
     // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
@@ -737,12 +741,15 @@ console.log('tomo imagen de galeria');
      ImagePicker.openPicker({
    //   ImagePicker.openCamera({
       // path: data.uri,
-      cropping: true,
-      //  compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1
-      // width: (Platform.OS==='ios') ? 1100 : 1800, // anda bien 2800 x 2000    // 3080x 2200 // 4312 : 3080
+     // cropping: true,
+      // compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1,
+      // width: (Platform.OS==='ios') ? 1100 : 1800, // anda bien 2800 x 2000    // 3080x 2200 // 4312 : 3080 - // 3080x 2200
       // height: (Platform.OS==='ios') ? 1100 : 1200,
-         width: (Platform.OS==='ios') ? 3080 : 3080,
-      height: (Platform.OS==='ios') ? 2200: 2200,
+      // compressImageMaxWidth: 700,
+      // compressImageMaxHeight: 700,
+      //width: 1200, height: 960,
+      //    width: (Platform.OS==='ios') ? 3080 : 3080,
+      // height: (Platform.OS==='ios') ? 2200: 2200,
     }).then(image => {
       console.log(image);
 
@@ -852,8 +859,8 @@ console.log('tomo imagen de galeria');
 
         if (response === "denied" && Platform.OS !== "android") {
           Alert.alert(
-            "You denied the access to the Camera",
-            "In order to Authorize choose Open Settings",
+            I18n.t("DENIED_ACCESS_1"),
+            I18n.t("TO_AUTHORIZE_2_IOS"),
             [
               {
                 text: "No, thanks",
@@ -867,8 +874,8 @@ console.log('tomo imagen de galeria');
 
         if (response === "restricted" && Platform.OS === "android") {
           Alert.alert(
-            "You denied the access to the Camera",
-            "In order to Authorize go to settings->Apps->superQso->Permissions",
+            I18n.t("DENIED_ACCESS_1"),
+            I18n.t("TO_AUTHORIZE_2_ANDROID"),
             [
               {
                 text: "Ok",
@@ -881,8 +888,8 @@ console.log('tomo imagen de galeria');
 
         if (response === "restricted" && Platform.OS !== "android") {
           Alert.alert(
-            "You do not have access to the Camera",
-            "Cause: it is not supported by the device or because it has been blocked by parental controls",
+            I18n.t("ACCESS_TO_CAMERA"),
+            I18n.t("PARENTAL_CONTROLS"),
             [
               {
                 text: "Ok",
@@ -965,7 +972,10 @@ console.log('tomo imagen de galeria');
       // this.currentLocationPermission = true;
     });
 
-    if (this.props.currentlocationpermission) {
+    // saco el chequeo de poder publicar unicamente si habilito LOCATION
+    // if (this.props.currentlocationpermission) {
+      // lo dejo siempre publicar haya o no hay autorizado LOCATION
+      if (1===1){
       console.log("newqsoafterad");
       this.setState({showIntersitial:false});
       this.setState({showVideoReward:false});
@@ -993,7 +1003,7 @@ console.log('tomo imagen de galeria');
         // ios
         Alert.alert(
           "You denied the access to the Location",
-          "In order to Authorize choose Open Settings",
+          I18n.t("TO_AUTHORIZE_2_IOS"),
           [
             {
               text: "No, thanks",
@@ -1029,54 +1039,57 @@ console.log('tomo imagen de galeria');
         from !== "qsonew" &&
         loc === "false"
       ) {
-        console.log("IOS fue negado la primera vez");
 
-        await RNLocation.getCurrentPermission().then(currentPermission => {
-          console.log("el permiso es:" + currentPermission);
-          if (
-            currentPermission === "notDetermined" ||
-            currentPermission === "denied"
-          )
-            // this.currentLocationPermission = false;
-            this.props.manageLocationPermissions("locationpermission", false);
-          else {
-            this.props.manageLocationPermissions("locationpermission", true);
-            AsyncStorage.setItem("locationPermission", "true");
-          }
-          // this.currentLocationPermission = true;
-        });
+        // se coemnto todo esto para que no le salga el mensaje al usuario que Por favor habilite el LOCATION (quiere decir que nego location) 
 
-        if (!this.props.currentlocationpermission) {
-          if (Platform.OS === "ios")
-            Alert.alert(
-              "You denied the access to the Location",
-              "In order to Authorize choose Open Settings",
-              [
-                {
-                  text: "No, thanks",
-                  onPress: () => {
-                    this._location_permissions("qsonew");
-                    console.log("Permission denied");
-                  },
-                  style: "cancel"
-                },
-                { text: "Open Settings", onPress: Permissions.openSettings }
-              ]
-            );
-          else {
-            Alert.alert(
-              "You denied the access to the Location",
-              "In order to Authorize go to settings->Apps->superQso->Permissions",
-              [
-                {
-                  text: "Ok",
-                  onPress: () => console.log("ok"),
-                  style: "cancel"
-                }
-              ]
-            );
-          }
-        }
+        // console.log("IOS fue negado la primera vez");
+
+        // await RNLocation.getCurrentPermission().then(currentPermission => {
+        //   console.log("el permiso es:" + currentPermission);
+        //   if (
+        //     currentPermission === "notDetermined" ||
+        //     currentPermission === "denied"
+        //   )
+        //     // this.currentLocationPermission = false;
+        //     this.props.manageLocationPermissions("locationpermission", false);
+        //   else {
+        //     this.props.manageLocationPermissions("locationpermission", true);
+        //     AsyncStorage.setItem("locationPermission", "true");
+        //   }
+        //   // this.currentLocationPermission = true;
+        // });
+
+        // if (!this.props.currentlocationpermission) {
+        //   if (Platform.OS === "ios")
+        //     Alert.alert(
+        //       "You denied the access to the Location",
+        //       "In order to Authorize choose Open Settings",
+        //       [
+        //         {
+        //           text: "No, thanks",
+        //           onPress: () => {
+        //             this._location_permissions("qsonew");
+        //             console.log("Permission denied");
+        //           },
+        //           style: "cancel"
+        //         },
+        //         { text: "Open Settings", onPress: Permissions.openSettings }
+        //       ]
+        //     );
+        //   else {
+        //     Alert.alert(
+        //       "You denied the access to the Location",
+        //       "In order to Authorize go to settings->Apps->superQso->Permissions",
+        //       [
+        //         {
+        //           text: "Ok",
+        //           onPress: () => console.log("ok"),
+        //           style: "cancel"
+        //         }
+        //       ]
+        //     );
+        //   }
+        // }
       } else {
         if (this.props.qsoscreendidmount)
           AsyncStorage.setItem("locationPermission", "false");
@@ -1306,62 +1319,7 @@ console.log('tomo imagen de galeria');
 
 
 
-// yourPosts = async (qra) => {
-//   console.log('yourlatest url: '+global_config.urlWeb+qra);
-//   urlnotif = global_config.urlWeb+qra;
-//   Linking.canOpenURL(urlnotif).then(supported => {
-//     if (!supported) {
-//       console.log('Can\'t handle url: ' + urlnotif);
-//     } else {
-//       if(__DEV__)
-//         analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
-//       else
-//         analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
-    
-//       return Linking.openURL(urlnotif);
-    
-//     }
-//   }).catch(err => {
-//           console.error('An error occurred', err)
-//           crashlytics().setUserId(this.props.qra);
-//           crashlytics().log('error: ' + JSON.stringify(err)) ;
-//           if(__DEV__)
-//           crashlytics().recordError(new Error('Linking.yourposts_DEV'));
-//           else
-//           crashlytics().recordError(new Error('Linking.yourposts_PRD'));
 
-
-//         });
-//       }
-
-
-// latestPosts = async () => {
-//   console.log('latest url: '+global_config.urlWeb);
-//   urlnotif = global_config.urlWeb;
-//   Linking.canOpenURL(urlnotif).then(supported => {
-//     if (!supported) {
-//       console.log('Can\'t handle url: ' + urlnotif);
-//     } else {
-//       if(__DEV__)
-//         analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
-//       else
-//         analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
-    
-//       return Linking.openURL(urlnotif);
-    
-//     }
-//   }).catch(err => {
-//           console.error('An error occurred', err)
-//           crashlytics().setUserId(this.props.qra);
-//           crashlytics().log('error: ' + JSON.stringify(err)) ;
-//           if(__DEV__)
-//           crashlytics().recordError(new Error('Linking.latestposts_DEV'));
-//           else
-//           crashlytics().recordError(new Error('Linking.latestposts_PRD'));
-
-
-//         });
-//       }
 
       
 
@@ -1372,12 +1330,15 @@ console.log('tomo imagen de galeria');
     });
     console.log("RENDER qso Screen");
 
-    
+ 
 
     return (
+
+     
+   
     
-      //  <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-      <HandleBack onBack={this.onBack}>
+      (this.props.sqsonewqsoactive) ? 
+     <HandleBack onBack={this.onBack}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
         <View style={{ flex: 0.3 }}>
@@ -1557,83 +1518,7 @@ console.log('tomo imagen de galeria');
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
-{/* 
-          <Modal
-            visible={this.state.endQsoModal}
-            animationType={"slide"}
-            transparent={true}
-            onRequestClose={() => console.log("Close was requested")}
-          >
-            <View
-              style={{
-                margin: 20,
-                padding: 20,
-                backgroundColor: "rgba(0,0,0,0.85)",
-                bottom: 230,
-                left: 10,
-                right: 10,
-                position: "absolute",
-                alignItems: "center",
-                borderRadius: 12
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  alignItems: "center",
-                  fontSize: 16,
-                  color: "#999",
-                  marginBottom: 10
-                }}
-              >
-                {I18n.t("QsoScrAreYouSureEnd")} {I18n.t("QsoScrAreYouSureEndPost")}{" "}
-              </Text>
 
-              <View style={{ flexDirection: "row", flex: 1 }}>
-
-              <View style={{ flex: 0.35 }}>
-                <TouchableOpacity
-                  onPress={() => this.CancelEndQsoModal()}
-                  style={{ flex: 0.3, paddingTop: 20, paddingBottom: 4, marginLeft: 17 }}
-                >
-                  <Text
-                    style={{
-                      color: "#999",
-                      fontWeight: "bold",
-                      fontSize: 14
-                    }}
-                  >
-                    {I18n.t("QsoScrAreYouSureCancel")}
-                  </Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{ flex: 0.65, alignItems: "flex-end" }}>
-                <TouchableOpacity
-                  onPress={() => this.endQso()}
-                  style={{
-                    flex: 0.7,
-                    paddingTop: 20,
-                    paddingBottom: 4,
-                    paddingHorizontal: 4
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#FFFFFF",
-                      fontWeight: "bold",
-                      fontSize: 14, marginRight: 15
-                    }}
-                  >
-                    {I18n.t("QsoScrAreYouSureEndThisPost")}
-                  </Text>
-                </TouchableOpacity>
-                </View>
-
-              </View>
-            </View>
-          </Modal> */}
-
-          {/* width:this.width-10 */}
         </View>
         </TouchableWithoutFeedback> 
        
@@ -1685,7 +1570,7 @@ console.log('tomo imagen de galeria');
      
           <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
           
-                            <Image source={require('../../images/swl.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/swl9.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                             <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
                           
@@ -1718,75 +1603,7 @@ console.log('tomo imagen de galeria');
             </View>
             </TouchableOpacity>
          
-              {/* <Animated.View style={[styles.animationView,
-                    {opacity: this.state.fadeValue},
-                    // {transform: [{scale: this.state.springValue}], alignSelf: 'center'}
-                  // {left: this.state.xValue}
-                    ]} >
-                    <TouchableOpacity  onPress={() => this.newQso()}  >
-                        <Animated.View style={[styles.button,{alignSelf: 'center' } ]} >
-                            <Animated.Image 
-                                    source={require('../../images/SuperQSOIcono01.png')}
-                                    style={[styles.imageView,
-                                    //  {opacity: this.state.fadeValue},
-                                    {left: this.state.xValue },
-                                    // {transform: [{scale: this.state.springValue}], alignSelf: 'center'}
-                                    {transform: [{rotate: interpolatedRotateAnimation}], alignSelf: 'center'}
-                                  ]}>
-                                  
-                                </Animated.Image>
-                        </Animated.View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity  onPress={() => this.newQso()}  >
-                      <Animated.View 
-                      style={[{transform: [{scale: this.state.springValue}], alignSelf: 'center'}
-                      
-                          ]}>
-                      <Text style={{fontSize: 16, color: '#243665'}}>{I18n.t("QsoScrStartPost")}</Text>
-                      </Animated.View>
-                    </TouchableOpacity>
-                  
-
-             </Animated.View> */}
-
-
-
-{/*    // Saco Latest Post y Your Post del menu de POST
-        
-             {(this.state.iconosWeb) &&
-              <View style={{ flexDirection: "row", marginTop: 90}}>
               
-              <View style={{flex: 0.5,  alignItems:"center", alignContent:"center"}}>
-              <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:100}}  onPress={() => this.latestPosts()}  >
-             
-              <Image
-                  source={require("../../images/home.png")}
-                  style={{ width: 36, height: 36, marginTop: 25  }}
-                  resizeMode="contain"
-                />
-                     
-                      <Text style={{fontSize: 16, color: '#243665'}}>Latest Posts</Text>
-              
-                    </TouchableOpacity>
-                  
-              </View>
-              <View style={{flex: 0.5,  alignItems:"center", alignContent:"center"}}>
-              <TouchableOpacity style={{  alignItems:"center", alignContent:"center", height:100}} onPress={() => this.yourPosts(this.props.qra)}  >
-              <Image 
-                  source={require("../../images/activity2.png")}
-                  style={{ width: 36, height: 36, marginTop: 25 }}
-                  resizeMode="contain"
-                />
-                      <Text style={{fontSize: 16, color: '#243665'}}>Your Posts</Text>
-                  
-                    </TouchableOpacity>
-              </View>
-
-              
-               </View>
-               } */}
-
 
 
             
@@ -1913,6 +1730,195 @@ console.log('tomo imagen de galeria');
 
       </View>
       </HandleBack>
+     
+     :
+
+       <View style={{ flex: 1}} >
+
+
+    <View style={{flex:0.10, 
+           alignItems: 'center',
+              marginTop: 10}}>
+
+            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 22 }}>{I18n.t("QsoTypeSelect")} </Text>
+           
+    
+                       
+         </View>
+        
+                   <View style={{ flex:0.17, backgroundColor: '#f5f5f5',
+                            borderBottomLeftRadius: 22,
+                            borderBottomRightRadius: 22,
+                            borderTopLeftRadius: 22,
+                            borderTopRightRadius: 22,
+                            marginLeft: 5,
+                            marginRight: 5,
+                            marginTop: 12
+                           }}>
+
+                              <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('QSO')}  >
+
+          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                      
+                                  <Image source={require('../../images/qso10.png')} style={{width: 50, height: 50, flex: 0.3}}
+                                  resizeMode="contain" />      
+                    
+                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
+                          
+                        </View>
+                        </TouchableOpacity>
+          </View>
+
+      
+          
+          <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
+                            borderBottomLeftRadius: 22,
+                            borderBottomRightRadius: 22,
+                            borderTopLeftRadius: 22,
+                            borderTopRightRadius: 22,
+                            marginLeft: 5,
+                            marginRight: 5,
+                            marginTop: 12}}>
+             
+               <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('LISTEN')}  >
+                   <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                
+                           {(I18n.locale.substring(0, 2)==='es') &&
+                            <Image source={require('../../images/escucha10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                           {(I18n.locale.substring(0, 2)==='en') &&
+                            <Image source={require('../../images/swl10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
+                          
+                        </View>
+                        </TouchableOpacity>              
+          </View>
+
+         
+         
+         <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
+           borderBottomLeftRadius: 22,
+           borderBottomRightRadius: 22,
+           borderTopLeftRadius: 22,
+           borderTopRightRadius: 22,
+           marginLeft: 5,
+           marginRight: 5,
+           marginTop: 12}}>
+
+            <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('FLDDAY')}  >
+              <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+
+
+                         {(I18n.locale.substring(0, 2)==='es') &&
+                            <Image source={require('../../images/activacion.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                           {(I18n.locale.substring(0, 2)==='en') &&
+                            <Image source={require('../../images/fieldday10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescFieldDay")}
+                       </Text>
+                     </View>
+            </TouchableOpacity>              
+         </View>
+
+         <View style={{flex:0.17,height: 65, backgroundColor: '#f5f5f5',
+           borderBottomLeftRadius: 22,
+           borderBottomRightRadius: 22,
+           borderTopLeftRadius: 22,
+           borderTopRightRadius: 22,
+           marginLeft: 5,
+           marginRight: 5,
+           marginTop: 12}}>
+
+            <TouchableOpacity  style={{ height: 85, marginTop: 1}} onPress={() => this.newQso('QAP')}  >
+              <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                
+                       <Image source={require('../../images/qap10.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                       resizeMode="contain" />
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 8, height:85, marginTop:3 }}>{I18n.t("QsoTypeANYdescQAP")}
+                       </Text>
+                     </View>
+            </TouchableOpacity>              
+         </View>
+
+         <View style={{flex:0.17,height: 60, backgroundColor: '#f5f5f5',
+           borderBottomLeftRadius: 22,
+           borderBottomRightRadius: 22,
+           borderTopLeftRadius: 22,
+           borderTopRightRadius: 22,
+           marginLeft: 5,
+           marginRight: 5,
+           marginTop: 12}}>
+
+            <TouchableOpacity  style={{ height: 60, marginTop: 9}} onPress={() => this.newQso('POST')}  >
+              <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
+                       {(I18n.locale.substring(0, 2)==='es') &&
+                            <Image source={require('../../images/otro10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                           {(I18n.locale.substring(0, 2)==='en') &&
+                            <Image source={require('../../images/other10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            resizeMode="contain" />
+                          }
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdescOther")}
+                       </Text>
+                     </View>
+            </TouchableOpacity>              
+         </View>
+         
+         {/* Pongo componente de INTERNET, ADS y IAP porque pueden llamarse esta en la pantalla de Elegir Publicacion */}
+        {/*  Estoy copiando los mismo componentes que estan cuando el QSO esta ACTIVO porque no encontre rapidamente un lugar donde este disponible para ambos*/}
+        {/* Despues hay que optimizar esto */}
+         <View>
+         {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
+          {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
+           {(this.state.nointernet) &&  <VariosModales show={this.state.nointernet} modalType="nointernet"  closeInternetModal={this.closeVariosModales.bind()} /> }
+
+           <Modal
+            visible={this.state.iap}
+            animationType={"slide"}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            <View
+              style={{
+                margin: 10,
+                padding: 10,
+                backgroundColor: "rgba(0,0,0,0.85)",
+                marginTop: 120,
+                //  bottom: 150,
+                left: 55,
+                right: 55,
+                height: 400,
+                position: "absolute",
+                alignItems: "center",
+                borderRadius: 12
+              }}
+            >
+              {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
+               <Iap />
+              <Button onPress={() => this.setState({iap:false})} title="Cierro" />
+              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
+                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
+                          </TouchableHighlight> */}
+            </View>
+          </Modal>
+          </View> 
+        
+          
+       </View> 
+
+                       
+
+
+ 
+  
       //  </TouchableWithoutFeedback>
   
     );
