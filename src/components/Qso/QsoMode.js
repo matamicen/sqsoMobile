@@ -181,8 +181,8 @@ class QsoMode extends Component {
                     value: 'DMR'
                 },
                 {
-                    title: 'C4FM',
-                    value: 'C4FM'
+                    title: 'YSF',
+                    value: 'YSF'
                 },
                 {
                     title: 'SAT',

@@ -139,7 +139,7 @@ class HelpPublish extends Component {
                    right: 15,
                  //  width: 170,
                    width: 320,
-                   height: this.props.helptag ? 440 : 398,
+                   height: this.props.helptag ? 250 : 430,
                
                    paddingVertical: 5,
                  
@@ -194,16 +194,60 @@ class HelpPublish extends Component {
                          <View style={{ flex:0.15, alignItems: "center" }}>
                        <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishPOSTtitle")} {"\n"}</Text>
                        </View> 
-                      <View style={{ flex:0.85 }}>
+                      <View style={{ flex:0.55 }}>
                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishPOSTMessage1")}{"\n"}</Text>
                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishPOSTMessage2")}</Text>
                       </View>
-                      {/* <View style={{ flex:0.35, alignItems: 'flex-start' }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishPOSTfield1")}</Text>
+                     <View style={{ flex:0.35, marginTop:10 }}>
+                    <Text style={{ color: 'yellow', fontSize: 16}}>{I18n.t("helpPublishPOSTfield1")}</Text>
+                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishPOSTfield2")}</Text>
+                        {/* <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishPOSTfield1")}</Text>
                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishPOSTfield2")}</Text>
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield3")}</Text>
-                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield4")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield4")}</Text> */}
+                      </View> 
+                      {/* <View style={{ flex:0.30, alignItems: "center" }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishPOSTMessage2")}</Text>
                       </View> */}
+                 </View>
+                     }
+
+{ (this.props.qsotype==='FLDDAY') &&
+                 <View style={{ flex:0.9, alignItems: "center" }}>
+                         <View style={{ flex:0.1, alignItems: "center" }}>
+                       <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishFLDDAYtitle")} {"\n"}</Text>
+                       </View> 
+                      <View style={{ flex:0.55 }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishFLDDAYMessage1")}{"\n"}</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishFLDDAYMessage2")}</Text>
+                      </View>
+                      <View style={{ flex:0.35, marginTop:10 }}>
+                        <Text style={{ color: 'yellow', fontSize: 16}}>{I18n.t("helpPublishQAPfield1")}</Text>
+                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishQAPfield2")}</Text>
+                        {/* <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield3")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield4")}</Text> */}
+                      </View> 
+                      {/* <View style={{ flex:0.30, alignItems: "center" }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishPOSTMessage2")}</Text>
+                      </View> */}
+                 </View>
+                     }
+
+{ (this.props.qsotype==='QAP') &&
+                 <View style={{ flex:0.9, alignItems: "center" }}>
+                         <View style={{ flex:0.1, alignItems: "center" }}>
+                       <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishQAPtitle")} {"\n"}</Text>
+                       </View> 
+                      <View style={{ flex:0.55 }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishQAPMessage1")}{"\n"}</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishQAPMessage2")}</Text>
+                      </View>
+                      <View style={{ flex:0.35, marginTop:10 }}>
+                        <Text style={{ color: 'yellow', fontSize: 16}}>{I18n.t("helpPublishQAPfield1")}</Text>
+                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishQAPfield2")}</Text>
+                        {/* <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield3")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishPOSTfield4")}</Text>  */}
+                      </View>
                       {/* <View style={{ flex:0.30, alignItems: "center" }}>
                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishPOSTMessage2")}</Text>
                       </View> */}
@@ -212,10 +256,10 @@ class HelpPublish extends Component {
 
           { (this.props.helptag) &&
                  <View style={{ flex:0.9, alignItems: "center" }}>
-                         <View style={{ flex:0.09, alignItems: "center" }}>
+                         <View style={{ flex:0.2, alignItems: "center" }}>
                        <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishTagtitle")} {"\n"}</Text>
                        </View> 
-                      <View style={{ flex:0.28, alignItems: "center" }}>
+                      <View style={{ flex:0.8 }}>
                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishTagMessage1")}{"\n"}</Text>
                       </View>
                       {/* <View style={{ flex:0.24, alignItems: 'flex-start' }}>
@@ -224,12 +268,12 @@ class HelpPublish extends Component {
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield3")}</Text>
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield4")}</Text>
                       </View> */}
-                      <View style={{ flex:0.63, alignItems: "flex-start" }}>
-                        <Text style={{ color: 'yellow', fontSize: 15}}>{I18n.t("helpPublishTagExample")}</Text>
+                      {/* <View style={{ flex:0.1, alignItems: "flex-start" }}>
+                       <Text style={{ color: 'yellow', fontSize: 15}}>{I18n.t("helpPublishTagExample")}</Text>
                         <Text style={{ color: 'white', fontSize: 15}}>"{I18n.t("helpPublishTagMessage2")}"</Text>
                         <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage3")}<Text style={{ color: 'white', fontSize: 15}}> "{I18n.t("helpPublishTagRePublicar")}".</Text></Text>
-                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage4")}{"\n"}</Text>
-                      </View>
+                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage4")}{"\n"}</Text> 
+                      </View> */}
                  </View>
                      }   
                
