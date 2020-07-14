@@ -6,11 +6,11 @@
   Copyright © 2020 Facebook. All rights reserved.
 */
 "PUSH_FOLLOWSYOU_TITLE" = "%@ comenzó a seguirte";
-"PUSH_FOLLOWSYOU_MESSAGE" = "Mira su perfil";
+"PUSH_FOLLOWSYOU_MESSAGE" = "Mirá su perfil";
 "PUSH_COMMENTEDPARTICPATING_TITLE" = "%@ comentó un QSO que tú participás";
 "PUSH_COMMENTEDPARTICPATING_MESSAGE" =  "%@";
 "PUSH_NEWPOSTANY_TITLE" = "%@ creó una publicación";
-"PUSH_NEWPOSTANY_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_NEWPOSTANY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_TAGYOUNEWPOSTANY_TITLE" = "%@ te etiquetó en su nueva publicación";
 "PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "Mira los detalles aquí";
 "PUSH_WORKEDQSO_TITLE" = "%@ trabajó un QSO";
@@ -26,16 +26,16 @@
 "PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ te etiquetó en su Activación";
 "PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "Mira los detalles aquí";
 "PUSH_NEWQAP_TITLE" = "%@ publicó que esta QAP";
-"PUSH_NEWQAP_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_NEWQAP_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_TAGYOUNEWQAP_TITLE" = "%@ te etiquetó en su publ. QAP";
-"PUSH_TAGYOUNEWQAP_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_TAGYOUNEWQAP_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTQSO_TITLE" = "%@ republicó un QSO";
-"PUSH_REPOSTQSO_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_REPOSTQSO_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTLISTEN_TITLE" = "%@ republicó una escucha";
-"PUSH_REPOSTLISTEN_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_REPOSTLISTEN_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTANY_TITLE" = "%@ republicó una publicación";
-"PUSH_REPOSTANY_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_REPOSTANY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTFLDDAY_TITLE" = "%@ republicó una activación";
-"PUSH_REPOSTFLDDAY_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_REPOSTFLDDAY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTQAP_TITLE" = "%@ republicó un QAP";
-"PUSH_REPOSTQAP_MESSAGE" =  "Mira los detalles aquí";
+"PUSH_REPOSTQAP_MESSAGE" =  "Mirá los detalles aquí";
