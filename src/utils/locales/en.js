@@ -363,7 +363,7 @@ export default {
     ACCESS_TO_CAMERA: 'You do not have access to the Camera',
     ACCESS_TO_MICROPHONE: 'You do not have access to the Microphone',
     PARENTAL_CONTROLS: 'Cause: it is not supported by the device or because it has been blocked by parental controls',
-     
+    QSLSCANQR_FETCHING: 'Loading ...' 
 
 
 

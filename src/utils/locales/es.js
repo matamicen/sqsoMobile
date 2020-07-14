@@ -363,4 +363,5 @@ export default {
     ACCESS_TO_CAMERA: 'Ud. no tiene acceso a la Camara',
     ACCESS_TO_MICROPHONE: 'Ud. no tiene acceso al Microfono',
     PARENTAL_CONTROLS: 'Causa: No es soportado por el dispositivo o fue bloqueado por control parental.',
+    QSLSCANQR_FETCHING: 'Cargando ...'
   };
