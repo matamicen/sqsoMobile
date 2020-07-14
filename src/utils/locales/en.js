@@ -355,6 +355,7 @@ export default {
     STOPAPP_UPGRADEAPPNOW: 'Update now',
     STOPAPP_UPGRADEAPPNOWLATER: 'or you can go to the Store and Upgrade later.',
     STOPAPP_UPGRADEAPPNOWLATER2: 'Thank you & 73!',
+    STOPAPP_UPGRADEAPPEXIT: 'Update later',
     DENIED_ACCESS_1: 'You denied the access to the Camera.',
     TO_AUTHORIZE_2_IOS: 'In order to Authorize choose Open Settings->SuperQSO',
     TO_AUTHORIZE_2_ANDROID: 'In order to Authorize go to settings->Apps->superQso->Permissions',

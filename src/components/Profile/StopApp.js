@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, TextInput, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import I18n from '../../utils/i18n';
+import RNExitApp from 'react-native-exit-app';
 
 
 
@@ -25,6 +26,10 @@ class StopApp extends Component {
     
      
      
+       }
+
+       exitApp = async () => {
+        RNExitApp.exitApp();
        }
 
 
@@ -106,6 +111,11 @@ class StopApp extends Component {
                      </TouchableOpacity> 
 
                      <Text style={{fontSize: 18, marginTop:12, fontWeight: 'bold', color: '#243665', padding: 10}}>{I18n.t("STOPAPP_UPGRADEAPPNOWLATER")}{"\n\n"}{I18n.t("STOPAPP_UPGRADEAPPNOWLATER2")}</Text>
+                    
+                     <TouchableOpacity  style={{ height:50 }}  onPress={() => this.exitApp()}  >
+                     <Text style={{fontSize: 16, marginTop:12, fontWeight: 'bold', color: '#243665', padding: 10}}>{I18n.t("STOPAPP_UPGRADEAPPEXIT")}</Text>
+                   
+                     </TouchableOpacity> 
                      </View>
                      }
 
