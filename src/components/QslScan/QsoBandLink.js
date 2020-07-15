@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setBand, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
-
+import I18n from '../../utils/i18n';
 
 class QsoBandLink extends Component {
 
@@ -32,7 +32,7 @@ class QsoBandLink extends Component {
         return <View>               
                                  
             {/* {(this.props.sqsoqslscanerror===0) && */}
-               <Text style={{ fontSize: 16, color: '#999', marginLeft: 5}}  >Band:
+               <Text style={{ fontSize: 16, color: '#999', marginLeft: 5}}  >{I18n.t("QSLSCANQR_BAND")}
                  <Text style={{ fontSize: 16, color: 'black'}}> {this.props.band} </Text>
               </Text>
             {/* }  */}

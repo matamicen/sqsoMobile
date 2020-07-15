@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, TextInput, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, TextInput, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity, Linking, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import I18n from '../../utils/i18n';
+import RNExitApp from 'react-native-exit-app';
 
 
 
@@ -27,7 +28,44 @@ class StopApp extends Component {
      
        }
 
+       exitApp = async () => {
+        RNExitApp.exitApp();
+       }
 
+
+       gotoMarket = async () => {
+    
+      if (Platform.OS==='android')
+        urlnotif = 'market://details?id=com.sqsomobile'
+      else
+        urlnotif = 'https://apps.apple.com/ar/app/superqso/id1478967853'
+        
+        // 'https://www.superqso.com/';
+        Linking.canOpenURL(urlnotif).then(supported => {
+          if (!supported) {
+            console.log('Can\'t handle url: ' + urlnotif);
+          } else {
+            // if(__DEV__)
+            //   analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
+            // else
+            //   analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
+          
+    
+            return Linking.openURL(urlnotif);
+          
+          }
+        }).catch(err => {
+                console.error('An error occurred', err)
+                // crashlytics().setUserId(this.props.qra);
+                // crashlytics().log('error: ' + JSON.stringify(err)) ;
+                // if(__DEV__)
+                // crashlytics().recordError(new Error('Linking.latestposts_DEV'));
+                // else
+                // crashlytics().recordError(new Error('Linking.latestposts_PRD'));
+      
+      
+              });
+            }
 
 
 
@@ -64,7 +102,21 @@ class StopApp extends Component {
 
 
                      {(this.props.appNeedUpgrade) &&
-                     <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 20, padding: 10 }}>{this.props.upgradeText.split('<br/>').join('\n') }</Text> 
+                     <View>
+                     <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 18, padding: 10 }}>{this.props.upgradeText.split('<br/>').join('\n') }</Text> 
+                    
+                     <TouchableOpacity  style={{ height:50 }}  onPress={() => this.gotoMarket()}  >
+                     <Text style={{fontSize: 20, marginTop:12, fontWeight: 'bold', color: '#243665', padding: 10}}>{I18n.t("STOPAPP_UPGRADEAPPNOW")}</Text>
+                   
+                     </TouchableOpacity> 
+
+                     <Text style={{fontSize: 18, marginTop:12, fontWeight: 'bold', color: '#243665', padding: 10}}>{I18n.t("STOPAPP_UPGRADEAPPNOWLATER")}{"\n\n"}{I18n.t("STOPAPP_UPGRADEAPPNOWLATER2")}</Text>
+                    
+                     <TouchableOpacity  style={{ height:50 }}  onPress={() => this.exitApp()}  >
+                     <Text style={{fontSize: 16, marginTop:12, fontWeight: 'bold', color: '#243665', padding: 10}}>{I18n.t("STOPAPP_UPGRADEAPPEXIT")}</Text>
+                   
+                     </TouchableOpacity> 
+                     </View>
                      }
 
                       {(this.props.pushTokenNotFound) &&

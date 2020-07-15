@@ -192,6 +192,7 @@ class QsoMode extends Component {
                     title: 'EME',
                     value: 'EME'
                 }
+            
                ]
               
 

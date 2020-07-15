@@ -6,6 +6,7 @@ import Carousel from 'react-native-snap-carousel';
 import {
     devuelveSoloUnType
   } from "../../helper";
+  import I18n from '../../utils/i18n';
 
 
 const horizontalMargin = 5;
@@ -79,7 +80,7 @@ class ImageCarousel extends Component {
           
         return (
           <View>
-            <Text style={{color:"grey" }}> Photos taken by <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
+            <Text style={{color:"grey" }}> {I18n.t("QSLSCANQR_PHOTOSTAKEN")} <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
           
           <Carousel
             ref={(c) => { this._carousel = c; }}
