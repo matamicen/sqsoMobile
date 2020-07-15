@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setMode, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
+import I18n from '../../utils/i18n';
 
 class QsoModeLink extends Component {
 
@@ -26,7 +27,7 @@ class QsoModeLink extends Component {
         return <View >               
                                  
          {/* {(this.props.sqsoqslscanerror===0) && */}
-               <Text style={{ fontSize: 16, color: '#999'}}> Mode:
+               <Text style={{ fontSize: 16, color: '#999'}}> {I18n.t("QSLSCANQR_MODE")}
                <Text style={{ fontSize: 16, color: 'black'}}> {this.props.mode} </Text>
                
                </Text>

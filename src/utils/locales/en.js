@@ -58,6 +58,7 @@ export default {
     variosModWelc3After: "After the 3 month you can continue using SuperQSO with the FREE subscription.",
     variosModWelOKButton: "OK",
     variosModNointernet: "There is no Internet connection.",
+    variosModNovideomp4: "Sorry, you can not upload videos at this moment, we will let you know asap when this feature in enable.",
     variosModNointernetOKButton: "OK",
     variosModprevideoRewFreeUser: "Free User",
     variosModprevideoRewHaveToWatchLink: "You have to watch a video reward to link these Qsos.",
@@ -350,7 +351,11 @@ export default {
     STOPAPP_APOLOGIZE: 'Apologize. SuperQSO.',
     STOPAPP_CHANGEPASSWORD: 'Sorry, you have to change your password in order to use SuperQSO APP, please change your password in www.superqso.com',
     STOPAPP_THENTRY: 'Then try login again with the App.',
-    STOPAPP_UPGRADE: 'We have built new features in order to improve the user experience and we need to upgrade the APP.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Thank you & 73!',
+    STOPAPP_UPGRADE: 'We have built new features in order to improve the user experience and we need to upgrade the APP.',
+    STOPAPP_UPGRADEAPPNOW: 'Update now',
+    STOPAPP_UPGRADEAPPNOWLATER: 'or you can go to the Store and Upgrade later.',
+    STOPAPP_UPGRADEAPPNOWLATER2: 'Thank you & 73!',
+    STOPAPP_UPGRADEAPPEXIT: 'Update later',
     DENIED_ACCESS_1: 'You denied the access to the Camera.',
     TO_AUTHORIZE_2_IOS: 'In order to Authorize choose Open Settings->SuperQSO',
     TO_AUTHORIZE_2_ANDROID: 'In order to Authorize go to settings->Apps->superQso->Permissions',
@@ -358,9 +363,14 @@ export default {
     ACCESS_TO_CAMERA: 'You do not have access to the Camera',
     ACCESS_TO_MICROPHONE: 'You do not have access to the Microphone',
     PARENTAL_CONTROLS: 'Cause: it is not supported by the device or because it has been blocked by parental controls',
-     
-
-
-
-
+    QSLSCANQR_FETCHING: 'Loading ...' ,
+    QSLSCANQR_DOESNTEXISTS: 'Sorry, we can not find the scanned Qsl card.',
+    QSLSCANQR_MODE: 'Mode:',
+    QSLSCANQR_BAND: 'Band:',
+    QSLSCANQR_DATE: 'Date:',
+    QSLSCANQR_PHOTOSTAKEN: 'Photos taken by',
+    QSLSCANQR_AUDIOSTAKEN: 'Audios recorded by:',
+    QSLSCANQR_HAMSLIKETHIS: 'These HAMs like this',
+    QSLSCANQR_LIKES: 'Likes',
+    QSLSCANQR_COMMENTS: 'Comments',
   };

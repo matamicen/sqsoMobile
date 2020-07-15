@@ -2537,7 +2537,7 @@ export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
                     //  "datetime": respuesta.body.message.datetime, "error": 1, message: "Sorry, the scanned Qso doesn't exist." }
 
                     // dispatch(updateLinkQso(qsolink,'mainQsoLink'));
-                    jsonError = {code: 1, message: "Sorry, the scanned Qso doesn't exist."}
+                    jsonError = {code: 1, message: I18n.t("QSLSCANQR_DOESNTEXISTS")}
                     dispatch(updateLinkQso(jsonError,'linkQsoError'));
                   }
 

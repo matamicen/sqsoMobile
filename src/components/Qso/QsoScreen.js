@@ -134,6 +134,7 @@ class QsoScreen extends Component {
       actindicatorpostQsoNew: false,
       modalRecording: false,
       nointernet: false,
+      novideomp4: false,
     //  notvideorewarded: false,
     //  prevideorewarded: false,
       showIntersitial: false,
@@ -733,10 +734,11 @@ class QsoScreen extends Component {
     // 1: el picker envio a background la primera vez
     // 2: el picker envio a background la segunda vez
 
+    console.log('tomo imagen de galeria');
     this.props.manageLocationPermissions("photofromgallery", 1);
 
 
-console.log('tomo imagen de galeria');
+
 // openCamera
      ImagePicker.openPicker({
    //   ImagePicker.openCamera({
@@ -752,7 +754,12 @@ console.log('tomo imagen de galeria');
       // height: (Platform.OS==='ios') ? 2200: 2200,
     }).then(image => {
       console.log(image);
+      console.log('nombre del archivo: '+image)
+      console.log(JSON.stringify(image));
 
+      // image/jpeg video/mp4
+      if (image.mime !== 'video/mp4') 
+    {
       // data.uri = image.path;
       // console.log('uri de foto: '+ data.uri);
 
@@ -806,7 +813,11 @@ console.log('tomo imagen de galeria');
   
     console.log('este debe aparecer primero');
    
-
+  }
+  else{
+    console.log('Por ahora videos no se puede');
+    this.setState({novideomp4: true})
+  }
 
 
 
@@ -1200,7 +1211,7 @@ console.log('tomo imagen de galeria');
 
   closeVariosModales = (param) => {
   //  this.setState({ nointernet: false, prevideorewarded: false });
-    this.setState({ nointernet: false});
+    this.setState({ nointernet: false, novideomp4: false});
     this.props.welcomeUserFirstTime(false);
     // if (param==='yes')
     // setTimeout(() => {
@@ -1396,6 +1407,8 @@ console.log('tomo imagen de galeria');
             closeInternetModal={this.closeVariosModales.bind()}
           />
       }
+
+
 
         {/* <VariosModales
             show={this.state.notvideorewarded}
@@ -1703,6 +1716,13 @@ console.log('tomo imagen de galeria');
           {(this.state.showIntersitial) && <AdInter newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd}  /> }
           {(this.state.showVideoReward) && <AdVideoReward newqso={this.newqso_after_ad.bind()} subos3={this.subo_s3.bind()} closead={this.closeAd} notrewared={this.not_rewarded.bind()} /> }
           
+          {(this.state.novideomp4) && 
+          <VariosModales
+            show={this.state.novideomp4}
+            modalType="novideomp4"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />
+       }
           {/* {(this.props.welcomeuserfirsttime) && 
             <VariosModales
             show={true}

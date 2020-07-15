@@ -15,6 +15,7 @@ import {
   showVideoReward,
   showIntersitial
   } from "../../helper";
+  import I18n from '../../utils/i18n';
 
 
 class QslScanQR extends Component {
@@ -260,7 +261,7 @@ return   <View style={{flex: 1}}>
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
-                  backgroundColor : 'rgba(0,0,0,0.85)',
+                  backgroundColor : 'rgba(36,54,101,0.97)',
                    marginTop: 210,
                    left: 95,
                    right: 25,
@@ -272,7 +273,7 @@ return   <View style={{flex: 1}}>
                  //  alignItems: 'center',
                    borderRadius: 12                       
                     }}>
-                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>Fetching QSO ...</Text>
+                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>{I18n.t("QSLSCANQR_FETCHING")}</Text>
                    
                   
 

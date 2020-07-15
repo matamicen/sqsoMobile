@@ -297,7 +297,7 @@ return   (this.state.vari) ? <View style={{flex: 1}}>
        <View style={{marginLeft: 30}}>
       
         {(this.props.sqsoqslscanerror===1) &&  
-            <Text style={{color:"grey"}}> Sorry, the scanned Qsl Card doesn't exist.</Text> 
+            <Text style={{color:"grey"}}> {I18n.t("QSLSCANQR_DOESNTEXISTS")}</Text> 
              }
 
         </View>

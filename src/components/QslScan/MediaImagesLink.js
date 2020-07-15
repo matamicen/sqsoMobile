@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
 import Media from './Media';
 import PropTypes from 'prop-types';
+import I18n from '../../utils/i18n';
 
 class MediaImagesLink extends Component {
 
@@ -53,10 +54,10 @@ class MediaImagesLink extends Component {
               
         return( <View style={{ marginTop: 10}} >
               {(this.props.sqsoqslscanerror===0 && this.props.mostrar==='image') &&
-              <Text style={{color:"grey" }}> Photos taken by <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
+              <Text style={{color:"grey" }}> {I18n.t("QSLSCANQR_PHOTOSTAKEN")} <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
             }
             {(this.props.sqsoqslscanerror===0 && this.props.mostrar==='audio') &&
-              <Text style={{color:"grey" }}> Audios recorded by <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
+              <Text style={{color:"grey" }}> {I18n.t("QSLSCANQR_AUDIOSTAKEN")} <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
             }
             
             
