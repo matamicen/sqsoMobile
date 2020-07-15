@@ -3,6 +3,7 @@ import { Text, Image, View, Button, ActivityIndicator, StyleSheet, FlatList  } f
 import { connect } from 'react-redux';
 import QraLike from './QraLike';
 //import PropTypes from 'prop-types';
+import I18n from '../../utils/i18n';
 
 class LikesLink extends Component {
 
@@ -47,10 +48,10 @@ class LikesLink extends Component {
                <View>
               <View style={{flexDirection: 'row'}}>
                     <Image source={require('../../images/like.png')} style={{height:27, width:27}}/> 
-                    <Text style={{fontSize: 19, color:"grey", marginTop: 3  }} > {this.props.likes.length} Likes </Text>
+                    <Text style={{fontSize: 19, color:"grey", marginTop: 3  }} > {this.props.likes.length} {I18n.t("QSLSCANQR_LIKES")} </Text>
                </View > 
                { this.props.likes.length>0 &&
-               <Text style={{color:"grey", marginTop: 10 }}> These HAMs like this {this.props.type} </Text>
+               <Text style={{color:"grey", marginTop: 10 }}> {I18n.t("QSLSCANQR_HAMSLIKETHIS")} {this.props.type} </Text>
                                      }
                </View>
               }

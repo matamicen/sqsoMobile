@@ -363,5 +363,16 @@ export default {
     ACCESS_TO_CAMERA: 'Ud. no tiene acceso a la Camara',
     ACCESS_TO_MICROPHONE: 'Ud. no tiene acceso al Microfono',
     PARENTAL_CONTROLS: 'Causa: No es soportado por el dispositivo o fue bloqueado por control parental.',
-    QSLSCANQR_FETCHING: 'Cargando ...'
+    QSLSCANQR_FETCHING: 'Cargando ...',
+    QSLSCANQR_DOESNTEXISTS: 'Lo sentimos, no podemos encontrar la tarjeta QSL escaneada.',
+    QSLSCANQR_MODE: 'Modo:',
+    QSLSCANQR_BAND: 'Banda:',
+    QSLSCANQR_DATE: 'Fecha:',
+    QSLSCANQR_PHOTOSTAKEN: 'Fotos sacadas por:',
+    QSLSCANQR_AUDIOSTAKEN: 'Audios grabados por:',
+    QSLSCANQR_HAMSLIKETHIS: 'A estos colegas les gustó este',
+    QSLSCANQR_LIKES: 'Me gusta',
+    QSLSCANQR_COMMENTS: 'Comentarios',
+    
+
   };

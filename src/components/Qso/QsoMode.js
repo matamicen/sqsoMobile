@@ -183,6 +183,14 @@ class QsoMode extends Component {
                 {
                     title: 'YSF',
                     value: 'YSF'
+                },
+                {
+                    title: 'SAT',
+                    value: 'SAT'
+                },
+                {
+                    title: 'EME',
+                    value: 'EME'
                 }
             
                ]

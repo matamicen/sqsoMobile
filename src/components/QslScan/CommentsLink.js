@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Comment from './Comment';
 import { getDateQslScan } from '../../helper';
 //import PropTypes from 'prop-types';
+import I18n from '../../utils/i18n';
 
 class CommentsLink extends Component {
 
@@ -54,7 +55,7 @@ class CommentsLink extends Component {
                     { this.props.comments.length>0 &&
                     <View style={{flexDirection: 'row'}}>
                             <Image source={require('../../images/comment.png')} style={{height:23, width:23}}/> 
-                            <Text style={{fontSize: 19, color:"grey"  }} > {this.props.comments.length} Comments </Text>
+                            <Text style={{fontSize: 19, color:"grey"  }} > {this.props.comments.length} {I18n.t("QSLSCANQR_COMMENTS")} </Text>
                     </View > }
               
                </View>

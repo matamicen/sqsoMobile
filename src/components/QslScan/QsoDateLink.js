@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setMode, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
+import I18n from '../../utils/i18n';
 
 class QsoDateLink extends Component {
 
@@ -28,7 +29,7 @@ class QsoDateLink extends Component {
         return <View >        
 
                  {/* {(this.props.sqsoqslscanerror===0) && */}
-               <Text style={{ fontSize: 16, color: '#999'}}>Date:
+               <Text style={{ fontSize: 16, color: '#999'}}>{I18n.t("QSLSCANQR_DATE")}
                <Text style={{ fontSize: 16, color: 'black'}}>  {this.props.datetime.substr(0,12)} </Text>
                
                </Text>

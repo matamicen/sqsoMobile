@@ -363,9 +363,14 @@ export default {
     ACCESS_TO_CAMERA: 'You do not have access to the Camera',
     ACCESS_TO_MICROPHONE: 'You do not have access to the Microphone',
     PARENTAL_CONTROLS: 'Cause: it is not supported by the device or because it has been blocked by parental controls',
-    QSLSCANQR_FETCHING: 'Loading ...' 
-
-
-
-
+    QSLSCANQR_FETCHING: 'Loading ...' ,
+    QSLSCANQR_DOESNTEXISTS: 'Sorry, we can not find the scanned Qsl card.',
+    QSLSCANQR_MODE: 'Mode:',
+    QSLSCANQR_BAND: 'Band:',
+    QSLSCANQR_DATE: 'Date:',
+    QSLSCANQR_PHOTOSTAKEN: 'Photos taken by',
+    QSLSCANQR_AUDIOSTAKEN: 'Audios recorded by:',
+    QSLSCANQR_HAMSLIKETHIS: 'These HAMs like this',
+    QSLSCANQR_LIKES: 'Likes',
+    QSLSCANQR_COMMENTS: 'Comments',
   };
