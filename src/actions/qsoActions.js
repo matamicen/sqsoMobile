@@ -1175,8 +1175,15 @@ export const postSetProfilePic = (url,urlNSFWavatar, filename2, jwtToken) => {
 
         // dispatch(manage_notifications('ADD',respuesta.body.message));
         var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+        if (ultimaFechaDeIngreso===null)
+        {
+          formateo = new Date();
+          AsyncStorage.setItem('ultimafecha', formateo.toString());
+        }
+        else
         formateo = new Date(ultimaFechaDeIngreso);
-        console.log('ultimafecha: '+ formateo);
+
+        console.log('ultimafecha getnotifications: '+ formateo);
         dispatch(manage_notifications('CALCULOUNREAD',respuesta.body.message,formateo));
 
 
@@ -2231,8 +2238,16 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
             dispatch(profilePictureRefresh(avatar_profile));
             // dispatch(manage_notifications('ADD',respuesta.body.message.notifications));
             var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
-            formateo = new Date(ultimaFechaDeIngreso);
-            console.log('ultimafecha: '+ formateo);
+            console.log('ultimaFechaDeIngreso log: '+ultimaFechaDeIngreso)
+            if (ultimaFechaDeIngreso===null)
+             { formateo = new Date();
+              AsyncStorage.setItem('ultimafecha', formateo.toString());
+            }
+              else
+             formateo = new Date(ultimaFechaDeIngreso);
+            // formateo2 = new Date(respuesta.body.message.qra.last_login);
+            console.log('ultimafecha getuserInfo: '+ formateo);
+            // console.log('ultimafecha getuserInfo lastLogin: '+ formateo2);
             dispatch(manage_notifications('CALCULOUNREAD',respuesta.body.message.notifications,formateo));
       }
        

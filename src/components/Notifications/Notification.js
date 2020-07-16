@@ -66,6 +66,7 @@ class Notification extends Component {
     console.log('PRESS NOTIF!');
     today = new Date();
     var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+    console.log('fecha guardada: '+ultimaFechaDeIngreso);
     formateo = new Date(ultimaFechaDeIngreso);
     // le envio la fecha del storage antes de grabar la nueva fecha justamente para que la primera vez que pulse NOTIFICACIONES
     // le siga mostrando en GRIS las nuevas notificaciones, ya si apreta la segunda vez se le va el grisado.
