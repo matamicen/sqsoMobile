@@ -751,6 +751,7 @@
 				CURRENT_PROJECT_VERSION = 42;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = sqsoMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.2;
@@ -761,7 +762,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -778,6 +779,7 @@
 				CURRENT_PROJECT_VERSION = 42;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = sqsoMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.2;
@@ -788,7 +790,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

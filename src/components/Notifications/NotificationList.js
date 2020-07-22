@@ -47,7 +47,8 @@ class NotificationList extends Component {
        <View style={{marginLeft: 0 }}>
        <NotifItem  message={message} url={url} read={read} avatar_pic={qra_avatarpic} idqra_notifications={idqra_notifications}
         idqra_activity={idqra_activity} QSO_GUID={QSO_GUID} QRA={QRA} activity_type={activity_type} 
-        datetimecomment={DATETIME} comment={comment} mode={mode} band={band} utc={UTC} qsotype={qso_type} refqra={REF_QRA}/>
+        datetimecomment={DATETIME} comment={comment} mode={mode} band={band} utc={UTC} qsotype={qso_type} refqra={REF_QRA}
+        navigation={this.props.navigation} />
        
         {/* <Text style={{ color: 'orange', fontSize: 17}}>id notif: {idqra_notifications} </Text> */}
         </View>

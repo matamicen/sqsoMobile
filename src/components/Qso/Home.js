@@ -20,6 +20,9 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import I18n from '../../utils/i18n';
 import global_config from '../../global_config.json';
+import { WebView } from 'react-native-webview';
+import Toast from 'react-native-root-toast';
+import { Auth } from 'aws-amplify';
 
 
 class Home extends Component {
@@ -50,15 +53,69 @@ class Home extends Component {
   constructor(props) {
     super(props);
     
+     this.urlWebView = '';
+     this.session = '';
+   
 
     this.state = {
  
       nointernet: false,
+      urlWebView : ''
      
       
     };
   }
 
+  componentDidMount = async () => {
+  
+
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
+    // this.props.navigation.setParams({
+    //     tapOnTabNavigator: this.tapOnTabNavigator
+    //   })
+
+
+
+    // session = await Auth.currentSession();
+    // this.session = JSON.stringify(session);
+    // console.log("Su token session home: " + session.idToken.jwtToken);
+    // console.log('session home: '+session);
+    // setTimeout(
+    // () => this.webView.postMessage(JSON.stringify(session)),
+    // 2000);
+
+  
+  }
+
+  onScreenFocus = async () => {
+    // Screen was focused, our on focus logic goes here
+    console.log('HOME en FOCUS!')
+    session = await Auth.currentSession();
+    console.log("Su token session home: " + session.idToken.jwtToken);
+    console.log('session home: '+session);
+    aux = 'https://test.dd39wvlkuxk5j.amplifyapp.com/?'+ JSON.stringify(new Date());
+    console.log('aux OnScreenFocus: '+aux)
+    this.setState({urlWebView: aux})
+    // setTimeout(
+    // () => {
+   
+    //   this.webView.postMessage(JSON.stringify(session))
+      
+    // },
+    // 5000);
+    this.session = JSON.stringify(session);
+
+  }
+  tapOnTabNavigator = async () => {
+    // console.log('PRESS HOME!');
+    // session = await Auth.currentSession();
+    // console.log("Su token session home: " + session.idToken.jwtToken);
+    // console.log('session home: '+session);
+    // setTimeout(
+    // () => this.webView.postMessage(JSON.stringify(session)),
+    // 3000);
+    
+  }
 
   navigate = () => {
     const navigateToScreen2 = NavigationActions.navigate({
@@ -306,16 +363,104 @@ checkInternetScanQR = async (param) => {
           });
         }
 
+        toast = async (message, timer) =>{
+
+
+          // Add a Toast on screen.
+          let toast = Toast.show(message, {
+           duration: Toast.durations.LONG,
+           position: Toast.positions.CENTER,
+           shadow: true,
+           animation: true,
+           hideOnPress: true,
+           delay: 0,
+           onShow: () => {
+               // calls on toast\`s appear animation start
+           },
+           onShown: () => {
+               // calls on toast\`s appear animation end.
+           },
+           onHide: () => {
+               // calls on toast\`s hide animation start.
+           },
+           onHidden: () => {
+               // calls on toast\`s hide animation end.
+           }
+         });
+     
+              // Toast.hide(toast);
+                   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+                   setTimeout(function () {
+                     Toast.hide(toast);
+                   }, timer);
+     
+       }
+
 
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
+const { params } = this.props.navigation.state;
+  // this.urlWebView = params ? params.url : 'http://192.168.0.9:3000';
+  aux = 'https://test.dd39wvlkuxk5j.amplifyapp.com/?'+ JSON.stringify(new Date());
+  console.log('aux: '+aux)
+  console.log('params:'+ params)
+ 
+ this.urlWebView = params ? params.url : aux;
+console.log('urlhome:'+ this.urlWebView);
+// this.toast('Cargando Publicaciones...',5000);
+
+
 
 
 return   <View style={{flex: 1}}>
 
 {/* <View style={{flex: 0.4, flexDirection: 'column', alignItems: 'flex-end'}}>    
 </View> */}
+
+    {(1===1) ?
+
+    <WebView
+        source={{ uri: params ? params.url : this.props.webviewurl }}
+        ref={(view) => this.webView = view}
+        style={{ marginTop: 0 }}
+        automaticallyAdjustContentInsets={false}
+         domStorageEnabled={true}
+         javaScriptEnabled={true}
+        //  onNavigationStateChange={this.onNavigationStateChange.bind(this)}
+        //  originWhitelist={['*']}
+        //  ref={this.WEBVIEW_REF}
+        //  source={{uri: 'https://www.***.com/'}}
+        mediaPlaybackRequiresUserAction={false} // para que ande el play automatico del audio
+        startInLoadingState={true}
+        cacheEnabled = {true}
    
+          onLoadStart={syntheticEvent  => {
+            // update component to be aware of loading statuss
+            const { nativeEvent } = syntheticEvent;
+            console.log('webview comenzo a cargar')
+ 
+            console.log('webviewUrl: '+this.props.webviewurl)
+            console.log('webviewSession: '+this.props.webviewsession)
+
+   
+            this.webView.postMessage(this.props.webviewsession)
+          }}
+ 
+
+          // onLoadEnd={syntheticEvent => {
+          //   // update component to be aware of loading status
+          //   const { nativeEvent } = syntheticEvent;
+          //   // console.log('webview finalizo carga')
+          // }}
+
+          onError={syntheticEvent => {
+            const { nativeEvent } = syntheticEvent;
+            console.warn('WebView error: ', nativeEvent);
+          }}
+      />
+
+
+   :
    <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>    
 
 
@@ -428,10 +573,13 @@ resizeMode="contain" />
 {/* </View> */}
 
 </View>
+}
        
        {(this.state.nointernet) && 
         <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
     }
+
+  
 
     </View>
 
@@ -492,7 +640,9 @@ const styles = StyleSheet.create({
         sqsoqslscan: state.sqso.currentQso.qslscan.body.message,
       //  sqsoqslscanbody: state.sqso.currentQso.qslscan.body,
         sqsoqslscanerror: state.sqso.currentQso.qslscan.body.error,
-        qra: state.sqso.qra
+        qra: state.sqso.qra,
+        webviewurl: state.sqso.webviewUrl,
+        webviewsession: state.sqso.webviewSession
         
      };
 };

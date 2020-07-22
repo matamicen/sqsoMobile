@@ -10,7 +10,7 @@ import Amplify from 'aws-amplify';
 import AmplifyAuthStorage from '../../AsyncStorage';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
-  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions, welcomeUserFirstTime} from '../../actions';
+  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions, welcomeUserFirstTime, setWebView} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -180,7 +180,8 @@ constructor(props) {
 
         try {
           console.log('paso por ANDROID')
-        
+       if(notification.userInteraction===false)
+       { 
               let bodyJson = JSON.parse(notification.data.Data);
                
        
@@ -218,7 +219,7 @@ constructor(props) {
             // genero la notificaion local porque la libreria no lo hace para Android
             PushNotification.localNotification({
               //     id: notification.id,
-              userInfo: { id: notification.id },
+              userInfo: { id: notification.id, url: bodyJson.URL },
               // title: notification.data['pinpoint.notification.title'],
               // message: notification.data['pinpoint.notification.body'],
               title: mensajes.pushTitle,
@@ -234,6 +235,8 @@ constructor(props) {
                   });
                 // PushNotification.setApplicationIconBadgeNumber(25);
        }
+
+  
 
 // solo avisa en foreground cuando alguien loguea al usuario en un QSO o LISTEN que son los mas 
 // importante ya que puede saberlo en REAL TIME y agradecer por RADIO durante ese mismo QSO!
@@ -262,12 +265,20 @@ constructor(props) {
           );
         }
 
+
+
+      }  // Fin Id de si no es userInteraction
+
        // es por hizo click en la notificacion
        if (notification.userInteraction)
-       {
+       {  console.log('user interaction es true!')
             //  this.props.manage_notifications('ADDONE',envioNotif);
-             this.props.navigation.navigate("Notifications");
-             console.log('user interaction es true!')
+            //  this.props.navigation.navigate("Notifications");
+             this.props.navigation.navigate('Home', {
+              url: notification.userInfo.url
+              
+            });
+           
 
             }
 
@@ -505,6 +516,7 @@ if (this.debeHacerUpgrade===false)
       console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
       await this.props.setToken(session.idToken.jwtToken);
     //console.log("currentAuthenticatedUser:"+ JSON.stringify(session));
+      await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')
 
      // console.log('Antes d Auth.currentCredentials() ');
       // const { identityId } = await Auth.currentCredentials();
@@ -532,8 +544,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-       if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-      //  if (1===2)
+      //  if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+       if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -1279,7 +1291,8 @@ const mapDispatchToProps = {
     confirmReceiptiOS,
     setSubscriptionInfo,
     manageLocationPermissions,
-    welcomeUserFirstTime
+    welcomeUserFirstTime,
+    setWebView
     
    }
 

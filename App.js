@@ -52,7 +52,7 @@ PushNotification.configure({
 
       PushNotification.localNotification({
         //     id: notification.id,
-        userInfo: { id: notification.id },
+        userInfo: { id: notification.id,  url: 'https://www.superqso.com/qso/7c4ace43-4e19-41d9-a248-5b2b451efd60' },
         // title: notification.data['pinpoint.notification.title'],
         // message: notification.data['pinpoint.notification.body'],
         title: mensajes.pushTitle,

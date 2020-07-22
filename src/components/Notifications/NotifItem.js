@@ -8,6 +8,7 @@ import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { getDateQslScan } from '../../helper';
+import { NavigationActions } from 'react-navigation';
 // import moment from "moment";
 import MomentAgo from './MomentAgo';
 import I18n from '../../utils/i18n';
@@ -48,6 +49,13 @@ class NotifItem extends Component {
       //     ago: moment(this.props.datetimecomment).fromNow()
       //   });
       // }
+
+      onPressItem2 = (idqra_notifications, urlnotif) => {
+        this.props.navigation.navigate('Home', {
+          url: urlnotif
+          
+        });
+      }
   
       onPressItem = (idqra_notifications, urlnotif) => {
        console.log('presiono notif:' + idqra_notifications+ ' URL:' + urlnotif ) ;
@@ -130,7 +138,7 @@ if (urlnotif!=null)
 
                 <View style={{flex: 0.23, marginLeft: 6}}>
                  {this.props.avatar_pic!==null ?
-                  <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                  <TouchableOpacity onPress={() => this.onPressItem2(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                        <Image
                     style={styles.faceImageStyle}
                     resizeMethod="resize"
@@ -139,7 +147,7 @@ if (urlnotif!=null)
                   </TouchableOpacity>
 
                       :
-                      <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                      <TouchableOpacity onPress={() => this.onPressItem2(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                       <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle} resizeMethod="resize" /> 
                       </TouchableOpacity>
                       }
@@ -159,7 +167,7 @@ if (urlnotif!=null)
 
                     <View  style={{flex: 0.60 }}>
 
-                    <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                    <TouchableOpacity onPress={() => this.onPressItem2(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                      
                         {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para
                         que el CLICK sobre lo vacio haga click y tenga efecto

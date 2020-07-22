@@ -106,7 +106,7 @@ return   <View style={{flex: 1}}>
        <View style={{flex: 0.94,  marginBottom: 5}}>
        
      
-       <NotificationList />
+       <NotificationList  navigation={this.props.navigation} />
       
        </View>
       
