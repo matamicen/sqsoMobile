@@ -541,11 +541,11 @@ return   <View style={{flex: 1}}>
   //  this.webView.postMessage(JSON.stringify(this.props.webviewsession));
         setTimeout(
           () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
-        100);
-          if (Platform.OS==='ios')
-          setTimeout(
-            () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
-          3000);
+        2000);
+          // if (Platform.OS==='ios')
+          // setTimeout(
+          //   () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
+          // 3000);
  
   
    
@@ -622,11 +622,11 @@ return   <View style={{flex: 1}}>
 
             // ios necesita 100 de timeout minimo (android no necesita)
             // estos dos andan
-   if (Platform.OS==='android')
-  //  this.webView.postMessage(JSON.stringify(this.props.webviewsession));
-        setTimeout(
-          () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
-        100);
+  //  if (Platform.OS==='android')
+ 
+  //       setTimeout(
+  //         () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
+  //       100);
           if (Platform.OS==='ios')
           setTimeout(
             () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),

@@ -245,7 +245,7 @@ class AddCallSigns extends Component {
                     </View>
                     <View style={{ flex:0.4, flexDirection: 'row', marginTop:9 }}>
                     <View style={{ flex:0.27,alignItems: 'flex-end' }}>
-                    <Text style={{ color: '#c0c0c0', fontSize: 17, fontWeight: 'bold', marginTop: 9}}>{I18n.t("AddCallSignsCallsign")} </Text>
+                    <Text style={{ color: '#c0c0c0', fontSize: 15, fontWeight: 'bold', marginTop: 2}}>{I18n.t("AddCallSignsCallsign")} </Text>
                     </View>
                     <View style={{ flex:0.47, alignItems: 'flex-start'}}> 
                                 <TextInput 

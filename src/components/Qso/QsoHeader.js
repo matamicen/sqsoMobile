@@ -155,6 +155,9 @@ class QsoHeader extends Component {
                                      {(this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY') &&
                                   <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderHelpTag")}</Text>
                                   }
+                                        {(this.props.qsotype==='QSO' || this.props.qsotype==='LISTEN') &&
+                                  <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderSdTag")}</Text>
+                                  }
                                   </TouchableOpacity>
                }
                </View>
@@ -191,7 +194,7 @@ class QsoHeader extends Component {
                   <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype={this.props.qsotype} hrlptag={false}/>
                 } 
     {(this.state.helpTag) &&
-                  <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype="" helptag={true} />
+                  <HelpPublish   closeHelp={this.CloseHelpPublish.bind()} qsotype="" helptag={true} helptype={this.props.qsotype}/>
                 } 
                 
             </View>
