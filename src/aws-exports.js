@@ -13,6 +13,16 @@ const config = {
   //   mandatorySignIn: false,
   //   aws_mandatory_sign_in: "enable",
   //   bucket: "sqso"
+  mandatorySignIn: false,
+  aws_mandatory_sign_in: 'enable',
+  bucket: 'sqso',
+ 
+  cookieStorage: {
+    domain: 'localhost',
+    secure: false,
+    path: '/',
+    expires: 365
+  }
   },
   
   // API: {
@@ -43,6 +53,7 @@ const config = {
   // bucket: 'sqsovpcrds-sqsobucket-12jwrpncf5o8h', // REQUIRED -  Amazon S3 bucket    region: "us-east-1", //OPTIONAL -  Amazon service region
     // identityPoolId: "us-east-1:800789c1-c80d-4041-a395-b96f8c520a08"
     // identityPoolId: 'us-east-1:2cf52faa-ca6d-41a5-9bd0-70d7a57f025a',
+    region: 'us-east-1', // OPTIONAL -  Amazon service region
     identityPoolId: 'us-east-1:daa39e2c-c363-4b97-91a9-de1ae54c7590'
   }
   // Analytics: {

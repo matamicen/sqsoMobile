@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
 // import QsoHeaderLink from './QsoHeaderLink';
-import { getQslScan, updateLinkQso } from '../../actions';
+import { getQslScan, updateLinkQso, manage_notifications } from '../../actions';
 // import MediaImages from './MediaImages';
 // import MediaImagesLink from './MediaImagesLink';
 // import Likes from './Likes';
@@ -67,7 +67,13 @@ class Home extends Component {
   }
 
   componentDidMount = async () => {
-  
+    // if (Platform.OS==='ios')
+ 
+    // setTimeout(
+    //   () => this.handleInjectJavascript(this.props.webviewsession),
+    // 20000);
+
+
 
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
     // this.props.navigation.setParams({
@@ -83,27 +89,30 @@ class Home extends Component {
     // setTimeout(
     // () => this.webView.postMessage(JSON.stringify(session)),
     // 2000);
-
-  
+    
+    //  setTimeout(
+    // () => this.webView.postMessage(this.props.webviewsession),
+    // 3000);
+   
   }
 
   onScreenFocus = async () => {
     // Screen was focused, our on focus logic goes here
     console.log('HOME en FOCUS!')
-    session = await Auth.currentSession();
-    console.log("Su token session home: " + session.idToken.jwtToken);
-    console.log('session home: '+session);
-    aux = 'https://test.dd39wvlkuxk5j.amplifyapp.com/?'+ JSON.stringify(new Date());
-    console.log('aux OnScreenFocus: '+aux)
-    this.setState({urlWebView: aux})
-    // setTimeout(
-    // () => {
+    // session = await Auth.currentSession();
+    // console.log("Su token session home: " + session.idToken.jwtToken);
+    // console.log('session home: '+session);
+    // aux = 'https://test.dd39wvlkuxk5j.amplifyapp.com/?'+ JSON.stringify(new Date());
+    // console.log('aux OnScreenFocus: '+aux)
+    // this.setState({urlWebView: aux})
+    // // setTimeout(
+    // // () => {
    
-    //   this.webView.postMessage(JSON.stringify(session))
+    // //   this.webView.postMessage(JSON.stringify(session))
       
-    // },
-    // 5000);
-    this.session = JSON.stringify(session);
+    // // },
+    // // 5000);
+    // this.session = JSON.stringify(session);
 
   }
   tapOnTabNavigator = async () => {
@@ -396,18 +405,34 @@ checkInternetScanQR = async (param) => {
      
        }
 
-
+     //  setTimeout(() => {
+         // }, 250);
+         // void(0);
+// es solo para pasar token a webview en IOS esta funcion
+//  window.WebViewBridge.onMessage(${JSON.stringify(data)});
+     handleInjectJavascript = (data) => {
+      const injectJavascriptStr =  `(function() {
+        setTimeout(() => {
+         window.WebViewBridge.onMessage(${JSON.stringify(data)});
+        
+         
+        }, 100);
+      })()`;
+      if(this.webView) {
+        this.webView.injectJavaScript(injectJavascriptStr)
+      }
+    }
    
-render() { console.log("RENDER QSL SCAN SCREEN!" );
-const { params } = this.props.navigation.state;
-  // this.urlWebView = params ? params.url : 'http://192.168.0.9:3000';
-  aux = 'https://test.dd39wvlkuxk5j.amplifyapp.com/?'+ JSON.stringify(new Date());
-  console.log('aux: '+aux)
-  console.log('params:'+ params)
+render() { console.log("RENDER Home SCAN SCREEN!" );
+// const { params } = this.props.navigation.state;
+//   // this.urlWebView = params ? params.url : 'http://192.168.0.9:3000';
+//   aux = 'https://test.dd39wvlkuxk5j.amplifyapp.com/?'+ JSON.stringify(new Date());
+//   console.log('aux: '+aux)
+//   console.log('params:'+ params)
  
- this.urlWebView = params ? params.url : aux;
-console.log('urlhome:'+ this.urlWebView);
-// this.toast('Cargando Publicaciones...',5000);
+//  this.urlWebView = params ? params.url : aux;
+// console.log('urlhome:'+ this.urlWebView);
+ // this.toast('Cargando Publicaciones...',5000);
 
 
 
@@ -419,8 +444,11 @@ return   <View style={{flex: 1}}>
 
     {(1===1) ?
 
+(Platform.OS==='android') ?
     <WebView
-        source={{ uri: params ? params.url : this.props.webviewurl }}
+        source={{ uri: this.props.webviewurl }}
+        // source={{ uri: 'http://192.168.0.9:3000' }}
+        // source={{ uri: params ? params.url : 'http://192.168.0.9:3000' }}
         ref={(view) => this.webView = view}
         style={{ marginTop: 0 }}
         automaticallyAdjustContentInsets={false}
@@ -430,28 +458,184 @@ return   <View style={{flex: 1}}>
         //  originWhitelist={['*']}
         //  ref={this.WEBVIEW_REF}
         //  source={{uri: 'https://www.***.com/'}}
+
+
+        onShouldStartLoadWithRequest={(event) => {
+
+          // termine usando este evento para no usar this.webView.stopLoading(); en el evento onNavigationStateChange
+          // que hacia que me freeze la webview cuando volvia de twitter
+        
+          console.log('event url:'+ event.url)
+          auxurl = event.url.substring(0, 27);
+          console.log('event auxurl:'+ auxurl)
+
+          // if (event.url !== this.props.webviewurl) {
+          // porque si hace click en un avatar evito abrir LinkURL y se queda en webview.
+          if  ((auxurl.indexOf("test.") !== -1) || (auxurl.indexOf("superqso.") !== -1))
+          { console.log('es test o superqso.com')
+          return true;
+
+          }else
+          {
+          // this.webView.stopLoading();
+         
+          // este flag es para que cuando regrese de background luego de un share no traiga notificactions de vuelta.
+          // this.props.manage_notifications("NOTIF_BACKGROUND_TRUE", "",'');  no llama al flag cuando comaprte wsapp
+          this.props.manage_notifications("NOTIF_BACKGROUND_TRUE", "",'');
+            Linking.openURL(event.url);
+            return false;
+
+      }
+        
+        
+        }}
+
+
+    //     onNavigationStateChange={(event)  => {
+  
+    //       console.log('event url:'+ event.url)
+    //       auxurl = event.url.substring(0, 27);
+    //       console.log('event auxurl:'+ auxurl)
+
+    //       // if (event.url !== this.props.webviewurl) {
+    //       // porque si hace click en un avatar evito abrir LinkURL y se queda en webview.
+    //       if  ((auxurl.indexOf("test.") !== -1) || (auxurl.indexOf("superqso.") !== -1))
+    //       { console.log('es test o superqso.com')
+
+    //       }else
+    //       {
+    //       this.webView.stopLoading();
+         
+    //       // este flag es para que cuando regrese de background luego de un share no traiga notificactions de vuelta.
+    //       // this.props.manage_notifications("NOTIF_BACKGROUND_TRUE", "",'');  no llama al flag cuando comaprte wsapp
+    //       this.props.manage_notifications("NOTIF_BACKGROUND_TRUE", "",'');
+    //         Linking.openURL(event.url);
+
+    //   }
+
+    // }}
+
         mediaPlaybackRequiresUserAction={false} // para que ande el play automatico del audio
         startInLoadingState={true}
-        cacheEnabled = {true}
+        renderError={errorName => <Error name={errorName} />}
+       
+        // cacheEnabled = {true}
+      //    injectedJavaScript={`(function() {
+      //   setTimeout(() => {
+      //     window.WebViewBridge.onMessage(${this.props.webviewsession});
+          
+      //    }, 100);
+      //  })()`}
    
           onLoadStart={syntheticEvent  => {
             // update component to be aware of loading statuss
             const { nativeEvent } = syntheticEvent;
-            console.log('webview comenzo a cargar')
+            console.log('webview comenzo a cargar 3000 ios')
  
             console.log('webviewUrl: '+this.props.webviewurl)
-            console.log('webviewSession: '+this.props.webviewsession)
+            console.log('webviewSession: '+JSON.stringify(this.props.webviewsession))
 
-   
-            this.webView.postMessage(this.props.webviewsession)
-          }}
+            // ios necesita 100 de timeout minimo (android no necesita)
+            // estos dos andan
+   if (Platform.OS==='android')
+  //  this.webView.postMessage(JSON.stringify(this.props.webviewsession));
+        setTimeout(
+          () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
+        100);
+          if (Platform.OS==='ios')
+          setTimeout(
+            () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
+          3000);
  
+  
+   
+  
+          }}
 
-          // onLoadEnd={syntheticEvent => {
-          //   // update component to be aware of loading status
-          //   const { nativeEvent } = syntheticEvent;
-          //   // console.log('webview finalizo carga')
-          // }}
+
+
+
+          onError={syntheticEvent => {
+            const { nativeEvent } = syntheticEvent;
+            console.warn('WebView error: ', nativeEvent);
+          }}
+      />
+      :
+      // WebView para IOS con  onNavigationStateChange no anda bien el Should por eso se lo deje solo a Android
+<WebView
+        source={{ uri: this.props.webviewurl }}
+        // source={{ uri: 'http://192.168.0.9:3000' }}
+        // source={{ uri: params ? params.url : 'http://192.168.0.9:3000' }}
+        ref={(view) => this.webView = view}
+        style={{ marginTop: 0 }}
+        automaticallyAdjustContentInsets={false}
+         domStorageEnabled={true}
+         javaScriptEnabled={true}
+        //  onNavigationStateChange={this.onNavigationStateChange.bind(this)}
+        //  originWhitelist={['*']}
+        //  ref={this.WEBVIEW_REF}
+        //  source={{uri: 'https://www.***.com/'}}
+
+        onNavigationStateChange={(event)  => {
+  
+          console.log('event url:'+ event.url)
+          auxurl = event.url.substring(0, 27);
+          console.log('event auxurl:'+ auxurl)
+
+          // if (event.url !== this.props.webviewurl) {
+          // porque si hace click en un avatar evito abrir LinkURL y se queda en webview.
+          if  ((auxurl.indexOf("test.") !== -1) || (auxurl.indexOf("superqso.") !== -1))
+          { console.log('es test o superqso.com')
+
+          }else
+          {
+          this.webView.stopLoading();
+         
+          // este flag es para que cuando regrese de background luego de un share no traiga notificactions de vuelta.
+          // this.props.manage_notifications("NOTIF_BACKGROUND_TRUE", "",'');  no llama al flag cuando comaprte wsapp
+          this.props.manage_notifications("NOTIF_BACKGROUND_TRUE", "",'');
+            Linking.openURL(event.url);
+
+      }
+
+    }}
+
+        mediaPlaybackRequiresUserAction={false} // para que ande el play automatico del audio
+        startInLoadingState={true}
+        renderError={errorName => <Error name={errorName} />}
+       
+        // cacheEnabled = {true}
+      //    injectedJavaScript={`(function() {
+      //   setTimeout(() => {
+      //     window.WebViewBridge.onMessage(${this.props.webviewsession});
+          
+      //    }, 100);
+      //  })()`}
+   
+          onLoadStart={syntheticEvent  => {
+            // update component to be aware of loading statuss
+            const { nativeEvent } = syntheticEvent;
+            console.log('webview comenzo a cargar 3000 ios')
+ 
+            console.log('webviewUrl: '+this.props.webviewurl)
+            console.log('webviewSession: '+JSON.stringify(this.props.webviewsession))
+
+            // ios necesita 100 de timeout minimo (android no necesita)
+            // estos dos andan
+   if (Platform.OS==='android')
+  //  this.webView.postMessage(JSON.stringify(this.props.webviewsession));
+        setTimeout(
+          () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
+        100);
+          if (Platform.OS==='ios')
+          setTimeout(
+            () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
+          3000);
+ 
+  
+   
+  
+          }}
 
           onError={syntheticEvent => {
             const { nativeEvent } = syntheticEvent;
@@ -650,7 +834,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = {
     getQslScan,
-    updateLinkQso
+    updateLinkQso,
+    manage_notifications
     
    }
 

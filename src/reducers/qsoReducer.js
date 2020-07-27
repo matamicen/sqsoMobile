@@ -65,7 +65,7 @@ const initialState = {
     sendingProfileModal_stat: 0,
     cancelButton_stat: 0,
     webviewSession: '',
-    webviewUrl: '',
+    webviewUrl: 'https://test.dd39wvlkuxk5j.amplifyapp.com/',
 
 
     currentQso: {
@@ -1760,6 +1760,15 @@ const qsoReducer = (state = initialState, action) => {
                 notifBackground: false     
             };
         }
+
+        if (action.notifType==='NOTIF_BACKGROUND_TRUE')
+        {  console.log('NOTIF_BACKGROUND_TRUE');
+                auxcurrentQso = {
+                    ...state.currentQso,
+                    notifBackground: true     
+                };
+                auxUnread = state.notificationsUnread;
+            }
         
     if (action.notifType==='SET_READ_URL')
 

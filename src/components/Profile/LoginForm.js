@@ -516,7 +516,34 @@ if (this.debeHacerUpgrade===false)
       console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
       await this.props.setToken(session.idToken.jwtToken);
     //console.log("currentAuthenticatedUser:"+ JSON.stringify(session));
-      await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+    // session2 = await Auth.currentUserCredentials();
+    // console.log('currentUserCredentials:'+JSON.stringify(session2));
+      // await this.props.setWebView(JSON.stringify(session),'http://192.168.0.9:3000')
+
+    
+          userLogin = await AsyncStorage.getItem('userlogin');
+          console.log('userlogin:'+ userLogin);
+          userPwd = await AsyncStorage.getItem('userpwd');
+          console.log('userpass:'+ userPwd);
+        
+        
+        if (userLogin===null || userPwd===null)
+          {
+            // mando a crashlutics q hay un usuario que le dio null el user/pass
+          const value = await AsyncStorage.getItem('username');
+          crashlytics().setUserId(value);
+          crashlytics().log('error: userlogin o userpwd da null') ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('userlogin_null_DEV'));
+          else
+          crashlytics().recordError(new Error('userlogin_null_PRD'));
+          }
+
+
+          webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
+          await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+   
+    
 
      // console.log('Antes d Auth.currentCredentials() ');
       // const { identityId } = await Auth.currentCredentials();
@@ -693,7 +720,19 @@ else
       // para poder llamar a APIS y demas cosas.
       if (result.challengeName==='NEW_PASSWORD_REQUIRED')
          this.setState({forceChangePassword: true, stopApp: true });
-         
+        else
+        // si no se necesita que cambie la pass entonces guardo user y pass para que se pueda
+        // enviar luego a la webview
+        {
+          // await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
+          // await AsyncStorage.setItem('userpwd', this.state.password);
+          // // userLogin = await AsyncStorage.getItem('userlogin');
+          // // userPwd = await AsyncStorage.getItem('userpwd');
+          // webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
+          // await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+
+
+        } 
       console.log(result.signInUserSession.idToken.payload['custom:callsign']);
       console.log(result.signInUserSession.idToken.jwtToken);
       this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
@@ -770,8 +809,24 @@ if (!this.usernotfound)
    //  var session = await Auth.currentSession();
    //  console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
      await this.props.setToken(this.jwtToken);
+    // session = await Auth.currentSession();
+    //  session = await Auth.currentUserCredentials();
+    //  console.log('currentUserCredentials:'+JSON.stringify(session));
+    //  await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')  http://192.168.0.9:3000
+   
+  
+    await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
+    await AsyncStorage.setItem('userpwd', this.state.password);
+   
+    webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
+    await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
 
-  //  session = await Auth.currentAuthenticatedUser();
+    // userLogin = await AsyncStorage.getItem('userlogin');
+    // userPwd = await AsyncStorage.getItem('userpwd');
+    // webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
+    // await this.props.setWebView(webViewUserSession,'http://192.168.0.9:3000')
+  
+    //  session = await Auth.currentAuthenticatedUser();
    // console.log("PASO POR SIGNIN token: " + session.signInUserSession.idToken.jwtToken);
     
    console.log("antes de getInfo")

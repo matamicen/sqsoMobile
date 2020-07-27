@@ -506,9 +506,9 @@ signOut = async () => {
               </View> 
 
               <View style={{flex: 0.08, alignItems: 'flex-end', marginRight: 17}}>
-                <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
+                {/* <TouchableOpacity style={{flexDirection: 'row', marginTop: 15}} onPress={ () => this.restoreSubs()} >
                    <Text style={{fontSize: 14, color: '#999', fontWeight: 'bold'}} >{I18n.t("InitialScreenRestoreSubscriptions")}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
 
               <View style={{flexDirection: 'row', flex: 0.08, marginLeft: 6}}>

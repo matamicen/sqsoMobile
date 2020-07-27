@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions,
     Linking  } from 'react-native';
 import { connect } from 'react-redux';
-import {  set_notification_read, manage_notifications } from '../../actions';
+import {  set_notification_read, manage_notifications,setWebView } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
@@ -12,6 +12,7 @@ import { NavigationActions } from 'react-navigation';
 // import moment from "moment";
 import MomentAgo from './MomentAgo';
 import I18n from '../../utils/i18n';
+
 
 class NotifItem extends Component {
 
@@ -50,7 +51,12 @@ class NotifItem extends Component {
       //   });
       // }
 
-      onPressItem2 = (idqra_notifications, urlnotif) => {
+
+
+      onPressItem2 = async (idqra_notifications, urlnotif) => {
+        auxurl = urlnotif + '?' + new Date();
+        await this.props.setWebView(this.props.webviewsession,auxurl)
+        
         this.props.navigation.navigate('Home', {
           url: urlnotif
           
@@ -493,14 +499,16 @@ const styles = StyleSheet.create({
 
  const mapStateToProps = state => {
     return { jwtToken: state.sqso.jwtToken,
-      qra: state.sqso.qra
+      qra: state.sqso.qra,
+      webviewsession: state.sqso.webviewSession
     };
 };
 
 
 const mapDispatchToProps = {
     set_notification_read,
-    manage_notifications
+    manage_notifications,
+    setWebView
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotifItem);
