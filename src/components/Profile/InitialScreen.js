@@ -42,7 +42,7 @@ class InitialScreen extends Component {
         return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Image
             // style={{ width: 31, height: 31, marginLeft: 9 }}
-            style={{ width: 31, height: 31, marginLeft: 0, marginTop: (Platform.OS==='ios') ? 14 : 24 }}
+            style={{ width: 31, height: 31, marginLeft: 0, marginTop: (Platform.OS==='ios') ? 18 : 24 }}
             source={require('../../images/profile1.png')}/>
              <Text style={{fontSize:9, marginTop: 3, marginLeft: 0}}>{I18n.t("InitialScreenProfile")}</Text>
             {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: I18n.locale.substring(0, 2)==='es' ? 11:7}}>{I18n.t("InitialScreenProfile")}</Text> */}

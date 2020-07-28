@@ -249,7 +249,7 @@ checkInternetScanQR = async (param) => {
  gotoQslScanScreen = async () => {
 
     // this.props.navigation.navigate("QslScanScreen");
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate("UtilScreen");
 
 }
    
@@ -412,7 +412,7 @@ return   (this.state.vari) ? <View style={{flex: 1}}>
                   style = {{ }} >
                   <Image source={require('../../images/arrow_back_grey.png')}  style={{width: 27, height: 27 } } 
                   resizeMode="contain" />    
-                  <Text style={{fontSize: 12}}> Back </Text>
+                  <Text style={{fontSize: 12}}> {I18n.t("QSLSCANQR_BACK")} </Text>
               </TouchableOpacity>
 
 

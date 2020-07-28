@@ -25,6 +25,7 @@ import {FETCHING_API_REQUEST,
 import { SectionList } from 'react-native';
 import I18n from '../utils/i18n';
 import AsyncStorage from '@react-native-community/async-storage';
+import global_config from '../global_config.json';
 
 const initialState = {
     qra: '',
@@ -65,7 +66,7 @@ const initialState = {
     sendingProfileModal_stat: 0,
     cancelButton_stat: 0,
     webviewSession: '',
-    webviewUrl: 'https://test.dd39wvlkuxk5j.amplifyapp.com/',
+    webviewUrl: global_config.urlWeb,
 
 
     currentQso: {

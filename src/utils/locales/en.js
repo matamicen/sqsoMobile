@@ -156,6 +156,7 @@ export default {
     RestoreSubscriptionSearchingPurchases: "Searching purchases ...",
     RestoreSubscriptionClose: "Close",
     RestoreSubscriptionPremiumActive: "Your premium subscription is active.",
+    UtilTitle: "TOOLS",
     SearchTitle: "SEARCH",
     SearchSearchCallsign: "Search CallSign",
     SearchWeStartToSearch: "We start to search automatically",
@@ -376,4 +377,6 @@ export default {
     QSLSCANQR_HAMSLIKETHIS: 'These HAMs like this',
     QSLSCANQR_LIKES: 'Likes',
     QSLSCANQR_COMMENTS: 'Comments',
+    QSLSCANQR_BACK: 'Back',
+    UTILSCANQSLCARD: 'Scan QSL Card'
   };

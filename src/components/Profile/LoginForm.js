@@ -90,6 +90,7 @@ constructor(props) {
     // this.pushTokenFound = false;
     this.jwtToken = '';
     this.qra = '';
+    this.userYpassnull = false;
 
 
     this.width = Dimensions.get('window').width; //full width
@@ -417,8 +418,13 @@ constructor(props) {
     this.debeHacerUpgrade = true;
             
    }
- 
     // fin chequeo de version minima de la APP
+
+   userLogin0 = await AsyncStorage.getItem('userlogin');
+   if (userLogin0===null) 
+      { this.debeHacerUpgrade = true;  // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
+        this.userYpassnull = true;
+      }
 
 
 
@@ -541,7 +547,7 @@ if (this.debeHacerUpgrade===false)
 
 
           webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
-          await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+          await this.props.setWebView(webViewUserSession,global_config.urlWeb)
    
     
 
@@ -571,8 +577,8 @@ if (this.debeHacerUpgrade===false)
         console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
 
         //apologize
-      //  if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-       if (1===2)
+       if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+      //  if (1===2)
       this.setState({stopApp: true, pushTokenNotFound: true})
         else
         {
@@ -660,7 +666,18 @@ if (this.debeHacerUpgrade===false)
       // Handle exceptions
     }
 
-  } // if de debeHacerUpgrade
+  } // if de debeHacerUpgrade o fuerzo signout porque necesito que haga login para tener user y pas para webview
+  else
+  {
+    if (this.userYpassnull)
+       {
+        console.log('Fuerzo a q se loguee para que pueda pasar los datos a webview');
+        this.userYpassnull = false;
+        this.setState({showloginForm: true});
+       }
+
+
+  }
 
   }else {
           console.log('lo siento no hay Internet');
@@ -815,11 +832,12 @@ if (!this.usernotfound)
     //  await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')  http://192.168.0.9:3000
    
   
+  
     await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
     await AsyncStorage.setItem('userpwd', this.state.password);
    
     webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
-    await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+    await this.props.setWebView(webViewUserSession,global_config.urlWeb)
 
     // userLogin = await AsyncStorage.getItem('userlogin');
     // userPwd = await AsyncStorage.getItem('userpwd');
