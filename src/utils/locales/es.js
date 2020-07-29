@@ -332,7 +332,12 @@ export default {
     NOTIF_ACTIVTYPE_12_LISTEN: '%{callsign} escuchó a %{refqra} en la Banda: %{band} Modo: %{mode}',
     NOTIF_ACTIVTYPE_12_LISTENYOU: '%{callsign} te escuchó a tí en un QSO en Banda: %{band} Modo: %{mode}',
     NOTIF_ACTIVTYPE_10_ANY: '%{callsign} creó una nueva publicación',
-    NOTIF_ACTIVTYPE_12_ANY: '%{callsign} te etiquetó a tí en su nueva publicación',
+    NOTIF_ACTIVTYPE_12_ANY: '%{callsign} etiquetó a %{refqra} en una publicación.',
+    NOTIF_ACTIVTYPE_12_ANYYOU: '%{callsign} te etiquetó a tí en una publicación.',
+    NOTIF_ACTIVTYPE_12_QAP: '%{callsign} etiquetó a %{refqra} en un QAP',
+    NOTIF_ACTIVTYPE_12_QAPYOU: '%{callsign} te etiquetó a tí en un QAP',
+    NOTIF_ACTIVTYPE_12_FLDAY: '%{callsign} etiquetó a %{refqra} en una activación',
+    NOTIF_ACTIVTYPE_12_FLDDAYYOU: '%{callsign} te etiquetó a tí en un activación',
     NOTIF_ACTIVTYPE_01_YOU: '%{callsign} comenzó a seguirte',
     NOTIF_ACTIVTYPE_01_OTHER: '%{callsign} comenzó a seguir a %{refqra}',
     NOTIF_ACTIVTYPE_50: '%{callsign} actualizó su biografía',
@@ -378,7 +383,11 @@ export default {
     QSLSCANQR_LIKES: 'Me gusta',
     QSLSCANQR_COMMENTS: 'Comentarios',
     QSLSCANQR_BACK: 'Volver',
-    UTILSCANQSLCARD: 'Escanear tarjeta QSL'
-    
+    UTILSCANQSLCARD: 'Escanear tarjeta QSL',
+    BACKBUTTONANDROIDTITLE: 'AVISO',
+    BACKBUTTONANDROID: 'Ud. esta seguro que desea salir de SuperQSO?',
+    BACKBUTTONANDROIDCANCEL: 'Cancelar',
+    BACKBUTTONANDROIDEXIT: 'Salir',
+
 
   };

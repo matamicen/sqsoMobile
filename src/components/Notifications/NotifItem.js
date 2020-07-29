@@ -295,7 +295,27 @@ if (urlnotif!=null)
                         {(this.props.activity_type===12 && this.props.band==='') &&
                          <View>
                           {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA})}</Text>
+                          
+                          {/* estaba este solo */}
+                          {/* <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA})}</Text> */}
+                          {(this.props.qsotype==='POST' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           }
+                           {(this.props.qsotype==='POST' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANYYOU",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           } 
+                          {(this.props.qsotype==='QAP' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QAP",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           }
+                           {(this.props.qsotype==='QAP' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QAPYOU",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           } 
+                                {(this.props.qsotype==='FLDDAY' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_FLDAY",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           }
+                           {(this.props.qsotype==='FLDDAY' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_FLDDAYYOU",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           } 
                           <Text style={{fontSize:14, height: 25,color: 'grey' }}><MomentAgo date={this.props.utc}/></Text>
                           {/* <Text style={{fontSize:14, height: 25,color: 'grey' }}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
                           </View>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal,
-   Platform, Alert, Dimensions, Linking } from 'react-native';
+   Platform, Alert, Dimensions, Linking, BackAndroid, BackHandler} from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
@@ -55,8 +55,11 @@ class Home extends Component {
     
      this.urlWebView = '';
      this.session = '';
-   
 
+    //  this._pasEditUnmountFunction = this._pasEditUnmountFunction.bind(this);
+      this.backHandler = null;
+   
+      
     this.state = {
  
       nointernet: false,
@@ -66,14 +69,21 @@ class Home extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount () {
     // if (Platform.OS==='ios')
  
     // setTimeout(
     //   () => this.handleInjectJavascript(this.props.webviewsession),
     // 20000);
+    // if (this.backHandler)
+    //    this.backHandler.remove();
+    //    this.backHandler = BackAndroid.addEventListener('hardwareBackPress', this._pasEditUnmountFunction);
 
-
+    // este anda
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
 
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
     // this.props.navigation.setParams({
@@ -95,6 +105,32 @@ class Home extends Component {
     // 3000);
    
   }
+
+
+  componentWillUnmount() {
+    if (this.backHandler)
+    //  this.backHandler.remove();
+    // BackAndroid.removeEventListener('hardwareBackPress', this._pasEditUnmountFunction);
+    this.backHandler.remove();
+}
+
+backAction = () => {
+  // I18n.t("BACKBUTTONANDROID")
+  // I18n.t("BACKBUTTONANDROIDCANCEL") BACKBUTTONANDROIDEXIT
+
+  
+  Alert.alert(I18n.t("BACKBUTTONANDROIDTITLE"), I18n.t("BACKBUTTONANDROID"), [
+    {
+      text: I18n.t("BACKBUTTONANDROIDCANCEL"),
+      onPress: () => null,
+      style: I18n.t("BACKBUTTONANDROIDCANCEL")
+    },
+    { text: I18n.t("BACKBUTTONANDROIDEXIT"), onPress: () => BackHandler.exitApp() }
+  ]);
+  return true;
+};
+
+
 
   onScreenFocus = async () => {
     // Screen was focused, our on focus logic goes here
