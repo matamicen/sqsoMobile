@@ -2258,6 +2258,7 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
              formateo = new Date(ultimaFechaDeIngreso);
             // formateo2 = new Date(respuesta.body.message.qra.last_login);
             console.log('ultimafecha getuserInfo: '+ formateo);
+            console.log(respuesta.body.message.notifications);
             // console.log('ultimafecha getuserInfo lastLogin: '+ formateo2);
             dispatch(manage_notifications('CALCULOUNREAD',respuesta.body.message.notifications,formateo));
       }

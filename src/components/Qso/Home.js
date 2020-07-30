@@ -566,7 +566,7 @@ return   <View style={{flex: 1}}>
           onLoadStart={syntheticEvent  => {
             // update component to be aware of loading statuss
             const { nativeEvent } = syntheticEvent;
-            console.log('webview comenzo a cargar 3000 ios')
+          
  
             console.log('webviewUrl: '+this.props.webviewurl)
             console.log('webviewSession: '+JSON.stringify(this.props.webviewsession))

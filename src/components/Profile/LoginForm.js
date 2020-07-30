@@ -91,6 +91,7 @@ constructor(props) {
     this.jwtToken = '';
     this.qra = '';
     this.userYpassnull = false;
+    // this.webviewurlfromKilledPush = '';
 
 
     this.width = Dimensions.get('window').width; //full width
@@ -166,6 +167,11 @@ constructor(props) {
         console.log('llego notificacion!');
         console.log(notification);
 
+
+        // if (notification.userInteraction)
+        //  { console.log('pepe che! estaba killed y apreto!')
+        //  this.webviewurlfromKilledPush = notification.userInfo.url;
+        // }
   
   if (this.props.qra!='') {
     // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
@@ -275,9 +281,11 @@ constructor(props) {
        {  console.log('user interaction es true!')
             //  this.props.manage_notifications('ADDONE',envioNotif);
             //  this.props.navigation.navigate("Notifications");
+            console.log(notification.userInfo.url)
+           this.props.setWebView(webViewUserSession,notification.userInfo.url)
+            // esto estaba
              this.props.navigation.navigate('Home', {
-              url: notification.userInfo.url
-              
+             
             });
            
 
@@ -547,7 +555,13 @@ if (this.debeHacerUpgrade===false)
 
 
           webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
-          await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+          // console.log('killedURL:'+ this.webviewurlfromKilledPush)
+          // if (this.webviewurlfromKilledPush!==''){
+          //    await this.props.setWebView(webViewUserSession,this.webviewurlfromKilledPush)
+          //   //  this.webviewurlfromKilledPush = '';
+          //    }   else
+          
+            await this.props.setWebView(webViewUserSession,global_config.urlWeb)
    
     
 
