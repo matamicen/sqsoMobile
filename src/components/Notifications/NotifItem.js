@@ -7,11 +7,13 @@ import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { hasAPIConnection } from '../../helper';
 import { getDateQslScan } from '../../helper';
 import { NavigationActions } from 'react-navigation';
 // import moment from "moment";
 import MomentAgo from './MomentAgo';
 import I18n from '../../utils/i18n';
+import VariosModales from '../Qso/VariosModales';
 
 
 class NotifItem extends Component {
@@ -26,6 +28,7 @@ class NotifItem extends Component {
           people: [],
           errorMessage: "",
           isFetching: true,
+          nointernet: false
           // ago: moment(this.props.datetimecomment).fromNow()
         };
       }
@@ -54,6 +57,8 @@ class NotifItem extends Component {
 
 
       onPressItem2 = async (idqra_notifications, urlnotif) => {
+        if (await hasAPIConnection())
+        {
         auxurl = urlnotif + '?' + new Date();
         await this.props.setWebView(this.props.webviewsession,auxurl)
         
@@ -61,6 +66,9 @@ class NotifItem extends Component {
           url: urlnotif
           
         });
+      }else
+      this.setState({nointernet: true});
+
       }
   
       onPressItem = (idqra_notifications, urlnotif) => {
@@ -125,6 +133,10 @@ if (urlnotif!=null)
     //    }).catch(err => console.error('An error occurred', err));
      
      }
+
+     closeVariosModales = () => {
+      this.setState({nointernet: false}); 
+    }
 
 
     render() { console.log("RENDER NotifItem");
@@ -465,6 +477,14 @@ if (urlnotif!=null)
                     </View>
 
               </View>
+          
+              {(this.state.nointernet) && 
+          <VariosModales
+            show={this.state.nointernet}
+            modalType="nointernet"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />
+      }
 
 
          </View>

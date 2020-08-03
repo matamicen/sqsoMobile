@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
 // import QsoHeaderLink from './QsoHeaderLink';
-import { getQslScan, updateLinkQso, manage_notifications } from '../../actions';
+import { getQslScan, updateLinkQso, manage_notifications, setWebView } from '../../actions';
 // import MediaImages from './MediaImages';
 // import MediaImagesLink from './MediaImagesLink';
 // import Likes from './Likes';
@@ -55,6 +55,7 @@ class Home extends Component {
     
      this.urlWebView = '';
      this.session = '';
+     this.time = 3000;
 
     //  this._pasEditUnmountFunction = this._pasEditUnmountFunction.bind(this);
       this.backHandler = null;
@@ -86,9 +87,9 @@ class Home extends Component {
     );
 
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
-    // this.props.navigation.setParams({
-    //     tapOnTabNavigator: this.tapOnTabNavigator
-    //   })
+    this.props.navigation.setParams({
+        tapOnTabNavigator: this.tapOnTabNavigator
+      })
 
 
 
@@ -152,7 +153,17 @@ backAction = () => {
 
   }
   tapOnTabNavigator = async () => {
-    // console.log('PRESS HOME!');
+     console.log('PRESS HOME!');
+     home = global_config.urlWeb + '?' + new Date();
+     // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
+     // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
+     this.time = 50;
+    await this.props.setWebView(this.props.webviewsession,home);
+    // await this.props.setWebView({pepe: 'fgfgfg'},global_config.urlWeb);
+  //  this.handleInjectJavascript(JSON.stringify({pepe: 'fgfgfg'}))
+ 
+
+     
     // session = await Auth.currentSession();
     // console.log("Su token session home: " + session.idToken.jwtToken);
     // console.log('session home: '+session);
@@ -447,6 +458,7 @@ checkInternetScanQR = async (param) => {
 // es solo para pasar token a webview en IOS esta funcion
 //  window.WebViewBridge.onMessage(${JSON.stringify(data)});
      handleInjectJavascript = (data) => {
+       console.log('handleJavascript!')
       const injectJavascriptStr =  `(function() {
         setTimeout(() => {
          window.WebViewBridge.onMessage(${JSON.stringify(data)});
@@ -575,7 +587,7 @@ return   <View style={{flex: 1}}>
   //esta esto en v1.3.0
         setTimeout(
           () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
-        3000);
+        this.time);
 
   
           }}
@@ -614,6 +626,10 @@ return   <View style={{flex: 1}}>
           // porque si hace click en un avatar evito abrir LinkURL y se queda en webview.
           if  ((auxurl.indexOf("test.") !== -1) || (auxurl.indexOf("superqso.") !== -1))
           { console.log('es test o superqso.com')
+          
+          //esto anda
+          // setTimeout( () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
+          // 100);
 
           }else
           {
@@ -658,7 +674,7 @@ return   <View style={{flex: 1}}>
           // if (Platform.OS==='ios')
           setTimeout(
             () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
-          3000);
+            this.time);
  
   
    
@@ -863,7 +879,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
     getQslScan,
     updateLinkQso,
-    manage_notifications
+    manage_notifications,
+    setWebView
     
    }
 
