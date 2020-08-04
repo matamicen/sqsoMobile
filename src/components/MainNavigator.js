@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Platform, Dimensions  } from 'react-native';
 import QsoScreen from './Qso/QsoScreen';
 import SearchScreen from './Search/Search';
+import UtilScreen from './Util/Util';
 import Notifications from './Notifications/Notification';
 import CameraScreen from './Qso/Camera';
 import QslScanScreen from './QslScan/QslScanScreen';
@@ -135,7 +136,9 @@ const getScreenRegisteredFunctions = navState => {
     //  }},
     // CameraScreen: { screen: CameraScreen, },
     Notifications: { screen: Notifications, },
-    Search: { screen: SearchScreen, },
+    // Search: { screen: SearchScreen, },
+    UtilScreen: { screen: UtilScreen, },
+    
     // QslScanScreen: { screen: QslScanScreen, },  
     ProfileScreen: { screen: ProfileScreen, },
    

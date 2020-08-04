@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions,
     Linking  } from 'react-native';
 import { connect } from 'react-redux';
-import {  set_notification_read, manage_notifications } from '../../actions';
+import {  set_notification_read, manage_notifications,setWebView } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { hasAPIConnection } from '../../helper';
 import { getDateQslScan } from '../../helper';
+import { NavigationActions } from 'react-navigation';
 // import moment from "moment";
 import MomentAgo from './MomentAgo';
 import I18n from '../../utils/i18n';
+import VariosModales from '../Qso/VariosModales';
+
 
 class NotifItem extends Component {
 
@@ -24,6 +28,7 @@ class NotifItem extends Component {
           people: [],
           errorMessage: "",
           isFetching: true,
+          nointernet: false
           // ago: moment(this.props.datetimecomment).fromNow()
         };
       }
@@ -48,6 +53,23 @@ class NotifItem extends Component {
       //     ago: moment(this.props.datetimecomment).fromNow()
       //   });
       // }
+
+
+
+      onPressItem2 = async (idqra_notifications, urlnotif) => {
+        if (await hasAPIConnection())
+        {
+        auxurl = urlnotif + '?' + new Date();
+        await this.props.setWebView(this.props.webviewsession,auxurl)
+        
+        this.props.navigation.navigate('Home', {
+          url: urlnotif
+          
+        });
+      }else
+      this.setState({nointernet: true});
+
+      }
   
       onPressItem = (idqra_notifications, urlnotif) => {
        console.log('presiono notif:' + idqra_notifications+ ' URL:' + urlnotif ) ;
@@ -112,6 +134,10 @@ if (urlnotif!=null)
      
      }
 
+     closeVariosModales = () => {
+      this.setState({nointernet: false}); 
+    }
+
 
     render() { console.log("RENDER NotifItem");
   console.log('josesito:')
@@ -130,7 +156,7 @@ if (urlnotif!=null)
 
                 <View style={{flex: 0.23, marginLeft: 6}}>
                  {this.props.avatar_pic!==null ?
-                  <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                  <TouchableOpacity onPress={() => this.onPressItem2(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                        <Image
                     style={styles.faceImageStyle}
                     resizeMethod="resize"
@@ -139,7 +165,7 @@ if (urlnotif!=null)
                   </TouchableOpacity>
 
                       :
-                      <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                      <TouchableOpacity onPress={() => this.onPressItem2(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                       <Image source={require('../../images/emptyprofile.png')} style={styles.faceImageStyle} resizeMethod="resize" /> 
                       </TouchableOpacity>
                       }
@@ -159,7 +185,7 @@ if (urlnotif!=null)
 
                     <View  style={{flex: 0.60 }}>
 
-                    <TouchableOpacity onPress={() => this.onPressItem(this.props.idqra_activity,this.props.url)} underlayColor="white">  
+                    <TouchableOpacity onPress={() => this.onPressItem2(this.props.idqra_activity,this.props.url)} underlayColor="white">  
                      
                         {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para
                         que el CLICK sobre lo vacio haga click y tenga efecto
@@ -281,7 +307,27 @@ if (urlnotif!=null)
                         {(this.props.activity_type===12 && this.props.band==='') &&
                          <View>
                           {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA})}</Text>
+                          
+                          {/* estaba este solo */}
+                          {/* <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA})}</Text> */}
+                          {(this.props.qsotype==='POST' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           }
+                           {(this.props.qsotype==='POST' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANYYOU",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           } 
+                          {(this.props.qsotype==='QAP' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QAP",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           }
+                           {(this.props.qsotype==='QAP' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_QAPYOU",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           } 
+                                {(this.props.qsotype==='FLDDAY' && this.props.qra!==this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_FLDAY",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           }
+                           {(this.props.qsotype==='FLDDAY' && this.props.qra===this.props.refqra) &&
+                          <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_FLDDAYYOU",{callsign: this.props.QRA,refqra:this.props.refqra})}</Text>
+                           } 
                           <Text style={{fontSize:14, height: 25,color: 'grey' }}><MomentAgo date={this.props.utc}/></Text>
                           {/* <Text style={{fontSize:14, height: 25,color: 'grey' }}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
                           </View>
@@ -431,6 +477,14 @@ if (urlnotif!=null)
                     </View>
 
               </View>
+          
+              {(this.state.nointernet) && 
+          <VariosModales
+            show={this.state.nointernet}
+            modalType="nointernet"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />
+      }
 
 
          </View>
@@ -485,14 +539,16 @@ const styles = StyleSheet.create({
 
  const mapStateToProps = state => {
     return { jwtToken: state.sqso.jwtToken,
-      qra: state.sqso.qra
+      qra: state.sqso.qra,
+      webviewsession: state.sqso.webviewSession
     };
 };
 
 
 const mapDispatchToProps = {
     set_notification_read,
-    manage_notifications
+    manage_notifications,
+    setWebView
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotifItem);

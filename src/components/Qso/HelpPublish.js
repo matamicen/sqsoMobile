@@ -254,7 +254,8 @@ class HelpPublish extends Component {
                  </View>
                      }
 
-          { (this.props.helptag) &&
+          {/* { (this.props.helptag && this.props.helptype==='tag') && */}
+          { (this.props.helptag && (this.props.helptype==='QAP' || this.props.helptype==='FLDAY' || this.props.helptype==='POST')) &&
                  <View style={{ flex:0.9, alignItems: "center" }}>
                          <View style={{ flex:0.2, alignItems: "center" }}>
                        <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishTagtitle")} {"\n"}</Text>
@@ -277,7 +278,28 @@ class HelpPublish extends Component {
                  </View>
                      }   
                
-           
+               { (this.props.helptag && (this.props.helptype==='QSO' || this.props.helptype==='LISTEN')) &&
+                 <View style={{ flex:0.9, alignItems: "center" }}>
+                         <View style={{ flex:0.2, alignItems: "center" }}>
+                       <Text style={{ color: 'yellow', fontSize: 18, alignItems: "center"}}>{I18n.t("helpPublishSdtitle")} {"\n"}</Text>
+                       </View> 
+                      <View style={{ flex:0.8 }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishSdMessage1")}{"\n"}</Text>
+                      </View>
+                      {/* <View style={{ flex:0.24, alignItems: 'flex-start' }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishSWLfield1")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>• {I18n.t("helpPublishSWLfield2")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield3")}</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield4")}</Text>
+                      </View> */}
+                      {/* <View style={{ flex:0.1, alignItems: "flex-start" }}>
+                       <Text style={{ color: 'yellow', fontSize: 15}}>{I18n.t("helpPublishTagExample")}</Text>
+                        <Text style={{ color: 'white', fontSize: 15}}>"{I18n.t("helpPublishTagMessage2")}"</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage3")}<Text style={{ color: 'white', fontSize: 15}}> "{I18n.t("helpPublishTagRePublicar")}".</Text></Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 15}}>{I18n.t("helpPublishTagMessage4")}{"\n"}</Text> 
+                      </View> */}
+                 </View>
+                     }          
       
 
 

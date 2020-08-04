@@ -10,7 +10,7 @@ import Amplify from 'aws-amplify';
 import AmplifyAuthStorage from '../../AsyncStorage';
 import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse, setToken, managePushToken,
   postPushToken, getUserInfo, get_notifications, fetchQraProfileUrl, manage_notifications,
-  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions, welcomeUserFirstTime} from '../../actions';
+  confirmReceiptiOS, setSubscriptionInfo, manageLocationPermissions, welcomeUserFirstTime, setWebView} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import { NavigationActions } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -90,6 +90,8 @@ constructor(props) {
     // this.pushTokenFound = false;
     this.jwtToken = '';
     this.qra = '';
+    this.userYpassnull = false;
+    // this.webviewurlfromKilledPush = '';
 
 
     this.width = Dimensions.get('window').width; //full width
@@ -165,6 +167,11 @@ constructor(props) {
         console.log('llego notificacion!');
         console.log(notification);
 
+
+        // if (notification.userInteraction)
+        //  { console.log('pepe che! estaba killed y apreto!')
+        //  this.webviewurlfromKilledPush = notification.userInfo.url;
+        // }
   
   if (this.props.qra!='') {
     // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero 
@@ -180,7 +187,8 @@ constructor(props) {
 
         try {
           console.log('paso por ANDROID')
-        
+       if(notification.userInteraction===false)
+       { 
               let bodyJson = JSON.parse(notification.data.Data);
                
        
@@ -218,7 +226,7 @@ constructor(props) {
             // genero la notificaion local porque la libreria no lo hace para Android
             PushNotification.localNotification({
               //     id: notification.id,
-              userInfo: { id: notification.id },
+              userInfo: { id: notification.id, url: bodyJson.URL },
               // title: notification.data['pinpoint.notification.title'],
               // message: notification.data['pinpoint.notification.body'],
               title: mensajes.pushTitle,
@@ -234,6 +242,8 @@ constructor(props) {
                   });
                 // PushNotification.setApplicationIconBadgeNumber(25);
        }
+
+  
 
 // solo avisa en foreground cuando alguien loguea al usuario en un QSO o LISTEN que son los mas 
 // importante ya que puede saberlo en REAL TIME y agradecer por RADIO durante ese mismo QSO!
@@ -262,12 +272,22 @@ constructor(props) {
           );
         }
 
+
+
+      }  // Fin Id de si no es userInteraction
+
        // es por hizo click en la notificacion
        if (notification.userInteraction)
-       {
+       {  console.log('user interaction es true!')
             //  this.props.manage_notifications('ADDONE',envioNotif);
-             this.props.navigation.navigate("Notifications");
-             console.log('user interaction es true!')
+            //  this.props.navigation.navigate("Notifications");
+            console.log(notification.userInfo.url)
+           this.props.setWebView(webViewUserSession,notification.userInfo.url)
+            // esto estaba
+             this.props.navigation.navigate('Home', {
+             
+            });
+           
 
             }
 
@@ -406,8 +426,13 @@ constructor(props) {
     this.debeHacerUpgrade = true;
             
    }
- 
     // fin chequeo de version minima de la APP
+
+   userLogin0 = await AsyncStorage.getItem('userlogin');
+   if (userLogin0===null) 
+      { this.debeHacerUpgrade = true;  // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
+        this.userYpassnull = true;
+      }
 
 
 
@@ -505,6 +530,40 @@ if (this.debeHacerUpgrade===false)
       console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
       await this.props.setToken(session.idToken.jwtToken);
     //console.log("currentAuthenticatedUser:"+ JSON.stringify(session));
+    // session2 = await Auth.currentUserCredentials();
+    // console.log('currentUserCredentials:'+JSON.stringify(session2));
+      // await this.props.setWebView(JSON.stringify(session),'http://192.168.0.9:3000')
+
+    
+          userLogin = await AsyncStorage.getItem('userlogin');
+          console.log('userlogin:'+ userLogin);
+          userPwd = await AsyncStorage.getItem('userpwd');
+          console.log('userpass:'+ userPwd);
+        
+        
+        if (userLogin===null || userPwd===null)
+          {
+            // mando a crashlutics q hay un usuario que le dio null el user/pass
+          const value = await AsyncStorage.getItem('username');
+          crashlytics().setUserId(value);
+          crashlytics().log('error: userlogin o userpwd da null') ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('userlogin_null_DEV'));
+          else
+          crashlytics().recordError(new Error('userlogin_null_PRD'));
+          }
+
+
+          webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
+          // console.log('killedURL:'+ this.webviewurlfromKilledPush)
+          // if (this.webviewurlfromKilledPush!==''){
+          //    await this.props.setWebView(webViewUserSession,this.webviewurlfromKilledPush)
+          //   //  this.webviewurlfromKilledPush = '';
+          //    }   else
+          
+            await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+   
+    
 
      // console.log('Antes d Auth.currentCredentials() ');
       // const { identityId } = await Auth.currentCredentials();
@@ -621,7 +680,18 @@ if (this.debeHacerUpgrade===false)
       // Handle exceptions
     }
 
-  } // if de debeHacerUpgrade
+  } // if de debeHacerUpgrade o fuerzo signout porque necesito que haga login para tener user y pas para webview
+  else
+  {
+    if (this.userYpassnull)
+       {
+        console.log('Fuerzo a q se loguee para que pueda pasar los datos a webview');
+        this.userYpassnull = false;
+        this.setState({showloginForm: true});
+       }
+
+
+  }
 
   }else {
           console.log('lo siento no hay Internet');
@@ -681,7 +751,19 @@ else
       // para poder llamar a APIS y demas cosas.
       if (result.challengeName==='NEW_PASSWORD_REQUIRED')
          this.setState({forceChangePassword: true, stopApp: true });
-         
+        else
+        // si no se necesita que cambie la pass entonces guardo user y pass para que se pueda
+        // enviar luego a la webview
+        {
+          // await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
+          // await AsyncStorage.setItem('userpwd', this.state.password);
+          // // userLogin = await AsyncStorage.getItem('userlogin');
+          // // userPwd = await AsyncStorage.getItem('userpwd');
+          // webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
+          // await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+
+
+        } 
       console.log(result.signInUserSession.idToken.payload['custom:callsign']);
       console.log(result.signInUserSession.idToken.jwtToken);
       this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
@@ -758,8 +840,25 @@ if (!this.usernotfound)
    //  var session = await Auth.currentSession();
    //  console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
      await this.props.setToken(this.jwtToken);
+    // session = await Auth.currentSession();
+    //  session = await Auth.currentUserCredentials();
+    //  console.log('currentUserCredentials:'+JSON.stringify(session));
+    //  await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')  http://192.168.0.9:3000
+   
+  
+  
+    await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
+    await AsyncStorage.setItem('userpwd', this.state.password);
+   
+    webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
+    await this.props.setWebView(webViewUserSession,global_config.urlWeb)
 
-  //  session = await Auth.currentAuthenticatedUser();
+    // userLogin = await AsyncStorage.getItem('userlogin');
+    // userPwd = await AsyncStorage.getItem('userpwd');
+    // webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
+    // await this.props.setWebView(webViewUserSession,'http://192.168.0.9:3000')
+  
+    //  session = await Auth.currentAuthenticatedUser();
    // console.log("PASO POR SIGNIN token: " + session.signInUserSession.idToken.jwtToken);
     
    console.log("antes de getInfo")
@@ -1279,7 +1378,8 @@ const mapDispatchToProps = {
     confirmReceiptiOS,
     setSubscriptionInfo,
     manageLocationPermissions,
-    welcomeUserFirstTime
+    welcomeUserFirstTime,
+    setWebView
     
    }
 

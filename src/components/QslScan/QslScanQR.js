@@ -74,8 +74,8 @@ class QslScanQR extends Component {
            if (param==='qslscanScreen')   
            this.props.navigation.navigate("QslScanScreen");
 
-           if (param==='Home')   
-           this.props.navigation.navigate("Home");
+           if (param==='Util')   
+           this.props.navigation.navigate("UtilScreen");
      }
 
   onSuccess = async function(e) {
@@ -243,7 +243,7 @@ return   <View style={{flex: 1}}>
                   style = {{ marginTop: 7}} >
                   <Image source={require('../../images/arrow_back_grey.png')}  style={{width: 27, height: 27 } } 
                   resizeMode="contain" />    
-                  <Text style={{fontSize: 12}}> Back </Text>
+                  <Text style={{fontSize: 12}}> {I18n.t("QSLSCANQR_BACK")} </Text>
               </TouchableOpacity>
 
               {/* <TouchableOpacity
