@@ -132,7 +132,7 @@ closeScannedNotFoundModal = () => {
 gotoQslScanScreen = async () => {
 
     // this.props.navigation.navigate("QslScanScreen");
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate("UtilScreen");
 
 }
 

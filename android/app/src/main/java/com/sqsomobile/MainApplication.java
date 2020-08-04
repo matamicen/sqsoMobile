@@ -10,6 +10,7 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import android.webkit.WebView;
 
 //import io.invertase.firebase.RNFirebasePackage;
 //import com.google.android.gms.ads.MobileAds;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
 //    MobileAds.initialize(this, "ca-app-pub-1064314468310203~8912907965");
+    WebView.setWebContentsDebuggingEnabled(true);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

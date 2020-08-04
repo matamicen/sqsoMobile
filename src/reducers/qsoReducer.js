@@ -21,10 +21,11 @@ import {FETCHING_API_REQUEST,
      CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
-     UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS   } from '../actions/types';
+     UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS, SET_WEBVIEW   } from '../actions/types';
 import { SectionList } from 'react-native';
 import I18n from '../utils/i18n';
 import AsyncStorage from '@react-native-community/async-storage';
+import global_config from '../global_config.json';
 
 const initialState = {
     qra: '',
@@ -64,6 +65,8 @@ const initialState = {
     confirmProfileModal: false,
     sendingProfileModal_stat: 0,
     cancelButton_stat: 0,
+    webviewSession: '',
+    webviewUrl: global_config.urlWeb,
 
 
     currentQso: {
@@ -1051,6 +1054,22 @@ const qsoReducer = (state = initialState, action) => {
          });
      return newStore;
 
+     case SET_WEBVIEW:
+        // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+        // console.log("Reducer jwtToken:"+action.jwttoken);
+
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+                // jwtToken: action.jwttoken,
+                webviewSession: action.webviewsession,
+                webviewUrl: action.webviewurl
+            });
+
+        return newStore; 
+
+ 
+
      case SET_USER_INFO:
      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
      console.log("Reducer User_Info:"+JSON.stringify(action.userinfo));
@@ -1742,6 +1761,15 @@ const qsoReducer = (state = initialState, action) => {
                 notifBackground: false     
             };
         }
+
+        if (action.notifType==='NOTIF_BACKGROUND_TRUE')
+        {  console.log('NOTIF_BACKGROUND_TRUE');
+                auxcurrentQso = {
+                    ...state.currentQso,
+                    notifBackground: true     
+                };
+                auxUnread = state.notificationsUnread;
+            }
         
     if (action.notifType==='SET_READ_URL')
 
