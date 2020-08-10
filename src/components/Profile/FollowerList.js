@@ -36,7 +36,7 @@ class FollowerList extends Component {
       <View>
        <View style={{ paddingRight: 5, width: 88, paddingBottom: 5 }}>
         
-        <Qra qra={qra} imageurl={avatarpic}   />
+        <Qra qra={qra} imageurl={avatarpic}   navigation={this.props.navigation} />
       
         </View>
        

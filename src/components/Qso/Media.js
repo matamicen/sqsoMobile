@@ -176,7 +176,7 @@ class Media extends Component {
               </View>
               <View style={{flex: 0.55, alignItems: "flex-start"}}>
                 {(this.props.description) ?
-                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold', marginLeft: Platform.OS === "ios" ? 1 : 1}} >{this.props.description}</Text>
+                <Text style={{fontSize: 14,color: 'black', fontWeight: 'bold', marginLeft: Platform.OS === "ios" ? 1 : 1}} >{this.props.description.substr(0,20)}...</Text>
                 :
                 <Text style={{fontSize: 14,color: 'grey', fontWeight: 'bold'}} >{I18n.t("MediaEmptyDescription")}</Text>
                 }

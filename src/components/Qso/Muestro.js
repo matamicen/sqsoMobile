@@ -235,11 +235,11 @@ class Muestro extends Component {
             // mucho se empiezan a perder colores, entonces hay q jugar con la dimension de la foto y la compresion
             if (Platform.OS==='ios')
             {
-                  coef = valor / 478; // estaba 570, 490
+                  coef = valor / 570; // estaba 570, 490, taba 478
                   console.log('gallery IOS_ROTATE')
                 }
             else
-                  coef = valor / 570; // 725 estaba 650 estaba 570 estaba 450 android
+                  coef = valor / 700; // 725 estaba 650 estaba 570 estaba 450 android, taba 570
          
               }
                   else
@@ -258,6 +258,11 @@ class Muestro extends Component {
             
           //    coef = valor / 850; 
           //   else
+          if (this.props.sqsomedia.gallery && this.props.sqsomedia.type==='image')
+          // le doy mas deficinion a las fotos que vienen de la galeria porque 
+          // suelen publicar activaciones con letra chica y esta bueno que se vean
+            coef = valor / 920;
+          else
             coef = valor / 650;
 
         }

@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal,
-   Platform, Alert, Dimensions, Linking, BackAndroid, BackHandler} from 'react-native';
+   Platform, Alert, Dimensions, Linking, KeyboardAvoidingView, BackHandler} from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
 // import QsoHeaderLink from './QsoHeaderLink';
-import { getQslScan, updateLinkQso, manage_notifications, setWebView } from '../../actions';
-// import MediaImages from './MediaImages';
-// import MediaImagesLink from './MediaImagesLink';
-// import Likes from './Likes';
-// import Comments from './Comments';
-// import CommentsLink from './CommentsLink';
-// import LikesLink from './LikesLink';
+import { getQslScan, updateLinkQso, manage_notifications, setWebView, setPressHome } from '../../actions';
+
 import { getDateQslScan } from '../../helper';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
@@ -21,8 +16,9 @@ import analytics from '@react-native-firebase/analytics';
 import I18n from '../../utils/i18n';
 import global_config from '../../global_config.json';
 import { WebView } from 'react-native-webview';
-import Toast from 'react-native-root-toast';
-import { Auth } from 'aws-amplify';
+
+
+
 
 
 class Home extends Component {
@@ -43,10 +39,7 @@ class Home extends Component {
             
             );}
 
-      // tabBarIcon: ({ tintColor }) => {
-      //   return (<Image
-      //       style={{ width: 28, height: 28  }}
-      //       source={require('../../images/qrcodescan.png')}/>);}
+   
 
   }
 
@@ -59,12 +52,13 @@ class Home extends Component {
 
     //  this._pasEditUnmountFunction = this._pasEditUnmountFunction.bind(this);
       this.backHandler = null;
-   
+     
       
     this.state = {
  
       nointernet: false,
-      urlWebView : ''
+      urlWebView : '',
+        iap: false
      
       
     };
@@ -80,12 +74,13 @@ class Home extends Component {
     //    this.backHandler.remove();
     //    this.backHandler = BackAndroid.addEventListener('hardwareBackPress', this._pasEditUnmountFunction);
 
-    // este anda
+    // estaban este 
     this.backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       this.backAction
     );
 
+    // estaba este
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
     this.props.navigation.setParams({
         tapOnTabNavigator: this.tapOnTabNavigator
@@ -93,25 +88,15 @@ class Home extends Component {
 
 
 
-    // session = await Auth.currentSession();
-    // this.session = JSON.stringify(session);
-    // console.log("Su token session home: " + session.idToken.jwtToken);
-    // console.log('session home: '+session);
-    // setTimeout(
-    // () => this.webView.postMessage(JSON.stringify(session)),
-    // 2000);
-    
-    //  setTimeout(
-    // () => this.webView.postMessage(this.props.webviewsession),
-    // 3000);
+
    
   }
 
 
   componentWillUnmount() {
+    
     if (this.backHandler)
-    //  this.backHandler.remove();
-    // BackAndroid.removeEventListener('hardwareBackPress', this._pasEditUnmountFunction);
+  
     this.backHandler.remove();
 }
 
@@ -154,22 +139,19 @@ backAction = () => {
   }
   tapOnTabNavigator = async () => {
      console.log('PRESS HOME!');
-     home = global_config.urlWeb + '?' + new Date();
+     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
+    
+      
+     if (this.props.presshome===1)
+     { home = global_config.urlWeb + '?' + new Date();
      // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
      // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
      this.time = 50;
     await this.props.setWebView(this.props.webviewsession,home);
-    // await this.props.setWebView({pepe: 'fgfgfg'},global_config.urlWeb);
-  //  this.handleInjectJavascript(JSON.stringify({pepe: 'fgfgfg'}))
- 
-
-     
-    // session = await Auth.currentSession();
-    // console.log("Su token session home: " + session.idToken.jwtToken);
-    // console.log('session home: '+session);
-    // setTimeout(
-    // () => this.webView.postMessage(JSON.stringify(session)),
-    // 3000);
+    this.props.setPressHome(0);
+  }else
+    this.props.setPressHome(1);
+   
     
   }
 
@@ -419,44 +401,9 @@ checkInternetScanQR = async (param) => {
           });
         }
 
-        toast = async (message, timer) =>{
+    
 
-
-          // Add a Toast on screen.
-          let toast = Toast.show(message, {
-           duration: Toast.durations.LONG,
-           position: Toast.positions.CENTER,
-           shadow: true,
-           animation: true,
-           hideOnPress: true,
-           delay: 0,
-           onShow: () => {
-               // calls on toast\`s appear animation start
-           },
-           onShown: () => {
-               // calls on toast\`s appear animation end.
-           },
-           onHide: () => {
-               // calls on toast\`s hide animation start.
-           },
-           onHidden: () => {
-               // calls on toast\`s hide animation end.
-           }
-         });
-     
-              // Toast.hide(toast);
-                   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-                   setTimeout(function () {
-                     Toast.hide(toast);
-                   }, timer);
-     
-       }
-
-     //  setTimeout(() => {
-         // }, 250);
-         // void(0);
-// es solo para pasar token a webview en IOS esta funcion
-//  window.WebViewBridge.onMessage(${JSON.stringify(data)});
+   
      handleInjectJavascript = (data) => {
        console.log('handleJavascript!')
       const injectJavascriptStr =  `(function() {
@@ -470,6 +417,11 @@ checkInternetScanQR = async (param) => {
         this.webView.injectJavaScript(injectJavascriptStr)
       }
     }
+
+    // onMessage(data) {
+    //   //Prints out data that was passed.
+    //   console.log(data);
+    // }
    
 render() { console.log("RENDER Home SCAN SCREEN!" );
 // const { params } = this.props.navigation.state;
@@ -487,25 +439,63 @@ render() { console.log("RENDER Home SCAN SCREEN!" );
 
 return   <View style={{flex: 1}}>
 
-{/* <View style={{flex: 0.4, flexDirection: 'column', alignItems: 'flex-end'}}>    
+{/* <View style={{flex: 0.4, flexDirection: 'column', alignItems: 'flex-end'}}>   
+
+// este andaba en comments
+ <KeyboardAvoidingView
+      behavior="padding"
+      style={{ flex:1 }}
+      enabled={Platform.OS === "android"}
+    > 
+
+
+
+<KeyboardAvoidingView
+  behavior="padding"
+  style={{ flex:1 }}
+  enabled={Platform.OS === "android"}
+  >
+ 
+    <FixViewJs />
+
+
 </View> */}
 
     {(1===1) ?
 
 (Platform.OS==='android') ?
+  
+
+<KeyboardAvoidingView
+behavior="padding"
+style={{ flex:1 }}
+enabled={Platform.OS === "android"}
+>
+
+     
     <WebView
         source={{ uri: this.props.webviewurl }}
         // source={{ uri: 'http://192.168.0.9:3000' }}
         // source={{ uri: params ? params.url : 'http://192.168.0.9:3000' }}
         ref={(view) => this.webView = view}
-        style={{ marginTop: 0 }}
+        style={{ marginTop:0  }}
         automaticallyAdjustContentInsets={false}
          domStorageEnabled={true}
          javaScriptEnabled={true}
-        //  onNavigationStateChange={this.onNavigationStateChange.bind(this)}
-        //  originWhitelist={['*']}
-        //  ref={this.WEBVIEW_REF}
-        //  source={{uri: 'https://www.***.com/'}}
+        //  onMessage={this.onMessage}
+        //  onMessage={(event) => {
+        //    if (this.ejecuta)
+        //   {
+        //     this.setState({iap:true})
+        //     // alert(event.nativeEvent.data);
+        //     setTimeout(
+        //       () => this.setState({iap:false}),
+        //     2000);
+        //     this.ejecuta=false;
+        //   }
+        // }}
+         
+     
 
 
         onShouldStartLoadWithRequest={(event) => {
@@ -589,9 +579,7 @@ return   <View style={{flex: 1}}>
           () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
         this.time);
 
-  
           }}
-
 
 
 
@@ -599,7 +587,13 @@ return   <View style={{flex: 1}}>
             const { nativeEvent } = syntheticEvent;
             console.warn('WebView error: ', nativeEvent);
           }}
-      />
+          />
+      
+    
+     
+  
+</KeyboardAvoidingView>
+    
       :
       // WebView para IOS con  onNavigationStateChange no anda bien el Should por eso se lo deje solo a Android
 <WebView
@@ -680,6 +674,8 @@ return   <View style={{flex: 1}}>
    
   
           }}
+
+       
 
           onError={syntheticEvent => {
             const { nativeEvent } = syntheticEvent;
@@ -870,7 +866,8 @@ const styles = StyleSheet.create({
         sqsoqslscanerror: state.sqso.currentQso.qslscan.body.error,
         qra: state.sqso.qra,
         webviewurl: state.sqso.webviewUrl,
-        webviewsession: state.sqso.webviewSession
+        webviewsession: state.sqso.webviewSession,
+        presshome : state.sqso.pressHome
         
      };
 };
@@ -880,7 +877,8 @@ const mapDispatchToProps = {
     getQslScan,
     updateLinkQso,
     manage_notifications,
-    setWebView
+    setWebView,
+    setPressHome
     
    }
 
