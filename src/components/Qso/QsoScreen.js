@@ -50,7 +50,7 @@ import {
   addMedia,
   uploadMediaToS3,
   welcomeUserFirstTime,
-  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto
+  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome
 } from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
@@ -220,6 +220,11 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+
+    // esto detecta cuando se apreta el TAB  de QSOSCREEN
+    this.props.navigation.setParams({
+      tapOnTabNavigator: this.tapOnTabNavigator
+    })
 
     
 
@@ -720,6 +725,12 @@ class QsoScreen extends Component {
       endQsoModal: true
     });
   };
+
+
+  tapOnTabNavigator = async () => {
+    console.log('PRESS QSOSCREEN!');
+    this.props.setPressHome(0);
+  }
 
   photoFromGallery = async () => {
 
@@ -2069,7 +2080,8 @@ const mapDispatchToProps = {
   sendActualMedia,
   setProfileModalStat,
   setConfirmProfilePhotoModal,
-  openModalConfirmPhoto
+  openModalConfirmPhoto,
+  setPressHome
 };
 
 export default connect(

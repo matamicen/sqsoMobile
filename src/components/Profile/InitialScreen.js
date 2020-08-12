@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { closeModalConfirmPhoto, resetForSignOut, postPushToken, profilePictureRefresh,
   followingsSelected, manage_notifications, confirmedPurchaseFlag, restoreCall,
   setSendingProfilePhotoModal, setConfirmProfilePhotoModal, setProfileModalStat,
-  getUserInfo,sendActualMedia, manageLocationPermissions } from '../../actions';
+  getUserInfo,sendActualMedia, manageLocationPermissions, setPressHome } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 import Permissions from 'react-native-permissions'
@@ -72,6 +72,23 @@ class InitialScreen extends Component {
         showRestoreSubscription: false,
         camaraSelect: false
     };
+  }
+
+
+
+  async componentDidMount() {
+    console.log("component Did Mount InitalScreen");
+
+        // esto detecta cuando se apreta el TAB  de InitialScreen
+        this.props.navigation.setParams({
+          tapOnTabNavigator: this.tapOnTabNavigator
+        })
+
+  }
+
+  tapOnTabNavigator = async () => {
+    console.log('PRESS INITIAL SCREEN!');
+    this.props.setPressHome(0);
   }
 
   gotoLoginScreen = () => {
@@ -565,7 +582,7 @@ signOut = async () => {
 
                <View style={{flex: 0.605, width:this.width-15, marginBottom: 10}}>
                 
-                <FollowerList /> 
+                <FollowerList navigation={this.props.navigation}/> 
                 
                 </View>
 
@@ -800,7 +817,8 @@ const mapDispatchToProps = {
   setProfileModalStat,
   getUserInfo,
   sendActualMedia,
-  manageLocationPermissions
+  manageLocationPermissions,
+  setPressHome
 
     
    }
