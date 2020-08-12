@@ -191,6 +191,10 @@ class QsoMode extends Component {
                 {
                     title: 'EME',
                     value: 'EME'
+                },
+                {
+                    title: 'WSPR',
+                    value: 'WSPR'
                 }
             
                ]
@@ -222,7 +226,7 @@ class QsoMode extends Component {
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>{I18n.t("QsoModePleasePick")} </Text>
                     {pickerValues.map((value, index) => {
                         return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                                 <Text style={{ fontSize: 18, padding:1.25}} >{value.title}</Text>
+                                 <Text style={{ fontSize: 17, padding:1.25}} >{value.title}</Text>
                                  </TouchableOpacity>
                     })}
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
-import { getUserInfo, followersAlreadyCalled, manage_notifications } from '../../actions';
+import { getUserInfo, followersAlreadyCalled, manage_notifications, setPressHome} from '../../actions';
  import NotificationList from './NotificationList';
  import UnreadCounter from './UnreadCounter';
 // import SearchHeader from './SearchHeader';
@@ -64,6 +64,7 @@ class Notification extends Component {
 
   tapOnTabNavigator = async () => {
     console.log('PRESS NOTIF!');
+    this.props.setPressHome(0);
     today = new Date();
     var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
     console.log('fecha guardada: '+ultimaFechaDeIngreso);
@@ -154,7 +155,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
   getUserInfo,
   followersAlreadyCalled,
-  manage_notifications
+  manage_notifications,
+  setPressHome
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);

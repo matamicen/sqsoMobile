@@ -3,8 +3,7 @@ import { Text, Image, View, Button, StyleSheet, Platform, TouchableOpacity, Dime
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Permissions from 'react-native-permissions'
-import {  followingsSelected, getQrasFromSearch, insertQraSearched, getUserInfo, refreshFollowings,
-  searchQrasLocal} from '../../actions';
+import {  setPressHome } from '../../actions';
 import { hasAPIConnection} from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 // import User from './User';
@@ -60,8 +59,18 @@ class Util extends Component {
   async componentDidMount() {
     console.log("component Did Mount Util");
 
+        // esto detecta cuando se apreta el TAB  de UTIL
+        this.props.navigation.setParams({
+          tapOnTabNavigator: this.tapOnTabNavigator
+        })
 
 
+
+  }
+
+  tapOnTabNavigator = async () => {
+    console.log('PRESS UTIL!');
+    this.props.setPressHome(0);
   }
 
   onChange = async (text) => {
@@ -346,6 +355,7 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
+  setPressHome
 
 
    }

@@ -27,7 +27,7 @@ import {FETCHING_API_REQUEST,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
         UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS,
-        SET_WEBVIEW  } from './types';
+        SET_WEBVIEW, SET_PRESSHOME  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -136,6 +136,18 @@ export const setWebView = (websession,weburl) => {
       
   };
 }
+
+
+export const setPressHome = (cant) => {
+  return {
+      type: SET_PRESSHOME,
+      presshome: cant
+     
+      
+  };
+}
+
+
 
 
 export const setSendingProfilePhotoModal = (status) => {

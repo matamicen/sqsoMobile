@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { followAdd, unfollow } from '../../actions';
+import { followAdd, unfollow, setWebView } from '../../actions';
 import { getDate, getFollowStatus, hasAPIConnection} from '../../helper';
 import PropTypes from 'prop-types';
 import VariosModales from '../Qso/VariosModales';
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 import I18n from '../../utils/i18n';
+import global_config from '../../global_config.json'; 
+
 
 
 
@@ -102,8 +104,30 @@ class Qra extends Component {
          
             //  this.closeModaldeleteqra();
             //   }
-
             qraProfile = async (qra) => {
+              if (await hasAPIConnection())
+              {
+
+              auxurl = global_config.urlWeb+'/'+qra;
+              await this.props.setWebView(this.props.webviewsession,auxurl)
+              
+              setTimeout(() => {
+                this.props.navigation.navigate('Home', {
+                 // url: urlnotif
+                  
+                });
+              }
+              , 100);
+              this.closeModaldeleteqra();
+              
+           
+              
+            }else
+            this.setState({nointernet: true});
+      
+            }
+
+            qraProfile_anterior_estenoseusa = async (qra) => {
               console.log('QRAprofile');
               urlnotif = 'https://www.superqso.com/'+qra;
               Linking.canOpenURL(urlnotif).then(supported => {
@@ -312,7 +336,8 @@ const styles = StyleSheet.create({
     return { //sqlrdsid: state.sqso.currentQso.sqlrdsId,
              followings: state.sqso.currentQso.followings,
              jwtToken: state.sqso.jwtToken,
-             userqra: state.sqso.qra
+             userqra: state.sqso.qra,
+             webviewsession: state.sqso.webviewSession,
              
     }
           //   isfetching: state.sqso.isFetching };
@@ -323,8 +348,9 @@ const mapDispatchToProps = {
  // QsoQraDelete,
  // deleteQsoQra,
   followAdd,
-  unfollow
-//  getUserInfo
+  unfollow,
+  setWebView
+
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Qra);
