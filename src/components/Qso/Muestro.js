@@ -243,7 +243,7 @@ class Muestro extends Component {
          
               }
                   else
-              coef = valor / 650; // esta coeficiente es para todas las fotos que no vienen de la galeria
+              coef = valor / 690; // esta coeficiente es para todas las fotos que no vienen de la galeria
                                   // posiblemente en un futuro alla q bajar esta valor para achicar mas las fotos
                                   // para una ahorro en tranferencia de datos en aws mas que en s3 de alamcenamiento
          }
@@ -258,12 +258,13 @@ class Muestro extends Component {
             
           //    coef = valor / 850; 
           //   else
+
           if (this.props.sqsomedia.gallery && this.props.sqsomedia.type==='image')
           // le doy mas deficinion a las fotos que vienen de la galeria porque 
           // suelen publicar activaciones con letra chica y esta bueno que se vean
             coef = valor / 920;
           else
-            coef = valor / 650;
+            coef = valor / 690;
 
         }
 

@@ -459,6 +459,8 @@ return   <View style={{flex: 1}}>
     <FixViewJs />
 
 
+
+
 </View> */}
 
     {(1===1) ?
@@ -469,12 +471,13 @@ return   <View style={{flex: 1}}>
 <KeyboardAvoidingView
 behavior="padding"
 style={{ flex:1 }}
-enabled={Platform.OS === "android"}
->
+enabled={Platform.OS === "android"}>
 
      
     <WebView
+      //  source={{ uri: 'https://www.superqso.com' }}
         source={{ uri: this.props.webviewurl }}
+        //  source={{ uri: 'http://192.168.0.39:3000' }}
         // source={{ uri: 'http://192.168.0.9:3000' }}
         // source={{ uri: params ? params.url : 'http://192.168.0.9:3000' }}
         ref={(view) => this.webView = view}
@@ -482,6 +485,7 @@ enabled={Platform.OS === "android"}
         automaticallyAdjustContentInsets={false}
          domStorageEnabled={true}
          javaScriptEnabled={true}
+        //  scalesPageToFit={false}
         //  onMessage={this.onMessage}
         //  onMessage={(event) => {
         //    if (this.ejecuta)
