@@ -148,7 +148,8 @@ backAction = () => {
      // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
      this.time = 50;
     await this.props.setWebView(this.props.webviewsession,home);
-    this.props.setPressHome(0);
+  
+  //   this.props.setPressHome(0);
   }else
     this.props.setPressHome(1);
    
@@ -485,6 +486,7 @@ enabled={Platform.OS === "android"}>
         automaticallyAdjustContentInsets={false}
          domStorageEnabled={true}
          javaScriptEnabled={true}
+          textZoom={100}
         //  scalesPageToFit={false}
         //  onMessage={this.onMessage}
         //  onMessage={(event) => {
@@ -582,6 +584,11 @@ enabled={Platform.OS === "android"}>
         setTimeout(
           () => this.webView.postMessage(JSON.stringify(this.props.webviewsession)),
         this.time);
+        // setTimeout(
+        //   () => this.handleInjectJavascript(JSON.stringify(this.props.webviewsession)),
+        //   this.time);
+
+
 
           }}
 

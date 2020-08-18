@@ -68,7 +68,7 @@ const initialState = {
     cancelButton_stat: 0,
     webviewSession: '',
     webviewUrl: global_config.urlWeb,
-    pressHome: 0,
+    pressHome: 1,
 
 
     currentQso: {
