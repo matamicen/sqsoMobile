@@ -146,7 +146,7 @@ export default {
     InitialScreenClose: "Cerrar",
     InitialScreenEdit: "Editar",
     InitialScreenContactUs: "Contáctanos",
-    InitialScreenSignOut: "Salir",
+    InitialScreenSignOut: "Cerrar Sesion",
     InitialScreenRestoreSubscriptions: "Recuperar Subscripción",
     InitialScreenFollowing: "Siguiendo",
     InitialScreenFollowers: "Seguidores",

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions,
     Linking  } from 'react-native';
 import { connect } from 'react-redux';
-import {  set_notification_read, manage_notifications,setWebView } from '../../actions';
+import {  set_notification_read, manage_notifications,setWebView,setPressHome } from '../../actions';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
@@ -59,6 +59,7 @@ class NotifItem extends Component {
       onPressItem2 = async (idqra_notifications, urlnotif) => {
         if (await hasAPIConnection())
         {
+        this.props.setPressHome(1); // sete en 1 porque apreo notif entonces el proximo TAP en home debe refrescar.
         auxurl = urlnotif + '?' + new Date();
         await this.props.setWebView(this.props.webviewsession,auxurl)
         
@@ -548,7 +549,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
     set_notification_read,
     manage_notifications,
-    setWebView
+    setWebView,
+    setPressHome
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotifItem);
