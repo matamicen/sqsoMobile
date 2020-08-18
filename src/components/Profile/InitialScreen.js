@@ -511,7 +511,7 @@ signOut = async () => {
                 </View>
 
                 <View style={{flex:0.25, alignItems: 'flex-end', marginRight: 20}}>
-                <TouchableOpacity style={{marginTop: 17}} onPress={ () => this.signOut() }>
+                <TouchableOpacity style={{marginTop: 17, alignItems: 'center'}} onPress={ () => this.signOut() }>
                     <Image source={require('../../images/logout.png')}  style={{width: 20, height: 20, marginLeft: I18n.locale.substring(0, 2)==='es' ? 3:15  } } 
                  resizeMode="contain" /> 
                 {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
