@@ -143,6 +143,8 @@ mediafilesSinProfile = [];
 
   export const check_firstTime_OnProgress=(qsotype,band,mode,rst,db,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
      console.log("DENTRO de CHECK FIRST TIME");
+     console.log("lat"+latitude);
+     console.log("lon"+longitude);
      console.log("OnProgress: "+ onprogress);
     if (onprogress && sqlrdsid===''){
 

@@ -65,22 +65,24 @@ class QsodB extends Component {
              dbActual = db1+this.state.db2 + this.state.db3
             //  this.props.setRst(rstActual,this.props.digitalmode,this.props.rstbeforechangemode);
             this.props.setRst(dbActual,true); 
-             if (this.props.sqlrdsid!==''){
+            //#PUBLISH
+            //  if (this.props.sqlrdsid!==''){
  
               
  
-                 qsoHeader = { "mode" : this.props.mode,
-                 "band" : this.props.band,
-                 "type" : this.props.qsotype,
-                 "sqlrdsid" : this.props.sqlrdsid,
-                 "qra": this.props.qra,
-                 "rst" : '',
-                 "db" : dbActual
-               }
-               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+            //      qsoHeader = { "mode" : this.props.mode,
+            //      "band" : this.props.band,
+            //      "type" : this.props.qsotype,
+            //      "sqlrdsid" : this.props.sqlrdsid,
+            //      "qra": this.props.qra,
+            //      "rst" : '',
+            //      "db" : dbActual
+            //    }
+            //    console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-                await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
-             }
+            //     await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
+            //  }
+            //#PUBLISH
           
          }
  
@@ -101,23 +103,24 @@ class QsodB extends Component {
              this.setState({ db2: db2 })
              dbActual = this.state.db1+db2 + this.state.db3
              this.props.setRst(dbActual,true);
-                
-                if (this.props.sqlrdsid!==''){
+      //#PUBLISH          
+    //             if (this.props.sqlrdsid!==''){
     
        
  
-         qsoHeader = { "mode" : this.props.mode,
-         "band" : this.props.band,
-         "type" : this.props.qsotype,
-         "sqlrdsid" : this.props.sqlrdsid,
-         "qra": this.props.qra,
-         "rst" : '',
-         "db" : dbActual
-       }
-       console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+    //      qsoHeader = { "mode" : this.props.mode,
+    //      "band" : this.props.band,
+    //      "type" : this.props.qsotype,
+    //      "sqlrdsid" : this.props.sqlrdsid,
+    //      "qra": this.props.qra,
+    //      "rst" : '',
+    //      "db" : dbActual
+    //    }
+    //    console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-        await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
-     }
+    //     await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
+    //  }
+    //#PUBLISH
  
   
    }
@@ -143,23 +146,24 @@ class QsodB extends Component {
              dbActual = this.state.db1+this.state.db2+db3
          this.props.setRst(dbActual,true);
  
-            
-            if (this.props.sqlrdsid!==''){
+     //#PUBLISH       
+            // if (this.props.sqlrdsid!==''){
  
                 
  
-                qsoHeader = { "mode" : this.props.mode,
-                "band" : this.props.band,
-                "type" : this.props.qsotype,
-                "sqlrdsid" : this.props.sqlrdsid,
-                "qra": this.props.qra,
-                "rst" : '',
-                "db" : dbActual
-              }
-              console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+            //     qsoHeader = { "mode" : this.props.mode,
+            //     "band" : this.props.band,
+            //     "type" : this.props.qsotype,
+            //     "sqlrdsid" : this.props.sqlrdsid,
+            //     "qra": this.props.qra,
+            //     "rst" : '',
+            //     "db" : dbActual
+            //   }
+            //   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-               await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
-            }
+            //    await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
+            // }
+            //#PUBLISH
          
         }
  

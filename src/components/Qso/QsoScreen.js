@@ -50,8 +50,8 @@ import {
   addMedia,
   uploadMediaToS3,
   welcomeUserFirstTime,
-  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome
-} from "../../actions";
+  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
+  postQsoEdit, postQsoQras} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -68,7 +68,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -1325,19 +1325,61 @@ class QsoScreen extends Component {
 
               console.log('onprogress '+ONPROGRESS)
 
-              if (ONPROGRESS) {
-                data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
-                  this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude,
-                                            this.props.longitude);
-                    console.log("Data to Send API: "+ JSON.stringify(data));  
-                    this.props.actindicatorPostQsoNewTrue();
-                    this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+              // #PUBLISH
+              // if (ONPROGRESS) {
+              //   data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
+              //     this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude,
+              //                               this.props.longitude);
+              //       console.log("Data to Send API: "+ JSON.stringify(data));  
+              //       this.props.actindicatorPostQsoNewTrue();
+              //       this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
                     
-              }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-
+              // }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+              fechaqso = getDate();
+       data = {
+        "band" : '',
+        "mode" : '',
+        "rst" : '',
+        "db": '',
+        "type" : this.props.qsotype,
+        "longitude" : this.props.longitude,
+        "latitude": this.props.latitude,
+        "datetime": fechaqso,
+        "qra_owner": this.props.qra
+      };
+              this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+              // #PUBLISH
           }
 
   }
+
+ // #PUBLISH
+  publicar = async () => {
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+     await this.props.onprogressTrue();
+   else this.props.onprogressFalse();
+
+    console.log('onprogress '+ONPROGRESS) // #PUBLISH 
+    if (ONPROGRESS) { 
+      // data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst, this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude, this.props.longitude);
+      //  console.log("Data to Send API: "+ JSON.stringify(data));
+        this.props.actindicatorPostQsoNewTrue();
+        //  this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
+        qsoHeader = { "mode" : this.props.mode,
+                              "band" : this.props.band,
+                              "type" : this.props.qsotype,
+                              "sqlrdsid" : this.props.sqsosqlrdsid,
+                              "qra": this.props.qra,
+                              "rst" : this.props.rst,
+                              "db" : this.props.db
+                           }
+              console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+              this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); 
+              this.props.postQsoQras("ALLQSONEW",this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
+        
+        }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+   
+   }
 
 
 
@@ -1665,8 +1707,9 @@ class QsoScreen extends Component {
           <View style={{ flex: 0.26, marginTop: 15, marginLeft: 9 }}>
             {this.props.sqsonewqsoactive && 
               // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
-                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
-                {/* <Image  
+                  // <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
+                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar()}>
+                  {/* <Image  
                   source={require("../../images/endQso2.png")}
                   style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
                   resizeMode="contain"
@@ -2081,7 +2124,9 @@ const mapDispatchToProps = {
   setProfileModalStat,
   setConfirmProfilePhotoModal,
   openModalConfirmPhoto,
-  setPressHome
+  setPressHome,
+  postQsoEdit,
+  postQsoQras
 };
 
 export default connect(

@@ -478,7 +478,8 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       console.log("ejecuta llamada API Qso NEW");  
     try {
        console.log("Antes1 QSO new" );
-       console.log("RST: "+ JSON.stringify(bodyqsonew.rst));
+       console.log(bodyqsonew);
+      //  console.log("RST: "+ JSON.stringify(bodyqsonew.rst));
        let tiempo1;
        let tiempo2;
        let resu;
@@ -493,6 +494,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
             'Content-Type': 'application/json'
           }, // OPTIONAL
           body: bodyqsonew
+
           
         }
 
@@ -517,8 +519,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
         dispatch(setShareUrlGuid(respuesta.body.message.guid_url));
    
-        await dispatch(postQsoQras("ALLQSONEW",respuesta.body.message.newqso, qsoqras,jwtToken));
-          console.log('mediafiles length:'+mediafiles.length);
+        //#PUBLISH
+        // await dispatch(postQsoQras("ALLQSONEW",respuesta.body.message.newqso, qsoqras,jwtToken));
+      //#PUBLISH
+        console.log('mediafiles length:'+mediafiles.length);
          
 
        

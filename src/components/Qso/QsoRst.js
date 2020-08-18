@@ -61,23 +61,24 @@ class QsoRst extends Component {
             rstActual = rstR+this.state.rstS + this.state.rstT
             // this.props.setRst(rstActual,this.props.digitalmode,this.props.rstbeforechangemode);
             this.props.setRst(rstActual,false);
-            
-            if (this.props.sqlrdsid!==''){
+            //#PUBLISH
+            // if (this.props.sqlrdsid!==''){
 
              
 
-                qsoHeader = { "mode" : this.props.mode,
-                "band" : this.props.band,
-                "type" : this.props.qsotype,
-                "sqlrdsid" : this.props.sqlrdsid,
-                "qra": this.props.qra,
-                "rst" : rstActual,
-                "db" : ''
-              }
-              console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+            //     qsoHeader = { "mode" : this.props.mode,
+            //     "band" : this.props.band,
+            //     "type" : this.props.qsotype,
+            //     "sqlrdsid" : this.props.sqlrdsid,
+            //     "qra": this.props.qra,
+            //     "rst" : rstActual,
+            //     "db" : ''
+            //   }
+            //   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-               await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
-            }
+            //    await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
+            // }
+            //#PUBLISH
          
         }
 
@@ -98,23 +99,24 @@ class QsoRst extends Component {
             this.setState({ rstS: rstS })
             rstActual = this.state.rstR+rstS + this.state.rstT
             this.props.setRst(rstActual,false);
-               
-               if (this.props.sqlrdsid!==''){
+               //#PUBLISH
+   //             if (this.props.sqlrdsid!==''){
    
       
 
-        qsoHeader = { "mode" : this.props.mode,
-            "band" : this.props.band,
-            "type" : this.props.qsotype,
-            "sqlrdsid" : this.props.sqlrdsid,
-            "qra": this.props.qra,
-            "rst" : rstActual,
-            "db" : ''
-      }
-      console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+   //      qsoHeader = { "mode" : this.props.mode,
+   //          "band" : this.props.band,
+   //          "type" : this.props.qsotype,
+   //          "sqlrdsid" : this.props.sqlrdsid,
+   //          "qra": this.props.qra,
+   //          "rst" : rstActual,
+   //          "db" : ''
+   //    }
+   //    console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-       await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
-    }
+   //     await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
+   //  }
+   //#PUBLISH
 
  
   }
@@ -140,23 +142,24 @@ class QsoRst extends Component {
             rstActual = this.state.rstR+this.state.rstS+rstT
         this.props.setRst(rstActual,false);
 
-           
-           if (this.props.sqlrdsid!==''){
+           //#PUBLISH
+         //   if (this.props.sqlrdsid!==''){
 
                
 
-               qsoHeader = { "mode" : this.props.mode,
-               "band" : this.props.band,
-               "type" : this.props.qsotype,
-               "sqlrdsid" : this.props.sqlrdsid,
-               "qra": this.props.qra,
-               "rst" : rstActual,
-               "db" : ''
-             }
-             console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+         //       qsoHeader = { "mode" : this.props.mode,
+         //       "band" : this.props.band,
+         //       "type" : this.props.qsotype,
+         //       "sqlrdsid" : this.props.sqlrdsid,
+         //       "qra": this.props.qra,
+         //       "rst" : rstActual,
+         //       "db" : ''
+         //     }
+         //     console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-              await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
-           }
+         //      await this.props.postQsoEdit(qsoHeader,'rst',this.props.jwtToken);
+         //   }
+         //#PUBLISH
         
        }
 
@@ -166,129 +169,7 @@ class QsoRst extends Component {
    }
     }
 
-    // ahora vienen los updates de dB de los modos digitales
-
-//     updatedb1 = async (db1) => {
-//       if (await hasAPIConnection())
-//       {  
-//          console.log('signo elegido: '+db1);
-//          if (this.state.db1!==db1) {
- 
-//              console.log('signo elegido: '+db1);
-//              console.log('signo anterior: '+this.state.db1);
-//              this.setState({ db1: db1 })
-//              rstActual = db1+this.state.db2 + this.state.db3
-//              this.props.setRst(rstActual,this.props.digitalmode,this.props.rstbeforechangemode);
-             
-//              if (this.props.sqlrdsid!==''){
- 
-              
- 
-//                  qsoHeader = { "mode" : this.props.mode,
-//                  "band" : this.props.band,
-//                  "type" : this.props.qsotype,
-//                  "sqlrdsid" : this.props.sqlrdsid,
-//                  "qra": this.props.qra,
-//                  "rst" : rstActual
-//                }
-//                console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
- 
-//                 await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
-//              }
-          
-//          }
- 
-//      }else
-//      { this.togglePicker();
-//        this.setState({nointernet: true});
-//      }
-//       }
-     
-//       updatedb2 = async (db2) => {
- 
-//          if (await hasAPIConnection())
-//          {  
-//             if (this.state.db2!==db2) {
     
-//              console.log('db2 elegido: '+db2);
-//              console.log('db2 anterior: '+this.state.db2);
-//              this.setState({ db2: db2 })
-//              rstActual = this.state.db1+db2 + this.state.db3
-//              this.props.setRst(rstActual,this.props.digitalmode,this.props.rstbeforechangemode);
-                
-//                 if (this.props.sqlrdsid!==''){
-    
-       
- 
-//          qsoHeader = { "mode" : this.props.mode,
-//          "band" : this.props.band,
-//          "type" : this.props.qsotype,
-//          "sqlrdsid" : this.props.sqlrdsid,
-//          "qra": this.props.qra,
-//          "rst" : rstActual
-//        }
-//        console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
- 
-//         await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
-//      }
- 
-  
-//    }
- 
- 
-//      }else
-//      { this.togglePicker();
-//      this.setState({nointernet: true});
-//      }
-//   }
- 
-//   updatedb3 = async (db3) => {
-//      if (await hasAPIConnection())
-//      {  
-//         if (this.state.db3!==db3) {
-     
-//          console.log('db3 elegido: '+db3);
-//          console.log('db3 anterior: '+this.state.db3);
-//          this.setState({ db3: db3 })
-//          // if (rstT===' ')
-//          //     rstActual = this.state.rstR+this.state.rstS;
-//          //  else
-//              rstActual = this.state.db1+this.state.db2+db3
-//          this.props.setRst(rstActual,this.props.digitalmode,this.props.rstbeforechangemode);
- 
-            
-//             if (this.props.sqlrdsid!==''){
- 
-                
- 
-//                 qsoHeader = { "mode" : this.props.mode,
-//                 "band" : this.props.band,
-//                 "type" : this.props.qsotype,
-//                 "sqlrdsid" : this.props.sqlrdsid,
-//                 "qra": this.props.qra,
-//                 "rst" : rstActual
-//               }
-//               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
- 
-//                await this.props.postQsoEdit(qsoHeader,this.props.jwtToken);
-//             }
-         
-//         }
- 
-//     }else
-//     { this.togglePicker();
-//       this.setState({nointernet: true});
-//     }
-//      }
-    
-
-    //  updaterstT = (rstT) => {
-    //     console.log('T elegido: '+rstT);
-    //     console.log('T anterior: '+this.state.rstT);
-    //     this.setState({ rstT: rstT })
-    //  }
-
-
     render() { console.log("RENDER qso RST" );
               
               
