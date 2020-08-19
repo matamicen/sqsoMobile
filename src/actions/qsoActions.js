@@ -590,7 +590,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
     };
   };
 
-  export const postQsoQras = (type, sqlRdsId, qsoqras,jwtToken) => {
+  export const postQsoQras = (type, qsoHeader, sqlRdsId, qsoqras,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoQras'));
       console.log("ejecuta llamada API POSTqsoQRAS");  
@@ -650,6 +650,9 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
             status = {"sent": true}
             dispatch(updateQsoOnlyOneQraStatus(status, arr[0]));
         }
+
+        // llamo a postQsoEdit para pasarle datos de header a la publicacion y flag de publicada
+        dispatch(postQsoEdit(qsoHeader,'',jwtToken));
 
       }
      
@@ -736,7 +739,7 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
        // dispatch(updateSqlRdsId(respuesta.message));
         console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.body.message));
 
-       
+        dispatch(actindicatorPostQsoNewFalse());
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");
        

@@ -1374,9 +1374,13 @@ class QsoScreen extends Component {
                               "db" : this.props.db
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+           
               this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); 
-              this.props.postQsoQras("ALLQSONEW",this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
-        
+              if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+                 this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
+              else
+               this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
+               
         }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
    
    }
