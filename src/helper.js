@@ -62,6 +62,67 @@ mediafilesSinProfile = [];
    
   }
 
+  export const missingFieldsToPublish=(qsotype,band,mode,qsoqras,mediafiles)=>{
+ 
+    // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
+    // esto evita que pueda mandar un POST sin media
+    console.log('mediafiles en updateOnPRogress');
+    console.log(mediafiles)
+   mediafilesSinProfile = [];
+   
+     mediafiles.map(item => {
+       if(item.type !== 'profile') {
+         mediafilesSinProfile =  [...mediafilesSinProfile,item] 
+       }
+     })
+   
+     let devuelvo;
+       if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY') && mediafilesSinProfile.length < 2){
+         devuelvo = { message: I18n.t("MISSPOSTMEDIA")}
+         return devuelvo;
+       }
+       else {
+         // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
+         // el body de los Media (TouchwithoutFeedback)
+     
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (mediafilesSinProfile.length < 2))
+           {
+            devuelvo = { message: I18n.t("MISSPOSTMEDIA")}
+            return devuelvo;
+
+           }
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (band === I18n.t("ReducerBand")))
+           {
+            devuelvo = { message: I18n.t("MISSBAND")}
+            return devuelvo;
+
+           }
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (mode === I18n.t("ReducerMode")))
+           {
+            devuelvo = { message: I18n.t("MISSMODE")}
+            return devuelvo;
+
+           }
+
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (qsoqras.length===0))
+           {
+            devuelvo = { message: I18n.t("MISSQRAS")}
+            return devuelvo;
+
+           }
+          //  if ((qsotype!=='POST' && qsotype!=='QAP' && qsotype!=='FLDDAY') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
+          //  { 
+          //      return true;
+          //  } 
+          //  else {
+          //      return false; 
+           
+          //  }
+   
+       }
+      
+     }
+
   export const getDate =  () => {
     var day = '';
     var month = '';
@@ -260,8 +321,8 @@ mediafilesSinProfile = [];
 
    var fechaEnMiliseg = String(Date.now());
    var url1 = 'https://www.google.com?';
-   var url2 = 'https://en.wikipedia.org?';
-
+   var url2 = 'https://www.facebook.com/?';
+   
    const myNewStr = fechaEnMiliseg.substr(12, 1);
     console.log('INTERNET CHECK NOW: '+fechaEnMiliseg)
     console.log('substring:' + myNewStr);

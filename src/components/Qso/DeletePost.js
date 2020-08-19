@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Modal, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { deletePost, deletedFlag, deleteMediaInMemory , deleteMedia, setToken} from '../../actions';
+import { deletePost, deletedFlag, deleteMediaInMemory , deleteMedia, setToken,newqsoactiveFalse,resetQso } from '../../actions';
 import { hasAPIConnection} from '../../helper';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports'
@@ -42,14 +42,14 @@ class DeletePost extends Component {
     //     else
     //     console.log('NO TIENE sqlrdsid:');
 
-
-    session = await Auth.currentSession();
+//#PUBLISH
+    // session = await Auth.currentSession();
       
     
-    //  session = await Auth.currentAuthenticatedUser();
-      console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
-       this.props.setToken(session.idToken.jwtToken);
-    
+    // //  session = await Auth.currentAuthenticatedUser();
+    //   console.log("Su token DID MOUNT es: " + session.idToken.jwtToken);
+    //    this.props.setToken(session.idToken.jwtToken);
+ //#PUBLISH   
 
 
 
@@ -71,10 +71,11 @@ class DeletePost extends Component {
         // console.log('sqlrdsid: '+ this.props.sqlrdsid + ' mediafiles.length: '+ this.props.mediafiles.length + 'conta: '+ this.conta)
         // if (this.props.sqlrdsid && this.conta===1) // quiere decir que tiene QSO en base de datos y solo le queda un media
         //      this.setState({warningMessage: true});
-        console.log('deletepost_sqlrdsid: '+ this.props.sqlrdsid );
-        if (this.props.sqlrdsid)
-          this.setState({alreadyPublished: true});
-
+//#PUBLISH       
+        // console.log('deletepost_sqlrdsid: '+ this.props.sqlrdsid );
+        // if (this.props.sqlrdsid)
+        //   this.setState({alreadyPublished: true});
+//#PUBLISH
 
      
        }
@@ -120,40 +121,49 @@ class DeletePost extends Component {
     //       this.setState({nointernet: true});
     //     }
 
-        deletePublishedPost = async  () => {
+    //#PUBLISH no tiene mas sentido porque se publica cuando se apreta el boton de publicar
+        // deletePublishedPost = async  () => {
        
-            if (await hasAPIConnection())
-          {
-                    // si se llama este metodo es porque el post fue publicado
-                    this.deletePost();
-                    this.props.closeDeletePost()
+        //     if (await hasAPIConnection())
+        //   {
+        //             // si se llama este metodo es porque el post fue publicado
+        //             this.deletePost();
+        //             this.props.closeDeletePost()
     
-           // this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
-          }else
-              this.setState({nointernet: true});
-            }
+        //    // this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
+        //   }else
+        //       this.setState({nointernet: true});
+        //     }
 
-        closeVariosModales = () => {
-          this.setState({nointernet: false}); 
+        // closeVariosModales = () => {
+        //   this.setState({nointernet: false}); 
           
-        }
+        // }
 
 
-          deletePost = async  () => {
-            if (await hasAPIConnection())
-          {
-            // this.props.deletedFlag(false,'');
-          //  this.setState({warningMessage: false});
-            this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
-          }else
-              this.setState({nointernet: true});
-            }
+          // deletePost = async  () => {
+          //   if (await hasAPIConnection())
+          // {
+          //   // this.props.deletedFlag(false,'');
+          // //  this.setState({warningMessage: false});
+          //   this.props.deletePost(this.props.sqlrdsid,this.props.jwtToken);
+          // }else
+          //     this.setState({nointernet: true});
+          //   }
 
-            closeVariosModales = () => {
-              this.setState({nointernet: false}); 
+          //   closeVariosModales = () => {
+          //     this.setState({nointernet: false}); 
               
-            }
+          //   }
+//#PUBLISH
 
+// se borra logicamente de aca, en RDS quedo grabado con el flag en INACTIVO el QSO
+            deletePost2 = async  () => {
+              this.props.newqsoactiveFalse();
+              this.props.resetQso();
+              this.props.closeDeletePost();
+
+            }
 
 
             
@@ -185,47 +195,34 @@ class DeletePost extends Component {
 
                      
                     <View style={{ flex:1, alignItems: "center", marginTop:3 }}>
-                   {/* { (!this.props.deletedflag) ? */}
-                      { (this.state.alreadyPublished) ?
+                 
+                   
                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
                        <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("DeletePostWarning")}</Text>
                         <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("DeletePostPublishedMessage")}</Text>
                       </View>
-                      :
-                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
-                     
-                   <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("DeletePostCantDeletePost")}</Text>
-                      </View> }
-                {/* :
-                  <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
-                            <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>ERROR</Text>
-                            <Text style={{ color: 'white', fontSize: 16}}>We could not delete </Text>
-                </View>
-             */}
-            {/* } */}
+            
+          
 
 
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
                             <View style={{ flex:0.5, alignItems: 'flex-start'}}>
-                            {(this.state.alreadyPublished) &&  
+                          
                               <TouchableOpacity onPress={() => this.props.closeDeletePost()} >
                             <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("DeleteMediaCancel")}</Text>
                               </TouchableOpacity>
-                                 }
+                          
                             </View>
                            {/* {(!this.props.deletedflag) && */}
                             <View style={{ flex:0.5, alignItems: 'flex-end'}}>
-                            {(this.state.alreadyPublished) ?    
-                              <TouchableOpacity onPress={() => this.deletePublishedPost()} >
+                           
+                         
+                              <TouchableOpacity onPress={() => this.deletePost2()} >
                             <Text style={{ color: 'red', fontSize: 16}}>{I18n.t("DeletePostDelete")}</Text>
                               </TouchableOpacity>
-                              :
-                              <TouchableOpacity onPress={() => this.props.closeDeletePost()} >
-                                <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeletePostCantDelete")}</Text>
-                             </TouchableOpacity>
-                            }
+                   
                           </View>
-                     {/* }  */}
+            
 
                        </View>   
                     </View>
@@ -295,7 +292,9 @@ const mapDispatchToProps = {
   deletedFlag,
   deletePost,
   deleteMedia,
-  setToken
+  setToken,
+  newqsoactiveFalse,
+  resetQso
  
    }
 

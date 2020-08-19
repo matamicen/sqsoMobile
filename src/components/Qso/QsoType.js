@@ -101,35 +101,38 @@ class QsoType extends Component {
          
         }
 
-        if (this.props.sqlrdsid!=='' && this.puedecambiar) {
+        //#PUBLISH esto no tiene sentido porque los datos header se envian a lo ultimo cuando pasa las validaciones y se apreta el boton
+        // de publicar
+        // if (this.props.sqlrdsid!=='' && this.puedecambiar) {
 
-          if (typetochange==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
-          {
-            bandAux = '';
-            modeAux = '';
-            rstAux = '';
-            dbAux = '';
-          }
-          else
-          {
-            bandAux = this.props.band;
-            modeAux = this.props.mode;
-            rstAux = this.props.rst;
-            dbAux = this.props.db;
+        //   if (typetochange==='POST' || typetochange==='QAP' || typetochange==='FLDDAY')
+        //   {
+        //     bandAux = '';
+        //     modeAux = '';
+        //     rstAux = '';
+        //     dbAux = '';
+        //   }
+        //   else
+        //   {
+        //     bandAux = this.props.band;
+        //     modeAux = this.props.mode;
+        //     rstAux = this.props.rst;
+        //     dbAux = this.props.db;
 
-          }
+        //   }
 
-          qsoHeader = { "mode" : modeAux,
-                        "band" : bandAux,
-                        "rst" : rstAux,
-                        "type" : typetochange,
-                        "sqlrdsid" : this.props.sqlrdsid,
-                        "qra": this.props.qra,
-                        "db" : dbAux
-                    }
-          console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
-           this.props.postQsoEdit(qsoHeader,'type',this.props.jwtToken);   
-        }
+        //   qsoHeader = { "mode" : modeAux,
+        //                 "band" : bandAux,
+        //                 "rst" : rstAux,
+        //                 "type" : typetochange,
+        //                 "sqlrdsid" : this.props.sqlrdsid,
+        //                 "qra": this.props.qra,
+        //                 "db" : dbAux
+        //             }
+        //   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+        //    this.props.postQsoEdit(qsoHeader,'type',this.props.jwtToken);   
+        // }
+        //#PUBLISH
 
         this.closeQsoTypeModal();
         setTimeout(() => {

@@ -1706,7 +1706,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
 
 
 
-      this.toast(I18n.t("qsoActionsPublishingDescription"),2500);
+       this.toast(I18n.t("qsoActionsPublishingDescription"),2500);
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api updateMediaDescription");

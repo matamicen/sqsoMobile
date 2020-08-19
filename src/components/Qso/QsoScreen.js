@@ -68,7 +68,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -86,7 +86,8 @@ import CamaraSelect from './CamaraSelect';
 import I18n from '../../utils/i18n';
 import DeletePost from './DeletePost';
 // import global_config from '../../global_config.json';
-import StartNewPost from './StartNewPost';
+// import StartNewPost from './StartNewPost';
+import MissingFieldsToPublish from './MissingFieldsToPublish';
 
 
 
@@ -121,6 +122,7 @@ class QsoScreen extends Component {
     this.fileauxProfileAvatar = null;
     this.closeAd = null;
     this.auxMedia = [];
+    this.missingMessage = '';
 
     
     this.state = {
@@ -152,7 +154,8 @@ class QsoScreen extends Component {
       iconosWeb: false,
       camaraSelect: false,
       deletePost: false,
-      startNewPost: false,
+      // startNewPost: false,
+      missingFields: false,
   
 
      
@@ -720,6 +723,12 @@ class QsoScreen extends Component {
     this.setState({startNewPost: false})
   }
 
+  closeMissingFields = () => {
+    this.setState({missingFields: false})
+  }
+
+
+  
   OpenEndQsoModal = () => {
     this.setState({
       endQsoModal: true
@@ -1381,7 +1390,15 @@ class QsoScreen extends Component {
               else
                this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
                
-        }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+        }else
+        {
+          console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+
+          console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
+          missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+          this.missingMessage =  missMessage.message;
+          this.setState({ missingFields: true})
+        } 
    
    }
 
@@ -1802,8 +1819,11 @@ class QsoScreen extends Component {
             }
             
     
-            {(this.state.startNewPost) &&
+            {/* {(this.state.startNewPost) &&
               <StartNewPost sqlrdsid={this.props.sqsosqlrdsid} endQso={this.endQso.bind()} closeStartNewPost={this.closeStartNewPost.bind()}/>
+            } */}
+              {(this.state.missingFields) &&
+              <MissingFieldsToPublish  message={this.missingMessage} closeMissingFields={this.closeMissingFields.bind()}/>
             }
 
       </View>
