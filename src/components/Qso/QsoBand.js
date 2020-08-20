@@ -30,8 +30,8 @@ class QsoBand extends Component {
       setPickerValue = async (value) => {
      //     this.setState({pickerSelection: value});
 
-     if (await hasAPIConnection())
-     {
+    //  if (await hasAPIConnection())
+    //  {
      if (this.props.band!==value){    
                 console.log("pasa por setBand");
                
@@ -76,10 +76,11 @@ class QsoBand extends Component {
 
             }
           this.togglePicker();
-        }else
-        { this.togglePicker();
-          this.setState({nointernet: true});
-        }
+        // }
+        // else
+        // { this.togglePicker();
+        //   this.setState({nointernet: true});
+        // }
         
       }
 

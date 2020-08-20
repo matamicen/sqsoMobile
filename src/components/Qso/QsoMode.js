@@ -28,8 +28,8 @@ class QsoMode extends Component {
     
       setPickerValue = async (value) => {
      //     this.setState({pickerSelection: value});
-     if (await hasAPIConnection())
-     {
+    //  if (await hasAPIConnection())
+    //  {
      if (this.props.mode!==value){ 
 
         if (value==='JT65' || value==='FT4' || value==='FT8')
@@ -115,10 +115,10 @@ class QsoMode extends Component {
      }
 
           this.togglePicker();
-             } else
-             { this.togglePicker();
-               this.setState({nointernet: true});
-              }
+            //  } else
+            //  { this.togglePicker();
+            //    this.setState({nointernet: true});
+            //   }
       }
 
 

@@ -50,8 +50,8 @@ class QsoRst extends Component {
     }
 
     updaterstR = async (rstR) => {
-     if (await hasAPIConnection())
-     {  
+   //   if (await hasAPIConnection())
+   //   {  
         console.log('R elegido: '+rstR);
         if (this.state.rstR!==rstR) {
 
@@ -82,16 +82,16 @@ class QsoRst extends Component {
          
         }
 
-    }else
-    { this.togglePicker();
-      this.setState({nointernet: true});
-    }
+   //  }else
+   //  { this.togglePicker();
+   //    this.setState({nointernet: true});
+   //  }
      }
     
      updaterstS = async (rstS) => {
 
-        if (await hasAPIConnection())
-        {  
+      //   if (await hasAPIConnection())
+      //   {  
            if (this.state.rstS!==rstS) {
    
             console.log('S elegido: '+rstS);
@@ -122,15 +122,15 @@ class QsoRst extends Component {
   }
 
 
-    }else
-    { this.togglePicker();
-    this.setState({nointernet: true});
-    }
+   //  }else
+   //  { this.togglePicker();
+   //  this.setState({nointernet: true});
+   //  }
  }
 
  updaterstT = async (rstT) => {
-    if (await hasAPIConnection())
-    {  
+   //  if (await hasAPIConnection())
+   //  {  
        if (this.state.rstT!==rstT) {
     
         console.log('R elegido: '+rstT);
@@ -163,10 +163,10 @@ class QsoRst extends Component {
         
        }
 
-   }else
-   { this.togglePicker();
-     this.setState({nointernet: true});
-   }
+   // }else
+   // { this.togglePicker();
+   //   this.setState({nointernet: true});
+   // }
     }
 
     

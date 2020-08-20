@@ -123,8 +123,8 @@ class AddCallSigns extends Component {
 
     addCallsignToqsoqras = async () => {
 
-      if (await hasAPIConnection())
-      {
+      // if (await hasAPIConnection())
+      // {
       this.props.copyQsoCallSignsToQsoQras(this.props.qsocallsigns);
 
       setTimeout(() => {
@@ -135,8 +135,8 @@ class AddCallSigns extends Component {
         
       }
       , 50);
-    }
-    else this.setState({nointernet: true});
+    // }
+    // else this.setState({nointernet: true});
 
     }
     

@@ -182,10 +182,10 @@ class DeletePost extends Component {
                    padding:10, 
                   backgroundColor : 'rgba(36,54,101,0.93)',
                    marginTop: 230,
-                   left: 30,
+                   left: 15,
                    right: 15,
                  //  width: 170,
-                   width: 305,
+                   width: 335,
                    height: 150,
                
                    paddingVertical: 5,
@@ -198,15 +198,16 @@ class DeletePost extends Component {
                  
                    
                      <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
-                       <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("DeletePostWarning")}</Text>
-                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("DeletePostPublishedMessage")}</Text>
+                       {/* <Text style={{ color: 'red', fontSize: 18, alignItems: "center"}}>{I18n.t("DeletePostWarning")}</Text> */}
+                        {/* <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("DeletePostPublishedMessage")}</Text> */}
+                        <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeletePostPublishedMessage")}</Text>
                       </View>
             
           
 
 
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
-                            <View style={{ flex:0.5, alignItems: 'flex-start'}}>
+                            <View style={{ flex:0.30, alignItems: 'flex-start'}}>
                           
                               <TouchableOpacity onPress={() => this.props.closeDeletePost()} >
                             <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("DeleteMediaCancel")}</Text>
@@ -214,7 +215,7 @@ class DeletePost extends Component {
                           
                             </View>
                            {/* {(!this.props.deletedflag) && */}
-                            <View style={{ flex:0.5, alignItems: 'flex-end'}}>
+                            <View style={{ flex:0.70, alignItems: 'flex-end'}}>
                            
                          
                               <TouchableOpacity onPress={() => this.deletePost2()} >

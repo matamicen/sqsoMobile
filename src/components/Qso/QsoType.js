@@ -32,8 +32,8 @@ class QsoType extends Component {
 
        changeQsoType = async (typetochange) => {
 
-        if (await hasAPIConnection())
-        {
+        // if (await hasAPIConnection())
+        // {
           this.typetochange = typetochange;
 
                 if (typetochange==='POST')
@@ -144,18 +144,18 @@ class QsoType extends Component {
         , 100);
        
     
-      }
-        else this.setState({nointernet: true});
+      // }
+      //   else this.setState({nointernet: true});
       
       }
 
       openQsoTypeModal = async () => {
         //this.props.cambioqsotype();
         // console.log('mediafiles: '+ this.props.mediafiles.length)
-        if (await hasAPIConnection())
+        // if (await hasAPIConnection())
             this.setState({changeqsoModal: true});
-          else 
-             this.setState({nointernet: true}); 
+          // else 
+          //    this.setState({nointernet: true}); 
         }
 
       closeQsoTypeModal = () => {
