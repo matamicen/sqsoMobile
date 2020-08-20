@@ -752,9 +752,13 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
         // activo el flag de publicacion y cierra la publicacion actual
         // en la pantalla de QsoScreen redirecciona a Home en el RENDER por el cambio de estado en una variable dentro de actindicatorPostQsoNewFalse()
         dispatch(actindicatorPostQsoNewFalse());
-        dispatch(setJustPublished(true)); // este true hace que en QsoScren en render se llame a la pantala INICIO y muestre la publicacion
-        dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
-        dispatch(resetQso());// resetea la publicacion
+        dispatch(setJustPublished(true));
+        
+        setTimeout(() => {
+          dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
+          dispatch(resetQso());// resetea la publicacion
+        }
+        , 150);
         
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");

@@ -1389,11 +1389,37 @@ class QsoScreen extends Component {
               home = global_config.urlWeb + '?' + new Date();
               await this.props.setWebView(this.props.webviewsession,home);
            
-              this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); 
-              if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
-                 this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
-              else
-               this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
+              // this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); 
+              
+              // setInterval(alert, 1000); 
+              conta = 0;
+             
+              var intervalID = setInterval(() => {
+               console.log('intervalo');
+               console.log(this.props.mediafiles);
+               conta++;
+               console.log(conta);
+               if (conta===3) 
+                   {
+                    
+                    if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+                      this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
+                    else
+                    this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
+                    clearInterval(intervalID);
+                   }
+               
+
+
+                }
+                , 5000);
+            
+
+              // esto aca abajo andaba bien
+              // if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+              //    this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
+              // else
+              //  this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
                
         }else
         {
@@ -2128,7 +2154,8 @@ const mapStateToProps = state => {
     env: state.sqso.env,
     qra: state.sqso.qra,
     justpublished: state.sqso.justPublished,
-    webviewsession: state.sqso.webviewSession
+    webviewsession: state.sqso.webviewSession,
+    mediafiles: state.sqso.currentQso.mediafiles
 
   };
 };
