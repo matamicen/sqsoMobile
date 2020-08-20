@@ -116,7 +116,7 @@ class DeleteMedia extends Component {
 
             // si fue enviado al backend entonces borro el media de la publicacion y BD siempre, no importa si no quedan medias en la publicacion, la validacion esa la hace el boton 
             // de publicar 
-                 this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
+                this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
                 this.props.closeDelete()
                //#PUBLSIH 
 

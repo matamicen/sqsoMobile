@@ -27,7 +27,7 @@ import {FETCHING_API_REQUEST,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
         UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS,
-        SET_WEBVIEW, SET_PRESSHOME  } from './types';
+        SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -142,6 +142,15 @@ export const setPressHome = (cant) => {
   return {
       type: SET_PRESSHOME,
       presshome: cant
+     
+      
+  };
+}
+
+export const setJustPublished = (stat) => {
+  return {
+      type: SET_JUSTPUBLISHED,
+      status: stat
      
       
   };
@@ -554,7 +563,8 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
       }
 
-       dispatch(actindicatorPostQsoNewFalse());
+      //#PUBLISH 
+      //  dispatch(actindicatorPostQsoNewFalse());
 
  
 
@@ -739,7 +749,13 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
        // dispatch(updateSqlRdsId(respuesta.message));
         console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.body.message));
 
+        // activo el flag de publicacion y cierra la publicacion actual
+        // en la pantalla de QsoScreen redirecciona a Home en el RENDER por el cambio de estado en una variable dentro de actindicatorPostQsoNewFalse()
         dispatch(actindicatorPostQsoNewFalse());
+        dispatch(setJustPublished(true)); // este true hace que en QsoScren en render se llame a la pantala INICIO y muestre la publicacion
+        dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
+        dispatch(resetQso());// resetea la publicacion
+        
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");
        

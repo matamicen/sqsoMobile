@@ -633,7 +633,8 @@ class Muestro extends Component {
           }
           , 10000);
       
-               }  else{
+               }  else{  // no entra nunca mas por aca ya que manda solo fotos de profile este metodo, ver de borrar esto con cuidado
+
              // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
              // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
              console.log('mediafile Local:'+mediafileLocal);
@@ -762,7 +763,7 @@ class Muestro extends Component {
                     </TouchableOpacity>
                   </View>
                   <View style={{flex:0.5, alignItems: "flex-end"}}>
-                    <TouchableOpacity  style={{ height: 50, width: 80 }} onPress={() => this.send_and_check_ad()} >
+                    <TouchableOpacity  style={{ height: 50, width: 90 }} onPress={() => this.send_and_check_ad()} >
                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("MuestroSend")}</Text>
                     </TouchableOpacity>
                    </View>

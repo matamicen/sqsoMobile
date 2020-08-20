@@ -51,7 +51,7 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -88,6 +88,7 @@ import DeletePost from './DeletePost';
 // import global_config from '../../global_config.json';
 // import StartNewPost from './StartNewPost';
 import MissingFieldsToPublish from './MissingFieldsToPublish';
+import global_config from '../../global_config.json';
 
 
 
@@ -1383,6 +1384,10 @@ class QsoScreen extends Component {
                               "db" : this.props.db
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+
+              // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
+              home = global_config.urlWeb + '?' + new Date();
+              await this.props.setWebView(this.props.webviewsession,home);
            
               this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); 
               if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
@@ -1405,7 +1410,13 @@ class QsoScreen extends Component {
 
 
 
+   goToHomeAfterPublish = async () => {
+    this.props.navigation.navigate('Home')
+    this.props.setJustPublished(false);
+    this.props.setPressHome(1);
 
+
+   }
       
 
   render() {
@@ -1415,8 +1426,12 @@ class QsoScreen extends Component {
     });
     console.log("RENDER qso Screen");
 
+ (this.props.justpublished) && 
+  // this.props.navigation.navigate('Home')
+  this.goToHomeAfterPublish();
  
 
+    
     return (
 
      
@@ -1748,9 +1763,9 @@ class QsoScreen extends Component {
           {/* {this.props.sqsonewqsoactive ? ( */}
        {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
             <View style={{ flex: 0.19, alignItems: "flex-end", marginTop: 15 }}>
-                  { (this.props.sqsosqlrdsid !== '') &&
+                  {/* { (this.props.sqsosqlrdsid !== '') &&
                       <ShareQso qra={this.props.qra} qsotype={this.props.qsotype} band={this.props.band} mode={this.props.mode} sqlrdsid={this.props.sqsosqlrdsid}/>
-                  }
+                  } */}
             </View>
           {/* ) : null} */}
 
@@ -2111,7 +2126,9 @@ const mapStateToProps = state => {
     mediafiles: state.sqso.currentQso.mediafiles,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
     env: state.sqso.env,
-    qra: state.sqso.qra
+    qra: state.sqso.qra,
+    justpublished: state.sqso.justPublished,
+    webviewsession: state.sqso.webviewSession
 
   };
 };
@@ -2150,7 +2167,9 @@ const mapDispatchToProps = {
   openModalConfirmPhoto,
   setPressHome,
   postQsoEdit,
-  postQsoQras
+  postQsoQras,
+  setWebView,
+  setJustPublished
 };
 
 export default connect(

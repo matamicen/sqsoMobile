@@ -189,7 +189,7 @@ class EditMedia extends Component {
                     </TouchableOpacity>
                   </View>
                   <View style={{flex:0.5, alignItems: "flex-end"}}>
-                    <TouchableOpacity  style={{ height: 50, width: 65 }} onPress={() => this.savedescription()} >
+                    <TouchableOpacity  style={{ height: 50, width: 90 }} onPress={() => this.savedescription()} >
                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("EditMediaSave")}</Text>
                     </TouchableOpacity>
                    </View>

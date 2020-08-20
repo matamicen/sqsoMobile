@@ -22,7 +22,7 @@ import {FETCHING_API_REQUEST,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
      UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS, SET_WEBVIEW,
-     SET_PRESSHOME   } from '../actions/types';
+     SET_PRESSHOME, SET_JUSTPUBLISHED   } from '../actions/types';
 import { SectionList } from 'react-native';
 import I18n from '../utils/i18n';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -69,6 +69,7 @@ const initialState = {
     webviewSession: '',
     webviewUrl: global_config.urlWeb,
     pressHome: 1,
+    justPublished: false,
 
 
     currentQso: {
@@ -933,8 +934,20 @@ const qsoReducer = (state = initialState, action) => {
           {
               ...state,
               currentQso: auxcurrentQso
+            //   justPublished: true
           });
       return newStore; 
+
+      case SET_JUSTPUBLISHED:
+ 
+         newStore = Object.assign({}, state,
+             {
+                 ...state,
+              
+                 justPublished: action.status
+             });
+         return newStore; 
+
 
       case SET_SHARE_URL_GUID:
         //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
