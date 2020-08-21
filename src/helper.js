@@ -882,6 +882,21 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
     
     }
 
+
+    export const todaMediaEnviadaAS3 =  (mediafiles) => {
+      // soloUnType = [];
+      contNoEnviada = 0;
+      mediafiles.map(item => {
+        if(item.status !== 'sent' && item.type !== 'vacio') {
+          contNoEnviada++; 
+        }
+      })
+      if (contNoEnviada > 0)
+               return false;
+      else
+              return true;
+    }
+
   
      // return true if 'installed' (considered as a JRE version string) is
     // greater than or equal to 'required' (again, a JRE version string).

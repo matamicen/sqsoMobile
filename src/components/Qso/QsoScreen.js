@@ -68,7 +68,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish, todaMediaEnviadaAS3 } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -1395,13 +1395,15 @@ class QsoScreen extends Component {
               conta = 0;
              
               var intervalID = setInterval(() => {
-               console.log('intervalo');
+                conta++;
+               console.log('intervalo '+ conta);
                console.log(this.props.mediafiles);
-               conta++;
+               
                console.log(conta);
-               if (conta===3) 
+              //  if (conta===5) 
+              if (todaMediaEnviadaAS3(this.props.mediafiles))
                    {
-                    
+                    console.log('todo enviado');
                     if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
                       this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
                     else
@@ -1412,7 +1414,7 @@ class QsoScreen extends Component {
 
 
                 }
-                , 5000);
+                , 2000);
             
 
               // esto aca abajo andaba bien
