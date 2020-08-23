@@ -124,6 +124,7 @@ class QsoScreen extends Component {
     this.closeAd = null;
     this.auxMedia = [];
     this.missingMessage = '';
+    this.intervalID = 0;
 
     
     this.state = {
@@ -1363,6 +1364,46 @@ class QsoScreen extends Component {
 
   }
 
+  publicar_antes = async () => {
+    this.props.actindicatorPostQsoNewTrue();
+    contEnvio = 0;
+    while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 10) {
+      /* code to wait on goes here (sync or async) */
+      contEnvio++;  
+      console.log('entro delay '+contEnvio)  
+  
+      await this.delay2(1000);
+
+      
+    }
+
+    if (contEnvio===9)
+   {
+    this.props.mediafiles.map(item => { 
+      const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia } = item;
+   console.log('mapeo');
+   if (status==='failed' || status==='inprogress')
+     this.props.uploadMediaToS3(name, url,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3, qra, rectime, this.props.jwtToken);
+   
+    })
+  }
+  
+  contEnvio = 0;
+  while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 10) {
+    /* code to wait on goes here (sync or async) */
+    contEnvio++;  
+    console.log('entro delay2 '+contEnvio)  
+
+    await this.delay2(1000);
+
+    
+  }
+   
+    console.log('salio del loop');
+    this.publicar();
+
+  }
+
  // #PUBLISH
   publicar = async () => {
     if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
@@ -1373,7 +1414,7 @@ class QsoScreen extends Component {
     if (ONPROGRESS) { 
       // data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst, this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude, this.props.longitude);
       //  console.log("Data to Send API: "+ JSON.stringify(data));
-        this.props.actindicatorPostQsoNewTrue();
+        // this.props.actindicatorPostQsoNewTrue();
         //  this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
         qsoHeader = { "mode" : this.props.mode,
                               "band" : this.props.band,
@@ -1393,28 +1434,51 @@ class QsoScreen extends Component {
               
               // setInterval(alert, 1000); 
               conta = 0;
-             
-              var intervalID = setInterval(() => {
-                conta++;
-               console.log('intervalo '+ conta);
-               console.log(this.props.mediafiles);
-               
-               console.log(conta);
-              //  if (conta===5) 
-              if (todaMediaEnviadaAS3(this.props.mediafiles))
-                   {
-                    console.log('todo enviado');
-                    if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+
+                
+              // while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
+              //   /* code to wait on goes here (sync or async) */  
+              //   console.log('entro delay')  
+            
+              //   await this.delay2(1000);
+              // }
+              // console.log('salio del loop');
+       
+
+              if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
                       this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
                     else
-                    this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
-                    clearInterval(intervalID);
-                   }
+                      this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
+                        
+                  
+                     
+             
+              //  this.intervalID = setInterval(() => {
+              //   conta++;
+              //  console.log('intervalo '+ conta);
+              //  console.log(this.props.mediafiles);
+               
+              //  console.log(conta);
+              // //  if (conta===5) 
+              // if (todaMediaEnviadaAS3(this.props.mediafiles))
+              //      {
+              //       console.log('todo enviado');
+              //       if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+              //         this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
+              //       else
+              //         this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
+                   
+                
+                     
+              //         clearInterval(this.intervalID);
+                
+                    
+              //      }
                
 
 
-                }
-                , 2000);
+              //   }
+              //   , 2000);
             
 
               // esto aca abajo andaba bien
@@ -1435,8 +1499,18 @@ class QsoScreen extends Component {
    
    }
 
+  //   loop = async () => {
+  //   while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
+  //     /* code to wait on goes here (sync or async) */  
+  //     console.log('entro delay')  
+  
+  //     await delay(2000)
+  //   }
+  // }
 
-
+   delay2(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
 
    goToHomeAfterPublish = async () => {
     this.props.navigation.navigate('Home')
@@ -1772,7 +1846,7 @@ class QsoScreen extends Component {
             {this.props.sqsonewqsoactive && 
               // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                   // <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
-                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar()}>
+                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar_antes()}>
                   {/* <Image  
                   source={require("../../images/endQso2.png")}
                   style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
