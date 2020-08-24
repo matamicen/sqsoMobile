@@ -35,8 +35,9 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
  console.log(mediafiles)
 mediafilesSinProfile = [];
 
+//#PUBLISH para que no cuente como una media algo que es inapropiado sino puede postear un post vacio ya que el inaproipiado no aparece nunca en el feed
   mediafiles.map(item => {
-    if(item.type !== 'profile') {
+    if(item.type !== 'profile' && item.status!=='inappropriate content') {
       mediafilesSinProfile =  [...mediafilesSinProfile,item] 
     }
   })
@@ -71,7 +72,7 @@ mediafilesSinProfile = [];
    mediafilesSinProfile = [];
    
      mediafiles.map(item => {
-       if(item.type !== 'profile') {
+       if(item.type !== 'profile' && item.status!=='inappropriate content') {
          mediafilesSinProfile =  [...mediafilesSinProfile,item] 
        }
      })
@@ -886,15 +887,25 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
     export const todaMediaEnviadaAS3 =  (mediafiles) => {
       // soloUnType = [];
       contNoEnviada = 0;
+      contEnviada = 0;
       mediafiles.map(item => {
-        if(item.status !== 'sent' && item.type !== 'vacio') {
+        if(item.status !== 'sent' && item.type !== 'vacio' && item.status !=='inappropriate content') {
           contNoEnviada++; 
         }
+        if(item.status === 'sent' && item.type !== 'vacio' && item.status !=='inappropriate content') {
+          contEnviada++; 
+        }
       })
+
+// estos if son porque puede haber una media de contenido inapropiado sola, entonces si bien si hay muchas medias y hay una inapropidada el post se publica igual
+// hay que chequear que si hay solo una media inapropiada o muchas que haya por lo menos una media enviada para poder hacer el POST,
       if (contNoEnviada > 0)
                return false;
       else
+         if(contEnviada>0)
               return true;
+              else
+              return false;
     }
 
   

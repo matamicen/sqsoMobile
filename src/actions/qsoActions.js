@@ -584,7 +584,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       // por si sale por Token Expired, renuevo token y llamo a la API de nuevo
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
-      dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
+      // #PUBLICAR remuevo el envio automatico del PostQsoNew, ahora el boton Publicar primero chequea que haya sqlrdsId y si no hay llama a postqsoNew, 
+      // en la mayoria de casos ya deberia etar creado porque se crea al confirmar una foto o un audio, pero si fallo en ese momento por alguna razon (internet)
+      // Publicar chequea eso y llama de nuevo a postQsoNew.
+      // dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
 
       crashlytics().setUserId(bodyqsonew.qra_owner);
       crashlytics().log('error: ' + JSON.stringify(error)) ;

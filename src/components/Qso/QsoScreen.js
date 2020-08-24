@@ -51,7 +51,7 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras, setWebView, setJustPublished} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -1365,53 +1365,159 @@ class QsoScreen extends Component {
   }
 
   publicar_antes = async () => {
-    this.props.actindicatorPostQsoNewTrue();
-    contEnvio = 0;
-    while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 10) {
-      /* code to wait on goes here (sync or async) */
-      contEnvio++;  
-      console.log('entro delay '+contEnvio)  
-  
-      await this.delay2(1000);
+
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+    await this.props.onprogressTrue();
+  else this.props.onprogressFalse();
+
+   console.log('onprogress '+ONPROGRESS) // #PUBLISH 
+   if (ONPROGRESS) { 
+
+        if (await hasAPIConnection())
+          { 
+            
+            console.log('sqsosqlrdsid: '+ this.props.sqsosqlrdsid)
+          // if (this.props.sqsosqlrdsid!=='')
+          // { 
+          // }
+          this.props.actindicatorPostQsoNewTrue();
+
+          // este proceso es por si no se genero sqlrdsid por alguna razon (usuario subio foto y publico rapido, o en la publicacion fallo el la llamada a la API de postqsonew,
+          // entonces espera por si la API se demoro y si sale por tiempo es porque hay que llamar a postqsonew de nuevo para generar el sqlrdsid para luego subir media y publicar)
+          // rara vez deberia entrar en este loop pero es por las dudas
+          contsqlrdsid = 0;
+          while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 25) {
+
+            contsqlrdsid++;  
+            console.log('entro delay sqlrdsid: '+contsqlrdsid)  
+        
+            await this.delay2(300);
+
+          }
+
+          // chequeo si salio del loop por timeout, es decir  si sigue sin sqlrsid, se es asi llamo a postqsonewy sigo el proceso normal de loops siguintes
+          // esperando que se envie toda la media para ser publicado el post
+          // tampoco deberia entrar aca casi nunca
+          if (this.props.sqsosqlrdsid==='')
+          {
+
+            console.log('Publicar no tenia generado sqlrdsid')
+
+                  // por si fallo la vez anterior por el Token Expired, renuevo token y llamo a la API de nuevo
+                  session = await Auth.currentSession();
+                  this.props.setToken(session.idToken.jwtToken);
+
+            fechaqso = getDate();
+            data = {
+             "band" : '',
+             "mode" : '',
+             "rst" : '',
+             "db": '',
+             "type" : this.props.qsotype,
+             "longitude" : this.props.longitude,
+             "latitude": this.props.latitude,
+             "datetime": fechaqso,
+             "qra_owner": this.props.qra
+           };
+                   this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,session.idToken.jwtToken);
+
+          }
+
+
+
+// arranca proceso normal de doble intento por la primera vez se trabo algun archvio de media
+
+         
+            contEnvio = 0;
+            while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+              /* code to wait on goes here (sync or async) */
+              contEnvio++;  
+              console.log('entro delay '+contEnvio)  
+          
+              await this.delay2(1500);
+
+              
+            }
+
+            // si aun no se enviaron todas las medias se intenta reenviar nuevamente las q fallaron o estan inprogress
+            if (!todaMediaEnviadaAS3(this.props.mediafiles))
+          {
+                this.props.mediafiles.map(item => { 
+                  const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia } = item;
+              console.log('mapeo');
+              if (status==='failed' || status==='inprogress')
+                this.props.uploadMediaToS3(name, url,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3, qra, rectime, this.props.jwtToken);
+              
+                })
+              
+              // comienza el segundo chequeo de envio idem al anterior
+              contEnvio = 0;
+              while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+                /* code to wait on goes here (sync or async) */
+                contEnvio++;  
+                console.log('entro delay2 '+contEnvio)  
+
+                await this.delay2(1500);
+
+                
+              }
+              
+              // si aun en el segundo intento no se pueden enviar hay que avisar con un modal
+              if (!todaMediaEnviadaAS3(this.props.mediafiles))
+              { // bajo el modal de publicando y aviso al usuario
+                console.log('fallo el segundo intento de publicar')
+                this.props.actindicatorPostQsoNewFalse();
+                // abro modal para que el usuario intente de nuevo
+
+
+              }else
+              { // en el segundo intento se logro enviar toda la media entonces publico
+                console.log('salio del loop2');
+                 this.publicar();
+
+              }
+              
+
+
+
+          }
+          else
+          {
+            // si viene por aca es porque salio del bucle porque ya se enviaron todas las medias entonces se puede publicar.
+
+            console.log('salio del loop1');
+             this.publicar();
+          }
 
       
-    }
+        } else this.setState({ nointernet: true });
 
-    if (contEnvio===9)
-   {
-    this.props.mediafiles.map(item => { 
-      const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia } = item;
-   console.log('mapeo');
-   if (status==='failed' || status==='inprogress')
-     this.props.uploadMediaToS3(name, url,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3, qra, rectime, this.props.jwtToken);
+
+        }
+        else
+{
+  console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+
+  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
+  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+  this.missingMessage =  missMessage.message;
+  this.setState({ missingFields: true})
+} 
+
+
    
-    })
-  }
-  
-  contEnvio = 0;
-  while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 10) {
-    /* code to wait on goes here (sync or async) */
-    contEnvio++;  
-    console.log('entro delay2 '+contEnvio)  
-
-    await this.delay2(1000);
-
     
-  }
-   
-    console.log('salio del loop');
-    this.publicar();
 
   }
 
  // #PUBLISH
   publicar = async () => {
-    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
-     await this.props.onprogressTrue();
-   else this.props.onprogressFalse();
+  //   if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+  //    await this.props.onprogressTrue();
+  //  else this.props.onprogressFalse();
 
-    console.log('onprogress '+ONPROGRESS) // #PUBLISH 
-    if (ONPROGRESS) { 
+  //   console.log('onprogress '+ONPROGRESS) // #PUBLISH 
+  //   if (ONPROGRESS) { 
       // data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst, this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude, this.props.longitude);
       //  console.log("Data to Send API: "+ JSON.stringify(data));
         // this.props.actindicatorPostQsoNewTrue();
@@ -1487,15 +1593,15 @@ class QsoScreen extends Component {
               // else
               //  this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
                
-        }else
-        {
-          console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+        // }else
+        // {
+        //   console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
 
-          console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
-          missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
-          this.missingMessage =  missMessage.message;
-          this.setState({ missingFields: true})
-        } 
+        //   console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
+        //   missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+        //   this.missingMessage =  missMessage.message;
+        //   this.setState({ missingFields: true})
+        // } 
    
    }
 
@@ -2272,7 +2378,8 @@ const mapDispatchToProps = {
   postQsoEdit,
   postQsoQras,
   setWebView,
-  setJustPublished
+  setJustPublished,
+  actindicatorPostQsoNewFalse
 };
 
 export default connect(
