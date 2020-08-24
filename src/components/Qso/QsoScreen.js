@@ -1364,7 +1364,7 @@ class QsoScreen extends Component {
 
   }
 
-  publicar_antes = async () => {
+  publicar_chequeos = async () => {
 
     if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
     await this.props.onprogressTrue();
@@ -1467,7 +1467,12 @@ class QsoScreen extends Component {
               { // bajo el modal de publicando y aviso al usuario
                 console.log('fallo el segundo intento de publicar')
                 this.props.actindicatorPostQsoNewFalse();
-                // abro modal para que el usuario intente de nuevo
+                // uso componente missingFields para informar que no hemos podido publicar
+
+                this.missingMessage =  I18n.t("QsoScrCantPublish")
+                this.setState({ missingFields: true})
+              
+
 
 
               }else
@@ -1952,7 +1957,7 @@ class QsoScreen extends Component {
             {this.props.sqsonewqsoactive && 
               // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                   // <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
-                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar_antes()}>
+                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar_chequeos()}>
                   {/* <Image  
                   source={require("../../images/endQso2.png")}
                   style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}

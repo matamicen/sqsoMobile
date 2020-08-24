@@ -9,6 +9,8 @@ import PlayMediaAudioPost from './PlayMediaAudioPost';
 import EditMedia from './EditMedia';
 import DeleteMedia from './DeleteMedia';
 import I18n from '../../utils/i18n';
+import { hasAPIConnection } from '../../helper';
+import VariosModales from './VariosModales';
 
 class Media extends Component {
 
@@ -27,7 +29,8 @@ class Media extends Component {
           errorMessage: "",
           isFetching: true,
           editar: false,
-          deleteMedia: false
+          deleteMedia: false,
+          nointernet: false
         };
       }
 
@@ -47,8 +50,12 @@ class Media extends Component {
       closeModalEdit = () => {
          this.setState({editar: false})
         }
-      openModalEdit = () => {
+      openModalEdit = async  () => {
+        if (await hasAPIConnection())
+        
          this.setState({editar: true})
+        else
+             this.setState({nointernet: true});
        }
        openDeleteMedia = () => {
         //  console.log('open delete media')
@@ -56,6 +63,10 @@ class Media extends Component {
       }
       CloseDeleteMedia = () => {
         this.setState({deleteMedia: false})
+      }
+
+      closeVariosModales = () => {
+        this.setState({nointernet: false}); 
       }
 
       onPressItem = (fileName2, description, fileaux, fileauxProfileAvatar,  sqlrdsid, size, type, rdsUrlS3, urlNSFW,urlAvatar,  date, width,height,qra,rectime ) => {
@@ -182,6 +193,7 @@ class Media extends Component {
                 }
                 </View>
               <View style={{flex: 0.10, alignItems: "center"}}>
+              { (this.props.status!=='inappropriate content') && 
               <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.openModalEdit()}  >
                   <Image
                         style={{ width: 20,
@@ -191,9 +203,11 @@ class Media extends Component {
                         source={require('../../images/edit2.png')}
                           />
                 </TouchableOpacity>
-                {/* <Text style={{fontSize: 14,color: 'black'}} >Edit</Text> */}
+               }
+                
               </View>
               <View style={{flex: 0.10, alignItems: "center"}}>
+              { (this.props.status!=='inappropriate content') && 
               <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={() => this.openDeleteMedia()}  >
                   <Image
                         style={{ width: 20,
@@ -203,7 +217,8 @@ class Media extends Component {
                         source={require('../../images/delete2.png')}
                           />
                 </TouchableOpacity>
-                {/* <Text style={{fontSize: 14,color: 'black'}} >Edit</Text> */}
+               }
+               
               </View>
             
             
@@ -246,6 +261,10 @@ class Media extends Component {
           {(this.state.deleteMedia) &&
               <DeleteMedia  sqlrdsid={this.props.sqlrdsid} idmedia={this.props.idmedia} name={this.props.name} mediafiles={this.props.mediafiles} closeDelete={this.CloseDeleteMedia.bind()} desc={(this.props.type==='audio') ? 'audio' : 'photo' }/>
             }
+
+    {(this.state.nointernet) && 
+            <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
+        }
 
             
             </View>
