@@ -60,7 +60,8 @@ class NotifItem extends Component {
         if (await hasAPIConnection())
         {
         this.props.setPressHome(1); // sete en 1 porque apreo notif entonces el proximo TAP en home debe refrescar.
-        auxurl = urlnotif + '?' + new Date();
+        // auxurl = urlnotif + '?' + new Date();
+        auxurl = urlnotif + '?embedded=true&date='+ new Date();
         await this.props.setWebView(this.props.webviewsession,auxurl)
         
         this.props.navigation.navigate('Home', {
