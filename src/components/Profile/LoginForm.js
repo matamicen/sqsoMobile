@@ -282,7 +282,8 @@ constructor(props) {
             //  this.props.manage_notifications('ADDONE',envioNotif);
             //  this.props.navigation.navigate("Notifications");
             console.log(notification.userInfo.url)
-           this.props.setWebView(webViewUserSession,notification.userInfo.url)
+            urlAux = notification.userInfo.url + '?embedded=true&date='+ new Date();
+           this.props.setWebView(webViewUserSession,urlAux)
             // esto estaba
              this.props.navigation.navigate('Home', {
              
@@ -561,7 +562,8 @@ if (this.debeHacerUpgrade===false)
           //   //  this.webviewurlfromKilledPush = '';
           //    }   else
           
-            await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+            // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+            await this.props.setWebView(webViewUserSession,global_config.urlWeb+'?embedded=true')
    
     
 
@@ -851,7 +853,8 @@ if (!this.usernotfound)
     await AsyncStorage.setItem('userpwd', this.state.password);
    
     webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
-    await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+    // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+    await this.props.setWebView(webViewUserSession,global_config.urlWeb+'?embedded=true')
 
     // userLogin = await AsyncStorage.getItem('userlogin');
     // userPwd = await AsyncStorage.getItem('userpwd');

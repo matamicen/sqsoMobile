@@ -143,7 +143,9 @@ backAction = () => {
     
       
      if (this.props.presshome===1)
-     { home = global_config.urlWeb + '?' + new Date();
+     { 
+      //  home = global_config.urlWeb + '?' + new Date();
+      home = global_config.urlWeb + '?embedded=true&date='+ new Date();
      // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
      // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
      this.time = 50;
