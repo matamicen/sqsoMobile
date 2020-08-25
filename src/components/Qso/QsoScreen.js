@@ -85,6 +85,7 @@ import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
 import I18n from '../../utils/i18n';
 import DeletePost from './DeletePost';
+import Publicar from './Publicar';
 // import global_config from '../../global_config.json';
 // import StartNewPost from './StartNewPost';
 import MissingFieldsToPublish from './MissingFieldsToPublish';
@@ -1630,6 +1631,10 @@ class QsoScreen extends Component {
 
 
    }
+
+   descartar_publicacion = () => {
+    this.setState({deletePost: true})
+   }
       
 
   render() {
@@ -1653,7 +1658,14 @@ class QsoScreen extends Component {
       (this.props.sqsonewqsoactive) ? 
      <HandleBack onBack={this.onBack}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
-       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
+    
+      <View style={{ flex: 0.05 }}>
+          <Publicar publicar={this.publicar_chequeos.bind()} descartar={this.descartar_publicacion.bind()}/>
+          
+      </View>
+       {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+         Esto estaba porque el teclado aparecia cuando se ingresaban los callsign sin el modal, ahora no tiene sentido porque no hay mas teclado en qsoScreen directo, los teclados estan en los modales. */}
+   
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
           
@@ -1750,10 +1762,7 @@ class QsoScreen extends Component {
               {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
               <RecordAudio2 closeModal={this. closeRecModal.bind(this)} />
              
-              {/* <Button onPress={() => this.toggleRecModal()} title="Cierro" /> */}
-              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
-                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
-                          </TouchableHighlight> */}
+     
             </View>
           </Modal>
 
@@ -1781,9 +1790,7 @@ class QsoScreen extends Component {
               {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
                <Iap />
               <Button onPress={() => this.setState({iap:false})} title="Cierro" />
-              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
-                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
-                          </TouchableHighlight> */}
+         
             </View>
           </Modal>
 
@@ -1817,114 +1824,16 @@ class QsoScreen extends Component {
               {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
               <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} close={this.closeModalPhotoConfirmation.bind()} />
             
-              {/* style={{ paddingBottom: 4}} */}
-             
-              {/* <View style={{ marginTop: 10 }}>
-                <TouchableOpacity style={{ width: 65 }}
-                  onPress={() => this.closeModalPhotoConfirmation()}
-                >
-                  <Text
-                    style={{ color: "white", fontWeight: "bold", fontSize: 16, marginLeft: 5 }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View> */}
+         
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
 
         </View>
-        </TouchableWithoutFeedback> 
+        {/* </TouchableWithoutFeedback>  */}
        
-        <View style={{ flex: 0.58 }}>
+        <View style={{ flex: 0.53 }}>
        
-        { !this.props.sqsonewqsoactive && 
-        // <View  style={{
-        //           top: -75,
-        //           left: 5,
-        //                   right: 5,
-          
-        //   position: 'absolute'}}>
-             <View>
-        
-          <View style={{  backgroundColor: '#f5f5f5',
-                            borderBottomLeftRadius: 22,
-                            borderBottomRightRadius: 22,
-                            borderTopLeftRadius: 22,
-                            borderTopRightRadius: 22,
-                            marginLeft: 5,
-                            marginRight: 5,
-                           }}>
-
-                              <TouchableOpacity  style={{height: 100 }} onPress={() => this.newQso('QSO')}  >
-
-          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-         
-                            <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
-                            resizeMode="contain" />
-                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
-                          
-                        </View>
-                        </TouchableOpacity>
-          </View>
-   
-       
-
-        {/* <TouchableOpacity  style={{ marginTop: 16}} onPress={() => this.newQso('LISTEN')}  > */}
-     
-        
-        <TouchableOpacity  style={{ height: 110, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
-          <View style={{height: 110, backgroundColor: '#f5f5f5',
-                            borderBottomLeftRadius: 22,
-                            borderBottomRightRadius: 22,
-                            borderTopLeftRadius: 22,
-                            borderTopRightRadius: 22,
-                            marginLeft: 5,
-                            marginRight: 5}}>
-     
-          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-          
-                            <Image source={require('../../images/swl9.png')} style={{width: 50, height: 50, flex: 0.3}} 
-                            resizeMode="contain" />
-                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
-                          
-                        </View>
-   
-                        
-          </View>
-          </TouchableOpacity>
-        
-        
-         
-         
-        <TouchableOpacity  style={{ height: 128, marginTop: 16}} onPress={() => this.newQso('POST')}  >
-         
-            <View style={{height: 128, backgroundColor: '#f5f5f5',
-              borderBottomLeftRadius: 22,
-              borderBottomRightRadius: 22,
-              borderTopLeftRadius: 22,
-              borderTopRightRadius: 22,
-              marginLeft: 5,
-              marginRight: 5}}>
-               
-            <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                          <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
-                          resizeMode="contain" />
-                          <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdesc")}
-                          </Text>
-                        </View>
-                        
-            </View>
-            </TouchableOpacity>
-         
-              
-
-
-            
-
-              </View>
-             } 
            
           <MediaFiles />
         
@@ -1935,40 +1844,27 @@ class QsoScreen extends Component {
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
           <View style={{ flex: 0.23, marginTop: 15, marginLeft: 5 }}>
-            {this.props.sqsonewqsoactive && 
+            {/* {this.props.sqsonewqsoactive && 
               // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                   <TouchableOpacity style={styles.buttonDeletePostContainer} onPress={() => this.setState({deletePost: true})}>
-                {/* <Image
-                  source={require("../../images/endQso2.png")}
-                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
-                  resizeMode="contain"
-                /> */}
-                {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+    
                      <Text style={{ fontSize: 12, color: '#243665',  textAlign: 'center', fontWeight: 'bold'  }}>{I18n.t("QsoScrDeletePost")}</Text>
               </TouchableOpacity>
               
-            }
+            } */}
           
         
           </View>
 
           <View style={{ flex: 0.26, marginTop: 15, marginLeft: 9 }}>
-            {this.props.sqsonewqsoactive && 
-              // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
-                  // <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
+            {/* {this.props.sqsonewqsoactive && 
+            
                   <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar_chequeos()}>
-                  {/* <Image  
-                  source={require("../../images/endQso2.png")}
-                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
-                  resizeMode="contain"
-                /> */}
-                {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+                 
                 <Text style={{ fontSize: 12 ,color: '#243665',  textAlign: 'center', fontWeight: 'bold' }}>{I18n.t("QsoScrStartNewPost")}</Text>
               </TouchableOpacity>
               
-            }
+            } */}
           
         
           </View>
