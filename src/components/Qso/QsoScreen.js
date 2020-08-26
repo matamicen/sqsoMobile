@@ -1357,7 +1357,8 @@ class QsoScreen extends Component {
         "longitude" : this.props.longitude,
         "latitude": this.props.latitude,
         "datetime": fechaqso,
-        "qra_owner": this.props.qra
+        "qra_owner": this.props.qra,
+        "draft" : 1
       };
               this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
               // #PUBLISH
@@ -1418,7 +1419,8 @@ class QsoScreen extends Component {
              "longitude" : this.props.longitude,
              "latitude": this.props.latitude,
              "datetime": fechaqso,
-             "qra_owner": this.props.qra
+             "qra_owner": this.props.qra,
+             "draft" : 1
            };
                    this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,session.idToken.jwtToken);
 

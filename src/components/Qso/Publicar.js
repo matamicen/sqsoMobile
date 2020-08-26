@@ -26,17 +26,17 @@ render() { console.log("RENDER publicar SCREEN!" );
     
 
 return <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#d9d9d9', borderBottomWidth: 0.5}}>
-         <View style={{ flex: 0.33,  alignItems: 'flex-start', marginTop: 4 }}>
+         <View style={{ flex: 0.23,  alignItems: 'flex-start', marginTop: 3 }}>
             <TouchableOpacity  onPress={() => this.props.descartar()}>
             <Text style={{fontSize: 18, fontWeight: "bold",marginLeft: 10}} >X</Text>
             </TouchableOpacity>
        </View>
-         <View style={{ flex: 0.33,  alignItems: 'center', marginTop: 4 }}>
-             <Text style={{fontSize: 16}} >Crear publicación</Text>
+         <View style={{ flex: 0.43,  alignItems: 'center', marginTop: 3 }}>
+             <Text style={{fontSize: 17}} >Crear publicación</Text>
          </View>
-         <View style={{ flex: 0.33,  alignItems: 'flex-end', marginTop: 4 }}>
+         <View style={{ flex: 0.33,  alignItems: 'flex-end', marginTop: 3 }}>
             <TouchableOpacity  onPress={() => this.props.publicar()}>
-            <Text style={{fontSize: 18, marginRight: 10, color: '#0040ff'}}>Publicar</Text>
+            <Text style={{fontSize: 18, marginRight: 10, color: '#4e7bff'}}>Publicar</Text>
             </TouchableOpacity>
         </View>
  

@@ -729,6 +729,7 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
                 "db" : qsoHeader.db,
                 "qso": qsoHeader.sqlrdsid,
                 "type": qsoHeader.type,
+                "draft" : 0
                              }
           
         }
