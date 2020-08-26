@@ -603,6 +603,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
     };
   };
 
+  // esta API no se usa mas desde que esta el boton PUBLISH
   export const postQsoQras = (type, qsoHeader, sqlRdsId, qsoqras,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoQras'));
@@ -702,6 +703,112 @@ export const updateQsoOnlyOneQraStatus = (status, qra) => {
     };
 }
 
+
+export const qsoPublish = (qsoHeader,qsoqras,jwtToken) => {
+  return async dispatch => {
+    dispatch(fetchingApiRequest('postQsoPublish'));
+    console.log("ejecuta llamada API QsoPublish");  
+  try {
+      // session = await Auth.currentSession();
+    //  console.log("Su token es: " + session.idToken.jwtToken);
+    
+    // formateo qsoqras
+    var arr = [];
+    var reformattedArray = qsoqras.map(function(obj){ 
+        
+       // rObj[obj.clave] = obj.valor;
+       arr.push(obj.qra);
+        
+     });
+
+       console.log("SIN FORMATEAR: "+ JSON.stringify(qsoHeader));
+   
+   
+
+      let apiName = 'superqso';
+      let path = '/qsoPublish';
+      let myInit = { // OPTIONAL
+        headers: {
+          'Authorization': jwtToken,
+          'Content-Type': 'application/json'
+        }, // OPTIONAL
+        body: {
+              "mode": qsoHeader.mode,
+              "band": qsoHeader.band,
+              "rst": qsoHeader.rst,
+              "db" : qsoHeader.db,
+              "qso": qsoHeader.sqlrdsid,
+              "type": qsoHeader.type,
+              "qras": arr  
+              // "draft" : 0
+                           }
+        
+      }
+
+
+      
+    respuesta = await API.post(apiName, path, myInit);
+    console.log("llamo api! QSO_PUBLISH");
+  
+  //  console.log(respuesta);
+    dispatch(fetchingApiSuccess('postQsoPublish',respuesta));
+   
+    if (respuesta.body.error===0)
+    {
+     // dispatch(updateSqlRdsId(respuesta.message));
+      console.log("error es 0 y SALIDA de postQsoPublish: "+JSON.stringify(respuesta.body.message));
+
+      // activo el flag de publicacion y cierra la publicacion actual
+      // en la pantalla de QsoScreen redirecciona a Home en el RENDER por el cambio de estado en una variable dentro de actindicatorPostQsoNewFalse()
+      dispatch(actindicatorPostQsoNewFalse());
+      dispatch(setJustPublished(true));
+      
+      setTimeout(() => {
+        dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
+        dispatch(resetQso());// resetea la publicacion
+      }
+      , 150);
+      
+      // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
+
+      // No tiene sentido actualizar los status si esta API ya envia todo el POST y lo resetea
+      // console.log("actualizo el QsoHeaderStatus");
+      // dispatch(updateQsoHeaderStatusTrue());
+     
+   if(__DEV__)
+      analytics().logEvent("QSO_PUBLISH_DEV", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+      "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+   else
+      analytics().logEvent("QSO_PUBLISH_PRD", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+      "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+
+      console.log("Recording analytics QSO_PUBLISH")
+      
+     
+      
+
+    }
+   
+  }
+  catch (error) {
+    console.log('Api catch error:', error);
+    dispatch(fetchingApiFailure('postQsoPublish',error));
+
+          crashlytics().setUserId(qsoHeader.qra);
+          crashlytics().log('error: ' + JSON.stringify(error)) ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('postQsoPublish_DEV'));
+          else
+          crashlytics().recordError(new Error('postQsoPublish_PRD'));
+    
+    // Handle exceptions
+  }
+       
+    
+  };
+};
+
+// esta API no se usa mas desde que esta el boton PUBLISH
 export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoEdit'));
@@ -728,8 +835,8 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
                 "rst": qsoHeader.rst,
                 "db" : qsoHeader.db,
                 "qso": qsoHeader.sqlrdsid,
-                "type": qsoHeader.type,
-                "draft" : 0
+                "type": qsoHeader.type
+                // "draft" : 0
                              }
           
         }

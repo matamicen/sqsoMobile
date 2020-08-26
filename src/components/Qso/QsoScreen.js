@@ -51,7 +51,7 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -1357,8 +1357,8 @@ class QsoScreen extends Component {
         "longitude" : this.props.longitude,
         "latitude": this.props.latitude,
         "datetime": fechaqso,
-        "qra_owner": this.props.qra,
-        "draft" : 1
+        "qra_owner": this.props.qra
+        // "draft" : 1
       };
               this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
               // #PUBLISH
@@ -1419,8 +1419,8 @@ class QsoScreen extends Component {
              "longitude" : this.props.longitude,
              "latitude": this.props.latitude,
              "datetime": fechaqso,
-             "qra_owner": this.props.qra,
-             "draft" : 1
+             "qra_owner": this.props.qra
+            //  "draft" : 1
            };
                    this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,session.idToken.jwtToken);
 
@@ -1520,16 +1520,7 @@ class QsoScreen extends Component {
 
  // #PUBLISH
   publicar = async () => {
-  //   if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
-  //    await this.props.onprogressTrue();
-  //  else this.props.onprogressFalse();
-
-  //   console.log('onprogress '+ONPROGRESS) // #PUBLISH 
-  //   if (ONPROGRESS) { 
-      // data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst, this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude, this.props.longitude);
-      //  console.log("Data to Send API: "+ JSON.stringify(data));
-        // this.props.actindicatorPostQsoNewTrue();
-        //  this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
+  
         qsoHeader = { "mode" : this.props.mode,
                               "band" : this.props.band,
                               "type" : this.props.qsotype,
@@ -1543,84 +1534,24 @@ class QsoScreen extends Component {
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
               home = global_config.urlWeb + '?' + new Date();
               await this.props.setWebView(this.props.webviewsession,home);
-           
-              // this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); 
-              
-              // setInterval(alert, 1000); 
+          
               conta = 0;
 
-                
-              // while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
-              //   /* code to wait on goes here (sync or async) */  
-              //   console.log('entro delay')  
-            
-              //   await this.delay2(1000);
-              // }
-              // console.log('salio del loop');
-       
+         
 
-              if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
-                      this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
-                    else
-                      this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
-                        
-                  
-                     
-             
-              //  this.intervalID = setInterval(() => {
-              //   conta++;
-              //  console.log('intervalo '+ conta);
-              //  console.log(this.props.mediafiles);
-               
-              //  console.log(conta);
-              // //  if (conta===5) 
-              // if (todaMediaEnviadaAS3(this.props.mediafiles))
-              //      {
-              //       console.log('todo enviado');
-              //       if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+              // if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
               //         this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
               //       else
-              //         this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
-                   
-                
-                     
-              //         clearInterval(this.intervalID);
-                
+                      // this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
                     
-              //      }
-               
-
-
-              //   }
-              //   , 2000);
+                      // Se unifico el publicar, se envia Header y qsoqras para todo tipo de Publicacion
+                      this.props.qsoPublish(qsoHeader,this.props.qsoqras,this.props.jwtToken);
+                        
             
-
-              // esto aca abajo andaba bien
-              // if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
-              //    this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
-              // else
-              //  this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
-               
-        // }else
-        // {
-        //   console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-
-        //   console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
-        //   missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
-        //   this.missingMessage =  missMessage.message;
-        //   this.setState({ missingFields: true})
-        // } 
    
    }
 
-  //   loop = async () => {
-  //   while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
-  //     /* code to wait on goes here (sync or async) */  
-  //     console.log('entro delay')  
-  
-  //     await delay(2000)
-  //   }
-  // }
+ 
 
    delay2(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -2282,7 +2213,8 @@ const mapDispatchToProps = {
   postQsoQras,
   setWebView,
   setJustPublished,
-  actindicatorPostQsoNewFalse
+  actindicatorPostQsoNewFalse,
+  qsoPublish
 };
 
 export default connect(
