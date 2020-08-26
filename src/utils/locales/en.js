@@ -198,7 +198,7 @@ export default {
     DeleteMediaAreYouSureAudio: "Are you sure to delete the",
     DeleteMediaPhoto: "Photo",
     DeleteMediaAudio: "Audio",
-    DeleteMediaCancel: "Cancel",
+    DeleteMediaCancel: "Keep editing",
     DeleteMediaDelete: "Delete",
     QsoTypeSWLpng: "swl.png",
     QsoTypeSelect: "Select the Post Type",
@@ -226,7 +226,7 @@ export default {
     qsoActionsDeletingCallsign: 'Deleting callsign from post ...',
     DeletePostWarning: 'WARNING',
     DeletePostPublishedMessage: 'If you discard now, you will loose the post.',
-    DeletePostDelete: 'Discard post',
+    DeletePostDelete: 'Discard',
     DeletePostCantDeletePost: 'Dear Ham, this post is not published yet, we can not delete a post that is not published.',
     DeletePostCantDelete: 'Close',
     StartNewPostAlreadyPublished: 'By starting a new post you will close the editing mode of the current published post.',
@@ -394,4 +394,7 @@ export default {
     MISSBAND: 'Band is missing, you must enter a Band to publish.',
     MISSMODE: 'Mode is missing, you must enter a Mode to publish.',
     MISSCLOSE: 'Close',
+    PUBLICAR: 'Publish',
+    PUBLICARNUEVA: 'New post',
+    PUBLICARCANCELAR: 'Discard'
   };

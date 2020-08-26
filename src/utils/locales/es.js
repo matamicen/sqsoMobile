@@ -198,7 +198,7 @@ export default {
     DeleteMediaAreYouSureAudio: "¿Ests segúro de borrar el",
     DeleteMediaPhoto: "Foto",
     DeleteMediaAudio: "Audio",
-    DeleteMediaCancel: "Cancelar",
+    DeleteMediaCancel: "Seguir editando",
     DeleteMediaDelete: "Borrar",
     QsoTypeSWLpng: "escucha.png",
     QsoTypeSelect: "Elegí el tipo de Publicación",
@@ -226,7 +226,7 @@ export default {
     qsoActionsDeletingCallsign: 'Borrando SD ...',
     DeletePostWarning: 'ATENCION',
     DeletePostPublishedMessage: 'Si descartas ahora, perderás la publicación.',
-    DeletePostDelete: 'Descartar publicación',
+    DeletePostDelete: 'Descartar',
     DeletePostCantDeletePost: 'Esta publicación no fue publicada, no podemos borrar una publicación que no se publicó.',
     DeletePostCantDelete: 'Cerrar',
     StartNewPostAlreadyPublished: 'Al inciar una nueva publicación no podrá agregar mas audios y fotos a la publicacion actual.',
@@ -394,6 +394,9 @@ export default {
     MISSBAND: 'Falta completar la Banda para poder publicar.',
     MISSMODE: 'Falta completar el Modo para poder publicar.',
     MISSCLOSE: 'Cerrar',
+    PUBLICAR: 'Publicar',
+    PUBLICARNUEVA: 'Nueva publicación',
+    PUBLICARCANCELAR: 'Descartar'
     
 
   };

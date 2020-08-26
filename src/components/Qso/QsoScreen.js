@@ -1592,7 +1592,7 @@ class QsoScreen extends Component {
      <HandleBack onBack={this.onBack}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
     
-      <View style={{ flex: 0.05 }}>
+      <View style={{ flex: 0.06 }}>
           <Publicar publicar={this.publicar_chequeos.bind()} descartar={this.descartar_publicacion.bind()}/>
           
       </View>
@@ -1765,7 +1765,7 @@ class QsoScreen extends Component {
         </View>
         {/* </TouchableWithoutFeedback>  */}
        
-        <View style={{ flex: 0.53 }}>
+        <View style={{ flex: 0.52 }}>
        
            
           <MediaFiles />

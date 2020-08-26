@@ -207,7 +207,7 @@ class DeletePost extends Component {
 
 
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
-                            <View style={{ flex:0.30, alignItems: 'flex-start'}}>
+                            <View style={{ flex:0.70, alignItems: 'flex-start'}}>
                           
                               <TouchableOpacity onPress={() => this.props.closeDeletePost()} >
                             <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("DeleteMediaCancel")}</Text>
@@ -215,7 +215,7 @@ class DeletePost extends Component {
                           
                             </View>
                            {/* {(!this.props.deletedflag) && */}
-                            <View style={{ flex:0.70, alignItems: 'flex-end'}}>
+                            <View style={{ flex:0.30, alignItems: 'flex-end'}}>
                            
                          
                               <TouchableOpacity onPress={() => this.deletePost2()} >
