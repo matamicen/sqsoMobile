@@ -36,7 +36,7 @@ return <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#d9d9d9',
          </View>
          <View style={{ flex: 0.33,  alignItems: 'flex-end', marginTop: 3 }}>
             <TouchableOpacity  onPress={() => this.props.publicar()}>
-            <Text style={{fontSize: 18, marginRight: 10, color: '#4e7bff'}}>Publicar</Text>
+            <Text style={{fontSize: 18, marginRight: 10, fontWeight: Platform.OS==='ios' ? "bold" : "normal", color: '#4e7bff'}}>Publicar</Text>
             </TouchableOpacity>
         </View>
  
