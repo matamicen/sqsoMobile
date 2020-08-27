@@ -1357,8 +1357,8 @@ class QsoScreen extends Component {
         "longitude" : this.props.longitude,
         "latitude": this.props.latitude,
         "datetime": fechaqso,
-        "qra_owner": this.props.qra
-        // "draft" : 1
+        "qra_owner": this.props.qra,
+        "draft" : 1
       };
               this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
               // #PUBLISH
@@ -1419,8 +1419,8 @@ class QsoScreen extends Component {
              "longitude" : this.props.longitude,
              "latitude": this.props.latitude,
              "datetime": fechaqso,
-             "qra_owner": this.props.qra
-            //  "draft" : 1
+             "qra_owner": this.props.qra,
+             "draft" : 1
            };
                    this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,session.idToken.jwtToken);
 
@@ -1527,7 +1527,8 @@ class QsoScreen extends Component {
                               "sqlrdsid" : this.props.sqsosqlrdsid,
                               "qra": this.props.qra,
                               "rst" : this.props.rst,
-                              "db" : this.props.db
+                              "db" : this.props.db,
+                              "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 

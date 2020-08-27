@@ -621,7 +621,7 @@ class Muestro extends Component {
        
        
     
-      if (this.stat==='inprogress')  {  // los envia si ya tienen SqlRdsId sino los deja en waiting
+      // if (this.stat==='inprogress')  {  // los envia si ya tienen SqlRdsId sino los deja en waiting
           this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.sqsomedia.qra,'0',this.props.jwtToken);
           // hago un timeout por si se queda colgado el upload asi el usuario
           // por lo menos puede hacer un close del modal de espera y no tiene que resetear la APP           
@@ -633,30 +633,30 @@ class Muestro extends Component {
           }
           , 10000);
       
-               }  else{  // no entra nunca mas por aca ya que manda solo fotos de profile este metodo, ver de borrar esto con cuidado
+            //    }  else{  // no entra nunca mas por aca ya que manda solo fotos de profile este metodo, ver de borrar esto con cuidado
 
-             // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
-             // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
-             console.log('mediafile Local:'+mediafileLocal);
-             console.log(mediafileLocal);
-             if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,mediafileLocal))
-                await this.props.onprogressTrue();
-               else
-                 this.props.onprogressFalse();
+            //  // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
+            //  // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
+            //  console.log('mediafile Local:'+mediafileLocal);
+            //  console.log(mediafileLocal);
+            //  if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,mediafileLocal))
+            //     await this.props.onprogressTrue();
+            //    else
+            //      this.props.onprogressFalse();
 
-                 console.log('onprogress '+ONPROGRESS)
+            //      console.log('onprogress '+ONPROGRESS)
 
-                 if (ONPROGRESS) {
-                  data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
-                             this.props.db,this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
-                                               this.props.longitude);
-                       console.log("Data to Send API: "+ JSON.stringify(data));  
-                      this.props.actindicatorPostQsoNewTrue();
-                      this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+            //      if (ONPROGRESS) {
+            //       data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
+            //                  this.props.db,this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
+            //                                    this.props.longitude);
+            //            console.log("Data to Send API: "+ JSON.stringify(data));  
+            //           this.props.actindicatorPostQsoNewTrue();
+            //           this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
                       
-                 }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+            //      }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
 
-             }
+            //  }
           //this.props.navigation.navigate("Root");
         
             //  }
