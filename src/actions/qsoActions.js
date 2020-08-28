@@ -721,6 +721,12 @@ export const qsoPublish = (qsoHeader,qsoqras,jwtToken) => {
         
      });
 
+     // refresco token porque pudo haber pasado un tiempo entre que el usuario
+     // envio la media y edito los comentarios, lleno la bnada y el modo, subio otra media despues.
+     // y cuando quiere publicar por ahi el token se vencio
+     session = await Auth.currentSession();
+     dispatch(setToken(session.idToken.jwtToken));
+
        console.log("SIN FORMATEAR: "+ JSON.stringify(qsoHeader));
    
    
@@ -729,7 +735,7 @@ export const qsoPublish = (qsoHeader,qsoqras,jwtToken) => {
       let path = '/qsoPublish';
       let myInit = { // OPTIONAL
         headers: {
-          'Authorization': jwtToken,
+          'Authorization': session.idToken.jwtToken,
           'Content-Type': 'application/json'
         }, // OPTIONAL
         body: {

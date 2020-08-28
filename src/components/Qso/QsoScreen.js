@@ -1422,7 +1422,7 @@ class QsoScreen extends Component {
              "qra_owner": this.props.qra,
              "draft" : 1
            };
-                   this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,session.idToken.jwtToken);
+                   this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,session.idToken.jwtToken);
 
           }
 
@@ -1520,14 +1520,30 @@ class QsoScreen extends Component {
 
  // #PUBLISH
   publicar = async () => {
+
+              if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
+          {
+            bandAux = '';
+            modeAux = '';
+            rstAux = '';
+            dbAux = '';
+          }
+          else
+          {
+            bandAux = this.props.band;
+            modeAux = this.props.mode;
+            rstAux = this.props.rst;
+            dbAux = this.props.db;
+
+          }
   
-        qsoHeader = { "mode" : this.props.mode,
-                              "band" : this.props.band,
+        qsoHeader = { "mode" : modeAux,
+                              "band" : bandAux,
                               "type" : this.props.qsotype,
                               "sqlrdsid" : this.props.sqsosqlrdsid,
                               "qra": this.props.qra,
-                              "rst" : this.props.rst,
-                              "db" : this.props.db,
+                              "rst" : rstAux,
+                              "db" : dbAux,
                               "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
