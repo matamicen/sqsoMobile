@@ -66,52 +66,56 @@ class AddCallSigns extends Component {
               this.props.onprogressFalse();
 
 
-
-     if (this.props.sqlrdsid===''){
-       console.log('onprogress: '+ ONPROGRESS)
+//#PUBLISH
+    //  if (this.props.sqlrdsid===''){
+    //    console.log('onprogress: '+ ONPROGRESS)
              
-             // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
-           if (ONPROGRESS) {
-            data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
-                  this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid,this.props.latitude,
-                                         this.props.longitude);
-                 console.log("Data to Send API: "+ JSON.stringify(data));  
-                 console.log('qsoqras 11: '+ JSON.stringify(this.props.qsoqras))
-                 this.props.close();
-                 setTimeout(() => {
+    //          // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
+    //        if (ONPROGRESS) {
+    //         data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
+    //               this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid,this.props.latitude,
+    //                                      this.props.longitude);
+    //              console.log("Data to Send API: "+ JSON.stringify(data));  
+    //              console.log('qsoqras 11: '+ JSON.stringify(this.props.qsoqras))
+    //              this.props.close();
+    //              setTimeout(() => {
               
-                  this.props.actindicatorPostQsoNewTrue();
-                  this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
-                  this.props.setQsoCallsigns('DELETEALL',''); 
-                }
-                , 500);
+    //               this.props.actindicatorPostQsoNewTrue();
+    //               this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
+    //               this.props.setQsoCallsigns('DELETEALL',''); 
+    //             }
+    //             , 500);
             
-           }else {
-             console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-             this.props.close();
-             this.props.setQsoCallsigns('DELETEALL',''); 
+    //        }else {
+    //          console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+    //          this.props.close();
+    //          this.props.setQsoCallsigns('DELETEALL',''); 
 
-            }
+    //         }
              
-           }
-           else {
-              qraToAddRds = [];
-              console.log('qsoqras 13: '+ JSON.stringify(this.props.qsoqras))
-              this.props.qsoqras.map(item => {
-                   if(item.sent === 'false'){
-                      qraToAddRds.push(item);
-                      console.log('entro status false')
+    //        }
+    //        else {
+    //           qraToAddRds = [];
+    //           console.log('qsoqras 13: '+ JSON.stringify(this.props.qsoqras))
+    //           this.props.qsoqras.map(item => {
+    //                if(item.sent === 'false'){
+    //                   qraToAddRds.push(item);
+    //                   console.log('entro status false')
 
-                   }
-                   console.log('iteracion: '+JSON.stringify(item))
+    //                }
+    //                console.log('iteracion: '+JSON.stringify(item))
                    
-                   })
-              // qraToAddRds.push(qra);
-              console.log('qratoadd: '+ JSON.stringify(qraToAddRds))
-              this.props.close();
-              await this.props.postQsoQras("ALL",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
-              this.props.setQsoCallsigns('DELETEALL','');
-                } 
+    //                })
+    //           // qraToAddRds.push(qra);
+    //           console.log('qratoadd: '+ JSON.stringify(qraToAddRds))
+    //           this.props.close();
+    //           await this.props.postQsoQras("ALL",this.props.sqlrdsid,qraToAddRds,this.props.jwtToken);
+    //           this.props.setQsoCallsigns('DELETEALL','');
+    //             } 
+
+          this.props.close();
+          this.props.setQsoCallsigns('DELETEALL',''); 
+    //#PUBLISH
 
 
     }
@@ -119,8 +123,8 @@ class AddCallSigns extends Component {
 
     addCallsignToqsoqras = async () => {
 
-      if (await hasAPIConnection())
-      {
+      // if (await hasAPIConnection())
+      // {
       this.props.copyQsoCallSignsToQsoQras(this.props.qsocallsigns);
 
       setTimeout(() => {
@@ -131,8 +135,8 @@ class AddCallSigns extends Component {
         
       }
       , 50);
-    }
-    else this.setState({nointernet: true});
+    // }
+    // else this.setState({nointernet: true});
 
     }
     

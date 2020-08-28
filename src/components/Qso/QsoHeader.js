@@ -107,7 +107,9 @@ class QsoHeader extends Component {
              <View style={{flexDirection: 'row', marginTop: 6, flex:1 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
-              { this.props.sqsonewqsoactive ?
+              {/* { this.props.sqsonewqsoactive ? */}
+              {/* sa saco etiquetar SD para QAP, POST y FieldDay(activacion) */}
+              { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?  
                               //  <TouchableOpacity   onPress={() => this.setState({addCallsigns: true})} >  
                                 <TouchableOpacity  style={styles.buttonAddCallSignContainer} onPress={() => this.setState({addCallsigns: true})} >                                                                            
                                   {/* <Text style={{ fontSize: 19, color: '#999', marginTop: 8, marginLeft: 3}}>{I18n.t("QsoHeaderAddCallsign")}</Text> */}
@@ -152,9 +154,10 @@ class QsoHeader extends Component {
                { this.props.sqsonewqsoactive &&
                <TouchableOpacity  style={{marginRight: 10 }} onPress={() => this.setState({helpTag: true})} >                                                                            
                                
-                                     {(this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY') &&
+                              {/* sa saco etiquetar SD para QAP, POST y FieldDay(activacion) */}
+                                     {/* {(this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY') &&
                                   <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderHelpTag")}</Text>
-                                  }
+                                  } */}
                                         {(this.props.qsotype==='QSO' || this.props.qsotype==='LISTEN') &&
                                   <Text style={{ fontSize: 14, color: 'grey'}}>{I18n.t("QsoHeaderSdTag")}</Text>
                                   }
