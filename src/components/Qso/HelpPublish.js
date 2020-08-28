@@ -163,8 +163,8 @@ class HelpPublish extends Component {
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishQSOfield3")}</Text>
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishQSOfield4")}</Text>
                       </View>
-                      <View style={{ flex:0.37, alignItems: "center" }}>
-                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishQSOMessage2")}</Text>
+                      <View style={{ flex:0.37, alignItems: 'flex-start' }}>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16, alignItems: 'flex-start'}}>{"\n"} {I18n.t("helpPublishQSOMessage2")}</Text>
                       </View>
                  </View>
                      } 
@@ -184,7 +184,7 @@ class HelpPublish extends Component {
                         <Text style={{ color: 'white', fontWeight: 'bold',fontSize: 16}}>• {I18n.t("helpPublishSWLfield4")}</Text>
                       </View>
                       <View style={{ flex:0.38, alignItems: "center" }}>
-                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{I18n.t("helpPublishSWLMessage2")}</Text>
+                        <Text style={{ color: '#c0c0c0', fontSize: 16}}>{"\n"} {I18n.t("helpPublishSWLMessage2")}</Text>
                       </View>
                  </View>
                      }

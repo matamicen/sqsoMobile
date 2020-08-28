@@ -27,7 +27,7 @@ import {FETCHING_API_REQUEST,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
         UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS,
-        SET_WEBVIEW, SET_PRESSHOME  } from './types';
+        SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -142,6 +142,15 @@ export const setPressHome = (cant) => {
   return {
       type: SET_PRESSHOME,
       presshome: cant
+     
+      
+  };
+}
+
+export const setJustPublished = (stat) => {
+  return {
+      type: SET_JUSTPUBLISHED,
+      status: stat
      
       
   };
@@ -478,7 +487,8 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       console.log("ejecuta llamada API Qso NEW");  
     try {
        console.log("Antes1 QSO new" );
-       console.log("RST: "+ JSON.stringify(bodyqsonew.rst));
+       console.log(bodyqsonew);
+      //  console.log("RST: "+ JSON.stringify(bodyqsonew.rst));
        let tiempo1;
        let tiempo2;
        let resu;
@@ -493,6 +503,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
             'Content-Type': 'application/json'
           }, // OPTIONAL
           body: bodyqsonew
+
           
         }
 
@@ -517,8 +528,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
         dispatch(setShareUrlGuid(respuesta.body.message.guid_url));
    
-        await dispatch(postQsoQras("ALLQSONEW",respuesta.body.message.newqso, qsoqras,jwtToken));
-          console.log('mediafiles length:'+mediafiles.length);
+        //#PUBLISH
+        // await dispatch(postQsoQras("ALLQSONEW",respuesta.body.message.newqso, qsoqras,jwtToken));
+      //#PUBLISH
+        console.log('mediafiles length:'+mediafiles.length);
          
 
        
@@ -550,7 +563,8 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
 
       }
 
-       dispatch(actindicatorPostQsoNewFalse());
+      //#PUBLISH 
+      //  dispatch(actindicatorPostQsoNewFalse());
 
  
 
@@ -570,7 +584,10 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
       // por si sale por Token Expired, renuevo token y llamo a la API de nuevo
       session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
-      dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
+      // #PUBLICAR remuevo el envio automatico del PostQsoNew, ahora el boton Publicar primero chequea que haya sqlrdsId y si no hay llama a postqsoNew, 
+      // en la mayoria de casos ya deberia etar creado porque se crea al confirmar una foto o un audio, pero si fallo en ese momento por alguna razon (internet)
+      // Publicar chequea eso y llama de nuevo a postQsoNew.
+      // dispatch(postQsoNew(bodyqsonew,qsoqras,mediafiles,session.idToken.jwtToken));
 
       crashlytics().setUserId(bodyqsonew.qra_owner);
       crashlytics().log('error: ' + JSON.stringify(error)) ;
@@ -586,7 +603,8 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
     };
   };
 
-  export const postQsoQras = (type, sqlRdsId, qsoqras,jwtToken) => {
+  // esta API no se usa mas desde que esta el boton PUBLISH
+  export const postQsoQras = (type, qsoHeader, sqlRdsId, qsoqras,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoQras'));
       console.log("ejecuta llamada API POSTqsoQRAS");  
@@ -647,6 +665,9 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
             dispatch(updateQsoOnlyOneQraStatus(status, arr[0]));
         }
 
+        // llamo a postQsoEdit para pasarle datos de header a la publicacion y flag de publicada
+        dispatch(postQsoEdit(qsoHeader,'',jwtToken));
+
       }
      
     }
@@ -682,6 +703,112 @@ export const updateQsoOnlyOneQraStatus = (status, qra) => {
     };
 }
 
+
+export const qsoPublish = (qsoHeader,qsoqras,jwtToken) => {
+  return async dispatch => {
+    dispatch(fetchingApiRequest('postQsoPublish'));
+    console.log("ejecuta llamada API QsoPublish");  
+  try {
+      // session = await Auth.currentSession();
+    //  console.log("Su token es: " + session.idToken.jwtToken);
+    
+    // formateo qsoqras
+    var arr = [];
+    var reformattedArray = qsoqras.map(function(obj){ 
+        
+       // rObj[obj.clave] = obj.valor;
+       arr.push(obj.qra);
+        
+     });
+
+       console.log("SIN FORMATEAR: "+ JSON.stringify(qsoHeader));
+   
+   
+
+      let apiName = 'superqso';
+      let path = '/qsoPublish';
+      let myInit = { // OPTIONAL
+        headers: {
+          'Authorization': jwtToken,
+          'Content-Type': 'application/json'
+        }, // OPTIONAL
+        body: {
+              "mode": qsoHeader.mode,
+              "band": qsoHeader.band,
+              "rst": qsoHeader.rst,
+              "db" : qsoHeader.db,
+              "qso": qsoHeader.sqlrdsid,
+              "type": qsoHeader.type,
+              "qras": arr  
+              // "draft" : 0
+                           }
+        
+      }
+
+
+      
+    respuesta = await API.post(apiName, path, myInit);
+    console.log("llamo api! QSO_PUBLISH");
+  
+  //  console.log(respuesta);
+    dispatch(fetchingApiSuccess('postQsoPublish',respuesta));
+   
+    if (respuesta.body.error===0)
+    {
+     // dispatch(updateSqlRdsId(respuesta.message));
+      console.log("error es 0 y SALIDA de postQsoPublish: "+JSON.stringify(respuesta.body.message));
+
+      // activo el flag de publicacion y cierra la publicacion actual
+      // en la pantalla de QsoScreen redirecciona a Home en el RENDER por el cambio de estado en una variable dentro de actindicatorPostQsoNewFalse()
+      dispatch(actindicatorPostQsoNewFalse());
+      dispatch(setJustPublished(true));
+      
+      setTimeout(() => {
+        dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
+        dispatch(resetQso());// resetea la publicacion
+      }
+      , 150);
+      
+      // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
+
+      // No tiene sentido actualizar los status si esta API ya envia todo el POST y lo resetea
+      // console.log("actualizo el QsoHeaderStatus");
+      // dispatch(updateQsoHeaderStatusTrue());
+     
+   if(__DEV__)
+      analytics().logEvent("QSO_PUBLISH_DEV", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+      "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+   else
+      analytics().logEvent("QSO_PUBLISH_PRD", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+      "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+
+      console.log("Recording analytics QSO_PUBLISH")
+      
+     
+      
+
+    }
+   
+  }
+  catch (error) {
+    console.log('Api catch error:', error);
+    dispatch(fetchingApiFailure('postQsoPublish',error));
+
+          crashlytics().setUserId(qsoHeader.qra);
+          crashlytics().log('error: ' + JSON.stringify(error)) ;
+          if(__DEV__)
+          crashlytics().recordError(new Error('postQsoPublish_DEV'));
+          else
+          crashlytics().recordError(new Error('postQsoPublish_PRD'));
+    
+    // Handle exceptions
+  }
+       
+    
+  };
+};
+
+// esta API no se usa mas desde que esta el boton PUBLISH
 export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoEdit'));
@@ -708,7 +835,8 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
                 "rst": qsoHeader.rst,
                 "db" : qsoHeader.db,
                 "qso": qsoHeader.sqlrdsid,
-                "type": qsoHeader.type,
+                "type": qsoHeader.type
+                // "draft" : 0
                              }
           
         }
@@ -732,7 +860,17 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
        // dispatch(updateSqlRdsId(respuesta.message));
         console.log("error es 0 y SALIDA de QsoEDITQ: "+JSON.stringify(respuesta.body.message));
 
-       
+        // activo el flag de publicacion y cierra la publicacion actual
+        // en la pantalla de QsoScreen redirecciona a Home en el RENDER por el cambio de estado en una variable dentro de actindicatorPostQsoNewFalse()
+        dispatch(actindicatorPostQsoNewFalse());
+        dispatch(setJustPublished(true));
+        
+        setTimeout(() => {
+          dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
+          dispatch(resetQso());// resetea la publicacion
+        }
+        , 150);
+        
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");
        
@@ -1699,7 +1837,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
 
 
 
-      this.toast(I18n.t("qsoActionsPublishingDescription"),2500);
+       this.toast(I18n.t("qsoActionsPublishingDescription"),2500);
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api updateMediaDescription");

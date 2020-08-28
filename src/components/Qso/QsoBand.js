@@ -30,8 +30,8 @@ class QsoBand extends Component {
       setPickerValue = async (value) => {
      //     this.setState({pickerSelection: value});
 
-     if (await hasAPIConnection())
-     {
+    //  if (await hasAPIConnection())
+    //  {
      if (this.props.band!==value){    
                 console.log("pasa por setBand");
                
@@ -45,39 +45,42 @@ class QsoBand extends Component {
            else
                  this.props.onprogressFalse();
 
-                 if (this.props.sqlrdsid===''){
+                 //#PUBLISH
+                //  if (this.props.sqlrdsid===''){
             
-                    // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
-                  if (ONPROGRESS) {
-                   data = check_firstTime_OnProgress(this.props.qsotype,value,this.props.mode,this.props.rst,
-                           this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
-                                                this.props.longitude);
-                        console.log("Data to Send API: "+ JSON.stringify(data));  
-                       this.props.actindicatorPostQsoNewTrue();
-                       this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
+                //     // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
+                //   if (ONPROGRESS) {
+                //    data = check_firstTime_OnProgress(this.props.qsotype,value,this.props.mode,this.props.rst,
+                //            this.props.db, this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
+                //                                 this.props.longitude);
+                //         console.log("Data to Send API: "+ JSON.stringify(data));  
+                //        this.props.actindicatorPostQsoNewTrue();
+                //        this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,this.props.jwtToken);
                        
-                  }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+                //   }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
                     
-                  }else {
-                      qsoHeader = { "mode" : this.props.mode,
-                                    "band" : value,
-                                    "type" : this.props.qsotype,
-                                    "sqlrdsid" : this.props.sqlrdsid,
-                                    "qra": this.props.qra,
-                                    "rst" : this.props.rst
-                                  }
-                                  console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+                //   }else {
+                //       qsoHeader = { "mode" : this.props.mode,
+                //                     "band" : value,
+                //                     "type" : this.props.qsotype,
+                //                     "sqlrdsid" : this.props.sqlrdsid,
+                //                     "qra": this.props.qra,
+                //                     "rst" : this.props.rst
+                //                   }
+                //                   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-                         this.props.postQsoEdit(qsoHeader,'band',this.props.jwtToken);         
+                //          this.props.postQsoEdit(qsoHeader,'band',this.props.jwtToken);         
 
-                       }  
+                //        } 
+                 //#PUBLISH 
 
             }
           this.togglePicker();
-        }else
-        { this.togglePicker();
-          this.setState({nointernet: true});
-        }
+        // }
+        // else
+        // { this.togglePicker();
+        //   this.setState({nointernet: true});
+        // }
         
       }
 

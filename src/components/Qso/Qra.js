@@ -111,25 +111,29 @@ class Qra extends Component {
 
 
             delete = async (qra) => {
+              //#Publish no tiene sentido chequear internet ni si tiene sqlrdsid ya que siempre se borra de memoria ahora, los qras son enviados al final cuando se Publica
+              // y si no ingreso QRAS el boton Publicar va a hacer la validacion
+              
             // depende si el QSO esta Onprogress o si tiene un sqlrdsid creado borra llamando a la API o no.
-            if (await hasAPIConnection())
-            {
-            if (this.props.sqlrdsid !== ''){
-                 console.log('cantidad qras: '+this.props.qsoqras.length)
-                 if (this.props.qsoqras.length===1 && this.props.qsotype!=='POST')
-                   this.setState({warningMessage: true});
-                   else{
-                     this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
-                     this.closeModaldeleteqra();
-                   }
-                }
-                 else{
+            // if (await hasAPIConnection())
+            // {
+            // if (this.props.sqlrdsid !== ''){
+            //      console.log('cantidad qras: '+this.props.qsoqras.length)
+            //      if (this.props.qsoqras.length===1 && this.props.qsotype!=='POST')
+            //        this.setState({warningMessage: true});
+            //        else{
+            //          this.props.QsoQraDelete(this.props.sqlrdsid,qra,this.props.jwtToken);
+            //          this.closeModaldeleteqra();
+            //        }
+            //     }
+            //      else{
                  this.props.deleteQsoQra(qra);
                  this.closeModaldeleteqra();
-                }
+              //   }
          
-              }else
-              this.setState({nointernet: true});
+              // }else
+              // this.setState({nointernet: true});
+              //#Publish
 
                   
 
