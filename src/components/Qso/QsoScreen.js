@@ -1377,6 +1377,10 @@ class QsoScreen extends Component {
 
         if (await hasAPIConnection())
           { 
+
+                // por si fallo la vez anterior por el Token Expired, renuevo token y llamo a la API de nuevo
+                session = await Auth.currentSession();
+                this.props.setToken(session.idToken.jwtToken);
             
             console.log('sqsosqlrdsid: '+ this.props.sqsosqlrdsid)
           // if (this.props.sqsosqlrdsid!=='')
@@ -1406,8 +1410,8 @@ class QsoScreen extends Component {
             console.log('Publicar no tenia generado sqlrdsid')
 
                   // por si fallo la vez anterior por el Token Expired, renuevo token y llamo a la API de nuevo
-                  session = await Auth.currentSession();
-                  this.props.setToken(session.idToken.jwtToken);
+                  // session = await Auth.currentSession();
+                  // this.props.setToken(session.idToken.jwtToken);
 
             fechaqso = getDate();
             data = {
@@ -1449,7 +1453,7 @@ class QsoScreen extends Component {
                   const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia } = item;
               console.log('mapeo');
               if (status==='failed' || status==='inprogress')
-                this.props.uploadMediaToS3(name, url,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3, qra, rectime, this.props.jwtToken);
+                this.props.uploadMediaToS3(name, url,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3, qra, rectime, session.idToken.jwtToken);
               
                 })
               
@@ -1481,7 +1485,7 @@ class QsoScreen extends Component {
               }else
               { // en el segundo intento se logro enviar toda la media entonces publico
                 console.log('salio del loop2');
-                 this.publicar();
+                 this.publicar(session.idToken.jwtToken);
 
               }
               
@@ -1494,7 +1498,7 @@ class QsoScreen extends Component {
             // si viene por aca es porque salio del bucle porque ya se enviaron todas las medias entonces se puede publicar.
 
             console.log('salio del loop1');
-             this.publicar();
+             this.publicar(session.idToken.jwtToken);
           }
 
       
@@ -1519,7 +1523,7 @@ class QsoScreen extends Component {
   }
 
  // #PUBLISH
-  publicar = async () => {
+  publicar = async (jwtToken) => {
 
               if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
           {
@@ -1562,7 +1566,7 @@ class QsoScreen extends Component {
                       // this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
                     
                       // Se unifico el publicar, se envia Header y qsoqras para todo tipo de Publicacion
-                      this.props.qsoPublish(qsoHeader,this.props.qsoqras,this.props.jwtToken);
+                      this.props.qsoPublish(qsoHeader,this.props.qsoqras,jwtToken);
                         
             
    
