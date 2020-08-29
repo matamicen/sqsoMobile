@@ -108,7 +108,9 @@ class Qra extends Component {
               if (await hasAPIConnection())
               {
 
-              auxurl = global_config.urlWeb+'/'+qra;
+              // auxurl = global_config.urlWeb+'/'+qra;
+              // await this.props.setWebView(this.props.webviewsession,auxurl)
+              auxurl = global_config.urlWeb+'/'+qra + '?embedded=true&date='+ new Date();
               await this.props.setWebView(this.props.webviewsession,auxurl)
               
               setTimeout(() => {
