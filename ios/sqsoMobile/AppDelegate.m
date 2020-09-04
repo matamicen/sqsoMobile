@@ -10,6 +10,7 @@
 #import <React/RCTRootView.h>
 @import Firebase;
 #ifdef FB_SONARKIT_ENABLED
+#if TARGET_OS_SIMULATOR
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
@@ -27,13 +28,16 @@ static void InitializeFlipper(UIApplication *application) {
   [client start];
 }
 #endif
+#endif
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 #ifdef FB_SONARKIT_ENABLED
+  #if TARGET_OS_SIMULATOR
   InitializeFlipper(application);
+  #endif
 #endif
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

@@ -802,9 +802,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 arm64e arm7s arm7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -819,7 +820,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 53;
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = sqsoMobile/Info.plist;
@@ -841,9 +842,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 arm64e arm7s arm7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
