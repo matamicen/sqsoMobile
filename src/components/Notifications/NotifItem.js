@@ -4,7 +4,7 @@ import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpac
 import { connect } from 'react-redux';
 import {  set_notification_read, manage_notifications,setWebView,setPressHome } from '../../actions';
 import PropTypes from 'prop-types';
-import * as Progress from 'react-native-progress';
+// import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { hasAPIConnection } from '../../helper';

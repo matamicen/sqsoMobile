@@ -4,7 +4,7 @@ Platform  } from 'react-native';
 import { connect } from 'react-redux';
 import { uploadMediaToS3 } from '../../actions';
 import PropTypes from 'prop-types';
-import * as Progress from 'react-native-progress';
+// import * as Progress from 'react-native-progress';
 import PlayMediaAudioPost from './PlayMediaAudioPost';
 import EditMedia from './EditMedia';
 import DeleteMedia from './DeleteMedia';
