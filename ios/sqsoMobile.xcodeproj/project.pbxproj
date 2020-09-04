@@ -802,7 +802,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 arm64e arm7s arm7";
@@ -842,7 +842,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 arm64e arm7s arm7";
