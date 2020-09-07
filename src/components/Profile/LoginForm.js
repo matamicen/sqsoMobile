@@ -143,6 +143,8 @@ constructor(props) {
    
     // PushNotification.onNotification((notification) => { 
     //   console.log('llego push che!');
+    console.log('esta hermes?')
+    console.log(!!global.HermesInternal);
     
 
     // });

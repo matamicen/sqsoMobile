@@ -87,10 +87,17 @@ PushNotification.configure({
 
 if(__DEV__){
   store = createStore(AppReducer, compose(applyMiddleware(thunk), reactotron.createEnhancer()));
+
 }
 else{
     var createStoreWithMidddleware = applyMiddleware(thunk)(createStore);
     store = createStoreWithMidddleware(AppReducer);
+    // para que no haga console.log en RELEASE ya que genera bottleneck (Recomendacion de React Native)
+    console.log = () => {};
+    console.info = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+    console.debug = () => {};
 }
 
 // PushNotification.onRegister((token) => {
