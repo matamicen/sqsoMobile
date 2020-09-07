@@ -35,7 +35,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SuperQSO - Logo02" translatesAutoresizingMaskIntoConstraints="NO" id="MXa-VZ-deJ">
-                                <rect key="frame" x="68" y="270" width="240" height="128"/>
+                                <rect key="frame" x="67.5" y="269.5" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="240" id="1if-U3-aNc"/>
                                     <constraint firstAttribute="height" constant="128" id="5NE-TW-Qjx"/>

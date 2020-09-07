@@ -166,7 +166,6 @@ PODS:
   - PersonalizedAdConsent (1.0.5)
   - PromisesObjC (1.2.10)
   - Protobuf (3.13.0)
-  - QBImagePickerController (3.4.0)
   - RCTRequired (0.63.2)
   - RCTTypeSafety (0.63.2):
     - FBLazyVector (= 0.63.2)
@@ -453,18 +452,22 @@ PODS:
     - React
   - RNIap (4.0.7):
     - React
-  - RNImageCropPicker (0.25.3):
-    - QBImagePickerController
+  - RNImageCropPicker (0.34.1):
     - React-Core
     - React-RCTImage
-    - RSKImageCropper
+    - RNImageCropPicker/QBImagePickerController (= 0.34.1)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.34.1):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNLocalize (1.4.0):
     - React
   - RNReanimated (1.2.0):
     - React
   - RNShare (3.0.0):
     - React
-  - RSKImageCropper (2.2.3)
+  - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -576,8 +579,7 @@ SPEC REPOS:
     - PersonalizedAdConsent
     - PromisesObjC
     - Protobuf
-    - QBImagePickerController
-    - RSKImageCropper
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -719,7 +721,6 @@ SPEC CHECKSUMS:
   PersonalizedAdConsent: dbecabb3467df967c16d9cebc2ef4a8890e4bbd8
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
-  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
   React: e1c65dd41cb9db13b99f24608e47dd595f28ca9a
@@ -759,11 +760,11 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: b9b375a55a208239bce1eccd6c752167f8475c3e
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
-  RNImageCropPicker: bfb3ea9c8622f290532e2fe63f369e0d5a52f597
+  RNImageCropPicker: 39ec170dc53c227ea352b706c76f7960070309a8
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
-  RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
+  TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
