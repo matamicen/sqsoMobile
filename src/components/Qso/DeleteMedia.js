@@ -68,8 +68,10 @@ class DeleteMedia extends Component {
         // si tiene 2 de length es porque solo tiene 1 media solo ya que el otro siempre es un registro de type VACIO 
         // que se usa para que haya algo y el usuario pueda tocar la pantalla u bajar el teclado
         console.log('sqlrdsid: '+ this.props.sqlrdsid + ' mediafiles.length: '+ this.props.mediafiles.length + 'conta: '+ this.conta)
-        if (this.props.sqlrdsid && this.conta===1) // quiere decir que tiene QSO en base de datos y solo le queda un media
-             this.setState({warningMessage: true});
+
+      //#PUBLISH con el nuevo boton de Publicar esto queda obsoleto, el usuario puede borrar la media y quedarse sin nada, la validacion la va a terminar haciendo el boton de Publicar
+        // if (this.props.sqlrdsid && this.conta===1) // quiere decir que tiene QSO en base de datos y solo le queda un media
+        //      this.setState({warningMessage: true});
 
     
 
@@ -99,16 +101,24 @@ class DeleteMedia extends Component {
            { // hay un QSO creado en BD puede ir borrando pero si quiere borrar 
             // el ultimo se pregunta si quiere borrar todo el QSO
             // if (this.props.sqlrdsid && this.props.mediafiles.length===2) 
-            if (this.props.sqlrdsid && this.conta===1) 
-            {  this.deletePost();
-                this.props.closeDelete()
-            }
-                else{
-                 // borro del backend el media con la API y luego en el action de esta API borro 
-                 // de mediafiles el media si se confirma ok el borrado de API
+
+           //#PUBLSIH con el boron publicar esto no tiene sentido
+            // if (this.props.sqlrdsid && this.conta===1) 
+            // {  this.deletePost();
+            //     this.props.closeDelete()
+            // }
+            //     else{
+            //      // borro del backend el media con la API y luego en el action de esta API borro 
+            //      // de mediafiles el media si se confirma ok el borrado de API
+            //     this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
+            //     this.props.closeDelete()
+            //   }
+
+            // si fue enviado al backend entonces borro el media de la publicacion y BD siempre, no importa si no quedan medias en la publicacion, la validacion esa la hace el boton 
+            // de publicar 
                 this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
                 this.props.closeDelete()
-              }
+               //#PUBLSIH 
 
 
            }

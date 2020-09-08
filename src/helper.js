@@ -35,8 +35,9 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
  console.log(mediafiles)
 mediafilesSinProfile = [];
 
+//#PUBLISH para que no cuente como una media algo que es inapropiado sino puede postear un post vacio ya que el inaproipiado no aparece nunca en el feed
   mediafiles.map(item => {
-    if(item.type !== 'profile') {
+    if(item.type !== 'profile' && item.status!=='inappropriate content') {
       mediafilesSinProfile =  [...mediafilesSinProfile,item] 
     }
   })
@@ -61,6 +62,67 @@ mediafilesSinProfile = [];
     }
    
   }
+
+  export const missingFieldsToPublish=(qsotype,band,mode,qsoqras,mediafiles)=>{
+ 
+    // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
+    // esto evita que pueda mandar un POST sin media
+    console.log('mediafiles en updateOnPRogress');
+    console.log(mediafiles)
+   mediafilesSinProfile = [];
+   
+     mediafiles.map(item => {
+       if(item.type !== 'profile' && item.status!=='inappropriate content') {
+         mediafilesSinProfile =  [...mediafilesSinProfile,item] 
+       }
+     })
+   
+     let devuelvo;
+       if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY') && mediafilesSinProfile.length < 2){
+         devuelvo = { message: I18n.t("MISSPOSTMEDIA")}
+         return devuelvo;
+       }
+       else {
+         // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
+         // el body de los Media (TouchwithoutFeedback)
+     
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (mediafilesSinProfile.length < 2))
+           {
+            devuelvo = { message: I18n.t("MISSPOSTMEDIA")}
+            return devuelvo;
+
+           }
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (band === I18n.t("ReducerBand")))
+           {
+            devuelvo = { message: I18n.t("MISSBAND")}
+            return devuelvo;
+
+           }
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (mode === I18n.t("ReducerMode")))
+           {
+            devuelvo = { message: I18n.t("MISSMODE")}
+            return devuelvo;
+
+           }
+
+           if ((qsotype==='QSO' || qsotype==='LISTEN') && (qsoqras.length===0))
+           {
+            devuelvo = { message: I18n.t("MISSQRAS")}
+            return devuelvo;
+
+           }
+          //  if ((qsotype!=='POST' && qsotype!=='QAP' && qsotype!=='FLDDAY') && (qsoqras.length > 0) && (band !== I18n.t("ReducerBand")) && (mode !== I18n.t("ReducerMode")) && (mediafilesSinProfile.length > 1) )
+          //  { 
+          //      return true;
+          //  } 
+          //  else {
+          //      return false; 
+           
+          //  }
+   
+       }
+      
+     }
 
   export const getDate =  () => {
     var day = '';
@@ -143,6 +205,8 @@ mediafilesSinProfile = [];
 
   export const check_firstTime_OnProgress=(qsotype,band,mode,rst,db,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
      console.log("DENTRO de CHECK FIRST TIME");
+     console.log("lat"+latitude);
+     console.log("lon"+longitude);
      console.log("OnProgress: "+ onprogress);
     if (onprogress && sqlrdsid===''){
 
@@ -258,8 +322,8 @@ mediafilesSinProfile = [];
 
    var fechaEnMiliseg = String(Date.now());
    var url1 = 'https://www.google.com?';
-   var url2 = 'https://en.wikipedia.org?';
-
+   var url2 = 'https://www.facebook.com/?';
+   
    const myNewStr = fechaEnMiliseg.substr(12, 1);
     console.log('INTERNET CHECK NOW: '+fechaEnMiliseg)
     console.log('substring:' + myNewStr);
@@ -817,6 +881,31 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
         
     
+    }
+
+
+    export const todaMediaEnviadaAS3 =  (mediafiles) => {
+      // soloUnType = [];
+      contNoEnviada = 0;
+      contEnviada = 0;
+      mediafiles.map(item => {
+        if(item.status !== 'sent' && item.type !== 'vacio' && item.status !=='inappropriate content') {
+          contNoEnviada++; 
+        }
+        if(item.status === 'sent' && item.type !== 'vacio' && item.status !=='inappropriate content') {
+          contEnviada++; 
+        }
+      })
+
+// estos if son porque puede haber una media de contenido inapropiado sola, entonces si bien si hay muchas medias y hay una inapropidada el post se publica igual
+// hay que chequear que si hay solo una media inapropiada o muchas que haya por lo menos una media enviada para poder hacer el POST,
+      if (contNoEnviada > 0)
+               return false;
+      else
+         if(contEnviada>0)
+              return true;
+              else
+              return false;
     }
 
   

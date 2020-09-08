@@ -54,8 +54,8 @@ class QsodB extends Component {
     // ahora vienen los updates de dB de los modos digitales
 
     updatedb1 = async (db1) => {
-      if (await hasAPIConnection())
-      {  
+      // if (await hasAPIConnection())
+      // {  
          console.log('signo elegido: '+db1);
          if (this.state.db1!==db1) {
  
@@ -65,35 +65,37 @@ class QsodB extends Component {
              dbActual = db1+this.state.db2 + this.state.db3
             //  this.props.setRst(rstActual,this.props.digitalmode,this.props.rstbeforechangemode);
             this.props.setRst(dbActual,true); 
-             if (this.props.sqlrdsid!==''){
+            //#PUBLISH
+            //  if (this.props.sqlrdsid!==''){
  
               
  
-                 qsoHeader = { "mode" : this.props.mode,
-                 "band" : this.props.band,
-                 "type" : this.props.qsotype,
-                 "sqlrdsid" : this.props.sqlrdsid,
-                 "qra": this.props.qra,
-                 "rst" : '',
-                 "db" : dbActual
-               }
-               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+            //      qsoHeader = { "mode" : this.props.mode,
+            //      "band" : this.props.band,
+            //      "type" : this.props.qsotype,
+            //      "sqlrdsid" : this.props.sqlrdsid,
+            //      "qra": this.props.qra,
+            //      "rst" : '',
+            //      "db" : dbActual
+            //    }
+            //    console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-                await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
-             }
+            //     await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
+            //  }
+            //#PUBLISH
           
          }
  
-     }else
-     { this.togglePicker();
-       this.setState({nointernet: true});
-     }
+    //  }else
+    //  { this.togglePicker();
+    //    this.setState({nointernet: true});
+    //  }
       }
      
       updatedb2 = async (db2) => {
  
-         if (await hasAPIConnection())
-         {  
+        //  if (await hasAPIConnection())
+        //  {  
             if (this.state.db2!==db2) {
     
              console.log('db2 elegido: '+db2);
@@ -101,37 +103,38 @@ class QsodB extends Component {
              this.setState({ db2: db2 })
              dbActual = this.state.db1+db2 + this.state.db3
              this.props.setRst(dbActual,true);
-                
-                if (this.props.sqlrdsid!==''){
+      //#PUBLISH          
+    //             if (this.props.sqlrdsid!==''){
     
        
  
-         qsoHeader = { "mode" : this.props.mode,
-         "band" : this.props.band,
-         "type" : this.props.qsotype,
-         "sqlrdsid" : this.props.sqlrdsid,
-         "qra": this.props.qra,
-         "rst" : '',
-         "db" : dbActual
-       }
-       console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+    //      qsoHeader = { "mode" : this.props.mode,
+    //      "band" : this.props.band,
+    //      "type" : this.props.qsotype,
+    //      "sqlrdsid" : this.props.sqlrdsid,
+    //      "qra": this.props.qra,
+    //      "rst" : '',
+    //      "db" : dbActual
+    //    }
+    //    console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-        await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
-     }
+    //     await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
+    //  }
+    //#PUBLISH
  
   
    }
  
  
-     }else
-     { this.togglePicker();
-     this.setState({nointernet: true});
-     }
+    //  }else
+    //  { this.togglePicker();
+    //  this.setState({nointernet: true});
+    //  }
   }
  
   updatedb3 = async (db3) => {
-     if (await hasAPIConnection())
-     {  
+    //  if (await hasAPIConnection())
+    //  {  
         if (this.state.db3!==db3) {
      
          console.log('db3 elegido: '+db3);
@@ -143,30 +146,31 @@ class QsodB extends Component {
              dbActual = this.state.db1+this.state.db2+db3
          this.props.setRst(dbActual,true);
  
-            
-            if (this.props.sqlrdsid!==''){
+     //#PUBLISH       
+            // if (this.props.sqlrdsid!==''){
  
                 
  
-                qsoHeader = { "mode" : this.props.mode,
-                "band" : this.props.band,
-                "type" : this.props.qsotype,
-                "sqlrdsid" : this.props.sqlrdsid,
-                "qra": this.props.qra,
-                "rst" : '',
-                "db" : dbActual
-              }
-              console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+            //     qsoHeader = { "mode" : this.props.mode,
+            //     "band" : this.props.band,
+            //     "type" : this.props.qsotype,
+            //     "sqlrdsid" : this.props.sqlrdsid,
+            //     "qra": this.props.qra,
+            //     "rst" : '',
+            //     "db" : dbActual
+            //   }
+            //   console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
  
-               await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
-            }
+            //    await this.props.postQsoEdit(qsoHeader,'db',this.props.jwtToken);
+            // }
+            //#PUBLISH
          
         }
  
-    }else
-    { this.togglePicker();
-      this.setState({nointernet: true});
-    }
+    // }else
+    // { this.togglePicker();
+    //   this.setState({nointernet: true});
+    // }
      }
     
 

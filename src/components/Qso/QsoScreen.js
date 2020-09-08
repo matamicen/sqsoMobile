@@ -50,8 +50,8 @@ import {
   addMedia,
   uploadMediaToS3,
   welcomeUserFirstTime,
-  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome
-} from "../../actions";
+  confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -68,7 +68,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish, todaMediaEnviadaAS3 } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -85,8 +85,11 @@ import HandleBack from './HandleBack';
 import CamaraSelect from './CamaraSelect';
 import I18n from '../../utils/i18n';
 import DeletePost from './DeletePost';
+import Publicar from './Publicar';
 // import global_config from '../../global_config.json';
-import StartNewPost from './StartNewPost';
+// import StartNewPost from './StartNewPost';
+import MissingFieldsToPublish from './MissingFieldsToPublish';
+import global_config from '../../global_config.json';
 
 
 
@@ -121,6 +124,8 @@ class QsoScreen extends Component {
     this.fileauxProfileAvatar = null;
     this.closeAd = null;
     this.auxMedia = [];
+    this.missingMessage = '';
+    this.intervalID = 0;
 
     
     this.state = {
@@ -152,7 +157,8 @@ class QsoScreen extends Component {
       iconosWeb: false,
       camaraSelect: false,
       deletePost: false,
-      startNewPost: false,
+      // startNewPost: false,
+      missingFields: false,
   
 
      
@@ -720,6 +726,12 @@ class QsoScreen extends Component {
     this.setState({startNewPost: false})
   }
 
+  closeMissingFields = () => {
+    this.setState({missingFields: false})
+  }
+
+
+  
   OpenEndQsoModal = () => {
     this.setState({
       endQsoModal: true
@@ -1325,24 +1337,238 @@ class QsoScreen extends Component {
 
               console.log('onprogress '+ONPROGRESS)
 
-              if (ONPROGRESS) {
-                data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
-                  this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude,
-                                            this.props.longitude);
-                    console.log("Data to Send API: "+ JSON.stringify(data));  
-                    this.props.actindicatorPostQsoNewTrue();
-                    this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+              // #PUBLISH
+              // if (ONPROGRESS) {
+              //   data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.rst,
+              //     this.props.db, this.props.qra,ONPROGRESS,this.props.sqsosqlrdsid, this.props.latitude,
+              //                               this.props.longitude);
+              //       console.log("Data to Send API: "+ JSON.stringify(data));  
+              //       this.props.actindicatorPostQsoNewTrue();
+              //       this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
                     
-              }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-
+              // }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+              fechaqso = getDate();
+       data = {
+        "band" : '',
+        "mode" : '',
+        "rst" : '',
+        "db": '',
+        "type" : this.props.qsotype,
+        "longitude" : this.props.longitude,
+        "latitude": this.props.latitude,
+        "datetime": fechaqso,
+        "qra_owner": this.props.qra,
+        "draft" : 1
+      };
+              this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+              // #PUBLISH
           }
 
   }
 
+  publicar_chequeos = async () => {
+
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+    await this.props.onprogressTrue();
+  else this.props.onprogressFalse();
+
+   console.log('onprogress '+ONPROGRESS) // #PUBLISH 
+   if (ONPROGRESS) { 
+
+        if (await hasAPIConnection())
+          { 
+            
+            console.log('sqsosqlrdsid: '+ this.props.sqsosqlrdsid)
+          // if (this.props.sqsosqlrdsid!=='')
+          // { 
+          // }
+          this.props.actindicatorPostQsoNewTrue();
+
+          // este proceso es por si no se genero sqlrdsid por alguna razon (usuario subio foto y publico rapido, o en la publicacion fallo el la llamada a la API de postqsonew,
+          // entonces espera por si la API se demoro y si sale por tiempo es porque hay que llamar a postqsonew de nuevo para generar el sqlrdsid para luego subir media y publicar)
+          // rara vez deberia entrar en este loop pero es por las dudas
+          contsqlrdsid = 0;
+          while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 25) {
+
+            contsqlrdsid++;  
+            console.log('entro delay sqlrdsid: '+contsqlrdsid)  
+        
+            await this.delay2(300);
+
+          }
+
+          // chequeo si salio del loop por timeout, es decir  si sigue sin sqlrsid, se es asi llamo a postqsonewy sigo el proceso normal de loops siguintes
+          // esperando que se envie toda la media para ser publicado el post
+          // tampoco deberia entrar aca casi nunca
+          if (this.props.sqsosqlrdsid==='')
+          {
+
+            console.log('Publicar no tenia generado sqlrdsid')
+
+                  // por si fallo la vez anterior por el Token Expired, renuevo token y llamo a la API de nuevo
+                  session = await Auth.currentSession();
+                  this.props.setToken(session.idToken.jwtToken);
+
+            fechaqso = getDate();
+            data = {
+             "band" : '',
+             "mode" : '',
+             "rst" : '',
+             "db": '',
+             "type" : this.props.qsotype,
+             "longitude" : this.props.longitude,
+             "latitude": this.props.latitude,
+             "datetime": fechaqso,
+             "qra_owner": this.props.qra,
+             "draft" : 1
+           };
+                   this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,session.idToken.jwtToken);
+
+          }
 
 
 
+// arranca proceso normal de doble intento por la primera vez se trabo algun archvio de media
 
+         
+            contEnvio = 0;
+            while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+              /* code to wait on goes here (sync or async) */
+              contEnvio++;  
+              console.log('entro delay '+contEnvio)  
+          
+              await this.delay2(1500);
+
+              
+            }
+
+            // si aun no se enviaron todas las medias se intenta reenviar nuevamente las q fallaron o estan inprogress
+            if (!todaMediaEnviadaAS3(this.props.mediafiles))
+          {
+                this.props.mediafiles.map(item => { 
+                  const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia } = item;
+              console.log('mapeo');
+              if (status==='failed' || status==='inprogress')
+                this.props.uploadMediaToS3(name, url,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar, date, width, height,this.props.rdsurls3, qra, rectime, this.props.jwtToken);
+              
+                })
+              
+              // comienza el segundo chequeo de envio idem al anterior
+              contEnvio = 0;
+              while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+                /* code to wait on goes here (sync or async) */
+                contEnvio++;  
+                console.log('entro delay2 '+contEnvio)  
+
+                await this.delay2(1500);
+
+                
+              }
+              
+              // si aun en el segundo intento no se pueden enviar hay que avisar con un modal
+              if (!todaMediaEnviadaAS3(this.props.mediafiles))
+              { // bajo el modal de publicando y aviso al usuario
+                console.log('fallo el segundo intento de publicar')
+                this.props.actindicatorPostQsoNewFalse();
+                // uso componente missingFields para informar que no hemos podido publicar
+
+                this.missingMessage =  I18n.t("QsoScrCantPublish")
+                this.setState({ missingFields: true})
+              
+
+
+
+              }else
+              { // en el segundo intento se logro enviar toda la media entonces publico
+                console.log('salio del loop2');
+                 this.publicar();
+
+              }
+              
+
+
+
+          }
+          else
+          {
+            // si viene por aca es porque salio del bucle porque ya se enviaron todas las medias entonces se puede publicar.
+
+            console.log('salio del loop1');
+             this.publicar();
+          }
+
+      
+        } else this.setState({ nointernet: true });
+
+
+        }
+        else
+{
+  console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
+
+  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
+  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+  this.missingMessage =  missMessage.message;
+  this.setState({ missingFields: true})
+} 
+
+
+   
+    
+
+  }
+
+ // #PUBLISH
+  publicar = async () => {
+  
+        qsoHeader = { "mode" : this.props.mode,
+                              "band" : this.props.band,
+                              "type" : this.props.qsotype,
+                              "sqlrdsid" : this.props.sqsosqlrdsid,
+                              "qra": this.props.qra,
+                              "rst" : this.props.rst,
+                              "db" : this.props.db,
+                              "draft": 0
+                           }
+              console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+
+              // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
+              home = global_config.urlWeb + '?' + new Date();
+              await this.props.setWebView(this.props.webviewsession,home);
+          
+              conta = 0;
+
+         
+
+              // if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
+              //         this.props.postQsoQras("ALLQSONEW",qsoHeader,this.props.sqsosqlrdsid, this.props.qsoqras,this.props.jwtToken)
+              //       else
+                      // this.props.postQsoEdit(qsoHeader,'',this.props.jwtToken); // si no tiene QsoQras asociados llama directo a postQsoEdit
+                    
+                      // Se unifico el publicar, se envia Header y qsoqras para todo tipo de Publicacion
+                      this.props.qsoPublish(qsoHeader,this.props.qsoqras,this.props.jwtToken);
+                        
+            
+   
+   }
+
+ 
+
+   delay2(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+   goToHomeAfterPublish = async () => {
+    this.props.navigation.navigate('Home')
+    this.props.setJustPublished(false);
+    this.props.setPressHome(1);
+
+
+   }
+
+   descartar_publicacion = () => {
+    this.setState({deletePost: true})
+   }
       
 
   render() {
@@ -1352,8 +1578,12 @@ class QsoScreen extends Component {
     });
     console.log("RENDER qso Screen");
 
+ (this.props.justpublished) && 
+  // this.props.navigation.navigate('Home')
+  this.goToHomeAfterPublish();
  
 
+    
     return (
 
      
@@ -1362,7 +1592,14 @@ class QsoScreen extends Component {
       (this.props.sqsonewqsoactive) ? 
      <HandleBack onBack={this.onBack}>
       <View style={{ flex: 1,  backgroundColor: '#fff'}}>
-       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
+    
+      <View style={{ flex: 0.06 }}>
+          <Publicar publicar={this.publicar_chequeos.bind()} descartar={this.descartar_publicacion.bind()}/>
+          
+      </View>
+       {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+         Esto estaba porque el teclado aparecia cuando se ingresaban los callsign sin el modal, ahora no tiene sentido porque no hay mas teclado en qsoScreen directo, los teclados estan en los modales. */}
+   
         <View style={{ flex: 0.3 }}>
           <QsoHeader />
           
@@ -1459,10 +1696,7 @@ class QsoScreen extends Component {
               {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
               <RecordAudio2 closeModal={this. closeRecModal.bind(this)} />
              
-              {/* <Button onPress={() => this.toggleRecModal()} title="Cierro" /> */}
-              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
-                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
-                          </TouchableHighlight> */}
+     
             </View>
           </Modal>
 
@@ -1490,9 +1724,7 @@ class QsoScreen extends Component {
               {/* <RecordAudio2 closeModal={this.toggleRecModal.bind(this)} /> */}
                <Iap />
               <Button onPress={() => this.setState({iap:false})} title="Cierro" />
-              {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
-                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
-                          </TouchableHighlight> */}
+         
             </View>
           </Modal>
 
@@ -1526,114 +1758,16 @@ class QsoScreen extends Component {
               {/* <Muestro openPremium={this.openPremiumScreen.bind()} send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} /> */}
               <Muestro  send_data_to_qsoscreen={this.receive_data_from_modal.bind()} height={this.state.heightPhotoConfirm} close={this.closeModalPhotoConfirmation.bind()} />
             
-              {/* style={{ paddingBottom: 4}} */}
-             
-              {/* <View style={{ marginTop: 10 }}>
-                <TouchableOpacity style={{ width: 65 }}
-                  onPress={() => this.closeModalPhotoConfirmation()}
-                >
-                  <Text
-                    style={{ color: "white", fontWeight: "bold", fontSize: 16, marginLeft: 5 }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View> */}
+         
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
 
         </View>
-        </TouchableWithoutFeedback> 
+        {/* </TouchableWithoutFeedback>  */}
        
-        <View style={{ flex: 0.58 }}>
+        <View style={{ flex: 0.52 }}>
        
-        { !this.props.sqsonewqsoactive && 
-        // <View  style={{
-        //           top: -75,
-        //           left: 5,
-        //                   right: 5,
-          
-        //   position: 'absolute'}}>
-             <View>
-        
-          <View style={{  backgroundColor: '#f5f5f5',
-                            borderBottomLeftRadius: 22,
-                            borderBottomRightRadius: 22,
-                            borderTopLeftRadius: 22,
-                            borderTopRightRadius: 22,
-                            marginLeft: 5,
-                            marginRight: 5,
-                           }}>
-
-                              <TouchableOpacity  style={{height: 100 }} onPress={() => this.newQso('QSO')}  >
-
-          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-         
-                            <Image source={require('../../images/qsoAzul1.png')} style={{width: 50, height: 50, flex: 0.3}} 
-                            resizeMode="contain" />
-                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeQSOdesc")}</Text>
-                          
-                        </View>
-                        </TouchableOpacity>
-          </View>
-   
-       
-
-        {/* <TouchableOpacity  style={{ marginTop: 16}} onPress={() => this.newQso('LISTEN')}  > */}
-     
-        
-        <TouchableOpacity  style={{ height: 110, marginTop: 16}} onPress={() => this.newQso('LISTEN')}  >
-          <View style={{height: 110, backgroundColor: '#f5f5f5',
-                            borderBottomLeftRadius: 22,
-                            borderBottomRightRadius: 22,
-                            borderTopLeftRadius: 22,
-                            borderTopRightRadius: 22,
-                            marginLeft: 5,
-                            marginRight: 5}}>
-     
-          <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-          
-                            <Image source={require('../../images/swl9.png')} style={{width: 50, height: 50, flex: 0.3}} 
-                            resizeMode="contain" />
-                            <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7 , marginLeft: 8, marginRight: 10}}>{I18n.t("QsoTypeSWLdesc")} </Text>
-                          
-                        </View>
-   
-                        
-          </View>
-          </TouchableOpacity>
-        
-        
-         
-         
-        <TouchableOpacity  style={{ height: 128, marginTop: 16}} onPress={() => this.newQso('POST')}  >
-         
-            <View style={{height: 128, backgroundColor: '#f5f5f5',
-              borderBottomLeftRadius: 22,
-              borderBottomRightRadius: 22,
-              borderTopLeftRadius: 22,
-              borderTopRightRadius: 22,
-              marginLeft: 5,
-              marginRight: 5}}>
-               
-            <View style={{flexDirection: 'row', flex:1, alignItems: 'center'}}>
-                          <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
-                          resizeMode="contain" />
-                          <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 18 }}>{I18n.t("QsoTypeANYdesc")}
-                          </Text>
-                        </View>
-                        
-            </View>
-            </TouchableOpacity>
-         
-              
-
-
-            
-
-              </View>
-             } 
            
           <MediaFiles />
         
@@ -1644,39 +1778,27 @@ class QsoScreen extends Component {
 
         <View style={{ flexDirection: "row", flex: 0.12, marginTop: 6 }}>
           <View style={{ flex: 0.23, marginTop: 15, marginLeft: 5 }}>
-            {this.props.sqsonewqsoactive && 
+            {/* {this.props.sqsonewqsoactive && 
               // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
                   <TouchableOpacity style={styles.buttonDeletePostContainer} onPress={() => this.setState({deletePost: true})}>
-                {/* <Image
-                  source={require("../../images/endQso2.png")}
-                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
-                  resizeMode="contain"
-                /> */}
-                {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+    
                      <Text style={{ fontSize: 12, color: '#243665',  textAlign: 'center', fontWeight: 'bold'  }}>{I18n.t("QsoScrDeletePost")}</Text>
               </TouchableOpacity>
               
-            }
+            } */}
           
         
           </View>
 
           <View style={{ flex: 0.26, marginTop: 15, marginLeft: 9 }}>
-            {this.props.sqsonewqsoactive && 
-              // <TouchableOpacity style={{ width: 70,height:63 }} onPress={() => this.OpenEndQsoModal()}>
-                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.setState({startNewPost: true})}>
-                {/* <Image  
-                  source={require("../../images/endQso2.png")}
-                  style={{ width: 33, height: 33, marginLeft: 17, marginTop: 2 }}
-                  resizeMode="contain"
-                /> */}
-                {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
-                {/* <Text style={{ fontSize: 13, color: "black" }}>{I18n.t("QsoScrEndPost")}</Text> */}
+            {/* {this.props.sqsonewqsoactive && 
+            
+                  <TouchableOpacity style={styles.buttonStartNewPostContainer} onPress={() => this.publicar_chequeos()}>
+                 
                 <Text style={{ fontSize: 12 ,color: '#243665',  textAlign: 'center', fontWeight: 'bold' }}>{I18n.t("QsoScrStartNewPost")}</Text>
               </TouchableOpacity>
               
-            }
+            } */}
           
         
           </View>
@@ -1684,9 +1806,9 @@ class QsoScreen extends Component {
           {/* {this.props.sqsonewqsoactive ? ( */}
        {/* { (this.props.sqsosqlrdsid !== '') ? ( */}
             <View style={{ flex: 0.19, alignItems: "flex-end", marginTop: 15 }}>
-                  { (this.props.sqsosqlrdsid !== '') &&
+                  {/* { (this.props.sqsosqlrdsid !== '') &&
                       <ShareQso qra={this.props.qra} qsotype={this.props.qsotype} band={this.props.band} mode={this.props.mode} sqlrdsid={this.props.sqsosqlrdsid}/>
-                  }
+                  } */}
             </View>
           {/* ) : null} */}
 
@@ -1755,8 +1877,11 @@ class QsoScreen extends Component {
             }
             
     
-            {(this.state.startNewPost) &&
+            {/* {(this.state.startNewPost) &&
               <StartNewPost sqlrdsid={this.props.sqsosqlrdsid} endQso={this.endQso.bind()} closeStartNewPost={this.closeStartNewPost.bind()}/>
+            } */}
+              {(this.state.missingFields) &&
+              <MissingFieldsToPublish  message={this.missingMessage} closeMissingFields={this.closeMissingFields.bind()}/>
             }
 
       </View>
@@ -2044,7 +2169,10 @@ const mapStateToProps = state => {
     mediafiles: state.sqso.currentQso.mediafiles,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
     env: state.sqso.env,
-    qra: state.sqso.qra
+    qra: state.sqso.qra,
+    justpublished: state.sqso.justPublished,
+    webviewsession: state.sqso.webviewSession,
+    mediafiles: state.sqso.currentQso.mediafiles
 
   };
 };
@@ -2081,7 +2209,13 @@ const mapDispatchToProps = {
   setProfileModalStat,
   setConfirmProfilePhotoModal,
   openModalConfirmPhoto,
-  setPressHome
+  setPressHome,
+  postQsoEdit,
+  postQsoQras,
+  setWebView,
+  setJustPublished,
+  actindicatorPostQsoNewFalse,
+  qsoPublish
 };
 
 export default connect(
