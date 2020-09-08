@@ -721,6 +721,9 @@ export const qsoPublish = (qsoHeader,qsoqras,jwtToken) => {
         
      });
 
+    //  session = await Auth.currentSession();
+    //  dispatch(setToken(session.idToken.jwtToken));
+
        console.log("SIN FORMATEAR: "+ JSON.stringify(qsoHeader));
    
    
