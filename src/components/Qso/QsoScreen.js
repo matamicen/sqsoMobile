@@ -90,6 +90,7 @@ import Publicar from './Publicar';
 // import StartNewPost from './StartNewPost';
 import MissingFieldsToPublish from './MissingFieldsToPublish';
 import global_config from '../../global_config.json';
+import { ProcessingManager } from 'react-native-video-processing';
 
 
 
@@ -126,6 +127,8 @@ class QsoScreen extends Component {
     this.auxMedia = [];
     this.missingMessage = '';
     this.intervalID = 0;
+    this.base64preview = '';
+    this.videoPath = '';
 
     
     this.state = {
@@ -743,6 +746,187 @@ class QsoScreen extends Component {
     console.log('PRESS QSOSCREEN!');
     this.props.setPressHome(0);
   }
+
+  videoFromGallery = async () => {
+
+
+    if (await hasAPIConnection()) {
+      // envio a reducer que se fue a background por usar la GELRIA de FOTOS
+      // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
+      // se fue a background por la galeria y mejorar performance y llamados a APIs  
+  
+      //el picker manda dos veces a Background la APP, entonces necesito tener tres estados y no dos,
+      // 0: el picker no fue usado
+      // 1: el picker envio a background la primera vez
+      // 2: el picker envio a background la segunda vez
+  
+      console.log('tomo video de galeria');
+      this.props.manageLocationPermissions("photofromgallery", 1);
+
+      ImagePicker.openPicker({
+        //   ImagePicker.openCamera({
+           // path: data.uri,
+          // cropping: true,
+           // compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1,
+           // width: (Platform.OS==='ios') ? 1100 : 1800, // anda bien 2800 x 2000    // 3080x 2200 // 4312 : 3080 - // 3080x 2200
+           // height: (Platform.OS==='ios') ? 1100 : 1200,
+           // compressImageMaxWidth: 700,
+           // compressImageMaxHeight: 700,
+           //width: 1200, height: 960,
+           //    width: (Platform.OS==='ios') ? 3080 : 3080,
+           // height: (Platform.OS==='ios') ? 2200: 2200,
+           mediaType: "video",
+         }).then(image => {
+           console.log(image);
+           console.log('nombre del archivo: '+image)
+           console.log(JSON.stringify(image));
+           res = JSON.stringify(image);
+           console.log(res);
+            this.pathglobal = res.path;
+
+          console.log('comprime Video22:');
+     
+     
+          let bodyJson = JSON.parse(res);
+          console.log('path del picker1')
+           console.log(bodyJson.path);
+          // console.log(this.pathglobal);
+     
+      console.log('comprime ahora1')
+      tiempo1 = Date.now();
+     //  ProcessingManager.compress(bodyJson.path, {width:360, height:640, bitrateMultiplier: 9,minimumBitrate: 300000}).then((data) => {
+       // ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 17,minimumBitrate: 300000}).then((data) => { para 1080 pero mas de 1 minuto en mi android se muere
+       
+       // obtengo 1 frame como foto del video
+
+       const maximumSize = { width: 200, height: 400 };
+       ProcessingManager.getPreviewForSecond(bodyJson.path, 1, maximumSize)
+         .then((data) => {
+           console.log('obtengo frame')
+          //  console.log(data)
+          this.base64preview = data;
+         });
+
+         this.videoPath = bodyJson.path;
+
+       //este de abajo anda barbaro
+        ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 2,minimumBitrate: 300000})
+        .then((data) => {   // andan los de andres 8aql traidos de wsapp
+         // ProcessingManager.trim(bodyJson.path, { startTime: 0,
+         //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
+        
+        console.log('termino de comprimir1');
+        tiempo2 = Date.now();
+        tardo = tiempo2 - tiempo1;
+        console.log('tardo: '+ tardo)
+     console.log(data);
+     //    ProcessingManager.getVideoInfo(data.source)
+     // .then(({ duration, size, frameRate, bitrate }) => console.log(duration, size, frameRate, bitrate ));
+     
+     
+     uri = data.source;
+     // uri = data;  TRIM
+     
+         fileName2 = uri.replace(/^.*[\\\/]/, '');
+         
+     
+         console.log('filename2 es: ' + fileName2);
+         envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, base64preview: this.base64preview } 
+         
+         // console.log('phototype :'+this.props.phototype)
+         
+       //  vari2 = await 
+         // videocompress
+        vari2 = this.props.sendActualMedia(envio);
+         console.log("Fin de espera larga ANDROID")
+         // this.props.navigation.navigate("ProfileScreen");
+         // this.goBack();
+         
+         if ( Platform.OS === 'ios')
+         timer = 1000;
+           else timer = 500;
+     
+         // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+         // de sacar la foto de profile.
+        
+         this.props.setProfileModalStat('ambos',0);
+     
+         setTimeout(() => {
+           console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+           //  this.props.actindicatorImageDisabled();
+             // this.props.openModalConfirmPhoto(320);
+            
+           //  este metodo es para cuando es foto profile
+          
+           // videocompress
+           this.props.openModalConfirmPhoto(490);
+            
+            
+           
+         }, timer);
+     
+     
+           // ya tomo la foto del picker entonces el flag vuelve a 0.
+           // this.props.manageLocationPermissions("photofromgallery", 0);
+       
+         console.log('este debe aparecer primero');
+     
+     
+     
+     
+     
+     
+              }).catch(e => {
+                console.log(e);
+              });
+         //  console.log(getVideoPath('storage/emulated/0/DCIM/Camera/20200724_074453.mp4'));
+     
+         //  ProcessingManager.getVideoInfo(image.path)
+         //  ProcessingManager.getVideoInfo('storage/emulated/0/DCIM/Camera/20200724_074453.mp4')
+         //  .then(({ duration, size, frameRate, bitrate }) => console.log(duration, size, frameRate, bitrate ));
+      
+     
+           // ProcessingManager.compress('/storage/emulated/0/DCIM/Camera/20200724_074453.mp4', options) // like VideoPlayer compress options
+           // .then((data) => (
+             
+           //   console.log(data) 
+           
+           //  ) ).catch(console.warn);;
+     
+           // this.setState({
+           //   url: data.uri
+           // });
+         
+           // uri = data.uri;
+          
+
+     
+         }).catch((err) => {
+           console.log("cropImage Error", err.message);
+     
+ 
+           
+           crashlytics().setUserId(this.props.qra);
+           crashlytics().log('error: ' + JSON.stringify(err)) ;
+           if(__DEV__)
+           crashlytics().recordError(new Error('openVideoGallery_DEV'));
+           else
+           crashlytics().recordError(new Error('openVideoGallery_PRD'));
+       });
+     
+     
+      
+
+
+
+
+   }
+   else this.setState({ nointernet: true });
+
+
+
+  }
+
 
   photoFromGallery = async () => {
 
@@ -1806,6 +1990,17 @@ class QsoScreen extends Component {
               </TouchableOpacity>
               
             } */}
+
+              <TouchableOpacity style={{width: 65,height:63 }}
+                onPress={() => this.videoFromGallery()}
+              >
+                <Image
+                  source={require("../../images/mic.png")}
+                  style={{ width: 26, height: 26, marginLeft: 22, marginTop: 2 }}
+                  resizeMode="contain"
+                />
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
+              </TouchableOpacity>
           
         
           </View>

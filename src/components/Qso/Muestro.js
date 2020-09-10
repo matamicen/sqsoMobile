@@ -675,7 +675,7 @@ class Muestro extends Component {
     render() { 
         // this.props.imageurl
         console.log("RENDER MUESTRO, mediatosend: " +JSON.stringify(this.props.sqsomedia));
-           
+        const encodedData = this.props.sqsomedia.base64preview;
    
               
         return( 
@@ -685,16 +685,18 @@ class Muestro extends Component {
         <View style={{flex:1, marginTop: 35}}>
             
             <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
-            { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') ?
+            { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') &&
              <Image style={styles.faceImageStyle}
             source={{ uri: this.props.sqsomedia.url }}
             resizeMethod="resize"
             resizeMode="contain"
           />
-          :
-          // <Image style={styles.faceImageStyleAudio}
+        }
+         
+          {/* // <Image style={styles.faceImageStyleAudio}
           //             source={require('../../images/audio.png')}
-          //                 /> }
+          //                 />  */}
+          { (this.props.sqsomedia.type==='audio') &&
           <View>
               <View>
                 <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text> 
@@ -702,6 +704,29 @@ class Muestro extends Component {
              <View style={{ marginTop: 12}}>
               <PlayMediaAudioPreview url={this.props.sqsomedia.url}  /> 
             </View>
+         
+         </View> }
+
+         { (this.props.sqsomedia.type==='video') &&
+          <View>
+          
+
+            <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
+            {/* <View style={{flex:0.75, justifyContent: 'center', alignItems: 'center'}}>      */}
+                  <Image style={styles.faceImageStyle}
+                  source={{ uri: `data:image/png;base64,${encodedData}` }}
+                  resizeMethod="resize"
+                  resizeMode="contain"
+                  />
+            </View>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                {/* <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text>  */}
+                <Image style={styles.faceImageStyleAudio}
+                     source={require('../../images/video1.png')}
+                         />
+                </View>
+
+            
          </View> }
 
                           {/* && Platform.OS==='android' */}
