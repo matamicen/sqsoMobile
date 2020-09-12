@@ -780,7 +780,7 @@
 				CODE_SIGN_ENTITLEMENTS = sqsoMobile/sqsoMobile.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 53;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = sqsoMobile/Info.plist;
@@ -790,7 +790,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.5.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
@@ -802,7 +802,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 arm64e arm7s arm7";
@@ -819,7 +819,7 @@
 				CODE_SIGN_ENTITLEMENTS = sqsoMobile/sqsoMobile.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 53;
+				CURRENT_PROJECT_VERSION = 54;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				ENABLE_BITCODE = YES;
@@ -830,7 +830,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.5.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
@@ -842,7 +842,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
+				PROVISIONING_PROFILE_SPECIFIER = sqsoAppStore;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 arm64e arm7s arm7";

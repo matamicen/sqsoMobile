@@ -205,7 +205,7 @@ export default {
     QsoTypeQSOdesc: "Post a QSO that you are participating",
     QsoTypeSWLdesc: "Post other hams QSO that you are listening.",
     QsoTypeANYdescOther: "Post  a photo of a rig, antenna, friends, sales, etc.",
-    QsoTypeANYdescFieldDay: "Promote a field day or an expedition, post an image with the information.",
+    QsoTypeANYdescFieldDay: "Promote an activation, contest or a Zoom, post an image with the information.",
     QsoTypeANYdescQAP: "Post that you are QAP, post a photo with the frecuency of your rig and add the hour and mode in the photo descrip.",
     QsoTypePOST: "Generic",
     QsoTypeQAP: "QAP",
