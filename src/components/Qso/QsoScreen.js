@@ -128,7 +128,7 @@ class QsoScreen extends Component {
     this.missingMessage = '';
     this.intervalID = 0;
     this.base64preview = '';
-    this.videoPath = '';
+
 
     
     this.state = {
@@ -800,6 +800,7 @@ class QsoScreen extends Component {
        // obtengo 1 frame como foto del video
 
        const maximumSize = { width: 200, height: 400 };
+      // const maximumSize = { width: 400, height: 200 };
        ProcessingManager.getPreviewForSecond(bodyJson.path, 1, maximumSize)
          .then((data) => {
            console.log('obtengo frame')
@@ -807,7 +808,6 @@ class QsoScreen extends Component {
           this.base64preview = data;
          });
 
-         this.videoPath = bodyJson.path;
 
        //este de abajo anda barbaro
         ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 2,minimumBitrate: 300000})
