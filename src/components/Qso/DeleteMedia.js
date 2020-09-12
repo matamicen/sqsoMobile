@@ -209,7 +209,7 @@ class DeleteMedia extends Component {
                         <View style={{ flex:0.2, flexDirection: 'row', justifyContent: "center" }}>
                             <View style={{ flex:0.5, alignItems: 'flex-start'}}>
                               <TouchableOpacity onPress={() => this.props.closeDelete()} >
-                            <Text style={{ color: 'grey', fontSize: 16}}>{I18n.t("DeleteMediaCancel")}</Text>
+                            <Text style={{ color: 'white', fontSize: 16}}>{I18n.t("DeleteMediaCancel")}</Text>
                               </TouchableOpacity>
                             </View>
                            {/* {(!this.props.deletedflag) && */}
