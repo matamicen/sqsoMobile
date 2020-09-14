@@ -86,11 +86,12 @@ if (urlnotif!=null)
         if (!supported) {
           console.log('Can\'t handle url: ' + urlnotif);
         } else {
-          if(__DEV__)
-            analytics().logEvent("OPENNOTIF_DEV", {"QRA": this.props.qra});
-          else
+          // if(__DEV__)
+          //   analytics().logEvent("OPENNOTIF_DEV", {"QRA": this.props.qra});
+          // else
+          if(!__DEV__)
             analytics().logEvent("OPENNOTIF_PRD", {"QRA": this.props.qra});
-          console.log("Recording analytics open Notif")
+         
 
           // delay de 2.5 segundos para que borre el item asi no no lo borra inmediato y no confune
           // al usuario
