@@ -323,6 +323,8 @@ export default {
     PUSH_REPOSTFLDDAY_MESSAGE: 'See more details here',
     PUSH_REPOSTQAP_TITLE: '%{callsign} repost a QAP',  
     PUSH_REPOSTQAP_MESSAGE: 'See more details here',    
+    PUSH_MARKETING_TITLE: '%{line1}',
+    PUSH_MARKETING_MESSAGE: '%{line2}',
     SOMEONE_INCLUDED_YOU: "Someone included you in a Post!",
     SEEMOREDETAILSON_NOTIFICATIONS: "See more details on Notifications",
     SOMEONE_CLOSE: "Close",

@@ -213,11 +213,20 @@ constructor(props) {
 
               today = new Date();
 
+             // si el push es de MARKETING viene sin QRA ni IDACTIVITY
+              if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
+              {
+                envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":"bodyJson.IDACTIVITY","read":"unread","DATETIME":today.toString(),"message":mensajes.bandejaNotifLocal,
+                "activity_type":108,"QRA":"","REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+                "qra_avatarpic":avatar, "url": bodyJson.URL,
+                "qso_mode":null,"qso_band":null,"qso_type":null} 
+
+              }else{
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":"unread","DATETIME":today.toString(),"message":mensajes.bandejaNotifLocal,
               "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":avatar, "url": bodyJson.URL,
               "qso_mode":null,"qso_band":null,"qso_type":null}   
-        
+            }
 
                 this.props.manage_notifications('ADDONE',envioNotif,'');
   
@@ -328,12 +337,23 @@ constructor(props) {
        
           mensajes =  armoPushNotifyLocalNotif(notification.alert['title-loc-key'],notification.alert['loc-key'],notification.alert['title-loc-args'],notification.alert['loc-args']);
           today = new Date();
+
+           // si el push es de MARKETING viene sin QRA ni IDACTIVITY
+          if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
+          {
+            envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":"bodyJson.IDACTIVITY","read":"unread","DATETIME":today.toString(),"message":mensajes.bandejaNotifLocal,
+            "activity_type":108,"QRA":"","REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
+            "qra_avatarpic":avatar, "url": notification.alert.Url,
+            "qso_mode":null,"qso_band":null,"qso_type":null}
+
+
+          }else{
   
               envioNotif = {"idqra_notifications":9999,"idqra":442,"idqra_activity":bodyJson.IDACTIVITY,"read":"unread","DATETIME":today.toString(),"message":mensajes.bandejaNotifLocal,
               "activity_type":108,"QRA":bodyJson.QRA,"REF_QRA":"LU5FFF","QSO_GUID":"95464deb-5d65-4a80-b5bc-666a3be941b1",
               "qra_avatarpic":avatar, "url": notification.alert.Url,
               "qso_mode":null,"qso_band":null,"qso_type":null}
-       
+          }
             
 
 

@@ -39,3 +39,5 @@
 "PUSH_REPOSTFLDDAY_MESSAGE" =  "See more details here";
 "PUSH_REPOSTQAP_TITLE" = "%@ repost a QAP";
 "PUSH_REPOSTQAP_MESSAGE" =  "See more details here";
+"PUSH_MARKETING_TITLE" = "%@";
+"PUSH_MARKETING_MESSAGE" =  "%@";

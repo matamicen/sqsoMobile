@@ -323,6 +323,8 @@ export default {
     PUSH_REPOSTFLDDAY_MESSAGE: 'Mirá los detalles aquí',
     PUSH_REPOSTQAP_TITLE: '%{callsign} republicó un QAP',  
     PUSH_REPOSTQAP_MESSAGE: 'Mirá los detalles aquí',    
+    PUSH_MARKETING_TITLE: '%{line1}',
+    PUSH_MARKETING_MESSAGE: '%{line2}',
     SOMEONE_INCLUDED_YOU: "Alguien te incluyo a tí en una publicación!",
     SEEMOREDETAILSON_NOTIFICATIONS: "Mirá los detalles en Notificaciones",
     SOMEONE_CLOSE: "Cerrar",
