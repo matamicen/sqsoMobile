@@ -1069,6 +1069,12 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
       }
 
+      if (title_loc_key==='PUSH_MENTION_TITLE')
+      {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
+        pushMessage = I18n.t(loc_key,{comment: locArgs[0]});
+        bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+      }
+
       console.log('helper bandeja:' + bandejaNotifLocal )
       return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};
     }

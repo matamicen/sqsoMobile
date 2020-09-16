@@ -325,6 +325,8 @@ export default {
     PUSH_REPOSTQAP_MESSAGE: 'See more details here',    
     PUSH_MARKETING_TITLE: '%{line1}',
     PUSH_MARKETING_MESSAGE: '%{line2}',
+    PUSH_MENTION_TITLE: '%{callsign} mentioned you in a comment',
+    PUSH_MENTION_MESSAGE: '%{comment}',
     SOMEONE_INCLUDED_YOU: "Someone included you in a Post!",
     SEEMOREDETAILSON_NOTIFICATIONS: "See more details on Notifications",
     SOMEONE_CLOSE: "Close",
@@ -358,6 +360,7 @@ export default {
     NOTIF_ACTIVTYPE_66: '%{callsign} republished a QAP',
     NOTIF_ACTIVTYPE_67: '%{callsign} republished a field day',
     NOTIF_ACTIVTYPE_68: '%{callsign} republished a post',
+    NOTIF_ACTIVTYPE_71: '%{callsign} mentioned you in a comment',
     STOPAPP_SORRY: 'Sorry, there was a problem during the APP installation.',
     STOPAPP_PLEASE: 'Please delete the APP and reinstall it from the store again.',
     STOPAPP_APOLOGIZE: 'Apologize. SuperQSO.',
@@ -398,5 +401,8 @@ export default {
     MISSCLOSE: 'Close',
     PUBLICAR: 'Publish',
     PUBLICARNUEVA: 'New post',
-    PUBLICARCANCELAR: 'Discard'
+    PUBLICARCANCELAR: 'Discard',
+    PLAYMEDIAPLAY: 'Play',
+    PLAYMEDIAPAUSE: 'Pause',
+    PLAYMEDIASTOP: 'Stop',
   };

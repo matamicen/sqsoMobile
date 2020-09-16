@@ -17,6 +17,7 @@ import {
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
 import RNFetchBlob from 'rn-fetch-blob';
 import crashlytics from '@react-native-firebase/crashlytics';
+import I18n from '../../utils/i18n';
 
   
   const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
@@ -500,7 +501,7 @@ cancelRecording = async () => {
                     <TouchableOpacity onPress={ () => this.stopRecording() }> 
                         <Image source={require('../../images/stop5.png')}  style={{width: 37, height: 37 } } 
                     resizeMode="contain" />    
-                    <Text style={{ fontSize: 12, color: '#999', marginLeft: 5}}>Stop</Text>          
+                    <Text style={{ fontSize: 12, color: '#999', marginLeft: 5}}>{I18n.t("PLAYMEDIASTOP")}</Text>          
                     </TouchableOpacity>
                  </View>
                  <View style={{ flex: 0.10, flexDirection: 'row', justifyContent: "center", marginTop: 5 }}>

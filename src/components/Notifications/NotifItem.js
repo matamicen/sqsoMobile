@@ -442,6 +442,14 @@ if (urlnotif!=null)
                           </View>
                       }
 
+                    {(this.props.activity_type===71) &&
+                         <View >
+                           <Text style={{fontSize:15 }}>{I18n.t("NOTIF_ACTIVTYPE_71",{callsign: this.props.QRA})} |
+                             <Text style={{fontSize:15, fontWeight: "bold", height: 40, color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,57)}... </Text>  <Text style={{fontSize:14, height: 40, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                           </Text>
+                        </View>
+                     }
+
 
 
 
