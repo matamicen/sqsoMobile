@@ -823,6 +823,9 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
        }
 
+       if (spot==='video')
+          return false;
+
        if (spot==='scanqr')
       {
        console.log('Intersitial monthly Scans: '+userInfo.monthly_scans);
@@ -878,7 +881,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
            }
    
   
-
+     
         
     
     }

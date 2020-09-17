@@ -481,7 +481,7 @@ export const updateQsoStatusSentAndSqlRdsId = (sqlrdsid,typestatus, bandstatus, 
     };
 }
 
-export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
+export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,videoCompressed, jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoNew'));
       console.log("ejecuta llamada API Qso NEW");  
@@ -545,9 +545,16 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
                 // pudo haber pasado que el usuario empezo un QSO y luego cambio la foto de su profile
                 // entonces cuando sigue con su QSO y el sistema intenta enviar toda la media del QSO evito que 
                 // se envie el profile.
-              if (x.type!=='profile')
+                // Si el video aun no termino de comprimirse no se puede SUBIR
+              if (x.type!=='profile'){ 
+                
+              if (x.type==='video' && videoCompressed)
                  dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
-               // console.log(x.url)
+              if (x.type==='audio' || x.type==='image')
+                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
+                 
+              }
+                // console.log(x.url)
               //  <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
               //  status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
             

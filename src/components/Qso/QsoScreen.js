@@ -128,6 +128,7 @@ class QsoScreen extends Component {
     this.missingMessage = '';
     this.intervalID = 0;
     this.base64preview = '';
+    this.videoPathBeforeCompress = '';
 
 
     
@@ -797,88 +798,18 @@ class QsoScreen extends Component {
      //  ProcessingManager.compress(bodyJson.path, {width:360, height:640, bitrateMultiplier: 9,minimumBitrate: 300000}).then((data) => {
        // ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 17,minimumBitrate: 300000}).then((data) => { para 1080 pero mas de 1 minuto en mi android se muere
        
-       // obtengo 1 frame como foto del video
 
-       const maximumSize = { width: 200, height: 400 };
-      // const maximumSize = { width: 400, height: 200 };
-       ProcessingManager.getPreviewForSecond(bodyJson.path, 1, maximumSize)
-         .then((data) => {
-           console.log('obtengo frame')
-          //  console.log(data)
-          this.base64preview = data;
-         });
+     
+     
+       this.takeFramePreview(bodyJson.path, image);
+     
+     
+     
+              // }).catch(e => {
+              //   console.log(e);
+              // }); // catch del videoCompressor
 
 
-       //este de abajo anda barbaro
-        ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 2,minimumBitrate: 300000})
-        .then((data) => {   // andan los de andres 8aql traidos de wsapp
-         // ProcessingManager.trim(bodyJson.path, { startTime: 0,
-         //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
-        
-        console.log('termino de comprimir1');
-        tiempo2 = Date.now();
-        tardo = tiempo2 - tiempo1;
-        console.log('tardo: '+ tardo)
-     console.log(data);
-     //    ProcessingManager.getVideoInfo(data.source)
-     // .then(({ duration, size, frameRate, bitrate }) => console.log(duration, size, frameRate, bitrate ));
-     
-     
-     uri = data.source;
-     // uri = data;  TRIM
-     
-         fileName2 = uri.replace(/^.*[\\\/]/, '');
-         
-     
-         console.log('filename2 es: ' + fileName2);
-         envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, base64preview: this.base64preview } 
-         
-         // console.log('phototype :'+this.props.phototype)
-         
-       //  vari2 = await 
-         // videocompress
-        vari2 = this.props.sendActualMedia(envio);
-         console.log("Fin de espera larga ANDROID")
-         // this.props.navigation.navigate("ProfileScreen");
-         // this.goBack();
-         
-         if ( Platform.OS === 'ios')
-         timer = 1000;
-           else timer = 500;
-     
-         // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
-         // de sacar la foto de profile.
-        
-         this.props.setProfileModalStat('ambos',0);
-     
-         setTimeout(() => {
-           console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
-           //  this.props.actindicatorImageDisabled();
-             // this.props.openModalConfirmPhoto(320);
-            
-           //  este metodo es para cuando es foto profile
-          
-           // videocompress
-           this.props.openModalConfirmPhoto(490);
-            
-            
-           
-         }, timer);
-     
-     
-           // ya tomo la foto del picker entonces el flag vuelve a 0.
-           // this.props.manageLocationPermissions("photofromgallery", 0);
-       
-         console.log('este debe aparecer primero');
-     
-     
-     
-     
-     
-     
-              }).catch(e => {
-                console.log(e);
-              });
          //  console.log(getVideoPath('storage/emulated/0/DCIM/Camera/20200724_074453.mp4'));
      
          //  ProcessingManager.getVideoInfo(image.path)
@@ -923,6 +854,93 @@ class QsoScreen extends Component {
    }
    else this.setState({ nointernet: true });
 
+
+
+  }
+
+  takeFramePreview = async (videoPath, image) => {
+
+            console.log ('desde takFramePreview')
+           // obtengo 1 frame como foto del video
+
+           const maximumSize = { width: 200, height: 400 };
+           // const maximumSize = { width: 400, height: 200 };
+
+           // Se necesita esperar que tome la foto de preview asi el componente Muestro la puede mostrar
+            await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
+              .then((data) => {
+                console.log('obtengo frame')
+               //  console.log(data)
+               this.base64preview = data;
+              });
+     
+              this.videoPathBeforeCompress = videoPath;
+     
+            //este de abajo anda barbaro
+         //     ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 2,minimumBitrate: 300000})
+         //     .then((data) => {   // andan los de andres 8aql traidos de wsapp
+         //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
+         //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
+             
+         //     console.log('termino de comprimir1');
+         //     tiempo2 = Date.now();
+         //     tardo = tiempo2 - tiempo1;
+         //     console.log('tardo: '+ tardo)
+         //  console.log(data);
+         //  //    ProcessingManager.getVideoInfo(data.source)
+         //  // .then(({ duration, size, frameRate, bitrate }) => console.log(duration, size, frameRate, bitrate ));
+          
+          
+     
+         // uri y filename los va a tomar luego de comprimir despues de confirmar Muestro.
+         //  uri = data.source;
+         uri = '';
+          // uri = data;  TRIM
+          
+             //  fileName2 = uri.replace(/^.*[\\\/]/, '');
+             fileName2 = ''; 
+     
+          // envio base64preview y videoLocation para que que Muestro muestre imagen preview del video a enviar y la locacion real del video tomada por el picker
+              console.log('filename2 es: ' + fileName2);
+              envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, base64preview: this.base64preview } 
+              
+              // console.log('phototype :'+this.props.phototype)
+              
+            //  vari2 = await 
+              // videocompress
+             vari2 = this.props.sendActualMedia(envio);
+              console.log("Fin de espera larga ANDROID")
+              // this.props.navigation.navigate("ProfileScreen");
+              // this.goBack();
+              
+              if ( Platform.OS === 'ios')
+              timer = 1000;
+                else timer = 500;
+          
+              // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+              // de sacar la foto de profile.
+             
+              this.props.setProfileModalStat('ambos',0);
+          
+              setTimeout(() => {
+                console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+                //  this.props.actindicatorImageDisabled();
+                  // this.props.openModalConfirmPhoto(320);
+                 
+                //  este metodo es para cuando es foto profile
+               
+                // videocompress
+                this.props.openModalConfirmPhoto(490);
+                 
+                 
+                
+              }, timer);
+          
+          
+                // ya tomo la foto del picker entonces el flag vuelve a 0.
+                // this.props.manageLocationPermissions("photofromgallery", 0);
+            
+              console.log('este debe aparecer primero');
 
 
   }
@@ -1544,8 +1562,30 @@ class QsoScreen extends Component {
         "qra_owner": this.props.qra,
         "draft" : 1
       };
-              this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+              videoCompress = false;
+              this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
+
+              if (env.type==='video')
+                {
+                  console.log('comienzo a comprimir video');
+                  console.log('nombre del video: '+env.name)
+                  ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: 2,minimumBitrate: 300000})
+                  .then((data) => {   // andan los de andres 8aql traidos de wsapp
+                    //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
+                    //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
+                        
+                    //     console.log('termino de comprimir1');
+                    //     tiempo2 = Date.now();
+                    console.log('salida de compresion');
+                    console.log(data);
+
+
+                    }).catch(e => {
+                      console.log(e);
+                    });
+
+                }
           }
 
   }

@@ -445,8 +445,9 @@ class Muestro extends Component {
 
             }
 
-        } else
-          {
+        } 
+
+       if (this.props.sqsomedia.type==='audio') {
             // pasa por aca si el media es un AUDIO
            fileaux =  this.props.sqsomedia.url;
            this.size = this.props.sqsomedia.size;
@@ -454,15 +455,25 @@ class Muestro extends Component {
 
           }
 
+          if (this.props.sqsomedia.type==='video') {
+            // toda esta info se obtiene luego de comprimrir el video
+            fileaux =  'pepin'; // le asigno un nombre univoco al video
+            fileauxProfileAvatar = '';
+            this.size = 0;
+          }
+
 
 
         fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 
-        if (this.props.sqsomedia.type==='image') {
+        if (this.props.sqsomedia.type==='image') 
              folder = 'images/'+fileName2;
            
-        }
-          else folder = 'audios/'+fileName2;
+        if (this.props.sqsomedia.type==='audio')
+          folder = 'audios/'+fileName2;
+
+          if (this.props.sqsomedia.type==='video')
+          folder = ''; // lo voy a llenar despues de comprimir que tengo el nombre final del video
 
 
           // se comento esto porque nunca va a ser profile, en este metodo  vienen solo las IMAGE y AUDIO
