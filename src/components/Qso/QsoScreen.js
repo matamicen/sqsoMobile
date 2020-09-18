@@ -861,6 +861,7 @@ class QsoScreen extends Component {
   takeFramePreview = async (videoPath, image) => {
 
             console.log ('desde takFramePreview')
+            console.log('width: '+image.width)
            // obtengo 1 frame como foto del video
 
            const maximumSize = { width: 200, height: 400 };
@@ -870,6 +871,7 @@ class QsoScreen extends Component {
             await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
               .then((data) => {
                 console.log('obtengo frame')
+                console.log('width: '+image.width)
                //  console.log(data)
                this.base64preview = data;
               });
@@ -1568,9 +1570,10 @@ class QsoScreen extends Component {
 
               if (env.type==='video')
                 {
+                  bitMultiplier = 2;
                   console.log('comienzo a comprimir video');
                   console.log('nombre del video: '+env.name)
-                  ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: 2,minimumBitrate: 300000})
+                  ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
                   .then((data) => {   // andan los de andres 8aql traidos de wsapp
                     //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
                     //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
@@ -1579,6 +1582,28 @@ class QsoScreen extends Component {
                     //     tiempo2 = Date.now();
                     console.log('salida de compresion');
                     console.log(data);
+
+                    ProcessingManager.getVideoInfo(data.source)
+                        // .then((info) => console.log(info ));
+                        .then(({ duration, size, frameRate, bitrate }) => {
+                          console.log(duration, size, frameRate, bitrate )
+                          console.log(size.height+ ' - ' + size.width)
+                          env.rectime = duration;
+                          env.size = Math.floor(env.size/bitMultiplier);
+                          env.url = data.source;
+                          console.log('size comprimido:'+ env.size + ' - '+ env.rectime+ ' - ' + env.url)
+                          console.log('sqlrdsid: '+env.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
+
+                          if (this.props.sqsosqlrdsid !== '')
+                            this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar,this.props.sqsosqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
+                          else
+                          {
+                            // por algun razon no pudo generar el qsoNew debeo llamar de nuevo con paraemtro de envio automatico a S3
+                          }
+
+
+                        });
+                        
 
 
                     }).catch(e => {

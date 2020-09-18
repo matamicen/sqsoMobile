@@ -1648,7 +1648,8 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
         console.log('contenido fileauxFinal: '+fileauxFinal);
 
            if (type==='image') folder = 'images/'+fileName2;
-          else folder = 'audios/'+fileName2;
+           if (type==='audio') folder = 'audios/'+fileName2;
+           if (type==='video') folder = 'videos/'+fileName2;
           
 
           // if (type==='profile') folder = 'profile/tmp/profile.jpg';
