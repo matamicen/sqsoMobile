@@ -129,6 +129,7 @@ class QsoScreen extends Component {
     this.intervalID = 0;
     this.base64preview = '';
     this.videoPathBeforeCompress = '';
+    this.dataHeader = {};
 
 
     
@@ -163,6 +164,7 @@ class QsoScreen extends Component {
       deletePost: false,
       // startNewPost: false,
       missingFields: false,
+      videoCompression: 'null'
   
 
      
@@ -1512,12 +1514,12 @@ class QsoScreen extends Component {
     // para que le agregue el item a enviar al media que estaba en el store ya que este tiene uno vacio a proposito por el TouchWithoutFeedback
     // y para que luego updateOnProgress haga bien el caclulo.
     this.auxMedia = [...this.props.mediafiles];  
-    this.auxMedia.push(env);  
+    this.auxMedia.push(this.envio);  
 
-    this.props.addMedia(env);
+    this.props.addMedia(this.envio);
     // creo mediafilelocal porque trada en actualizar REDUX entonces si es el caso
     // donde debe crear el QSO le envio del mediafileLocal, ver mas abajo.
-    mediafileLocal = [ env ];
+    mediafileLocal = [ this.envio ];
     
     
 
@@ -1528,7 +1530,7 @@ class QsoScreen extends Component {
 //this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
 
         if (env.status==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
-        this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar, env.sqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
+        this.props.uploadMediaToS3(this.envio.name, this.envio.url, fileauxProfileAvatar, this.envio.sqlrdsid, this.envio.description,this.envio.size, this.envio.type, this.envio.rdsUrlS3 ,this.envio.urlNSFW, this.envio.urlAvatar, this.envio.date, this.envio.width, this.envio.height,this.props.rdsurls3,this.props.qra,this.envio.rectime,this.props.jwtToken);
         else{
           // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
@@ -1552,7 +1554,7 @@ class QsoScreen extends Component {
                     
               // }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
               fechaqso = getDate();
-       data = {
+     this.dataHeader = {
         "band" : '',
         "mode" : '',
         "rst" : '',
@@ -1565,14 +1567,16 @@ class QsoScreen extends Component {
         "draft" : 1
       };
               videoCompress = false;
-              this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+  
+              this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
 
-              if (env.type==='video')
+              if (this.envio.type==='video')
                 {
                   bitMultiplier = 2;
                   console.log('comienzo a comprimir video');
-                  console.log('nombre del video: '+env.name)
+                  console.log('nombre del video: '+this.envio.name)
+                  this.setState({videoCompression: 'inprogress'});
                   ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
                   .then((data) => {   // andan los de andres 8aql traidos de wsapp
                     //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
@@ -1588,18 +1592,36 @@ class QsoScreen extends Component {
                         .then(({ duration, size, frameRate, bitrate }) => {
                           console.log(duration, size, frameRate, bitrate )
                           console.log(size.height+ ' - ' + size.width)
-                          env.rectime = duration;
-                          env.size = Math.floor(env.size/bitMultiplier);
-                          env.url = data.source;
-                          console.log('size comprimido:'+ env.size + ' - '+ env.rectime+ ' - ' + env.url)
-                          console.log('sqlrdsid: '+env.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
+                          // al actualizar env se actualiza mediafileLocal por la setencia de arriba mediafileLocal = [ env ];
+                          this.envio.rectime = duration;
+                          this.envio.size = Math.floor(env.size/bitMultiplier);
+                          this.envio.url = data.source;                          
+                          console.log('size comprimido:'+ this.envio.size + ' - '+ this.envio.rectime+ ' - ' + this.envio.url)
+                          console.log('sqlrdsid: '+this.envio.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
+                          console.log('dataSource: '+data.source)
 
-                          if (this.props.sqsosqlrdsid !== '')
-                            this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar,this.props.sqsosqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
-                          else
-                          {
-                            // por algun razon no pudo generar el qsoNew debeo llamar de nuevo con paraemtro de envio automatico a S3
-                          }
+                          this.setState({videoCompression: 'finished'});
+
+                          // if (this.props.sqsosqlrdsid !== '')
+                          // { console.log('tiene sqlrdsid video')
+                          //   this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar,this.props.sqsosqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
+                          // }
+                          //   else
+                          // {
+                          //   // por algun razon no pudo generar el qsoNew debeo llamar de nuevo con paraemtro de envio automatico a S3 y 
+                          //   // pasarle mediafilelocal asi cuando termina qsonew llama a uploadmediatos3 para el comienzo del video ya comprimido.
+
+                      
+                          //   console.log('no tenia sqlrdsid video')
+                         
+
+                          //   videoCompress = true; // para que luego de crear el sqlrdsid pueda hacer el upload porque el video ya esta comprimido
+                          //   this.props.postQsoNew(dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+                 
+                      
+
+
+                          // }
 
 
                         });
@@ -1637,11 +1659,76 @@ class QsoScreen extends Component {
           // }
           this.props.actindicatorPostQsoNewTrue();
 
+
+          if (this.envio.type==='video')
+          { // Esta es la logica solo para VIDEO
+            // Solo se puede envia run video con lo cual si el type es VIDEO es porque es video, ya que no se puede 
+            //enviar VIDEO si se envio una foto o un AUDIO
+            // if (this.state.videoCompression==='inprogress')
+
+            contsqlrdsid = 0;
+            while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 15) {
+            // hago tiempo por si el usuario clickeo PUBLICAR inmediatamente luego de darle CONTINUAR al VIDEO
+            // y se este llamando a postQsoNew y aun no tenga el sqlrdsid, si luego de este tiempo no tiene sqlrdsid es 
+            // porque fallo y se debe llamar a postqsonew nuevamente
+
+              contsqlrdsid++;  
+              console.log('entro delay sqlrdsid: '+contsqlrdsid)  
+          
+              await this.delay2(300);
+  
+            }
+
+            if (this.props.sqsosqlrdsid==='')
+            {
+              console.log('no se habia generado sqlrdsid para video')
+              mediafileLocal = [ this.envio ];
+              videoCompress = false;
+              this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+              await this.delay2(3000); // hago tiempo para asegurar que la API traiga el sqlrdsid y actualice en redux 
+              // y que este presente al momento de subir a S3, ya que si el video es cortito el progress ya lo pudo haber terminado la compresion 
+              // y lo enviaria rapidamente a S3 y este necesita el SQLRDSID
+            }
+              
+
+
+
+            contcompress=0;
+          while (this.state.videoCompression==='inprogress')
+          {
+            contcompress++; 
+            await this.delay2(1000);
+            console.log('delay compress '+ contcompress);
+          }
+
+            console.log('upload video')
+            console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
+             this.props.uploadMediaToS3(this.envio.name, this.envio.url, 'fileauxProfileAvatar',this.props.sqsosqlrdsid, this.envio.description,this.envio.size, this.envio.type, this.envio.rdsUrlS3 ,this.envio.urlNSFW, this.envio.urlAvatar, this.envio.date, this.envio.width, this.envio.height,this.props.rdsurls3,this.props.qra,this.envio.rectime,this.props.jwtToken);
+
+             contEnvio = 0;
+             while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
+               /* code to wait on goes here (sync or async) */
+              //  contEnvio++;  
+              //  console.log('entro delay envio video'+contEnvio)  
+           
+                await this.delay2(1500);
+ 
+               
+             }
+
+             this.publicar(session.idToken.jwtToken);
+
+          }
+            else
+          { 
+
+          // este bloque del ELSE es para AUDIO y FOTOS
+
           // este proceso es por si no se genero sqlrdsid por alguna razon (usuario subio foto y publico rapido, o en la publicacion fallo el la llamada a la API de postqsonew,
           // entonces espera por si la API se demoro y si sale por tiempo es porque hay que llamar a postqsonew de nuevo para generar el sqlrdsid para luego subir media y publicar)
           // rara vez deberia entrar en este loop pero es por las dudas
           contsqlrdsid = 0;
-          while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 25) {
+          while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 15) {
 
             contsqlrdsid++;  
             console.log('entro delay sqlrdsid: '+contsqlrdsid)  
@@ -1662,20 +1749,21 @@ class QsoScreen extends Component {
                   // session = await Auth.currentSession();
                   // this.props.setToken(session.idToken.jwtToken);
 
-            fechaqso = getDate();
-            data = {
-             "band" : '',
-             "mode" : '',
-             "rst" : '',
-             "db": '',
-             "type" : this.props.qsotype,
-             "longitude" : this.props.longitude,
-             "latitude": this.props.latitude,
-             "datetime": fechaqso,
-             "qra_owner": this.props.qra,
-             "draft" : 1
-           };
-                   this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,session.idToken.jwtToken);
+          //   fechaqso = getDate();
+          //   data = {
+          //    "band" : '',
+          //    "mode" : '',
+          //    "rst" : '',
+          //    "db": '',
+          //    "type" : this.props.qsotype,
+          //    "longitude" : this.props.longitude,
+          //    "latitude": this.props.latitude,
+          //    "datetime": fechaqso,
+          //    "qra_owner": this.props.qra,
+          //    "draft" : 1
+          //  };
+                   videoCompress = false;
+                   this.props.postQsoNew(this.dataHeader,this.props.qsoqras,this.props.mediafiles,videoCompress,session.idToken.jwtToken);
 
           }
 
@@ -1685,7 +1773,7 @@ class QsoScreen extends Component {
 
          
             contEnvio = 0;
-            while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+            while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 30) {
               /* code to wait on goes here (sync or async) */
               contEnvio++;  
               console.log('entro delay '+contEnvio)  
@@ -1708,7 +1796,7 @@ class QsoScreen extends Component {
               
               // comienza el segundo chequeo de envio idem al anterior
               contEnvio = 0;
-              while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+              while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 40) {
                 /* code to wait on goes here (sync or async) */
                 contEnvio++;  
                 console.log('entro delay2 '+contEnvio)  
@@ -1749,6 +1837,9 @@ class QsoScreen extends Component {
             console.log('salio del loop1');
              this.publicar(session.idToken.jwtToken);
           }
+
+
+        } // Fin de Video o AUDIO/FOTO
 
       
         } else this.setState({ nointernet: true });
@@ -1889,12 +1980,12 @@ class QsoScreen extends Component {
                 margin: 15,
                 backgroundColor: 'rgba(36,54,101,0.93)',
                 marginTop: 210,
-                left: 95,
+                left: 75,
                 //  right: 15,
                 // alignItems: 'center',
                 // alignContent: 'center',
-                width: 150,
-                height: 45,
+                width: 200,
+                height: 70,
                 paddingVertical: 5,
                 //   position: 'absolute',
 
@@ -1913,6 +2004,33 @@ class QsoScreen extends Component {
               >
                 {I18n.t("QsoScrPublishingPost")}
               </Text>
+              {(this.state.videoCompression==='inprogress') &&
+              <Text
+                style={{
+                  color: "yellow",
+                  // fontWeight: "bold",
+                  fontSize: 14,
+                  marginLeft: 20,
+                  marginTop: 5
+                }}
+              >
+                Compressing
+              </Text>
+             }
+             {(this.state.videoCompression==='finished') &&
+              <Text
+                style={{
+                  color: "yellow",
+                  // fontWeight: "bold",
+                  fontSize: 14,
+                  marginLeft: 20,
+                  marginTop: 5
+                }}
+              >
+                Uploading video ...
+              </Text>
+             }
+
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
