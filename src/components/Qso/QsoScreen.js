@@ -130,6 +130,8 @@ class QsoScreen extends Component {
     this.base64preview = '';
     this.videoPathBeforeCompress = '';
     this.dataHeader = {};
+    this.pressPublish = false;
+    this.pressVideo = false;
 
 
     
@@ -752,7 +754,9 @@ class QsoScreen extends Component {
 
   videoFromGallery = async () => {
 
-
+if (this.pressVideo===false)
+{// evitar que presione mas una vez Video (porque dumpea)
+  this.pressVideo = true;
     if (await hasAPIConnection()) {
       // envio a reducer que se fue a background por usar la GELRIA de FOTOS
       // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
@@ -802,7 +806,7 @@ class QsoScreen extends Component {
        
 
      
-     
+       this.pressVideo = false;
        this.takeFramePreview(bodyJson.path, image);
      
      
@@ -836,7 +840,7 @@ class QsoScreen extends Component {
      
          }).catch((err) => {
            console.log("cropImage Error", err.message);
-     
+           this.pressVideo = false;
  
            
            crashlytics().setUserId(this.props.qra);
@@ -854,9 +858,12 @@ class QsoScreen extends Component {
 
 
    }
-   else this.setState({ nointernet: true });
+   else {
+     this.setState({ nointernet: true });
+     this.pressVideo = false;
+  }
 
-
+  }
 
   }
 
@@ -1168,6 +1175,8 @@ class QsoScreen extends Component {
     if (await hasAPIConnection()) {
       this.videorewardmustbeshown = false;
       this.intersitialmustbeshown = false;
+      this.pressPublish = false;
+      this.pressVideo = false;
 
       if (showVideoReward(this.props.userinfo,'newqso','')) {
         this.videorewardmustbeshown = true;
@@ -1568,7 +1577,7 @@ class QsoScreen extends Component {
       };
               videoCompress = false;
   
-              this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+               this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
 
               if (this.envio.type==='video')
@@ -1639,7 +1648,11 @@ class QsoScreen extends Component {
 
   publicar_chequeos = async () => {
 
-    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+if (this.pressPublish===false)
+{// para evitar presionar mas de una vez Publish
+  this.pressPublish = true;
+
+   if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
     await this.props.onprogressTrue();
   else this.props.onprogressFalse();
 
@@ -1812,7 +1825,7 @@ class QsoScreen extends Component {
                 console.log('fallo el segundo intento de publicar')
                 this.props.actindicatorPostQsoNewFalse();
                 // uso componente missingFields para informar que no hemos podido publicar
-
+                this.pressPublish = false;
                 this.missingMessage =  I18n.t("QsoScrCantPublish")
                 this.setState({ missingFields: true})
               
@@ -1842,14 +1855,17 @@ class QsoScreen extends Component {
         } // Fin de Video o AUDIO/FOTO
 
       
-        } else this.setState({ nointernet: true });
+        } else {
+          this.setState({ nointernet: true });
+          this.pressPublish = false;
+        }
 
 
         }
         else
 {
   console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-
+  this.pressPublish = false;
   console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
   missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
   this.missingMessage =  missMessage.message;
@@ -1857,7 +1873,7 @@ class QsoScreen extends Component {
 } 
 
 
-   
+} // pressPublish
     
 
   }
@@ -1907,6 +1923,7 @@ class QsoScreen extends Component {
                     
                       // Se unifico el publicar, se envia Header y qsoqras para todo tipo de Publicacion
                       this.props.qsoPublish(qsoHeader,this.props.qsoqras,jwtToken);
+                      this.pressPublish = false;
                         
             
    
