@@ -51,7 +51,7 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -1612,6 +1612,10 @@ if (this.pressVideo===false)
                           console.log('sqlrdsid: '+this.envio.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
                           console.log('dataSource: '+data.source)
 
+                          // actualizo mediafile en redux porque esto termina enviado a RDS el s3Upload
+                          update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url}
+                          this.props.updateCommentInMemory(this.envio.name,update);
+
                           this.setState({videoCompression: 'finished'});
 
                           // if (this.props.sqsosqlrdsid !== '')
@@ -1733,7 +1737,9 @@ if (this.pressPublish===false)
 
             console.log('upload video')
             console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
-             this.props.uploadMediaToS3(this.envio.name, this.envio.url, 'fileauxProfileAvatar',this.props.sqsosqlrdsid, this.envio.description,this.envio.size, this.envio.type, this.envio.rdsUrlS3 ,this.envio.urlNSFW, this.envio.urlAvatar, this.envio.date, this.envio.width, this.envio.height,this.props.rdsurls3,this.props.qra,this.envio.rectime,this.props.jwtToken);
+            console.log('imprimo mediafiles 0: '+JSON.stringify(this.props.mediafiles[0]))
+            media = this.props.mediafiles[0];
+             this.props.uploadMediaToS3(media.name, media.url, 'fileauxProfileAvatar',this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
 
              contEnvio = 0;
              t1 = new Date();
@@ -2662,7 +2668,8 @@ const mapDispatchToProps = {
   setWebView,
   setJustPublished,
   actindicatorPostQsoNewFalse,
-  qsoPublish
+  qsoPublish,
+  updateCommentInMemory
 };
 
 export default connect(
