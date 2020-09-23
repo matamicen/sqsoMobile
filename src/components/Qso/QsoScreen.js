@@ -68,7 +68,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish, todaMediaEnviadaAS3 } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish, todaMediaEnviadaAS3, percentageCalculator } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -167,7 +167,8 @@ class QsoScreen extends Component {
       // startNewPost: false,
       missingFields: false,
       videoCompression: 'null',
-      videoPercentage: 0
+      videoPercentage: 0,
+      videoCompressPercentage: 0
   
 
      
@@ -1178,7 +1179,7 @@ if (this.pressVideo===false)
       this.intersitialmustbeshown = false;
       this.pressPublish = false;
       this.pressVideo = false;
-      this.setState({videoPercentage: 0,  videoCompression: 'null'})
+      this.setState({videoPercentage: 0,videoCompressPercentage: 0,  videoCompression: 'null'})
 
       if (showVideoReward(this.props.userinfo,'newqso','')) {
         this.videorewardmustbeshown = true;
@@ -1709,9 +1710,23 @@ if (this.pressPublish===false)
 
 
             contcompress=0;
+            t1 = new Date();
+            factor = 25 / 15000000; // tarda aprox 20 seg. los 15mb
+            totCompressSecThisVideo = factor * this.envio.size;
+            console.log('video sin comprimir pesa: '+ this.envio.size)
           while (this.state.videoCompression==='inprogress')
           {
             contcompress++; 
+
+              aux = percentageCalculator(t1,totCompressSecThisVideo);
+
+               if ((aux > 2) && (aux < 97))
+                   this.setState({videoCompressPercentage: aux})
+               if (aux > 96 )
+                   this.setState({videoCompressPercentage: 96})
+               if (aux < 3 )
+                   this.setState({videoCompressPercentage: 2})
+
             await this.delay2(1000);
             console.log('delay compress '+ contcompress);
           }
@@ -1722,20 +1737,17 @@ if (this.pressPublish===false)
 
              contEnvio = 0;
              t1 = new Date();
-             factor = 100 / 9000000; // tarda aprox 100 segundo 9mb (
+             factor = 110 / 9000000; // tarda aprox 100 segundo 9mb (
              totUploadSecThisVideo = factor * this.envio.size;
+             console.log('video comprimido pesa: '+ this.envio.size)
 
              while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
                /* code to wait on goes here (sync or async) */
                contEnvio++;  
               //  console.log('entro delay envio video'+contEnvio)  
               console.log('entro delay envio video'+contEnvio) 
-               t2 = new Date()
-               dif = t1.getTime() - t2.getTime();
-               Seconds_from_T1_to_T2 = dif / 1000;
-               Seconds_Between_Dates = Math.abs(Seconds_from_T1_to_T2);
-               porcentage = (Seconds_Between_Dates * 100 ) / totUploadSecThisVideo;
-               aux = Math.trunc(porcentage);
+
+              aux = percentageCalculator(t1,totUploadSecThisVideo);
                if ((aux > 2) && (aux < 97))
                    this.setState({videoPercentage: aux})
                if (aux > 96 )
@@ -2051,7 +2063,7 @@ if (this.pressPublish===false)
                   marginTop: 5
                 }}
               >
-                Compressing video
+                Compressing video {this.state.videoCompressPercentage}%
               </Text>
              }
              {(this.state.videoCompression==='finished') &&
