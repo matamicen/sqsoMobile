@@ -166,7 +166,8 @@ class QsoScreen extends Component {
       deletePost: false,
       // startNewPost: false,
       missingFields: false,
-      videoCompression: 'null'
+      videoCompression: 'null',
+      videoPercentage: 0
   
 
      
@@ -1177,6 +1178,7 @@ if (this.pressVideo===false)
       this.intersitialmustbeshown = false;
       this.pressPublish = false;
       this.pressVideo = false;
+      this.setState({videoPercentage: 0,  videoCompression: 'null'})
 
       if (showVideoReward(this.props.userinfo,'newqso','')) {
         this.videorewardmustbeshown = true;
@@ -1719,12 +1721,29 @@ if (this.pressPublish===false)
              this.props.uploadMediaToS3(this.envio.name, this.envio.url, 'fileauxProfileAvatar',this.props.sqsosqlrdsid, this.envio.description,this.envio.size, this.envio.type, this.envio.rdsUrlS3 ,this.envio.urlNSFW, this.envio.urlAvatar, this.envio.date, this.envio.width, this.envio.height,this.props.rdsurls3,this.props.qra,this.envio.rectime,this.props.jwtToken);
 
              contEnvio = 0;
+             t1 = new Date();
+             factor = 100 / 9000000; // tarda aprox 100 segundo 9mb (
+             totUploadSecThisVideo = factor * this.envio.size;
+
              while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
                /* code to wait on goes here (sync or async) */
-              //  contEnvio++;  
+               contEnvio++;  
               //  console.log('entro delay envio video'+contEnvio)  
-           
-                await this.delay2(1500);
+              console.log('entro delay envio video'+contEnvio) 
+               t2 = new Date()
+               dif = t1.getTime() - t2.getTime();
+               Seconds_from_T1_to_T2 = dif / 1000;
+               Seconds_Between_Dates = Math.abs(Seconds_from_T1_to_T2);
+               porcentage = (Seconds_Between_Dates * 100 ) / totUploadSecThisVideo;
+               aux = Math.trunc(porcentage);
+               if ((aux > 2) && (aux < 97))
+                   this.setState({videoPercentage: aux})
+               if (aux > 96 )
+                   this.setState({videoPercentage: 96})
+               if (aux < 3 )
+                   this.setState({videoPercentage: 2})
+
+                await this.delay2(100);
  
                
              }
@@ -1924,6 +1943,7 @@ if (this.pressPublish===false)
                       // Se unifico el publicar, se envia Header y qsoqras para todo tipo de Publicacion
                       this.props.qsoPublish(qsoHeader,this.props.qsoqras,jwtToken);
                       this.pressPublish = false;
+                     
                         
             
    
@@ -2002,7 +2022,7 @@ if (this.pressPublish===false)
                 // alignItems: 'center',
                 // alignContent: 'center',
                 width: 200,
-                height: 70,
+                height: this.state.videoCompression==='null' ? 45:70,
                 paddingVertical: 5,
                 //   position: 'absolute',
 
@@ -2031,7 +2051,7 @@ if (this.pressPublish===false)
                   marginTop: 5
                 }}
               >
-                Compressing
+                Compressing video
               </Text>
              }
              {(this.state.videoCompression==='finished') &&
@@ -2044,7 +2064,7 @@ if (this.pressPublish===false)
                   marginTop: 5
                 }}
               >
-                Uploading video ...
+                Uploading video {this.state.videoPercentage}%
               </Text>
              }
 
