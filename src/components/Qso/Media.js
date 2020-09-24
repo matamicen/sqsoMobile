@@ -285,6 +285,7 @@ class Media extends Component {
             sqlrdsid={this.props.sqlrdsid}
             idmedia={this.props.idmedia}
             name={this.props.name}
+            type={this.props.type}
             mediafiles={this.props.mediafiles}
             closeDelete={this.CloseDeleteMedia.bind()}
             desc={this.props.type === "audio" ? "audio" : "photo"}

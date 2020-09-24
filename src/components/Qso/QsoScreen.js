@@ -1541,7 +1541,7 @@ if (this.pressVideo===false)
 
 //this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
 
-        if (env.status==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
+        if (env.status==='inprogress' & this.envio.type!=='video')    // los envia si ya tienen SqlRdsId sino los deja en waiting, cheque !== de video porque puede ser que haya subido primero una foto y luego la haya borrado, entonces quedo el SQLRDSID creado pero el video debe ser comprimido antes de ser enviado
         this.props.uploadMediaToS3(this.envio.name, this.envio.url, fileauxProfileAvatar, this.envio.sqlrdsid, this.envio.description,this.envio.size, this.envio.type, this.envio.rdsUrlS3 ,this.envio.urlNSFW, this.envio.urlAvatar, this.envio.date, this.envio.width, this.envio.height,this.props.rdsurls3,this.props.qra,this.envio.rectime,this.props.jwtToken);
         else{
           // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
@@ -1565,7 +1565,15 @@ if (this.pressVideo===false)
               //       this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
                     
               // }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-              fechaqso = getDate();
+   
+
+
+    // se chequea esto porque puede ser que el usuario haya subido una foto/audio y luego borrado, etnocnes ya queda el SQLRDSID de la publicacion creada
+    // entonces no hace falta crerla de nuevo
+    if(this.props.sqsosqlrdsid==='')
+    {
+
+      fechaqso = getDate();
      this.dataHeader = {
         "band" : '',
         "mode" : '',
@@ -1582,6 +1590,7 @@ if (this.pressVideo===false)
   
                this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
+       } 
 
               if (this.envio.type==='video')
                 {
@@ -1737,7 +1746,6 @@ if (this.pressPublish===false)
 
             console.log('upload video')
             console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
-            console.log('imprimo mediafiles 0: '+JSON.stringify(this.props.mediafiles[0]))
             media = this.props.mediafiles[0];
              this.props.uploadMediaToS3(media.name, media.url, 'fileauxProfileAvatar',this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
 
@@ -2059,7 +2067,7 @@ if (this.pressPublish===false)
               >
                 {I18n.t("QsoScrPublishingPost")}
               </Text>
-              {(this.state.videoCompression==='inprogress') &&
+              {(this.state.videoCompression==='inprogress'  && this.props.mediafiles[0].type==='video') &&
               <Text
                 style={{
                   color: "yellow",
@@ -2072,7 +2080,7 @@ if (this.pressPublish===false)
                 Compressing video {this.state.videoCompressPercentage}%
               </Text>
              }
-             {(this.state.videoCompression==='finished') &&
+             {(this.state.videoCompression==='finished' && this.props.mediafiles[0].type==='video') &&
               <Text
                 style={{
                   color: "yellow",
