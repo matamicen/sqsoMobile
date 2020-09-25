@@ -323,6 +323,10 @@ export default {
     PUSH_REPOSTFLDDAY_MESSAGE: 'Mirá los detalles aquí',
     PUSH_REPOSTQAP_TITLE: '%{callsign} republicó un QAP',  
     PUSH_REPOSTQAP_MESSAGE: 'Mirá los detalles aquí',    
+    PUSH_MARKETING_TITLE: '%{line1}',
+    PUSH_MARKETING_MESSAGE: '%{line2}',
+    PUSH_MENTION_TITLE: '%{callsign} te mencionó a tí en un comentario',
+    PUSH_MENTION_MESSAGE: '%{comment}',
     SOMEONE_INCLUDED_YOU: "Alguien te incluyo a tí en una publicación!",
     SEEMOREDETAILSON_NOTIFICATIONS: "Mirá los detalles en Notificaciones",
     SOMEONE_CLOSE: "Cerrar",
@@ -356,6 +360,7 @@ export default {
     NOTIF_ACTIVTYPE_66: '%{callsign} republicó un QAP',
     NOTIF_ACTIVTYPE_67: '%{callsign} republicó una activación',
     NOTIF_ACTIVTYPE_68: '%{callsign} republicó una publicación',
+    NOTIF_ACTIVTYPE_71: '%{callsign} te menciono a tí en un comentario',
     STOPAPP_SORRY: 'Lo sentimos, ha ocurrido un problema durante la instalación de la APP.',
     STOPAPP_PLEASE: 'Por favor desinstale la APP y vuelva a instalarla de la tienda de aplicaciones.',
     STOPAPP_APOLOGIZE: 'Disculpas. SuperQSO.',
@@ -396,7 +401,10 @@ export default {
     MISSCLOSE: 'Cerrar',
     PUBLICAR: 'Publicar',
     PUBLICARNUEVA: 'Nueva publicación',
-    PUBLICARCANCELAR: 'Descartar'
+    PUBLICARCANCELAR: 'Descartar',
+    PLAYMEDIAPLAY: 'Reproducir',
+    PLAYMEDIAPAUSE: 'Pausar',
+    PLAYMEDIASTOP: 'Parar',
     
 
   };

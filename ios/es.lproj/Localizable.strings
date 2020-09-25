@@ -39,3 +39,7 @@
 "PUSH_REPOSTFLDDAY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTQAP_TITLE" = "%@ republicó un QAP";
 "PUSH_REPOSTQAP_MESSAGE" =  "Mirá los detalles aquí";
+"PUSH_MARKETING_TITLE" = "%@";
+"PUSH_MARKETING_MESSAGE" =  "%@";
+"PUSH_MENTION_TITLE" = "%@ te mencionó a tí en un comentario";
+"PUSH_MENTION_MESSAGE" =  "%@";

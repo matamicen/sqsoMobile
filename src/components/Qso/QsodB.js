@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TouchableHighlight, TouchableOpacity,  Picker  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { setBand, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue, setRst } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress, hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
+import {Picker} from '@react-native-community/picker';
 
 
 

@@ -133,8 +133,8 @@ android {
         applicationId "com.sqsomobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 54
-        versionName "1.5.0"
+        versionCode 56
+        versionName "1.5.2"
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
@@ -164,7 +164,7 @@ android {
             signingConfig signingConfigs.debug
 
             // comentar al momento de genera APK final asi se activa la compresion del APK
-           // minifyEnabled enableProguardInReleaseBuilds
+         //   minifyEnabled enableProguardInReleaseBuilds
 
             // Enables code shrinking, obfuscation, and optimization for only
             // your project's release build type.

@@ -28,11 +28,12 @@ class User extends Component {
           if (!supported) {
             console.log('Can\'t handle url: ' + urlnotif);
           } else {
-            if(__DEV__)
-              analytics().logEvent("OPENPROFILEsearch_DEV", {"QRA": this.props.qraLoggedIn});
-            else
+            // if(__DEV__)
+            //   analytics().logEvent("OPENPROFILEsearch_DEV", {"QRA": this.props.qraLoggedIn});
+            // else
+            if(!__DEV__)
               analytics().logEvent("OPENPROFILEsearch_PRD", {"QRA": this.props.qraLoggedIn});
-            console.log("Recording analytics open Notif")
+           
             return Linking.openURL(urlnotif);
           
           }
