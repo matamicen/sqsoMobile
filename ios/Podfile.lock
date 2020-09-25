@@ -422,6 +422,8 @@ PODS:
     - React
   - RNCAsyncStorage (1.6.1):
     - React
+  - RNCPicker (1.7.1):
+    - React
   - RNCPushNotificationIOS (1.0.5):
     - React
   - RNExitApp (1.1.0):
@@ -529,6 +531,7 @@ DEPENDENCIES:
   - RNAudio (from `../node_modules/react-native-audio`)
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - "RNFBAdMob (from `../node_modules/@react-native-firebase/admob`)"
@@ -653,6 +656,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/amazon-cognito-identity-js"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCPicker:
+    :path: "../node_modules/@react-native-community/picker"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNExitApp:
@@ -751,6 +756,7 @@ SPEC CHECKSUMS:
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNAWSCognito: 9fb91d3bfaebd85b3d6ee680f8e8d258580dec58
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
+  RNCPicker: a2bf7bad059f23de52add203c3c5a3bc5b5239d8
   RNCPushNotificationIOS: 30ed75aa2981a4ee00b8a2c46599ff18a9c7fcf6
   RNExitApp: 7d81855142a4d11eb75f4f06fdebf5a950d7aef2
   RNFBAdMob: 5daad76870e5f696b4c79ce447cc0b6c38d93088

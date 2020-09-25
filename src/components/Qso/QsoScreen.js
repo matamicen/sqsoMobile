@@ -221,6 +221,8 @@ class QsoScreen extends Component {
         props.sqsomodalconfirmphotoheight
     );
     // this.setState({
+
+
     return {
       photoConfirm: props.sqsomodalconfirmphoto,
       actindicatorpostQsoNew: props.sqsoactindicatorpostqsonew,
@@ -1992,6 +1994,21 @@ if (this.pressPublish===false)
    descartar_publicacion = () => {
     this.setState({deletePost: true})
    }
+
+   componentDidUpdate(prevProps, prevState) {
+    // if (prevState.justpublished) {
+     console.log('didUpdate:')
+      console.log('prevState.justpublished.: '+prevState.justpublished)
+      console.log('prevProps.justpublished.: '+prevProps.justpublished)
+      // if (prevProps.justpublished && !this.justpublished)
+      if (prevProps.justpublished)  
+      {
+       
+          console.log('llamo afterPublish')
+          this.goToHomeAfterPublish();
+        }
+    // }
+  }
       
 
   render() {
@@ -2001,9 +2018,9 @@ if (this.pressPublish===false)
     });
     console.log("RENDER qso Screen");
 
- (this.props.justpublished) && 
-  // this.props.navigation.navigate('Home')
-  this.goToHomeAfterPublish();
+//  (this.props.justpublished) && 
+//   // this.props.navigation.navigate('Home')
+//   this.goToHomeAfterPublish();
  
 
     

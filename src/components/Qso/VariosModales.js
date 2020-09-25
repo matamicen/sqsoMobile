@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import Terms from './Terms';
 import Privacy from './Privacy';
 import I18n from '../../utils/i18n';
+import {APP_VERSION} from '../../appVersion';
 // import Iap from './Iap';
 
 
@@ -710,7 +711,7 @@ class VariosModales extends Component {
                 padding: 20,
              //   backgroundColor: "#475788",
                  backgroundColor:"rgba(0,0,0,0.85)",
-                top: 38,
+                top: 25,
                 left: 30,
                 right: 30,
                 position: "absolute",
@@ -724,12 +725,17 @@ class VariosModales extends Component {
             >
               <View style={{ flex: 1 }}>
               <View style={{ flex: 0.2, alignItems: "center" }}>
+                <View style={{ flex:0.5, flexDirection: 'row'}}>
                     <Image
                       source={require("../../images/email3.png")}
                       style={{ width: 60, height: 60 }}
                       resizeMode="contain"
                     />
-
+                     <Text style={{ color: "yellow", fontSize: 12, marginTop:33, marginLeft: 3}}>
+                      v{APP_VERSION}
+                    </Text>
+                </View>
+                 <View style={{ flex:0.5,  alignItems: "center"}}>
                     <Text style={{ color: "#FFFFFF", fontSize: 20}}>
                     {I18n.t("variosModContactUsTitle")}
                       {/* Free User: You need to watch the Ad video to create a new qso. */}
@@ -737,6 +743,8 @@ class VariosModales extends Component {
                     <Text style={{ color: "#FFFFFF", fontSize: 15}}>
                     info@superqso.com
                     </Text>
+                   
+                 </View>
                 </View>
                 <View style={{ flex: 0.6 }}>
                     <Text style={{ color: "#FFFFFF", fontSize: 18, marginTop: 10, marginLeft:7}}>

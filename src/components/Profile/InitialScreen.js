@@ -106,11 +106,12 @@ onPressAvatar = async (qra) => {
     if (!supported) {
       console.log('Can\'t handle url: ' + urlnotif);
     } else {
-      if(__DEV__)
-        analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
-      else
+      // if(__DEV__)
+      //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
+      // else
+      if(!__DEV__)
         analytics().logEvent("OPENWEBPROFILE_PRD", {"QRA": this.props.qra});
-      console.log("Recording analytics open Notif")
+     
       return Linking.openURL(urlnotif);
     
     }

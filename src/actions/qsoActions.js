@@ -561,12 +561,12 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,videoCompressed, jwtTok
               });
            }
 
-                    if(__DEV__)
-                    analytics().logEvent("QSO_DEV", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
-                    "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
-            else
-                analytics().logEvent("QSO_PRD", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
-                  "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
+            //         if(__DEV__)
+            //         analytics().logEvent("QSO_DEV", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
+            //         "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
+            // else
+            //     analytics().logEvent("QSO_PRD", {"SQLRDSID" : respuesta.body.message.newqso, "QRA" : bodyqsonew.qra_owner,
+            //       "TYPE" : bodyqsonew.type, "MODE" : bodyqsonew.mode, "BAND" : bodyqsonew.band});
 
       }
 
@@ -785,14 +785,17 @@ export const qsoPublish = (qsoHeader,qsoqras,jwtToken) => {
       // console.log("actualizo el QsoHeaderStatus");
       // dispatch(updateQsoHeaderStatusTrue());
      
-   if(__DEV__)
-      analytics().logEvent("QSO_PUBLISH_DEV", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
-      "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
-   else
-      analytics().logEvent("QSO_PUBLISH_PRD", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+  //  if(__DEV__)
+  //     analytics().logEvent("QSO_PUBLISH_DEV", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+  //     "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+  //  else
+  if(!__DEV__)
+  {    
+  analytics().logEvent("QSO_PUBLISH_PRD", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
       "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
 
-      console.log("Recording analytics QSO_PUBLISH")
+    }else
+      console.log("NO Recording analytics QSO_PUBLISH")
       
      
       
@@ -884,14 +887,15 @@ export const postQsoEdit = (qsoHeader,attribute,jwtToken) => {
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
         console.log("actualizo el QsoHeaderStatus");
        
-     if(__DEV__)
-        analytics().logEvent("QSOEDIT_DEV", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
-        "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
-     else
+    //  if(__DEV__)
+    //     analytics().logEvent("QSOEDIT_DEV", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
+    //     "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
+    //  else
+    if(!__DEV__)
         analytics().logEvent("QSOEDIT_PRD", {"SQLRDSID" : qsoHeader.sqlrdsid, "QRA" : qsoHeader.qra,
         "TYPE" : qsoHeader.type, "MODE" : qsoHeader.mode, "BAND" : qsoHeader.band});
 
-        console.log("Recording analytics QSO edit")
+        // console.log("Recording analytics QSO edit")
         
         dispatch(updateQsoHeaderStatusTrue());
         
@@ -1569,17 +1573,14 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         // analytics().logEvent("Media_1", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.sqlrdsid, "QSOTYPE": mediaToadd.qsotype,
         // "BAND": mediaToadd.band, "MODE": mediaToadd.mode, "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : mediaToadd.url, "RECTIME": mediaToadd.rectime});
        
-     if(__DEV__)
-        analytics().logEvent("MEDIA_DEV", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
-       "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
-     else
+    //  if(__DEV__)
+    //     analytics().logEvent("MEDIA_DEV", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
+    //    "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
+    //  else
+    if(!__DEV__)
         analytics().logEvent("MEDIA_PRD", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
         "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": mediaToadd.rectime, "PORN" : 'false'});
 
-       console.log("Recording analytics MEDIA")
-       console.log('qra: '+mediaToadd.qra + ' rectime: '+mediaToadd.rectime +
-        ' sqlrdsid: '+mediaToadd.qso + ' rectime: '+mediaToadd.rectime
-       + 'url: ' +auxUrl)
        
 
       }else
@@ -1587,14 +1588,15 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
         if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
         {
           update = {status: 'inappropriate content'}
-        if(__DEV__)
-          analytics().logEvent("MEDIA_DEV", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
-          "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": 0, "PORN" : 'true'});
-        else
+        // if(__DEV__)
+        //   analytics().logEvent("MEDIA_DEV", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
+        //   "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": 0, "PORN" : 'true'});
+        // else
+        if(!__DEV__)
           analytics().logEvent("MEDIA_PRD", {"QRA": mediaToadd.qra, "SQLRDSID" : mediaToadd.qso,
           "TYPE" : mediaToadd.type, "SIZE" : mediaToadd.datasize, "URL" : auxUrl, "RECTIME": 0, "PORN" : 'true'});
      
-         console.log("Recording analytics MEDIA Porn Content")
+         
 
         }
         else
@@ -2171,15 +2173,13 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
    //  dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
 
-  if(__DEV__)
-      analytics().logEvent("FOLLOW_DEV", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
-  else
+  // if(__DEV__)
+  //     analytics().logEvent("FOLLOW_DEV", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+  // else
+  if(!__DEV__)
      analytics().logEvent("FOLLOW_PRD", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
   
-     console.log("Recording analytics FOLLOW QRA")
-     
-    //   console.log("la url que envio:" + url);
-    //   console.log("EL QRA:" + qra);
+   
       }
       dispatch(fetchingApiSuccess('followAdd',respuesta));
       
@@ -2253,15 +2253,13 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
    //  dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
 
-     if(__DEV__)
-      analytics().logEvent("FOLLOW_DEV", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
-    else
-    analytics().logEvent("FOLLOW_PRD", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+    //  if(__DEV__)
+    //   analytics().logEvent("FOLLOW_DEV", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
+    // else
+    if(!__DEV__)
+      analytics().logEvent("FOLLOW_PRD", {"QRA" : LoggeduserQra, "FOLLOWQRA" : qra});
  
-      console.log("Recording analytics FOLLOW QRA")
      
-    //   console.log("la url que envio:" + url);
-    //   console.log("EL QRA:" + qra);
       }
       dispatch(fetchingApiSuccess('followAddSecondChance',respuesta));
       
@@ -2325,12 +2323,13 @@ export const followAdd = (LoggeduserQra, qra, date,jwtToken,qra_avatar) => {
       // dispatch(updateQraUrl(qra,following));
       dispatch(insertFollowings(respuesta.body.message,'ALL'));
 
-      if(__DEV__)
-      analytics().logEvent("UNFOLLOW_DEV", {"QRA" : LoggeduserQra, "UNFOLLOWQRA" : qra});
-     else
+    //   if(__DEV__)
+    //   analytics().logEvent("UNFOLLOW_DEV", {"QRA" : LoggeduserQra, "UNFOLLOWQRA" : qra});
+    //  else
+    if(!__DEV__)
      analytics().logEvent("UNFOLLOW_PRD", {"QRA" : LoggeduserQra, "UNFOLLOWQRA" : qra});
 
-      console.log("Recording analytics UNFOLLOW QRA")
+     
     
       }
       dispatch(fetchingApiSuccess('unfollow',respuesta));
@@ -2571,12 +2570,13 @@ export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
             console.log("respuesta API getQrasFromSearch:" + JSON.stringify(respuesta));
                   
             dispatch(insertQraSearched(respuesta.body.message.message));
-          if(__DEV__)
-            analytics().logEvent("SEARCH_DEV", {"QRA" : LoggeduserQra, "SEARCHED" : qraTosearch});
-           else
+          // if(__DEV__)
+          //   analytics().logEvent("SEARCH_DEV", {"QRA" : LoggeduserQra, "SEARCHED" : qraTosearch});
+          //  else
+          if(!__DEV__)
            analytics().logEvent("SEARCH_PRD", {"QRA" : LoggeduserQra, "SEARCHED" : qraTosearch});
           
-           console.log("Recording analytics SEARCH QRA")
+         
 
       }else{
            envio = [];
@@ -2668,11 +2668,12 @@ export const getQrasFromSearch = (LoggeduserQra,qraTosearch,jwtToken) => {
                
                      if (ScanType==='qslScan'){
                          dispatch(updateQslScan(respuesta));
-                        if(__DEV__)
-                         analytics().logEvent("SCANQR_DEV", {"QRA" : myQRA, "QSOSCANNED" : QsoTosearch});
-                        else
+                        // if(__DEV__)
+                        //  analytics().logEvent("SCANQR_DEV", {"QRA" : myQRA, "QSOSCANNED" : QsoTosearch});
+                        // else
+                        if(!__DEV__)
                          analytics().logEvent("SCANQR_PRD", {"QRA" : myQRA, "QSOSCANNED" : QsoTosearch});
-                         console.log("Recording analytics ScanQR")
+                         
                        }
                        else
                        {
@@ -2814,12 +2815,13 @@ export const linkQsos = (qra,json,jwtToken) => {
              dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
              dispatch(setUserInfo('scans_links',respuesta.body.message));
 
-           if(__DEV__)
-             analytics().logEvent("LINKQSO_DEV", {"QRA" : qra, "ERROR" : 'false', "MESSAGE" : ' '});
-          else
+          //  if(__DEV__)
+          //    analytics().logEvent("LINKQSO_DEV", {"QRA" : qra, "ERROR" : 'false', "MESSAGE" : ' '});
+          // else
+          if(!__DEV__)
             analytics().logEvent("LINKQSO_PRD", {"QRA" : qra, "ERROR" : 'false', "MESSAGE" : ' '});
          
-            console.log("Recording analytics LINKQSO")
+           
            
           
     }else{
@@ -2842,13 +2844,13 @@ export const linkQsos = (qra,json,jwtToken) => {
 
           jsonError = {code: 1, message: men}
             dispatch(updateLinkQso(jsonError,'linkQsoError'));
-          if(__DEV__)
-            analytics().logEvent("LINKQSO_DEV", {"QRA" : qra, "ERROR" : 'true', "MESSAGE" : respuesta.body.message});
-          else
+          // if(__DEV__)
+          //   analytics().logEvent("LINKQSO_DEV", {"QRA" : qra, "ERROR" : 'true', "MESSAGE" : respuesta.body.message});
+          // else
+          if(!__DEV__)
             analytics().logEvent("LINKQSO_PRD", {"QRA" : qra, "ERROR" : 'true', "MESSAGE" : respuesta.body.message});
           
-            console.log("Recording analytics LINKQSO error")
-
+           
     
       }
 

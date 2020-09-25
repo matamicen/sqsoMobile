@@ -16,6 +16,7 @@ import {
 
 
 import Video from 'react-native-video';
+import I18n from '../../utils/i18n';
 
  class PlayMediaAudioPreview extends Component {
   
@@ -313,14 +314,16 @@ import Video from 'react-native-video';
            <TouchableOpacity  style={{}}  onPress={ () => this.PlayAudio() }>
                   
                   <Image source={require('../../images/playMediaPreview.png')}  style={{width: 50, height: 50 } } 
-               resizeMode="contain" />    
+               resizeMode="contain" />   
+               <Text style={{ color: 'grey',  fontSize: 16}}>{I18n.t("PLAYMEDIAPLAY")}</Text> 
                
            </TouchableOpacity> 
            :
            <TouchableOpacity  style={{}}  onPress={ () => this.PauseAudio() }>
                   
                   <Image source={require('../../images/pauseMediaPreview.png')}  style={{width: 50, height: 50 } } 
-               resizeMode="contain" />    
+               resizeMode="contain" /> 
+               <Text style={{ color: 'grey',  fontSize: 16}}>{I18n.t("PLAYMEDIAPAUSE")}</Text>    
                
            </TouchableOpacity> 
           }
@@ -329,7 +332,9 @@ import Video from 'react-native-video';
            <TouchableOpacity  style={{marginLeft: 10 }}  onPress={ () => this.onEnd() }>
                   
                   <Image source={require('../../images/stopMediaPreview.png')}  style={{width: 50, height: 50 } } 
-               resizeMode="contain" />    
+               resizeMode="contain" /> 
+               <Text style={{ color: 'grey',  fontSize: 16}}>{I18n.t("PLAYMEDIASTOP")}</Text>    
+                  
                
            </TouchableOpacity> 
 
