@@ -196,8 +196,10 @@ export default {
     DeleteMediaTheentire2: "Are you sure to delete the entire post ?",
     DeleteMediaAreYouSurePhoto: "Are you sure to delete the",
     DeleteMediaAreYouSureAudio: "Are you sure to delete the",
+    DeleteMediaAreYouSureVideo: "Are you sure to delete the",
     DeleteMediaPhoto: "Photo",
     DeleteMediaAudio: "Audio",
+    DeleteMediaVideo: "Video",
     DeleteMediaCancel: "Keep editing",
     DeleteMediaDelete: "Delete",
     QsoTypeSWLpng: "swl.png",
@@ -405,4 +407,5 @@ export default {
     PLAYMEDIAPLAY: 'Play',
     PLAYMEDIAPAUSE: 'Pause',
     PLAYMEDIASTOP: 'Stop',
+    QsoScrMixMedia: 'You can not publish photos/audios with a video'
   };

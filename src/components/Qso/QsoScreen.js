@@ -68,7 +68,8 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish, todaMediaEnviadaAS3, percentageCalculator } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish,
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck } from "../../helper";
 import VariosModales from "./VariosModales";
 import Permissions from "react-native-permissions";
 
@@ -617,6 +618,8 @@ class QsoScreen extends Component {
   };
 
   checkInternetOpenRecording = async () => {
+   if (addMediaCheck('image',this.props.mediafiles))
+    
     if (await hasAPIConnection()) {
       // analytics().logEvent("Recording", {"QSOTYPE": this.props.qsotype,
       //  "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
@@ -676,6 +679,11 @@ class QsoScreen extends Component {
         }
       });
     } else this.setState({ nointernet: true });
+    else
+    {
+    this.missingMessage =  I18n.t("QsoScrMixMedia");
+    this.setState({ missingFields: true})
+    }
   };
   toggleRecModal = async () => {
     // if (await hasAPIConnection())
@@ -761,6 +769,11 @@ class QsoScreen extends Component {
 if (this.pressVideo===false)
 {// evitar que presione mas una vez Video (porque dumpea)
   this.pressVideo = true;
+
+
+  if(addMediaCheck('video',this.props.mediafiles))
+  {
+
     if (await hasAPIConnection()) {
       // envio a reducer que se fue a background por usar la GELRIA de FOTOS
       // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
@@ -862,10 +875,17 @@ if (this.pressVideo===false)
 
 
    }
-   else {
-     this.setState({ nointernet: true });
-     this.pressVideo = false;
-  }
+        else {
+          this.setState({ nointernet: true });
+          this.pressVideo = false;
+        }
+    }else
+    { // no se puede mezcalr VIDEO con audio o fotos, el VIDEO va solo
+      this.missingMessage =  I18n.t("QsoScrMixMedia")
+      this.pressVideo = false;
+      this.setState({ missingFields: true})
+      
+    }
 
   }
 
@@ -2009,6 +2029,15 @@ if (this.pressPublish===false)
         }
     // }
   }
+
+  cameraPress = () => {
+    if (addMediaCheck('image',this.props.mediafiles))
+            this.setState({camaraSelect: true})
+        else{
+          this.missingMessage =  I18n.t("QsoScrMixMedia")
+          this.setState({ missingFields: true})
+        }
+  }
       
 
   render() {
@@ -2313,7 +2342,7 @@ if (this.pressPublish===false)
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.16, alignItems: "center", marginTop: 11 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
-            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>     
+            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.cameraPress()}>     
                 <Image
                   source={require("../../images/camera.png")}
                   style={{ width: 26, height: 26, marginLeft: 15, marginTop: 2 }}

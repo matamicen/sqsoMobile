@@ -195,9 +195,11 @@ export default {
     DeleteMediaTheentire1: "Toda la publicación va a ser borrada si borras este/a último/a",
     DeleteMediaTheentire2: "¿Esta segúro de borrar toda la publicación?",
     DeleteMediaAreYouSurePhoto: "¿Ests segúro de borrar la",
-    DeleteMediaAreYouSureAudio: "¿Ests segúro de borrar el",
+    DeleteMediaAreYouSureAudio: "¿Estas segúro de borrar el",
+    DeleteMediaAreYouSureVideo: "¿Estas segúro de borrar el",
     DeleteMediaPhoto: "Foto",
     DeleteMediaAudio: "Audio",
+    DeleteMediaVideo: "Video",
     DeleteMediaCancel: "Seguir editando",
     DeleteMediaDelete: "Borrar",
     QsoTypeSWLpng: "escucha.png",
@@ -405,6 +407,7 @@ export default {
     PLAYMEDIAPLAY: 'Reproducir',
     PLAYMEDIAPAUSE: 'Pausar',
     PLAYMEDIASTOP: 'Parar',
+    QsoScrMixMedia: 'No se pueden publicar fotos y/o audios con un video'
     
 
   };

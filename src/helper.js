@@ -1093,3 +1093,28 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
       return aux
     }
+
+
+    export const addMediaCheck=(mediatypetoadd, mediafiles)=>{
+ 
+      // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
+      // esto evita que pueda mandar un POST sin media
+  
+       checkpassed = true;
+
+       mediafiles.map(item => {
+        //  if(item.type !== 'profile' && item.status!=='inappropriate content') {
+        //    mediafilesSinProfile =  [...mediafilesSinProfile,item] 
+        //  }
+        if((item.type === 'audio' || item.type === 'image') && (mediatypetoadd==='video'))
+           checkpassed = false;
+         if((item.type === 'video') && (mediatypetoadd === 'audio' || mediatypetoadd === 'image'))
+           checkpassed = false;
+       })
+
+       console.log('mediaCheck:'+checkpassed)
+
+       return checkpassed;
+     
+       
+       }

@@ -202,7 +202,7 @@ class DeleteMedia extends Component {
                         resizeMethod="resize"
                         source={require('../../images/delete3.png')}
                           />
-                      <Text style={{ color: 'white', fontSize: 16, alignItems: "center"}}>{(this.props.desc==='photo') ? I18n.t("DeleteMediaAreYouSurePhoto") : I18n.t("DeleteMediaAreYouSureAudio")  } {(this.props.desc==='photo') ? I18n.t("DeleteMediaPhoto") : I18n.t("DeleteMediaAudio")}?</Text>
+                      <Text style={{ color: 'white', fontSize: 16, alignItems: "center"}}>{(this.props.type==='image') && I18n.t("DeleteMediaAreYouSurePhoto")}{(this.props.type==='audio') && I18n.t("DeleteMediaAreYouSureAudio")}{(this.props.type==='video') && I18n.t("DeleteMediaAreYouSureVideo")} {(this.props.type==='image') &&  I18n.t("DeleteMediaPhoto")}{(this.props.type==='audio') &&  I18n.t("DeleteMediaAudio")}{(this.props.type==='video') &&  I18n.t("DeleteMediaVideo")}?</Text>
                       </View> }
                 {/* :
                   <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>
