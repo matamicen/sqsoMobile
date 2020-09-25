@@ -732,7 +732,7 @@ class Muestro extends Component {
                   resizeMode="contain"
                   />
             </View>
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 55}}>
                 {/* <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text>  */}
                 <Image style={styles.faceImageStyleAudio}
                      source={require('../../images/video1.png')}
