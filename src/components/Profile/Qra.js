@@ -137,9 +137,10 @@ class Qra extends Component {
                   console.log('Can\'t handle url: ' + urlnotif);
                 } else {
                  
-                  if(__DEV__)
-                    analytics().logEvent("OPENfollowProf_DEV", {"QRA": this.props.qra});
-                  else
+                  // if(__DEV__)
+                  //   analytics().logEvent("OPENfollowProf_DEV", {"QRA": this.props.qra});
+                  // else
+                  if(!__DEV__)
                     analytics().logEvent("OPENfollowProf", {"QRA": this.props.qra});
 
                      this.closeModaldeleteqra();

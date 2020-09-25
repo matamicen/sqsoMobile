@@ -107,9 +107,10 @@ class ShareQso extends Component {
     
     Share.open(options);
 
-    if(__DEV__)
-    analytics().logEvent("SHARE_DEV", {"QRA" : this.props.qra, "SQLRDSID" : this.props.sqlrdsid, "BAND" : this.props.band, "MODE" : this.props.mode, "URLSHARE": this.props.sharerluid});
-else
+//     if(__DEV__)
+//     analytics().logEvent("SHARE_DEV", {"QRA" : this.props.qra, "SQLRDSID" : this.props.sqlrdsid, "BAND" : this.props.band, "MODE" : this.props.mode, "URLSHARE": this.props.sharerluid});
+// else
+if(!__DEV__)
     analytics().logEvent("SHARE_PRD", {"QRA" : this.props.qra, "SQLRDSID" : this.props.sqlrdsid, "BAND" : this.props.band, "MODE" : this.props.mode, "URLSHARE": this.props.sharerluid});
     
 

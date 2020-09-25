@@ -86,11 +86,12 @@ if (urlnotif!=null)
         if (!supported) {
           console.log('Can\'t handle url: ' + urlnotif);
         } else {
-          if(__DEV__)
-            analytics().logEvent("OPENNOTIF_DEV", {"QRA": this.props.qra});
-          else
+          // if(__DEV__)
+          //   analytics().logEvent("OPENNOTIF_DEV", {"QRA": this.props.qra});
+          // else
+          if(!__DEV__)
             analytics().logEvent("OPENNOTIF_PRD", {"QRA": this.props.qra});
-          console.log("Recording analytics open Notif")
+         
 
           // delay de 2.5 segundos para que borre el item asi no no lo borra inmediato y no confune
           // al usuario
@@ -429,7 +430,25 @@ if (urlnotif!=null)
                       }
 
 
+                     
+                      {(this.props.activity_type===70) &&
+                         <View style={{flex:1, flexDirection: 'column'}}>
+                          {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
+                          <Text style={{fontSize:15,fontWeight: "bold", color: 'black'}}>{this.props.comment }</Text>
+                         <Text style={{fontSize:15, color: 'black'}}>{this.props.message}</Text>
+                         <Text style={{fontSize:14, height: 40, color:'grey'}}><MomentAgo date={this.props.datetimecomment}/> </Text>
+                        
+                        
+                          </View>
+                      }
 
+                    {(this.props.activity_type===71) &&
+                         <View >
+                           <Text style={{fontSize:15 }}>{I18n.t("NOTIF_ACTIVTYPE_71",{callsign: this.props.QRA})} |
+                             <Text style={{fontSize:15, fontWeight: "bold", height: 40, color: 'black'}}> {(this.props.comment) && this.props.comment.substr(0,57)}... </Text>  <Text style={{fontSize:14, height: 40, color: 'grey'}}><MomentAgo date={this.props.datetimecomment}/></Text>
+                           </Text>
+                        </View>
+                     }
 
 
 

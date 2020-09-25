@@ -353,9 +353,10 @@ checkInternetScanQR = async (param) => {
       if (!supported) {
         console.log('Can\'t handle url: ' + urlnotif);
       } else {
-        if(__DEV__)
-          analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
-        else
+        // if(__DEV__)
+        //   analytics().logEvent("OPENyourposts_DEV", {"QRA": this.props.qra});
+        // else
+        if(!__DEV__)
           analytics().logEvent("OPENyourposts_PRD", {"QRA": this.props.qra});
       
         return Linking.openURL(urlnotif);
@@ -383,9 +384,10 @@ checkInternetScanQR = async (param) => {
       if (!supported) {
         console.log('Can\'t handle url: ' + urlnotif);
       } else {
-        if(__DEV__)
-          analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
-        else
+        // if(__DEV__)
+        //   analytics().logEvent("OPENlatestposts_DEV", {"QRA": this.props.qra});
+        // else
+        if(!__DEV__)
           analytics().logEvent("OPENlatestposts_PRD", {"QRA": this.props.qra});
       
         return Linking.openURL(urlnotif);
