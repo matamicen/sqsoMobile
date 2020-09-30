@@ -688,7 +688,7 @@ class Muestro extends Component {
     render() { 
         // this.props.imageurl
         console.log("RENDER MUESTRO, mediatosend: " +JSON.stringify(this.props.sqsomedia));
-        const encodedData = this.props.sqsomedia.base64preview;
+        // const encodedData = this.props.sqsomedia.base64preview;
    
               
         return( 
@@ -727,7 +727,8 @@ class Muestro extends Component {
             <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
             {/* <View style={{flex:0.75, justifyContent: 'center', alignItems: 'center'}}>      */}
                   <Image style={styles.faceImageStyle}
-                  source={{ uri: `data:image/png;base64,${encodedData}` }}
+                  // source={{ uri: `data:image/png;base64,${encodedData}` }}
+                  source={{ uri: this.props.sqsomedia.previewCompressed }}
                   resizeMethod="resize"
                   resizeMode="contain"
                   />

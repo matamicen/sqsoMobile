@@ -344,6 +344,8 @@ PODS:
     - React
   - react-native-location (2.3.2):
     - React
+  - react-native-netinfo (5.9.7):
+    - React-Core
   - react-native-video (4.4.4):
     - React
     - react-native-video/Video (= 4.4.4)
@@ -413,7 +415,7 @@ PODS:
     - React-jsi (= 0.63.2)
   - ReactNativePermissions (1.2.0):
     - React
-  - rn-fetch-blob (0.10.16):
+  - rn-fetch-blob (0.12.0):
     - React-Core
   - RNAudio (4.3.0):
     - React
@@ -514,6 +516,7 @@ DEPENDENCIES:
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-location (from `../node_modules/react-native-location`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -622,6 +625,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-resizer"
   react-native-location:
     :path: "../node_modules/react-native-location"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -739,6 +744,7 @@ SPEC CHECKSUMS:
   react-native-camera: 9bf6e0cdce0d7dc059d9836eb381d96f58f83d83
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
+  react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
   react-native-video: 25d5aebb3c9d7cdefe7a909306c7ab40be4a892c
   react-native-webview: e2c0bce9a1a7c7edd4eb30f0c3016fce216245ce
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
@@ -752,7 +758,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   ReactNativePermissions: f0aec11433d43d45953c678b6982921d83ad94c8
-  rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNAWSCognito: 9fb91d3bfaebd85b3d6ee680f8e8d258580dec58
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e

@@ -1090,7 +1090,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
            folder = 'profile/profile_'+timeStamp+'.jpg';
          //folder = 'profile/profile.jpg';
 
-               enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+               enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => Buffer.from(data, 'base64'));
                //   return this.readFile(fileauxFinal)
                   enBlob
                   .then(buffer => Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
@@ -1125,7 +1125,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                      folder = 'profile/profile_av_'+timeStamp+'.jpg';
                    //folder = 'profile/profile_avatar.jpg';
 
-                     enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+                     enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => Buffer.from(data, 'base64'));
                      //   return this.readFile(fileauxFinal)
                         enBlob
                         .then(buffer => Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
@@ -1635,6 +1635,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
     try {
       let folder;
+      videoPreviewURL = '';
 
         // const response = await fetch(fileaux);
         // const blobi = await response.blob();
@@ -1671,7 +1672,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
 
 //, contentType: 'image/png'
          enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').
-         then(data => new Buffer(data, 'base64'));
+         then(data => Buffer.from(data, 'base64'));
         //  console.log(enBlob.buffer);
         //  console.log(enBlob)
       //   return this.readFile(fileauxFinal)
@@ -1684,6 +1685,25 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
                 // actualizo SENT como TRUE en mediafile para ese file.
                 update = {"sent": true, "progress": 0.7}
                 dispatch(updateMedia(fileName2,update,'item'));
+
+
+          // si es video subo la imagen del preview que tengo el path en fileauxProfileAvatar
+            if (type==='video')
+            {
+              // simplemente la ubico en el mismo bucket mismo nombre de archivo de video pero con extension jpg
+              videoName =  folder.replace(".mp4", '.jpg');
+              videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
+                enBlob = RNFetchBlob.fs.readFile(fileauxProfileAvatar, 'base64').
+                then(data => Buffer.from(data, 'base64'));
+        
+                enBlob
+         .then(buffer => 
+                Storage.vault.put(videoName, buffer, { customPrefix, level: 'protected' }))
+                .then (result => {
+                         console.log('envio imagePreview:'+result.key);
+                })
+
+              }
 
                 
     
@@ -1699,7 +1719,8 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
                   "description": description,
                   "identityId" : identityID,
                   "qra": qra,
-                  "rectime" : rectime
+                  "rectime" : rectime,
+                  "videoPreview" : videoPreviewURL 
 
               }
            if (type !== 'profile')
@@ -1749,6 +1770,9 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
     
                 
                 })
+          
+
+              
                 // .catch(err => {
                 //   console.log(JSON.stringify(err));
                 //   console.log("fallo el UPLOAD UPLOAD UPLOADS3");

@@ -92,7 +92,8 @@ import Publicar from './Publicar';
 import MissingFieldsToPublish from './MissingFieldsToPublish';
 import global_config from '../../global_config.json';
 import { ProcessingManager } from 'react-native-video-processing';
-
+import RNFetchBlob from 'rn-fetch-blob';
+import ImageResizer from 'react-native-image-resizer';
 
 
 
@@ -133,6 +134,7 @@ class QsoScreen extends Component {
     this.dataHeader = {};
     this.pressPublish = false;
     this.pressVideo = false;
+    this.imagePreviewPath = '';
 
 
     
@@ -897,7 +899,7 @@ if (this.pressVideo===false)
             console.log('width: '+image.width)
            // obtengo 1 frame como foto del video
 
-           const maximumSize = { width: 200, height: 400 };
+           const maximumSize = { width: 100, height: 200 };
            // const maximumSize = { width: 400, height: 200 };
 
            // Se necesita esperar que tome la foto de preview asi el componente Muestro la puede mostrar
@@ -910,6 +912,76 @@ if (this.pressVideo===false)
               });
      
               this.videoPathBeforeCompress = videoPath;
+
+
+              // grabo imagen preview de video en disco
+              // const base64 = '';
+              const currentStatus = await Permissions.check("storage");
+              console.log('storage permission: '+ currentStatus)
+              if (currentStatus !== 'authorized') {
+                const status = await Permissions.request("storage");
+          
+                if (status !== 'authorized') {
+                  console.log('no autorizo a grabar archivo')
+                  
+                }else
+                {
+
+                  const path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
+
+                  try {
+                    const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
+                    console.log(data, 'grabo imagen en disco');
+                    console.log('path: '+ path)
+                  } catch (error) {
+                    console.log(error.message);
+                  }
+
+
+                }
+              }else
+              {
+                const path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
+
+                try {
+                  const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
+                  console.log(data, 'grabo imagen en disco');
+                  console.log(data);
+                  console.log('path: '+ path)
+                 
+                  await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',86).then((response) => {
+          
+                    this.compressImagePreview = response.uri;
+                        
+                  //  // this.size = response.size;
+                  //   this.widthAvatar = nuevoWidthAvatar;
+                  //   this.heightAvatar = nuevoHeightAvatar;
+                    console.log('Compress imagepreview: ' + JSON.stringify(response));
+        
+          
+                  }).catch((err) => {
+                    // Oops, something went wrong. Check that the filename is correct and
+                    // inspect err to get more details.
+                    // crashlytics().setUserId(this.props.qra);
+                    // crashlytics().log('error: ' + JSON.stringify(err)) ;
+                    // if(__DEV__)
+                    // crashlytics().recordError(new Error('createResiImg4_DEV'));
+                    // else
+                    // crashlytics().recordError(new Error('createResiImg4_PRD'));
+                  });
+          
+
+
+
+                  // this.imagePreviewPath = path;
+                  this.imagePreviewPath = this.compressImagePreview
+                } catch (error) {
+                  console.log(error.message);
+                }
+
+              }
+
+           
      
             //este de abajo anda barbaro
          //     ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 2,minimumBitrate: 300000})
@@ -937,7 +1009,7 @@ if (this.pressVideo===false)
      
           // envio base64preview y videoLocation para que que Muestro muestre imagen preview del video a enviar y la locacion real del video tomada por el picker
               console.log('filename2 es: ' + fileName2);
-              envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, base64preview: this.base64preview } 
+              envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, previewCompressed:this.imagePreviewPath } 
               
               // console.log('phototype :'+this.props.phototype)
               
@@ -1769,7 +1841,7 @@ if (this.pressPublish===false)
             console.log('upload video')
             console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
             media = this.props.mediafiles[0];
-             this.props.uploadMediaToS3(media.name, media.url, 'fileauxProfileAvatar',this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
+             this.props.uploadMediaToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
 
              contEnvio = 0;
              t1 = new Date();
