@@ -71,7 +71,7 @@ import {
   updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish,
    todaMediaEnviadaAS3, percentageCalculator, addMediaCheck } from "../../helper";
 import VariosModales from "./VariosModales";
-import Permissions from "react-native-permissions";
+import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 
 import awsconfig from "../../aws-exports";
 import { Auth } from "aws-amplify";
@@ -627,17 +627,23 @@ class QsoScreen extends Component {
       //  "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
 
       // console.log("Recording analytics")
-      
-      Permissions.request("microphone").then(response => {
+      if (Platform.OS==='android')
+        REC_PERMISSION = PERMISSIONS.ANDROID.RECORD_AUDIO;
+      else
+        REC_PERMISSION = PERMISSIONS.IOS.MICROPHONE;
+      // Permissions.request("microphone").then(response => {
+        request(REC_PERMISSION).then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         console.log("Microphone Permiso: " + response);
-        if (response === "authorized") {
+        // if (response === "authorized") {
+          if (response === RESULTS.GRANTED){
          
           this.toggleRecModal();
         }
 
-        if (response === "denied" && Platform.OS !== "android") {
+        // if (response === "denied" && Platform.OS !== "android") {
+          if (response === RESULTS.DENIED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_2"),
             I18n.t("TO_AUTHORIZE_2_IOS"),
@@ -652,7 +658,8 @@ class QsoScreen extends Component {
           );
         }
 
-        if (response === "restricted" && Platform.OS === "android") {
+        // if (response === "restricted" && Platform.OS === "android") {
+          if (response === RESULTS.BLOCKED && Platform.OS === "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_2"),
             I18n.t("TO_AUTHORIZE_2_ANDROID"),
@@ -666,7 +673,8 @@ class QsoScreen extends Component {
           );
         }
 
-        if (response === "restricted" && Platform.OS !== "android") {
+        // if (response === "restricted" && Platform.OS !== "android") {
+       if (response === RESULTS.BLOCKED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("ACCESS_TO_MICROPHONE"),
             I18n.t("PARENTAL_CONTROLS"),
@@ -914,33 +922,8 @@ if (this.pressVideo===false)
               this.videoPathBeforeCompress = videoPath;
 
 
-              // grabo imagen preview de video en disco
-              // const base64 = '';
-              const currentStatus = await Permissions.check("storage");
-              console.log('storage permission: '+ currentStatus)
-              if (currentStatus !== 'authorized') {
-                const status = await Permissions.request("storage");
-          
-                if (status !== 'authorized') {
-                  console.log('no autorizo a grabar archivo')
-                  
-                }else
-                {
 
-                  const path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
-
-                  try {
-                    const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
-                    console.log(data, 'grabo imagen en disco');
-                    console.log('path: '+ path)
-                  } catch (error) {
-                    console.log(error.message);
-                  }
-
-
-                }
-              }else
-              {
+     
                 const path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
 
                 try {
@@ -979,7 +962,7 @@ if (this.pressVideo===false)
                   console.log(error.message);
                 }
 
-              }
+         
 
            
      
@@ -1048,6 +1031,9 @@ if (this.pressVideo===false)
                 // this.props.manageLocationPermissions("photofromgallery", 0);
             
               console.log('este debe aparecer primero');
+
+            // }
+            
 
 
   }
@@ -1190,17 +1176,25 @@ if (this.pressVideo===false)
       //   if (!hasPermission) return;
 
     
+      if (Platform.OS==='android')
+        CAMERA_PERMISSION = PERMISSIONS.ANDROID.CAMERA;
+      else
+        CAMERA_PERMISSION = PERMISSIONS.IOS.CAMERA;
 
-      Permissions.request("camera").then(response => {
+      // Permissions.request("camera").then(response => {
+        request(CAMERA_PERMISSION).then(response => {
+
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         console.log("Camera Permiso: " + response);
-        if (response === "authorized") {
+        // if (response === "authorized") {
+          if (response === RESULTS.GRANTED) {
           this.props.closeModalConfirmPhoto("image");
           this.props.navigation.navigate("CameraScreen2");
         }
 
-        if (response === "denied" && Platform.OS !== "android") {
+        // if (response === "denied" && Platform.OS !== "android") {
+          if (response === RESULTS.DENIED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_1"),
             I18n.t("TO_AUTHORIZE_2_IOS"),
@@ -1215,7 +1209,7 @@ if (this.pressVideo===false)
           );
         }
 
-        if (response === "restricted" && Platform.OS === "android") {
+        if (response === RESULTS.BLOCKED && Platform.OS === "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_1"),
             I18n.t("TO_AUTHORIZE_2_ANDROID"),
@@ -1229,7 +1223,7 @@ if (this.pressVideo===false)
           );
         }
 
-        if (response === "restricted" && Platform.OS !== "android") {
+        if (response === RESULTS.BLOCKED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("ACCESS_TO_CAMERA"),
             I18n.t("PARENTAL_CONTROLS"),
