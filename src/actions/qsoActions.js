@@ -54,6 +54,7 @@ import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-root-toast';
 import I18n from '../utils/i18n';
+import Upload from 'react-native-background-upload'
 
 // Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -1627,8 +1628,537 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
     };
   };
 
- // fileauxProfileAvatar
- //qra,rectime
+
+  formData = (fields) =>
+  {
+    const formData2 = new FormData();
+    Object.keys(fields).forEach((key) => {
+
+        formData2.append(key, fields[key]);
+       console.log(key);
+         console.log(respuesta.body.data.fields[key]);
+      });
+
+      return formData2;
+
+  }
+  const uploadFileToS3 = (presignedPostData, file) => {
+    return new Promise((resolve, reject) => {
+
+      const formData = new FormData();
+      Object.keys(presignedPostData.body.data.fields).forEach((key) => {
+      
+       formData.append(key, presignedPostData.body.data.fields[key]);
+       console.log(key);
+        console.log(respuesta.body.data.fields[key]);
+      });
+
+
+      console.log('loopeo2');
+    //  auxh = formData(presignedPostData.body.data.fields);
+    // console.log(presignedPostData.body.data.fields['Content-Type'])
+     console.log(presignedPostData.body.data.fields['key'])
+    //  console.log(presignedPostData.body.data.fields['bucket'])
+    //  console.log(presignedPostData.body.data.fields['X-Amz-Algorithm'])
+    //  console.log(presignedPostData.body.data.fields['X-Amz-Credential'])
+     console.log(presignedPostData.body.data.fields['X-Amz-Date'])
+    //  console.log(presignedPostData.body.data.fields['X-Amz-Security-Token'])  
+    //  console.log(presignedPostData.body.data.fields['Policy']) 
+    //  console.log(presignedPostData.body.data.fields['X-Amz-Signature'])
+     auxfile = file.replace('file://', '');
+    // formData.append("file", RNFetchBlob.wrap(auxfile));
+
+    // RNFetchBlob.fetch('POST', presignedPostData.body.data.url, {
+    //   // dropbox upload headers
+    //   // Authorization : "Bearer access-token...",
+    //   // 'Dropbox-API-Arg': JSON.stringify({
+    //   //   path : '/img-from-react-native.png',
+    //   //   mode : 'add',
+    //   //   autorename : true,
+    //   //   mute : false
+    //   // }),
+    //   // 'key' : presignedPostData.body.data.fields['key'],
+    //   // 'bucket' : presignedPostData.body.data.fields['bucket'],
+    //   // 'X-Amz-Algorithm' : presignedPostData.body.data.fields['X-Amz-Algorithm'],
+    //   // 'X-Amz-Credential' : presignedPostData.body.data.fields['X-Amz-Credential'],
+    //   // 'X-Amz-Date' : presignedPostData.body.data.fields['X-Amz-Date'],
+    //   // 'X-Amz-Security-Token' : presignedPostData.body.data.fields['X-Amz-Security-Token'],
+    //   // 'Policy' : presignedPostData.body.data.fields['Policy'],
+    //   // 'X-Amz-Signature' : presignedPostData.body.data.fields['X-Amz-Signature'],
+    //   // 'Content-Type' : presignedPostData.body.data.fields['Content-Type'],
+     
+    //   // 'Content-Type' : 'application/octet-stream',
+    //   // Change BASE64 encoded data to a file path with prefix `RNFetchBlob-file://`.
+    //   // Or simply wrap the file path with RNFetchBlob.wrap().
+    // }, 
+    // RNFetchBlob.wrap(auxfile)
+    // )
+    // .then((res) => {
+    //   console.log('parece que subio')
+    //   console.log(res.text())
+    //   resolve() 
+    // })
+    // .catch((err) => {
+    //   console.log('error en upload video RNFetchBlob')
+    //   reject(err)
+    //   // error handling ..
+    // })
+
+
+
+      // RNFetchBlob.fetch('POST', presignedPostData.body.data.url, {
+      //   // 'Content-Type' : 'multipart/form-data',
+      //   'Content-Type' : 'application/octet-stream',
+      // }, [
+      //   {
+      //     name : 'pepuso.mp4',
+      //     filename: RNFetchBlob.wrap(file),
+      //     data: formData(presignedPostData.body.data.fields)}
+      // ]).then((resp) => {
+      //     console.log('subiooo' + resp);
+      //   }).catch((err) => {
+      //     // ...
+      //     console.log("Catch error formdata", err);
+      //   })
+
+// si descomento sube 130bytes
+   //   const formData = new FormData();
+// Object.keys(presignedPostData.body.data.fields).forEach((key) => {
+
+//  formData.append(key, presignedPostData.body.data.fields[key]);
+//  console.log(key);
+//   console.log(respuesta.body.data.fields[key]);
+// });
+
+// var file1 = {
+//   uri: file,
+//   type: 'video/mp4',
+//   name: 'pepuso2.mp4',
+// };
+
+
+//  console.log('archivo1: '+file)
+//  auxfile = file.replace('file://', '');
+//  console.log('archivo2: '+auxfile)
+//       // Actual file has to be appended last.
+//        formData.append("file", RNFetchBlob.wrap(auxfile));
+//       //  formData.append("file", auxfile);
+//     //  formData.append("file", file, 'pepuso2.mp4');
+
+//       const xhr = new XMLHttpRequest();
+//       // xhr.setRequestHeader('Content-Type', 'multipart/form-data') 
+//       xhr.open("POST", presignedPostData.body.data.url, true);
+//       // xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+//       //  xhr.setRequestHeader('Content-Type', 'multipart/form-data') 
+//       // xhr.setRequestHeader('Content-Type', 'application/octet-stream') 
+
+//       //  xhr.setRequestHeader('Content-Type', presignedPostData.body.data.fields['Content-Type'])
+//       // xhr.setRequestHeader('key', presignedPostData.body.data.fields['key']) 
+//       // xhr.setRequestHeader('bucket', presignedPostData.body.data.fields['bucket']) 
+//       // xhr.setRequestHeader('X-Amz-Algorithm', presignedPostData.body.data.fields['X-Amz-Algorithm']) 
+//       // xhr.setRequestHeader('X-Amz-Credential', presignedPostData.body.data.fields['X-Amz-Credential']) 
+//       // xhr.setRequestHeader('X-Amz-Date', presignedPostData.body.data.fields['X-Amz-Date']) 
+//       // xhr.setRequestHeader('X-Amz-Security-Token', presignedPostData.body.data.fields['X-Amz-Security-Token']) 
+//       // xhr.setRequestHeader('Policy', presignedPostData.body.data.fields['Policy']) 
+//       // xhr.setRequestHeader('X-Amz-Signature', presignedPostData.body.data.fields['X-Amz-Signature']) 
+//       // xhr.setRequestHeader('Content-Type', 'application/octet-stream') 
+
+//       xhr.send(formData);
+//       // xhr.send(file);
+//       xhr.onload = function () {
+//         console.log(this);
+//         this.status === 204 ? resolve() : reject(this.responseText);
+//       };
+
+
+
+
+            // formData.append('file', {
+            //   name: 'pepuso2.mp4',
+            //   type: presignedPostData.body.data.fields['Content-Type'],
+            //   uri: file
+            // })
+            // fetch(presignedPostData.body.data.url,
+            //   {
+            //       method: 'POST',
+            //       body: formData
+            //   }).then(resp => {
+            //     console.log(resp)
+            //     resolve() 
+
+            //   }).catch(err => {
+            //     console.log('error upload4: '+err)
+            //     reject(err)
+
+            //   });
+
+
+
+
+
+
+
+     });
+
+  };
+
+  
+  export const uploadVideoToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,qra,rectime,jwtToken) => {
+    return async dispatch => {
+      //  dispatch(fetchingApiRequest());
+      let nombre = 'pepe_'+Date.now()+'.mp4';
+        console.log("ejecuta UPLOAD VIDEO a S3 desde ACTION");  
+                  try {
+            // llama API pre signed
+            let apiName = 'superqso';
+            let path = "/s3presignedpost";
+            let myInit = { 
+              headers: {
+                'Authorization': jwtToken,
+                "Access-Control-Allow-Origin": "*",
+                'Content-Type': 'application/json'
+              }, 
+              body: {
+                name: nombre,
+
+                  }
+              
+            }
+
+
+
+
+respuesta = await API.post(apiName, path, myInit);
+
+console.log(respuesta);
+
+console.log('loopeo1');
+// const formData = new FormData();
+// Object.keys(respuesta.body.data.fields).forEach((key) => {
+//  formData.append(key, respuesta.body.data.fields[key]);
+//  console.log(key);
+//   console.log(respuesta.body.data.fields[key]);
+// });
+
+
+// console.log(respuesta.body.data.url)
+
+   // Actual file has to be appended last.
+  //  enBlob = RNFetchBlob.fs.readFile(fileaux, 'base64').
+  //  then(data => Buffer.from(data, 'base64'));
+  //  console.log(enBlob.buffer);
+  //  console.log(enBlob)
+//   return this.readFile(fileauxFinal)
+// await uploadFileToS3(respuesta, fileaux, arrayBuffer);
+// console.log("File was successfully uploaded!");
+
+  //  enBlob
+  //  .then(buffer => {
+  //   arrayBuffer = buffer;
+  // uploadFileToS3(respuesta, fileaux, arrayBuffer);
+  //  });
+
+  
+  //  console.log(formData);
+//    formData.append('file', {
+//   const base64 = await RNFS.readFile(file, 'base64');
+// const arrayBuffer = decode(base64);
+
+
+
+   
+  // await uploadFileToS3(respuesta, fileaux);
+  //       console.log("File was successfully uploaded!");
+
+// estaba en parameters
+  // 'Content-Type' : respuesta.body.data.fields['Content-Type'],
+  
+  auxfile = fileaux.replace('file://', '');
+  console.log('fileaux antes de startupload: '+ auxfile )
+  const fileInfo = await Upload.getFileInfo(auxfile);
+  console.log(fileInfo)
+  console.log('fileinfoMimetype: '+fileInfo.mimeType)
+  const options = {
+    url: respuesta.body.data.url,
+    field: 'file',
+    path: auxfile,
+    method: 'POST',
+    type: 'multipart',
+    maxRetries: 2, // set retry count (Android only). Default 2
+    headers: {
+      // 'content-type': 'application/octet-stream', // Customize content-type
+      'content-type': fileInfo.mimeType,
+      // 'my-custom-header': 's3headervalueorwhateveryouneed'
+      //  'Content-Type' : respuesta.body.data.fields['Content-Type'],
+      // 'Content-Type' : 'application/octet-stream'
+      // 'key' : respuesta.body.data.fields['key'],
+      // 'bucket' : respuesta.body.data.fields['bucket'],
+      // 'X-Amz-Algorithm' : respuesta.body.data.fields['X-Amz-Algorithm'] ,
+      // 'X-Amz-Credential' : respuesta.body.data.fields['X-Amz-Credential'],
+      // 'X-Amz-Date' : respuesta.body.data.fields['X-Amz-Date'],
+      // 'X-Amz-Security-Token' : respuesta.body.data.fields['X-Amz-Security-Token'],
+      // 'Policy' : respuesta.body.data.fields['Policy'],
+      // 'X-Amz-Signature' : respuesta.body.data.fields['X-Amz-Signature'], 
+    },
+    parameters: {
+      'content-type': fileInfo.mimeType,
+      'key' : respuesta.body.data.fields['key'],
+      'bucket' : respuesta.body.data.fields['bucket'],
+      'X-Amz-Algorithm' : respuesta.body.data.fields['X-Amz-Algorithm'] ,
+      'X-Amz-Credential' : respuesta.body.data.fields['X-Amz-Credential'],
+      'X-Amz-Date' : respuesta.body.data.fields['X-Amz-Date'],
+      'X-Amz-Security-Token' : respuesta.body.data.fields['X-Amz-Security-Token'],
+      'Policy' : respuesta.body.data.fields['Policy'],
+      'X-Amz-Signature' : respuesta.body.data.fields['X-Amz-Signature'], 
+  
+    },
+   
+    // Below are options only supported on Android
+    notification: {
+      enabled: true
+    },
+    useUtf8Charset: true
+  }
+  
+  Upload.startUpload(options).then((uploadId) => {
+    console.log('Upload started')
+    Upload.addListener('progress', uploadId, (data) => {
+      console.log(`Progress: ${data.progress}%`)
+    })
+    Upload.addListener('error', uploadId, (data) => {
+      console.log(`Error BackgroundUpload: ${data.error}%`)
+    })
+    Upload.addListener('cancelled', uploadId, (data) => {
+      console.log(`Cancelled!`)
+    })
+    Upload.addListener('completed', uploadId, (data) => {
+      // data includes responseCode: number and responseBody: Object
+      console.log('Completed!')
+    })
+  }).catch((err) => {
+    console.log('Upload error!', err)
+  })
+
+
+
+
+        //     uri: fileauxFinal
+// })
+// salida = await fetch(url,
+//     {
+//         method: 'POST',
+//         formData: formData
+//     });
+//     console.log('salida: '+ JSON.stringify(salida))
+// formData.append("file", fileaux);
+//    const xhr = new XMLHttpRequest();
+//    xhr.open("POST", respuesta.body.data.url, true);
+//    xhr.send(formData);
+//    xhr.onload = function () {
+//      console.log(this);
+//      this.status === 204 ? console.log('subio bien') : console.log(this.responseText);
+//    };
+
+
+  // });
+
+
+// RNFetchBlob.fetch('PUT', respuesta.body.data.url, formData,
+			
+// 					RNFetchBlob.wrap(fileauxProfileAvatar)
+// 				)
+// 				.then(res => { console.log('subio a s33  ',res)  })
+// 				.catch(err => { console.log("reject", err) })
+	
+
+
+
+
+        let folder;
+        videoPreviewURL = '';
+  
+          // const response = await fetch(fileaux);
+          // const blobi = await response.blob();
+          update = {"sent": true, "progress": 0.45}
+          // dispatch(updateMedia(fileName2,update,'item')); descomentar
+  
+       //agrego native
+          let fileauxFinal = fileaux;
+          if (Platform.OS == 'ios')
+          {
+            fileauxFinal =  fileaux.replace("file:///", '');
+          }
+          console.log('contenido fileauxFinal: '+fileauxFinal);
+  
+             if (type==='image') folder = 'images/'+fileName2;
+             if (type==='audio') folder = 'audios/'+fileName2;
+             if (type==='video') folder = 'videos/'+fileName2;
+            
+  
+            // if (type==='profile') folder = 'profile/tmp/profile.jpg';
+            if (type==='profile') folder = 'profile/tmp/'+fileName2; 
+        
+          console.log('folder:'+ folder);
+    //  let a = {"folder": folder}
+  
+    const customPrefix = {
+      public: 'myPublicPrefix/',
+      protected: '1/',
+      private: 'myPrivatePrefix/'
+    };
+  
+    const identityID = await AsyncStorage.getItem('identity');
+    console.log('upload media identityid:' +identityID)
+
+
+
+
+  
+  //, contentType: 'image/png'
+        //    enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').
+        //    then(data => Buffer.from(data, 'base64'));
+        //   //  console.log(enBlob.buffer);
+        //   //  console.log(enBlob)
+        // //   return this.readFile(fileauxFinal)
+        //    enBlob
+        //    .then(buffer => 
+           
+        //    Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
+        //    .then (result => {
+        //             console.log('resultado:'+result.key);
+        //           // actualizo SENT como TRUE en mediafile para ese file.
+        //           update = {"sent": true, "progress": 0.7}
+        //           dispatch(updateMedia(fileName2,update,'item'));
+  
+  
+            // si es video subo la imagen del preview que tengo el path en fileauxProfileAvatar
+          //     if (type==='video')
+          //     {
+          //       // simplemente la ubico en el mismo bucket mismo nombre de archivo de video pero con extension jpg
+          //       videoName =  folder.replace(".mp4", '.jpg');
+          //       videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
+          //         enBlob = RNFetchBlob.fs.readFile(fileauxProfileAvatar, 'base64').
+          //         then(data => Buffer.from(data, 'base64'));
+          
+          //         enBlob
+          //  .then(buffer => 
+          //         Storage.vault.put(videoName, buffer, { customPrefix, level: 'protected' }))
+          //         .then (result => {
+          //                  console.log('envio imagePreview:'+result.key);
+          //         })
+  
+          //       }
+  
+                  
+      
+                  // procedo a llamar API de addmedia al RDS
+                  mediaToRds = {
+                    "qso":  sqlrdsid,
+                    "type": type ,
+                    "datasize": size,
+                    "datetime": date,   
+                    "width": width,
+                    "height": height,   
+                    "url":  rdsUrlS3,
+                    "description": description,
+                    "identityId" : identityID,
+                    "qra": qra,
+                    "rectime" : rectime,
+                    "videoPreview" : videoPreviewURL 
+  
+                }
+             if (type !== 'profile')
+             {
+               console.log('imprimo jwt token:');
+               console.log(jwtToken);
+                // dispatch(postAddMedia(mediaToRds, fileName2,jwtToken));  descomentar
+                console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
+  
+  
+  // anda bien Kinesis con el codigo de aca abajo, pasa que vamos a usar Firebase para analytics.
+  
+              //   console.log('llamo kinesis addmedia')
+              //   let tiempo = Date.now()
+              //   resultki = Analytics.record({
+              //     data: { 
+                       
+              //         // The data blob to put into the record
+              //  //      QRA: 'LU8AJ', timeStamp: tiempo, mediatype: type, url: rdsUrlS3 
+              //  errornumber: '200', errordesc: 'errordesc',  version: 'APP_VER', qra: 'LU9DO', platform: 'Platf.OS', platformversion: 'Platf.Ver' ,timestamp: 'tiempo'
+                     
+              //     },
+              //     // OPTIONAL
+              //     partitionKey: 'myPartitionKey', 
+              //     streamName: 'analytic_stream'
+              // }, 'AWSKinesis');
+            
+              // console.log('resultado kinesis addmedia:'+ JSON.stringify(resultki));
+              // console.log('tiempo addmedia:'+tiempo)
+  
+  
+             }else
+             {
+              // modifico la URL debido a que es PROFILE y el primer llamado lo sube a la carpeta
+              // TMP para verificar si es NSFW
+              // let cant = rdsUrlS3.lenght - 4;
+              // console.log('texto menos 4 caracteres: '+rdsUrlS3.substr(0,cant) + ' verdadero '+ rdsUrlS3);
+              console.log("LLama postSetProfilePicNSFW: ");
+              
+              dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar,identityId,qra,jwtToken));
+             
+  
+             }
+  
+           
+                
+      
+                  
+                  // })
+            
+  
+                
+                  // .catch(err => {
+                  //   console.log(JSON.stringify(err));
+                  //   console.log("fallo el UPLOAD UPLOAD UPLOADS3");
+                  //   console.log("nombre filename:" + fileName2);
+   
+                  //   update = {"status": 'failed'}
+                  //   dispatch(updateMedia(fileName2,update,'item'));
+                  // //  // actualizo token por las dudas que haya fallado por Token Expired
+                  // //   session = await Auth.currentSession();
+                  // //   dispatch(setToken(session.idToken.jwtToken));
+                          
+                  // });
+  
+  
+                
+      }
+      catch (error) {
+        console.log('Api VIDEO UPLOAD S3 catch error:', error);
+  
+  
+        update = {"status": 'failed'}
+        dispatch(updateMedia(fileName2,update,'item'));
+  
+        // actualizo token por las dudas que haya fallado por Token Expired
+        session = await Auth.currentSession();
+        dispatch(setToken(session.idToken.jwtToken));
+  
+        //dispatch(fetchingApiFailure(error));
+        // Handle exceptions
+              crashlytics().setUserId(qra);
+              crashlytics().log('error: ' + JSON.stringify(error)) ;
+              if(__DEV__)
+              crashlytics().recordError(new Error('uploadVideoToS3_DEV'));
+              else
+              crashlytics().recordError(new Error('uploadVideoToS3_PRD'));
+      }
+           
+        
+      };
+    };
+
+
 export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,qra,rectime,jwtToken) => {
   return async dispatch => {
     //  dispatch(fetchingApiRequest());
@@ -3292,3 +3822,7 @@ export const restoreCall = (call,message) => {
           localizedprice: localizedprice
       };
   }
+
+
+
+

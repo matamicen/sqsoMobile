@@ -51,7 +51,7 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -1756,8 +1756,9 @@ if (this.pressPublish===false)
 {// para evitar presionar mas de una vez Publish
   this.pressPublish = true;
 
-   if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
-    await this.props.onprogressTrue();
+  // comento para poder pribar el upload mas rapido
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+   await this.props.onprogressTrue();
   else this.props.onprogressFalse();
 
    console.log('onprogress '+ONPROGRESS) // #PUBLISH 
@@ -1835,8 +1836,8 @@ if (this.pressPublish===false)
             console.log('upload video')
             console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
             media = this.props.mediafiles[0];
-             this.props.uploadMediaToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
-
+     //         this.props.uploadMediaToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
+              this.props.uploadVideoToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
              contEnvio = 0;
              t1 = new Date();
              factor = 110 / 9000000; // tarda aprox 100 segundo 9mb (
@@ -2789,7 +2790,8 @@ const mapDispatchToProps = {
   setJustPublished,
   actindicatorPostQsoNewFalse,
   qsoPublish,
-  updateCommentInMemory
+  updateCommentInMemory,
+  uploadVideoToS3
 };
 
 export default connect(
