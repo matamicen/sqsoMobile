@@ -142,8 +142,7 @@ if (urlnotif!=null)
     }
 
 
-    render() { console.log("RENDER NotifItem");
-  console.log('josesito:')
+    render() { 
    // fec = new Date(this.props.datetimecomment);
    
     //out = moment(this.props.datetimecomment).fromNow();  

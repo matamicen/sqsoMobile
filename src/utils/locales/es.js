@@ -407,7 +407,9 @@ export default {
     PLAYMEDIAPLAY: 'Reproducir',
     PLAYMEDIAPAUSE: 'Pausar',
     PLAYMEDIASTOP: 'Parar',
-    QsoScrMixMedia: 'No se pueden publicar fotos y/o audios con un video'
+    QsoScrMixMedia: 'No se pueden publicar fotos y/o audios con un video',
+    QsoScrCompressingVideo: 'Comprimiendo video',
+    QsoScrUploadingVideo: 'Subiendo video'
     
 
   };

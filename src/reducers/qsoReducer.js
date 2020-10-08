@@ -22,7 +22,7 @@ import {FETCHING_API_REQUEST,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
      UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS, SET_WEBVIEW,
-     SET_PRESSHOME, SET_JUSTPUBLISHED   } from '../actions/types';
+     SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS   } from '../actions/types';
 import { SectionList } from 'react-native';
 import I18n from '../utils/i18n';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -132,7 +132,8 @@ const initialState = {
             
 
 
-             }
+             },
+             videoPercentage: 0
     
 }
 
@@ -1596,7 +1597,20 @@ const qsoReducer = (state = initialState, action) => {
 
         return newStore; 
 
-    
+        case SET_VIDEO_UPLOAD_PROGRESS:
+            
+              auxcurrentQso = {
+                 ...state.currentQso,
+                 videoPercentage: action.progress          
+             };
+       
+             newStore = Object.assign({}, state,
+                 {
+                     ...state,
+                     currentQso: auxcurrentQso,                
+                 });
+             return newStore; 
+
 
     case MANAGE_NOTIFICATIONS:
     let auxcurrentQso;

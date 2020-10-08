@@ -224,13 +224,15 @@ class QsoScreen extends Component {
         props.sqsomodalconfirmphotoheight
     );
     // this.setState({
-
+       
+      
 
     return {
       photoConfirm: props.sqsomodalconfirmphoto,
       actindicatorpostQsoNew: props.sqsoactindicatorpostqsonew,
       heightPhotoConfirm: props.sqsomodalconfirmphotoheight,
-      pickerDisplayed: props.sqsomodalrecording
+      pickerDisplayed: props.sqsomodalrecording,
+      videoPercentage: props.videopercentage
     };
 
     return null;
@@ -1846,17 +1848,17 @@ if (this.pressPublish===false)
 
              while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
                /* code to wait on goes here (sync or async) */
-               contEnvio++;  
-              //  console.log('entro delay envio video'+contEnvio)  
-              console.log('entro delay envio video'+contEnvio) 
+              //  contEnvio++;  
+              // //  console.log('entro delay envio video'+contEnvio)  
+              // console.log('entro delay envio video'+contEnvio) 
 
-              aux = percentageCalculator(t1,totUploadSecThisVideo);
-               if ((aux > 2) && (aux < 97))
-                   this.setState({videoPercentage: aux})
-               if (aux > 96 )
-                   this.setState({videoPercentage: 96})
-               if (aux < 3 )
-                   this.setState({videoPercentage: 2})
+              // aux = percentageCalculator(t1,totUploadSecThisVideo);
+              //  if ((aux > 2) && (aux < 97))
+              //      this.setState({videoPercentage: aux})
+              //  if (aux > 96 )
+              //      this.setState({videoPercentage: 96})
+              //  if (aux < 3 )
+              //      this.setState({videoPercentage: 2})
 
                 await this.delay2(100);
  
@@ -2190,7 +2192,7 @@ if (this.pressPublish===false)
                   marginTop: 5
                 }}
               >
-                Compressing video {this.state.videoCompressPercentage}%
+                {I18n.t("QsoScrCompressingVideo")} {this.state.videoCompressPercentage}%
               </Text>
              }
              {(this.state.videoCompression==='finished' && this.props.mediafiles[0].type==='video') &&
@@ -2203,9 +2205,10 @@ if (this.pressPublish===false)
                   marginTop: 5
                 }}
               >
-                Uploading video {this.state.videoPercentage}%
+                {I18n.t("QsoScrUploadingVideo")} {this.state.videoPercentage}%
               </Text>
              }
+           
 
             </View>
             {/* </KeyboardAvoidingView > */}
@@ -2746,7 +2749,8 @@ const mapStateToProps = state => {
     qra: state.sqso.qra,
     justpublished: state.sqso.justPublished,
     webviewsession: state.sqso.webviewSession,
-    mediafiles: state.sqso.currentQso.mediafiles
+    mediafiles: state.sqso.currentQso.mediafiles,
+    videopercentage: state.sqso.currentQso.videoPercentage
 
   };
 };
