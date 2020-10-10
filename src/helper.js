@@ -1108,7 +1108,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         //  }
         if((item.type === 'audio' || item.type === 'image') && (mediatypetoadd==='video'))
            checkpassed = false;
-         if((item.type === 'video') && (mediatypetoadd === 'audio' || mediatypetoadd === 'image'))
+         if((item.type === 'video') && (mediatypetoadd === 'audio' || mediatypetoadd === 'image' || mediatypetoadd === 'video')) // se agrego video porque si ya hay un video no se puede enviar un segundo video.
            checkpassed = false;
        })
 

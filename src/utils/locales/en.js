@@ -407,7 +407,8 @@ export default {
     PLAYMEDIAPLAY: 'Play',
     PLAYMEDIAPAUSE: 'Pause',
     PLAYMEDIASTOP: 'Stop',
-    QsoScrMixMedia: 'You can not publish photos/audios with a video',
+    QsoScrMixMedia: 'You can not publish photos/audios with a video or more than one video',
     QsoScrCompressingVideo: 'Compressing video',
-    QsoScrUploadingVideo: 'Uploading video'
+    QsoScrUploadingVideo: 'Uploading video',
+    QsoScrUploadingVideoError: 'Uploading video error.'
   };

@@ -27,7 +27,8 @@ import {FETCHING_API_REQUEST,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
         UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS,
-        SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS  } from './types';
+        SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS, 
+        SET_UPLOAD_VIDEO_ERROR_MESSAGE  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -307,6 +308,15 @@ export const cameraPermissionTrue = () => {
         type: CAMERA_PERMISSION_TRUE       
        
     };
+}
+
+
+export const setUploadVideoError = (message) => {
+  return {
+      type: SET_UPLOAD_VIDEO_ERROR_MESSAGE,  
+      message: message     
+     
+  };
 }
 
 export const cameraPermissionFalse = () => {
@@ -1668,7 +1678,7 @@ console.log(respuesta);
 
 
   if (respuesta.body.error===false)
-// if (1===3)
+//  if (1===3)
 {   auxfile = fileaux.replace('file://', '');
   console.log('fileaux antes de startupload: '+ auxfile )
   const fileInfo = await Upload.getFileInfo(auxfile);
@@ -1782,13 +1792,20 @@ console.log(respuesta);
     })
   }).catch((err) => {
     console.log('Upload error!', err)
+    // por una lado se envia el codigo de error por el procentaje y por otor lado el mensaje
+    // porque sino el DidUpdate de QsoScreen no renderea y no actualiza.
+    dispatch(setVideoUploadProgress(-1))
+    dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
   })
-
+  
 
 }else
 {
   // hubo un error en la llamda de pre signed
+  // por una lado se envia el codigo de error por el procentaje y por otor lado el mensaje
+  // porque sino el DidUpdate de QsoScreen no renderea y no actualiza.
   dispatch(setVideoUploadProgress(-1))
+  dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
 
 }
 

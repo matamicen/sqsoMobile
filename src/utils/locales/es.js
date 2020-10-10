@@ -407,9 +407,10 @@ export default {
     PLAYMEDIAPLAY: 'Reproducir',
     PLAYMEDIAPAUSE: 'Pausar',
     PLAYMEDIASTOP: 'Parar',
-    QsoScrMixMedia: 'No se pueden publicar fotos y/o audios con un video',
+    QsoScrMixMedia: 'No se puede publicar fotos y/o audios con un video o mas de un video por publicación',
     QsoScrCompressingVideo: 'Comprimiendo video',
-    QsoScrUploadingVideo: 'Subiendo video'
+    QsoScrUploadingVideo: 'Subiendo video',
+    QsoScrUploadingVideoError: 'Error al subir el video.'
     
 
   };

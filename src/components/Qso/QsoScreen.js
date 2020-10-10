@@ -51,7 +51,7 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -1269,6 +1269,7 @@ if (this.pressVideo===false)
       this.intersitialmustbeshown = false;
       this.pressPublish = false;
       this.pressVideo = false;
+      this.props.setVideoUploadProgress(0);
       this.setState({videoPercentage: 0,videoCompressPercentage: 0,  videoCompression: 'null'})
 
       if (showVideoReward(this.props.userinfo,'newqso','')) {
@@ -2086,10 +2087,18 @@ if (this.pressPublish===false)
 
    componentDidUpdate(prevProps, prevState) {
     // if (prevState.justpublished) {
-     console.log('didUpdate:')
-      console.log('prevState.justpublished.: '+prevState.justpublished)
-      console.log('prevProps.justpublished.: '+prevProps.justpublished)
+    //  console.log('didUpdate:')
+    //  console.log('prevProps.justpublished.: '+prevProps.justpublished)
+    //   console.log('prevState.justpublished.: '+prevState.justpublished)
+    //   console.log('prevProps.videopercentage: '+prevProps.videopercentage)
+    //   console.log('prevState.videopercentage: '+prevState.videopercentage)
       // if (prevProps.justpublished && !this.justpublished)
+      if (prevProps.videopercentage===-1)
+         {
+           this.pressPublish=false
+          
+         }
+        
       if (prevProps.justpublished)  
       {
        
@@ -2106,6 +2115,12 @@ if (this.pressPublish===false)
           this.missingMessage =  I18n.t("QsoScrMixMedia")
           this.setState({ missingFields: true})
         }
+  }
+
+close_upload_failed = () => {
+   this.props.setVideoUploadProgress(0);
+   this.props.actindicatorPostQsoNewFalse();
+
   }
       
 
@@ -2158,12 +2173,12 @@ if (this.pressPublish===false)
                 margin: 15,
                 backgroundColor: 'rgba(36,54,101,0.93)',
                 marginTop: 210,
-                left: 75,
+                left: this.state.videoCompression==='null' ? 75:50,
                 //  right: 15,
                 // alignItems: 'center',
                 // alignContent: 'center',
-                width: 200,
-                height: this.state.videoCompression==='null' ? 45:70,
+                width: this.state.videoCompression==='null' ? 200:225,
+                height: this.state.videoCompression==='null' ? 45:130,
                 paddingVertical: 5,
                 //   position: 'absolute',
 
@@ -2195,7 +2210,7 @@ if (this.pressPublish===false)
                 {I18n.t("QsoScrCompressingVideo")} {this.state.videoCompressPercentage}%
               </Text>
              }
-             {(this.state.videoCompression==='finished' && this.props.mediafiles[0].type==='video') &&
+             {(this.state.videoCompression==='finished' && this.props.mediafiles[0].type==='video' && this.state.videoPercentage!==-1) &&
               <Text
                 style={{
                   color: "yellow",
@@ -2208,7 +2223,18 @@ if (this.pressPublish===false)
                 {I18n.t("QsoScrUploadingVideo")} {this.state.videoPercentage}%
               </Text>
              }
-           
+             {/* <TouchableOpacity style={{width: 130,height:30 }} */}
+{(this.state.videoPercentage===-1) &&
+<View>
+<Text style={{ fontSize: 14, color: "yellow" }}>{"\n"} {this.props.videouploaderror}</Text>
+<TouchableOpacity 
+                onPress={() =>  this.close_upload_failed()} >
+        
+                <Text style={{ fontSize: 14, color: "white" }}>{"\n"}              Cerrar</Text>
+              </TouchableOpacity>
+  
+  </View>
+  }
 
             </View>
             {/* </KeyboardAvoidingView > */}
@@ -2750,7 +2776,8 @@ const mapStateToProps = state => {
     justpublished: state.sqso.justPublished,
     webviewsession: state.sqso.webviewSession,
     mediafiles: state.sqso.currentQso.mediafiles,
-    videopercentage: state.sqso.currentQso.videoPercentage
+    videopercentage: state.sqso.currentQso.videoPercentage,
+    videouploaderror: state.sqso.currentQso.videoUploadError
 
   };
 };
@@ -2795,7 +2822,8 @@ const mapDispatchToProps = {
   actindicatorPostQsoNewFalse,
   qsoPublish,
   updateCommentInMemory,
-  uploadVideoToS3
+  uploadVideoToS3,
+  setVideoUploadProgress
 };
 
 export default connect(
