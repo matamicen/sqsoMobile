@@ -1728,9 +1728,13 @@ console.log(respuesta);
     })
     Upload.addListener('error', uploadId, (data) => {
       console.log(`Error BackgroundUpload: ${data.error}%`)
+      dispatch(setVideoUploadProgress(-1))
+      dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
     })
     Upload.addListener('cancelled', uploadId, (data) => {
       console.log(`Cancelled!`)
+      dispatch(setVideoUploadProgress(-1))
+      dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
     })
     Upload.addListener('completed', uploadId, (data) => {
       // data includes responseCode: number and responseBody: Object

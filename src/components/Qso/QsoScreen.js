@@ -994,7 +994,7 @@ if (this.pressVideo===false)
      
           // envio base64preview y videoLocation para que que Muestro muestre imagen preview del video a enviar y la locacion real del video tomada por el picker
               console.log('filename2 es: ' + fileName2);
-              envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, previewCompressed:this.imagePreviewPath } 
+              envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, previewCompressed:this.imagePreviewPath, duration: image.duration  } 
               
               // console.log('phototype :'+this.props.phototype)
               
@@ -1685,8 +1685,48 @@ if (this.pressVideo===false)
 
               if (this.envio.type==='video')
                 {
+                  // bitMultiplier = 10;
+                  totalDimension = this.envio.width + this.envio.height;
+                  needTrim = false;
+                  let dataTrim = '';
+                  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration)
+
+
+                // analizo definicion de video para elegir compresion y decidir si hago TRIM o no
+                if (totalDimension<1500)
+                 {
                   bitMultiplier = 2;
+                  needTrim = false;
+
+                 }
+                 if (totalDimension>1499 && totalDimension<2500 )
+                 {
+                  bitMultiplier = 5;
+                  if (this.envio.duration>35000)
+                     needTrim = true;
+
+                 }
+                 if (totalDimension>2499 )
+                 {
+                  bitMultiplier = 10;
+                  if (this.envio.duration>35000)
+                     needTrim = true;
+                   
+             
+
+                 }
+
+                 console.log('comienzo trim');
+                  if (needTrim)
+                  {
+                         dataTrim = await ProcessingManager.trim(this.videoPathBeforeCompress, { startTime: 0,
+                     endTime: 35})
+                     console.log('dataTrim: '+ JSON.stringify(dataTrim))
+                     this.videoPathBeforeCompress = dataTrim;
+                    }
+
                   console.log('comienzo a comprimir video');
+                  console.log('bitMultiplier: '+bitMultiplier + ' - needTrim: '+needTrim)
                   console.log('nombre del video: '+this.envio.name)
                   this.setState({videoCompression: 'inprogress'});
                   ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
@@ -1739,7 +1779,7 @@ if (this.pressVideo===false)
 
                           // }
 
-
+// comento el getvideo que no lo uso
                         });
                         
 
@@ -1749,6 +1789,7 @@ if (this.pressVideo===false)
                     });
 
                 }
+                
           }
 
   }
