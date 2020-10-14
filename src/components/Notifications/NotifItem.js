@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions,
-    Linking  } from 'react-native';
-import { connect } from 'react-redux';
-import {  set_notification_read, manage_notifications,setWebView,setPressHome } from '../../actions';
-import PropTypes from 'prop-types';
 // import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
+import React, { Component } from 'react';
+import {
+  Dimensions, Image,
+  Linking, StyleSheet, Text, TouchableOpacity, View
+} from 'react-native';
+import { connect } from 'react-redux';
+import { manage_notifications, setPressHome, setWebView, set_notification_read } from '../../actions';
 import { hasAPIConnection } from '../../helper';
-import { getDateQslScan } from '../../helper';
-import { NavigationActions } from 'react-navigation';
-// import moment from "moment";
-import MomentAgo from './MomentAgo';
 import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
+// import moment from "moment";
+import MomentAgo from './MomentAgo';
 
 
 class NotifItem extends Component {
@@ -142,8 +141,8 @@ if (urlnotif!=null)
     }
 
 
-    render() { console.log("RENDER NotifItem");
-  console.log('josesito:')
+    render() { // console.log("RENDER NotifItem");
+  //console.log('josesito:')
    // fec = new Date(this.props.datetimecomment);
    
     //out = moment(this.props.datetimecomment).fromNow();  
