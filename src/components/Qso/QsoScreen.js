@@ -60,6 +60,8 @@ import ShareQso from "./ShareQso";
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker2 from 'react-native-image-picker';
+import Upload from 'react-native-background-upload'
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
@@ -72,6 +74,7 @@ import {
    todaMediaEnviadaAS3, percentageCalculator, addMediaCheck } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
+
 
 import awsconfig from "../../aws-exports";
 import { Auth } from "aws-amplify";
@@ -787,6 +790,8 @@ if (this.pressVideo===false)
   {
 
     if (await hasAPIConnection()) {
+
+       
       // envio a reducer que se fue a background por usar la GELRIA de FOTOS
       // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
       // se fue a background por la galeria y mejorar performance y llamados a APIs  
@@ -795,48 +800,75 @@ if (this.pressVideo===false)
       // 0: el picker no fue usado
       // 1: el picker envio a background la primera vez
       // 2: el picker envio a background la segunda vez
-  
+      // Permissions.request('storage').then(res => {
+        // STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+        // request(STORAGE_PERMISSION).then(response => {
+        
+        //  console.log('paso permiso: '+JSON.stringify(response));
+          
+     
       console.log('tomo video de galeria');
       this.props.manageLocationPermissions("photofromgallery", 1);
 
-      ImagePicker.openPicker({
-        //   ImagePicker.openCamera({
-           // path: data.uri,
-          // cropping: true,
-           // compressImageQuality: (Platform.OS === 'ios') ? 0.8 : 1,
-           // width: (Platform.OS==='ios') ? 1100 : 1800, // anda bien 2800 x 2000    // 3080x 2200 // 4312 : 3080 - // 3080x 2200
-           // height: (Platform.OS==='ios') ? 1100 : 1200,
-           // compressImageMaxWidth: 700,
-           // compressImageMaxHeight: 700,
-           //width: 1200, height: 960,
-           //    width: (Platform.OS==='ios') ? 3080 : 3080,
-           // height: (Platform.OS==='ios') ? 2200: 2200,
-           mediaType: "video",
-         }).then(image => {
-           console.log(image);
-           console.log('nombre del archivo: '+image)
-           console.log(JSON.stringify(image));
-           res = JSON.stringify(image);
-           console.log(res);
-            this.pathglobal = res.path;
+      // ImagePicker.openPicker({
+     
+      //      mediaType: "video",
+      //    }).then(image => {
+      //      console.log(image);
+      //      console.log('nombre del archivo: '+image)
+      //      console.log(JSON.stringify(image));
+      //      res = JSON.stringify(image);
+      //      console.log(res);
+      //       this.pathglobal = res.path;
+      const options = {
+        title: 'Video Picker',
+        takePhotoButtonTitle: 'Take Video...',
+        mediaType: 'video',
+       
+        //  videoQuality: 'medium',
+      };
+      
+      
+       
+      // ImagePicker2.showImagePicker(options, response => {
+        ImagePicker2.launchImageLibrary(options, response => {
+        console.log('Response = ', response);
+  
+        if (response.didCancel) {
+          console.log('User cancelled video picker');
+          this.pressVideo = false;
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+          this.pressVideo = false;
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          //  this.takeFrame3(response)
+  
+          
+        // }
 
           console.log('comprime Video22:');
      
      
-          let bodyJson = JSON.parse(res);
-          console.log('path del picker1')
-           console.log(bodyJson.path);
+          // let bodyJson = JSON.parse(res);
+          // console.log('path del picker1')
+          //  console.log(bodyJson.path);
           // console.log(this.pathglobal);
      
-      console.log('comprime ahora1')
-      tiempo1 = Date.now();
+      // console.log('comprime ahora1')
+      // tiempo1 = Date.now();
      //  ProcessingManager.compress(bodyJson.path, {width:360, height:640, bitrateMultiplier: 9,minimumBitrate: 300000}).then((data) => {
        // ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 17,minimumBitrate: 300000}).then((data) => { para 1080 pero mas de 1 minuto en mi android se muere
        
 
      
        this.pressVideo = false;
-       this.takeFramePreview(bodyJson.path, image);
+
+
+
+       
+       this.takeFramePreview(response.path);
      
      
      
@@ -865,22 +897,23 @@ if (this.pressVideo===false)
          
            // uri = data.uri;
           
-
+          }
      
-         }).catch((err) => {
-           console.log("cropImage Error", err.message);
-           this.pressVideo = false;
+        });
+      //    }).catch((err) => {
+      //      console.log("cropImage Error", err.message);
+      //      this.pressVideo = false;
  
            
-           crashlytics().setUserId(this.props.qra);
-           crashlytics().log('error: ' + JSON.stringify(err)) ;
-           if(__DEV__)
-           crashlytics().recordError(new Error('openVideoGallery_DEV'));
-           else
-           crashlytics().recordError(new Error('openVideoGallery_PRD'));
-       });
+      //      crashlytics().setUserId(this.props.qra);
+      //      crashlytics().log('error: ' + JSON.stringify(err)) ;
+      //      if(__DEV__)
+      //      crashlytics().recordError(new Error('openVideoGallery_DEV'));
+      //      else
+      //      crashlytics().recordError(new Error('openVideoGallery_PRD'));
+      //  });
      
-     
+    // });
       
 
 
@@ -903,10 +936,16 @@ if (this.pressVideo===false)
 
   }
 
-  takeFramePreview = async (videoPath, image) => {
+  takeFramePreview = async (videoPath) => {
+    let image = {
+      width: 0,
+      height: 0,
+      duration: 0,
+      size: 0
+    }
 
             console.log ('desde takFramePreview')
-            console.log('width: '+image.width)
+            // console.log('width: '+image.width)
            // obtengo 1 frame como foto del video
 
            const maximumSize = { width: 100, height: 200 };
@@ -916,24 +955,34 @@ if (this.pressVideo===false)
             await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
               .then((data) => {
                 console.log('obtengo frame')
-                console.log('width: '+image.width)
+                // console.log('width: '+image.width)
                //  console.log(data)
                this.base64preview = data;
               });
      
               this.videoPathBeforeCompress = videoPath;
 
-
+              // auxfile = videoPath.replace('file://', '');
+              // console.log('fileaux antes de startupload: '+ auxfile )
+              fileInfo = await Upload.getFileInfo(videoPath);
+              res2 = await ProcessingManager.getVideoInfo(videoPath);
+              
+              image.width = res2.size.width;
+              image.height = res2.size.height;
+              image.duration = res2.duration;
+              image.size = fileInfo.size; // no trae el size esta api 
+              console.log('width: '+ image.width + ' height:'+image.height)
 
      
                 const path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
 
-                try {
+                try { // se guarda la imagen de preview en disco para luego ser comprimida
                   const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
                   console.log(data, 'grabo imagen en disco');
                   console.log(data);
                   console.log('path: '+ path)
                  
+                  // se comprime la imagen del preview para mostrar en Muestro.Js y en el feed con baja definicion
                   await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',86).then((response) => {
           
                     this.compressImagePreview = response.uri;
@@ -1679,7 +1728,7 @@ if (this.pressVideo===false)
       };
               videoCompress = false;
   
-               this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+              //  this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
        } 
 
@@ -1701,15 +1750,15 @@ if (this.pressVideo===false)
                  }
                  if (totalDimension>1499 && totalDimension<2500 )
                  {
-                  bitMultiplier = 5;
-                  if (this.envio.duration>35000)
+                  bitMultiplier = 7;
+                  if (this.envio.duration>60)
                      needTrim = true;
 
                  }
                  if (totalDimension>2499 )
                  {
                   bitMultiplier = 10;
-                  if (this.envio.duration>35000)
+                  if (this.envio.duration>60)
                      needTrim = true;
                    
              
@@ -1720,7 +1769,7 @@ if (this.pressVideo===false)
                   if (needTrim)
                   {
                          dataTrim = await ProcessingManager.trim(this.videoPathBeforeCompress, { startTime: 0,
-                     endTime: 35})
+                     endTime: 60})
                      console.log('dataTrim: '+ JSON.stringify(dataTrim))
                      this.videoPathBeforeCompress = dataTrim;
                     }
@@ -1820,6 +1869,7 @@ if (this.pressPublish===false)
           // { 
           // }
           this.props.actindicatorPostQsoNewTrue();
+         
 
 
           if (this.envio.type==='video')
@@ -1857,7 +1907,7 @@ if (this.pressPublish===false)
 
             contcompress=0;
             t1 = new Date();
-            factor = 25 / 15000000; // tarda aprox 20 seg. los 15mb
+            factor = 12 / 15000000; // tarda aprox 20 seg. los 15mb
             totCompressSecThisVideo = factor * this.envio.size;
             console.log('video sin comprimir pesa: '+ this.envio.size)
           while (this.state.videoCompression==='inprogress')
@@ -1882,11 +1932,11 @@ if (this.pressPublish===false)
             media = this.props.mediafiles[0];
      //         this.props.uploadMediaToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
               this.props.uploadVideoToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
-             contEnvio = 0;
-             t1 = new Date();
-             factor = 110 / 9000000; // tarda aprox 100 segundo 9mb (
-             totUploadSecThisVideo = factor * this.envio.size;
-             console.log('video comprimido pesa: '+ this.envio.size)
+            //  contEnvio = 0;
+            //  t1 = new Date();
+            //  factor = 110 / 9000000; // tarda aprox 100 segundo 9mb (
+            //  totUploadSecThisVideo = factor * this.envio.size;
+            //  console.log('video comprimido pesa: '+ this.envio.size)
 
              while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
                /* code to wait on goes here (sync or async) */
@@ -2231,7 +2281,7 @@ close_upload_failed = () => {
                 style={{
                   color: "white",
                   fontWeight: "bold",
-                  fontSize: 15,
+                  fontSize: 16,
                   marginLeft: 20,
                   marginTop: 5
                 }}
@@ -2243,7 +2293,7 @@ close_upload_failed = () => {
                 style={{
                   color: "yellow",
                   // fontWeight: "bold",
-                  fontSize: 14,
+                  fontSize: 15,
                   marginLeft: 20,
                   marginTop: 5
                 }}
@@ -2256,7 +2306,7 @@ close_upload_failed = () => {
                 style={{
                   color: "yellow",
                   // fontWeight: "bold",
-                  fontSize: 14,
+                  fontSize: 15,
                   marginLeft: 20,
                   marginTop: 5
                 }}
@@ -2271,7 +2321,7 @@ close_upload_failed = () => {
 <TouchableOpacity 
                 onPress={() =>  this.close_upload_failed()} >
         
-                <Text style={{ fontSize: 14, color: "white" }}>{"\n"}              Cerrar</Text>
+                <Text style={{ fontSize: 15, color: "white" }}>{"\n"}              Cerrar</Text>
               </TouchableOpacity>
   
   </View>

@@ -566,8 +566,8 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,videoCompressed, jwtTok
                 // Si el video aun no termino de comprimirse no se puede SUBIR
               if (x.type!=='profile'){ 
                 
-              if (x.type==='video' && videoCompressed)
-                 dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
+              // if (x.type==='video' && videoCompressed)
+              //    dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
               if (x.type==='audio' || x.type==='image')
                  dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
                  
@@ -1771,10 +1771,11 @@ console.log(respuesta);
 
                            console.log('222 llamo api de media')
                            // procedo a llamar API de addmedia al RDS
+                           // fileInfo.size es el verdadero size del archivo despues de comprimir
                            mediaToRds = {
                              "qso":  sqlrdsid,
                              "type": type ,
-                             "datasize": size,
+                             "datasize": fileInfo.size,
                              "datetime": date,   
                              "width": width,
                              "height": height,   
