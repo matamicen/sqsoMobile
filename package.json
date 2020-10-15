@@ -46,6 +46,7 @@
     "react-native-reanimated": "^1.2.0",
     "react-native-root-toast": "^3.2.1",
     "react-native-share": "^3.0.0",
+    "react-native-share-menu": "^5.0.2",
     "react-native-snap-carousel": "^3.9.0",
     "react-native-video": "^4.4.4",
     "react-native-video-processing": "^2.0.0",

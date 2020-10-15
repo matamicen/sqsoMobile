@@ -61,7 +61,8 @@ import ShareQso from "./ShareQso";
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImagePicker2 from 'react-native-image-picker';
-import Upload from 'react-native-background-upload'
+import Upload from 'react-native-background-upload';
+import ShareMenu from 'react-native-share-menu';
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
@@ -100,6 +101,7 @@ import ImageResizer from 'react-native-image-resizer';
 
 
 
+
 import RNIap, {
   Product,
   ProductPurchase,
@@ -110,6 +112,18 @@ import RNIap, {
 } from 'react-native-iap';
 
 Auth.configure(awsconfig);
+
+ShareMenu.getSharedText((text) => {
+  console.log('el text del share 04:'+JSON.stringify(text) )
+  if (text && text.length) {
+    console.log('el text del share 04: '+ text)
+    // if (text.startsWith('content://media/')) {
+    //   that.setState({ sharedImage: text });
+    // } else {
+    //   that.setState({ sharedText: text });
+    // }
+  }
+})
 
 class QsoScreen extends Component {
   constructor(props) {
@@ -174,12 +188,14 @@ class QsoScreen extends Component {
       missingFields: false,
       videoCompression: 'null',
       videoPercentage: 0,
-      videoCompressPercentage: 0
+      videoCompressPercentage: 0,
+      videoFromShare: null
   
 
      
     };
   }
+
 
   
 
@@ -246,6 +262,9 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+
+
+  
 
     // esto detecta cuando se apreta el TAB  de QSOSCREEN
     this.props.navigation.setParams({
@@ -353,6 +372,8 @@ class QsoScreen extends Component {
       , 1500);
 
   }
+
+  
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this._handleAppStateChange);
@@ -512,7 +533,11 @@ class QsoScreen extends Component {
     // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
     console.log("App State:" + nextAppState);
 
+    
+
     if (nextAppState === "active") {
+
+  
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
       if (this.props.adshowed || this.props.iapshowed===1)
@@ -605,6 +630,26 @@ class QsoScreen extends Component {
 
       
     }
+
+    ShareMenu.getSharedText((text) => {
+      console.log('el text del share 05:'+JSON.stringify(text) )
+      if (text!==null) {
+        console.log('el text del share hay data 05: '+ text)
+        auxshare1 = JSON.stringify(text);
+        auxshare2 = JSON.parse(auxshare1);
+        console.log('auxshare: ' + auxshare2.data)
+        this.setState({videoFromShare: auxshare2.data})
+        this.props.navigation.navigate("QsoScreen");
+
+        // if (text.startsWith('content://media/')) {
+        //   that.setState({ sharedImage: text });
+        // } else {
+        //   that.setState({ sharedText: text });
+        // }
+      }else
+      this.setState({videoFromShare: null})
+
+    })
   
     }
     // }
@@ -779,7 +824,7 @@ class QsoScreen extends Component {
     this.props.setPressHome(0);
   }
 
-  videoFromGallery = async () => {
+  videoFromGallery = async (fromShare) => {
 
 if (this.pressVideo===false)
 {// evitar que presione mas una vez Video (porque dumpea)
@@ -805,8 +850,8 @@ if (this.pressVideo===false)
         // request(STORAGE_PERMISSION).then(response => {
         
         //  console.log('paso permiso: '+JSON.stringify(response));
-          
-     
+   if (fromShare===false)       
+   {  
       console.log('tomo video de galeria');
       this.props.manageLocationPermissions("photofromgallery", 1);
 
@@ -914,7 +959,53 @@ if (this.pressVideo===false)
       //  });
      
     // });
-      
+   }
+   else
+   {
+     // el video viene de share
+     this.pressVideo = false;
+     console.log('antes de llamar a takeFrame: ' +this.state.videoFromShare);
+    //  aux = this.state.videoFromShare;
+    //  auxr = aux.replace('content:/', '');
+     realUrl = await this.getVideoPath(this.state.videoFromShare);
+     if (realUrl.status)
+     { console.log('real url: '+ JSON.stringify(realUrl))
+     console.log('real url2: '+ realUrl.data.path)
+
+     this.takeFramePreview(realUrl.data.path);
+   }else
+   {
+     console.log('path oculto');
+      auxuri = this.state.videoFromShare;
+    //  const fileURI = auxuri.replace('content://', '/');
+    //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
+    RNFetchBlob.fs.readFile(auxuri,'base64')
+    // files will an array contains filenames
+    .then((files) => {
+   
+    console.log('finalizo lectura base64')
+    // this.videoShare64 = files;
+    this.saveVideoToDisk(files);
+ 
+    })
+
+
+    //  .
+    //  then(data => Buffer.from(data, 'base64'));
+    // console.log(JSON.stringify(enBlob)); 
+
+    //  console.log('buffer: '+ enBlob);
+    // const path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
+
+    // enBlob
+    // .then(buffer => {
+      // const data =  RNFetchBlob.fs.writeFile(path, buffer, 'base64');
+      // console.log(data, 'grabo video aux en disco');
+    // })
+
+   }
+     
+   }
 
 
 
@@ -936,6 +1027,13 @@ if (this.pressVideo===false)
 
   }
 
+  saveVideoToDisk = async (file64) => {
+  const path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
+  const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
+    console.log(data, 'grabo video aux en disco');
+    this.takeFramePreview(path);
+  }
+
   takeFramePreview = async (videoPath) => {
     let image = {
       width: 0,
@@ -943,8 +1041,10 @@ if (this.pressVideo===false)
       duration: 0,
       size: 0
     }
-
+    // lo vuelvo a null por si sube un proximo video en otra publicacion
+           this.setState({videoFromGallery: null})
             console.log ('desde takFramePreview')
+            console.log('desde share: '+ videoPath);
             // console.log('width: '+image.width)
            // obtengo 1 frame como foto del video
 
@@ -1087,6 +1187,23 @@ if (this.pressVideo===false)
             
 
 
+  }
+
+ getVideoPath = (uri) => {
+    return new Promise((resolve) => {
+      RNFetchBlob.fs.stat(uri)
+      .then((stats) => { 
+        resolve({
+          status: true,
+          data: stats
+        })
+      })
+      .catch((err) => {
+      resolve({
+        status: false
+      })
+    })
+  })
   }
 
 
@@ -1373,6 +1490,10 @@ if (this.pressVideo===false)
       this.setState({showVideoReward:false});
       this.props.newqsoactiveTrue();
       this.props.resetQso(qsotype);
+      if (this.state.videoFromShare!==null)
+       { // la app fue llamada desde un share externo
+         this.videoFromGallery(true);
+       }
     } else {
       if (Platform.OS === "android") {
         Alert.alert(
@@ -1728,7 +1849,7 @@ if (this.pressVideo===false)
       };
               videoCompress = false;
   
-              //  this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+               this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
        } 
 
@@ -1738,17 +1859,18 @@ if (this.pressVideo===false)
                   totalDimension = this.envio.width + this.envio.height;
                   needTrim = false;
                   let dataTrim = '';
+                  let bitMultiplier = 0;
                   console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration)
 
 
                 // analizo definicion de video para elegir compresion y decidir si hago TRIM o no
-                if (totalDimension<1500)
+                if (totalDimension<2051)
                  {
                   bitMultiplier = 2;
                   needTrim = false;
 
                  }
-                 if (totalDimension>1499 && totalDimension<2500 )
+                 if (totalDimension>2050 && totalDimension<2500 )
                  {
                   bitMultiplier = 7;
                   if (this.envio.duration>60)
@@ -1879,7 +2001,7 @@ if (this.pressPublish===false)
             // if (this.state.videoCompression==='inprogress')
 
             contsqlrdsid = 0;
-            while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 15) {
+            while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 25) {
             // hago tiempo por si el usuario clickeo PUBLICAR inmediatamente luego de darle CONTINUAR al VIDEO
             // y se este llamando a postQsoNew y aun no tenga el sqlrdsid, si luego de este tiempo no tiene sqlrdsid es 
             // porque fallo y se debe llamar a postqsonew nuevamente
@@ -1969,7 +2091,7 @@ if (this.pressPublish===false)
           // entonces espera por si la API se demoro y si sale por tiempo es porque hay que llamar a postqsonew de nuevo para generar el sqlrdsid para luego subir media y publicar)
           // rara vez deberia entrar en este loop pero es por las dudas
           contsqlrdsid = 0;
-          while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 15) {
+          while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 25) {
 
             contsqlrdsid++;  
             console.log('entro delay sqlrdsid: '+contsqlrdsid)  
@@ -2471,7 +2593,7 @@ close_upload_failed = () => {
             } */}
 
               <TouchableOpacity style={{width: 65,height:63 }}
-                onPress={() => this.videoFromGallery()}
+                onPress={() => this.videoFromGallery(false)}
               >
                 <Image
                   source={require("../../images/mic.png")}
