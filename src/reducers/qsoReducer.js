@@ -22,7 +22,8 @@ import {FETCHING_API_REQUEST,
      SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
      SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
      UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS, SET_WEBVIEW,
-     SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS, SET_UPLOAD_VIDEO_ERROR_MESSAGE   } from '../actions/types';
+     SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS, SET_UPLOAD_VIDEO_ERROR_MESSAGE,
+     SET_EXTERNAL_SHARE_URL   } from '../actions/types';
 import { SectionList } from 'react-native';
 import I18n from '../utils/i18n';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -70,6 +71,7 @@ const initialState = {
     webviewUrl: global_config.urlWeb,
     pressHome: 1,
     justPublished: false,
+    externalShareUrl: false,
 
 
     currentQso: {
@@ -960,6 +962,16 @@ const qsoReducer = (state = initialState, action) => {
                  justPublished: action.status
              });
          return newStore; 
+
+         case SET_EXTERNAL_SHARE_URL:
+ 
+            newStore = Object.assign({}, state,
+                {
+                    ...state,
+                 
+                    externalShareUrl: action.status
+                });
+            return newStore; 
 
 
       case SET_SHARE_URL_GUID:

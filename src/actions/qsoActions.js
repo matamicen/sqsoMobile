@@ -28,7 +28,7 @@ import {FETCHING_API_REQUEST,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
         UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS,
         SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS, 
-        SET_UPLOAD_VIDEO_ERROR_MESSAGE  } from './types';
+        SET_UPLOAD_VIDEO_ERROR_MESSAGE, SET_EXTERNAL_SHARE_URL  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -132,6 +132,14 @@ export const setVideoUploadProgress = (percentage) => {
   return {
       type: SET_VIDEO_UPLOAD_PROGRESS,
       progress: percentage
+  };
+}
+
+
+export const setExternalShreUrl = (status) => {
+  return {
+      type: SET_EXTERNAL_SHARE_URL,
+      status: status
   };
 }
 

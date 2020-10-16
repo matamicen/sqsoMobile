@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
 // import QsoHeaderLink from './QsoHeaderLink';
-import { getQslScan, updateLinkQso, manage_notifications, setWebView, setPressHome } from '../../actions';
+import { getQslScan, updateLinkQso, manage_notifications, setWebView, setPressHome, setExternalShreUrl } from '../../actions';
 
 import { getDateQslScan } from '../../helper';
 import { hasAPIConnection } from '../../helper';
@@ -16,6 +16,8 @@ import analytics from '@react-native-firebase/analytics';
 import I18n from '../../utils/i18n';
 import global_config from '../../global_config.json';
 import { WebView } from 'react-native-webview';
+import ShareMenu from 'react-native-share-menu';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -65,6 +67,24 @@ class Home extends Component {
   }
 
   componentDidMount () {
+
+
+    ShareMenu.getSharedText((text) => {
+      console.log('el text del share 09:'+JSON.stringify(text) )
+      if (text!==null) {
+        console.log('el text del share 09: '+ text)
+        auxshare1 = JSON.stringify(text);
+        auxshare2 = JSON.parse(auxshare1);
+        console.log('auxshare: ' + auxshare2.data)
+        AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+       
+        this.props.setExternalShreUrl(true);
+        this.props.navigation.navigate("QsoScreen");
+  
+      }
+      else
+      this.props.setExternalShreUrl(false);
+    })
     // if (Platform.OS==='ios')
  
     // setTimeout(
@@ -893,7 +913,8 @@ const mapDispatchToProps = {
     updateLinkQso,
     manage_notifications,
     setWebView,
-    setPressHome
+    setPressHome,
+    setExternalShreUrl
     
    }
 
