@@ -59,6 +59,7 @@ export default {
     variosModWelOKButton: "OK",
     variosModNointernet: "No hay conexión a Internet.",
     variosModNovideomp4: "Lo sentimos, por el momento no se pueden subir videos. Le notificaremos cuando esta opción este habilitada.",
+    variosModReadingVideo: "Leyendo video ...",
     variosModNointernetOKButton: "OK",
     variosModprevideoRewFreeUser: "Usuario Gratuito",
     variosModprevideoRewHaveToWatchLink: "Ud. debe mirar un video de recompensa para poder unir estas Publicaciones.",

@@ -180,7 +180,8 @@ class QsoScreen extends Component {
       videoCompression: 'null',
       videoPercentage: 0,
       videoCompressPercentage: 0,
-      videoFromShare: null
+      videoFromShare: null,
+      readingVideo: false
   
 
      
@@ -836,6 +837,8 @@ if (this.pressVideo===false)
 
     if (await hasAPIConnection()) {
 
+      
+
        
       // envio a reducer que se fue a background por usar la GELRIA de FOTOS
       // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
@@ -976,7 +979,10 @@ if (this.pressVideo===false)
            // si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
           // entonces recupero el share del asyncstorage
             console.log('STORAGE_PERMISSION');
-
+   
+   
+            // open the reading video modal
+          this.setState({readingVideo: true})
 
             realUrl = await this.getVideoPath(this.state.videoFromShare);
             if (realUrl.status)
@@ -1140,6 +1146,11 @@ if (this.pressVideo===false)
 
                   // this.imagePreviewPath = path;
                   this.imagePreviewPath = this.compressImagePreview
+
+                  // close the reading video modal
+                  this.closeVariosModales();
+
+
                 } catch (error) {
                   console.log(error.message);
                 }
@@ -1751,7 +1762,7 @@ if (this.pressVideo===false)
 
   closeVariosModales = (param) => {
   //  this.setState({ nointernet: false, prevideorewarded: false });
-    this.setState({ nointernet: false, novideomp4: false});
+    this.setState({ nointernet: false, novideomp4: false, readingVideo: false});
     this.props.welcomeUserFirstTime(false);
     // if (param==='yes')
     // setTimeout(() => {
@@ -2713,6 +2724,14 @@ close_upload_failed = () => {
             closeInternetModal={this.closeVariosModales.bind()}
           />
        }
+
+{(this.state.readingVideo) && 
+          <VariosModales
+            show={this.state.readingVideo}
+            modalType="readingvideo"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />}
+
           {/* {(this.props.welcomeuserfirsttime) && 
             <VariosModales
             show={true}

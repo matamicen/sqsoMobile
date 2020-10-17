@@ -59,6 +59,7 @@ export default {
     variosModWelOKButton: "OK",
     variosModNointernet: "There is no Internet connection.",
     variosModNovideomp4: "Sorry, you can not upload videos at this moment, we will let you know asap when this feature in enable.",
+    variosModReadingVideo: "Reading video ...",
     variosModNointernetOKButton: "OK",
     variosModprevideoRewFreeUser: "Free User",
     variosModprevideoRewHaveToWatchLink: "You have to watch a video reward to link these Qsos.",
