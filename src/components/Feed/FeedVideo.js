@@ -1,10 +1,14 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { Image } from 'react-native-elements';
-import Video from 'react-native-video';
+import { Dimensions, ImageBackground, StyleSheet, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+// import Video from 'react-native-video';
+import VideoPlayer from 'react-native-video-controls';
 import './style.js';
 
 export default class FeedVideo extends React.PureComponent {
+  state = {
+    showVideo: false
+  };
   // const width = Dimensions.get('window');
 
   // const [paused, setPaused] = useState(true);
@@ -18,31 +22,54 @@ export default class FeedVideo extends React.PureComponent {
     // );
   };
   render() {
-    const width = Dimensions.get('window').width;
-    const videoHeight =
+    var width = Dimensions.get('window').width;
+    var videoHeight =
       (this.props.media.height * width) / this.props.media.width;
+    console.log(Dimensions.get('window').height);
+    console.log('videoHeight: ' + videoHeight);
+    if (videoHeight > Dimensions.get('window').height - 157) {
+      console.log('entro aca');
+      videoHeight = Dimensions.get('window').height - 157;
+      width = (this.props.media.width * videoHeight) / this.props.media.height;
+    }
     return (
-      <View style={(styles.container, { height: videoHeight })}>
+      <View
+        style={
+          (styles.container,
+          {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: videoHeight
+          })
+        }>
         {/* <div style={{ width: '100%' }} ref={componentRef}> */}
-        {this.props.currentIndex === this.props.currentVisibleIndex && (
-          <Video
+        {this.state.showVideo && (
+          // <Video
+          <VideoPlayer
             // ref={(ref) => {
             //   this.player = ref;
             // }}
             // id="my-video"
             // className="video-js"
-            controls
-            // resizeMode="cover"
-            // preload="metadata"
-            // responsive="true"
-            // width={width}
-            // height={(props.media.height * width) / props.media.width}
+            // controls
+            // fullscreen={true}
+            resizeMode="cover"
+            playInBackground={false}
+            playWhenInactive={false}
             posterResizeMode="cover"
             poster={this.props.media.videoPreview}
             // paused={props.paused}
-            paused={true}
+            paused={false}
             style={
-              (styles.backgroundVideo, { width: '100%', height: videoHeight })
+              (styles.backgroundVideo,
+              {
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width,
+                height: videoHeight
+              })
             }
             source={{
               uri: this.props.media.url
@@ -51,15 +78,34 @@ export default class FeedVideo extends React.PureComponent {
             // style={styles.backgroundVideo}
           />
         )}
-        {this.props.currentIndex !== this.props.currentVisibleIndex && (
-          <Image
-            style={{ width: '100%', height: videoHeight }}
-            resizeMode="cover"
+        {(!this.state.showVideo ||
+          this.props.currentIndex !== this.props.currentVisibleIndex) && (
+          <ImageBackground
+            // style={{ width, height: videoHeight - 20 }}
+            style={{
+              flex: 1,
+              width,
+              height: videoHeight,
+              justifyContent: 'center'
+            }}
             source={{
               uri: this.props.media.videoPreview
             }}
-            blurRadius={5}
-          />
+            blurRadius={1}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <Icon
+                raised
+                name="play"
+                type="font-awesome"
+                onPress={() => this.setState({ showVideo: true })}
+              />
+            </View>
+          </ImageBackground>
         )}
         {/* <source src={props.media.url} type="video/mp4" /> */}
         {/* </div> */}
@@ -71,10 +117,10 @@ export default class FeedVideo extends React.PureComponent {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center' },
   backgroundVideo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
+    // position: 'absolute'
+    // top: 0,
+    // left: 0,
+    // bottom: 0,
+    // right: 0
   }
 });

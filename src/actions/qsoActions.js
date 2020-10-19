@@ -1284,10 +1284,10 @@ export const get_notifications = (jwtToken) => {
       };
 
       var respuesta = await API.get(apiName, path, myInit);
-      console.log('llamo api get_notifications!');
+      // console.log('llamo api get_notifications!');
 
       dispatch(fetchingApiSuccess('get_notifications', respuesta));
-      console.log('devuelve get_notifications: ' + JSON.stringify(respuesta));
+      // console.log('devuelve get_notifications: ' + JSON.stringify(respuesta));
 
       if (respuesta.body.error === 0) {
         // dispatch(manage_notifications('ADD',respuesta.body.message));

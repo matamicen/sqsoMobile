@@ -235,9 +235,8 @@ class FeedItemQSO extends React.PureComponent {
       //     content={t('auth.loginToPerformAction')}
       //   /> */}
       // </Fragment>
-      <Card>
-        <Card.Title>HELLO WORLD</Card.Title>
-        <Card.Divider />
+      <Card containerStyle={{ padding: 0, margin: 0 }}>
+        {/* <Card.Divider /> */}
         {/* <Card.Image
           source={
             this.props.qso.avatarpic
@@ -245,7 +244,7 @@ class FeedItemQSO extends React.PureComponent {
               : require('../../images/emptyprofile.png')
           }
         /> */}
-        <View styles={{ flex: 1, justifyContent: 'center' }}>
+        <View>
           <FeedMedia
             qso={this.props.qso}
             currentIndex={this.props.currentIndex}

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 // import 'react-virtualized/styles.css'; // only needs to be imported once
 import { bindActionCreators } from 'redux';
@@ -28,17 +28,15 @@ class NewsFeedContainer extends React.Component {
     }
     // }
 
-    return (
-      <Fragment>
-        {this.state.qsos && (
-          <NewsFeed
-            list={qsos}
-            fetchingQSOS={this.props.fetchingQSOS}
-            qsosFetched={this.props.qsosFetched}
-          />
-        )}
-      </Fragment>
-    );
+    if (this.state.qsos) {
+      return (
+        <NewsFeed
+          list={qsos}
+          fetchingQSOS={this.props.fetchingQSOS}
+          qsosFetched={this.props.qsosFetched}
+        />
+      );
+    } else return null;
   }
 }
 

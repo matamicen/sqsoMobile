@@ -37,7 +37,7 @@ class FeedMedia extends React.PureComponent {
     );
 
     return (
-      <View styles={{ flex: 1, justifyContent: 'center' }}>
+      <View>
         {videoList.length > 0 && (
           <View>
             <Divider
