@@ -77,6 +77,7 @@ class Home extends Component {
         auxshare2 = JSON.parse(auxshare1);
         console.log('auxshare: ' + auxshare2.data)
         AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+        AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
        
         this.props.setExternalShreUrl(true);
         this.props.navigation.navigate("QsoScreen");

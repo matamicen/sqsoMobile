@@ -539,6 +539,7 @@ class QsoScreen extends Component {
         auxshare2 = JSON.parse(auxshare1);
         console.log('auxshare: ' + auxshare2.data)
         AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+        AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
         this.props.setExternalShreUrl(true);
      
               this.props.newqsoactiveFalse();
@@ -1002,7 +1003,7 @@ if (this.pressVideo===false)
           
            console.log('finalizo lectura base64')
            // this.videoShare64 = files;
-           this.saveVideoToDisk(files);
+           this.saveVideoToDisk(files,'video/mp4');
         
            })
        
@@ -1064,12 +1065,23 @@ if (this.pressVideo===false)
 
   }
 
-  saveVideoToDisk = async (file64) => {
-  const path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
+  saveVideoToDisk = async (file64,mimeType) => {
+    if (mimeType==='video/mp4')
+ { const path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
   const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
     console.log(data, 'grabo video aux en disco');
     this.takeFramePreview(path);
+  } 
+  if (mimeType==='image/jpeg')
+  { const path = `${RNFetchBlob.fs.dirs.DCIMDir}/imageaux.jpg`;
+   const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
+     console.log(data, 'grabo video aux en disco');
+    //  this.takeFramePreview(path);
+    this.send_image_info_to_muestro(path);
+   } 
+
   }
+
 
   takeFramePreview = async (videoPath) => {
     let image = {
@@ -1248,6 +1260,182 @@ if (this.pressVideo===false)
   })
   }
 
+
+  photoFromShare = async (shareExternalMedia) => {
+
+  let fileName2 = '';
+  let uri = '';
+
+    if (Platform.OS==='android'){
+            
+      STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+        response = await request(STORAGE_PERMISSION)
+      
+        if (response === RESULTS.GRANTED){
+       // si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+      // entonces recupero el share del asyncstorage
+        console.log('STORAGE_PERMISSION');
+
+
+        // open the reading video modal
+      // this.setState({readingVideo: true})
+
+      //   realUrl = await this.getVideoPath(shareExternalMedia);
+      //   if (!realUrl)
+      //   { console.log('real url: '+ JSON.stringify(realUrl))
+      //   console.log('real url2: '+ realUrl.data.path)
+
+      //   uri = 'file://'+realUrl.data.path;
+
+      //  fileName2 = realUrl.data.filename;
+   
+      //   // this.takeFramePreview(realUrl.data.path);
+      // }else
+      // {
+
+
+
+      // el URI del External Share de una imagen viene en formato CONTENT:// pero el ImagePicker lo puede leer y no tarda en leerlo porque es una imagen, y de paso me formatea la imagen,
+      // la logica dentro del ImagePicker Corpper es la misma que cuando se toma una foto de la galeria photoFromGallery
+        console.log('path oculto');
+    
+          ImagePicker.openCropper({
+          //   ImagePicker.openCamera({
+              path: shareExternalMedia,
+
+           }).then(image => {
+             console.log(image);
+             console.log('nombre del archivo: '+image)
+             console.log(JSON.stringify(image));
+       
+             // image/jpeg video/mp4
+             if (image.mime !== 'video/mp4') 
+           {
+      
+             uri = image.path;
+       
+           fileName2 = uri.replace(/^.*[\\\/]/, '');
+           
+       
+           console.log('filename2 es: ' + fileName2);
+           envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true } 
+           
+           // console.log('phototype :'+this.props.phototype)
+           
+         //  vari2 = await 
+         vari2 = this.props.sendActualMedia(envio);
+           console.log("Fin de espera larga ANDROID")
+           // this.props.navigation.navigate("ProfileScreen");
+           // this.goBack();
+           
+           if ( Platform.OS === 'ios')
+           timer = 1000;
+             else timer = 500;
+       
+           // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+           // de sacar la foto de profile.
+          
+           this.props.setProfileModalStat('ambos',0);
+       
+           setTimeout(() => {
+             console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+             //  this.props.actindicatorImageDisabled();
+               // this.props.openModalConfirmPhoto(320);
+              
+             //  este metodo es para cuando es foto profile
+               // this.props.setConfirmProfilePhotoModal(true);
+               this.props.openModalConfirmPhoto(490);
+              
+              
+             
+           }, timer);
+       
+       
+             // ya tomo la foto del picker entonces el flag vuelve a 0.
+             // this.props.manageLocationPermissions("photofromgallery", 0);
+         
+           console.log('este debe aparecer primero');
+          
+         }
+         else{
+           console.log('Por ahora videos no se puede');
+           this.setState({novideomp4: true})
+         }
+       
+       
+       
+       
+       
+           }).catch((err) => {
+             console.log("cropImage Error", err.message);
+       
+            // el usuario cancelo por alguna razon y debe pasar a 2 el flag de photoFromGallery
+             // para que siga funcionando las rutinas de ejecucion cuando vuelvan de background
+             // this.props.manageLocationPermissions("photofromgallery", 2);
+             //  setTimeout(() => {
+             //   this.props.manageLocationPermissions("photofromgallery", 0);
+                
+         
+               
+             // }, 500);
+             
+             crashlytics().setUserId(this.props.qra);
+             crashlytics().log('error: ' + JSON.stringify(err)) ;
+             if(__DEV__)
+             crashlytics().recordError(new Error('openCropShareExt_DEV'));
+             else
+             crashlytics().recordError(new Error('openCropShareExt_PRD'));
+         });
+       
+
+
+
+   
+      
+        }
+    }
+
+
+
+  }
+
+  send_image_info_to_muestro = async (path) => {
+
+    fileName2 = path.replace(/^.*[\\\/]/, '');
+    fileInfo = await Upload.getFileInfo(path);
+    uri = 'file://'+path;
+    // uri = path;
+    console.log('fileInfo imagen share');
+    console.log(fileInfo);
+    console.log('filename2 es: ' + fileName2);
+    // console.log('uri es: ' + uri);
+    // envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true } 
+    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: 0, width: 0, height: 0, qra: this.props.qra,  rectime: 0, gallery: false } 
+
+   vari2 = this.props.sendActualMedia(envio);
+  //   console.log("Fin de espera larga ANDROID")
+ 
+    
+    if ( Platform.OS === 'ios')
+    timer = 1000;
+      else timer = 500;
+
+    // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+    // de sacar la foto de profile.
+   
+    this.props.setProfileModalStat('ambos',0);
+
+    setTimeout(() => {
+      console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+  
+        this.props.openModalConfirmPhoto(490);
+       
+       
+      
+    }, timer);
+
+  }
 
   photoFromGallery = async () => {
 
@@ -1539,9 +1727,17 @@ if (this.pressVideo===false)
       if (this.props.externalshareurl)
        { // la app fue llamada desde un share externo
         shareExternalMedia = await AsyncStorage.getItem('shareExternalMedia');
+        mimeType = await AsyncStorage.getItem('shareExternalMediaMimeType');
         this.setState({videoFromShare: shareExternalMedia});
-        this.props.setExternalShreUrl(false);
+        
+        if(mimeType.indexOf("image") !== -1)
+          this.photoFromShare(shareExternalMedia);
+        
+        if(mimeType.indexOf("video") !== -1)
+        // (notification.data['pinpoint.notification.title'].indexOf("included you") !== -1) 
          this.videoFromGallery(true);
+
+         this.props.setExternalShreUrl(false);
        }
     } else {
       if (Platform.OS === "android") {
