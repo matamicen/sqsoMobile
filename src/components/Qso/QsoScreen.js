@@ -181,7 +181,9 @@ class QsoScreen extends Component {
       videoPercentage: 0,
       videoCompressPercentage: 0,
       videoFromShare: null,
-      readingVideo: false
+      readingVideo: false,
+      percentageCompressionInitialTime: '',
+      videoSizeBeforeCompress: 0
   
 
      
@@ -2105,49 +2107,117 @@ if (this.pressVideo===false)
                   needTrim = false;
                   let dataTrim = '';
                   let bitMultiplier = 0;
-                  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
+                  let trimEndSecond = 0;
+                  let ratio = 0;
+                  let maxMb = 0;
+                  let maxSec = 0;
+                  let mbCoef = 15000000; // 15 mb de coeficiente
 
+                  // console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
 
-                // analizo definicion de video para elegir compresion y decidir si hago TRIM o no
-                if (totalDimension<2051)
+                 if (this.envio.size<30000001)
                  {
-                  bitMultiplier = 2;
-                  needTrim = false;
-                  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
+                      if (this.envio.size<20000001)
+                      {
+                        bitMultiplier = 1.5;
+                        needTrim = false;
+
+                      }
+                      else
+                      {// tiene mas de 20mb y menos de 30mb
+                        bitMultiplier = 2;
+                        needTrim = false;
+                      }
 
                  }
-                 if (totalDimension>2050 && totalDimension<2500 )
-                 {
-                  bitMultiplier = 7;
-                  if (this.envio.duration>60)
-                     needTrim = true;
-                     console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
+                 else
+                 {// tiene mas de 30mb se usa algortimo calculo de compresion dependiendo la calidad del video para no hacerlos mierda y no quedarse cortos tampoco
+                   
+                  // calculo el ratio para saber la calidad del video aprox.
+                  ratio = Math.floor(this.envio.size / this.envio.duration);
+                  console.log('ratio: '+ ratio);
 
-                 }
-                 if (totalDimension>2499 )
+                    if(ratio <400001)
+                      bitMultiplier = 2;
+                    if(ratio >400000 && ratio <700001)
+                      bitMultiplier = 3;
+                    if(ratio >700000 && ratio <1000001)
+                      bitMultiplier = 4;
+                    if(ratio >1000000 && ratio <1300001)
+                      bitMultiplier = 5;     
+                    if(ratio >1300000 && ratio <1600001)
+                      bitMultiplier = 6;  
+                    if(ratio >1600000 && ratio <1900001)
+                      bitMultiplier = 7;  
+                   if(ratio >1900000 && ratio <2000001)
+                     bitMultiplier = 8;  
+                   if(ratio >2000000)
+                     bitMultiplier = 10;           
+                
+
+                 maxMb = mbCoef *  bitMultiplier;
+                 maxSec = Math.floor(maxMb / ratio);
+
+                 if (this.envio.duration<maxSec)
+                   needTrim = false;
+                 else
                  {
-                  bitMultiplier = 10;
-                  if (this.envio.duration>60)
-                     needTrim = true;
-                     console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
+                   needTrim = true;
+                   trimEndSecond = maxSec;
+                 }
+                   
+
+
+                // // analizo definicion de video para elegir compresion y decidir si hago TRIM o no
+                // if (totalDimension<2051)
+                //  {
+                //   bitMultiplier = 2;
+                //   needTrim = false;
+                //   // console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
+
+                //  }
+                //  if (totalDimension>2050 && totalDimension<2500 )
+                //  {
+                //   bitMultiplier = 7;
+                //   if (this.envio.duration>60)
+                //      needTrim = true;
+                //     //  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
+
+                //  }
+                //  if (totalDimension>2499 )
+                //  {
+                //   bitMultiplier = 10;
+                //   if (this.envio.duration>60)
+                //      needTrim = true;
+                //     //  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
                    
              
 
-                 }
+                //  }
+
+                }
+
+                 console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size + ' ratio: '+ratio + ' maxMb: '+maxMb + ' maxSec: '+maxSec + ' needTrim: '+needTrim + ' bitMultiplier: '+bitMultiplier)
 
                  console.log('comienzo trim');
                   if (needTrim)
                   {
+                   
+                    this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date(), videoSizeBeforeCompress: maxMb});
                          dataTrim = await ProcessingManager.trim(this.videoPathBeforeCompress, { startTime: 0,
-                     endTime: 60})
+                     endTime: trimEndSecond})
                      console.log('dataTrim: '+ JSON.stringify(dataTrim))
                      this.videoPathBeforeCompress = dataTrim;
+                    
                     }
+                    else
+                    this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date(), videoSizeBeforeCompress: this.envio.size})
 
                   console.log('comienzo a comprimir video');
                   console.log('bitMultiplier: '+bitMultiplier + ' - needTrim: '+needTrim)
                   console.log('nombre del video: '+this.envio.name)
-                  this.setState({videoCompression: 'inprogress'});
+
+                  // this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date()});
                   ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
                   .then((data) => {   // andan los de andres 8aql traidos de wsapp
                     //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
@@ -2276,15 +2346,15 @@ if (this.pressPublish===false)
 
 
             contcompress=0;
-            t1 = new Date();
+            // t1 = new Date();
             factor = 12 / 15000000; // tarda aprox 20 seg. los 15mb
-            totCompressSecThisVideo = factor * this.envio.size;
-            console.log('video sin comprimir pesa: '+ this.envio.size)
+            totCompressSecThisVideo = factor * this.state.videoSizeBeforeCompress;
+            console.log('video sin comprimir pesa: '+ this.state.videoSizeBeforeCompress)
           while (this.state.videoCompression==='inprogress')
           {
             contcompress++; 
 
-              aux = percentageCalculator(t1,totCompressSecThisVideo);
+              aux = percentageCalculator(this.state.percentageCompressionInitialTime,totCompressSecThisVideo);
 
                if ((aux > 2) && (aux < 97))
                    this.setState({videoCompressPercentage: aux})
