@@ -1,32 +1,27 @@
 import React from 'react';
-import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
+import { StyleSheet, View } from 'react-native';
+// import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import QRA from './QRA';
-import './style.js';
+// import './style.js';
 
-export default class QRAs extends React.Component {
+export default class QRAs extends React.PureComponent {
   render() {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Segment
-          compact
-          style={{
-            paddingTop: '1vh',
-            paddingBottom: '0.5vh',
-            minWidth: '30%',
-            display: 'inline-flex',
-            overflowX: 'auto',
-            overflowY: 'hidden',
-            justifyContent: 'inherit',
-            gap: '1vh'
-          }}
-        >
-          {/* <div className="feed-item-qras"> */}
-          {this.props.qras.map((qra, i) => (
-            <QRA key={i} avatarpic={qra.avatarpic} qra={qra.qra} />
-          ))}
-          {/* </div> */}
-        </Segment>
-      </div>
+      <View style={styles.container}>
+        {this.props.qras.map((qra, i) => (
+          <QRA key={i} avatarpic={qra.avatarpic} qra={qra.qra} />
+        ))}
+      </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+    // flexGrow: 1
+    // marginTop: Constants.statusBarHeight
+  }
+});

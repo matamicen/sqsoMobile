@@ -1,14 +1,14 @@
 //import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { View } from 'react-native';
 import { Button, Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedItemHeader from './FeedItemHeader';
 import FeedMedia from './FeedMedia';
-import './style.js';
+import QRAs from './QRAs';
+// import './style.js';
 
 class FeedItemQSO extends React.PureComponent {
   constructor() {
@@ -46,84 +46,10 @@ class FeedItemQSO extends React.PureComponent {
   render() {
     const commentsCounter = '(' + this.props.qso.comments.length + ')';
 
-    var date = new Date(this.props.qso.datetime);
-
     return (
       // <Fragment>
       //   <Segment raised>
       //     <div className="qso-header">
-      //       <div className="qso-avatar">
-      //         <Link to={'/' + this.props.qso.qra}>
-      //           <Image
-      //             src={
-      //               this.props.qso.avatarpic
-      //                 ? this.props.qso.avatarpic
-      //                 : '/emptyprofile.png'
-      //             }
-      //             size="mini"
-      //             avatar
-      //             style={{
-      //               width: '50px',
-      //               height: '50px'
-      //             }}
-      //           />
-      //         </Link>
-      //         <TextToFollow qra={this.props.qso.qra} />
-      //       </div>
-      //       <div className="qso-header-action">
-      //         <PopupToFollow
-      //           qra={this.props.qso.qra}
-      //           trigger={
-      //             <Link to={'/' + this.props.qso.qra}>
-      //               {this.props.qso.qra}
-      //             </Link>
-      //           }
-      //         />
-      //         {text}
-      //       </div>
-      //       <div className="qso-header-info">
-      //         <div>
-      //           <b>{t('qso.mode')}</b>
-      //           <br />
-      //           {this.props.qso.mode}
-      //         </div>
-      //         <div>
-      //           <b>{t('qso.band')}</b>
-      //           <br />
-      //           {this.props.qso.band}
-      //         </div>
-      //         {this.props.qso.db && (
-      //           <div>
-      //             <b>dB</b>
-      //             <br />
-      //             {this.props.qso.db ? this.props.qso.db : null}
-      //           </div>
-      //         )}
-      //         {!this.props.qso.db && (
-      //           <div>
-      //             <b>RST</b>
-      //             <br />
-      //             {this.props.qso.rst ? this.props.qso.rst : '59'}
-      //           </div>
-      //         )}
-      //         <div>
-      //           <b>{t('qso.date')}</b>
-      //           <br />
-      //           {date.toLocaleDateString(i18n.language, { month: 'short' }) +
-      //             ' ' +
-      //             date.getDate() +
-      //             ', ' +
-      //             date.getFullYear()}
-      //         </div>
-      //         <div>
-      //           <b>UTC</b>
-      //           <br />
-      //           {date.getUTCHours() +
-      //             ':' +
-      //             (date.getMinutes() < 10 ? '0' : '') +
-      //             date.getMinutes()}
-      //         </div>
-      //       </div>
 
       //       {/* {date.toLocaleDateString("i18n.language", {month: "short"}) + ' ' + date.getDate() + ', ' + date.getFullYear()} */}
       //       <div
@@ -146,23 +72,6 @@ class FeedItemQSO extends React.PureComponent {
       //         />
       //       </div>
       //     </div>
-      //     <Divider
-      //       hidden
-      //       style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
-      //     />
-
-      //     <QRAs
-      //       avatarpic={this.props.qso.avatarpic}
-      //       qso_owner={this.props.qso.qra}
-      //       qras={this.props.qso.qras}
-      //     />
-      //     <FeedMedia
-      //       qso={this.props.qso}
-      //       measure={this.props.measure}
-      //       idqso={this.props.qso.idqsos}
-      //       qso_owner={this.props.qso.qra}
-      //       recalculateRowHeight={this.recalculateRowHeight}
-      //     />
 
       //     {this.props.qso.links && (
       //       <FeedLinkList links={this.props.qso.links} />
@@ -219,23 +128,20 @@ class FeedItemQSO extends React.PureComponent {
       // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
         <FeedItemHeader qso={this.props.qso} />
-        {/* <Card.Divider /> */}
-        {/* <Card.Image
-          source={
-            this.props.qso.avatarpic
-              ? { uri: this.props.qso.avatarpic }
-              : require('../../images/emptyprofile.png')
-          }
-        /> */}
-        <View>
-          <FeedMedia
-            qso={this.props.qso}
-            currentIndex={this.props.currentIndex}
-            currentVisibleIndex={this.props.currentVisibleIndex}
-            idqso={this.props.qso.idqsos}
-            qso_owner={this.props.qso.qra}
-          />
-        </View>
+        <QRAs
+          avatarpic={this.props.qso.avatarpic}
+          qso_owner={this.props.qso.qra}
+          qras={this.props.qso.qras}
+        />
+
+        <FeedMedia
+          qso={this.props.qso}
+          currentIndex={this.props.currentIndex}
+          currentVisibleIndex={this.props.currentVisibleIndex}
+          idqso={this.props.qso.idqsos}
+          qso_owner={this.props.qso.qra}
+        />
+
         {/* <Text style={{ marginBottom: 10 }}>
           The idea with React Native Elements is more about component structure
           than actual design.

@@ -1,18 +1,17 @@
-import React, { useRef } from 'react';
-import { Dimensions, Image, Text, View } from 'react-native';
+import React from 'react';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 // import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
-import './style.js';
 
-const styles = {
-  margin: '0px',
-  paddingTop: '0px',
-  paddingBottom: '0px'
-};
+// const styles = {
+//   margin: '0px',
+//   paddingTop: '0px',
+//   paddingBottom: '0px'
+// };
 // declare component
 // const Right = (props) => (
 //   <div
@@ -56,40 +55,14 @@ const styles = {
 //   return { imageWidth };
 // };
 // class FeedImage extends React.Component {
-export const FeedImage = (props) => {
-  // const [showModal, setModal] = useState(false);
-  const horizontalMargin = 5;
-  //const slideWidth = 280;
-  // const slideWidth = 320;
-  const slideWidth = Dimensions.get('window').width - 30;
+const horizontalMargin = 5;
 
-  const sliderWidth = Dimensions.get('window').width;
-  const itemWidth = slideWidth + horizontalMargin * 2;
-  const itemHeight = 230;
-  // const itemHeight = 220;
-  // constructor(props, context) {
-  //   super(props, context);
-  //   this.state = {
-  //     showModal: false,
-  //     error: null
-  //   };
-  // }
-  const componentRef = useRef();
-  // const { imageWidth } = useResize(componentRef, props.measure);
-  // useEffect(() => {
-  //   props.measure();
-  // });
-  // var settings = {
-  //   infinite: true,
-  //   dots: false,
-  //   // arrows: true,
-  //   // adaptiveHeight: true,
-  //   speed: 150,
-  //   centerPadding: '0px',
-  //   centerMode: true,
-  //   nextArrow: <Right />,
-  //   prevArrow: <Left />
-  // };
+const slideWidth = Dimensions.get('window').width - 30;
+
+const sliderWidth = Dimensions.get('window').width;
+const itemWidth = slideWidth + horizontalMargin * 2;
+const itemHeight = 230;
+export const FeedImage = (props) => {
   const _renderItem = ({ item, index }) => {
     // console.log('varios: '+ item.type + ' '+ item.url)
     if (item.type === 'image')
@@ -119,6 +92,7 @@ export const FeedImage = (props) => {
         </View>
       );
   };
+
   return (
     <View>
       <Carousel
@@ -133,95 +107,42 @@ export const FeedImage = (props) => {
         // initialNumToRender={0}
       />
     </View>
-    // <div style={{ width: '100%' }} ref={componentRef}>
-    //   <Segment basic style={styles}>
-    //     <Slider {...settings}>
-    //       {props.img.map((m) => (
-    //         <div key={m.idqsos_media}>
-    //           <h3>
-    //             <img
-    //               // className="image"
-    //               src={m.url}
-    //               key={m.idqsos_media}
-    //               alt={m.description ? m.description : 'no description'}
-    //               onClick={() => {
-    //                 if (!__DEV__)
-    //                   window.gtag('event', 'qsoImageModalOpen_WEBPRD', {
-    //                     event_category: 'qso',
-    //                     event_label: 'imageModalOpen'
-    //                   });
-    //                 setModal(true);
-    //               }}
-    //               onLoad={() => props.measure()}
-    //               style={{
-    //                 // objectFit: 'contain',
-    //                 // width: '100%',
-    //                 width: { imageWidth },
-    //                 height: (m.height * imageWidth) / m.width,
-    //                 margin: '0 auto'
-    //               }}
-    //             />
-
-    //             <p style={{ textAlign: 'center' }}>{m.description}</p>
-    //           </h3>
-    //         </div>
-    //       ))}
-    //     </Slider>
-
-    //     <Modal
-    //       centered={false}
-    //       closeIcon={{
-    //         style: { top: '0.0535rem', right: '0rem' },
-    //         color: 'black',
-    //         name: 'close'
-    //       }}
-    //       open={showModal}
-    //       onClose={() => setModal(false)}
-    //       style={{ height: '90%', overflowY: 'auto' }}>
-    //       <Modal.Content image>
-    //         <Modal.Description>
-    //           {props.img.map((m) => (
-    //             <div key={m.idqsos_media} style={{ padding: '1vh' }}>
-    //               {props.isAuthenticated && (
-    //                 <div
-    //                   style={{
-    //                     float: 'right'
-    //                   }}>
-    //                   <FeedOptionsMenu
-    //                     idqsos_media={m.idqsos_media}
-    //                     qso_owner={props.qso_owner}
-    //                     idqso={props.idqso}
-    //                     optionsCaller="FeedImage"
-    //                   />
-    //                 </div>
-    //               )}
-    //               <Image
-    //                 key={m.idqsos_media}
-    //                 centered
-    //                 rounded
-    //                 alt={m.description ? m.description : 'no description'}
-    //                 size="large"
-    //                 src={m.url}
-    //                 style={{
-    //                   objectFit: 'contain',
-    //                   width: '100%',
-    //                   margin: '0 auto'
-    //                 }}
-    //               />
-
-    //               <p style={{ fontSize: '1rem', textAlign: 'center' }}>
-    //                 {m.description}
-    //               </p>
-    //             </div>
-    //           ))}
-    //         </Modal.Description>
-    //       </Modal.Content>
-    //     </Modal>
-    //   </Segment>
-    // </div>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  faceImageStyle: {
+    //    height: 350,
+    //    width: 750
+    // height: 216,
+    // width: 384,
+    //   height: 259.2,
+    height: 200,
+    // width: 460.8,
+    width: itemWidth,
+    borderRadius: 15
 
+    //   borderRadius: 30
+  },
+  slide: {
+    width: itemWidth,
+    height: itemHeight,
+    paddingHorizontal: horizontalMargin
+    // other styles for the item container
+  },
+  slideInnerContainer: {
+    width: slideWidth,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // other styles for the inner container
+  }
+});
 const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
   // isAuthenticated: state.userData.isAuthenticated,

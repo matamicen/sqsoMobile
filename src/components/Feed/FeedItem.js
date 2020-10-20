@@ -16,6 +16,17 @@ class FeedItem extends React.PureComponent {
       //     />
       //   );
       case 'QSO':
+
+      case 'LISTEN':
+        //   return (
+        //     <FeedItemQSO
+        //       key={this.props.qso.idqsos}
+        //       qso={this.props.qso}
+        //       measure={this.props.measure}
+        //       recalculateRowHeight={this.props.recalculateRowHeight}
+        //       index={this.props.index}
+        //     />
+        //   );
         return (
           <FeedItemQSO
             key={this.props.qso.idqsos}
@@ -27,17 +38,6 @@ class FeedItem extends React.PureComponent {
             index={this.props.index}
           />
         );
-      // case 'LISTEN':
-      //   return (
-      //     <FeedItemQSO
-      //       key={this.props.qso.idqsos}
-      //       qso={this.props.qso}
-      //       measure={this.props.measure}
-      //       recalculateRowHeight={this.props.recalculateRowHeight}
-      //       index={this.props.index}
-      //     />
-      //   );
-
       // case 'SHARE':
       //   return (
       //     <FeedItemRepost

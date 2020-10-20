@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -29,8 +29,22 @@ class FeedItemHeader extends React.PureComponent {
         text = I18n.t('qso.repostedQSO');
         shareText = I18n.t('qso.checkOutPost');
         break;
+      case 'POST':
+        text = I18n.t('qso.createdPost');
+        // shareText = t('qso.checkOutPost');
+        break;
+      case 'QAP':
+        text = I18n.t('qso.createdQAP');
+        // shareText = t('qso.checkOutQAP');
+        break;
+      case 'FLDDAY':
+        text = I18n.t('qso.createdFLDDAY');
+        // shareText = t('qso.checkOutFLDDAY');
+        break;
       default:
     }
+    var date = new Date(this.props.qso.datetime);
+
     return (
       <View style={styles.header}>
         <View style={styles.avatar}>
@@ -43,7 +57,7 @@ class FeedItemHeader extends React.PureComponent {
                 })
               }>
               <Avatar
-                size="large"
+                size="medium"
                 rounded
                 source={
                   this.props.qso.avatarpic
@@ -60,40 +74,112 @@ class FeedItemHeader extends React.PureComponent {
           </View>
         </View>
         <View style={styles.action}>
-          <TouchableOpacity
-            // style={styles.button}
-            onPress={() =>
-              this.props.navigation.navigate('QRAProfile', {
-                qra: this.props.qso.qra
-              })
-            }>
-            <Text>{this.props.qso.qra}</Text>
-          </TouchableOpacity>
-          <Text>{text}</Text>
+          <View style={styles.actionHeader}>
+            <TouchableOpacity
+              // style={styles.button}
+              onPress={() =>
+                this.props.navigation.navigate('QRAProfile', {
+                  qra: this.props.qso.qra
+                })
+              }>
+              <Text style={styles.actionHeaderText}>{this.props.qso.qra}</Text>
+            </TouchableOpacity>
+            <Text style={styles.actionHeaderText}>{text}</Text>
+          </View>
+          <View style={styles.actionDetail}>
+            <Text style={styles.actionDetailText}>
+              {this.props.qso.mode && (
+                <Fragment>
+                  <Text style={styles.bold}>{I18n.t('qso.mode')}:</Text>
+                  <Text>{this.props.qso.mode}</Text>
+                </Fragment>
+              )}
+              {this.props.qso.band && (
+                <Fragment>
+                  <Text style={styles.bold}>{I18n.t('qso.band')}:</Text>
+                  <Text>{this.props.qso.band}</Text>
+                </Fragment>
+              )}
+              {this.props.qso.db && (
+                <Fragment>
+                  <Text style={styles.bold}>dB:</Text>
+                  <Text>{this.props.qso.db}</Text>
+                </Fragment>
+              )}
+              {this.props.qso.rst && (
+                <Fragment>
+                  <Text style={styles.bold}>RST:</Text>
+                  <Text>{this.props.qso.db}</Text>
+                </Fragment>
+              )}
+              <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
+              <Text>
+                {date.toLocaleDateString(I18n.locale.substring(0, 2), {
+                  month: 'short'
+                })}
+              </Text>
+
+              <Text style={styles.bold}> UTC:</Text>
+              <Text>
+                {date.getUTCHours() +
+                  ':' +
+                  (date.getMinutes() < 10 ? '0' : '') +
+                  date.getMinutes()}
+              </Text>
+            </Text>
+          </View>
         </View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  bold: { fontWeight: 'bold' },
+  actionHeaderText: {
+    fontSize: 20
+  },
+  actionDetailText: {},
   header: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
     // flexGrow: 1
     // marginTop: Constants.statusBarHeight
   },
   avatar: {
     flex: 1,
     flexDirection: 'column',
-    width: 50
-    // flexGrow: 1
+    flexBasis: 60,
+    flexGrow: 0,
+    flexShrink: 0
     // marginTop: Constants.statusBarHeight
   },
   follow: {
     flex: 1,
+    flexDirection: 'column'
+  },
+  action: {
+    flex: 1,
     flexDirection: 'column',
-    width: 70
-    // flexGrow: 1
+    // flexBasis: 60,
+    flexGrow: 1,
+    flexShrink: 0
+  },
+  actionHeader: {
+    flex: 1,
+    // width: 100,
+    flexDirection: 'row',
+    flexGrow: 0,
+    flexShrink: 0
+    // marginTop: Constants.statusBarHeight
+  },
+  actionDetail: {
+    flex: 1,
+    // width: 100,
+    flexDirection: 'row',
+    flexGrow: 0,
+    flexShrink: 0
     // marginTop: Constants.statusBarHeight
   },
   item: {

@@ -1,49 +1,41 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Image from "semantic-ui-react/dist/commonjs/elements/Image";
-import PopupToFollow from "../PopupToFollow";
-
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Avatar } from 'react-native-elements';
+// import PopupToFollow from '../PopupToFollow';
 
 export default class QRA extends React.Component {
   render() {
     return (
-      <div
-        style={{
-          display: "grid",
-          justifyItems: "center"
-        }}
-      >
-        <div
-          style={{
-            justifySelf: "center",
-            width: "40px",
-            height: "40px"
-          }}
-        >
-          <Link to={"/" + this.props.qra}>
-            <Image
-              size="medium"
-              src={
-                this.props.avatarpic
-                  ? this.props.avatarpic
-                  : "/emptyprofile.png"
-              }
-              circular
-            />
-          </Link>
-        </div>
-        <div
-          style={{
-            justifySelf: "center",
-            fontSize: "0.9rem"
-          }}
-        >
-          <PopupToFollow
-            qra={this.props.qra}
-            trigger={<Link to={"/" + this.props.qra}>{this.props.qra}</Link>}
+      <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('QRAProfile', {
+              qra: this.props.qra
+            })
+          }>
+          <Avatar
+            size="medium"
+            rounded
+            source={
+              this.props.avatarpic
+                ? {
+                    uri: this.props.avatarpic
+                  }
+                : require('../../images/emptyprofile.png')
+            }
           />
-        </div>
-      </div>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+    // flexGrow: 1
+    // marginTop: Constants.statusBarHeight
+  }
+});

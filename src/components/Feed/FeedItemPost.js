@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 //import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
-import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
-import PopupToFollow from '../PopupToFollow';
-import TextToFollow from '../TextToFollow';
 import FeedLinkList from './FeedLinkList';
 import FeedMedia from './FeedMedia';
 import FeedOptionsMenu from './FeedOptionsMenu';
@@ -87,53 +84,6 @@ class FeedItemPost extends React.Component {
       <Fragment>
         <Segment raised>
           <div className="qso-header">
-            <div className="qso-avatar">
-              <Link to={'/' + this.props.qso.qra}>
-                <Image
-                  src={
-                    this.props.qso.avatarpic
-                      ? this.props.qso.avatarpic
-                      : '/emptyprofile.png'
-                  }
-                  size="mini"
-                  avatar
-                  style={{
-                    width: '50px',
-                    height: '50px'
-                  }}
-                />
-              </Link>
-              <TextToFollow qra={this.props.qso.qra} />
-            </div>
-            <div className="qso-header-action">
-              <PopupToFollow
-                qra={this.props.qso.qra}
-                trigger={
-                  <Link to={'/' + this.props.qso.qra}>
-                    {this.props.qso.qra}
-                  </Link>
-                }
-              />
-              {text}
-            </div>
-            <div className="qso-header-info-post">
-              <div>
-                <b>{t('qso.date')}: </b>
-                {date.toLocaleDateString(i18n.language, { month: 'short' }) +
-                  ' ' +
-                  date.getDate() +
-                  ', ' +
-                  date.getFullYear()}
-              </div>
-              <div>
-                <b>UTC: </b>
-                {date.getUTCHours() +
-                  ':' +
-                  (date.getMinutes() < 10 ? '0' : '') +
-                  date.getMinutes()}
-              </div>
-            </div>
-
             <div
               className="qso-header-button"
               style={{
