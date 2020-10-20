@@ -1134,7 +1134,7 @@ if (this.pressVideo===false)
                   console.log('path: '+ path)
                  
                   // se comprime la imagen del preview para mostrar en Muestro.Js y en el feed con baja definicion
-                  await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',86).then((response) => {
+                  await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',80).then((response) => {
           
                     this.compressImagePreview = response.uri;
                         

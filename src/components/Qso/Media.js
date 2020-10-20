@@ -149,21 +149,37 @@ class Media extends Component {
           }}
         >
           <View style={{ flex: 0.25 }}>
-            {this.props.type === "image" || this.props.type === "profile" ? (
+            {(this.props.type === "image" || this.props.type === "profile") && 
               <Image
                 style={styles.mediaStyle}
                 resizeMethod="resize"
-                source={{ uri: this.props.imageurl }}
+                 source={{ uri: this.props.imageurl }}
+                
+                
               />
-            ) : (
-              <PlayMediaAudioPost url={this.props.imageurl} />
-            )
-
-            // <Image
-            // style={styles.mediaStyle}
-            // source={require('../../images/audio.png')}
-            //     />
+            
             }
+            {(this.props.type === "audio") && 
+              <PlayMediaAudioPost url={this.props.imageurl} />
+            
+            }
+            {(this.props.type === "video") &&  
+                  <View>
+                  <Image
+                   style={styles.mediaStyle}
+                   resizeMethod="resize"
+                   source={{ uri: this.props.videoimagepreview }}
+                   
+                 />
+                    <Image style={styles.videoImageStyle}
+                     source={require('../../images/video1.png')}
+                         />
+                 </View>
+            
+  }
+            
+            
+   
           </View>
           <View style={{ flex: 0.7, width: this.restaWidth }}>
           <View style={{ flex: 0.20, alignItems: "flex-start" }}>
@@ -326,6 +342,14 @@ const styles = StyleSheet.create({
         borderRadius: 30,
        // marginTop: 10
          },
+         videoImageStyle:
+         {
+          width: 40,
+          height: 40,
+          marginLeft: 9
+         // borderRadius: 30,
+         // marginTop: 10
+           },
     name:{
         fontSize: 12,
         marginLeft: 5,
