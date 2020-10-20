@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 // import Item from 'semantic-ui-react/dist/commonjs/views/Item';
 import FeedVideo from './FeedVideo';
-import './style.js';
+// import './style.js';
 class FeedVideoList extends React.Component {
   render() {
     if (this.props.mediaList.length > 0) {

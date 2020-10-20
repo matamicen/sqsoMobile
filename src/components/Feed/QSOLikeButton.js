@@ -37,7 +37,7 @@ class QSOLikeButton extends React.Component {
       if (this.props.qso.likes) {
         if (
           this.props.qso.likes.some(
-            o => o.idqra === this.props.userData.qra.idqras
+            (o) => o.idqra === this.props.userData.qra.idqras
           )
         ) {
           this.icon = 'thumbs up';
@@ -64,7 +64,7 @@ class QSOLikeButton extends React.Component {
       props.userData.qra.idqras &&
       prevState.idqra !== props.userData.qra.idqras
     ) {
-      if (props.qso.likes.some(o => o.idqra === props.userData.qra.idqras)) {
+      if (props.qso.likes.some((o) => o.idqra === props.userData.qra.idqras)) {
         return {
           liked: true,
           icon: 'thumbs up',
@@ -101,8 +101,7 @@ class QSOLikeButton extends React.Component {
     return null;
   }
   async doLike(token = null) {
-    if (process.env.REACT_APP_STAGE === 'production') {
-
+    if (!__DEV__) {
       window.gtag('event', 'qsoLiked_WEBPRD', {
         event_category: 'QSO',
         event_label: 'liked'
@@ -114,7 +113,7 @@ class QSOLikeButton extends React.Component {
       // cognitoUser.refreshSession(
       //   currentSession.refreshToken,
       //   (error, session) => {
-      //     if (process.env.NODE_ENV !== 'production') {
+      //     if (__DEV__) {
       //       console.log('Unable to refresh Token');
       //       console.log(error);
       //     } else {
@@ -127,44 +126,44 @@ class QSOLikeButton extends React.Component {
       //     let token = session.idToken.jwtToken;
       const currentSession = await Auth.currentSession();
       const token = currentSession.getIdToken().getJwtToken();
-          this.props.actions.refreshToken(token);
-       
-          let apiName = 'superqso';
-          let path = '/qso-like';
-          let myInit = {
-            body: {
-              qso: this.props.qso.idqso_shared
-                ? this.props.qso.idqso_shared
-                : this.props.qso.idqsos
-            }, // replace this with attributes you need
-            headers: {
-              Authorization: token ? token : this.props.token
-            } // OPTIONAL
-          };
-          API.post(apiName, path, myInit)
-            .then(response => {
-              if (response.body.error > 0) {
-              } else {
-              }
-            })
-            .catch(async error => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log(error.message);
-              } else {
-                Sentry.configureScope(function(scope) {
-                  scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-                });
-                Sentry.captureException(error);
-              }
+      this.props.actions.refreshToken(token);
+
+      let apiName = 'superqso';
+      let path = '/qso-like';
+      let myInit = {
+        body: {
+          qso: this.props.qso.idqso_shared
+            ? this.props.qso.idqso_shared
+            : this.props.qso.idqsos
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token ? token : this.props.token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error > 0) {
+          } else {
+          }
+        })
+        .catch(async (error) => {
+          if (__DEV__) {
+            console.log(error.message);
+          } else {
+            Sentry.configureScope(function (scope) {
+              scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
+            Sentry.captureException(error);
+          }
+        });
       //   }
       // );
     } catch (error) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (__DEV__) {
         console.log('Unable to refresh Token');
         console.log(error);
       } else {
-        Sentry.configureScope(function(scope) {
+        Sentry.configureScope(function (scope) {
           scope.setExtra('ENV', process.env.REACT_APP_STAGE);
         });
         Sentry.captureException(error);
@@ -173,8 +172,7 @@ class QSOLikeButton extends React.Component {
   }
 
   async doUnLike(token = null) {
-    if (process.env.REACT_APP_STAGE === 'production') {
-
+    if (!__DEV__) {
       window.gtag('event', 'qsoUnliked_WEBPRD', {
         event_category: 'QSO',
         event_label: 'unliked'
@@ -186,7 +184,7 @@ class QSOLikeButton extends React.Component {
       // cognitoUser.refreshSession(
       //   currentSession.refreshToken,
       //   (error, session) => {
-      //     if (process.env.NODE_ENV !== 'production') {
+      //     if (__DEV__) {
       //       console.log('Unable to refresh Token');
       //       console.log(error);
       //     } else {
@@ -199,44 +197,43 @@ class QSOLikeButton extends React.Component {
       //     let token = session.idToken.jwtToken;
       const currentSession = await Auth.currentSession();
       const token = currentSession.getIdToken().getJwtToken();
-          this.props.actions.refreshToken(token);
-          let apiName = 'superqso';
-          let path = '/qso-like';
-          let myInit = {
-            body: {
-              qso: this.props.qso.idqso_shared
-                ? this.props.qso.idqso_shared
-                : this.props.qso.idqsos
-            }, // replace this with attributes you need
-            headers: {
-              Authorization: token ? token : this.props.token
-            } // OPTIONAL
-          };
-          API.del(apiName, path, myInit)
-            .then(response => {
-              if (response.body.error > 0) {
-              } else {
-
-              }
-            })
-            .catch(async error => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log(error.message);
-              } else {
-                Sentry.configureScope(function(scope) {
-                  scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-                });
-                Sentry.captureException(error);
-              }
+      this.props.actions.refreshToken(token);
+      let apiName = 'superqso';
+      let path = '/qso-like';
+      let myInit = {
+        body: {
+          qso: this.props.qso.idqso_shared
+            ? this.props.qso.idqso_shared
+            : this.props.qso.idqsos
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token ? token : this.props.token
+        } // OPTIONAL
+      };
+      API.del(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error > 0) {
+          } else {
+          }
+        })
+        .catch(async (error) => {
+          if (__DEV__) {
+            console.log(error.message);
+          } else {
+            Sentry.configureScope(function (scope) {
+              scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
+            Sentry.captureException(error);
+          }
+        });
       //   }
       // );
     } catch (error) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (__DEV__) {
         console.log('Unable to refresh Token');
         console.log(error);
       } else {
-        Sentry.configureScope(function(scope) {
+        Sentry.configureScope(function (scope) {
           scope.setExtra('ENV', process.env.REACT_APP_STAGE);
         });
         Sentry.captureException(error);
@@ -322,19 +319,16 @@ class QSOLikeButton extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.userData.isAuthenticated,
   currentQRA: state.sqso.qra,
   userData: state.userData,
   token: state.sqso.jwtToken
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(QSOLikeButton))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(QSOLikeButton))
 );

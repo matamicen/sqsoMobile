@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
@@ -39,6 +40,7 @@ import {
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
+  RECEIVE_FOLLOWERS,
   REFRESH_FOLLOWINGS,
   REQUEST_FEED,
   RESET_FOR_SIGN_OUT,
@@ -223,18 +225,16 @@ const qsoReducer = (state = initialState, action) => {
   let auxcurrentQso;
   switch (action.type) {
     case FETCHING_API_REQUEST:
-      {
-        if (action.apiName === 'getUserInfo') {
-          //  return {...state, isFetchingUserInfo: true, userInfoApiSuccesMessage: '',
-          //   userInfoApiErrorMessage: '' };
-          newStore = Object.assign({}, state, {
-            ...state,
-            isFetchingUserInfo: true,
-            userInfoApiSuccesMessage: '',
-            userInfoApiErrorMessage: ''
-          });
-          return newStore;
-        }
+      if (action.apiName === 'getUserInfo') {
+        //  return {...state, isFetchingUserInfo: true, userInfoApiSuccesMessage: '',
+        //   userInfoApiErrorMessage: '' };
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingUserInfo: true,
+          userInfoApiSuccesMessage: '',
+          userInfoApiErrorMessage: ''
+        });
+        return newStore;
       }
 
       return state;
@@ -260,7 +260,7 @@ const qsoReducer = (state = initialState, action) => {
         return newStore;
       }
 
-      return state;
+    // return state;
 
     //  return {...state, isFetching: false, errorApiMessage: action.payload  };
 
@@ -485,7 +485,7 @@ const qsoReducer = (state = initialState, action) => {
 
     case COPY_CALLSIGN_TO_QSOQRAS:
       // copio los callsigns dados de alta + los callsigns existentes en qsoqras en AUX
-      aux = [...state.currentQso.qsoqras, ...action.qsocallsigns];
+      var aux = [...state.currentQso.qsoqras, ...action.qsocallsigns];
       // eleimino los duplicados en AUX por si el usuario repite los callsigns
       (keys = ['qra']),
         (filtered = aux.filter(
@@ -617,7 +617,7 @@ const qsoReducer = (state = initialState, action) => {
         //     if(item.qra === action.qra){
         return { ...item, ...action.sentStatus };
         //    }
-        return item;
+        // return item;
       });
       //    return updatedItems
 
@@ -1410,7 +1410,7 @@ const qsoReducer = (state = initialState, action) => {
     case DELETE_MEDIA_MEMORY:
       // borro el media que viene bajo la variable action.name
       const mediaUpdated = state.currentQso.mediafiles.filter(
-        (item) => item.name != action.name
+        (item) => item.name !== action.name
       );
 
       auxcurrentQso = {
@@ -1473,7 +1473,7 @@ const qsoReducer = (state = initialState, action) => {
             return { ...item, ...modif };
           }
 
-          return item;
+          // return item;
         });
 
         // Esta rutina la marca como leida, le cambia el color
@@ -1498,7 +1498,7 @@ const qsoReducer = (state = initialState, action) => {
       }
 
       if (action.notifType === 'CALCULOUNREAD') {
-        cont = 0;
+        var cont = 0;
 
         // Esta rutina la marca como leida, le cambia el color
         const updatedItems5 = action.notifications.map((item) => {
@@ -1517,13 +1517,13 @@ const qsoReducer = (state = initialState, action) => {
           //    if(item.idqra_activity === action.notifications){
           // return { ...item, ...modif }
           // }
-          return item;
+          // return item;
         });
 
         //console.log('cant mess no leidos: ' + cont);
         //   AsyncStorage.setItem('ultimafecha', today);
 
-        auxUnread = cont;
+        var auxUnread = cont;
         auxcurrentQso = {
           ...state.currentQso,
           // notifications: action.notifications
@@ -1661,8 +1661,6 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case RECEIVE_FEED:
-      // console.log('RECEIVE_FEED');
-      // console.log(action);
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -1679,7 +1677,7 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           follow: action.follow.filter((f) => {
-            return !state.userData.following.some(
+            return !state.sqso.currentQSO.followings.some(
               (o) => o.idqra_followed === f.idqras
             );
           }),
@@ -1689,6 +1687,28 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
+    case RECEIVE_FOLLOWERS:
+      var newStore1 = Object.assign({}, state, {
+        ...state,
+        currentQso: {
+          ...state.currentQso,
+          followings: action.following
+        },
+        feed: {
+          ...state.feed,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                following:
+                  state.feed.qra.qra.idqras === state.userInfo.idqras
+                    ? action.following
+                    : state.feed.qra.following
+              }
+            : null
+        }
+      });
+
+      return newStore1;
     default:
       return state;
   }

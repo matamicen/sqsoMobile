@@ -12,6 +12,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import { connect } from 'react-redux';
 // import Home from './Qso/Home';
 import Home from './Feed';
+import QRAProfile from './Feed/Profile';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
 //import SignOutScreen from './SignOutScreen';
@@ -26,7 +27,6 @@ import CameraScreen from './Qso/Camera';
 import ErrorBoundary from './Qso/ErrorBoundary';
 import QsoScreen from './Qso/QsoScreen';
 import UtilScreen from './Util/Util';
-
 const middleware = createReactNavigationReduxMiddleware(
   'root',
   (state) => state.nav
@@ -270,6 +270,13 @@ export const AppNavigator = createStackNavigator({
 
   ForgotScreen: {
     screen: ForgotScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+
+  QRAProfile: {
+    screen: QRAProfile,
     navigationOptions: {
       header: null
     }

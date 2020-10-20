@@ -13,10 +13,7 @@ class QRAProfileHeader extends React.Component {
   close = () => this.setState({ showModal: false });
   open = () => {
     if (this.props.qraInfo && this.props.qraInfo.profilepic) {
-      if (process.env.REACT_APP_STAGE === 'production')
-        window.gtag('event', 'profilePicModalOpen_WEBPRD', {
-
-        });
+      if (!__DEV__) window.gtag('event', 'profilePicModalOpen_WEBPRD', {});
       this.setState({ showModal: true });
     }
   };
@@ -28,14 +25,14 @@ class QRAProfileHeader extends React.Component {
       buttonText = t('qra.unfollow');
     } else {
       buttonText = this.props.followers.some(
-        o => o.qra === this.props.qraInfo.qra
+        (o) => o.qra === this.props.qraInfo.qra
       )
         ? t('qra.followToo')
         : t('qra.follow');
     }
 
     var result = this.props.qraInfo
-      ? MY_COUNTRIES_DATA.filter(obj => {
+      ? MY_COUNTRIES_DATA.filter((obj) => {
           return obj.key === this.props.qraInfo.country;
         })
       : null;
@@ -118,8 +115,7 @@ class QRAProfileHeader extends React.Component {
                       // positive={!props.following.some(o => o.qra === this.props.qraInfo.qra)}
                       positive={!this.props.followed}
                       onClick={() => this.props.onClick()}
-                      style={{ paddingLeft: '1em', paddingRight: '1em' }}
-                    >
+                      style={{ paddingLeft: '1em', paddingRight: '1em' }}>
                       {buttonText}
                     </Button>
                   )}
@@ -137,9 +133,8 @@ class QRAProfileHeader extends React.Component {
           open={this.state.showModal}
           onClose={this.close}
           // style={{ height: '90%', overflowY: 'auto' }}
-          style={{ width: 'fit-content' }}
-        >
-          <Modal.Content >
+          style={{ width: 'fit-content' }}>
+          <Modal.Content>
             <Modal.Description>
               <div style={{ padding: '1vh' }}>
                 <Image

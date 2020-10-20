@@ -49,7 +49,7 @@ class QRAProfileInfo extends React.Component {
     if (this.props.qraInfo !== prevProps.qraInfo)
       this.setState({ qra: this.props.qraInfo });
   }
-  handleOnSaveInfo = e => {
+  handleOnSaveInfo = (e) => {
     this.props.actions.doSaveUserInfo(this.props.token, this.state.qra);
     this.close();
   };
@@ -100,8 +100,7 @@ class QRAProfileInfo extends React.Component {
                     positive
                     fluid
                     size="mini"
-                    onClick={() => this.setState({ edit: true })}
-                  >
+                    onClick={() => this.setState({ edit: true })}>
                     {t('qra.editInfo')}
                   </Button>
                 </div>
@@ -125,7 +124,6 @@ class QRAProfileInfo extends React.Component {
             <Form.Input
               name="email"
               label={t('qra.email')}
-              
               transparent
               value={email ? email : ''}
             />
@@ -145,7 +143,6 @@ class QRAProfileInfo extends React.Component {
             <Form.Input
               name="address"
               label={t('qra.addressLine1')}
-
               transparent
               value={address ? address : ''}
             />
@@ -153,7 +150,6 @@ class QRAProfileInfo extends React.Component {
             <Form.Input
               name="address2"
               label={t('qra.addressLine2')}
-              
               transparent
               value={address2 ? address2 : ''}
             />
@@ -228,7 +224,6 @@ class QRAProfileInfo extends React.Component {
             <Form.Input
               name="qslinfo"
               label={t('qra.qsoInfo')}
-              
               transparent
               value={qslinfo ? qslinfo : ''}
             />
@@ -250,17 +245,14 @@ const mapStateToProps = (state, ownProps) => ({
   //state: state,
   currentQRA: state.userData.currentQRA,
   isAuthenticated: state.userData.isAuthenticated,
-  token: state.userData.token
+  token: state.sqso.jwtToken
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { pure: false }
-  )(withTranslation()(QRAProfileInfo))
+  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
+    withTranslation()(QRAProfileInfo)
+  )
 );

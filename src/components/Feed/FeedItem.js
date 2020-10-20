@@ -59,7 +59,7 @@ class FeedItem extends React.PureComponent {
       //             fluid
       //             size="medium"
       //             onClick={() => {
-      //               if (process.env.REACT_APP_STAGE === 'production')
+      //               if (!__DEV__)
       //                 window.gtag('event', 'exploreUsersButton_WEBPRD', {});
       //               props.history.push('/explore');
       //             }}>

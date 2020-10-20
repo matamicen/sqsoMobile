@@ -1,8 +1,10 @@
 import React from 'react';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
-import '../styles/style.css';
+import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
+// import '../styles/style.css';
 
 class PopupToFollow extends React.Component {
   state = {
@@ -11,12 +13,6 @@ class PopupToFollow extends React.Component {
   };
 
   follow = () => {
-    this.setState({ isFollowing: true });
-    // if (process.env.REACT_APP_STAGE === 'production')
-    // window.gtag('event', 'qraFollowFeed_WEBPRD', {
-    //   event_category: 'User',
-    //   event_label: 'follow'
-    // });
     this.props.actions.doFollowQRA(this.props.token, this.props.qra);
   };
   unfollow = () => {
@@ -33,20 +29,15 @@ class PopupToFollow extends React.Component {
     return null;
   }
   render = () => {
-    const { t } = this.props;
-    let button;
-    if (
-      this.props.isAuthenticated &&
-      this.props.currentQRA !== this.props.qra &&
-      !this.state.isFollowing
-    )
+    if (this.props.currentQRA !== this.props.qra && !this.state.isFollowing)
       return (
-        <button
-          type="button"
-          className="link-button-follow"
-          onClick={() => this.follow()}>
-          <span style={{ alignSelf: 'center' }}>{t('qra.follow')}</span>
-        </button>
+        <Button
+          type="clear"
+          // type="button"
+          // className="link-button-follow"
+          onPress={() => this.follow()}
+          title={I18n.t('qra.follow')}
+        />
       );
     else return null;
   };
@@ -54,10 +45,10 @@ class PopupToFollow extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
-  currentQRA: state.sqso.feed.userData.currentQRA,
-  isAuthenticated: state.sqso.feed.userData.isAuthenticated,
-  following: state.sqso.feed.userData.following,
-  token: state.userData.token
+  currentQRA: state.sqso.qra,
+
+  following: state.sqso.currentQso.followings,
+  token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

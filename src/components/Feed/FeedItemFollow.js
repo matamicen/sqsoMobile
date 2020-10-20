@@ -21,7 +21,7 @@ class FeedItemFollow extends React.Component {
   }
   doFollow = (param) => {
     if (this.props.isAuthenticated) {
-      if (process.env.REACT_APP_STAGE === 'production')
+      if (!__DEV__)
         window.gtag('event', 'qraFollowRecommended_WEBPRD', {
           event_category: 'User',
           event_label: 'follow'

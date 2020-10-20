@@ -46,14 +46,14 @@ class QRAProfileBioEdit extends React.PureComponent {
   getImage(path) {
     return new Promise((resolve, reject) => {
       Storage.get(path, { level: 'protected' })
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(error => {
-          if (process.env.NODE_ENV !== 'production') {
+        .catch((error) => {
+          if (__DEV__) {
             console.log(error);
           } else {
-            Sentry.configureScope(function(scope) {
+            Sentry.configureScope(function (scope) {
               scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
             Sentry.captureException(error);
@@ -75,7 +75,7 @@ class QRAProfileBioEdit extends React.PureComponent {
         // cognitoUser.refreshSession(
         //   currentSession.refreshToken,
         //   (error, session) => {
-        //     if (process.env.NODE_ENV !== 'production') {
+        //     if (__DEV__) {
         //       console.log('Unable to refresh Token');
         //       console.log(error);
         //     } else {
@@ -96,7 +96,7 @@ class QRAProfileBioEdit extends React.PureComponent {
           level: 'protected',
           contentType: 'image/png'
         })
-          .then(result => {
+          .then((result) => {
             let filepath;
 
             filepath =
@@ -117,16 +117,16 @@ class QRAProfileBioEdit extends React.PureComponent {
               }
             };
             API.post(apiName, path, myInit)
-              .then(response => {
+              .then((response) => {
                 if (response.body.error > 0) {
                   //NSFW
                   Storage.remove(result.key, { level: 'protected' })
-                    .then(result => resolve(true))
-                    .catch(error => {
-                      if (process.env.NODE_ENV !== 'production') {
+                    .then((result) => resolve(true))
+                    .catch((error) => {
+                      if (__DEV__) {
                         console.log(error);
                       } else {
-                        Sentry.configureScope(function(scope) {
+                        Sentry.configureScope(function (scope) {
                           scope.setExtra('ENV', process.env.REACT_APP_STAGE);
                         });
                         Sentry.captureException(error);
@@ -143,11 +143,11 @@ class QRAProfileBioEdit extends React.PureComponent {
                     }
                   });
               })
-              .catch(error => {
-                if (process.env.NODE_ENV !== 'production') {
+              .catch((error) => {
+                if (__DEV__) {
                   console.log(error);
                 } else {
-                  Sentry.configureScope(function(scope) {
+                  Sentry.configureScope(function (scope) {
                     scope.setExtra('ENV', process.env.REACT_APP_STAGE);
                   });
                   Sentry.captureException(error);
@@ -155,11 +155,11 @@ class QRAProfileBioEdit extends React.PureComponent {
                 reject(error);
               });
           })
-          .catch(error => {
-            if (process.env.NODE_ENV !== 'production') {
+          .catch((error) => {
+            if (__DEV__) {
               console.log(error);
             } else {
-              Sentry.configureScope(function(scope) {
+              Sentry.configureScope(function (scope) {
                 scope.setExtra('ENV', process.env.REACT_APP_STAGE);
               });
               Sentry.captureException(error);
@@ -168,11 +168,11 @@ class QRAProfileBioEdit extends React.PureComponent {
           });
         // });
       } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           console.log('Unable to refresh Token');
           console.log(error);
         } else {
-          Sentry.configureScope(function(scope) {
+          Sentry.configureScope(function (scope) {
             scope.setExtra('ENV', process.env.REACT_APP_STAGE);
           });
           Sentry.captureException(error);
@@ -191,7 +191,7 @@ class QRAProfileBioEdit extends React.PureComponent {
     );
     this.props.closeModal();
   };
-  onEditorStateChange = editorState => {
+  onEditorStateChange = (editorState) => {
     this.setState({ editorState: editorState });
   };
   render() {
@@ -200,11 +200,10 @@ class QRAProfileBioEdit extends React.PureComponent {
     return (
       <Fragment>
         <Modal
-        centered={false}
+          centered={false}
           size="small"
           open={this.props.modalOpen}
-          onClose={() => this.props.closeModal()}
-        >
+          onClose={() => this.props.closeModal()}>
           <Header content={t('qra.editBio')} />
           <Modal.Content>
             <Container>
@@ -240,8 +239,8 @@ class QRAProfileBioEdit extends React.PureComponent {
                     },
                     defaultSize: {
                       height: 'auto',
-                      width: '100%',
-                    },
+                      width: '100%'
+                    }
                   }
                 }}
               />
@@ -272,17 +271,14 @@ const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.userData.currentQRA,
   identityId: state.userData.identityId,
   isAuthenticated: state.userData.isAuthenticated,
-  token: state.userData.token
+  token: state.sqso.jwtToken
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { pure: false }
-  )(withTranslation()(QRAProfileBioEdit))
+  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
+    withTranslation()(QRAProfileBioEdit)
+  )
 );

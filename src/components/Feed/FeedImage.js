@@ -145,7 +145,7 @@ export const FeedImage = (props) => {
     //               key={m.idqsos_media}
     //               alt={m.description ? m.description : 'no description'}
     //               onClick={() => {
-    //                 if (process.env.REACT_APP_STAGE === 'production')
+    //                 if (!__DEV__)
     //                   window.gtag('event', 'qsoImageModalOpen_WEBPRD', {
     //                     event_category: 'qso',
     //                     event_label: 'imageModalOpen'

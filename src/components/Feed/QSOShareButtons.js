@@ -34,7 +34,7 @@ const QSOShareButtons = ({ idqso, t, title }) => {
                   title={title}
                   url={window.location.origin + '/qso/' + idqso}
                   beforeOnClick={() => {
-                    if (process.env.REACT_APP_STAGE === 'production')
+                    if (!__DEV__)
 
                       window.gtag('event', 'qsoShareWAPP_WEBPRD', {
                         event_category: 'QSO',
@@ -49,7 +49,7 @@ const QSOShareButtons = ({ idqso, t, title }) => {
                   quote={title}
                   url={window.location.origin + '/qso/' + idqso}
                   beforeOnClick={() => {
-                    if (process.env.REACT_APP_STAGE === 'production')
+                    if (!__DEV__)
 
                       window.gtag('event', 'qsoShareFB_WEBPRD', {
                         event_category: 'QSO',
@@ -64,7 +64,7 @@ const QSOShareButtons = ({ idqso, t, title }) => {
                   title={title}
                   url={window.location.origin + '/qso/' + idqso}
                   beforeOnClick={() => {
-                    if (process.env.REACT_APP_STAGE === 'production')
+                    if (!__DEV__)
 
                       window.gtag('event', 'qsoShareTW_WEBPRD', {
                         event_category: 'QSO',
@@ -84,7 +84,7 @@ const QSOShareButtons = ({ idqso, t, title }) => {
                     )
                   }
                   onClick={() => {
-                    if (process.env.REACT_APP_STAGE === 'production')
+                    if (!__DEV__)
 
                       window.gtag('event', 'qsoShareWAPP_WEBPRD', {
                         event_category: 'QSO',
@@ -100,7 +100,7 @@ const QSOShareButtons = ({ idqso, t, title }) => {
                   quote={title}
                   url={window.location.origin + '/qso/' + idqso}
                   beforeOnClick={() => {
-                    if (process.env.REACT_APP_STAGE === 'production')
+                    if (!__DEV__)
 
                       window.gtag('event', 'qsoShareFB_WEBPRD', {
                         event_category: 'QSO',
@@ -120,7 +120,7 @@ const QSOShareButtons = ({ idqso, t, title }) => {
                     encodeURIComponent(title)
                   }
                   onClick={() => {
-                    if (process.env.REACT_APP_STAGE === 'production')
+                    if (!__DEV__)
 
                       window.gtag('event', 'qsoShareTW_WEBPRD', {
                         event_category: 'QSO',

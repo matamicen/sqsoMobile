@@ -13,7 +13,7 @@ class QSOLikeTextModalItem extends React.Component {
     this.state = { followed: null };
   }
   componentDidMount() {
-    if (process.env.REACT_APP_STAGE === 'production')
+    if (!__DEV__)
       window.gtag('event', 'qsoLikeModalOpen_WEBPRD', {
         event_category: 'qso',
         event_label: 'qsoLikeModalOpen'
@@ -29,7 +29,7 @@ class QSOLikeTextModalItem extends React.Component {
     if (!this.props.userData.token) return null;
     if (this.props.userData.isAuthenticated) {
       if (!this.followed) {
-        if (process.env.REACT_APP_STAGE === 'production')
+        if (!__DEV__)
           window.gtag('event', 'qraFollowLike_WEBPRD', {
             event_category: 'User',
             event_label: 'follow'

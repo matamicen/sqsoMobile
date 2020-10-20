@@ -13,7 +13,7 @@ class Home extends React.Component {
     // videoAlreadyDisplayed: false
   };
   componentDidMount() {
-    // if (process.env.NODE_ENV !== 'production')
+    // if (__DEV__)
     //   this.setState({ adActive: false });
     this.props.actions.doFollowFetch();
     if (this.props.qsos.length === 0) {

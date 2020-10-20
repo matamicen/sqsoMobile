@@ -1,14 +1,7 @@
 import React, { Fragment } from 'react';
-import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Modal } from 'semantic-ui-react';
-import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
-import Dimmer from 'semantic-ui-react/dist/commonjs/modules/Dimmer';
-import * as Actions from '../../actions';
-import '../../styles/style.css';
-import QRAProfile from './QRAProfilePresentational';
+import * as Actions from '../../../actions';
 class QRAProfileContainer extends React.PureComponent {
   constructor() {
     super();
@@ -28,8 +21,7 @@ class QRAProfileContainer extends React.PureComponent {
 
   componentDidMount() {
     if (this.props.qra) this.setState({ qra: this.props.qra });
-    if (process.env.NODE_ENV !== 'production')
-      this.setState({ adActive: false });
+    if (__DEV__) this.setState({ adActive: false });
 
     //Following
     // if (
@@ -45,25 +37,25 @@ class QRAProfileContainer extends React.PureComponent {
     // }
 
     //Comentado Adsense
-    window.googletag.cmd.push(function() {
-      window.googletag.destroySlots();
-      window.googletag
-        .defineSlot(
-          '/22031658057/qraDetail/qraDetail_left',
-          [160, 600],
-          'div-ads-instance-qraDetail-left'
-        )
-        .addService(window.googletag.pubads());
-      window.googletag
-        .defineSlot(
-          '/22031658057/qraDetail/qraDetail_right',
-          [160, 600],
-          'div-ads-instance-qraDetail-right'
-        )
-        .addService(window.googletag.pubads());
-      window.googletag.pubads().enableSingleRequest();
-      window.googletag.enableServices();
-    });
+    // window.googletag.cmd.push(function () {
+    //   window.googletag.destroySlots();
+    //   window.googletag
+    //     .defineSlot(
+    //       '/22031658057/qraDetail/qraDetail_left',
+    //       [160, 600],
+    //       'div-ads-instance-qraDetail-left'
+    //     )
+    //     .addService(window.googletag.pubads());
+    //   window.googletag
+    //     .defineSlot(
+    //       '/22031658057/qraDetail/qraDetail_right',
+    //       [160, 600],
+    //       'div-ads-instance-qraDetail-right'
+    //     )
+    //     .addService(window.googletag.pubads());
+    //   window.googletag.pubads().enableSingleRequest();
+    //   window.googletag.enableServices();
+    // });
     let qraInMemory = this.props.qra ? this.props.qra.qra.qra : '';
 
     if (
@@ -94,7 +86,6 @@ class QRAProfileContainer extends React.PureComponent {
   handleOpen = () => this.setState({ adActive: true });
   handleClose = () => this.setState({ adActive: false, adClosed: true });
   componentDidUpdate(prevProps, prevState) {
-    
     if (this.props.qra !== prevProps.qra)
       this.setState({ qra: this.props.qra });
     if (this.props.qraError && prevState.loaderActive) {
@@ -191,7 +182,7 @@ class QRAProfileContainer extends React.PureComponent {
       !this.followed
     ) {
       if (this.props.isAuthenticated) {
-        if (process.env.REACT_APP_STAGE === 'production')
+        if (!__DEV__)
           window.gtag('event', 'qraFollowProfile_WEBPRD', {
             event_category: 'User',
             event_label: 'follow'
@@ -225,19 +216,18 @@ class QRAProfileContainer extends React.PureComponent {
     let qraInfo = null;
     if (this.props.qra) qraInfo = this.props.qra.qra;
 
-    if (this.props.qraError) {
-      return (
-        <Modal
-          open={this.props.qraError ? true : false}
-          onClose={() =>  this.props.history.push('/')}
-          size="small"
-        >
-          <Modal.Content>
-            <p align="center">{this.props.qraError}</p>
-          </Modal.Content>
-        </Modal>
-      );
-    }
+    // if (this.props.qraError) {
+    //   return (
+    //     // <Modal
+    //     //   open={this.props.qraError ? true : false}
+    //     //   onClose={() => this.props.history.push('/')}
+    //     //   size="small">
+    //     //   <Modal.Content>
+    //     //     <p align="center">{this.props.qraError}</p>
+    //     //   </Modal.Content>
+    //     // </Modal>
+    //   );
+    // }
     if (
       this.props.isAuthenticated &&
       this.props.userFetched &&
@@ -248,34 +238,34 @@ class QRAProfileContainer extends React.PureComponent {
       this.state.followed === this.followed
     ) {
       this.followed = this.props.following.some(
-        o => o.qra === this.props.match.params.qra
+        (o) => o.qra === this.props.match.params.qra
       );
     }
     return (
       <Fragment>
-        <Dimmer active={this.state.loaderActive} page>
-          <Loader>{t('qra.loading')}</Loader>
-        </Dimmer>
-        {qraInfo && (
-          <QRAProfile
-            qraInfo={qraInfo}
-            following={this.props.following}
-            followers={this.props.followers}
-            loaderActive={this.state.loaderActive}
-            qra={this.state.qra}
-            onClick={this.handleButtonClick}
-            isAuthenticated={this.props.isAuthenticated}
-            userFetched={this.props.userFetched}
-            currentQRA={this.props.currentQRA}
-            followed={this.followed}
-            handleTabClick={this.handleTabClick}
-            tab={this.state.tab}
-            adActive={this.state.adActive}
-            handleClose={this.handleClose}
-            fetchingQRA={this.props.fetchingQRA}
-            QRAFetched={this.props.QRAFetched}
-          />
-        )}
+        {/* //   <Dimmer active={this.state.loaderActive} page>
+      //     <Loader>{t('qra.loading')}</Loader>
+      //   </Dimmer>
+      //   {qraInfo && (
+      //     <QRAProfile
+      //       qraInfo={qraInfo}
+      //       following={this.props.following}
+      //       followers={this.props.followers}
+      //       loaderActive={this.state.loaderActive}
+      //       qra={this.state.qra}
+      //       onClick={this.handleButtonClick}
+      //       isAuthenticated={this.props.isAuthenticated}
+      //       userFetched={this.props.userFetched}
+      //       currentQRA={this.props.currentQRA}
+      //       followed={this.followed}
+      //       handleTabClick={this.handleTabClick}
+      //       tab={this.state.tab}
+      //       adActive={this.state.adActive}
+      //       handleClose={this.handleClose}
+      //       fetchingQRA={this.props.fetchingQRA}
+      //       QRAFetched={this.props.QRAFetched}
+      //     />
+      //   )} */}
       </Fragment>
     );
   }
@@ -286,7 +276,7 @@ const mapStateToProps = (state, ownProps) => ({
   isAuthenticated: state.userData.isAuthenticated,
   following: state.userData.following,
   followers: state.userData.followers,
-  token: state.userData.token,
+  token: state.sqso.jwtToken,
   fetchingQRA: state.FetchingQRA,
   userFetched: state.userData.userFetched,
   QRAFetched: state.QRAFetched,
@@ -296,15 +286,10 @@ const mapStateToProps = (state, ownProps) => ({
 
   qraError: state.qraError
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { pure: false }
-  )(withTranslation()(QRAProfileContainer))
-);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(QRAProfileContainer);

@@ -31,14 +31,14 @@ class QRAProfileBio extends React.Component {
   getImage(path) {
     return new Promise((resolve, reject) => {
       Storage.get(path, { level: 'protected' })
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
-        .catch(error => {
-          if (process.env.NODE_ENV !== 'production') {
+        .catch((error) => {
+          if (__DEV__) {
             console.log(error);
           } else {
-            Sentry.configureScope(function(scope) {
+            Sentry.configureScope(function (scope) {
               scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
             Sentry.captureException(error);
@@ -60,7 +60,7 @@ class QRAProfileBio extends React.Component {
         // cognitoUser.refreshSession(
         //   currentSession.refreshToken,
         //   (error, session) => {
-        //     if (process.env.NODE_ENV !== 'production') {
+        //     if (__DEV__) {
         //       console.log('Unable to refresh Token');
         //       console.log(error);
         //     } else {
@@ -81,7 +81,7 @@ class QRAProfileBio extends React.Component {
           level: 'protected',
           contentType: 'image/png'
         })
-          .then(result => {
+          .then((result) => {
             let filepath;
 
             filepath =
@@ -102,16 +102,16 @@ class QRAProfileBio extends React.Component {
               }
             };
             API.post(apiName, path, myInit)
-              .then(response => {
+              .then((response) => {
                 if (response.body.error > 0) {
                   //NSFW
                   Storage.remove(result.key, { level: 'protected' })
-                    .then(result => resolve(true))
-                    .catch(error => {
-                      if (process.env.NODE_ENV !== 'production') {
+                    .then((result) => resolve(true))
+                    .catch((error) => {
+                      if (__DEV__) {
                         console.log(error);
                       } else {
-                        Sentry.configureScope(function(scope) {
+                        Sentry.configureScope(function (scope) {
                           scope.setExtra('ENV', process.env.REACT_APP_STAGE);
                         });
                         Sentry.captureException(error);
@@ -128,11 +128,11 @@ class QRAProfileBio extends React.Component {
                     }
                   });
               })
-              .catch(error => {
-                if (process.env.NODE_ENV !== 'production') {
+              .catch((error) => {
+                if (__DEV__) {
                   console.log(error);
                 } else {
-                  Sentry.configureScope(function(scope) {
+                  Sentry.configureScope(function (scope) {
                     scope.setExtra('ENV', process.env.REACT_APP_STAGE);
                   });
                   Sentry.captureException(error);
@@ -140,11 +140,11 @@ class QRAProfileBio extends React.Component {
                 reject(error);
               });
           })
-          .catch(error => {
-            if (process.env.NODE_ENV !== 'production') {
+          .catch((error) => {
+            if (__DEV__) {
               console.log(error);
             } else {
-              Sentry.configureScope(function(scope) {
+              Sentry.configureScope(function (scope) {
                 scope.setExtra('ENV', process.env.REACT_APP_STAGE);
               });
               Sentry.captureException(error);
@@ -153,11 +153,11 @@ class QRAProfileBio extends React.Component {
           });
         // });
       } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           console.log('Unable to refresh Token');
           console.log(error);
         } else {
-          Sentry.configureScope(function(scope) {
+          Sentry.configureScope(function (scope) {
             scope.setExtra('ENV', process.env.REACT_APP_STAGE);
           });
           Sentry.captureException(error);
@@ -181,30 +181,29 @@ class QRAProfileBio extends React.Component {
           content={t('global.imageContainNudity')}
         />
         {/* <Segment raised> */}
-          {this.props.isAuthenticated &&
-            this.props.currentQRA === this.props.qraInfo.qra && (
-              <div>
-                <Button
-                  positive
-                  fluid
-                  size="mini"
-                  onClick={() => this.setState({ edit: true })}
-                >
-                  {t('qra.editBio')}
-                </Button>
-              </div>
-            )}
-
-          <div>{ReactHtmlParser(this.props.qraInfo.bio)}</div>
-
-          {edit && (
-            <QRAProfileBioEdit
-              qraInfo={this.props.qraInfo}
-              doSaveUserInfo={this.props.actions.doSaveUserInfo}
-              modalOpen={edit}
-              closeModal={() => this.setState({ edit: false })}
-            />
+        {this.props.isAuthenticated &&
+          this.props.currentQRA === this.props.qraInfo.qra && (
+            <div>
+              <Button
+                positive
+                fluid
+                size="mini"
+                onClick={() => this.setState({ edit: true })}>
+                {t('qra.editBio')}
+              </Button>
+            </div>
           )}
+
+        <div>{ReactHtmlParser(this.props.qraInfo.bio)}</div>
+
+        {edit && (
+          <QRAProfileBioEdit
+            qraInfo={this.props.qraInfo}
+            doSaveUserInfo={this.props.actions.doSaveUserInfo}
+            modalOpen={edit}
+            closeModal={() => this.setState({ edit: false })}
+          />
+        )}
         {/* </Segment> */}
       </Fragment>
     );
@@ -215,17 +214,14 @@ const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.userData.currentQRA,
   identityId: state.userData.identityId,
   isAuthenticated: state.userData.isAuthenticated,
-  token: state.userData.token
+  token: state.sqso.jwtToken
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { pure: false }
-  )(withTranslation()(QRAProfileBio))
+  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
+    withTranslation()(QRAProfileBio)
+  )
 );

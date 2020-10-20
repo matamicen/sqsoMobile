@@ -50,7 +50,7 @@ class FeedOptionsMenu extends React.Component {
   }
   handleOnSubmitReportComment(e) {
     const { t } = this.props;
-    if (process.env.REACT_APP_STAGE === 'production')
+    if (!__DEV__)
      
       window.gtag('event', 'reportContent_WEBPRD', {
         event_category: 'QSO',
@@ -89,7 +89,7 @@ class FeedOptionsMenu extends React.Component {
           }
         })
         .catch(error => {
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             console.log(error);
           } else {
             Sentry.configureScope(function(scope) {
@@ -103,7 +103,7 @@ class FeedOptionsMenu extends React.Component {
   handleOnSubmitReportQso(e) {
     // e.preventDefault();
     const { t } = this.props;
-    if (process.env.REACT_APP_STAGE === 'production')
+    if (!__DEV__)
 
       window.gtag('event', 'reportContent_WEBPRD', {
         event_category: 'QSO',
@@ -140,7 +140,7 @@ class FeedOptionsMenu extends React.Component {
           }
         })
         .catch(error => {
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             console.log(error);
           } else {
             Sentry.configureScope(function(scope) {
@@ -153,7 +153,7 @@ class FeedOptionsMenu extends React.Component {
   }
   handleOnSubmitReportMedia(e) {
     const { t } = this.props;
-    if (process.env.REACT_APP_STAGE === 'production')
+    if (!__DEV__)
 
       window.gtag('event', 'reportMedia_WEBPRD', {
         event_category: 'QSO',
@@ -191,7 +191,7 @@ class FeedOptionsMenu extends React.Component {
           }
         })
         .catch(error => {
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             console.log(error);
           } else {
             Sentry.configureScope(function(scope) {

@@ -3,7 +3,7 @@ import { Dimensions, ImageBackground, StyleSheet, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 // import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-controls';
-import './style.js';
+// import './style.js';
 
 export default class FeedVideo extends React.PureComponent {
   state = {
@@ -21,14 +21,17 @@ export default class FeedVideo extends React.PureComponent {
     //   e.nativeEvent.layout.y + e.nativeEvent.layout.height - THRESHOLD
     // );
   };
+  componentDidUpdate(props) {
+    if (props.currentIndex !== props.currentVisibleIndex) {
+      this.setState({ showVideo: false });
+    } else this.setState({ showVideo: true });
+  }
   render() {
     var width = Dimensions.get('window').width;
     var videoHeight =
       (this.props.media.height * width) / this.props.media.width;
-    console.log(Dimensions.get('window').height);
-    console.log('videoHeight: ' + videoHeight);
+
     if (videoHeight > Dimensions.get('window').height - 157) {
-      console.log('entro aca');
       videoHeight = Dimensions.get('window').height - 157;
       width = (this.props.media.width * videoHeight) / this.props.media.height;
     }
@@ -78,8 +81,7 @@ export default class FeedVideo extends React.PureComponent {
             // style={styles.backgroundVideo}
           />
         )}
-        {(!this.state.showVideo ||
-          this.props.currentIndex !== this.props.currentVisibleIndex) && (
+        {!this.state.showVideo && (
           <ImageBackground
             // style={{ width, height: videoHeight - 20 }}
             style={{

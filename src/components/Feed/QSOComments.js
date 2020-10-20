@@ -25,7 +25,7 @@ class QSOComments extends React.Component {
   }
 
   componentDidMount() {
-    if (process.env.REACT_APP_STAGE === 'production')
+    if (!__DEV__)
       window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
         event_category: 'qso',
         event_label: 'commentModalOpen'

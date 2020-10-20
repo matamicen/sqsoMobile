@@ -6,7 +6,7 @@ import { Button, Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
-import I18n from '../../utils/i18n';
+import FeedItemHeader from './FeedItemHeader';
 import FeedMedia from './FeedMedia';
 import './style.js';
 
@@ -46,24 +46,6 @@ class FeedItemQSO extends React.PureComponent {
   render() {
     const commentsCounter = '(' + this.props.qso.comments.length + ')';
 
-    let text;
-    let shareText;
-
-    switch (this.props.qso.type) {
-      case 'QSO':
-        text = I18n.t('qso.workedAQSO');
-        shareText = I18n.t('qso.checkOutQSO');
-        break;
-      case 'LISTEN':
-        text = I18n.t('qso.listenedQSO');
-        shareText = I18n.t('qso.checkOutQSO');
-        break;
-      case 'SHARE':
-        text = I18n.t('qso.repostedQSO');
-        shareText = I18n.t('qso.checkOutPost');
-        break;
-      default:
-    }
     var date = new Date(this.props.qso.datetime);
 
     return (
@@ -236,6 +218,7 @@ class FeedItemQSO extends React.PureComponent {
       //   /> */}
       // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
+        <FeedItemHeader qso={this.props.qso} />
         {/* <Card.Divider /> */}
         {/* <Card.Image
           source={

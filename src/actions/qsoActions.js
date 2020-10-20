@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -52,6 +53,7 @@ import {
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
+  RECEIVE_FOLLOWERS,
   REFRESH_FOLLOWINGS,
   REQUEST_FEED,
   RESET_FOR_SIGN_OUT,
@@ -2936,17 +2938,17 @@ export const confirmReceiptAndroid = (
       };
 
       var respuesta = await API.post(apiName, path, myInit);
-      console.log('llamo api! confirmReceiptAndroid');
-      console.log(respuesta);
+      // console.log('llamo api! confirmReceiptAndroid');
+      // console.log(respuesta);
 
       dispatch(fetchingApiSuccess('confirmReceiptAndroid', respuesta));
 
       if (respuesta.body.error === 0) {
         var session = await Auth.currentSession();
-        console.log('Su token es: ' + session.idToken.jwtToken);
+        // console.log('Su token es: ' + session.idToken.jwtToken);
         dispatch(setToken(session.idToken.jwtToken));
 
-        console.log('el usuario es Premium ');
+        // console.log('el usuario es Premium ');
         // llamo a getUserInfo asi lo convierto en Premium
         if (action === 'BUY') {
           // respuesta = await API.post(apiName, path, myInit);
@@ -2956,11 +2958,11 @@ export const confirmReceiptAndroid = (
 
           try {
             const ackResult = await acknowledgePurchaseAndroid(purchaseToken);
-            console.log('ejecute acknowledgePurchaseAndroid ');
+            // console.log('ejecute acknowledgePurchaseAndroid ');
             dispatch(getUserInfo(session.idToken.jwtToken));
-            console.log('el calltype es BUY');
+            // console.log('el calltype es BUY');
             setTimeout(() => {
-              console.log('bajo el iapmodal con delay 2000');
+              // console.log('bajo el iapmodal con delay 2000');
               dispatch(confirmedPurchaseFlag(true));
             }, 2000);
 
@@ -3097,14 +3099,14 @@ export const doFetchPublicFeed = (qra = null) => {
   //   custom_map: { dimension1: 'userQRA' }
   // });
   // if (!qra) {
-  //   if (process.env.REACT_APP_STAGE === 'production')
+  //   if (!__DEV__)
   //     window.gtag('event', 'getPublicFeed_WEBPRD', {
   //       event_category: 'User',
   //       event_label: 'getPublicFeed',
   //       userQRA: qra
   //     });
   // } else {
-  //   if (process.env.REACT_APP_STAGE === 'production')
+  //   if (!__DEV__)
   //     window.gtag('event', 'getUserFeed_WEBPRD', {
   //       event_category: 'User',
   //       event_label: 'getUserFeed',
@@ -3129,7 +3131,7 @@ export const doFetchPublicFeed = (qra = null) => {
         } else console.log(response.body.message);
       })
       .catch(async (error) => {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           console.log(error.message);
         } else {
           // crashlytics().setUserId(qra);
@@ -3145,21 +3147,21 @@ export const doFetchPublicFeed = (qra = null) => {
       });
   };
 };
-export function doReceiveFeed(qsos) {
+export const doReceiveFeed = (qsos) => {
   return {
     type: RECEIVE_FEED,
     qsos: qsos,
     FetchingQSOS: false,
     qsosFetched: true
   };
-}
-export function doRequestFeed() {
+};
+export const doRequestFeed = () => {
   return {
     type: REQUEST_FEED,
     FetchingQSOS: true,
     qsosFetched: false
   };
-}
+};
 export const doFollowFetch = () => {
   return async (dispatch) => {
     try {
@@ -3186,7 +3188,7 @@ export const doFollowFetch = () => {
       //   }
       // );
     } catch (error) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (__DEV__) {
         console.log('doFollowFetch');
         console.log(error);
       } else {
@@ -3200,10 +3202,112 @@ export const doFollowFetch = () => {
     }
   };
 };
-export function doFollowReceive(follow) {
+export const doFollowReceive = (follow) => {
   return {
     type: FOLLOW_RECEIVE,
     follow: follow
   };
-}
+};
+
+export const doFollowQRA = (token, follower) => {
+  return async (dispatch) => {
+    try {
+      // const currentSession = await Auth.currentSession();
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qra-follower';
+      const myInit = {
+        body: {
+          qra: follower,
+          datetime: new Date()
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      await API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            dispatch(doReceiveFollowers(response.body.message));
+          } else if (__DEV__) {
+            console.log(response.body.message);
+          }
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('doFollowQRA_WEBDEV'));
+          else crashlytics().recordError(new Error('doFollowQRA_WEBDEV'));
+        });
+    } catch (error) {
+      if (__DEV__) {
+        console.log('doFollowFetch');
+        console.log(error);
+      } else {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__) crashlytics().recordError(new Error('doFollowQRA_WEBDEV'));
+        else crashlytics().recordError(new Error('doFollowQRA_WEBPRD'));
+      }
+
+      // dispatch(doLogout());
+    }
+  };
+};
+
+export const doUnfollowQRA = (token, follower) => {
+  // if (!__DEV__)
+  //   window.gtag('event', 'qraUnfollow_WEBPRD', {
+  //     event_category: 'User',
+  //     event_label: 'unfollow'
+  //   });
+
+  return (dispatch) => {
+    try {
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qra-follower';
+      const myInit = {
+        body: {
+          qra: follower
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.del(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error > 0) console.error(response.body.message);
+          else dispatch(doReceiveFollowers(response.body.message));
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('doUnfollowQRA_WEBDEV'));
+          else crashlytics().recordError(new Error('doUnfollowQRA_WEBDEV'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      if (__DEV__) {
+        console.log('doFollowFetch');
+        console.log(error);
+      } else {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__)
+          crashlytics().recordError(new Error('doUnfollowQRA_WEBDEV'));
+        else crashlytics().recordError(new Error('doUnfollowQRA_WEBPRD'));
+      }
+
+      // dispatch(doLogout());
+    }
+  };
+};
+export const doReceiveFollowers = (following) => {
+  console.log('doReceiveFollowers');
+  return {
+    type: RECEIVE_FOLLOWERS,
+    following: following
+  };
+};
 // END NATIVE FEED
