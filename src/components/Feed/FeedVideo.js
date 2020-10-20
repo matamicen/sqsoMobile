@@ -57,6 +57,7 @@ export default class FeedVideo extends React.PureComponent {
             // className="video-js"
             // controls
             // fullscreen={true}
+            navigator={this.props.navigator}
             resizeMode="cover"
             playInBackground={false}
             playWhenInactive={false}

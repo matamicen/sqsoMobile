@@ -1,8 +1,8 @@
 //import i18n from 'i18next';
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
-import Video from 'react-native-video';
+import { StyleSheet, Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import VideoPlayer from 'react-native-video-controls';
 //import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
@@ -32,7 +32,12 @@ class FeedAudio extends React.Component {
     // ) {
     //   this.setState({ promptPremium: true });
     // } else {
-    this.props.recalculateRowHeight();
+    // this.props.recalculateRowHeight();
+    this.props.actions.doQsoMediaPlay(
+      this.props.media.idqsos_media,
+      this.props.token,
+      this.props.media.idqso
+    );
     this.setState({ audioNotVisible: false });
     // }
     // } else {
@@ -80,39 +85,24 @@ class FeedAudio extends React.Component {
           //     alignItems: 'center',
           //     fontSize: '1.2rem'
           //   }}> */}
-          <View>
-            <Button
-              // size="small"
-              // circular
-              // icon="play"
-              onClick={() => this.onClick()}
-              // style={{ background: '#8BD8BD', color: '#243665' }}
+          <View style={styles.icon}>
+            <Icon
+              name="play-circle"
+              type="font-awesome"
+              color="#243665"
+              onPress={() => this.onClick()}
             />
-            <Text>
-              <Text
-              // style={{ fontSize: '1rem' }}
-              >
+
+            <Text style={{ marginLeft: 5 }}>
+              <Text>
                 {I18n.t('qso.playAudio')}
                 {' - '}
               </Text>
               {this.props.media.description && (
-                <Text
-                // style={{ fontSize: '1em' }}
-                >
-                  {/* <b> */}
-                  {this.props.media.description}
-                  {/* </b> */}
-                  {' - '}
-                </Text>
+                <Text>{this.props.media.description}</Text>
               )}
-              <Text
-              // style={{ fontSize: '1rem' }}
-              >
-                {date.toLocaleDateString(I18n.locale, { month: 'short' }) +
-                  ' ' +
-                  date.getDate() +
-                  ', ' +
-                  date.getFullYear()}{' '}
+              <Text>
+                {date.toLocaleDateString(I18n.locale, { month: 'short' })}{' '}
                 {date.getUTCHours() +
                   ':' +
                   (date.getMinutes() < 10 ? '0' : '') +
@@ -120,99 +110,63 @@ class FeedAudio extends React.Component {
               </Text>
 
               {this.props.media.views_counter > 0 && (
-                <Text
-                // style={{ fontSize: '1rem', color: 'gray' }}
-                >
-                  {' '}
+                <Text>
                   {I18n.t('qso.audioPlays', {
                     count: this.props.media.views_counter
                   })}
                 </Text>
               )}
-              {/* {onlyForRegistered && (
-                  <Link
-                    to={{
-                      pathname: '/login',
-                      state: { from: this.props.location.pathname }
-                    }}
-                  >
-                    {'  '}
-                    {t('auth.loginRequired')}
-                  </Link>
-                )} */}
             </Text>
           </View>
         );
       } else {
         return (
           // <Fragment>
-          <View>
-            {/* <audio
-              ref={this.props.media.url}
-              src={this.props.media.url}
-              // style={{ width: '100%', maxWidth: '100%', height: '25px' }}
-              controls
-              autoPlay
-              preload="none"
-              controlsList="nodownload"
-              onPlay={() =>
-                this.props.isAuthenticated
-                  ? this.props.actions.doQsoMediaPlay(
-                      this.props.media.idqsos_media,
-                      this.props.token,
-                      this.props.media.idqso
-                    )
-                  : this.props.actions.doQsoMediaPlayPublic(
-                      this.props.media.idqsos_media,
-
-                      this.props.media.idqso
-                    )
-              }
-            /> */}
-            <Video
-              audioOnly
-              source={{
-                uri: this.props.media.url
-              }}
-            />
-            <Text>
-              {this.props.media.description && (
-                <Text>
-                  <b>{this.props.media.description}</b>
-                  {' - '}
-                </Text>
-              )}
-              {date.toLocaleDateString(I18n.locale, { month: 'short' }) +
-                ' ' +
-                date.getDate() +
-                ', ' +
-                date.getFullYear()}{' '}
-              {date.getUTCHours() +
-                ':' +
-                (date.getMinutes() < 10 ? '0' : '') +
-                date.getMinutes()}
-              {this.props.media.views_counter > 0 && (
-                <Text
-                // style={{ fontSize: '1rem', color: 'gray' }}
-                >
-                  {' '}
-                  {I18n.t('qso.audioPlays', {
-                    count: this.props.media.views_counter + 1
-                  })}
-                </Text>
-              )}
-              {/* {onlyForRegistered && (
-                  <Link
-                    to={{
-                      pathname: '/login',
-                      state: { from: this.props.location.pathname }
-                    }}
-                  >
-                    {'  '}
-                    {t('auth.loginRequired')}
-                  </Link>
-                )} */}
-            </Text>
+          <View style={styles.container}>
+            <View style={styles.audio}>
+              <VideoPlayer
+                source={{
+                  uri: this.props.media.url
+                }} // Can be a URL or a local file.
+                style={{ height: 85 }}
+                audioOnly
+                disableVolume
+                disableFullscreen
+                disableBack
+                controlTimeout={1500000}
+                // controls
+                navigator={this.props.navigator}
+                muted={false}
+                fullscreen={true}
+                repeat={false}
+                resizeMode={'cover'}
+                volume={1.0}
+                rate={1.0}
+                ignoreSilentSwitch={'obey'}
+              />
+            </View>
+            <View style={styles.text}>
+              <Text>
+                {this.props.media.description && (
+                  <Text>
+                    <b>{this.props.media.description}</b>
+                    {' - '}
+                  </Text>
+                )}
+                {date.toLocaleDateString(I18n.locale, { month: 'short' })}{' '}
+                {date.getUTCHours() +
+                  ':' +
+                  (date.getMinutes() < 10 ? '0' : '') +
+                  date.getMinutes()}
+                {this.props.media.views_counter > 0 && (
+                  <Text>
+                    {I18n.t('qso.audioPlays', {
+                      count: this.props.media.views_counter + 1
+                    })}
+                  </Text>
+                )}
+              </Text>
+            </View>
           </View>
           // </Fragment>
         );
@@ -222,7 +176,29 @@ class FeedAudio extends React.Component {
     }
   }
 }
-
+const styles = StyleSheet.create({
+  icon: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  audio: {
+    flex: 1,
+    width: '100%'
+  },
+  text: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+  },
+  container: {
+    flex: 1,
+    // flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+    // flexGrow: 1
+    // marginTop: Constants.statusBarHeight
+  }
+});
 const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
   // isAuthenticated: state.userData.isAuthenticated,

@@ -1,6 +1,7 @@
 //import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Button, Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -160,6 +161,16 @@ class FeedItemQSO extends React.PureComponent {
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+    // flexGrow: 1
+    // marginTop: Constants.statusBarHeight
+  }
+});
 FeedItemQSO.propTypes = {
   currentQRA: PropTypes.string,
 

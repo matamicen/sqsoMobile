@@ -3310,4 +3310,52 @@ export const doReceiveFollowers = (following) => {
     following: following
   };
 };
+export const doQsoMediaPlay = (idMedia, token, idqso) => {
+  // if (process.env.REACT_APP_STAGE === 'production')
+  //   window.gtag('event', 'qsoMediaPlay_WEBPRD', {
+  //     event_category: 'QSO',
+  //     event_label: 'mediaPlay'
+  //   });
+  return async (dispatch) => {
+    try {
+      // const currentSession = await Auth.currentSession();
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qso/media-play';
+      const myInit = {
+        body: {
+          idmedia: idMedia,
+          idqso: idqso
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error > 0) console.error(response.body.message);
+          else dispatch(doReceiveMediaCounter(response.body.message));
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('doQsoMediaPlay_WEBDEV'));
+          else crashlytics().recordError(new Error('doQsoMediaPlay_WEBPRD'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      if (__DEV__) {
+        console.log('doFollowFetch');
+        console.log(error);
+      } else {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__)
+          crashlytics().recordError(new Error('doQsoMediaPlay_WEBDEV'));
+        else crashlytics().recordError(new Error('doQsoMediaPlay_WEBPRD'));
+      }
+    }
+  };
+};
 // END NATIVE FEED
