@@ -39,7 +39,6 @@
     "react-native-is-iphonex": "^1.0.1",
     "react-native-localize": "^1.4.0",
     "react-native-location": "^2.3.2",
-    "react-native-orientation-locker": "^1.2.0",
     "react-native-permissions": "^1.2.0",
     "react-native-progress": "^3.6.0",
     "react-native-push-notification": "^3.5.2",

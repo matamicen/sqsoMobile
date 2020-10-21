@@ -143,10 +143,6 @@ class FeedItemQSO extends React.PureComponent {
           qso_owner={this.props.qso.qra}
         />
 
-        {/* <Text style={{ marginBottom: 10 }}>
-          The idea with React Native Elements is more about component structure
-          than actual design.
-        </Text> */}
         <Button
           icon={<Icon name="code" color="#ffffff" />}
           buttonStyle={{

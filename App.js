@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import Orientation from 'react-native-orientation-locker';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
@@ -121,9 +120,6 @@ if (__DEV__) {
 // });
 
 export default class App extends React.Component {
-  componentDidMount() {
-    Orientation.lockToPortrait();
-  }
   render() {
     console.disableYellowBox = true;
 
