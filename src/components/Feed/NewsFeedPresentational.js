@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { Header, Icon } from 'react-native-elements';
 import FeedItem from './FeedItem';
 
 class NewsFeed extends React.Component {
@@ -37,8 +36,8 @@ class NewsFeed extends React.Component {
   };
   render() {
     return (
-      <View>
-        <Header
+      <View style={{ flex: 1 }}>
+        {/* <Header
           leftComponent={
             <Icon
               name="arrow-left"
@@ -48,7 +47,7 @@ class NewsFeed extends React.Component {
               // underlayColor={'#64b5f6'}
             />
           }
-        />
+        /> */}
         <FlatList
           onScroll={this.handleScroll}
           data={this.props.list}

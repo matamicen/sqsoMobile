@@ -10,7 +10,6 @@ import {
 // for react-navigation 1.0.0-beta.30
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
-// import Home from './Qso/Home';
 import Home from './Feed';
 import QRAProfile from './Feed/Profile';
 import Notifications from './Notifications/Notification';
@@ -25,8 +24,10 @@ import QsoLink from './QslScan/QsoLink';
 import CameraScreen from './Qso/Camera';
 // import BePremium from './Qso/BePremium';
 import ErrorBoundary from './Qso/ErrorBoundary';
+// import Home from './Qso/Home';
 import QsoScreen from './Qso/QsoScreen';
 import UtilScreen from './Util/Util';
+
 const middleware = createReactNavigationReduxMiddleware(
   'root',
   (state) => state.nav
@@ -36,11 +37,11 @@ const middleware = createReactNavigationReduxMiddleware(
 /*
     export const AppNavigator = StackNavigator({
     Main: { screen: MainPage, },
-    ChooseColor: {
-        screen: ChooseColorPage,
+    ChooseColor: { 
+        screen: ChooseColorPage, 
         navigationOptions: {
             headerLeft: null,
-        }
+        } 
     }
 }, {
     initialRouteName: 'Main',
@@ -57,9 +58,9 @@ const middleware = createReactNavigationReduxMiddleware(
     }  },
  /*Tab3: { screen: CameraScreen, },
  Tab4: { screen: QslScanScreen, } ,
- Tab5: { screen: SignOutScreen, }
-
-
+ Tab5: { screen: SignOutScreen, } 
+ 
+    
  }, {
     initialRouteName: 'Main',
     mode: 'modal'
@@ -109,13 +110,18 @@ const AppNavigator2 = createBottomTabNavigator(
   {
     Home: { screen: Home },
     QsoScreen: { screen: QsoScreen },
+
     //   tabBarOptions: {
+
     //     showIcon: true,
+
     //       //  navigationOptions:
+
     //         // ({ tintColor }) => {
     //         //   return (<Image
     //         //       style={{ width: 25, height: 25 }}
     //         //       source={require('../images/removecircle.png')}/>);}
+
     //     //     tabBarIcon: (
     //     //       <Image style={{ width: 50, height: 50 }} source={require('../images/removecircle.png')}/>
     //     // )
@@ -125,6 +131,7 @@ const AppNavigator2 = createBottomTabNavigator(
     Notifications: { screen: Notifications },
     // Search: { screen: SearchScreen, },
     UtilScreen: { screen: UtilScreen },
+
     // QslScanScreen: { screen: QslScanScreen, },
     ProfileScreen: { screen: ProfileScreen }
   },
@@ -274,14 +281,12 @@ export const AppNavigator = createStackNavigator({
       header: null
     }
   },
-
   QRAProfile: {
     screen: QRAProfile,
     navigationOptions: {
       header: null
     }
   },
-
   initialRouteName: 'Login'
 });
 
