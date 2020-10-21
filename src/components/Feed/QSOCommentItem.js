@@ -54,7 +54,7 @@ class QSOCommentItem extends React.Component {
       this.state.followed === this.followed
     ) {
       this.followed = this.props.userData.following.some(
-        o => o.idqra_followed === this.props.comment.idqra
+        (o) => o.idqra_followed === this.props.comment.idqra
       );
     }
     if (this.props.comment.datetime) {
@@ -75,11 +75,10 @@ class QSOCommentItem extends React.Component {
       <Comment>
         <Comment.Content>
           <Item.Extra>
-            <div
+            <View
               style={{
                 float: 'right'
-              }}
-            >
+              }}>
               {this.props.isAuthenticated &&
                 !this.followed &&
                 this.props.comment.qra !== this.props.currentQRA && (
@@ -91,10 +90,9 @@ class QSOCommentItem extends React.Component {
                     positive={!this.followed}
                     onClick={() =>
                       this.handleButtonClick(this.props.comment.qra)
-                    }
-                  >
+                    }>
                     {this.props.followers.some(
-                      o => o.qra === this.props.comment.qra
+                      (o) => o.qra === this.props.comment.qra
                     )
                       ? t('qra.followToo')
                       : t('qra.follow')}
@@ -107,15 +105,14 @@ class QSOCommentItem extends React.Component {
                 idcomment={this.props.comment.idqsos_comments}
                 optionsCaller="FeedComment"
               />
-            </div>
+            </View>
           </Item.Extra>
           <Comment.Author>
-            <div
+            <View
               style={{
                 display: 'flex',
                 alignItems: 'center'
-              }}
-            >
+              }}>
               <Link to={'/' + this.props.comment.qra}>
                 <Image
                   style={{
@@ -138,21 +135,19 @@ class QSOCommentItem extends React.Component {
                 </span>
               </Link>{' '}
               {/* <TextToFollow qra={this.props.comment.qra} /> */}
-            </div>
+            </View>
           </Comment.Author>
           <Comment.Metadata>
             <span
               style={{
                 marginLeft: '1.5rem'
-              }}
-            >
+              }}>
               {timestamp}
             </span>
           </Comment.Metadata>
           <Comment.Text>
             <span style={{ fontSize: '1.1rem' }}>
-            <div>{ReactHtmlParser(this.props.comment.comment)}</div>
-              
+              <View>{ReactHtmlParser(this.props.comment.comment)}</View>
             </span>
           </Comment.Text>
         </Comment.Content>
@@ -161,14 +156,14 @@ class QSOCommentItem extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra,
   userData: state.userData,
   followers: state.userData.followers,
   isAuthenticated: state.userData.isAuthenticated
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 export default connect(

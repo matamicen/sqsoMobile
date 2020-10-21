@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 // import PopupToFollow from '../PopupToFollow';
 
-export default class QRA extends React.Component {
+class QRA extends React.Component {
   render() {
     return (
       <View style={styles.container}>
@@ -13,29 +16,45 @@ export default class QRA extends React.Component {
               qra: this.props.qra
             })
           }>
-          <Avatar
-            size="medium"
-            rounded
-            source={
-              this.props.avatarpic
-                ? {
-                    uri: this.props.avatarpic
-                  }
-                : require('../../images/emptyprofile.png')
-            }
-          />
+          <View style={styles.center}>
+            <Avatar
+              size="medium"
+              rounded
+              source={
+                this.props.avatarpic
+                  ? {
+                      uri: this.props.avatarpic
+                    }
+                  : require('../../images/emptyprofile.png')
+              }
+            />
+
+            <Text>{this.props.qra}</Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
   container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start'
-    // flexGrow: 1
-    // marginTop: Constants.statusBarHeight
+    paddingHorizontal: 5
   }
 });
+
+const mapStateToProps = (state) => ({
+  token: state.sqso.jwtToken,
+  // isAuthenticated: state.userData.isAuthenticated,
+  currentQRA: state.sqso.qra
+});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(QRA);

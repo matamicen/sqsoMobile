@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-// import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import { Divider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,6 +8,7 @@ import FeedAudioList from './FeedAudioList';
 import FeedImage from './FeedImage';
 import FeedVideoList from './FeedVideoList';
 import './style.js';
+
 class FeedMedia extends React.PureComponent {
   constructor(props, context) {
     super(props, context);

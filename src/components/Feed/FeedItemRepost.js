@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
@@ -88,8 +87,8 @@ class FeedItemRepost extends React.Component {
     return (
       <Fragment>
         <Segment raised>
-          <div className="qso-header">
-            <div className="qso-avatar">
+          <View className="qso-header">
+            <View className="qso-avatar">
               <Link to={'/' + this.props.qso.qra}>
                 <Image
                   src={
@@ -106,8 +105,8 @@ class FeedItemRepost extends React.Component {
                 />
               </Link>
               <TextToFollow qra={this.props.qso.qra} />
-            </div>
-            <div className="qso-header-action">
+            </View>
+            <View className="qso-header-action">
               <PopupToFollow
                 qra={this.props.qso.qra}
                 trigger={
@@ -117,9 +116,9 @@ class FeedItemRepost extends React.Component {
                 }
               />
               {t('qso.sharedContent')}
-            </div>
-            <div className="qso-header-info-post">
-              <div>
+            </View>
+            <View className="qso-header-info-post">
+              <View>
                 <b>{t('qso.date')}: </b>
                 {repostDate.toLocaleDateString(i18n.language, {
                   month: 'short'
@@ -128,16 +127,16 @@ class FeedItemRepost extends React.Component {
                   repostDate.getDate() +
                   ', ' +
                   repostDate.getFullYear()}
-              </div>
-              <div>
+              </View>
+              <View>
                 <b>UTC: </b>
                 {repostDate.getUTCHours() +
                   ':' +
                   (repostDate.getMinutes() < 10 ? '0' : '') +
                   repostDate.getMinutes()}
-              </div>
-            </div>
-            <div
+              </View>
+            </View>
+            <View
               className="qso-header-button"
               style={{
                 float: 'right'
@@ -149,13 +148,13 @@ class FeedItemRepost extends React.Component {
                 optionsCaller="FeedItem"
                 QslCard={false}
               />
-            </div>
-          </div>
+            </View>
+          </View>
 
           {/* <Divider hidden /> */}
           <Segment raised>
-            <div className="qso-header">
-              <div className="qso-avatar">
+            <View className="qso-header">
+              <View className="qso-avatar">
                 <Link to={'/' + this.props.qso.original[0].qra}>
                   <Image
                     src={
@@ -172,8 +171,8 @@ class FeedItemRepost extends React.Component {
                   />
                 </Link>
                 <TextToFollow qra={this.props.qso.original[0].qra} />
-              </div>
-              <div className="qso-header-action">
+              </View>
+              <View className="qso-header-action">
                 <PopupToFollow
                   qra={this.props.qso.original[0].qra}
                   trigger={
@@ -183,37 +182,37 @@ class FeedItemRepost extends React.Component {
                   }
                 />
                 {text}
-              </div>
-              <div className="qso-header-info">
+              </View>
+              <View className="qso-header-info">
                 {this.props.qso.original[0].mode && (
-                  <div>
+                  <View>
                     <b>{t('qso.mode')}</b>
                     <br />
                     {this.props.qso.original[0].mode}
-                  </div>
+                  </View>
                 )}
                 {this.props.qso.original[0].band && (
-                  <div>
+                  <View>
                     <b>{t('qso.band')} </b>
                     <br />
                     {this.props.qso.original[0].band}
-                  </div>
+                  </View>
                 )}
                 {this.props.qso.db && (
-                  <div>
+                  <View>
                     <b>dB </b>
                     <br />
                     {this.props.qso.db ? this.props.qso.db : null}
-                  </div>
+                  </View>
                 )}
                 {!this.props.qso.rst && (
-                  <div>
+                  <View>
                     <b>RST </b>
                     <br />
                     {this.props.qso.rst ? this.props.qso.rst : '59'}
-                  </div>
+                  </View>
                 )}
-                <div>
+                <View>
                   <b>{t('qso.date')} </b>
                   <br />
                   {date.toLocaleDateString(i18n.language, { month: 'short' }) +
@@ -221,17 +220,17 @@ class FeedItemRepost extends React.Component {
                     date.getDate() +
                     ', ' +
                     date.getFullYear()}
-                </div>
-                <div>
+                </View>
+                <View>
                   <b>UTC: </b>
                   {date.getUTCHours() +
                     ':' +
                     (date.getMinutes() < 10 ? '0' : '') +
                     date.getMinutes()}
-                </div>
-              </div>
+                </View>
+              </View>
 
-              <div
+              <View
                 className="qso-header-button"
                 style={{
                   float: 'right'
@@ -243,8 +242,8 @@ class FeedItemRepost extends React.Component {
                   optionsCaller="FeedItem"
                   QslCard={false}
                 />
-              </div>
-            </div>
+              </View>
+            </View>
 
             {this.props.qso.qras.length > 0 && (
               <Fragment>

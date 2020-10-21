@@ -11,13 +11,10 @@ import QRAProfileHeader from './QRAProfileHeader';
 import QRAProfileInfo from './QRAProfileInfo';
 import QRAProfileQsos from './QRAProfileQsos';
 
-
-
-const QRAProfile = props => {
+const QRAProfile = (props) => {
   const { t } = props;
   return (
-    <div className="profile-container">
-     
+    <View className="profile-container">
       {/* <Dimmer
         active={props.adActive}
         onClick={props.handleClose}
@@ -32,10 +29,10 @@ const QRAProfile = props => {
           displayOnly={true}
         />
       </Dimmer> */}
-      <div className="site-header">
+      <View className="site-header">
         <AppNavigation />
-      </div>
-      <div className="site-left">
+      </View>
+      <View className="site-left">
         <Ad
           adslot="/22031658057/qraDetail/qraDetail_left"
           width={160}
@@ -43,9 +40,9 @@ const QRAProfile = props => {
           id="div-ads-instance-qraDetail-left"
           displayOnly={true}
         />
-      </div>
+      </View>
       {!props.active && props.qra && (
-        <div className="profile-main">
+        <View className="profile-main">
           <QRAProfileHeader
             qraInfo={props.qraInfo}
             isAuthenticated={props.isAuthenticated}
@@ -57,7 +54,7 @@ const QRAProfile = props => {
             currentQRA={props.currentQRA}
           />
           <Segment basic style={{ padding: '0px' }}>
-            <div className="profile-buttons">
+            <View className="profile-buttons">
               <Button
                 style={{
                   flex: '1 1 auto',
@@ -65,8 +62,7 @@ const QRAProfile = props => {
                   paddingRight: '1px'
                 }}
                 onClick={() => props.handleTabClick(1)}
-                active={props.tab === 1 ? true : false}
-              >
+                active={props.tab === 1 ? true : false}>
                 {t('qra.qsos')}
               </Button>
               <Button
@@ -76,8 +72,7 @@ const QRAProfile = props => {
                   paddingRight: '1px'
                 }}
                 onClick={() => props.handleTabClick(2)}
-                active={props.tab === 2 ? true : false}
-              >
+                active={props.tab === 2 ? true : false}>
                 {t('qra.bio')}
               </Button>
               <Button
@@ -87,8 +82,7 @@ const QRAProfile = props => {
                   paddingRight: '1px'
                 }}
                 onClick={() => props.handleTabClick(3)}
-                active={props.tab === 3 ? true : false}
-              >
+                active={props.tab === 3 ? true : false}>
                 {t('qra.info')}
               </Button>
               <Button
@@ -98,13 +92,12 @@ const QRAProfile = props => {
                   paddingRight: '1px'
                 }}
                 onClick={() => props.handleTabClick(4)}
-                active={props.tab === 4 ? true : false}
-              >
+                active={props.tab === 4 ? true : false}>
                 {t('qra.following')}
               </Button>
-            </div>
+            </View>
           </Segment>
-          <div className="profile-detail">
+          <View className="profile-detail">
             {/* <Segment> */}
             {
               {
@@ -127,10 +120,10 @@ const QRAProfile = props => {
               }[props.tab]
             }
             {/* </Segment> */}
-          </div>
-        </div>
+          </View>
+        </View>
       )}
-      <div className="site-right">
+      <View className="site-right">
         <Ad
           adslot="/22031658057/qraDetail/qraDetail_right"
           width={160}
@@ -138,8 +131,8 @@ const QRAProfile = props => {
           id="div-ads-instance-qraDetail-right"
           displayOnly={true}
         />
-      </div>
-    </div>
+      </View>
+    </View>
   );
 };
 

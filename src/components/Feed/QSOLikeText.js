@@ -1,13 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Avatar } from 'react-native-elements';
 //import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
-import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
 import QSOLikeTextModalItem from './QSOLikeTextModalItem';
-import './style.js';
+
+// import './style.js';
 class QSOLikeText extends React.Component {
   constructor() {
     super();
@@ -21,34 +23,18 @@ class QSOLikeText extends React.Component {
       return { likes: props.qso.likes };
     return null;
   }
-  // handleButtonClick(idqra) {
-  //   if (!this.props.userData.token) return null;
-  //   if (!this.props.userData.following.some(o => o.qra === idqra)) {
-  //     if (this.props.userData.isAuthenticated) {
-  //       this.props.actions.doFollowQRA(this.props.userData.token, idqra);
-  //     }
-  //   } else {
-  //     if (this.props.userData.isAuthenticated) {
-  //       this.props.actions.doUnfollowQRA(this.props.userData.token, idqra);
-  //     }
-  //   }
-  //   // this.setState(prevState => {
-  //   //   return {
-  //   //     followed: !prevState.followed
-  //   //   };
-  //   // });
-  // }
-  componentDidUpdate(prevProps, prevState) {
 
+  componentDidUpdate(prevProps, prevState) {
     if (
       this.props.qso.likes.length === 1 &&
-      this.props.qso.likes[0].qra === this.props.userData.currentQRA
+      this.props.qso.likes[0].qra === this.props.currentQRA
     ) {
       this.props.recalculateRowHeight();
     }
   }
   render() {
-    const { qso, t } = this.props;
+    console.log('QSOLikeText');
+    const { qso } = this.props;
     let counter;
     let outputText = '';
     let finalText;
@@ -62,28 +48,24 @@ class QSOLikeText extends React.Component {
       others = likes.length - maxLikers;
 
       finalText =
-        t('qso.and') +
+        I18n.t('qso.and') +
         others +
-        (others > 1 ? t('qso.othersLikeThis') : t('qso.otherLikeThis'));
+        (others > 1
+          ? I18n.t('qso.othersLikeThis')
+          : I18n.t('qso.otherLikeThis'));
       //  + (this.props.qso.type === 'POST' ? ' POST' : ' QSO');
-    } else if (
-      likes.length === 1 &&
-      likes[0].qra === this.props.userData.currentQRA
-    ) {
+    } else if (likes.length === 1 && likes[0].qra === this.props.currentQRA) {
       // this.props.recalculateRowHeight();
       counter = likes.length;
-      finalText = t('qso.youLikeThis');
+      finalText = I18n.t('qso.youLikeThis');
       //  + (this.props.qso.type === 'POST' ? ' POST' : ' QSO');
-    } else if (
-      likes.length === 1 &&
-      likes[0].qra !== this.props.userData.currentQRA
-    ) {
+    } else if (likes.length === 1 && likes[0].qra !== this.props.currentQRA) {
       counter = likes.length;
-      finalText = t('qso.oneLikeThis');
+      finalText = I18n.t('qso.oneLikeThis');
       //  + (this.props.qso.type === 'POST' ? ' POST' : ' QSO');
     } else {
       counter = likes.length;
-      finalText = t('qso.manyLikeThis');
+      finalText = I18n.t('qso.manyLikeThis');
       //  + (this.props.qso.type === 'POST' ? ' POST' : ' QSO');
     }
 
@@ -101,15 +83,15 @@ class QSOLikeText extends React.Component {
         i++;
       }
     }
-    outputText = t('qso.startLikePhrase');
+    outputText = I18n.t('qso.startLikePhrase');
     for (let a = 0; a <= counter - 1; a++) {
       // if (qso.likes[a].avatarpic !== null
       // avatarPic = qso.likes[a].avatarpic;
 
       outputText =
         outputText +
-        (likes[a].qra === this.props.userData.currentQRA
-          ? t('global.you')
+        (likes[a].qra === this.props.currentQRA
+          ? I18n.t('global.you')
           : likes[a].qra);
 
       switch (true) {
@@ -117,7 +99,7 @@ class QSOLikeText extends React.Component {
           outputText = outputText + finalText;
           break;
         case likes.length > 1 && a === counter - 2 && counter === likes.length: //Before Last
-          outputText = outputText + t('qso.and');
+          outputText = outputText + I18n.t('qso.and');
           break;
         case likes.length > 1 && a <= counter - 2 && counter < likes.length: //Before Last
           outputText = outputText + ', ';
@@ -126,22 +108,26 @@ class QSOLikeText extends React.Component {
           break;
       }
     }
+
     return (
-      <Fragment>
-        <button
-          type="button"
-          className="link-button"
-          onClick={() => this.setState({ showModal: true })}
-        >
-          {likes[0].avatarpic && (
-            <Image
-              style={{ height: '1.5rem', width: 'auto', marginRigth: '5px' }}
-              src={likes[0].avatarpic}
-              circular
-            />
-          )}
-          <span style={{ alignSelf: 'center' }}>{outputText}</span>
-        </button>
+      <View>
+        <TouchableOpacity
+          // style={styles.button}
+          onPress={() => this.setState({ showModal: true })}>
+          <View style={styles.view}>
+            {likes[0].avatarpic && (
+              <Avatar
+                size="small"
+                rounded
+                source={{
+                  uri: likes[0].avatarpic
+                }}
+              />
+            )}
+            <Text style={styles.text}>{outputText}</Text>
+          </View>
+        </TouchableOpacity>
+
         {/* <a
           style={{
             cursor: 'pointer',
@@ -162,59 +148,80 @@ class QSOLikeText extends React.Component {
           <span>{outputText}</span>
         </a> */}
         <Modal
-          size="tiny"
+          animationType="slide"
+          // transparent={true}
+          presentationStyle="pageSheet"
           centered={true}
-          closeIcon={{
-            style: { top: '0.0535rem', right: '0rem' },
-            color: 'black',
-            name: 'close'
-          }}
-          open={this.state.showModal}
-          onClose={() => this.setState({ showModal: false })}
-          style={{
-            //height: '90%',
-            overflowY: 'auto'
-          }}
+          // closeIcon={{
+          //   // style: { top: '0.0535rem', right: '0rem' },
+          //   color: 'black',
+          //   name: 'close'
+          // }}
+          visible={this.state.showModal}
+          onRequestClose={() => this.setState({ showModal: false })}
+          // style={{
+          //   //height: '90%',
+          //   overflowY: 'auto'
+          // }}
         >
-          <Modal.Header>
-            {t('qso.likeModalHeader')}{' '}
-            {qso.type === 'POST' ? t('qso.POST') : ' QSO'}
-          </Modal.Header>
-          <Modal.Content>
-            <Modal.Description>
-              <div>
-                {likes.map(l => (
-                  // <div key={l.idqsos_likes} style={{ padding: '1vh' }} />
-                  <div key={l.qra}>
-                    <QSOLikeTextModalItem
-                      l={l}
-                      qso={this.props.qso}
-                      likes={likes}
-                    />
-                  </div>
-                ))}
-              </div>
-            </Modal.Description>
-          </Modal.Content>
+          {/* {I18n.t('qso.likeModalHeader')}{' '}
+          {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: 'rgba(0,0,0,0.90)',
+              marginTop: 230,
+              left: 50,
+              right: 15,
+              //  width: 170,
+              width: 290,
+              height: 150,
+
+              paddingVertical: 5,
+
+              borderRadius: 12
+            }}>
+            {likes.map((l) => (
+              // <View key={l.idqsos_likes} style={{ padding: '1vh' }} />
+              <View key={l.qra}>
+                <QSOLikeTextModalItem
+                  l={l}
+                  qso={this.props.qso}
+                  likes={likes}
+                />
+              </View>
+            ))}
+          </View>
         </Modal>
-      </Fragment>
+      </View>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  isAuthenticated: state.userData.isAuthenticated,
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20
+  },
+  view: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+  container: {
+    paddingHorizontal: 5
+  }
+});
+const mapStateToProps = (state) => ({
   currentQRA: state.sqso.qra,
-  userData: state.userData,
   token: state.sqso.jwtToken
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(QSOLikeText))
-);
+export default connect(mapStateToProps, mapDispatchToProps)(QSOLikeText);

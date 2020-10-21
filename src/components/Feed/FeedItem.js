@@ -52,7 +52,7 @@ class FeedItem extends React.PureComponent {
       //   if (props.index === 0) {
       //     return (
       //       <Fragment>
-      //         <div style={{ textAlign: '-webkit-center' }}>
+      //         <View style={{ textAlign: '-webkit-center' }}>
       //           <Button
       //             style={{ width: '90%' }}
       //             positive
@@ -65,7 +65,7 @@ class FeedItem extends React.PureComponent {
       //             }}>
       //             {this.props.t('exploreUsers.lookWhoInQSO')}
       //           </Button>
-      //         </div>
+      //         </View>
       //       </Fragment>
       //     );
       //   } else if (props.index === 4 || props.index % 16 === 0)

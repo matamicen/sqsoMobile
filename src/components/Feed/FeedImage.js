@@ -14,7 +14,7 @@ import * as Actions from '../../actions';
 // };
 // declare component
 // const Right = (props) => (
-//   <div
+//   <View
 //     className="slick-next"
 //     style={{
 //       ...props.style,
@@ -23,16 +23,16 @@ import * as Actions from '../../actions';
 //     }}
 //     onClick={props.onClick}>
 //     <Button circular icon="arrow circle right" />
-//   </div>
+//   </View>
 // );
 
 // const Left = (props) => (
-//   <div
+//   <View
 //     className="slick-prev"
 //     style={{ ...props.style, display: 'block', left: '-25px' }}
 //     onClick={props.onClick}>
 //     <Button circular icon="arrow circle left" />
-//   </div>
+//   </View>
 // );
 // const useResize = (myRef, measure) => {
 //   const [imageWidth, setWidth] = useState(0);

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App should render correctly in "debug" mode 1`] = `
-<div
+<View
   className="profile-container"
 >
   <Dimmer
@@ -11,12 +11,12 @@ exports[`App should render correctly in "debug" mode 1`] = `
       Loading
     </Loader>
   </Dimmer>
-  <div
+  <View
     className="site-header"
   >
     <Connect(AppNavigation) />
-  </div>
-  <div
+  </View>
+  <View
     className="profile-main"
   >
     <QRAProfileHeader
@@ -26,7 +26,7 @@ exports[`App should render correctly in "debug" mode 1`] = `
         }
       }
     />
-    <div
+    <View
       className="profile-buttons"
     >
       <Segment>
@@ -53,20 +53,20 @@ exports[`App should render correctly in "debug" mode 1`] = `
           </Button>
         </ButtonGroup>
       </Segment>
-    </div>
-    <div
+    </View>
+    <View
       className="profile-detail"
     >
       <Segment />
-    </div>
-  </div>
-  <div
+    </View>
+  </View>
+  <View
     className="site-right"
   >
     <Advertisement
       test="Wide Skyscraper"
       unit="wide skyscraper"
     />
-  </div>
-</div>
+  </View>
+</View>
 `;

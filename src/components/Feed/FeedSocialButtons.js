@@ -63,10 +63,10 @@ class FeedSocialButtons extends React.Component {
             recalculateRowHeight={this.props.recalculateRowHeight}
           />
           <Button onClick={() => this.setState({ showComments: true })}>
-            <div>
+            <View>
               <Icon name="comment outline" />{' '}
               {this.props.qso.comments.length > 0 && commentsCounter}
-            </div>
+            </View>
           </Button>
           <QSORePostButton qso={this.props.qso} />
           <QSOShareButtons idqso={this.props.qso.GUID_URL} title={shareText} />

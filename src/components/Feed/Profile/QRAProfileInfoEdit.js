@@ -9,7 +9,7 @@ import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Yup from 'yup';
 import { MY_COUNTRIES_DATA } from './countries.js';
-const QraProfileInfoEdit = props => {
+const QraProfileInfoEdit = (props) => {
   const { t } = props;
   const [qra, setQRA] = useState({
     firstname: '',
@@ -41,7 +41,7 @@ const QraProfileInfoEdit = props => {
       .required(t('auth.birthDateRequired'))
       .min(new Date(1900, 0, 1))
       .max(new Date())
-      .test('birthDate', t('auth.years13Restriction'), value => {
+      .test('birthDate', t('auth.years13Restriction'), (value) => {
         return moment().diff(moment(value), 'years') >= 13;
       }),
     country: Yup.string().required(),
@@ -71,7 +71,7 @@ const QraProfileInfoEdit = props => {
       mailqsl: props.qraInfo.mailqsl
     },
     validationSchema: validationSchema,
-    onSubmit: val => {
+    onSubmit: (val) => {
       setQRA({
         ...qra,
         firstname: val.firstname,
@@ -107,10 +107,8 @@ const QraProfileInfoEdit = props => {
         centered={false}
         size="small"
         open={props.modalOpen}
-
         closeIcon
-        onClose={() => props.closeModal()}
-      >
+        onClose={() => props.closeModal()}>
         <Header content={t('qra.editInfo')} />
         <Modal.Content>
           <Form>
@@ -131,7 +129,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.firstname ? (
-                <div>{formik.errors.firstname}</div>
+                <View>{formik.errors.firstname}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -151,7 +149,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.lastname ? (
-                <div>{formik.errors.lastname}</div>
+                <View>{formik.errors.lastname}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -178,7 +176,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.birthday ? (
-                <div>{formik.errors.birthday}</div>
+                <View>{formik.errors.birthday}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -196,7 +194,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.address ? (
-                <div>{formik.errors.address}</div>
+                <View>{formik.errors.address}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -216,7 +214,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.address2 ? (
-                <div>{formik.errors.address2}</div>
+                <View>{formik.errors.address2}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -233,7 +231,7 @@ const QraProfileInfoEdit = props => {
                   textTransform: 'uppercase'
                 }}
               />{' '}
-              {formik.errors.city ? <div>{formik.errors.city}</div> : null}
+              {formik.errors.city ? <View>{formik.errors.city}</View> : null}
             </Form.Field>
             <Form.Field>
               <Form.Input
@@ -249,7 +247,7 @@ const QraProfileInfoEdit = props => {
                   textTransform: 'uppercase'
                 }}
               />{' '}
-              {formik.errors.state ? <div>{formik.errors.state}</div> : null}
+              {formik.errors.state ? <View>{formik.errors.state}</View> : null}
             </Form.Field>
             <Form.Field>
               <Form.Input
@@ -266,7 +264,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.zipcode ? (
-                <div>{formik.errors.zipcode}</div>
+                <View>{formik.errors.zipcode}</View>
               ) : null}
             </Form.Field>
             <Form.Field width={3}>
@@ -297,7 +295,9 @@ const QraProfileInfoEdit = props => {
                   textTransform: 'uppercase'
                 }}
               />{' '}
-              {formik.errors.cqzone ? <div>{formik.errors.cqzone}</div> : null}
+              {formik.errors.cqzone ? (
+                <View>{formik.errors.cqzone}</View>
+              ) : null}
             </Form.Field>
             <Form.Field>
               <Form.Input
@@ -314,7 +314,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.ituzone ? (
-                <div>{formik.errors.ituzone}</div>
+                <View>{formik.errors.ituzone}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -335,7 +335,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.gridlocator ? (
-                <div>{formik.errors.gridlocator}</div>
+                <View>{formik.errors.gridlocator}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -356,7 +356,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.licenseclass ? (
-                <div>{formik.errors.licenseclass}</div>
+                <View>{formik.errors.licenseclass}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -377,7 +377,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.iotadesignator ? (
-                <div>{formik.errors.iotadesignator}</div>
+                <View>{formik.errors.iotadesignator}</View>
               ) : null}
             </Form.Field>
             <Form.Field>
@@ -395,7 +395,7 @@ const QraProfileInfoEdit = props => {
                 }}
               />{' '}
               {formik.errors.qslinfo ? (
-                <div>{formik.errors.qslinfo}</div>
+                <View>{formik.errors.qslinfo}</View>
               ) : null}
             </Form.Field>
           </Form>

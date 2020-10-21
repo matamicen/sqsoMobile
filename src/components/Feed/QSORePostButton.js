@@ -46,10 +46,10 @@ s
     return (
       <Fragment>
         <Button icon onClick={() => this.openConfirmationRequest()}>
-          <div style={{display: "grid", justifyItems: "center"}}>
+          <View style={{display: "grid", justifyItems: "center"}}>
           <Icon name="retweet" />
           <span style={{fontSize:"1rem"}}>{t('qso.repost')}</span>
-          </div>
+          </View>
         </Button>
         <Confirm
           size="mini"

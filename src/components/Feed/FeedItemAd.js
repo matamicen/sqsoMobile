@@ -9,7 +9,7 @@ export default class FeedItemAd extends React.Component {
       //   secondary  
       //   style={{ padding: 'initial', textAlign: 'center' }}>
       // <View>
-      //   <div className="adDesktop">
+      //   <View className="adDesktop">
       //     <Ad
       //       adslot="/22031658057/Home/home_feed"
       //       width={500}
@@ -17,8 +17,8 @@ export default class FeedItemAd extends React.Component {
       //       // id="div-ads-instance-home-feed"
       //       displayOnly={false}
       //     />
-      //   </div>
-      //   <div className="adMobile">
+      //   </View>
+      //   <View className="adMobile">
       //     <Ad
       //       adslot="/22031658057/Home/home_feed"
       //       width={300}
@@ -26,7 +26,7 @@ export default class FeedItemAd extends React.Component {
       //       // id="div-ads-instance-home-feed"
       //       displayOnly={false}
       //     />
-      //   </div>
+      //   </View>
       //   {/* </Segment> */}
       // </View>
     );

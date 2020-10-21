@@ -9,6 +9,7 @@ import * as Actions from '../../actions';
 import FeedItemHeader from './FeedItemHeader';
 import FeedMedia from './FeedMedia';
 import QRAs from './QRAs';
+import QSOLikeText from './QSOLikeText';
 // import './style.js';
 
 class FeedItemQSO extends React.PureComponent {
@@ -50,10 +51,10 @@ class FeedItemQSO extends React.PureComponent {
     return (
       // <Fragment>
       //   <Segment raised>
-      //     <div className="qso-header">
+      //     <View className="qso-header">
 
       //       {/* {date.toLocaleDateString("i18n.language", {month: "short"}) + ' ' + date.getDate() + ', ' + date.getFullYear()} */}
-      //       <div
+      //       <View
       //         className="qso-header-button"
       //         style={{
       //           float: 'right'
@@ -71,28 +72,24 @@ class FeedItemQSO extends React.PureComponent {
       //             )
       //           }
       //         />
-      //       </div>
-      //     </div>
+      //       </View>
+      //     </View>
 
       //     {this.props.qso.links && (
       //       <FeedLinkList links={this.props.qso.links} />
       //     )}
       //     <Divider hidden style={{ marginTop: '1vh' }} />
-      //     <QSOLikeText
-      //       qso={this.props.qso}
-      //       likes={this.state.likes}
-      //       recalculateRowHeight={this.recalculateRowHeight}
-      //     />
+
       //     <Button.Group fluid basic>
       //       <QSOLikeButton
       //         qso={this.props.qso}
       //         recalculateRowHeight={this.recalculateRowHeight}
       //       />
       //       <Button onClick={() => this.setState({ showComments: true })}>
-      //         <div>
+      //         <View>
       //           <Icon name="comment outline" />{' '}
       //           {this.props.qso.comments.length > 0 && commentsCounter}
-      //         </div>
+      //         </View>
       //       </Button>
       //       <QSORePostButton qso={this.props.qso} />
       //       <QSOShareButtons
@@ -142,7 +139,7 @@ class FeedItemQSO extends React.PureComponent {
           idqso={this.props.qso.idqsos}
           qso_owner={this.props.qso.qra}
         />
-
+        <QSOLikeText qso={this.props.qso} likes={this.state.likes} />
         <Button
           icon={<Icon name="code" color="#ffffff" />}
           buttonStyle={{

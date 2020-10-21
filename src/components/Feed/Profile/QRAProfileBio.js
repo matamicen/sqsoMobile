@@ -183,7 +183,7 @@ class QRAProfileBio extends React.Component {
         {/* <Segment raised> */}
         {this.props.isAuthenticated &&
           this.props.currentQRA === this.props.qraInfo.qra && (
-            <div>
+            <View>
               <Button
                 positive
                 fluid
@@ -191,10 +191,10 @@ class QRAProfileBio extends React.Component {
                 onClick={() => this.setState({ edit: true })}>
                 {t('qra.editBio')}
               </Button>
-            </div>
+            </View>
           )}
 
-        <div>{ReactHtmlParser(this.props.qraInfo.bio)}</div>
+        <View>{ReactHtmlParser(this.props.qraInfo.bio)}</View>
 
         {edit && (
           <QRAProfileBioEdit

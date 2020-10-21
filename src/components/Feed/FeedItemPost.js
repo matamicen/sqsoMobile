@@ -5,7 +5,6 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
 import FeedLinkList from './FeedLinkList';
@@ -83,8 +82,8 @@ class FeedItemPost extends React.Component {
     return (
       <Fragment>
         <Segment raised>
-          <div className="qso-header">
-            <div
+          <View className="qso-header">
+            <View
               className="qso-header-button"
               style={{
                 float: 'right'
@@ -97,8 +96,8 @@ class FeedItemPost extends React.Component {
                 optionsCaller="FeedItem"
                 QslCard={false}
               />
-            </div>
-          </div>
+            </View>
+          </View>
 
           {this.props.qso.qras.length > 0 && (
             <Fragment>

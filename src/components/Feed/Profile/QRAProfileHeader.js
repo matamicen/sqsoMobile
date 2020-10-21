@@ -1,7 +1,6 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Flag from 'semantic-ui-react/dist/commonjs/elements/Flag';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
@@ -38,10 +37,10 @@ class QRAProfileHeader extends React.Component {
       : null;
 
     return (
-      <div className="profile-header">
+      <View className="profile-header">
         <Segment>
-          <div className="inner">
-            <div className="pic">
+          <View className="inner">
+            <View className="pic">
               <Image
                 src={
                   this.props.qraInfo && this.props.qraInfo.profilepic
@@ -53,9 +52,9 @@ class QRAProfileHeader extends React.Component {
                 size="small"
                 circular
               />
-            </div>
-            <div className="detail">
-              {/* <div> */}
+            </View>
+            <View className="detail">
+              {/* <View> */}
               <h1 style={{ display: 'inline', marginRight: '2%' }}>
                 <span className="qra">{this.props.qraInfo.qra}</span>
               </h1>
@@ -68,45 +67,45 @@ class QRAProfileHeader extends React.Component {
                 }
               />
               <span>{result.length > 0 ? result[0].text : null}</span>
-              {/* </div> */}
+              {/* </View> */}
               <Divider
                 hidden
                 style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
               />
               <h2 style={{ margin: 'initial' }}>
-                <div className="name">
+                <View className="name">
                   {this.props.qraInfo.firstname &&
                     this.props.qraInfo.firstname + ' '}
                   {this.props.qraInfo.lastname && this.props.qraInfo.lastname}
-                </div>
+                </View>
               </h2>
 
-              <div className="kpi">
+              <View className="kpi">
                 {this.props.qraInfo.views_counter ? (
-                  <div style={{ marginRight: '5%' }}>
+                  <View style={{ marginRight: '5%' }}>
                     {t('qra.views')}: {this.props.qraInfo.views_counter}
-                  </div>
+                  </View>
                 ) : (
                   ''
                 )}
                 {this.props.qraInfo.qsos_counter ? (
-                  <div style={{ marginRight: '5%' }}>
+                  <View style={{ marginRight: '5%' }}>
                     {t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
-                  </div>
+                  </View>
                 ) : (
                   ''
                 )}
                 {this.props.qraInfo.followers_counter ? (
-                  <div style={{ marginRight: '5%' }}>
+                  <View style={{ marginRight: '5%' }}>
                     {t('qra.followers')}: {this.props.qraInfo.followers_counter}
-                  </div>
+                  </View>
                 ) : (
                   ''
                 )}
-              </div>
+              </View>
 
               <Divider hidden style={{ marginBottom: '0vh' }} />
-              <div className="follow">
+              <View className="follow">
                 {this.props.isAuthenticated &&
                   this.props.userFetched &&
                   this.props.qraInfo.qra !== this.props.currentQRA && (
@@ -119,9 +118,9 @@ class QRAProfileHeader extends React.Component {
                       {buttonText}
                     </Button>
                   )}
-              </div>
-            </div>
-          </div>
+              </View>
+            </View>
+          </View>
         </Segment>
         <Modal
           centered={false}
@@ -136,7 +135,7 @@ class QRAProfileHeader extends React.Component {
           style={{ width: 'fit-content' }}>
           <Modal.Content>
             <Modal.Description>
-              <div style={{ padding: '1vh' }}>
+              <View style={{ padding: '1vh' }}>
                 <Image
                   centered
                   rounded
@@ -149,11 +148,11 @@ class QRAProfileHeader extends React.Component {
                     margin: '0 auto'
                   }}
                 />
-              </div>
+              </View>
             </Modal.Description>
           </Modal.Content>
         </Modal>
-      </div>
+      </View>
     );
   }
 }

@@ -79,7 +79,7 @@ class FeedAudio extends React.Component {
           //   confirmButton={t('auth.login')}
           //   content={t('auth.loginToPerformAction')}
           // /> */}
-          // {/* <div
+          // {/* <View
           //   style={{
           //     display: 'flex',
           //     alignItems: 'center',

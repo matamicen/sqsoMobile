@@ -46,7 +46,7 @@ export default class FeedVideo extends React.PureComponent {
             height: videoHeight
           })
         }>
-        {/* <div style={{ width: '100%' }} ref={componentRef}> */}
+        {/* <View style={{ width: '100%' }} ref={componentRef}> */}
         {this.state.showVideo && (
           // <Video
           <VideoPlayer
@@ -111,7 +111,7 @@ export default class FeedVideo extends React.PureComponent {
           </ImageBackground>
         )}
         {/* <source src={props.media.url} type="video/mp4" /> */}
-        {/* </div> */}
+        {/* </View> */}
       </View>
     );
   }

@@ -95,7 +95,7 @@ class QRAProfileInfo extends React.Component {
           <Form size="large">
             {this.props.isAuthenticated &&
               this.props.currentQRA === this.props.qraInfo.qra && (
-                <div>
+                <View>
                   <Button
                     positive
                     fluid
@@ -103,7 +103,7 @@ class QRAProfileInfo extends React.Component {
                     onClick={() => this.setState({ edit: true })}>
                     {t('qra.editInfo')}
                   </Button>
-                </div>
+                </View>
               )}
 
             <Form.Input
