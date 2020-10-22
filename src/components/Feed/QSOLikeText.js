@@ -1,6 +1,13 @@
 import React from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import {
+  FlatList,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { Avatar, Icon } from 'react-native-elements';
 //import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
@@ -10,7 +17,7 @@ import I18n from '../../utils/i18n';
 import QSOLikeTextModalItem from './QSOLikeTextModalItem';
 
 // import './style.js';
-class QSOLikeText extends React.Component {
+class QSOLikeText extends React.PureComponent {
   constructor() {
     super();
     this.state = { likes: [], showModal: false };
@@ -32,8 +39,14 @@ class QSOLikeText extends React.Component {
       this.props.recalculateRowHeight();
     }
   }
+  _renderItem = ({ item, index }) => {
+    return (
+      <View>
+        <QSOLikeTextModalItem l={item} qso={this.props.qso} />
+      </View>
+    );
+  };
   render() {
-    console.log('QSOLikeText');
     const { qso } = this.props;
     let counter;
     let outputText = '';
@@ -128,69 +141,35 @@ class QSOLikeText extends React.Component {
           </View>
         </TouchableOpacity>
 
-        {/* <a
-          style={{
-            cursor: 'pointer',
-            fontSize: '1.1rem',
-            display: 'flex',
-            marginBottom: '5px'
-          }}
-          href={null}
-          onClick={() => this.setState({ showModal: true })}
-        >
-          {likes[0].avatarpic && (
-            <Image
-              style={{ height: '1.5rem', width: 'auto', marginRigth: '5px' }}
-              src={likes[0].avatarpic}
-              circular
-            />
-          )}
-          <span>{outputText}</span>
-        </a> */}
         <Modal
-          animationType="slide"
-          // transparent={true}
-          presentationStyle="pageSheet"
-          centered={true}
-          // closeIcon={{
-          //   // style: { top: '0.0535rem', right: '0rem' },
-          //   color: 'black',
-          //   name: 'close'
-          // }}
+          position={'top'}
+          animationType={'slide'}
+          transparent={true}
           visible={this.state.showModal}
-          onRequestClose={() => this.setState({ showModal: false })}
-          // style={{
-          //   //height: '90%',
-          //   overflowY: 'auto'
-          // }}
-        >
+          onRequestClose={() => this.setState({ showModal: false })}>
           {/* {I18n.t('qso.likeModalHeader')}{' '}
           {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
-          <View
-            style={{
-              padding: 10,
-              backgroundColor: 'rgba(0,0,0,0.90)',
-              marginTop: 230,
-              left: 50,
-              right: 15,
-              //  width: 170,
-              width: 290,
-              height: 150,
-
-              paddingVertical: 5,
-
-              borderRadius: 12
-            }}>
-            {likes.map((l) => (
-              // <View key={l.idqsos_likes} style={{ padding: '1vh' }} />
-              <View key={l.qra}>
-                <QSOLikeTextModalItem
-                  l={l}
-                  qso={this.props.qso}
-                  likes={likes}
-                />
-              </View>
-            ))}
+          <View style={styles.modal}>
+            <View style={styles.iconView}>
+              <Icon
+                name="close"
+                type="font-awesome"
+                onPress={() => this.setState({ showModal: false })}
+              />
+            </View>
+            <View style={styles.itemsView} />
+            <FlatList
+              pagingEnabled={true}
+              onScroll={this.handleScroll}
+              data={likes}
+              onViewableItemsChanged={this._onViewableItemsChanged}
+              initialNumToRender={3}
+              viewabilityConfig={this.viewabilityConfig}
+              maxToRenderPerBatch={3}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={this._renderItem}
+              contentContainerStyle={styles.container}
+            />
           </View>
         </Modal>
       </View>
@@ -198,6 +177,34 @@ class QSOLikeText extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  itemsView: {
+    // flex: 1,
+    // // flexDirection: 'column',
+    // alignItems: 'flex-start',
+    // justifyContent: 'flex-start'
+  },
+
+  iconView: {
+    // flex: 1,
+    // height: 20,
+    // width: 20,
+    // flexDirection: 'row',
+    // justifyContent: 'flex-end',
+    alignSelf: 'flex-end'
+  },
+  modal: {
+    flex: 1,
+    marginTop: 100,
+    marginBottom: 150,
+    marginLeft: 50,
+    width: '80%',
+    height: 50,
+    padding: 10,
+    backgroundColor: 'gray',
+    // paddingVertical: 5,
+    alignItems: 'flex-start',
+    borderRadius: 12
+  },
   text: {
     fontSize: 20
   },

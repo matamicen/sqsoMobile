@@ -33,6 +33,7 @@ class PopupToFollow extends React.Component {
       return (
         <Button
           type="clear"
+          titleStyle={{ fontSize: 15 }}
           // type="button"
           // className="link-button-follow"
           onPress={() => this.follow()}

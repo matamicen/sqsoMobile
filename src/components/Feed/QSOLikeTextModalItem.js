@@ -1,6 +1,5 @@
 import React from 'react';
-//import { withTranslation } from 'react-i18next';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,11 +29,11 @@ class QSOLikeTextModalItem extends React.Component {
     if (!this.props.token) return null;
 
     if (!this.followed) {
-      if (!__DEV__)
-        window.gtag('event', 'qraFollowLike_WEBPRD', {
-          event_category: 'User',
-          event_label: 'follow'
-        });
+      // if (!__DEV__)
+      //   window.gtag('event', 'qraFollowLike_WEBPRD', {
+      //     event_category: 'User',
+      //     event_label: 'follow'
+      //   });
       this.props.actions.doFollowQRA(this.props.token, idqra);
       this.followed = true;
       this.setState({ followed: this.followed });
@@ -56,14 +55,10 @@ class QSOLikeTextModalItem extends React.Component {
         (o) => o.idqra_followed === l.idqra
       );
     }
+
     return (
-      <View key={l.qra} style={{ display: 'flex', paddingBottom: 10 }}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            paddingRigth: 5
-          }}>
+      <View key={l.qra} style={styles.itemView}>
+        <View style={styles.avatarView}>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('QRAProfile', {
@@ -83,12 +78,7 @@ class QSOLikeTextModalItem extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            paddingRigth: 5
-          }}>
+        <View style={styles.name}>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('QRAProfile', {
@@ -102,35 +92,50 @@ class QSOLikeTextModalItem extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            padding: 0
-          }}>
-          {this.props.isAuthenticated &&
-            !this.followed &&
-            l.qra !== this.props.userData.currentQRA && (
-              <Button
-                style={{
-                  paddingLeft: 1,
-                  paddingRight: 1
-                }}
-                positive={!this.followed}
-                onClick={() => this.handleButtonClick(l.qra)}>
-                <Text>
-                  {this.props.followers.some((o) => o.qra === l.qra)
-                    ? I18n.t('qra.followToo')
-                    : I18n.t('qra.follow')}
-                </Text>
-              </Button>
-            )}
+        <View style={styles.follow}>
+          {!this.followed && l.qra !== this.props.currentQRA && (
+            <Button
+              // positive={!this.followed}
+              onPress={() => this.handleButtonClick(l.qra)}
+              title={
+                this.props.followers.some((o) => o.qra === l.qra)
+                  ? I18n.t('qra.followToo')
+                  : I18n.t('qra.follow')
+              }
+            />
+          )}
         </View>
       </View>
     );
   }
 }
-
+const styles = StyleSheet.create({
+  itemView: {
+    flex: 1,
+    // justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'flex-start'
+    // alignSelf: 'flex-start'
+    // height: 10
+  },
+  name: {
+    // flex: 1,
+    // flexDirection: 'row',
+    alignSelf: 'flex-start',
+    flexGrow: 1
+  },
+  follow: {
+    // flex: 1
+    // flexDirection: 'row'
+    alignSelf: 'flex-end'
+  },
+  avatarView: {
+    // flex: 1
+    // flexDirection: 'row',
+    // alignItems: 'flex-start',
+    // alignSelf: 'flex-start'
+  }
+});
 const mapStateToProps = (state) => ({
   currentQRA: state.sqso.qra,
 
