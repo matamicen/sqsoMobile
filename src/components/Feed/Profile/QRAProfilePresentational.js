@@ -1,6 +1,5 @@
 import React from 'react';
-import { withTranslation } from 'react-i18next';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import { Button } from 'react-native-elements';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import '../../styles/style.css';
 import Ad from '../Ad/Ad';
@@ -10,6 +9,7 @@ import QRAProfileFollowing from './QRAProfileFollowing';
 import QRAProfileHeader from './QRAProfileHeader';
 import QRAProfileInfo from './QRAProfileInfo';
 import QRAProfileQsos from './QRAProfileQsos';
+;
 
 const QRAProfile = (props) => {
   const { t } = props;

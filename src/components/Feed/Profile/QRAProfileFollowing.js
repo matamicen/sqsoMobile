@@ -1,5 +1,4 @@
 import React from 'react';
-import { withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import '../../styles/style.css';

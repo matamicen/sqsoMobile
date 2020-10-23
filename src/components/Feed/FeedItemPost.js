@@ -1,7 +1,7 @@
 //import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-//import { withTranslation } from 'react-i18next';
+//import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';

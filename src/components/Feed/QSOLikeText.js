@@ -8,13 +8,13 @@ import {
   View
 } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
-//import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-//import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import QSOLikeTextModalItem from './QSOLikeTextModalItem';
+
+
 
 // import './style.js';
 class QSOLikeText extends React.PureComponent {

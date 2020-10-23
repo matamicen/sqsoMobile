@@ -1,15 +1,13 @@
+import { Formik } from 'formik';
 import React, { Fragment } from 'react';
-//import { withTranslation } from 'react-i18next';
+import { FlatList, Modal, StyleSheet, TextInput, View } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
-import TextareaAutosize from 'react-textarea-autosize';
+// import TextareaAutosize from 'react-textarea-autosize';
 import { bindActionCreators } from 'redux';
-import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
-import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
-import Comment from 'semantic-ui-react/dist/commonjs/views/Comment';
 import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
 import QSOCommentItem from './QSOCommentItem';
 class QSOComments extends React.Component {
   constructor() {
@@ -35,40 +33,38 @@ class QSOComments extends React.Component {
     }
   }
 
-  handleAddComment = e => {
-    if (!this.props.isAuthenticated) this.setState({ openLogin: true });
-    else {
-      // e.preventDefault();
-      if (this.state.comment === '') return;
+  handleAddComment = (values) => {
+    console.log(values);
+    // e.preventDefault();
+    if (values === '') return;
 
-      let datetime = new Date();
-      let comment = {
-        qra: this.props.currentQRA.toUpperCase(),
-        comment: this.state.comment,
-        datetime: datetime
-      };
-      this.setState({ comment: comment });
-      // this.setState({
-      //   comments: this.state.comments.concat(comment)
-      // });
-      // e.target.comment.value = null;
-      this.setState({ comment: '' });
-      // this.props.recalculateRowHeight();
+    let datetime = new Date();
+    let comment = {
+      qra: this.props.currentQRA.toUpperCase(),
+      comment: this.state.comment,
+      datetime: datetime
+    };
+    this.setState({ comment: comment });
+    // this.setState({
+    //   comments: this.state.comments.concat(comment)
+    // });
+    // e.target.comment.value = null;
+    this.setState({ comment: '' });
+    // this.props.recalculateRowHeight();
 
-      comment.firstname = this.props.firstname;
-      comment.lastname = this.props.lastname;
-      comment.avatarpic = this.props.avatarpic;
-      comment.idqso = this.props.qso.idqso_shared
-        ? this.props.qso.idqso_shared
-        : this.props.qso.idqsos;
+    comment.firstname = this.props.firstname;
+    comment.lastname = this.props.lastname;
+    comment.avatarpic = this.props.avatarpic;
+    comment.idqso = this.props.qso.idqso_shared
+      ? this.props.qso.idqso_shared
+      : this.props.qso.idqsos;
 
-      this.props.actions.doCommentAdd(
-        this.props.qso.idqsos,
-        comment,
-        this.props.token,
-        this.props.qso.idqso_shared
-      );
-    }
+    this.props.actions.doCommentAdd(
+      this.props.qso.idqsos,
+      comment,
+      this.props.token,
+      this.props.qso.idqso_shared
+    );
   };
   // static getDerivedStateFromProps(props, prevState) {
   //   if (props.qsos[props.index].comments !== prevState.comments)
@@ -87,48 +83,34 @@ class QSOComments extends React.Component {
         qso: this.props.qso
       });
   }
-  render() {
-    const { t } = this.props;
-
-    let comments = null;
-    if (this.state.comments) {
-      comments = this.state.comments.map((comment, i) => (
+  _renderItem = ({ item, index }) => {
+    return (
+      <View>
         <QSOCommentItem
-          key={i}
-          comment={comment}
-          currentQRA= {this.props.currentQRA}
+          key={index}
+          comment={item}
+          currentQRA={this.props.currentQRA}
           // recalculateRowHeight={this.props.recalculateRowHeight}
         />
-      ));
-    }
-
-    let form = null;
-
-    form = (
-      <Form size="mini" reply onSubmit={() => this.handleAddComment()}>
-        <Form.Group>
-          <TextareaAutosize
-            value={this.state.comment}
-            onChange={e => this.setState({ comment: e.target.value })}
-            // onHeightChange={this.props.recalculateRowHeight}
-            fontSize={12}
-            style={{
-              fontSize: '1.1rem',
-              paddingTop: '5px',
-              paddingBottom: '5px'
-            }}
-            placeholder={t('qso.writeComment')}
-            rows={4}
-          />
-
-          <Button positive size="mini" content={t('qso.add')} />
-        </Form.Group>
-      </Form>
+      </View>
     );
+  };
+  render() {
+    // let comments = null;
+    // if (this.state.comments) {
+    //   comments = this.state.comments.map((comment, i) => (
+    //     <QSOCommentItem
+    //       key={i}
+    //       comment={comment}
+    //       currentQRA={this.props.currentQRA}
+    //       // recalculateRowHeight={this.props.recalculateRowHeight}
+    //     />
+    //   ));
+    // }
 
     return (
       <Fragment>
-        <Modal
+        {/* <Modal
           size="tiny"
           centered={true}
           closeIcon={{
@@ -141,8 +123,7 @@ class QSOComments extends React.Component {
           style={{
             //height: '90%',
             overflowY: 'auto'
-          }}
-        >
+          }}>
           <Modal.Header>{t('qso.comments')} </Modal.Header>
           <Modal.Content>
             <Modal.Description>
@@ -152,30 +133,124 @@ class QSOComments extends React.Component {
               </Comment.Group>
             </Modal.Description>
           </Modal.Content>
+        </Modal> */}
+        <Modal
+          position={'top'}
+          animationType={'slide'}
+          transparent={true}
+          visible={this.props.showComments}
+          onRequestClose={() => this.props.doClose()}>
+          {/* {I18n.t('qso.likeModalHeader')}{' '}
+          {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
+          <View style={styles.modal}>
+            <View style={styles.iconView}>
+              <Icon
+                name="close"
+                type="font-awesome"
+                onPress={() => this.props.doClose()}
+              />
+            </View>
+            <View style={styles.itemsView} />
+            <FlatList
+              pagingEnabled={true}
+              onScroll={this.handleScroll}
+              data={this.state.comments}
+              onViewableItemsChanged={this._onViewableItemsChanged}
+              initialNumToRender={3}
+              viewabilityConfig={this.viewabilityConfig}
+              maxToRenderPerBatch={3}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={this._renderItem}
+              contentContainerStyle={styles.container}
+            />
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              onSubmit={(values) => this.handleAddComment(values)}
+              // validationSchema={yup.object().shape({
+              //   email: yup.string().email().required(),
+              //   password: yup.string().min(6).required()
+              // })}
+            >
+              {({
+                values,
+                handleChange,
+                errors,
+                setFieldTouched,
+                touched,
+                isValid,
+                handleSubmit
+              }) => (
+                <Fragment>
+                  <TextInput
+                    multiline
+                    style={{ paddingTop: 5, paddingBottom: 5, minHeight: 40 }}
+                    onChangeText={(text) => this.setState({ comment: text })}
+                    value={this.state.comment}
+                  />
+                  <Button
+                    size="mini"
+                    content={I18n.t('qso.add')}
+                    onPress={handleSubmit}
+                  />
+                </Fragment>
+              )}
+            </Formik>
+          </View>
         </Modal>
-
-        <Confirm
-          size="mini"
-          open={this.state.openLogin}
-          onCancel={() => this.setState({ openLogin: false })}
-          onConfirm={() =>
-            this.props.history.push({
-              pathname: '/login',
-              state: { from: this.props.location.pathname }
-            })
-          }
-          cancelButton={t('global.cancel')}
-          confirmButton={t('auth.login')}
-          content={t('auth.loginToPerformAction')}
-        />
       </Fragment>
     );
   }
 }
+const styles = StyleSheet.create({
+  itemsView: {
+    // flex: 1,
+    // // flexDirection: 'column',
+    // alignItems: 'flex-start',
+    // justifyContent: 'flex-start'
+  },
 
-const mapStateToProps = state => ({
+  iconView: {
+    // flex: 1,
+    // height: 20,
+    // width: 20,
+    // flexDirection: 'row',
+    // justifyContent: 'flex-end',
+    alignSelf: 'flex-end'
+  },
+  modal: {
+    flex: 1,
+    marginTop: 100,
+    marginBottom: 150,
+    marginLeft: 50,
+    width: '80%',
+    height: 50,
+    padding: 10,
+    backgroundColor: 'gray',
+    // paddingVertical: 5,
+    alignItems: 'flex-start',
+    borderRadius: 12
+  },
+  text: {
+    fontSize: 20
+  },
+  view: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+  container: {
+    paddingHorizontal: 5
+  }
+});
+const mapStateToProps = (state) => ({
   qsos: state.qsos,
-  
+
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra,
   firstname: state.userData.qra.firstname,
@@ -183,13 +258,8 @@ const mapStateToProps = state => ({
   avatarpic: state.userData.qra.avatarpic,
   isAuthenticated: state.userData.isAuthenticated
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(QSOComments))
-);
+export default connect(mapStateToProps, mapDispatchToProps)(QSOComments);

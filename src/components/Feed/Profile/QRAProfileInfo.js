@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
-import { withTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
 import '../../styles/style.css';

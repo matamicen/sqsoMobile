@@ -3,12 +3,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import VideoPlayer from 'react-native-video-controls';
-//import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
+
 
 class FeedAudio extends React.Component {
   constructor() {

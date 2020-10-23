@@ -1,9 +1,8 @@
 import React from 'react';
-//import { withTranslation } from 'react-i18next';
+//import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
 import FollowCarrousel from '../follow/followCarrousel';

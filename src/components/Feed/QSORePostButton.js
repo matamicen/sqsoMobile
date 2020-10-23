@@ -1,54 +1,51 @@
-import PropTypes from 'prop-types'
-import { default as React, Fragment } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
-import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm'
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button'
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon'
-import * as Actions from '../../actions'
+import PropTypes from 'prop-types';
+import { default as React, Fragment } from 'react';
+import { Button, Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
+
 class QSORePostButton extends React.Component {
-  constructor () {
-    super()
+  constructor() {
+    super();
     this.state = {
       showConfirmationRequest: false,
       openLogin: false
-    }
+    };
   }
 
-  doRePost () {
-    this.setState({ showConfirmationRequest: false })
+  doRePost() {
+    this.setState({ showConfirmationRequest: false });
     this.props.actions.doRepost(
       this.props.qso.type === 'SHARE'
         ? this.props.qso.idqso_shared
         : this.props.qso.idqsos,
       this.props.token,
       this.props.qso
-    )
+    );
   }
 
-  openConfirmationRequest () {
+  openConfirmationRequest() {
     if (this.props.isAuthenticated) {
-      this.setState({ showConfirmationRequest: true })
+      this.setState({ showConfirmationRequest: true });
     } else {
-      this.setState({ openLogin: true })
+      this.setState({ openLogin: true });
     }
   }
 
   // close = () => {
   //   this.setState({ showReportContent: false });
   // };
-s
-  render () {
-    const {t} = this.props; 
-    const { showConfirmationRequest } = this.state
+  s;
+  render() {
+    const { t } = this.props;
+    const { showConfirmationRequest } = this.state;
     return (
       <Fragment>
         <Button icon onClick={() => this.openConfirmationRequest()}>
-          <View style={{display: "grid", justifyItems: "center"}}>
-          <Icon name="retweet" />
-          <span style={{fontSize:"1rem"}}>{t('qso.repost')}</span>
+          <View style={{ display: 'grid', justifyItems: 'center' }}>
+            <Icon name="retweet" />
+            <span style={{ fontSize: '1rem' }}>{t('qso.repost')}</span>
           </View>
         </Button>
         <Confirm
@@ -73,7 +70,7 @@ s
           content={t('qso.confirmRepost')}
         />
       </Fragment>
-    )
+    );
   }
 }
 QSORePostButton.propTypes = {
@@ -100,18 +97,18 @@ QSORePostButton.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
   }).isRequired
-}
-const mapStateToProps = state => ({
+};
+const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
   isAuthenticated: state.userData.isAuthenticated
-})
-const mapDispatchToProps = dispatch => ({
+});
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
-})
+});
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(QSORePostButton))
-)
+);

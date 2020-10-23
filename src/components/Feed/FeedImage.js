@@ -3,7 +3,7 @@ import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+// import {Button} from 'react-native-elements';
 // import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
 

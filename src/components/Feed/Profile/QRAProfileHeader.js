@@ -1,6 +1,5 @@
 import React from 'react';
-import { withTranslation } from 'react-i18next';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import { Button } from 'react-native-elements';
 import Flag from 'semantic-ui-react/dist/commonjs/elements/Flag';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';

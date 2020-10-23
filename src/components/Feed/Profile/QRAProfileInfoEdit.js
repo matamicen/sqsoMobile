@@ -1,9 +1,8 @@
 import { useFormik } from 'formik';
 import moment from 'moment';
 import React, { Fragment, useEffect, useState } from 'react';
-import { withTranslation } from 'react-i18next';
-import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import { View } from 'react-native';
+import { Button } from 'react-native-elements';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';

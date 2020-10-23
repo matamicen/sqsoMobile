@@ -2,11 +2,10 @@ import API from '@aws-amplify/api';
 import * as Sentry from '@sentry/browser';
 import React, { Fragment } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-//import { withTranslation } from 'react-i18next';
+import { Button } from 'react-native-elements';
+//import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Actions from '../../actions';
@@ -51,7 +50,6 @@ class FeedOptionsMenu extends React.Component {
   handleOnSubmitReportComment(e) {
     const { t } = this.props;
     if (!__DEV__)
-     
       window.gtag('event', 'reportContent_WEBPRD', {
         event_category: 'QSO',
         event_label: 'reportComment'
@@ -65,7 +63,7 @@ class FeedOptionsMenu extends React.Component {
     )
       alert(t('reportContent.fillFields'));
     else {
-      this.setState({recaptchaToken: null})
+      this.setState({ recaptchaToken: null });
       let apiName = 'superqso';
       let path = '/content-reported';
       let myInit = {
@@ -81,18 +79,18 @@ class FeedOptionsMenu extends React.Component {
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
-        .then(response => {
+        .then((response) => {
           if (response.body.error > 0) {
           } else {
             this.open();
             //ReactG.event({ category: "QSO", action: "contentReported" });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (__DEV__) {
             console.log(error);
           } else {
-            Sentry.configureScope(function(scope) {
+            Sentry.configureScope(function (scope) {
               scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
             Sentry.captureException(error);
@@ -104,13 +102,12 @@ class FeedOptionsMenu extends React.Component {
     // e.preventDefault();
     const { t } = this.props;
     if (!__DEV__)
-
       window.gtag('event', 'reportContent_WEBPRD', {
         event_category: 'QSO',
         event_label: 'reportQSO'
       });
     var datetime = new Date();
-  
+
     if (
       !e.target.comments.value ||
       // !e.target.email.value ||
@@ -118,7 +115,7 @@ class FeedOptionsMenu extends React.Component {
     )
       alert(t('reportContent.fillFields'));
     else {
-      this.setState({recaptchaToken: null})
+      this.setState({ recaptchaToken: null });
       let apiName = 'superqso';
       let path = '/content-reported';
       let myInit = {
@@ -133,17 +130,17 @@ class FeedOptionsMenu extends React.Component {
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
-        .then(response => {
+        .then((response) => {
           if (response.error > 0) {
           } else {
             this.open();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (__DEV__) {
             console.log(error);
           } else {
-            Sentry.configureScope(function(scope) {
+            Sentry.configureScope(function (scope) {
               scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
             Sentry.captureException(error);
@@ -154,7 +151,6 @@ class FeedOptionsMenu extends React.Component {
   handleOnSubmitReportMedia(e) {
     const { t } = this.props;
     if (!__DEV__)
-
       window.gtag('event', 'reportMedia_WEBPRD', {
         event_category: 'QSO',
         event_label: 'reportMedia'
@@ -168,7 +164,7 @@ class FeedOptionsMenu extends React.Component {
     )
       alert(t('reportContent.fillFields'));
     else {
-      this.setState({recaptchaToken: null})
+      this.setState({ recaptchaToken: null });
       let apiName = 'superqso';
       let path = '/content-reported';
       let myInit = {
@@ -184,17 +180,17 @@ class FeedOptionsMenu extends React.Component {
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
-        .then(response => {
+        .then((response) => {
           if (response.body.error > 0) {
           } else {
             this.open();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (__DEV__) {
             console.log(error);
           } else {
-            Sentry.configureScope(function(scope) {
+            Sentry.configureScope(function (scope) {
               scope.setExtra('ENV', process.env.REACT_APP_STAGE);
             });
             Sentry.captureException(error);
@@ -210,8 +206,7 @@ class FeedOptionsMenu extends React.Component {
         icon="ellipsis vertical"
         size="tiny"
         className="icon"
-        pointing="right"
-      >
+        pointing="right">
         <Dropdown.Menu>
           {/* FEED IMAGE REPORT CONTENT */}
           {this.props.optionsCaller === 'FeedImage' &&
@@ -228,13 +223,12 @@ class FeedOptionsMenu extends React.Component {
                     icon="warning"
                     text={t('reportContent.reportPhoto')}
                   />
-                }
-              >
+                }>
                 <Modal.Header>
                   {t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
-                  <Form onSubmit={(e)=>this.handleOnSubmitReportMedia(e)}>
+                  <Form onSubmit={(e) => this.handleOnSubmitReportMedia(e)}>
                     <Form.TextArea
                       required
                       name="comments"
@@ -251,11 +245,10 @@ class FeedOptionsMenu extends React.Component {
                     <Form.Field>
                       <ReCAPTCHA
                         sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={response =>
+                        onChange={(response) =>
                           this.setState({ recaptchaToken: response })
                         }
                       />
-                     
                     </Form.Field>
                     <Form.Button>{t('global.submit')}</Form.Button>
 
@@ -264,8 +257,7 @@ class FeedOptionsMenu extends React.Component {
                       open={showMessage}
                       onOpen={this.open}
                       onClose={this.close}
-                      size="small"
-                    >
+                      size="small">
                       <Modal.Header>
                         {t('reportContent.reportPhoto')}
                       </Modal.Header>
@@ -311,13 +303,12 @@ class FeedOptionsMenu extends React.Component {
                     icon="warning"
                     text={t('reportContent.reportAudio')}
                   />
-                }
-              >
+                }>
                 <Modal.Header>
                   {t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
-                  <Form onSubmit={(e)=>this.handleOnSubmitReportMedia(e)}>
+                  <Form onSubmit={(e) => this.handleOnSubmitReportMedia(e)}>
                     <Form.TextArea
                       required
                       name="comments"
@@ -333,11 +324,10 @@ class FeedOptionsMenu extends React.Component {
                     <Form.Field>
                       <ReCAPTCHA
                         sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={response =>
+                        onChange={(response) =>
                           this.setState({ recaptchaToken: response })
                         }
                       />
-                    
                     </Form.Field>
                     <Form.Button>{t('global.submit')}</Form.Button>
 
@@ -346,8 +336,7 @@ class FeedOptionsMenu extends React.Component {
                       open={showMessage}
                       onOpen={this.open}
                       onClose={this.close}
-                      size="small"
-                    >
+                      size="small">
                       <Modal.Header>
                         {t('reportContent.reportAudio')}
                       </Modal.Header>
@@ -411,13 +400,12 @@ class FeedOptionsMenu extends React.Component {
                       icon="warning"
                       text={t('reportContent.reportContent')}
                     />
-                  }
-                >
+                  }>
                   <Modal.Header>
                     {t('reportContent.helpUnderstandWhatsHappening')}
                   </Modal.Header>
                   <Modal.Content>
-                    <Form onSubmit={(e)=> this.handleOnSubmitReportQso(e)}>
+                    <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
                       <Form.TextArea
                         required
                         name="comments"
@@ -429,11 +417,10 @@ class FeedOptionsMenu extends React.Component {
                       <Form.Field>
                         <ReCAPTCHA
                           sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                          onChange={response =>
+                          onChange={(response) =>
                             this.setState({ recaptchaToken: response })
                           }
                         />
-                      
                       </Form.Field>
                       <Form.Button>{t('global.submit')}</Form.Button>
                     </Form>
@@ -441,8 +428,7 @@ class FeedOptionsMenu extends React.Component {
                       open={showMessage}
                       onOpen={this.open}
                       onClose={this.close}
-                      size="small"
-                    >
+                      size="small">
                       <Modal.Header>
                         {t('reportContent.reportContent')}
                       </Modal.Header>
@@ -509,13 +495,12 @@ class FeedOptionsMenu extends React.Component {
                     icon="warning"
                     text={t('reportContent.reportContent')}
                   />
-                }
-              >
+                }>
                 <Modal.Header>
                   {t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
-                  <Form onSubmit={(e)=>this.handleOnSubmitReportQso(e)}>
+                  <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
                     <Form.TextArea
                       required
                       name="comments"
@@ -526,11 +511,10 @@ class FeedOptionsMenu extends React.Component {
                     <Form.Field>
                       <ReCAPTCHA
                         sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={response =>
+                        onChange={(response) =>
                           this.setState({ recaptchaToken: response })
                         }
                       />
-                   
                     </Form.Field>
                     <Form.Button>{t('global.submit')}</Form.Button>
 
@@ -538,8 +522,7 @@ class FeedOptionsMenu extends React.Component {
                       open={showMessage}
                       onOpen={this.open}
                       onClose={this.close}
-                      size="small"
-                    >
+                      size="small">
                       <Modal.Header>
                         {t('reportContent.reportContent')}
                       </Modal.Header>
@@ -574,13 +557,12 @@ class FeedOptionsMenu extends React.Component {
                     icon="warning"
                     text={t('reportContent.reportContent')}
                   />
-                }
-              >
+                }>
                 <Modal.Header>
                   {t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
-                  <Form onSubmit={(e)=>this.handleOnSubmitReportComment(e)}>
+                  <Form onSubmit={(e) => this.handleOnSubmitReportComment(e)}>
                     <Form.TextArea
                       required
                       name="comments"
@@ -591,11 +573,10 @@ class FeedOptionsMenu extends React.Component {
                     <Form.Field>
                       <ReCAPTCHA
                         sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={response =>
+                        onChange={(response) =>
                           this.setState({ recaptchaToken: response })
                         }
                       />
-                     
                     </Form.Field>
                     <Form.Button>{t('global.submit')}</Form.Button>
 
@@ -603,8 +584,7 @@ class FeedOptionsMenu extends React.Component {
                       open={showMessage}
                       onOpen={this.open}
                       onClose={this.close}
-                      size="small"
-                    >
+                      size="small">
                       <Modal.Header>
                         {t('reportContent.reportComment')}
                       </Modal.Header>
@@ -640,16 +620,13 @@ class FeedOptionsMenu extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { pure: false }
-)(withTranslation()(FeedOptionsMenu));
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(withTranslation()(FeedOptionsMenu));

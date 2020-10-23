@@ -1,16 +1,20 @@
 //import i18n from 'i18next';
 import React from 'react';
-import ReactHtmlParser from 'react-html-parser';
-//import { withTranslation } from 'react-i18next';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Avatar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
+// import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Comment from 'semantic-ui-react/dist/commonjs/views/Comment';
 import Item from 'semantic-ui-react/dist/commonjs/views/Item';
 import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
+
+var convertToComp = (response) => {
+  return response;
+};
 class QSOCommentItem extends React.Component {
   constructor() {
     super();
@@ -24,11 +28,11 @@ class QSOCommentItem extends React.Component {
     if (!this.props.userData.token) return null;
     if (this.props.userData.isAuthenticated) {
       if (!this.followed) {
-        if (!__DEV__)
-          window.gtag('event', 'qraFollowComment_WEBPRD', {
-            event_category: 'User',
-            event_label: 'follow'
-          });
+        // if (!__DEV__)
+        //   window.gtag('event', 'qraFollowComment_WEBPRD', {
+        //     event_category: 'User',
+        //     event_label: 'follow'
+        //   });
         this.props.actions.doFollowQRA(this.props.token, idqra);
         this.followed = true;
         this.setState({ followed: this.followed });
@@ -44,7 +48,41 @@ class QSOCommentItem extends React.Component {
   };
   render() {
     const { t } = this.props;
+    let withTags;
+    const regex = /<(MENTION)>.*<\/\1>/;
 
+    let message = this.props.comment.comment;
+
+    do {
+      withTags = regex.exec(message);
+      if (withTags) {
+        let qra;
+        const regex2 = />@([a-zA-Z0-9]+)/;
+
+        let message2 = withTags[0];
+        qra = regex2.exec(message2);
+
+        var oldWord = withTags[0];
+
+        message = message.replace(
+          new RegExp(oldWord, 'g'),
+          '<TouchableOpacity ' +
+            'onPress={() => ' +
+            // eslint-disable-next-line quotes
+            "this.props.navigation.navigate('QRAProfile', { " +
+            'qra: ' +
+            qra[1] +
+            '}) ' +
+            // eslint-disable-next-line quotes
+            "}> <Text style={{ fontSize: '1.2' }}> " +
+            '@' +
+            qra[1] +
+            '</Text>  </TouchableOpacity>'
+        );
+        console.log(message);
+      }
+    } while (withTags);
+    console.log(message);
     var date = new Date(this.props.comment.datetime);
     var timestamp = '';
     if (
@@ -59,7 +97,7 @@ class QSOCommentItem extends React.Component {
     }
     if (this.props.comment.datetime) {
       timestamp =
-        date.toLocaleDateString(i18n.language, { month: 'short' }) +
+        date.toLocaleDateString(I18n.locale, { month: 'short' }) +
         ' ' +
         date.getDate() +
         ', ' +
@@ -79,8 +117,7 @@ class QSOCommentItem extends React.Component {
               style={{
                 float: 'right'
               }}>
-              {this.props.isAuthenticated &&
-                !this.followed &&
+              {!this.followed &&
                 this.props.comment.qra !== this.props.currentQRA && (
                   <Button
                     style={{
@@ -113,42 +150,45 @@ class QSOCommentItem extends React.Component {
                 display: 'flex',
                 alignItems: 'center'
               }}>
-              <Link to={'/' + this.props.comment.qra}>
-                <Image
-                  style={{
-                    height: '1.5rem',
-                    width: 'auto',
-                    marginRigth: '5px'
-                  }}
-                  src={
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('QRAProfile', {
+                    qra: this.props.comment.qra
+                  })
+                }>
+                <Avatar
+                  size="small"
+                  rounded
+                  source={
                     this.props.comment.avatarpic
-                      ? this.props.comment.avatarpic
-                      : '/emptyprofile.png'
+                      ? {
+                          uri: this.props.comment.avatarpic
+                        }
+                      : require('../../images/emptyprofile.png')
                   }
-                  circular
-                />
-              </Link>{' '}
-              <Link to={'/' + this.props.comment.qra}>
-                <span style={{ fontSize: '1.2rem' }}>
+                />{' '}
+                <Text style={{ fontSize: '1.2rem' }}>
                   {this.props.comment.qra.toUpperCase()}{' '}
                   {this.props.comment.firstname} {this.props.comment.lastname}{' '}
-                </span>
-              </Link>{' '}
+                </Text>
+              </TouchableOpacity>{' '}
               {/* <TextToFollow qra={this.props.comment.qra} /> */}
             </View>
           </Comment.Author>
           <Comment.Metadata>
-            <span
+            <Text
               style={{
                 marginLeft: '1.5rem'
               }}>
               {timestamp}
-            </span>
+            </Text>
           </Comment.Metadata>
           <Comment.Text>
-            <span style={{ fontSize: '1.1rem' }}>
-              <View>{ReactHtmlParser(this.props.comment.comment)}</View>
-            </span>
+            <Text style={{ fontSize: '1.1rem' }}>
+              <View>
+                <convertToComp response={message} />
+              </View>
+            </Text>
           </Comment.Text>
         </Comment.Content>
       </Comment>
@@ -166,7 +206,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation()(QSOCommentItem));
+export default connect(mapStateToProps, mapDispatchToProps)(QSOCommentItem);

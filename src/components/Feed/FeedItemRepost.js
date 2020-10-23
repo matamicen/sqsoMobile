@@ -1,12 +1,11 @@
 //import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-//import { withTranslation } from 'react-i18next';
+import { Button, Icon } from 'react-native-elements';
+//import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';

@@ -2,12 +2,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Card, Icon } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedItemHeader from './FeedItemHeader';
 import FeedMedia from './FeedMedia';
+import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
 import QSOLikeText from './QSOLikeText';
 // import './style.js';
@@ -140,15 +141,13 @@ class FeedItemQSO extends React.PureComponent {
           qso_owner={this.props.qso.qra}
         />
         <QSOLikeText qso={this.props.qso} likes={this.state.likes} />
-        <Button
-          icon={<Icon name="code" color="#ffffff" />}
-          buttonStyle={{
-            borderRadius: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0
-          }}
-          title="VIEW NOW"
+        <FeedSocialButtons
+          qso={this.props.qso}
+          comments={this.props.comments}
+          idqso={this.props.qso.idqsos}
+          index={this.props.index}
+          qso_owner={this.props.qso.qra}
+          shareText={shareText}
         />
       </Card>
     );

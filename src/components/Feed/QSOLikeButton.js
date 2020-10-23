@@ -1,14 +1,13 @@
 import API from '@aws-amplify/api';
 import Auth from '@aws-amplify/auth';
-import * as Sentry from '@sentry/browser';
-import React, { Fragment } from 'react';
-//import { withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 //import { withRouter } from 'react-router-dom';
+import crashlytics from '@react-native-firebase/crashlytics';
+// import * as Sentry from '@sentry/browser';
+import React, { Fragment } from 'react';
+import { Button, Icon } from 'react-native-elements';
+//import I18n from '../../utils/i18n';;
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import * as Actions from '../../actions';
 class QSOLikeButton extends React.Component {
   constructor() {
@@ -125,7 +124,7 @@ class QSOLikeButton extends React.Component {
       //     // console.log('session', err, session);
       //     let token = session.idToken.jwtToken;
       const currentSession = await Auth.currentSession();
-      const token = currentSession.getIdToken().getJwtToken();
+      token = currentSession.getIdToken().getJwtToken();
       this.props.actions.refreshToken(token);
 
       let apiName = 'superqso';
@@ -147,26 +146,24 @@ class QSOLikeButton extends React.Component {
           }
         })
         .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__) {
             console.log(error.message);
+            crashlytics().recordError(new Error('QSOLikeButton_DEV'));
           } else {
-            Sentry.configureScope(function (scope) {
-              scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-            });
-            Sentry.captureException(error);
+            crashlytics().recordError(new Error('QSOLikeButton_PRD'));
           }
         });
       //   }
       // );
     } catch (error) {
+      crashlytics().log('error: ' + JSON.stringify(error));
       if (__DEV__) {
         console.log('Unable to refresh Token');
         console.log(error);
+        crashlytics().recordError(new Error('QSOLikeButton_DEV'));
       } else {
-        Sentry.configureScope(function (scope) {
-          scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-        });
-        Sentry.captureException(error);
+        crashlytics().recordError(new Error('QSOLikeButton_PRD'));
       }
     }
   }
@@ -179,24 +176,8 @@ class QSOLikeButton extends React.Component {
       });
     }
     try {
-      // const cognitoUser = await Auth.currentAuthenticatedUser();
-      // const currentSession = cognitoUser.signInUserSession;
-      // cognitoUser.refreshSession(
-      //   currentSession.refreshToken,
-      //   (error, session) => {
-      //     if (__DEV__) {
-      //       console.log('Unable to refresh Token');
-      //       console.log(error);
-      //     } else {
-      //       Sentry.configureScope(function(scope) {
-      //         scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-      //       });
-      //       Sentry.captureException(error);
-      //     }
-      //     // console.log('session', err, session);
-      //     let token = session.idToken.jwtToken;
       const currentSession = await Auth.currentSession();
-      const token = currentSession.getIdToken().getJwtToken();
+      token = currentSession.getIdToken().getJwtToken();
       this.props.actions.refreshToken(token);
       let apiName = 'superqso';
       let path = '/qso-like';
@@ -217,26 +198,24 @@ class QSOLikeButton extends React.Component {
           }
         })
         .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__) {
             console.log(error.message);
+            crashlytics().recordError(new Error('QSOLikeButton_DEV'));
           } else {
-            Sentry.configureScope(function (scope) {
-              scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-            });
-            Sentry.captureException(error);
+            crashlytics().recordError(new Error('QSOLikeButton_PRD'));
           }
         });
       //   }
       // );
     } catch (error) {
+      crashlytics().log('error: ' + JSON.stringify(error));
       if (__DEV__) {
         console.log('Unable to refresh Token');
         console.log(error);
+        crashlytics().recordError(new Error('QSOLikeButton_DEV'));
       } else {
-        Sentry.configureScope(function (scope) {
-          scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-        });
-        Sentry.captureException(error);
+        crashlytics().recordError(new Error('QSOLikeButton_PRD'));
       }
     }
   }
@@ -286,7 +265,6 @@ class QSOLikeButton extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
     let icon;
 
     if (this.liked !== true && this.liked !== false) {
@@ -297,20 +275,6 @@ class QSOLikeButton extends React.Component {
 
     return (
       <Fragment>
-        <Confirm
-          size="mini"
-          open={this.state.openLogin}
-          onCancel={() => this.setState({ openLogin: false })}
-          onConfirm={() =>
-            this.props.history.push({
-              pathname: '/login',
-              state: { from: this.props.location.pathname }
-            })
-          }
-          cancelButton={t('global.cancel')}
-          confirmButton={t('auth.login')}
-          content={t('auth.loginToPerformAction')}
-        />
         <Button icon active={false} onClick={() => this.handleOnLike()}>
           <Icon name={icon} /> {this.likeCounter}{' '}
         </Button>
@@ -329,6 +293,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(QSOLikeButton))
-);
+export default connect(mapStateToProps, mapDispatchToProps)(QSOLikeButton);

@@ -22,6 +22,7 @@
     "amazon-cognito-identity-js": "^3.2.4",
     "aws-amplify": "^2.2.5",
     "flipper-plugin-reactotron": "^1.0.1",
+    "formik": "^2.2.0",
     "i18n-js": "^3.7.0",
     "moment": "^2.25.3",
     "react": "16.13.1",
@@ -57,7 +58,8 @@
     "redux": "^4.0.4",
     "redux-flipper": "^1.4.0",
     "redux-thunk": "^2.3.0",
-    "rn-fetch-blob": "^0.10.16"
+    "rn-fetch-blob": "^0.10.16",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

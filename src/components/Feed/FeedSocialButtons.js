@@ -1,16 +1,15 @@
 import React, { Fragment } from 'react';
-//import { withTranslation } from 'react-i18next';
+import { Button, Icon } from 'react-native-elements';
+//import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import * as Actions from '../../actions';
 import QSOComments from './QSOComments';
 import QSOLikeButton from './QSOLikeButton';
 import QSOLikeText from './QSOLikeText';
 import QSORePostButton from './QSORePostButton';
 import QSOShareButtons from './QSOShareButtons';
-import './style.js';
+// import './style.js';
 
 class FeedSocialButtons extends React.Component {
   constructor(props, context) {
@@ -34,21 +33,21 @@ class FeedSocialButtons extends React.Component {
     const commentsCounter = '(' + this.props.qso.comments.length + ')';
     let shareText;
 
-    switch (this.props.qso.type) {
-      case 'POST':
-        // text = t('qso.createdPost');
-        shareText = t('qso.checkOutPost');
-        break;
-      case 'QAP':
-        // text = t('qso.createdQAP');
-        shareText = t('qso.checkOutQAP');
-        break;
-      case 'FLDDAY':
-        // text = t('qso.createdFLDDAY');
-        shareText = t('qso.checkOutFLDDAY');
-        break;
-      default:
-    }
+    // switch (this.props.qso.type) {
+    //   case 'POST':
+    //     // text = t('qso.createdPost');
+    //     shareText = t('qso.checkOutPost');
+    //     break;
+    //   case 'QAP':
+    //     // text = t('qso.createdQAP');
+    //     shareText = t('qso.checkOutQAP');
+    //     break;
+    //   case 'FLDDAY':
+    //     // text = t('qso.createdFLDDAY');
+    //     shareText = t('qso.checkOutFLDDAY');
+    //     break;
+    //   default:
+    // }
 
     return (
       <Fragment>
@@ -69,7 +68,10 @@ class FeedSocialButtons extends React.Component {
             </View>
           </Button>
           <QSORePostButton qso={this.props.qso} />
-          <QSOShareButtons idqso={this.props.qso.GUID_URL} title={shareText} />
+          <QSOShareButtons
+            idqso={this.props.qso.GUID_URL}
+            title={this.props.shareText}
+          />
         </Button.Group>
         {this.state.showComments && (
           <QSOComments
