@@ -534,7 +534,8 @@ class QsoScreen extends Component {
           ShareMenu.getSharedText((text) => {
       console.log('el text del share 05:'+JSON.stringify(text) )
       
-      if (text!==null) {
+      // if (text!==null) {
+        if (text!==null && (typeof text !== 'undefined')) {
        
         console.log('el text del share hay data 05: '+ text)
         auxshare1 = JSON.stringify(text);
@@ -971,19 +972,24 @@ if (this.pressVideo===false)
      // el video viene de share
      this.pressVideo = false;
      console.log('antes de llamar a takeFrame: ' +this.state.videoFromShare);
+     let storagePermission = true;
 
-       if (Platform.OS==='android'){
+           if (Platform.OS==='android') // android debe preguntar permiso de storage por el Write del video al disco
+          {
             
-          STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+                STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
 
-            response = await request(STORAGE_PERMISSION)
+                  response = await request(STORAGE_PERMISSION)
+                    //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+                  //entonces recupero el share del asyncstorage
+                
+                  if (response !== RESULTS.GRANTED)
+                      storagePermission = false;
           
-            if (response === RESULTS.GRANTED){
-           // si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
-          // entonces recupero el share del asyncstorage
-            console.log('STORAGE_PERMISSION');
+          }
    
-   
+      if (storagePermission) 
+     {
             // open the reading video modal
           this.setState({readingVideo: true})
 
@@ -996,6 +1002,10 @@ if (this.pressVideo===false)
           }else
           {
             console.log('path oculto');
+         
+            if (Platform.OS==='ios')
+             auxuri = this.state.videoFromShare.replace("file:///", '');
+            else
              auxuri = this.state.videoFromShare;
            //  const fileURI = auxuri.replace('content://', '/');
            //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
@@ -1004,8 +1014,10 @@ if (this.pressVideo===false)
            .then((files) => {
           
            console.log('finalizo lectura base64')
-           // this.videoShare64 = files;
-           this.saveVideoToDisk(files,'video/mp4');
+          //  console.log(files);
+         
+            this.saveVideoToDisk(files,'video/mp4');
+          
         
            })
        
@@ -1014,10 +1026,11 @@ if (this.pressVideo===false)
           }
 
 
-       
+        } // storagePermission
+
           
-            }
-        }
+        //     }  los if de android
+        // }
 
   //    realUrl = await this.getVideoPath(this.state.videoFromShare);
   //    if (realUrl.status)
@@ -1069,7 +1082,13 @@ if (this.pressVideo===false)
 
   saveVideoToDisk = async (file64,mimeType) => {
     if (mimeType==='video/mp4')
- { const path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
+ { 
+  let path = '';
+  if (Platform.OS==='android')
+     path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
+   else 
+     path = `${RNFetchBlob.fs.dirs.DocumentDir}/videoaux.mp4`;
+  
   const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
     console.log(data, 'grabo video aux en disco');
     this.takeFramePreview(path);
@@ -1092,6 +1111,7 @@ if (this.pressVideo===false)
       duration: 0,
       size: 0
     }
+    let path = '';
     // lo vuelvo a null por si sube un proximo video en otra publicacion
            this.setState({videoFromGallery: null})
             console.log ('desde takFramePreview')
@@ -1103,13 +1123,23 @@ if (this.pressVideo===false)
            // const maximumSize = { width: 400, height: 200 };
 
            // Se necesita esperar que tome la foto de preview asi el componente Muestro la puede mostrar
-            await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
-              .then((data) => {
-                console.log('obtengo frame')
-                // console.log('width: '+image.width)
-               //  console.log(data)
-               this.base64preview = data;
-              });
+           if (Platform.OS==='ios')
+              await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize, 'base64')
+                .then((data) => {
+                  console.log('obtengo frame')
+                  // console.log('width: '+image.width)
+                //  console.log(data)
+                this.base64preview = data;
+                });
+              else
+                await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
+                .then((data) => {
+                  console.log('obtengo frame')
+                  // console.log('width: '+image.width)
+                //  console.log(data)
+                this.base64preview = data;
+                });
+
      
               this.videoPathBeforeCompress = videoPath;
 
@@ -1124,8 +1154,10 @@ if (this.pressVideo===false)
               image.size = fileInfo.size; // no trae el size esta api 
               console.log('width: '+ image.width + ' height:'+image.height)
 
-     
-                const path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
+                if (Platform.OS==='ios')
+                    path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.png`;
+                else
+                    path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
 
                 try { // se guarda la imagen de preview en disco para luego ser comprimida
                   const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
@@ -1268,16 +1300,16 @@ if (this.pressVideo===false)
   let fileName2 = '';
   let uri = '';
 
-    if (Platform.OS==='android'){
+    // if (Platform.OS==='android'){
             
-      STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+    //   STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
 
-        response = await request(STORAGE_PERMISSION)
+    //     response = await request(STORAGE_PERMISSION)
       
-        if (response === RESULTS.GRANTED){
-       // si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
-      // entonces recupero el share del asyncstorage
-        console.log('STORAGE_PERMISSION');
+    //     if (response === RESULTS.GRANTED){
+    //    // si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+    //   // entonces recupero el share del asyncstorage
+    //     console.log('STORAGE_PERMISSION');
 
 
         // open the reading video modal
@@ -1395,8 +1427,8 @@ if (this.pressVideo===false)
 
    
       
-        }
-    }
+    //     }
+    // }
 
 
 
@@ -2023,6 +2055,8 @@ if (this.pressVideo===false)
 
   subo_s3 = async () => {
 
+    let datasource = '';
+
     this.setState({showIntersitial:false});
     this.setState({showVideoReward:false});
     
@@ -2217,6 +2251,7 @@ if (this.pressVideo===false)
                   console.log('bitMultiplier: '+bitMultiplier + ' - needTrim: '+needTrim)
                   console.log('nombre del video: '+this.envio.name)
 
+                  console.log('this.videoPathBeforeCompress: '+this.videoPathBeforeCompress)
                   // this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date()});
                   ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
                   .then((data) => {   // andan los de andres 8aql traidos de wsapp
@@ -2228,7 +2263,12 @@ if (this.pressVideo===false)
                     console.log('salida de compresion');
                     console.log(data);
 
-                    ProcessingManager.getVideoInfo(data.source)
+                    if (Platform.OS==='ios')
+                      datasource = data;
+                    else
+                     datasource = data.source;
+
+                    ProcessingManager.getVideoInfo(datasource)
                         // .then((info) => console.log(info ));
                         .then(({ duration, size, frameRate, bitrate }) => {
                           console.log(duration, size, frameRate, bitrate )
@@ -2236,10 +2276,11 @@ if (this.pressVideo===false)
                           // al actualizar env se actualiza mediafileLocal por la setencia de arriba mediafileLocal = [ env ];
                           this.envio.rectime = duration;
                           this.envio.size = Math.floor(env.size/bitMultiplier);
-                          this.envio.url = data.source;                          
+                          // this.envio.url = data.source;      
+                          this.envio.url = datasource;                     
                           console.log('size comprimido:'+ this.envio.size + ' - '+ this.envio.rectime+ ' - ' + this.envio.url)
                           console.log('sqlrdsid: '+this.envio.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
-                          console.log('dataSource: '+data.source)
+                          console.log('dataSource: '+datasource)
 
                           // actualizo mediafile en redux porque esto termina enviado a RDS el s3Upload
                           update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url}

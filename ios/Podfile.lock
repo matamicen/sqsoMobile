@@ -346,6 +346,8 @@ PODS:
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
   - React-jsinspector (0.63.2)
+  - react-native-background-upload (6.2.0):
+    - React
   - react-native-camera (3.1.1):
     - React
     - react-native-camera/RCT (= 3.1.1)
@@ -354,6 +356,8 @@ PODS:
     - React
   - react-native-camera/RN (3.1.1):
     - React
+  - react-native-image-picker (2.3.4):
+    - React-Core
   - react-native-image-resizer (1.0.1):
     - React
   - react-native-location (2.3.2):
@@ -485,6 +489,8 @@ PODS:
     - React
   - RNShare (3.0.0):
     - React
+  - RNShareMenu (5.0.2):
+    - React
   - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -534,7 +540,9 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-background-upload (from `../node_modules/react-native-background-upload`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-location (from `../node_modules/react-native-location`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -569,6 +577,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNShare (from `../node_modules/react-native-share`)
+  - RNShareMenu (from `../node_modules/react-native-share-menu`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -654,8 +663,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-background-upload:
+    :path: "../node_modules/react-native-background-upload"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
     :path: "../node_modules/react-native-image-resizer"
   react-native-location:
@@ -724,6 +737,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNShare:
     :path: "../node_modules/react-native-share"
+  RNShareMenu:
+    :path: "../node_modules/react-native-share-menu"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -783,7 +798,9 @@ SPEC CHECKSUMS:
   React-jsi: 54245e1d5f4b690dec614a73a3795964eeef13a8
   React-jsiexecutor: 8ca588cc921e70590820ce72b8789b02c67cce38
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
+  react-native-background-upload: 4f82b6b9b2538a9f6d25dc275f4259d038065849
   react-native-camera: 9bf6e0cdce0d7dc059d9836eb381d96f58f83d83
+  react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
   react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
@@ -818,10 +835,11 @@ SPEC CHECKSUMS:
   RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
+  RNShareMenu: fefca627ce5cbe7999655b7126ba4d07193fd2b9
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 6eebc24f8ad59e975d46e99b6a3d646a06aa7966
+PODFILE CHECKSUM: 986e8b61a27700edae38395217ea41239bf93ab1
 
 COCOAPODS: 1.9.3

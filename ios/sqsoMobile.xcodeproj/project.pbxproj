@@ -15,10 +15,14 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* sqsoMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* sqsoMobileTests.m */; };
+		34D40E7DAD212EF05F11E3EB /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEDA5C645CF58935436A0F7A /* libPods-ShareExtension.a */; };
 		414863EBA3EEE9B70E37CA67 /* libPods-sqsoMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0337F866BBF58F82CD535A55 /* libPods-sqsoMobile-tvOS.a */; };
 		673381CE232C3525009E5299 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673381CD232C3525009E5299 /* StoreKit.framework */; };
 		674D70C022F0DB9D001547BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */; };
 		675923F6249BFD9900E75612 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 675923F8249BFD9900E75612 /* Localizable.strings */; };
+		6764767525405C9500963A7B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6764767325405C9500963A7B /* MainInterface.storyboard */; };
+		6764767925405C9500963A7B /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6764766F25405C9500963A7B /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		676476802540607500963A7B /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6764767F2540607500963A7B /* ShareViewController.swift */; };
 		67A0B7452524C33D0051BCC0 /* RNVideoProcessingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A0B73E2524C33D0051BCC0 /* RNVideoProcessingManager.swift */; };
 		67A0B7462524C33D0051BCC0 /* RNVideoProcessingBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A0B7402524C33D0051BCC0 /* RNVideoProcessingBridge.m */; };
 		67A0B7472524C33D0051BCC0 /* VideoProcessingGPUFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A0B7412524C33D0051BCC0 /* VideoProcessingGPUFilters.swift */; };
@@ -62,6 +66,13 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "sqsoMobile-tvOS";
 		};
+		6764767725405C9500963A7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6764766E25405C9500963A7B;
+			remoteInfo = ShareExtension;
+		};
 		67A0B76E2524C5DA0051BCC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 67A0B7682524C5DA0051BCC0 /* GPUImage.xcodeproj */;
@@ -79,6 +90,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		6764767D25405C9500963A7B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6764767925405C9500963A7B /* ShareExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67A0B7802524CAAC0051BCC0 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -113,6 +135,12 @@
 		674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		675923F7249BFD9900E75612 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		675923F9249BFE0200E75612 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6764766F25405C9500963A7B /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6764767425405C9500963A7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		6764767625405C9500963A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6764767E2540607400963A7B /* ShareExtension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShareExtension-Bridging-Header.h"; sourceTree = "<group>"; };
+		6764767F2540607500963A7B /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
+		676476812540628B00963A7B /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
 		678B016522EE53F500D17648 /* sqsoMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sqsoMobile.entitlements; path = sqsoMobile/sqsoMobile.entitlements; sourceTree = "<group>"; };
 		67A0B73D2524C33C0051BCC0 /* sqsoMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sqsoMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		67A0B73E2524C33D0051BCC0 /* RNVideoProcessingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RNVideoProcessingManager.swift; path = "../../node_modules/react-native-video-processing/ios/RNVideoProcessing/RNVideoProcessingManager.swift"; sourceTree = "<group>"; };
@@ -150,12 +178,15 @@
 		803E696069C4431D7428B474 /* Pods-sqsoMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOS/Pods-sqsoMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		808D9A00AB0D707A05E9C4FC /* libPods-sqsoMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = sqsoMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		85A05E0BF6626A165BB20666 /* Pods-ShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.release.xcconfig"; path = "Target Support Files/Pods-ShareExtension/Pods-ShareExtension.release.xcconfig"; sourceTree = "<group>"; };
 		8F540A4D172F1F53B4CEAC37 /* libPods-sqsoMobile-sqsoMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobile-sqsoMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9471CB48B91478B1035D80D7 /* Pods-sqsoMobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOSTests/Pods-sqsoMobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A32A329B1E6531BAB205894C /* Pods-sqsoMobile-sqsoMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-sqsoMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-sqsoMobileTests/Pods-sqsoMobile-sqsoMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B545A7C50B9865BE7BAD73C9 /* Pods-ShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.debug.xcconfig"; path = "Target Support Files/Pods-ShareExtension/Pods-ShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		D7942F91B151ACBE7A401D57 /* Pods-sqsoMobile-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOS/Pods-sqsoMobile-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		EEDA5C645CF58935436A0F7A /* libPods-ShareExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShareExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF52E05E4D06F498444E6621 /* Pods-sqsoMobile-sqsoMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-sqsoMobileTests.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-sqsoMobileTests/Pods-sqsoMobile-sqsoMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		FCEF1E5B805FC5A281786439 /* libPods-sqsoMobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -198,6 +229,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				855F92B290D1BAEF9A08E291 /* libPods-sqsoMobile-tvOSTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6764766C25405C9500963A7B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34D40E7DAD212EF05F11E3EB /* libPods-ShareExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,8 +292,21 @@
 				8F540A4D172F1F53B4CEAC37 /* libPods-sqsoMobile-sqsoMobileTests.a */,
 				0337F866BBF58F82CD535A55 /* libPods-sqsoMobile-tvOS.a */,
 				FCEF1E5B805FC5A281786439 /* libPods-sqsoMobile-tvOSTests.a */,
+				EEDA5C645CF58935436A0F7A /* libPods-ShareExtension.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6764767025405C9500963A7B /* ShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				676476812540628B00963A7B /* ShareExtension.entitlements */,
+				6764767F2540607500963A7B /* ShareViewController.swift */,
+				6764767325405C9500963A7B /* MainInterface.storyboard */,
+				6764767625405C9500963A7B /* Info.plist */,
+				6764767E2540607400963A7B /* ShareExtension-Bridging-Header.h */,
+			);
+			path = ShareExtension;
 			sourceTree = "<group>";
 		};
 		67A0B73C2524BF170051BCC0 /* RNVideoProcessing */ = {
@@ -339,6 +391,7 @@
 				13B07FAE1A68108700A75B9A /* sqsoMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* sqsoMobileTests */,
+				6764767025405C9500963A7B /* ShareExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				ED69412BC9F32521A81E82E7 /* Pods */,
@@ -355,6 +408,7 @@
 				00E356EE1AD99517003FC87E /* sqsoMobileTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* sqsoMobile-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* sqsoMobile-tvOSTests.xctest */,
+				6764766F25405C9500963A7B /* ShareExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -370,6 +424,8 @@
 				803E696069C4431D7428B474 /* Pods-sqsoMobile-tvOS.release.xcconfig */,
 				9471CB48B91478B1035D80D7 /* Pods-sqsoMobile-tvOSTests.debug.xcconfig */,
 				202951ED150B77E8B36FBCB1 /* Pods-sqsoMobile-tvOSTests.release.xcconfig */,
+				B545A7C50B9865BE7BAD73C9 /* Pods-ShareExtension.debug.xcconfig */,
+				85A05E0BF6626A165BB20666 /* Pods-ShareExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -412,10 +468,12 @@
 				B869E59EFBF4CC3EC69BFA32 /* [CP-User] [RNFB] Crashlytics Configuration */,
 				673F53E3238F1BF4005525E6 /* ShellScript */,
 				67A0B7802524CAAC0051BCC0 /* Embed Frameworks */,
+				6764767D25405C9500963A7B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6764767825405C9500963A7B /* PBXTargetDependency */,
 			);
 			name = sqsoMobile;
 			productName = sqsoMobile;
@@ -461,12 +519,32 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* sqsoMobile-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		6764766E25405C9500963A7B /* ShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6764767A25405C9500963A7B /* Build configuration list for PBXNativeTarget "ShareExtension" */;
+			buildPhases = (
+				14E2048C2F35241CF1A24168 /* [CP] Check Pods Manifest.lock */,
+				6764766B25405C9500963A7B /* Sources */,
+				6764766C25405C9500963A7B /* Frameworks */,
+				6764766D25405C9500963A7B /* Resources */,
+				EE1AB353AAF3444BE639062A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShareExtension;
+			productName = ShareExtension;
+			productReference = 6764766F25405C9500963A7B /* ShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1170;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -500,6 +578,12 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
+					6764766E25405C9500963A7B = {
+						CreatedOnToolsVersion = 11.7;
+						DevelopmentTeam = 9CPRK9F5EY;
+						LastSwiftMigration = 1170;
+						ProvisioningStyle = Manual;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "sqsoMobile" */;
@@ -527,6 +611,7 @@
 				00E356ED1AD99517003FC87E /* sqsoMobileTests */,
 				2D02E47A1E0B4A5D006451C7 /* sqsoMobile-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* sqsoMobile-tvOSTests */,
+				6764766E25405C9500963A7B /* ShareExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -582,6 +667,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6764766D25405C9500963A7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6764767525405C9500963A7B /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -598,6 +691,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		14E2048C2F35241CF1A24168 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ShareExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		1615EFC8D28EDEEDA8B5C8B0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -788,6 +903,24 @@
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec Fabric Run from Pods\"\n  \"${PODS_ROOT}/Fabric/run\"\nelse\n  echo \"info: Exec Fabric Run from framework\"\n  \"${PROJECT_DIR}/Fabric.framework/run\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		EE1AB353AAF3444BE639062A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShareExtension/Pods-ShareExtension-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShareExtension/Pods-ShareExtension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -877,6 +1010,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6764766B25405C9500963A7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				676476802540607500963A7B /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -890,6 +1031,11 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* sqsoMobile-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		6764767825405C9500963A7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6764766E25405C9500963A7B /* ShareExtension */;
+			targetProxy = 6764767725405C9500963A7B /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -900,6 +1046,14 @@
 				675923F9249BFE0200E75612 /* es */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6764767325405C9500963A7B /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6764767425405C9500963A7B /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -980,6 +1134,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C52600466C5C59690F4977 /* Pods-sqsoMobile.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = sqsoMobile/sqsoMobile.entitlements;
@@ -1007,7 +1162,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
+				PROVISIONING_PROFILE_SPECIFIER = SqsoProvisionAdHoc2;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNVideoProcessing/sqsoMobile-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1021,6 +1176,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2AA0104DAAC5A4D5FDEE017C /* Pods-sqsoMobile.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = sqsoMobile/sqsoMobile.entitlements;
@@ -1049,7 +1205,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = sqsoAdHocProvision;
+				PROVISIONING_PROFILE_SPECIFIER = SqsoProvisionAdHoc2;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNVideoProcessing/sqsoMobile-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1181,6 +1337,77 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sqsoMobile-tvOS.app/sqsoMobile-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+			};
+			name = Release;
+		};
+		6764767B25405C9500963A7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B545A7C50B9865BE7BAD73C9 /* Pods-ShareExtension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 56;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9CPRK9F5EY;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.5.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.sqsoMobile.ShareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = adHoc2_ShareExtension;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "ShareExtension/ShareExtension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6764767C25405C9500963A7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85A05E0BF6626A165BB20666 /* Pods-ShareExtension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 56;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9CPRK9F5EY;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.5.2;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.sqsoMobile.ShareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = adHoc2_ShareExtension;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ShareExtension/ShareExtension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1332,6 +1559,15 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6764767A25405C9500963A7B /* Build configuration list for PBXNativeTarget "ShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6764767B25405C9500963A7B /* Debug */,
+				6764767C25405C9500963A7B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

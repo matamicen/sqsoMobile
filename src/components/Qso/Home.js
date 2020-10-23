@@ -71,7 +71,8 @@ class Home extends Component {
 
     ShareMenu.getSharedText((text) => {
       console.log('el text del share 09:'+JSON.stringify(text) )
-      if (text!==null) {
+       if (text!==null && (typeof text !== 'undefined')) {
+        // if (typeof text !== 'undefined') {
         console.log('el text del share 09: '+ text)
         auxshare1 = JSON.stringify(text);
         auxshare2 = JSON.parse(auxshare1);

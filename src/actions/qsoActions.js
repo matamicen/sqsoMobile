@@ -1768,7 +1768,15 @@ console.log(respuesta);
      // Imagen de Preview de Video simplemente la ubico en el mismo bucket mismo nombre de archivo de video pero con extension jpg
           //       videoName =  folder.replace(".mp4", '.jpg');
           //       videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
-                  enBlob = RNFetchBlob.fs.readFile(fileauxProfileAvatar, 'base64').
+
+          let fileauxPreviewImage = fileauxProfileAvatar;
+          if (Platform.OS == 'ios')
+          {
+            fileauxPreviewImage =  fileauxProfileAvatar.replace("file:///", '');
+          }
+
+
+                  enBlob = RNFetchBlob.fs.readFile(fileauxPreviewImage, 'base64').
                   then(data => Buffer.from(data, 'base64'));
           
                   enBlob
