@@ -3,19 +3,19 @@ import React, { Fragment } from 'react';
 import { FlatList, Modal, StyleSheet, TextInput, View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-//import { withRouter } from 'react-router-dom';
 // import TextareaAutosize from 'react-textarea-autosize';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import QSOCommentItem from './QSOCommentItem';
+
 class QSOComments extends React.Component {
   constructor() {
     super();
     this.state = {
       comments: [],
       comment: '',
-      openLogin: false,
+
       qso: { comments: [] }
     };
 
@@ -24,30 +24,51 @@ class QSOComments extends React.Component {
 
   componentDidMount() {
     if (!__DEV__)
-      window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
-        event_category: 'qso',
-        event_label: 'commentModalOpen'
-      });
-    if (this.props.qso.comments) {
-      this.setState({ comments: this.props.qso.comments });
-    }
+      if (this.props.qso.comments) {
+        // window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
+        //   event_category: 'qso',
+        //   event_label: 'commentModalOpen'
+        // });
+        this.setState({ comments: this.props.qso.comments });
+      }
   }
 
   handleAddComment = (values) => {
-    console.log(values);
+    // console.log(values);
     // e.preventDefault();
     if (values === '') return;
 
     let datetime = new Date();
     let comment = {
       qra: this.props.currentQRA.toUpperCase(),
-      comment: this.state.comment,
+      comment: values.comment,
       datetime: datetime
     };
-    this.setState({ comment: comment });
-    // this.setState({
-    //   comments: this.state.comments.concat(comment)
-    // });
+    let m;
+    const regex = /(?:^|[ ])@([a-zA-Z0-9]+)/;
+
+    let message = values.comment;
+
+    do {
+      m = regex.exec(values.comment);
+      if (m) {
+        var oldWord = '@' + m[1];
+
+        values.comment = values.replace(
+          new RegExp(oldWord, 'g'),
+          '<MENTION>' + '@' + m[1] + '</MENTION>'
+        );
+      }
+    } while (m);
+    let comment2 = {
+      qra: this.props.currentQRA.toUpperCase(),
+      comment: values.comment,
+      datetime: datetime
+    };
+    this.setState({ comment: comment2 });
+    this.setState({
+      comments: this.state.comments.concat(comment2)
+    });
     // e.target.comment.value = null;
     this.setState({ comment: '' });
     // this.props.recalculateRowHeight();
@@ -57,20 +78,15 @@ class QSOComments extends React.Component {
     comment.avatarpic = this.props.avatarpic;
     comment.idqso = this.props.qso.idqso_shared
       ? this.props.qso.idqso_shared
-      : this.props.qso.idqsos;
+      : this.props.idqsos;
 
     this.props.actions.doCommentAdd(
-      this.props.qso.idqsos,
+      this.props.idqsos,
       comment,
       this.props.token,
       this.props.qso.idqso_shared
     );
   };
-  // static getDerivedStateFromProps(props, prevState) {
-  //   if (props.qsos[props.index].comments !== prevState.comments)
-  //     return { index: props.index, comments: props.qsos[props.index].comments };
-  //   return null;
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -90,11 +106,43 @@ class QSOComments extends React.Component {
           key={index}
           comment={item}
           currentQRA={this.props.currentQRA}
+          idqsos={this.props.idqsos}
           // recalculateRowHeight={this.props.recalculateRowHeight}
         />
       </View>
     );
   };
+  _ListFooterComponent = () => (
+    <Formik
+      initialValues={{ comment: '' }}
+      onSubmit={(values) => this.handleAddComment(values)}>
+      {({
+        values,
+        handleChange,
+        errors,
+        setFieldTouched,
+        touched,
+        isValid,
+        handleSubmit
+      }) => (
+        <View style={styles.form}>
+          <TextInput
+            multiline
+            style={styles.comment}
+            // onChangeText={(text) => this.setState({ comment: text })}
+            onChangeText={handleChange('comment')}
+            value={values.comment}
+          />
+          <Button
+            size="medium"
+            title={I18n.t('qso.add')}
+            onPress={handleSubmit}
+          />
+        </View>
+      )}
+    </Formik>
+  );
+
   render() {
     // let comments = null;
     // if (this.state.comments) {
@@ -110,30 +158,6 @@ class QSOComments extends React.Component {
 
     return (
       <Fragment>
-        {/* <Modal
-          size="tiny"
-          centered={true}
-          closeIcon={{
-            style: { top: '0.0535rem', right: '0rem' },
-            color: 'black',
-            name: 'close'
-          }}
-          open={this.props.showComments}
-          onClose={() => this.props.doClose()}
-          style={{
-            //height: '90%',
-            overflowY: 'auto'
-          }}>
-          <Modal.Header>{t('qso.comments')} </Modal.Header>
-          <Modal.Content>
-            <Modal.Description>
-              <Comment.Group threaded>
-                {comments}
-                {form}
-              </Comment.Group>
-            </Modal.Description>
-          </Modal.Content>
-        </Modal> */}
         <Modal
           position={'top'}
           animationType={'slide'}
@@ -150,51 +174,21 @@ class QSOComments extends React.Component {
                 onPress={() => this.props.doClose()}
               />
             </View>
-            <View style={styles.itemsView} />
-            <FlatList
-              pagingEnabled={true}
-              onScroll={this.handleScroll}
-              data={this.state.comments}
-              onViewableItemsChanged={this._onViewableItemsChanged}
-              initialNumToRender={3}
-              viewabilityConfig={this.viewabilityConfig}
-              maxToRenderPerBatch={3}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={this._renderItem}
-              contentContainerStyle={styles.container}
-            />
-            <Formik
-              initialValues={{ email: '', password: '' }}
-              onSubmit={(values) => this.handleAddComment(values)}
-              // validationSchema={yup.object().shape({
-              //   email: yup.string().email().required(),
-              //   password: yup.string().min(6).required()
-              // })}
-            >
-              {({
-                values,
-                handleChange,
-                errors,
-                setFieldTouched,
-                touched,
-                isValid,
-                handleSubmit
-              }) => (
-                <Fragment>
-                  <TextInput
-                    multiline
-                    style={{ paddingTop: 5, paddingBottom: 5, minHeight: 40 }}
-                    onChangeText={(text) => this.setState({ comment: text })}
-                    value={this.state.comment}
-                  />
-                  <Button
-                    size="mini"
-                    content={I18n.t('qso.add')}
-                    onPress={handleSubmit}
-                  />
-                </Fragment>
-              )}
-            </Formik>
+            <View style={styles.itemsView}>
+              <FlatList
+                pagingEnabled={true}
+                onScroll={this.handleScroll}
+                data={this.state.comments}
+                onViewableItemsChanged={this._onViewableItemsChanged}
+                initialNumToRender={3}
+                viewabilityConfig={this.viewabilityConfig}
+                maxToRenderPerBatch={3}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={this._renderItem}
+                contentContainerStyle={styles.container}
+                ListFooterComponent={this._ListFooterComponent}
+              />
+            </View>
           </View>
         </Modal>
       </Fragment>
@@ -202,19 +196,23 @@ class QSOComments extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  form: { flex: 1, flexDirection: 'row' },
+  comment: {
+    width: '70%',
+    maxHeight: 80,
+    borderWidth: 1,
+    fontSize: 20,
+    minHeight: 5,
+    backgroundColor: 'white'
+  },
   itemsView: {
-    // flex: 1,
-    // // flexDirection: 'column',
+    flex: 1
+    // flexDirection: 'column',
     // alignItems: 'flex-start',
     // justifyContent: 'flex-start'
   },
 
   iconView: {
-    // flex: 1,
-    // height: 20,
-    // width: 20,
-    // flexDirection: 'row',
-    // justifyContent: 'flex-end',
     alignSelf: 'flex-end'
   },
   modal: {
@@ -248,15 +246,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5
   }
 });
-const mapStateToProps = (state) => ({
-  qsos: state.qsos,
-
+const mapStateToProps = (state, ownProps) => ({
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra,
-  firstname: state.userData.qra.firstname,
-  lastname: state.userData.qra.lastname,
-  avatarpic: state.userData.qra.avatarpic,
-  isAuthenticated: state.userData.isAuthenticated
+  firstname: state.sqso.userInfo.firstname,
+  lastname: state.sqso.userInfo.lastname,
+  avatarpic: state.sqso.userInfo.avatarpic
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

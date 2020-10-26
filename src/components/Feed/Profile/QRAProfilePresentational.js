@@ -9,10 +9,8 @@ import QRAProfileFollowing from './QRAProfileFollowing';
 import QRAProfileHeader from './QRAProfileHeader';
 import QRAProfileInfo from './QRAProfileInfo';
 import QRAProfileQsos from './QRAProfileQsos';
-;
-
 const QRAProfile = (props) => {
-  const { t } = props;
+   
   return (
     <View className="profile-container">
       {/* <Dimmer
@@ -45,7 +43,6 @@ const QRAProfile = (props) => {
         <View className="profile-main">
           <QRAProfileHeader
             qraInfo={props.qraInfo}
-            isAuthenticated={props.isAuthenticated}
             following={props.following}
             followers={props.followers}
             userFetched={props.userFetched}
@@ -63,7 +60,7 @@ const QRAProfile = (props) => {
                 }}
                 onClick={() => props.handleTabClick(1)}
                 active={props.tab === 1 ? true : false}>
-                {t('qra.qsos')}
+                {I18n.t('qra.qsos')}
               </Button>
               <Button
                 style={{
@@ -73,7 +70,7 @@ const QRAProfile = (props) => {
                 }}
                 onClick={() => props.handleTabClick(2)}
                 active={props.tab === 2 ? true : false}>
-                {t('qra.bio')}
+                {I18n.t('qra.bio')}
               </Button>
               <Button
                 style={{
@@ -83,7 +80,7 @@ const QRAProfile = (props) => {
                 }}
                 onClick={() => props.handleTabClick(3)}
                 active={props.tab === 3 ? true : false}>
-                {t('qra.info')}
+                {I18n.t('qra.info')}
               </Button>
               <Button
                 style={{
@@ -93,7 +90,7 @@ const QRAProfile = (props) => {
                 }}
                 onClick={() => props.handleTabClick(4)}
                 active={props.tab === 4 ? true : false}>
-                {t('qra.following')}
+                {I18n.t('qra.following')}
               </Button>
             </View>
           </Segment>

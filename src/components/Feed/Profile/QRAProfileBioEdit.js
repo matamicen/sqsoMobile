@@ -10,7 +10,6 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
@@ -18,6 +17,7 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Actions from '../../actions';
 import global_config from '../../global_config.json';
 import '../../styles/style.css';
+
 class QRAProfileBioEdit extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -195,7 +195,7 @@ class QRAProfileBioEdit extends React.PureComponent {
   };
   render() {
     const { editorState } = this.state;
-    const { t } = this.props;
+     
     return (
       <Fragment>
         <Modal
@@ -203,7 +203,7 @@ class QRAProfileBioEdit extends React.PureComponent {
           size="small"
           open={this.props.modalOpen}
           onClose={() => this.props.closeModal()}>
-          <Header content={t('qra.editBio')} />
+          <Header content={I18n.t('qra.editBio')} />
           <Modal.Content>
             <Container>
               <Editor
@@ -251,12 +251,12 @@ class QRAProfileBioEdit extends React.PureComponent {
               icon="save"
               type="submit"
               labelPosition="right"
-              content={t('qra.saveBio')}
+              content={I18n.t('qra.saveBio')}
               onClick={this.handleOnSaveBio}
             />
             <Button
               icon="check"
-              content={t('global.cancel')}
+              content={I18n.t('global.cancel')}
               onClick={() => this.props.closeModal()}
             />
           </Modal.Actions>
@@ -267,17 +267,15 @@ class QRAProfileBioEdit extends React.PureComponent {
 }
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
-  currentQRA: state.userData.currentQRA,
+  currentQRA: state.sqso.qra,
   identityId: state.userData.identityId,
-  isAuthenticated: state.userData.isAuthenticated,
+,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
-    withTranslation()(QRAProfileBioEdit)
-  )
-);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(QRAProfileBioEdit);

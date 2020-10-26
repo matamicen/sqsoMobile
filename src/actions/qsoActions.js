@@ -26,6 +26,9 @@ import {
   CHANGE_QSO_TYPE,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
+  COMMENT_ADD,
+  COMMENT_ADD_UPDATE,
+  COMMENT_DELETE,
   CONFIRMED_PURCHASE_FLAG,
   COPY_CALLSIGN_TO_QSOQRAS,
   DELETE_MEDIA_MEMORY,
@@ -49,6 +52,8 @@ import {
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
+  QSO_DISLIKE,
+  QSO_LIKE,
   QSO_QRA_DELETE,
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
@@ -3347,7 +3352,7 @@ export const doQsoMediaPlay = (idMedia, token, idqso) => {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doFollowFetch');
+        console.log('doQsoMediaPlay');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -3358,4 +3363,233 @@ export const doQsoMediaPlay = (idMedia, token, idqso) => {
     }
   };
 };
+export function doReceiveMediaCounter(data) {
+  return {
+    type: RECEIVE_QSO_MEDIA_COUNTER,
+    monthly_audio_play: data
+  };
+}
+export function doRepost(idqso, token, qso) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'repost_WEBPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'repost'
+    //   });
+    try {
+      // const currentSession = await Auth.currentSession();
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      // dispatch(doRequestUserInfo());
+      const apiName = 'superqso';
+      const path = '/qso-share';
+      var datetime = new Date();
+      const myInit = {
+        body: {
+          qso: idqso,
+          datetime: datetime,
+          type: 'SHARE'
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error !== 0) console.log(response.body.message);
+          else {
+            // qso.idqso_shared = qso.idqsos;
+            // qso.idqsos = response.body.message;
+            // qso.type = 'SHARE';
+            toast.success(i18n.t('qso.qsoReposted'), {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              className: css({
+                background: '#8BD8BD !important'
+              })
+            });
+            // dispatch(doAddRepostToFeed(qso)); #TODO
+          }
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__) crashlytics().recordError(new Error('doRepost_WEBDEV'));
+          else crashlytics().recordError(new Error('doRepost_WEBDEV'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      if (__DEV__) {
+        console.log('doQsoMediaPlay');
+        console.log(error);
+      } else {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__) crashlytics().recordError(new Error('doRepost_WEBDEV'));
+        else crashlytics().recordError(new Error('doRepost_WEBDEV'));
+      }
+    }
+  };
+}
+
+export function doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic) {
+  return {
+    type: QSO_LIKE,
+    idqso: idqso,
+    idqra: idqra,
+    qra: qra,
+    firstname: firstname,
+    lastname: lastname,
+    avatarpic: avatarpic
+  };
+}
+export function doDislikeQSO(idqso, idqra) {
+  return {
+    type: QSO_DISLIKE,
+    idqso: idqso,
+    idqra: idqra
+  };
+}
+export function doCommentDelete(idcomment, idqso, token) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'qsoCommentDel_WEBPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'commentDel'
+    //   });
+    dispatch(doCommentDeleteResponse(idcomment, idqso));
+    try {
+      // const currentSession = await Auth.currentSession();
+
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qso-comment';
+      const myInit = {
+        body: {
+          idcomment: idcomment,
+          qso: idqso
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.del(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('doCommentDelete_WEBDEV'));
+          else crashlytics().recordError(new Error('doCommentDelete_WEBDEV'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      if (__DEV__) {
+        console.log('doQsoMediaPlay');
+        console.log(error);
+      } else {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__)
+          crashlytics().recordError(new Error('doCommentDelete_WEBDEV'));
+        else crashlytics().recordError(new Error('doCommentDelete_WEBDEV'));
+      }
+    }
+  };
+}
+export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'qsoCommentAdd_WEBPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'commentAdd'
+    //   });
+    let m;
+    const regex = /(?:^|[ ])@([a-zA-Z0-9]+)/;
+
+    let message = comment.comment;
+
+    do {
+      m = regex.exec(comment.comment);
+      if (m) {
+        var oldWord = '@' + m[1];
+
+        comment.comment = comment.comment.replace(
+          new RegExp(oldWord, 'g'),
+          '<MENTION>' + '@' + m[1] + '</MENTION>'
+        );
+      }
+    } while (m);
+
+    dispatch(doCommentAddResponse(idqso, comment));
+    try {
+      // const currentSession = await Auth.currentSession();
+
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qso-comment';
+      const myInit = {
+        body: {
+          qso: idqso_shared ? idqso_shared : idqso,
+          comment: message,
+          datetime: comment.datetime
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            dispatch(
+              doCommentAddApiResponse(idqso, comment, response.body.message)
+            );
+          } else console.log(response.body.message);
+        })
+        .catch((error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+          else crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      if (__DEV__) {
+        console.log('doQsoMediaPlay');
+        console.log(error);
+      } else {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__)
+          crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+        else crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+      }
+    }
+  };
+}
+export function doCommentAddApiResponse(idqso = null, comment, idcomment) {
+  return {
+    type: COMMENT_ADD_UPDATE,
+    idqso: idqso,
+    comment: { ...comment, idqsos_comments: idcomment },
+    idqsos_comments: idcomment
+  };
+}
+export function doCommentAddResponse(idqso = null, comment) {
+  return {
+    type: COMMENT_ADD,
+    idqso: idqso,
+    comment: comment
+  };
+}
+export function doCommentDeleteResponse(idcomment = null, idqso = null) {
+  return {
+    type: COMMENT_DELETE,
+    idcomment: idcomment,
+    idqso: idqso
+  };
+}
+
 // END NATIVE FEED

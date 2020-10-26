@@ -25,7 +25,7 @@ class QRAProfileContainer extends React.PureComponent {
 
     //Following
     // if (
-    //   this.props.isAuthenticated &&
+
     //   this.props.userFetched &&
     //   !this.props.fetchingQRA &&
     //   this.props.QRAFetched
@@ -114,15 +114,6 @@ class QRAProfileContainer extends React.PureComponent {
           // followed: props.following.some(o => o.qra === props.match.params.qra),
           loaderActive: false
         };
-      } else if (
-        // process.env.NODE_ENV === 'production' &&
-        !props.isAuthenticated
-      ) {
-        return {
-          adActive: true,
-          qra: props.qra,
-          loaderActive: false
-        };
       } else {
         return {
           // followed: props.following.some(o => o.qra === props.match.params.qra),
@@ -181,28 +172,24 @@ class QRAProfileContainer extends React.PureComponent {
       // !this.props.following.some(o => o.qra === this.props.match.params.qra)
       !this.followed
     ) {
-      if (this.props.isAuthenticated) {
-        if (!__DEV__)
-          window.gtag('event', 'qraFollowProfile_WEBPRD', {
-            event_category: 'User',
-            event_label: 'follow'
-          });
-        this.props.actions.doFollowQRA(
-          this.props.token,
-          this.props.match.params.qra
-        );
-        this.followed = true;
-        this.setState({ followed: this.followed });
-      }
+      // if (!__DEV__)
+      // window.gtag('event', 'qraFollowProfile_WEBPRD', {
+      //   event_category: 'User',
+      //   event_label: 'follow'
+      // });
+      this.props.actions.doFollowQRA(
+        this.props.token,
+        this.props.match.params.qra
+      );
+      this.followed = true;
+      this.setState({ followed: this.followed });
     } else {
-      if (this.props.isAuthenticated) {
-        this.props.actions.doUnfollowQRA(
-          this.props.token,
-          this.props.match.params.qra
-        );
-        this.followed = false;
-        this.setState({ followed: this.followed });
-      }
+      this.props.actions.doUnfollowQRA(
+        this.props.token,
+        this.props.match.params.qra
+      );
+      this.followed = false;
+      this.setState({ followed: this.followed });
     }
     // this.setState(prevState => {
     //   return {
@@ -212,7 +199,7 @@ class QRAProfileContainer extends React.PureComponent {
   }
 
   render() {
-    const { t } = this.props;
+     
     let qraInfo = null;
     if (this.props.qra) qraInfo = this.props.qra.qra;
 
@@ -229,7 +216,6 @@ class QRAProfileContainer extends React.PureComponent {
     //   );
     // }
     if (
-      this.props.isAuthenticated &&
       this.props.userFetched &&
       !this.props.fetchingQRA &&
       this.props.QRAFetched &&
@@ -244,7 +230,7 @@ class QRAProfileContainer extends React.PureComponent {
     return (
       <Fragment>
         {/* //   <Dimmer active={this.state.loaderActive} page>
-      //     <Loader>{t('qra.loading')}</Loader>
+      //     <Loader>{I18n.t('qra.loading')}</Loader>
       //   </Dimmer>
       //   {qraInfo && (
       //     <QRAProfile
@@ -254,7 +240,7 @@ class QRAProfileContainer extends React.PureComponent {
       //       loaderActive={this.state.loaderActive}
       //       qra={this.state.qra}
       //       onClick={this.handleButtonClick}
-      //       isAuthenticated={this.props.isAuthenticated}
+      
       //       userFetched={this.props.userFetched}
       //       currentQRA={this.props.currentQRA}
       //       followed={this.followed}
@@ -272,8 +258,8 @@ class QRAProfileContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentQRA: state.userData.currentQRA,
-  isAuthenticated: state.userData.isAuthenticated,
+  currentQRA: state.sqso.qra,
+
   following: state.userData.following,
   followers: state.userData.followers,
   token: state.sqso.jwtToken,

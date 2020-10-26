@@ -1,22 +1,21 @@
 import API from '@aws-amplify/api';
-import Auth from '@aws-amplify/auth';
-//import { withRouter } from 'react-router-dom';
 import crashlytics from '@react-native-firebase/crashlytics';
 // import * as Sentry from '@sentry/browser';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Button, Icon } from 'react-native-elements';
 //import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+
 class QSOLikeButton extends React.Component {
   constructor() {
     super();
     this.likeCounter = 0;
     this.liked = null;
-    this.icon = 'thumbs outline up';
+    this.icon = 'thumbs-o-up';
     this.state = {
-      icon: 'thumbs outline up',
+      icon: 'thumbs-o-up',
       liked: null,
       likeCounter: 0,
       openLogin: false,
@@ -25,107 +24,57 @@ class QSOLikeButton extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.likeCounter = this.props.qso.likes.length;
-    this.setState({
-      likeCounter: this.props.qso.likes.length
-    });
-
-    if (this.props.userData.qra.idqras) {
-      this.setState({ idqra: this.props.userData.qra.idqras });
-      if (this.props.qso.likes) {
-        if (
-          this.props.qso.likes.some(
-            (o) => o.idqra === this.props.userData.qra.idqras
-          )
-        ) {
-          this.icon = 'thumbs up';
-          this.liked = true;
-          this.setState({
-            likeCounter: this.props.qso.likes.length,
-            icon: 'thumbs up',
-            liked: true
-          });
-        } else {
-          this.icon = 'thumbs outline up';
-          this.liked = false;
-          this.setState({
-            likeCounter: this.props.qso.likes.length,
-            icon: 'thumbs outline up',
-            liked: false
-          });
-        }
-      }
-    }
-  }
-  static getDerivedStateFromProps(props, prevState) {
-    if (
-      props.userData.qra.idqras &&
-      prevState.idqra !== props.userData.qra.idqras
-    ) {
-      if (props.qso.likes.some((o) => o.idqra === props.userData.qra.idqras)) {
-        return {
-          liked: true,
-          icon: 'thumbs up',
-          likes: props.qso.likes,
-          likeCounter: props.qso.likes.length
-        };
-      } else {
-        return {
-          liked: false,
-          icon: 'thumbs outline up',
-          likes: props.qso.likes,
-          likeCounter: props.qso.likes.length
-        };
-        // if (
-        //   props.userData.qra
-        // ) {
-        //   if (props.qso.likes.some(o => o.idqra === props.userData.qra.idqras)) {
-        //     return {
-        //       liked: true,
-        //       icon: 'thumbs up',
-        //       likes: props.qso.likes,
-        //       likeCounter: props.qso.likes.length
-        //     };
-        //   } else {
-        //     return {
-        //       liked: false,
-        //       icon: 'thumbs outline up',
-        //       likes: props.qso.likes,
-        //       likeCounter: props.qso.likes.length
-        //     };
-        //   }
-      }
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, prevState) {
+  //   if (props.userInfo.idqras && prevState.idqra !== props.userInfo.idqras) {
+  //     if (this.props.qso.likes.some((o) => o.idqra === props.userInfo.idqras)) {
+  //       return {
+  //         qso: this.props.qso,
+  //         liked: true,
+  //         icon: 'thumbs-up',
+  //         likes: this.props.qso.likes,
+  //         likeCounter: this.props.qso.likes.length
+  //       };
+  //     } else {
+  //       return {
+  //         qso: this.props.qso,
+  //         liked: false,
+  //         icon: 'thumbs-o-up',
+  //         likes: this.props.qso.likes,
+  //         likeCounter: this.props.qso.likes.length
+  //       };
+  //       // if (
+  //       //   props.userData.qra
+  //       // ) {
+  //       //   if (props.qso.likes.some(o => o.idqra === props.userData.qra.idqras)) {
+  //       //     return {
+  //       //       liked: true,
+  //       //       icon: 'thumbs up',
+  //       //       likes: props.qso.likes,
+  //       //       likeCounter: props.qso.likes.length
+  //       //     };
+  //       //   } else {
+  //       //     return {
+  //       //       liked: false,
+  //       //       icon: 'thumbs outline up',
+  //       //       likes: props.qso.likes,
+  //       //       likeCounter: props.qso.likes.length
+  //       //     };
+  //       //   }
+  //     }
+  //   }
+  //   return null;
+  // }
   async doLike(token = null) {
-    if (!__DEV__) {
-      window.gtag('event', 'qsoLiked_WEBPRD', {
-        event_category: 'QSO',
-        event_label: 'liked'
-      });
-    }
+    // if (!__DEV__) {
+    //   window.gtag('event', 'qsoLiked_WEBPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'liked'
+    //   });
+    // }
     try {
-      // const cognitoUser = await Auth.currentAuthenticatedUser();
-      // const currentSession = cognitoUser.signInUserSession;
-      // cognitoUser.refreshSession(
-      //   currentSession.refreshToken,
-      //   (error, session) => {
-      //     if (__DEV__) {
-      //       console.log('Unable to refresh Token');
-      //       console.log(error);
-      //     } else {
-      //       Sentry.configureScope(function(scope) {
-      //         scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-      //       });
-      //       Sentry.captureException(error);
-      //     }
-      //     // console.log('session', err, session);
-      //     let token = session.idToken.jwtToken;
-      const currentSession = await Auth.currentSession();
-      token = currentSession.getIdToken().getJwtToken();
-      this.props.actions.refreshToken(token);
+      // const currentSession = await Auth.currentSession();
+      // token = currentSession.getIdToken().getJwtToken();
+      // this.props.actions.refreshToken(token);
 
       let apiName = 'superqso';
       let path = '/qso-like';
@@ -170,15 +119,15 @@ class QSOLikeButton extends React.Component {
 
   async doUnLike(token = null) {
     if (!__DEV__) {
-      window.gtag('event', 'qsoUnliked_WEBPRD', {
-        event_category: 'QSO',
-        event_label: 'unliked'
-      });
+      // window.gtag('event', 'qsoUnliked_WEBPRD', {
+      //   event_category: 'QSO',
+      //   event_label: 'unliked'
+      // });
     }
     try {
-      const currentSession = await Auth.currentSession();
-      token = currentSession.getIdToken().getJwtToken();
-      this.props.actions.refreshToken(token);
+      // const currentSession = await Auth.currentSession();
+      // token = currentSession.getIdToken().getJwtToken();
+      // this.props.actions.refreshToken(token);
       let apiName = 'superqso';
       let path = '/qso-like';
       let myInit = {
@@ -221,46 +170,42 @@ class QSOLikeButton extends React.Component {
   }
 
   handleOnLike() {
-    if (!this.props.isAuthenticated) this.setState({ openLogin: true });
-    else {
-      if (!this.liked) {
-        this.likeCounter++;
+    if (!this.liked) {
+      this.likeCounter++;
 
-        if (this.likeCounter === 1) this.props.recalculateRowHeight();
-        this.liked = true;
-        this.icon = 'thumbs up';
-        this.setState({
-          likeCounter: this.likeCounter,
-          icon: 'thumbs up',
-          liked: true
-        });
-        // doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic)
-        this.props.actions.doLikeQSO(
-          this.props.qso.idqsos,
-          this.props.userData.qra.idqras,
-          this.props.userData.currentQRA,
-          this.props.userData.qra.firstname,
-          this.props.userData.qra.lastname,
-          this.props.userData.qra.avatarpic
-        );
-        this.doLike();
-      } else {
-        this.likeCounter--;
+      this.liked = true;
+      this.icon = 'thumbs-up';
 
-        if (this.likeCounter === 0) this.props.recalculateRowHeight();
-        this.liked = false;
-        this.icon = 'thumbs outline up';
-        this.setState({
-          likeCounter: this.likeCounter,
-          liked: false,
-          icon: 'thumbs outline up'
-        });
-        this.props.actions.doDislikeQSO(
-          this.props.qso.idqsos,
-          this.props.userData.qra.idqras
-        );
-        this.doUnLike();
-      }
+      this.setState({
+        likeCounter: this.likeCounter,
+        icon: 'thumbs-up',
+        liked: true
+      });
+      // doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic)
+      this.props.actions.doLikeQSO(
+        this.props.idqsos,
+        this.props.userInfo.idqras,
+        this.props.currentQRA,
+        this.props.userInfo.firstname,
+        this.props.userInfo.lastname,
+        this.props.userInfo.avatarpic
+      );
+      this.doLike();
+    } else {
+      this.likeCounter--;
+
+      this.liked = false;
+      this.icon = 'thumbs-o-up';
+      this.setState({
+        likeCounter: this.likeCounter,
+        liked: false,
+        icon: 'thumbs-o-up'
+      });
+      this.props.actions.doDislikeQSO(
+        this.props.qso.idqsos,
+        this.props.userInfo.idqras
+      );
+      this.doUnLike();
     }
   }
 
@@ -270,23 +215,25 @@ class QSOLikeButton extends React.Component {
     if (this.liked !== true && this.liked !== false) {
       icon = this.state.icon;
       this.liked = this.state.liked;
-    } else if (this.liked) icon = 'thumbs up';
-    else icon = 'thumbs outline up';
+    } else if (this.liked) icon = 'thumbs-up';
+    else icon = 'thumbs-o-up';
 
     return (
-      <Fragment>
-        <Button icon active={false} onClick={() => this.handleOnLike()}>
-          <Icon name={icon} /> {this.likeCounter}{' '}
-        </Button>
-      </Fragment>
+      <Button
+        type="clear"
+        icon={<Icon name={icon} type="font-awesome" />}
+        active={false}
+        onPress={() => this.handleOnLike()}
+        title={this.likeCounter.toString}
+      />
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.userData.isAuthenticated,
+const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
-  userData: state.userData,
+  userInfo: state.sqso.userInfo,
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

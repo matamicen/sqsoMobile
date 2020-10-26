@@ -87,9 +87,9 @@ class FeedMedia extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
-  // isAuthenticated: state.userData.isAuthenticated,
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({

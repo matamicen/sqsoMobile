@@ -30,4 +30,4 @@ const QRAProfileFollowing = ({ following, t }) => (
       : ''}
   </View>
 );
-export default withTranslation()(QRAProfileFollowing);
+export default QRAProfileFollowing;

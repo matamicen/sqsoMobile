@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 //import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
@@ -13,6 +12,7 @@ import FeedOptionsMenu from './FeedOptionsMenu';
 import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
 import './style.js';
+
 class FeedItemPost extends React.Component {
   constructor() {
     super();
@@ -50,7 +50,7 @@ class FeedItemPost extends React.Component {
   //   return null;
   // }
   render() {
-    const { t } = this.props;
+     
 
     // let picList = this.props.qso.media.filter(media => media.type === 'image');
     // let audioList = this.props.qso.media.filter(
@@ -64,16 +64,16 @@ class FeedItemPost extends React.Component {
 
     switch (this.props.qso.type) {
       case 'POST':
-        text = t('qso.createdPost');
-        // shareText = t('qso.checkOutPost');
+        text = I18n.t('qso.createdPost');
+        // shareText = I18n.t('qso.checkOutPost');
         break;
       case 'QAP':
-        text = t('qso.createdQAP');
-        // shareText = t('qso.checkOutQAP');
+        text = I18n.t('qso.createdQAP');
+        // shareText = I18n.t('qso.checkOutQAP');
         break;
       case 'FLDDAY':
-        text = t('qso.createdFLDDAY');
-        // shareText = t('qso.checkOutFLDDAY');
+        text = I18n.t('qso.createdFLDDAY');
+        // shareText = I18n.t('qso.checkOutFLDDAY');
         break;
       default:
     }
@@ -148,9 +148,9 @@ class FeedItemPost extends React.Component {
               state: { from: this.props.location.pathname }
             })
           }
-          cancelButton={t('global.cancel')}
-          confirmButton={t('auth.login')}
-          content={t('auth.loginToPerformAction')}
+          cancelButton={I18n.t('global.cancel')}
+          confirmButton={I18n.t('auth.login')}
+          content={I18n.t('auth.loginToPerformAction')}
         /> */}
       </Fragment>
     );
@@ -158,7 +158,6 @@ class FeedItemPost extends React.Component {
 }
 
 const mapStateToProps = (state, qsos) => ({
-  isAuthenticated: state.userData.isAuthenticated,
   fetchingQSOS: state.FetchingQSOS,
   qsosFetched: state.qsosFetched,
   currentQRA: state.sqso.qra
@@ -166,9 +165,7 @@ const mapStateToProps = (state, qsos) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(FeedItemPost))
-);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedItemPost);
 FeedItemPost.propTypes = {
   qso: PropTypes.object.isRequired
 };

@@ -1,10 +1,10 @@
 //import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 //import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
@@ -20,6 +20,7 @@ import QSOLikeText from './QSOLikeText';
 import QSORePostButton from './QSORePostButton';
 import QSOShareButtons from './QSOShareButtons';
 import './style.js';
+
 class FeedItemRepost extends React.Component {
   constructor() {
     super();
@@ -52,32 +53,30 @@ class FeedItemRepost extends React.Component {
       });
   }
   render() {
-    const { t } = this.props;
-
     const commentsCounter = '(' + this.props.qso.comments.length + ')';
 
     let text;
     let shareText;
     switch (this.props.qso.original[0].type) {
       case 'QSO':
-        text = t('qso.workedAQSO');
-        shareText = t('qso.checkOutQSO');
+        text = I18n.t('qso.workedAQSO');
+        shareText = I18n.t('qso.checkOutQSO');
         break;
       case 'LISTEN':
-        text = t('qso.listenedQSO');
-        shareText = t('qso.checkOutQSO');
+        text = I18n.t('qso.listenedQSO');
+        shareText = I18n.t('qso.checkOutQSO');
         break;
       case 'POST':
-        text = t('qso.createdPost');
-        shareText = t('qso.checkOutPost');
+        text = I18n.t('qso.createdPost');
+        shareText = I18n.t('qso.checkOutPost');
         break;
       case 'QAP':
-        text = t('qso.createdQAP');
-        shareText = t('qso.checkOutQAP');
+        text = I18n.t('qso.createdQAP');
+        shareText = I18n.t('qso.checkOutQAP');
         break;
       case 'FLDDAY':
-        text = t('qso.createdFLDDAY');
-        shareText = t('qso.checkOutFLDDAY');
+        text = I18n.t('qso.createdFLDDAY');
+        shareText = I18n.t('qso.checkOutFLDDAY');
         break;
       default:
     }
@@ -85,7 +84,7 @@ class FeedItemRepost extends React.Component {
     var date = new Date(this.props.qso.original[0].datetime);
     return (
       <Fragment>
-        <Segment raised>
+        <View>
           <View className="qso-header">
             <View className="qso-avatar">
               <Link to={'/' + this.props.qso.qra}>
@@ -114,11 +113,11 @@ class FeedItemRepost extends React.Component {
                   </Link>
                 }
               />
-              {t('qso.sharedContent')}
+              {I18n.t('qso.sharedContent')}
             </View>
             <View className="qso-header-info-post">
               <View>
-                <b>{t('qso.date')}: </b>
+                <b>{I18n.t('qso.date')}: </b>
                 {repostDate.toLocaleDateString(i18n.language, {
                   month: 'short'
                 }) +
@@ -185,14 +184,14 @@ class FeedItemRepost extends React.Component {
               <View className="qso-header-info">
                 {this.props.qso.original[0].mode && (
                   <View>
-                    <b>{t('qso.mode')}</b>
+                    <b>{I18n.t('qso.mode')}</b>
                     <br />
                     {this.props.qso.original[0].mode}
                   </View>
                 )}
                 {this.props.qso.original[0].band && (
                   <View>
-                    <b>{t('qso.band')} </b>
+                    <b>{I18n.t('qso.band')} </b>
                     <br />
                     {this.props.qso.original[0].band}
                   </View>
@@ -212,7 +211,7 @@ class FeedItemRepost extends React.Component {
                   </View>
                 )}
                 <View>
-                  <b>{t('qso.date')} </b>
+                  <b>{I18n.t('qso.date')} </b>
                   <br />
                   {date.toLocaleDateString(i18n.language, { month: 'short' }) +
                     ' ' +
@@ -301,7 +300,7 @@ class FeedItemRepost extends React.Component {
               recalculateRowHeight={this.recalculateRowHeight}
             />
           )}
-        </Segment>
+        </View>
         {/* <Confirm
           size="mini"
           open={this.state.openLogin}
@@ -312,9 +311,9 @@ class FeedItemRepost extends React.Component {
               state: { from: this.props.location.pathname }
             })
           }
-          cancelButton={t('global.cancel')}
-          confirmButton={t('auth.login')}
-          content={t('auth.loginToPerformAction')}
+          cancelButton={I18n.t('global.cancel')}
+          confirmButton={I18n.t('auth.login')}
+          content={I18n.t('auth.loginToPerformAction')}
         /> */}
       </Fragment>
     );
@@ -348,7 +347,7 @@ FeedItemRepost.propTypes = {
 
   recalculateRowHeight: PropTypes.func,
   index: PropTypes.number
-  // isAuthenticated: PropTypes.bool,
+
   // public: PropTypes.bool,
   // history: PropTypes.shape({
   //   push: PropTypes.func,
@@ -358,7 +357,6 @@ FeedItemRepost.propTypes = {
   // }).isRequired
 };
 const mapStateToProps = (state, qsos) => ({
-  isAuthenticated: state.userData.isAuthenticated,
   fetchingQSOS: state.FetchingQSOS,
   qsosFetched: state.qsosFetched,
   currentQRA: state.sqso.qra
@@ -366,9 +364,4 @@ const mapStateToProps = (state, qsos) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(FeedItemRepost))
-);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedItemRepost);

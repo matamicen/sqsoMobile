@@ -14,46 +14,52 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import QSOLikeTextModalItem from './QSOLikeTextModalItem';
 
-
-
 // import './style.js';
-class QSOLikeText extends React.PureComponent {
+class QSOLikeText extends React.Component {
   constructor() {
     super();
     this.state = { likes: [], showModal: false };
   }
   componentDidMount() {
-    this.setState({ likes: this.props.qso ? this.props.qso.likes : [] });
+    // this.setState({ likes: qso ? qso.likes : [] });
+    // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
+    // if (qso) this.setState({ qso: qso });
   }
   static getDerivedStateFromProps(props, prevState) {
-    if (props.qso.likes && props.qso.likes.length !== prevState.likes.length)
-      return { likes: props.qso.likes };
-    return null;
+    // let qso = props.qsos.find((q) => q.idqsos === props.idqsos);
+    // if (qso) return { qso: qso };
+    // return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.qso.likes.length === 1 &&
-      this.props.qso.likes[0].qra === this.props.currentQRA
-    ) {
-      this.props.recalculateRowHeight();
-    }
+    // this.setState({ likes: this.props.qso.likes });
+    // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
+    // if (qso) this.setState({ qso: qso });
+    // console.log(this.props.qso.likes);
+    // if (
+    //   this.props.qso.likes.length === 1 &&
+    //   this.props.qso.likes[0].qra === this.props.currentQRA
+    // ) {
+    //   this.props.recalculateRowHeight();
+    // }
   }
   _renderItem = ({ item, index }) => {
     return (
       <View>
-        <QSOLikeTextModalItem l={item} qso={this.props.qso} />
+        <QSOLikeTextModalItem l={item} idqsos={this.props.idqsos} />
       </View>
     );
   };
   render() {
-    const { qso } = this.props;
     let counter;
     let outputText = '';
     let finalText;
     let maxLikers = 2;
     let others = 0;
-    let likes = qso.likes;
+    // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
+    // console.log(qso);
+
+    let likes = this.props.qso.likes ? this.props.qso.likes : [];
     // let avatarPic = null;
 
     if (likes.length > maxLikers) {
@@ -223,8 +229,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5
   }
 });
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
+  likes: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

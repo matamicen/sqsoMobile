@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
@@ -13,9 +14,13 @@ import {
   CHANGE_QSO_TYPE,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
+  COMMENT_ADD,
+  COMMENT_ADD_UPDATE,
+  COMMENT_DELETE,
   CONFIRMED_PURCHASE_FLAG,
   COPY_CALLSIGN_TO_QSOQRAS,
   DELETE_MEDIA_MEMORY,
+  DELETE_QSO,
   FETCHING_API_FAILURE,
   FETCHING_API_REQUEST,
   FETCHING_API_SUCCESS,
@@ -36,12 +41,15 @@ import {
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
+  QSO_DISLIKE,
+  QSO_LIKE,
   QSO_QRA_DELETE,
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
   RECEIVE_FOLLOWERS,
   REFRESH_FOLLOWINGS,
+  REPOST_QSO,
   REQUEST_FEED,
   RESET_FOR_SIGN_OUT,
   RESET_QSO,
@@ -186,7 +194,7 @@ const initialState = {
       },
       identityId: null,
       authenticating: false,
-      isAuthenticated: false,
+
       following: [],
       followers: [],
       notifications: [],
@@ -215,8 +223,8 @@ const initialState = {
 };
 
 function filterQras(arr, qratosearch) {
-  return arr.filter((arr) => {
-    return arr.qra.includes(qratosearch);
+  return arr.filter((arr1) => {
+    return arr1.qra.includes(qratosearch);
   });
 }
 
@@ -459,7 +467,7 @@ const qsoReducer = (state = initialState, action) => {
         console.log('DELETEONE : ' + action.callsign);
 
         const arrayQsocallsignsFinal = state.currentQso.qsocallsigns.filter(
-          (item) => item.qra != action.callsign
+          (item) => item.qra !== action.callsign
         );
 
         auxcurrentQso = {
@@ -531,8 +539,8 @@ const qsoReducer = (state = initialState, action) => {
       arrayQraFinal = deleteSingleQra(arrqras, action.qra);
 
       function deleteSingleQra(arr, qratodelete) {
-        return arr.filter((arr) => {
-          return arr.qra !== qratodelete;
+        return arr.filter((arr1) => {
+          return arr1.qra !== qratodelete;
         });
       }
 
@@ -660,7 +668,7 @@ const qsoReducer = (state = initialState, action) => {
       //  aux_status = 0;
 
       if (action.updatetype === 'item') {
-        const updatedItems5 = state.currentQso.mediafiles.map((item) => {
+        var updatedItems5 = state.currentQso.mediafiles.map((item) => {
           if (item.name === action.filename) {
             console.log('itemUpd: ' + JSON.stringify(item));
 
@@ -1426,7 +1434,7 @@ const qsoReducer = (state = initialState, action) => {
 
     case UPDATE_COMMENT_MEMORY:
       // borro el media que viene bajo la variable action.name
-      const updatedItems5 = state.currentQso.mediafiles.map((item) => {
+      var updatedItems5 = state.currentQso.mediafiles.map((item) => {
         if (item.name === action.name) {
           // console.log('updateComment: '+JSON.stringify(item));
 
@@ -1448,7 +1456,7 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
 
     case MANAGE_NOTIFICATIONS:
-      let auxcurrentQso;
+      // let auxcurrentQso;
 
       if (action.notifType === 'CALCULOUNREADPRESSNOTIFICATIONS') {
         cont = 0;
@@ -1459,7 +1467,7 @@ const qsoReducer = (state = initialState, action) => {
         // esto permite dejarle al usuario en GRIS las notificaciones
         // cuando aprete la primera vez, si despues se va y apreta NOTIFICATIONS de nuevo
         // ya va a ser con la fecha nueva del asynstorage y ya no apaecen grisadas.
-        const updatedItems5 = action.notifications.map((item) => {
+        updatedItems5 = action.notifications.map((item) => {
           date = new Date(item.DATETIME);
           // console.log('dateconvertida: ' + date);
           if (date > action.date) {
@@ -1501,7 +1509,7 @@ const qsoReducer = (state = initialState, action) => {
         var cont = 0;
 
         // Esta rutina la marca como leida, le cambia el color
-        const updatedItems5 = action.notifications.map((item) => {
+        updatedItems5 = action.notifications.map((item) => {
           date = new Date(item.DATETIME);
           // console.log('dateconvertida: ' + date);
           if (date > action.date) {
@@ -1585,8 +1593,8 @@ const qsoReducer = (state = initialState, action) => {
 
         // Con esta sentencia borra la notificacion del ARRAY
         // de esta manera el usuario ve de inmediato que se borro su notificacion
-        const updatedItems5 = state.currentQso.notifications.filter(
-          (item) => item.idqra_activity != action.notifications
+        updatedItems5 = state.currentQso.notifications.filter(
+          (item) => item.idqra_activity !== action.notifications
         );
 
         auxcurrentQso = {
@@ -1624,8 +1632,8 @@ const qsoReducer = (state = initialState, action) => {
         // })
 
         // borro la notificaion leida
-        const updatedItems5 = state.currentQso.notifications.filter(
-          (item) => item.idqra_activity != action.notifications
+        updatedItems5 = state.currentQso.notifications.filter(
+          (item) => item.idqra_activity !== action.notifications
         );
 
         auxcurrentQso = {
@@ -1677,7 +1685,7 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           follow: action.follow.filter((f) => {
-            return !state.sqso.currentQSO.followings.some(
+            return !state.currentQSO.followings.some(
               (o) => o.idqra_followed === f.idqras
             );
           }),
@@ -1688,7 +1696,7 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     case RECEIVE_FOLLOWERS:
-      var newStore1 = Object.assign({}, state, {
+      newStore = Object.assign({}, state, {
         ...state,
         currentQso: {
           ...state.currentQso,
@@ -1708,7 +1716,326 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
 
-      return newStore1;
+      return newStore;
+    case DELETE_QSO:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos: state.feed.qra.qsos.filter((qso) => {
+                  return qso.idqsos !== action.idqso;
+                })
+              }
+            : state.feed.qra
+        }
+      });
+
+      return newStore;
+    case REPOST_QSO:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: [action.feed.qso, ...state.feed.qsos],
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra &&
+                  state.userInfo.idqras === action.qso.idqra_owner
+                    ? [action.qso, ...state.feed.qra.qsos]
+                    : state.feed.qra.qsos
+              }
+            : null
+        }
+      });
+
+      return newStore;
+    case QSO_LIKE:
+      console.log('QSO_LIKE');
+      let like = {
+        idqso: action.idqso,
+        idqra: action.idqra,
+        qra: action.qra,
+        firstname: action.firstname,
+        lastname: action.lastname,
+        avatarpic: action.avatarpic
+      };
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.likes = [...qso.likes, like];
+            }
+            return qso;
+          }),
+          qso_link:
+            state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
+              ? {
+                  ...state.feed.qso_link,
+                  likes: [...state.feed.qso_link.likes, like]
+                }
+              : state.feed.qso_link,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        if (qso.idqsos === action.idqso) {
+                          qso.likes = [...qso.likes, like];
+                        }
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  likes: [...state.feed.qso.likes, like]
+                }
+              : {}
+        }
+      });
+
+      return newStore;
+    case QSO_DISLIKE:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.likes = qso.likes.filter(
+                (like) => like.idqra !== action.idqra
+              );
+            }
+
+            return qso;
+          }),
+          qso_link: state.feed.qso_link
+            ? {
+                ...state.feed.qso_link,
+                likes: state.feed.qso_link.likes
+                  ? state.feed.qso_link.likes.filter(
+                      (like) => like.idqra !== action.idqra
+                    )
+                  : []
+              }
+            : null,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        if (qso.idqsos === action.idqso) {
+                          qso.likes = qso.likes.filter(
+                            (like) => like.idqra !== action.idqra
+                          );
+                        }
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  likes: state.feed.qso.likes.filter(
+                    (like) => like.idqra !== action.idqra
+                  )
+                }
+              : {}
+        }
+      });
+      return newStore;
+    case COMMENT_ADD_UPDATE:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.comments = qso.comments.map((c) => {
+                if (
+                  c.qra === action.comment.qra &&
+                  c.comment === action.comment.comment &&
+                  c.datetime === action.comment.datetime
+                )
+                  return action.comment;
+                else return c;
+              });
+            }
+
+            return qso;
+          }),
+          qso_link: state.feed.qso_link
+            ? {
+                ...state.feed.qso_link,
+                comments: state.feed.qso_link.comments
+                  ? state.feed.qso_link.comments.map((c) => {
+                      if (
+                        c.qra === action.comment.qra &&
+                        c.comment === action.comment.comment &&
+                        c.datetime === action.comment.datetime
+                      )
+                        return action.comment;
+                      else return c;
+                    })
+                  : []
+              }
+            : null,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        if (qso.idqsos === action.idqso) {
+                          qso.comments = qso.comments.map((c) => {
+                            if (
+                              c.qra === action.comment.qra &&
+                              c.comment === action.comment.comment &&
+                              c.datetime === action.comment.datetime
+                            )
+                              return action.comment;
+                            else return c;
+                          });
+                        }
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  comments: state.feed.qso.comments.map((c) => {
+                    if (
+                      c.qra === action.comment.qra &&
+                      c.comment === action.comment.comment &&
+                      c.datetime === action.comment.datetime
+                    )
+                      return action.comment;
+                    else return c;
+                  })
+                }
+              : {}
+        }
+      });
+
+      return newStore;
+    case COMMENT_ADD:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.comments = [...qso.comments, action.comment];
+            }
+            return qso;
+          }),
+          qso_link:
+            state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
+              ? {
+                  ...state.feed.qso_link,
+                  comments: [...state.feed.qso_link.comments, action.comment]
+                }
+              : state.feed.qso_link,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        if (qso.idqsos === action.idqso) {
+                          qso.comments = [...qso.comments, action.comment];
+                        }
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  comments: [...state.feed.qso.comments, action.comment]
+                }
+              : {}
+        }
+      });
+
+      return newStore;
+    case COMMENT_DELETE:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.comments = qso.comments.filter(
+                (comment) => comment.idqsos_comments !== action.idcomment
+              );
+            }
+
+            return qso;
+          }),
+          qso_link: state.feed.qso_link
+            ? {
+                ...state.feed.qso_link,
+                comments: state.feed.qso_link.comments
+                  ? state.feed.qso_link.comments.filter(
+                      (comment) => comment.idqsos_comments !== action.idcomment
+                    )
+                  : []
+              }
+            : null,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        if (qso.idqsos === action.idqso) {
+                          qso.comments = qso.comments.filter(
+                            (comment) =>
+                              comment.idqsos_comments !== action.idcomment
+                          );
+                        }
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  comments: state.feed.qso.comments.filter(
+                    (comment) => comment.idqsos_comments !== action.idcomment
+                  )
+                }
+              : {}
+        }
+      });
+
+      return newStore;
+
     default:
       return state;
   }

@@ -4,11 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import VideoPlayer from 'react-native-video-controls';
 import { connect } from 'react-redux';
-//import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-
 
 class FeedAudio extends React.Component {
   constructor() {
@@ -25,7 +23,6 @@ class FeedAudio extends React.Component {
   }
 
   onClick() {
-    // if (this.props.isAuthenticated) {
     // if (
     //   this.props.qraUserData.monthly_audio_play >
     //   this.props.qraUserData.account_type.web_qso_audio_play
@@ -46,13 +43,12 @@ class FeedAudio extends React.Component {
     //     this.props.recalculateRowHeight();
     //     this.setState({ audioNotVisible: false });
     //   }
-    // }
   }
 
   render() {
     const date = new Date(this.props.media.datetime);
     // const onlyForRegistered = !!(
-    //   this.props.index > 0 && !this.props.isAuthenticated
+    //   this.props.index > 0
     // );
     if (this.props.media.url) {
       if (this.state.audioNotVisible) {
@@ -61,8 +57,8 @@ class FeedAudio extends React.Component {
           //   closeIcon
           //   open={this.state.promptPremium}
           //   onClose={() => this.setState({ promptPremium: false })}
-          //   header={t('global.upgradePremium')}
-          //   content={t('global.userMaxReached')}
+          //   header={I18n.t('global.upgradePremium')}
+          //   content={I18n.t('global.userMaxReached')}
           //   actions={['OK']}
           // /> */}
           // {/* <Confirm
@@ -75,9 +71,9 @@ class FeedAudio extends React.Component {
           //     })
           //   }
           //   onCancel={() => this.setState({ promptLogin: false })}
-          //   cancelButton={t('global.cancel')}
-          //   confirmButton={t('auth.login')}
-          //   content={t('auth.loginToPerformAction')}
+          //   cancelButton={I18n.t('global.cancel')}
+          //   confirmButton={I18n.t('auth.login')}
+          //   content={I18n.t('auth.loginToPerformAction')}
           // /> */}
           // {/* <View
           //   style={{
@@ -201,7 +197,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
-  // isAuthenticated: state.userData.isAuthenticated,
+
   currentQRA: state.sqso.qra
   // qraUserData: state.userData.qra
 });

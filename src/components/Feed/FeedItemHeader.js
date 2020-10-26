@@ -195,10 +195,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
-  // isAuthenticated: state.userData.isAuthenticated,
-  currentQRA: state.sqso.qra
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

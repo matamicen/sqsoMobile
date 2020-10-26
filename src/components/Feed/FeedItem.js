@@ -1,41 +1,33 @@
 import React from 'react';
 import FeedItemQSO from './FeedItemQSO';
 class FeedItem extends React.PureComponent {
+  // state = {
+  //   qso: {}
+  // };
+  // componentDidUpdate(prevProps, prevState) {
+  // console.log(this.props.qso.likes);
+  // console.log(prevProps.qso.likes);
+  // if (this.props.qso && this.props.qso !== prevProps.qso) {
+  //   this.setState({ qso: this.props.qso });
+  // }
+  // }
   render() {
     switch (this.props.type) {
       case 'POST':
       case 'QAP':
       case 'FLDDAY':
-      //   return (
-      //     <FeedItemPost
-      //       key={this.props.qso.idqsos}
-      //       qso={this.props.qso}
-      //       measure={this.props.measure}
-      //       recalculateRowHeight={this.props.recalculateRowHeight}
-      //       index={this.props.index}
-      //     />
-      //   );
       case 'QSO':
-
       case 'LISTEN':
-        //   return (
-        //     <FeedItemQSO
-        //       key={this.props.qso.idqsos}
-        //       qso={this.props.qso}
-        //       measure={this.props.measure}
-        //       recalculateRowHeight={this.props.recalculateRowHeight}
-        //       index={this.props.index}
-        //     />
-        //   );
         return (
           <FeedItemQSO
-            key={this.props.qso.idqsos}
-            qso={this.props.qso}
+            key={this.props.idqsos}
+            // qso={this.props.qso}
+            idqsos={this.props.idqsos}
             currentIndex={this.props.currentIndex}
             currentVisibleIndex={this.props.currentVisibleIndex}
             // measure={this.props.measure}
             // recalculateRowHeight={this.props.recalculateRowHeight}
-            index={this.props.index}
+            // index={this.props.index}
           />
         );
       // case 'SHARE':

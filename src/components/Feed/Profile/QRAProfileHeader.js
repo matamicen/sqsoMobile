@@ -16,17 +16,17 @@ class QRAProfileHeader extends React.Component {
     }
   };
   render() {
-    const { t } = this.props;
+     
     let buttonText;
 
     if (this.props.followed) {
-      buttonText = t('qra.unfollow');
+      buttonText = I18n.t('qra.unfollow');
     } else {
       buttonText = this.props.followers.some(
         (o) => o.qra === this.props.qraInfo.qra
       )
-        ? t('qra.followToo')
-        : t('qra.follow');
+        ? I18n.t('qra.followToo')
+        : I18n.t('qra.follow');
     }
 
     var result = this.props.qraInfo
@@ -55,7 +55,7 @@ class QRAProfileHeader extends React.Component {
             <View className="detail">
               {/* <View> */}
               <h1 style={{ display: 'inline', marginRight: '2%' }}>
-                <span className="qra">{this.props.qraInfo.qra}</span>
+                <Text className="qra">{this.props.qraInfo.qra}</Text>
               </h1>
               <Flag
                 name={
@@ -65,7 +65,7 @@ class QRAProfileHeader extends React.Component {
                     : null
                 }
               />
-              <span>{result.length > 0 ? result[0].text : null}</span>
+              <Text>{result.length > 0 ? result[0].text : null}</Text>
               {/* </View> */}
               <Divider
                 hidden
@@ -82,21 +82,21 @@ class QRAProfileHeader extends React.Component {
               <View className="kpi">
                 {this.props.qraInfo.views_counter ? (
                   <View style={{ marginRight: '5%' }}>
-                    {t('qra.views')}: {this.props.qraInfo.views_counter}
+                    {I18n.t('qra.views')}: {this.props.qraInfo.views_counter}
                   </View>
                 ) : (
                   ''
                 )}
                 {this.props.qraInfo.qsos_counter ? (
                   <View style={{ marginRight: '5%' }}>
-                    {t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
+                    {I18n.t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
                   </View>
                 ) : (
                   ''
                 )}
                 {this.props.qraInfo.followers_counter ? (
                   <View style={{ marginRight: '5%' }}>
-                    {t('qra.followers')}: {this.props.qraInfo.followers_counter}
+                    {I18n.t('qra.followers')}: {this.props.qraInfo.followers_counter}
                   </View>
                 ) : (
                   ''
@@ -105,8 +105,7 @@ class QRAProfileHeader extends React.Component {
 
               <Divider hidden style={{ marginBottom: '0vh' }} />
               <View className="follow">
-                {this.props.isAuthenticated &&
-                  this.props.userFetched &&
+                {this.props.userFetched &&
                   this.props.qraInfo.qra !== this.props.currentQRA && (
                     <Button
                       size="small"
@@ -156,4 +155,4 @@ class QRAProfileHeader extends React.Component {
   }
 }
 
-export default withTranslation()(QRAProfileHeader);
+export default QRAProfileHeader;

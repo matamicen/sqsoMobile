@@ -1,5 +1,4 @@
 import API from '@aws-amplify/api';
-import * as Sentry from '@sentry/browser';
 import React, { Fragment } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Button } from 'react-native-elements';
@@ -10,6 +9,7 @@ import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Actions from '../../actions';
 import QslCardPrint from './qslCard';
+
 class FeedOptionsMenu extends React.Component {
   state = {
     showReportContent: false,
@@ -48,7 +48,7 @@ class FeedOptionsMenu extends React.Component {
     QslCardPrint(this.props);
   }
   handleOnSubmitReportComment(e) {
-    const { t } = this.props;
+     
     if (!__DEV__)
       window.gtag('event', 'reportContent_WEBPRD', {
         event_category: 'QSO',
@@ -100,7 +100,7 @@ class FeedOptionsMenu extends React.Component {
   }
   handleOnSubmitReportQso(e) {
     // e.preventDefault();
-    const { t } = this.props;
+     
     if (!__DEV__)
       window.gtag('event', 'reportContent_WEBPRD', {
         event_category: 'QSO',
@@ -149,7 +149,7 @@ class FeedOptionsMenu extends React.Component {
     }
   }
   handleOnSubmitReportMedia(e) {
-    const { t } = this.props;
+     
     if (!__DEV__)
       window.gtag('event', 'reportMedia_WEBPRD', {
         event_category: 'QSO',
@@ -200,7 +200,7 @@ class FeedOptionsMenu extends React.Component {
   }
   render() {
     const { showMessage, showReportContent } = this.state;
-    const { t } = this.props;
+     
     return (
       <Dropdown
         icon="ellipsis vertical"
@@ -221,21 +221,21 @@ class FeedOptionsMenu extends React.Component {
                 trigger={
                   <Dropdown.Item
                     icon="warning"
-                    text={t('reportContent.reportPhoto')}
+                    text={I18n.t('reportContent.reportPhoto')}
                   />
                 }>
                 <Modal.Header>
-                  {t('reportContent.helpUnderstandWhatsHappening')}
+                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
                   <Form onSubmit={(e) => this.handleOnSubmitReportMedia(e)}>
                     <Form.TextArea
                       required
                       name="comments"
-                      label={t('reportContent.labelComments')}
-                      placeholder={t('reportContent.whyRemovePhoto')}
+                      label={I18n.t('reportContent.labelComments')}
+                      placeholder={I18n.t('reportContent.whyRemovePhoto')}
                     />
-                    <Form.Input name="email" label={t('auth.labelEmail')} />
+                    <Form.Input name="email" label={I18n.t('auth.labelEmail')} />
                     <Form.Input
                       type="hidden"
                       name="idmedia"
@@ -250,7 +250,7 @@ class FeedOptionsMenu extends React.Component {
                         }
                       />
                     </Form.Field>
-                    <Form.Button>{t('global.submit')}</Form.Button>
+                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
 
                     <Modal
                       // dimmer={false}
@@ -259,15 +259,15 @@ class FeedOptionsMenu extends React.Component {
                       onClose={this.close}
                       size="small">
                       <Modal.Header>
-                        {t('reportContent.reportPhoto')}
+                        {I18n.t('reportContent.reportPhoto')}
                       </Modal.Header>
                       <Modal.Content>
-                        <p>{t('reportContent.photoReported')}</p>
+                        <p>{I18n.t('reportContent.photoReported')}</p>
                       </Modal.Content>
                       <Modal.Actions>
                         <Button
                           icon="check"
-                          content={t('global.close')}
+                          content={I18n.t('global.close')}
                           onClick={this.close}
                         />
                       </Modal.Actions>
@@ -282,7 +282,7 @@ class FeedOptionsMenu extends React.Component {
             this.props.currentQRA === this.props.qso_owner && (
               <Dropdown.Item
                 icon="delete"
-                text={t('reportContent.deletePhoto')}
+                text={I18n.t('reportContent.deletePhoto')}
                 onClick={this.deleteMedia.bind(this)}
               />
             )}
@@ -301,21 +301,21 @@ class FeedOptionsMenu extends React.Component {
                 trigger={
                   <Dropdown.Item
                     icon="warning"
-                    text={t('reportContent.reportAudio')}
+                    text={I18n.t('reportContent.reportAudio')}
                   />
                 }>
                 <Modal.Header>
-                  {t('reportContent.helpUnderstandWhatsHappening')}
+                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
                   <Form onSubmit={(e) => this.handleOnSubmitReportMedia(e)}>
                     <Form.TextArea
                       required
                       name="comments"
-                      label={t('reportContent.labelComments')}
-                      placeholder={t('reportContent.whyRemoveAudio')}
+                      label={I18n.t('reportContent.labelComments')}
+                      placeholder={I18n.t('reportContent.whyRemoveAudio')}
                     />
-                    <Form.Input name="email" label={t('auth.labelEmail')} />
+                    <Form.Input name="email" label={I18n.t('auth.labelEmail')} />
                     <Form.Input
                       type="hidden"
                       name="idmedia"
@@ -329,7 +329,7 @@ class FeedOptionsMenu extends React.Component {
                         }
                       />
                     </Form.Field>
-                    <Form.Button>{t('global.submit')}</Form.Button>
+                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
 
                     <Modal
                       dimmer={false}
@@ -338,15 +338,15 @@ class FeedOptionsMenu extends React.Component {
                       onClose={this.close}
                       size="small">
                       <Modal.Header>
-                        {t('reportContent.reportAudio')}
+                        {I18n.t('reportContent.reportAudio')}
                       </Modal.Header>
                       <Modal.Content>
-                        <p>{t('reportContent.audioReported')}</p>
+                        <p>{I18n.t('reportContent.audioReported')}</p>
                       </Modal.Content>
                       <Modal.Actions>
                         <Button
                           icon="check"
-                          content={t('global.close')}
+                          content={I18n.t('global.close')}
                           onClick={this.close}
                         />
                       </Modal.Actions>
@@ -361,7 +361,7 @@ class FeedOptionsMenu extends React.Component {
             this.props.currentQRA === this.props.qso_owner && (
               <Dropdown.Item
                 icon="delete"
-                text={t('reportContent.deleteAudio')}
+                text={I18n.t('reportContent.deleteAudio')}
                 onClick={this.deleteMedia.bind(this)}
               />
             )}
@@ -376,11 +376,11 @@ class FeedOptionsMenu extends React.Component {
                 trigger={
                   <Dropdown.Item
                     icon="qrcode"
-                    text={t('reportContent.showQRCode')}
+                    text={I18n.t('reportContent.showQRCode')}
                   />
                 }
               >
-                <Modal.Header>{t('reportContent.QRCode')}</Modal.Header>
+                <Modal.Header>{I18n.t('reportContent.QRCode')}</Modal.Header>
                 <Modal.Content>
                   <Grid centered>
                     <Segment raised>
@@ -398,22 +398,22 @@ class FeedOptionsMenu extends React.Component {
                   trigger={
                     <Dropdown.Item
                       icon="warning"
-                      text={t('reportContent.reportContent')}
+                      text={I18n.t('reportContent.reportContent')}
                     />
                   }>
                   <Modal.Header>
-                    {t('reportContent.helpUnderstandWhatsHappening')}
+                    {I18n.t('reportContent.helpUnderstandWhatsHappening')}
                   </Modal.Header>
                   <Modal.Content>
                     <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
                       <Form.TextArea
                         required
                         name="comments"
-                        label={t('reportContent.labelComments')}
-                        placeholder={t('reportContent.whyRemoveContent')}
+                        label={I18n.t('reportContent.labelComments')}
+                        placeholder={I18n.t('reportContent.whyRemoveContent')}
                         autoFocus
                       />
-                      <Form.Input name="email" label={t('auth.labelEmail')} />
+                      <Form.Input name="email" label={I18n.t('auth.labelEmail')} />
                       <Form.Field>
                         <ReCAPTCHA
                           sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
@@ -422,7 +422,7 @@ class FeedOptionsMenu extends React.Component {
                           }
                         />
                       </Form.Field>
-                      <Form.Button>{t('global.submit')}</Form.Button>
+                      <Form.Button>{I18n.t('global.submit')}</Form.Button>
                     </Form>
                     <Modal
                       open={showMessage}
@@ -430,15 +430,15 @@ class FeedOptionsMenu extends React.Component {
                       onClose={this.close}
                       size="small">
                       <Modal.Header>
-                        {t('reportContent.reportContent')}
+                        {I18n.t('reportContent.reportContent')}
                       </Modal.Header>
                       <Modal.Content>
-                        <p>{t('reportContent.contentReported')}</p>
+                        <p>{I18n.t('reportContent.contentReported')}</p>
                       </Modal.Content>
                       <Modal.Actions>
                         <Button
                           icon="check"
-                          content={t('global.close')}
+                          content={I18n.t('global.close')}
                           onClick={this.close}
                         />
                       </Modal.Actions>
@@ -453,7 +453,7 @@ class FeedOptionsMenu extends React.Component {
             this.props.currentQRA === this.props.qso_owner && (
               <Dropdown.Item
                 icon="delete"
-                text={t('reportContent.deleteQSO')}
+                text={I18n.t('reportContent.deleteQSO')}
                 onClick={this.deleteQso.bind(this)}
               />
             )}
@@ -464,16 +464,16 @@ class FeedOptionsMenu extends React.Component {
               trigger={
                 <Dropdown.Item
                   icon="print"
-                  text={t('reportContent.printQSLCard')}
+                  text={I18n.t('reportContent.printQSLCard')}
                 />
               }
-              header={t('reportContent.QSLCard')}
-              content={t('reportContent.disablePopUps')}
+              header={I18n.t('reportContent.QSLCard')}
+              content={I18n.t('reportContent.disablePopUps')}
               onActionClick={this.printQSLCard.bind(this)}
               actions={[
                 {
                   key: 'done',
-                  content: t('reportContent.printQSLCard'),
+                  content: I18n.t('reportContent.printQSLCard'),
                   positive: true
                 }
               ]}
@@ -493,21 +493,21 @@ class FeedOptionsMenu extends React.Component {
                 trigger={
                   <Dropdown.Item
                     icon="warning"
-                    text={t('reportContent.reportContent')}
+                    text={I18n.t('reportContent.reportContent')}
                   />
                 }>
                 <Modal.Header>
-                  {t('reportContent.helpUnderstandWhatsHappening')}
+                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
                   <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
                     <Form.TextArea
                       required
                       name="comments"
-                      label={t('reportContent.labelComments')}
-                      placeholder={t('reportContent.whyRemoveContent')}
+                      label={I18n.t('reportContent.labelComments')}
+                      placeholder={I18n.t('reportContent.whyRemoveContent')}
                     />
-                    <Form.Input name="email" label={t('auth.labelEmail')} />
+                    <Form.Input name="email" label={I18n.t('auth.labelEmail')} />
                     <Form.Field>
                       <ReCAPTCHA
                         sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
@@ -516,7 +516,7 @@ class FeedOptionsMenu extends React.Component {
                         }
                       />
                     </Form.Field>
-                    <Form.Button>{t('global.submit')}</Form.Button>
+                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
 
                     <Modal
                       open={showMessage}
@@ -524,15 +524,15 @@ class FeedOptionsMenu extends React.Component {
                       onClose={this.close}
                       size="small">
                       <Modal.Header>
-                        {t('reportContent.reportContent')}
+                        {I18n.t('reportContent.reportContent')}
                       </Modal.Header>
                       <Modal.Content>
-                        <p>{t('reportContent.contentReported')}</p>
+                        <p>{I18n.t('reportContent.contentReported')}</p>
                       </Modal.Content>
                       <Modal.Actions>
                         <Button
                           icon="check"
-                          content={t('global.close')}
+                          content={I18n.t('global.close')}
                           onClick={this.close}
                         />
                       </Modal.Actions>
@@ -555,21 +555,21 @@ class FeedOptionsMenu extends React.Component {
                 trigger={
                   <Dropdown.Item
                     icon="warning"
-                    text={t('reportContent.reportContent')}
+                    text={I18n.t('reportContent.reportContent')}
                   />
                 }>
                 <Modal.Header>
-                  {t('reportContent.helpUnderstandWhatsHappening')}
+                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
                 </Modal.Header>
                 <Modal.Content>
                   <Form onSubmit={(e) => this.handleOnSubmitReportComment(e)}>
                     <Form.TextArea
                       required
                       name="comments"
-                      label={t('reportContent.labelComments')}
-                      placeholder={t('reportContent.whyRemoveContent')}
+                      label={I18n.t('reportContent.labelComments')}
+                      placeholder={I18n.t('reportContent.whyRemoveContent')}
                     />
-                    <Form.Input name="email" label={t('qra.email')} />
+                    <Form.Input name="email" label={I18n.t('qra.email')} />
                     <Form.Field>
                       <ReCAPTCHA
                         sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
@@ -578,7 +578,7 @@ class FeedOptionsMenu extends React.Component {
                         }
                       />
                     </Form.Field>
-                    <Form.Button>{t('global.submit')}</Form.Button>
+                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
 
                     <Modal
                       open={showMessage}
@@ -586,15 +586,15 @@ class FeedOptionsMenu extends React.Component {
                       onClose={this.close}
                       size="small">
                       <Modal.Header>
-                        {t('reportContent.reportComment')}
+                        {I18n.t('reportContent.reportComment')}
                       </Modal.Header>
                       <Modal.Content>
-                        <p>{t('reportContent.commentReported')}</p>
+                        <p>{I18n.t('reportContent.commentReported')}</p>
                       </Modal.Content>
                       <Modal.Actions>
                         <Button
                           icon="check"
-                          content={t('global.close')}
+                          content={I18n.t('global.close')}
                           onClick={this.close}
                         />
                       </Modal.Actions>
@@ -609,7 +609,7 @@ class FeedOptionsMenu extends React.Component {
             this.props.currentQRA === this.props.comment_owner && (
               <Dropdown.Item
                 icon="delete"
-                text={t('reportContent.deleteComment')}
+                text={I18n.t('reportContent.deleteComment')}
                 onClick={this.deleteComment.bind(this)}
               />
             )}
@@ -629,4 +629,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false
-})(withTranslation()(FeedOptionsMenu));
+})(FeedOptionsMenu);

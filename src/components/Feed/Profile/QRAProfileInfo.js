@@ -2,12 +2,12 @@ import React, { Fragment } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
 import '../../styles/style.css';
 import QRAProfileInfoEdit from './QRAProfileInfoEdit';
+
 
 // const options = [
 //   { key: "Y", text: "Yes", value: "1" },
@@ -61,7 +61,7 @@ class QRAProfileInfo extends React.Component {
     });
   };
   render() {
-    const { t } = this.props;
+     
 
     let {
       firstname,
@@ -85,14 +85,13 @@ class QRAProfileInfo extends React.Component {
       // lotw,
       // mailqsl
     } = this.state.qra;
-    this.props.isAuthenticated
-      ? (email = this.state.qra.email)
-      : (email = t('auth.loginToSeeField'));
+     (email = this.state.qra.email)
+      
     return (
       <Fragment>
         <Segment raised>
           <Form size="large">
-            {this.props.isAuthenticated &&
+            {
               this.props.currentQRA === this.props.qraInfo.qra && (
                 <View>
                   <Button
@@ -100,7 +99,7 @@ class QRAProfileInfo extends React.Component {
                     fluid
                     size="mini"
                     onClick={() => this.setState({ edit: true })}>
-                    {t('qra.editInfo')}
+                    {I18n.t('qra.editInfo')}
                   </Button>
                 </View>
               )}
@@ -109,26 +108,26 @@ class QRAProfileInfo extends React.Component {
               inline
               transparent
               name="firstname"
-              label={t('qra.firstName')}
+              label={I18n.t('qra.firstName')}
               value={firstname ? firstname : ''}
             />
             <Form.Input
               inline
               transparent
               name="lastname"
-              label={t('qra.lastName')}
+              label={I18n.t('qra.lastName')}
               value={lastname ? lastname : ''}
             />
 
             <Form.Input
               name="email"
-              label={t('qra.email')}
+              label={I18n.t('qra.email')}
               transparent
               value={email ? email : ''}
             />
             <Form.Input
               name="birthday"
-              label={t('qra.birthday')}
+              label={I18n.t('qra.birthday')}
               type="date"
               inline
               transparent
@@ -141,35 +140,35 @@ class QRAProfileInfo extends React.Component {
 
             <Form.Input
               name="address"
-              label={t('qra.addressLine1')}
+              label={I18n.t('qra.addressLine1')}
               transparent
               value={address ? address : ''}
             />
 
             <Form.Input
               name="address2"
-              label={t('qra.addressLine2')}
+              label={I18n.t('qra.addressLine2')}
               transparent
               value={address2 ? address2 : ''}
             />
 
             <Form.Input
               name="city"
-              label={t('qra.city')}
+              label={I18n.t('qra.city')}
               inline
               transparent
               value={city ? city : ''}
             />
             <Form.Input
               name="state"
-              label={t('qra.state')}
+              label={I18n.t('qra.state')}
               inline
               transparent
               value={state ? state : ''}
             />
             <Form.Input
               name="zipcode"
-              label={t('qra.zipCode')}
+              label={I18n.t('qra.zipCode')}
               inline
               transparent
               value={zipcode ? zipcode : ''}
@@ -179,34 +178,34 @@ class QRAProfileInfo extends React.Component {
               inline
               transparent
               name="country"
-              label={t('qra.country')}
+              label={I18n.t('qra.country')}
               value={country ? country : ''}
             />
 
             <Form.Input
               name="cqzone"
-              label={t('qra.cqZone')}
+              label={I18n.t('qra.cqZone')}
               inline
               transparent
               value={cqzone ? cqzone : ''}
             />
             <Form.Input
               name="ituzone"
-              label={t('qra.ituZone')}
+              label={I18n.t('qra.ituZone')}
               inline
               transparent
               value={ituzone ? ituzone : ''}
             />
             <Form.Input
               name="gridlocator"
-              label={t('qra.gridLocator')}
+              label={I18n.t('qra.gridLocator')}
               inline
               transparent
               value={gridlocator ? gridlocator : ''}
             />
             <Form.Input
               name="licenseclass"
-              label={t('qra.licenseClass')}
+              label={I18n.t('qra.licenseClass')}
               inline
               transparent
               value={licenseclass ? licenseclass : ''}
@@ -214,7 +213,7 @@ class QRAProfileInfo extends React.Component {
 
             <Form.Input
               name="iotadesignator"
-              label={t('qra.iotaDesignator')}
+              label={I18n.t('qra.iotaDesignator')}
               inline
               transparent
               value={iotadesignator ? iotadesignator : ''}
@@ -222,7 +221,7 @@ class QRAProfileInfo extends React.Component {
 
             <Form.Input
               name="qslinfo"
-              label={t('qra.qsoInfo')}
+              label={I18n.t('qra.qsoInfo')}
               transparent
               value={qslinfo ? qslinfo : ''}
             />
@@ -242,16 +241,14 @@ class QRAProfileInfo extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
-  currentQRA: state.userData.currentQRA,
-  isAuthenticated: state.userData.isAuthenticated,
+  currentQRA: state.sqso.qra,
+,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
-    withTranslation()(QRAProfileInfo)
-  )
-);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(QRAProfileInfo);

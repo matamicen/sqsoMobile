@@ -7,12 +7,12 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import ReactHtmlParser from 'react-html-parser';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import global_config from '../../global_config.json';
 import '../../styles/style.css';
 import QRAProfileBioEdit from './QRAProfileBioEdit';
+
 
 class QRAProfileBio extends React.Component {
   constructor(props) {
@@ -166,7 +166,7 @@ class QRAProfileBio extends React.Component {
 
   render() {
     const { edit } = this.state;
-    const { t } = this.props;
+     
     return (
       <Fragment>
         <Confirm
@@ -174,12 +174,12 @@ class QRAProfileBio extends React.Component {
           open={this.state.openPornConfirm}
           onCancel={() => this.setState({ openPornConfirm: false })}
           onConfirm={() => this.setState({ openPornConfirm: false })}
-          cancelButton={t('global.cancel')}
-          confirmButton={t('global.ok')}
-          content={t('global.imageContainNudity')}
+          cancelButton={I18n.t('global.cancel')}
+          confirmButton={I18n.t('global.ok')}
+          content={I18n.t('global.imageContainNudity')}
         />
         {/* <Segment raised> */}
-        {this.props.isAuthenticated &&
+        {
           this.props.currentQRA === this.props.qraInfo.qra && (
             <View>
               <Button
@@ -187,7 +187,7 @@ class QRAProfileBio extends React.Component {
                 fluid
                 size="mini"
                 onClick={() => this.setState({ edit: true })}>
-                {t('qra.editBio')}
+                {I18n.t('qra.editBio')}
               </Button>
             </View>
           )}
@@ -209,17 +209,15 @@ class QRAProfileBio extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
-  currentQRA: state.userData.currentQRA,
+  currentQRA: state.sqso.qra,
   identityId: state.userData.identityId,
-  isAuthenticated: state.userData.isAuthenticated,
+,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
-    withTranslation()(QRAProfileBio)
-  )
-);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(QRAProfileBio);

@@ -6,13 +6,10 @@ import * as Actions from '../../actions';
 import NewsFeed from './NewsFeedPresentational';
 // import './style.css';
 
-class NewsFeedContainer extends React.Component {
+class NewsFeedContainer extends React.PureComponent {
   state = { qsos: this.props.qsos };
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.qsos &&
-      JSON.stringify(this.props.qsos) !== JSON.stringify(prevProps.qsos)
-    ) {
+  componentDidUpdate(prevProps) {
+    if (this.props.qsos && this.props.qsos !== prevProps.qsos) {
       this.setState({ qsos: this.props.qsos });
     }
   }
@@ -44,11 +41,11 @@ const mapStateToProps = (state) => {
   return {
     qsos: state.sqso.feed.qsos,
     FetchingQSOS: state.sqso.feed.FetchingQSOS,
-    qsosFetched: state.sqso.feed.qsosFetched,
-    authenticating: state.sqso.feed.userData.authenticating,
-    isAuthenticated: state.sqso.feed.userData.isAuthenticated,
-    token: state.sqso.feed.userData.token,
-    public: state.sqso.feed.userData.public
+    qsosFetched: state.sqso.feed.qsosFetched
+    // authenticating: state.sqso.feed.userData.authenticating,
+
+    // token: state.sqso.feed.userData.token
+    // public: state.sqso.feed.userData.public
   };
 };
 const mapDispatchToProps = (dispatch) => ({

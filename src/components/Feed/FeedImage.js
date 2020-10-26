@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
-  // isAuthenticated: state.userData.isAuthenticated,
+
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({

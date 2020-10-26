@@ -1,16 +1,14 @@
-//import i18n from 'i18next';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
 import FeedItemHeader from './FeedItemHeader';
 import FeedMedia from './FeedMedia';
 import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
-import QSOLikeText from './QSOLikeText';
 // import './style.js';
 
 class FeedItemQSO extends React.PureComponent {
@@ -20,12 +18,6 @@ class FeedItemQSO extends React.PureComponent {
 
     // this.recalculateRowHeight = this.recalculateRowHeight.bind(this);
   }
-
-  // recalculateRowHeight() {
-  //   if (this.props.recalculateRowHeight) {
-  //     this.props.recalculateRowHeight(this.props.index);
-  //   }
-  // }
 
   //     }
   // static getDerivedStateFromProps(props, prevState) {
@@ -39,16 +31,45 @@ class FeedItemQSO extends React.PureComponent {
   //   return null;
   // }
   componentDidUpdate(prevProps, prevState) {
-    if (JSON.stringify(this.props.qso) !== JSON.stringify(prevProps.qso))
-      this.setState({
-        qso: this.props.qso,
-        comments: this.props.qso.comments,
-        likes: this.props.qso.likes
-      });
+    // console.log('feedItemQSO');
+    // console.log(this.props.qso.likes);
+    // if (this.props.qso !== prevProps.qso)
+    //   this.setState({
+    //     qso: this.props.qso,
+    //     comments: this.props.qso.comments,
+    //     likes: this.props.qso.likes
+    //   });
   }
   render() {
-    const commentsCounter = '(' + this.props.qso.comments.length + ')';
+    let shareText;
 
+    switch (this.props.qso.type) {
+      case 'QSO':
+        // text = I18n.t('qso.workedAQSO');
+        shareText = I18n.t('qso.checkOutQSO');
+        break;
+      case 'LISTEN':
+        // text = I18n.t('qso.listenedQSO');
+        shareText = I18n.t('qso.checkOutQSO');
+        break;
+      case 'SHARE':
+        // text = I18n.t('qso.repostedQSO');
+        shareText = I18n.t('qso.checkOutPost');
+        break;
+      case 'POST':
+        // text = I18n.t('qso.createdPost');
+        shareText = I18n.t('qso.checkOutPost');
+        break;
+      case 'QAP':
+        // text = I18n.t('qso.createdQAP');
+        shareText = I18n.t('qso.checkOutQAP');
+        break;
+      case 'FLDDAY':
+        // text = I18n.t('qso.createdFLDDAY');
+        shareText = I18n.t('qso.checkOutFLDDAY');
+        break;
+      default:
+    }
     return (
       // <Fragment>
       //   <Segment raised>
@@ -120,13 +141,13 @@ class FeedItemQSO extends React.PureComponent {
       //         state: { from: this.props.location.pathname }
       //       })
       //     }
-      //     cancelButton={t('global.cancel')}
-      //     confirmButton={t('auth.login')}
-      //     content={t('auth.loginToPerformAction')}
+      //     cancelButton={I18n.t('global.cancel')}
+      //     confirmButton={I18n.t('auth.login')}
+      //     content={I18n.t('auth.loginToPerformAction')}
       //   /> */}
       // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
-        <FeedItemHeader qso={this.props.qso} />
+        <FeedItemHeader idqsos={this.props.qso.idqsos} />
         <QRAs
           avatarpic={this.props.qso.avatarpic}
           qso_owner={this.props.qso.qra}
@@ -134,17 +155,16 @@ class FeedItemQSO extends React.PureComponent {
         />
 
         <FeedMedia
-          qso={this.props.qso}
+          // qso={this.props.qso}
           currentIndex={this.props.currentIndex}
           currentVisibleIndex={this.props.currentVisibleIndex}
-          idqso={this.props.qso.idqsos}
+          idqsos={this.props.idqsos}
           qso_owner={this.props.qso.qra}
         />
-        <QSOLikeText qso={this.props.qso} likes={this.state.likes} />
+        {/* <QSOLikeText qso={qso} likes={this.state.likes} /> */}
         <FeedSocialButtons
-          qso={this.props.qso}
-          comments={this.props.comments}
-          idqso={this.props.qso.idqsos}
+          comments={this.props.qso.comments}
+          idqsos={this.props.idqsos}
           index={this.props.index}
           qso_owner={this.props.qso.qra}
           shareText={shareText}
@@ -163,15 +183,10 @@ const styles = StyleSheet.create({
     // marginTop: Constants.statusBarHeight
   }
 });
-FeedItemQSO.propTypes = {
-  currentQRA: PropTypes.string,
 
-  recalculateRowHeight: PropTypes.func,
-  measure: PropTypes.string,
-  index: PropTypes.string
-};
-const mapStateToProps = (state, qsos) => ({
+const mapStateToProps = (state, ownProps) => ({
   fetchingQSOS: state.sqso.feed.FetchingQSOS,
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
   qsosFetched: state.sqso.feed.qsosFetched,
   currentQRA: state.sqso.qra
 });

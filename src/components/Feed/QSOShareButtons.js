@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import Share from 'react-native-share';
 import I18n from '../../utils/i18n';
 class QSOShareButtons extends React.Component {
@@ -138,17 +138,12 @@ class QSOShareButtons extends React.Component {
       //         </Dropdown.Item>
       //       </Dropdown.Menu>
       //     </Dropdown>
-      //     <span style={{ fontSize: '1rem' }}>{t('qso.share')}</span>
+      //     <Text style={{ fontSize: '1rem' }}>{I18n.t('qso.share')}</Text>
       //   </View>
       // </Button>
       <Button
         icon={
-          <Icon
-            name="share-alt
-      "
-            size={15}
-            color="white"
-          />
+          <Icon name="share-alt" type="font-awesome" size={15} color="white" />
         }
         onPress={() => this.share()}
       />

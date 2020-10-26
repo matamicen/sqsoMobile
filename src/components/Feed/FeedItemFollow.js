@@ -1,12 +1,11 @@
 import React from 'react';
-//import I18n from '../../utils/i18n';;
+import { View } from 'react-native';
 import { connect } from 'react-redux';
-//import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
+// import {Button} from 'react-native-elements';
+// import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
 import FollowCarrousel from '../follow/followCarrousel';
-import './style.js';
 class FeedItemFollow extends React.Component {
   state = {
     followed: [],
@@ -19,28 +18,26 @@ class FeedItemFollow extends React.Component {
       this.setState({ follow: this.props.follow });
   }
   doFollow = (param) => {
-    if (this.props.isAuthenticated) {
-      if (!__DEV__)
-        window.gtag('event', 'qraFollowRecommended_WEBPRD', {
-          event_category: 'User',
-          event_label: 'follow'
-        });
-      this.setState({ followed: [...this.state.followed, param] });
-      this.props.actions.doFollowQRA(this.props.token, param);
-    } else this.setState({ openLogin: true });
+    // if (!__DEV__)
+    //   window.gtag('event', 'qraFollowRecommended_WEBPRD', {
+    //     event_category: 'User',
+    //     event_label: 'follow'
+    //   });
+    this.setState({ followed: [...this.state.followed, param] });
+    this.props.actions.doFollowQRA(this.props.token, param);
   };
   // doUnfollow = param => {
-  //   if (this.props.isAuthenticated) {
+
   //     this.setState({ followed: this.state.followed.filter(f => f === param) });
   //     this.props.actions.doUnfollowQRA(this.props.token, param);
-  //   } else this.setState({ openLogin: true });
+
   // };
 
   render() {
-    const { t } = this.props;
+     
     if (this.props.follow)
       return (
-        <Segment
+        <View
           raised
           secondary
           style={{
@@ -57,21 +54,7 @@ class FeedItemFollow extends React.Component {
             doUnfollow={(e) => this.doUnfollow(e)}
             currentQRA={this.props.currentQRA}
           />
-          <Confirm
-            size="mini"
-            open={this.state.openLogin}
-            onCancel={() => this.setState({ openLogin: false })}
-            onConfirm={() =>
-              this.props.history.push({
-                pathname: '/login',
-                state: { from: this.props.location.pathname }
-              })
-            }
-            cancelButton={t('global.cancel')}
-            confirmButton={t('auth.login')}
-            content={t('auth.loginToPerformAction')}
-          />
-        </Segment>
+        </View>
       );
     else return null;
   }
@@ -84,15 +67,13 @@ const mapStateToProps = (state, ownProps) => ({
   follow: state.follow,
   following: state.userData.following,
   followers: state.userData.followers,
-  isAuthenticated: state.userData.isAuthenticated,
+
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
-    withTranslation()(FeedItemFollow)
-  )
-);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(FeedItemFollow);

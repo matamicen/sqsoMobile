@@ -9,7 +9,6 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Yup from 'yup';
 import { MY_COUNTRIES_DATA } from './countries.js';
 const QraProfileInfoEdit = (props) => {
-  const { t } = props;
   const [qra, setQRA] = useState({
     firstname: '',
     lastname: props.qraInfo.lastname,
@@ -40,7 +39,7 @@ const QraProfileInfoEdit = (props) => {
       .required(t('auth.birthDateRequired'))
       .min(new Date(1900, 0, 1))
       .max(new Date())
-      .test('birthDate', t('auth.years13Restriction'), (value) => {
+      .test('birthDate', I18n.t('auth.years13Restriction'), (value) => {
         return moment().diff(moment(value), 'years') >= 13;
       }),
     country: Yup.string().required(),
@@ -108,14 +107,14 @@ const QraProfileInfoEdit = (props) => {
         open={props.modalOpen}
         closeIcon
         onClose={() => props.closeModal()}>
-        <Header content={t('qra.editInfo')} />
+        <Header content={I18n.t('qra.editInfo')} />
         <Modal.Content>
           <Form>
             <Form.Field>
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.firstName')}
+                label={I18n.t('qra.firstName')}
                 error={
                   formik.errors.firstname && Boolean(formik.errors.firstname)
                 }
@@ -135,7 +134,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.lastName')}
+                label={I18n.t('qra.lastName')}
                 error={
                   formik.errors.lastname && Boolean(formik.errors.lastname)
                 }
@@ -156,7 +155,7 @@ const QraProfileInfoEdit = (props) => {
                 type="date"
                 fluid
                 iconPosition="left"
-                label={t('qra.birthday')}
+                label={I18n.t('qra.birthday')}
                 error={
                   formik.errors.birthday && Boolean(formik.errors.birthday)
                 }
@@ -182,7 +181,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.addressLine1')}
+                label={I18n.t('qra.addressLine1')}
                 error={formik.errors.address && Boolean(formik.errors.address)}
                 name="address"
                 readOnly={false}
@@ -200,7 +199,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.addressLine2')}
+                label={I18n.t('qra.addressLine2')}
                 error={
                   formik.errors.address2 && Boolean(formik.errors.address2)
                 }
@@ -220,7 +219,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.city')}
+                label={I18n.t('qra.city')}
                 error={formik.errors.city && Boolean(formik.errors.city)}
                 name="city"
                 readOnly={false}
@@ -236,7 +235,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.state')}
+                label={I18n.t('qra.state')}
                 error={formik.errors.state && Boolean(formik.errors.state)}
                 name="state"
                 readOnly={false}
@@ -252,7 +251,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.zipCode')}
+                label={I18n.t('qra.zipCode')}
                 error={formik.errors.zipcode && Boolean(formik.errors.zipcode)}
                 name="zipcode"
                 readOnly={false}
@@ -267,7 +266,7 @@ const QraProfileInfoEdit = (props) => {
               ) : null}
             </Form.Field>
             <Form.Field width={3}>
-              <label htmlFor="country">{t('qra.country')}</label>
+              <label htmlFor="country">{I18n.t('qra.country')}</label>
               <Dropdown
                 name="country"
                 onChange={formik.changeHandler}
@@ -284,7 +283,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.cqZone')}
+                label={I18n.t('qra.cqZone')}
                 error={formik.errors.cqzone && Boolean(formik.errors.cqzone)}
                 name="cqzone"
                 readOnly={false}
@@ -302,7 +301,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.ituZone')}
+                label={I18n.t('qra.ituZone')}
                 error={formik.errors.ituzone && Boolean(formik.errors.ituzone)}
                 name="ituzone"
                 readOnly={false}
@@ -320,7 +319,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.gridLocator')}
+                label={I18n.t('qra.gridLocator')}
                 error={
                   formik.errors.gridlocator &&
                   Boolean(formik.errors.gridlocator)
@@ -341,7 +340,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.licenseClass')}
+                label={I18n.t('qra.licenseClass')}
                 error={
                   formik.errors.licenseclass &&
                   Boolean(formik.errors.licenseclass)
@@ -362,7 +361,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.iotaDesignator')}
+                label={I18n.t('qra.iotaDesignator')}
                 error={
                   formik.errors.iotadesignator &&
                   Boolean(formik.errors.iotadesignator)
@@ -383,7 +382,7 @@ const QraProfileInfoEdit = (props) => {
               <Form.Input
                 fluid
                 iconPosition="left"
-                label={t('qra.qsoInfo')}
+                label={I18n.t('qra.qsoInfo')}
                 error={formik.errors.qslinfo && Boolean(formik.errors.qslinfo)}
                 name="qslinfo"
                 readOnly={false}
@@ -405,12 +404,12 @@ const QraProfileInfoEdit = (props) => {
             icon="save"
             type="submit"
             labelPosition="right"
-            content={t('qra.saveInfo')}
+            content={I18n.t('qra.saveInfo')}
             onClick={formik.handleSubmit}
           />
           <Button
             icon="check"
-            content={t('global.cancel')}
+            content={I18n.t('global.cancel')}
             onClick={() => props.closeModal()}
           />
         </Modal.Actions>
@@ -419,4 +418,4 @@ const QraProfileInfoEdit = (props) => {
   );
 };
 
-export default withTranslation()(QraProfileInfoEdit);
+export default QraProfileInfoEdit;

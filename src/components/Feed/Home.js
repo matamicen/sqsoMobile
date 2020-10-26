@@ -47,15 +47,11 @@ class Home extends React.Component {
     //   this.setState({ adActive: false });
     this.props.actions.doFollowFetch();
     if (this.props.qsos.length === 0) {
-      //   if (this.props.isAuthenticated) {
       // this.props.actions.doFetchUserFeed(
       //   this.props.token,
       //   this.props.currentQRA
       // );
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-      //   } else {
-      //     this.props.actions.doFetchPublicFeed();
-      //   }
     }
   }
 
@@ -69,7 +65,9 @@ class Home extends React.Component {
   //   // else if (props.qsos.length === 0) return { active: true };
   // }
   render() {
-    if (this.props.qsos.length > 0) return <NewsFeed />;
+    if (this.props.qsos.length > 0) {
+      return <NewsFeed />;
+    }
     return null;
   }
 }
@@ -79,7 +77,7 @@ const mapStateToProps = (state) => ({
   qsosFetched: state.sqso.feed.qsosFetched,
   //   authenticating: state.sqso.feeduserData.authenticating,
   currentQRA: state.sqso.qra,
-  //   isAuthenticated: state.sqso.feeduserData.isAuthenticated,
+
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos
 });

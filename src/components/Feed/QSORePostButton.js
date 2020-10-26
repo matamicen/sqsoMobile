@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import { default as React, Fragment } from 'react';
+import React, { Fragment } from 'react';
+import { Alert, Text, View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
-
-class QSORePostButton extends React.Component {
+import I18n from '../../utils/i18n';
+class QSORePostButton extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -25,90 +25,58 @@ class QSORePostButton extends React.Component {
     );
   }
 
-  openConfirmationRequest() {
-    if (this.props.isAuthenticated) {
-      this.setState({ showConfirmationRequest: true });
-    } else {
-      this.setState({ openLogin: true });
-    }
-  }
+  // openConfirmationRequest() {
+  //   this.setState({ showConfirmationRequest: true });
+  // }
 
   // close = () => {
   //   this.setState({ showReportContent: false });
   // };
-  s;
+  confirmationAlert = () =>
+    Alert.alert(
+      'Alert Title',
+      I18n.t('qso.confirmRepost'),
+      [
+        {
+          text: 'Cancel',
+          onPress: () => this.setState({ showConfirmationRequest: false }),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.doRePost() }
+      ],
+      { cancelable: false }
+    );
   render() {
-    const { t } = this.props;
-    const { showConfirmationRequest } = this.state;
+    // const { showConfirmationRequest } = this.state;
     return (
       <Fragment>
-        <Button icon onClick={() => this.openConfirmationRequest()}>
-          <View style={{ display: 'grid', justifyItems: 'center' }}>
-            <Icon name="retweet" />
-            <span style={{ fontSize: '1rem' }}>{t('qso.repost')}</span>
+        <Button icon onClick={() => this.confirmationAlert()}>
+          <View style={{ justifyItems: 'center' }}>
+            <Icon name="retweet" type="font-awesome" />
+
+            <Text style={{ fontSize: 1 }}>{I18n.t('qso.repost')}</Text>
           </View>
         </Button>
-        <Confirm
-          size="mini"
-          open={this.state.openLogin}
-          onCancel={() => this.setState({ openLogin: false })}
-          onConfirm={() =>
-            this.props.history.push({
-              pathname: '/login',
-              state: { from: this.props.location.pathname }
-            })
-          }
-          cancelButton={t('global.cancel')}
-          confirmButton={t('auth.login')}
-          content={t('auth.loginToPerformAction')}
-        />
-        <Confirm
+
+        {/* <Confirm
           size="mini"
           open={showConfirmationRequest}
           onCancel={() => this.setState({ showConfirmationRequest: false })}
           onConfirm={this.doRePost.bind(this)}
-          content={t('qso.confirmRepost')}
-        />
+          content={I18n.t('qso.confirmRepost')}
+        /> */}
       </Fragment>
     );
   }
 }
-QSORePostButton.propTypes = {
-  actions: PropTypes.shape({
-    doRepost: PropTypes.func
-    // doLogout: PropTypes.func,
-    // doLogin: PropTypes.func,
-    // doFetchUserInfo: PropTypes.func,
-    // doSetPublicSession: PropTypes.func
-  }).isRequired,
-  qso: PropTypes.shape({
-    type: PropTypes.string,
-    idqso_shared: PropTypes.number,
 
-    idqsos: PropTypes.number
-  }),
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  }),
-
-  isAuthenticated: PropTypes.bool,
-  token: PropTypes.string,
-
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }).isRequired
-};
 const mapStateToProps = (state) => ({
-  token: state.sqso.jwtToken,
-  isAuthenticated: state.userData.isAuthenticated
+  token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(QSORePostButton))
-);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(QSORePostButton);
