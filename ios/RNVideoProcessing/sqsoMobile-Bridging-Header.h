@@ -8,7 +8,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTView.h>
 #import "React/RCTBridgeModule.h"
-#import "RNVideoProcessing.h"
+//#import "RNVideoProcessing.h"
 
 
 #endif /* AppName_Bridging_Header_h */

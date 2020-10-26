@@ -534,6 +534,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,videoCompressed, jwtTok
         }
 
         tiempo1 = Date.now();
+        console.log("antes del freeze!");
       respuesta =  await API.post(apiName, path, myInit);
       console.log("llamo api QsoNEW!");
       console.log(respuesta);

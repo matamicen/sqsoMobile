@@ -76,6 +76,7 @@ import {
    todaMediaEnviadaAS3, percentageCalculator, addMediaCheck } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
+import { LogLevel, RNFFmpeg,  RNFFprobe } from 'react-native-ffmpeg';
 
 
 import awsconfig from "../../aws-exports";
@@ -96,7 +97,7 @@ import Publicar from './Publicar';
 // import StartNewPost from './StartNewPost';
 import MissingFieldsToPublish from './MissingFieldsToPublish';
 import global_config from '../../global_config.json';
-import { ProcessingManager } from 'react-native-video-processing';
+// import { ProcessingManager } from 'react-native-video-processing';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageResizer from 'react-native-image-resizer';
 
@@ -994,11 +995,14 @@ if (this.pressVideo===false)
           this.setState({readingVideo: true})
 
             realUrl = await this.getVideoPath(this.state.videoFromShare);
-            if (realUrl.status)
+            // if (realUrl.status)
+            if(false)
             { console.log('real url: '+ JSON.stringify(realUrl))
             console.log('real url2: '+ realUrl.data.path)
-       
-            this.takeFramePreview(realUrl.data.path);
+
+            auxurl = "file://"+ realUrl.data.path;
+            this.takeFramePreview(auxurl);
+            // this.takeFramePreview(realUrl.data.path);
           }else
           {
             console.log('path oculto');
@@ -1122,76 +1126,117 @@ if (this.pressVideo===false)
            const maximumSize = { width: 100, height: 200 };
            // const maximumSize = { width: 400, height: 200 };
 
-           // Se necesita esperar que tome la foto de preview asi el componente Muestro la puede mostrar
+
            if (Platform.OS==='ios')
-              await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize, 'base64')
-                .then((data) => {
-                  console.log('obtengo frame')
-                  // console.log('width: '+image.width)
-                //  console.log(data)
-                this.base64preview = data;
-                });
-              else
-                await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
-                .then((data) => {
-                  console.log('obtengo frame')
-                  // console.log('width: '+image.width)
-                //  console.log(data)
-                this.base64preview = data;
-                });
+                    path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.jpg`;
+                else
+                    path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.jpg`;
+                   
+           inicioCom = new Date();
+          //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
+           await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ videoPath +" -vframes 1 -q:v 4 "+path).then(result => {
+            // console.log(`FFmpeg process exited with rc=${result}.`)
+              // console.log(result)
+              finCom = new Date();
+              timepoCom = finCom-inicioCom;
+              console.log('tiempo de takeFrame: '+ timepoCom);
+
+                     });
+
+
+           
+
+           // Se necesita esperar que tome la foto de preview asi el componente Muestro la puede mostrar
+          //  if (Platform.OS==='ios')
+              // await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize, 'base64')
+              //   .then((data) => {
+              //     console.log('obtengo frame')
+              //     // console.log('width: '+image.width)
+              //   //  console.log(data)
+              //   this.base64preview = data;
+              //   });
+              // else
+              //   await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
+              //   .then((data) => {
+              //     console.log('obtengo frame')
+              //     // console.log('width: '+image.width)
+              //   //  console.log(data)
+              //   this.base64preview = data;
+              //   });
+              
 
      
               this.videoPathBeforeCompress = videoPath;
 
               // auxfile = videoPath.replace('file://', '');
               // console.log('fileaux antes de startupload: '+ auxfile )
-              fileInfo = await Upload.getFileInfo(videoPath);
-              res2 = await ProcessingManager.getVideoInfo(videoPath);
-              
-              image.width = res2.size.width;
-              image.height = res2.size.height;
-              image.duration = res2.duration;
-              image.size = fileInfo.size; // no trae el size esta api 
-              console.log('width: '+ image.width + ' height:'+image.height)
 
-                if (Platform.OS==='ios')
-                    path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.png`;
-                else
-                    path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
+              inicioCom = new Date();
+              await RNFFprobe.execute("-v quiet -print_format json -show_format -show_streams "+videoPath).then(result => {
+                // console.log(`RNFFprobe process exited with rc=${result}.`)
+                console.log(`RNFFprobe process exited with rc`)
+                  //  console.log(result)
+                  stringy = JSON.stringify(result);
+                  par = JSON.parse(stringy)  
+                  console.log('11: '+ par.streams)
+                  console.log('22: '+ stringy.streams)
+                  console.log('33: '+ par["streams"])
+                  console.log('44: '+ result["streams"])
+                    // console.log('stringy.width: ' +par.streams[0].width + ' stringy.height:'+par.streams[0].height)
+                  finCom = new Date();
+                  timepoCom = finCom-inicioCom;
+                  console.log('tiempo de RNFFprobe: '+ timepoCom);
+    
+                         });
+
+
+              fileInfo = await Upload.getFileInfo(videoPath);
+              // res2 = await ProcessingManager.getVideoInfo(videoPath);
+              
+              image.width = 352; //res2.size.width;
+              image.height =  640;//res2.size.height;
+              image.duration = 0; //res2.duration;
+              image.size = fileInfo.size; // no trae el size esta api 
+              console.log('width: '+ image.width + ' height:'+image.height + ' fileInfo: '+fileInfo)
+              console.log(fileInfo);
+                // if (Platform.OS==='ios')
+                //     path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.png`;
+                // else
+                //     path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
 
                 try { // se guarda la imagen de preview en disco para luego ser comprimida
-                  const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
-                  console.log(data, 'grabo imagen en disco');
-                  console.log(data);
-                  console.log('path: '+ path)
+                //   const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
+                //   console.log(data, 'grabo imagen en disco');
+                //   console.log(data);
+                //   console.log('path: '+ path)
                  
-                  // se comprime la imagen del preview para mostrar en Muestro.Js y en el feed con baja definicion
-                  await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',80).then((response) => {
+                //   // se comprime la imagen del preview para mostrar en Muestro.Js y en el feed con baja definicion
+                //   await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',80).then((response) => {
           
-                    this.compressImagePreview = response.uri;
+                //     this.compressImagePreview = response.uri;
                         
-                  //  // this.size = response.size;
-                  //   this.widthAvatar = nuevoWidthAvatar;
-                  //   this.heightAvatar = nuevoHeightAvatar;
-                    console.log('Compress imagepreview: ' + JSON.stringify(response));
+                //   //  // this.size = response.size;
+                //   //   this.widthAvatar = nuevoWidthAvatar;
+                //   //   this.heightAvatar = nuevoHeightAvatar;
+                //     console.log('Compress imagepreview: ' + JSON.stringify(response));
         
           
-                  }).catch((err) => {
-                    // Oops, something went wrong. Check that the filename is correct and
-                    // inspect err to get more details.
-                    // crashlytics().setUserId(this.props.qra);
-                    // crashlytics().log('error: ' + JSON.stringify(err)) ;
-                    // if(__DEV__)
-                    // crashlytics().recordError(new Error('createResiImg4_DEV'));
-                    // else
-                    // crashlytics().recordError(new Error('createResiImg4_PRD'));
-                  });
+                //   }).catch((err) => {
+                //     // Oops, something went wrong. Check that the filename is correct and
+                //     // inspect err to get more details.
+                //     // crashlytics().setUserId(this.props.qra);
+                //     // crashlytics().log('error: ' + JSON.stringify(err)) ;
+                //     // if(__DEV__)
+                //     // crashlytics().recordError(new Error('createResiImg4_DEV'));
+                //     // else
+                //     // crashlytics().recordError(new Error('createResiImg4_PRD'));
+                //   });
           
 
 
-
-                  // this.imagePreviewPath = path;
-                  this.imagePreviewPath = this.compressImagePreview
+                  console.log('takePreview path: ' +path)
+                  this.imagePreviewPath = 'file:///'+path;
+                  // this.imagePreviewPath = this.compressImagePreview
 
                   // close the reading video modal
                   this.closeVariosModales();
@@ -1230,7 +1275,7 @@ if (this.pressVideo===false)
              fileName2 = ''; 
      
           // envio base64preview y videoLocation para que que Muestro muestre imagen preview del video a enviar y la locacion real del video tomada por el picker
-              console.log('filename2 es: ' + fileName2);
+              console.log('filename2 es: ' + fileName2 + ' this.imagePreviewPath: '+ this.imagePreviewPath);
               envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, previewCompressed:this.imagePreviewPath, duration: image.duration  } 
               
               // console.log('phototype :'+this.props.phototype)
@@ -2146,6 +2191,7 @@ if (this.pressVideo===false)
                   let maxMb = 0;
                   let maxSec = 0;
                   let mbCoef = 15000000; // 15 mb de coeficiente
+                  let destination_path = '';
 
                   // console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
 
@@ -2233,13 +2279,14 @@ if (this.pressVideo===false)
 
                  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size + ' ratio: '+ratio + ' maxMb: '+maxMb + ' maxSec: '+maxSec + ' needTrim: '+needTrim + ' bitMultiplier: '+bitMultiplier)
 
+                 needTrim=false;
                  console.log('comienzo trim');
                   if (needTrim)
                   {
                    
                     this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date(), videoSizeBeforeCompress: maxMb});
-                         dataTrim = await ProcessingManager.trim(this.videoPathBeforeCompress, { startTime: 0,
-                     endTime: trimEndSecond})
+                        //  dataTrim = await ProcessingManager.trim(this.videoPathBeforeCompress, { startTime: 0,
+                    //  endTime: trimEndSecond})
                      console.log('dataTrim: '+ JSON.stringify(dataTrim))
                      this.videoPathBeforeCompress = dataTrim;
                     
@@ -2252,71 +2299,147 @@ if (this.pressVideo===false)
                   console.log('nombre del video: '+this.envio.name)
 
                   console.log('this.videoPathBeforeCompress: '+this.videoPathBeforeCompress)
-                  // this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date()});
-                  ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
-                  .then((data) => {   // andan los de andres 8aql traidos de wsapp
-                    //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
-                    //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
-                        
-                    //     console.log('termino de comprimir1');
-                    //     tiempo2 = Date.now();
-                    console.log('salida de compresion');
-                    console.log(data);
+                  // mpeg4
+                  inicioCom = new Date();
+                  // RNFFmpeg.execute("-y -i "+ this.videoPathBeforeCompress +" -c:v libx264 -crf 23 /storage/emulated/0/DCIM/file10.mp4").then(result => {
+                    // RNFFmpeg.execute("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4").then(result => {  // tardo 40 segundos y comprimio la mitad porque la scale es la mitad lo dejo en 5.6mb contra 13.9 del standard
+               
+               
+                    // RNFFmpeg.execute("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4").then(result => {
+                    // console.log(`FFmpeg process exited with rc=${result}.`)
+                    // console.log(result)
+                    // finCom = new Date();
+                    // timepoCom = finCom-inicioCom;
+                    // console.log('tiempo de compresion: '+ timepoCom);
+
+                    //        });
 
                     if (Platform.OS==='ios')
-                      datasource = data;
+                      destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/file10.mp4`;
                     else
-                     datasource = data.source;
+                      destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/file10.mp4`;
 
-                    ProcessingManager.getVideoInfo(datasource)
-                        // .then((info) => console.log(info ));
-                        .then(({ duration, size, frameRate, bitrate }) => {
-                          console.log(duration, size, frameRate, bitrate )
-                          console.log(size.height+ ' - ' + size.width)
-                          // al actualizar env se actualiza mediafileLocal por la setencia de arriba mediafileLocal = [ env ];
-                          this.envio.rectime = duration;
-                          this.envio.size = Math.floor(env.size/bitMultiplier);
-                          // this.envio.url = data.source;      
-                          this.envio.url = datasource;                     
-                          console.log('size comprimido:'+ this.envio.size + ' - '+ this.envio.rectime+ ' - ' + this.envio.url)
-                          console.log('sqlrdsid: '+this.envio.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
-                          console.log('dataSource: '+datasource)
-
-                          // actualizo mediafile en redux porque esto termina enviado a RDS el s3Upload
-                          update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url}
-                          this.props.updateCommentInMemory(this.envio.name,update);
-
-                          this.setState({videoCompression: 'finished'});
-
-                          // if (this.props.sqsosqlrdsid !== '')
-                          // { console.log('tiene sqlrdsid video')
-                          //   this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar,this.props.sqsosqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
-                          // }
-                          //   else
-                          // {
-                          //   // por algun razon no pudo generar el qsoNew debeo llamar de nuevo con paraemtro de envio automatico a S3 y 
-                          //   // pasarle mediafilelocal asi cuando termina qsonew llama a uploadmediatos3 para el comienzo del video ya comprimido.
-
-                      
-                          //   console.log('no tenia sqlrdsid video')
+                    setTimeout(() => {
+                      // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                          // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                            RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
+                          // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                          if (completedExecution.returnCode === 0) {
+                              console.log("FFmpeg process completed successfully");
+                              console.log(completedExecution)
+                          // console.log(result)
+                          finCom = new Date();
+                          timepoCom = finCom-inicioCom;
+                          console.log('tiempo de compresion: '+ timepoCom);
+                          // datasource = '/storage/emulated/0/DCIM/file10.mp4';
+                          // datasource = destination_path;
+                         
+                  
+                      console.log('getMediaInformation ');
+                      RNFFprobe.getMediaInformation(destination_path).then(information => {
+                        if (information.getMediaProperties() !== undefined) {
+                     
                          
 
-                          //   videoCompress = true; // para que luego de crear el sqlrdsid pueda hacer el upload porque el video ya esta comprimido
-                          //   this.props.postQsoNew(dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
+                            let streams = information.getStreams();
+                          console.log(`size papa: ${information.getAllProperties().format.size}`);
+                          console.log(`duration papa: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+                          console.log(`Width papa: ${streams[0].getAllProperties().width}`);
+                          console.log(`Height papa: ${streams[0].getAllProperties().height}`);
+
+
+                          this.envio.rectime = Math.floor(information.getAllProperties().format.duration/1); // duration;
+                          this.envio.size = information.getAllProperties().format.size; //Math.floor(env.size/bitMultiplier);
+                          this.envio.url = destination_path; 
+                          update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url, width: streams[0].getAllProperties().width, height: streams[0].getAllProperties().height}
+                          this.props.updateCommentInMemory(this.envio.name,update);
+                          this.setState({videoCompression: 'finished'});
+
+                    
+                        }
+                    });
+
+
+
+
+
+
+
+                            } else {
+                              console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
+                            }
+                          }).then(executionId => console.log(`Async FFmpeg process started with executionId ${executionId}.`));
+                      
+                        
+                       }
+                      , 3000);
+                    
+
+                  // this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date()});
+//                   ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
+//                   .then((data) => {   // andan los de andres 8aql traidos de wsapp
+//                     //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
+//                     //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
+                        
+//                     //     console.log('termino de comprimir1');
+//                     //     tiempo2 = Date.now();
+//                     console.log('salida de compresion');
+//                     console.log(data);
+
+//                     if (Platform.OS==='ios')
+//                       datasource = data;
+//                     else
+//                      datasource = data.source;
+// datasource = '/storage/emulated/0/DCIM/file10.mp4';
+//                     ProcessingManager.getVideoInfo(datasource)
+//                         // .then((info) => console.log(info ));
+//                         .then(({ duration, size, frameRate, bitrate }) => {
+//                           console.log(duration, size, frameRate, bitrate )
+//                           console.log(size.height+ ' - ' + size.width)
+//                           // al actualizar env se actualiza mediafileLocal por la setencia de arriba mediafileLocal = [ env ];
+                          //  this.envio.rectime = 15; // duration;
+                          //  this.envio.size = 2000; //Math.floor(env.size/bitMultiplier);
+//                           // this.envio.url = data.source;      
+                          //  this.envio.url = datasource;                     
+//                           console.log('size comprimido:'+ this.envio.size + ' - '+ this.envio.rectime+ ' - ' + this.envio.url)
+//                           console.log('sqlrdsid: '+this.envio.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
+//                           console.log('dataSource: '+datasource)
+
+//                           // actualizo mediafile en redux porque esto termina enviado a RDS el s3Upload
+                          // update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url}
+                          //  this.props.updateCommentInMemory(this.envio.name,update);
+
+                          // this.setState({videoCompression: 'finished'});
+
+//                           // if (this.props.sqsosqlrdsid !== '')
+//                           // { console.log('tiene sqlrdsid video')
+//                           //   this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar,this.props.sqsosqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
+//                           // }
+//                           //   else
+//                           // {
+//                           //   // por algun razon no pudo generar el qsoNew debeo llamar de nuevo con paraemtro de envio automatico a S3 y 
+//                           //   // pasarle mediafilelocal asi cuando termina qsonew llama a uploadmediatos3 para el comienzo del video ya comprimido.
+
+                      
+//                           //   console.log('no tenia sqlrdsid video')
+                         
+
+//                           //   videoCompress = true; // para que luego de crear el sqlrdsid pueda hacer el upload porque el video ya esta comprimido
+//                           //   this.props.postQsoNew(dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
                  
                       
 
 
-                          // }
+//                           // }
 
-// comento el getvideo que no lo uso
-                        });
+// // comento el getvideo que no lo uso
+//                         });
                         
 
 
-                    }).catch(e => {
-                      console.log(e);
-                    });
+//                     }).catch(e => {
+//                       console.log(e);
+//                     });
 
                 }
                 
@@ -2374,11 +2497,14 @@ if (this.pressPublish===false)
 
             if (this.props.sqsosqlrdsid==='')
             {
-              console.log('no se habia generado sqlrdsid para video')
+           
               mediafileLocal = [ this.envio ];
               videoCompress = false;
-              this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
-              await this.delay2(3000); // hago tiempo para asegurar que la API traiga el sqlrdsid y actualice en redux 
+              console.log('no se habia generado sqlrdsid para video')
+              await this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,session.idToken.jwtToken);
+              console.log('despues de await postQsoNew, el awaiy de postQsoNew es clave para que no se tave con el delay de 1 segundo de abajo')
+              await this.delay2(1000); // hago tiempo para asegurar que la API traiga el sqlrdsid y actualice en redux 
+              console.log('despues de await delay2')
               // y que este presente al momento de subir a S3, ya que si el video es cortito el progress ya lo pudo haber terminado la compresion 
               // y lo enviaria rapidamente a S3 y este necesita el SQLRDSID
             }
@@ -2412,7 +2538,7 @@ if (this.pressPublish===false)
             console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
             media = this.props.mediafiles[0];
      //         this.props.uploadMediaToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
-              this.props.uploadVideoToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
+              this.props.uploadVideoToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,session.idToken.jwtToken);
             //  contEnvio = 0;
             //  t1 = new Date();
             //  factor = 110 / 9000000; // tarda aprox 100 segundo 9mb (
@@ -2423,7 +2549,7 @@ if (this.pressPublish===false)
                /* code to wait on goes here (sync or async) */
               //  contEnvio++;  
               // //  console.log('entro delay envio video'+contEnvio)  
-              // console.log('entro delay envio video'+contEnvio) 
+               console.log('entro delay envio video post uploads3') 
 
               // aux = percentageCalculator(t1,totUploadSecThisVideo);
               //  if ((aux > 2) && (aux < 97))
