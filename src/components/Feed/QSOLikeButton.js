@@ -218,13 +218,15 @@ class QSOLikeButton extends React.Component {
     } else if (this.liked) icon = 'thumbs-up';
     else icon = 'thumbs-o-up';
 
+    let counter = this.likeCounter > 0 ? this.likeCounter.toString() : null;
+
     return (
       <Button
         type="clear"
         icon={<Icon name={icon} type="font-awesome" />}
-        active={false}
+        // active={false}
         onPress={() => this.handleOnLike()}
-        title={this.likeCounter.toString}
+        title={counter}
       />
     );
   }

@@ -25,11 +25,6 @@ class QSOLikeText extends React.Component {
     // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
     // if (qso) this.setState({ qso: qso });
   }
-  static getDerivedStateFromProps(props, prevState) {
-    // let qso = props.qsos.find((q) => q.idqsos === props.idqsos);
-    // if (qso) return { qso: qso };
-    // return null;
-  }
 
   componentDidUpdate(prevProps, prevState) {
     // this.setState({ likes: this.props.qso.likes });

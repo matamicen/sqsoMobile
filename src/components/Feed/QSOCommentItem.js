@@ -75,10 +75,9 @@ class QSOCommentItem extends React.Component {
             qra[1] +
             '</Text>  </TouchableOpacity>'
         );
-        console.log(message);
       }
     } while (withTags);
-    console.log(message);
+
     var date = new Date(this.props.comment.datetime);
     var timestamp = '';
     if (
@@ -93,10 +92,6 @@ class QSOCommentItem extends React.Component {
     if (this.props.comment.datetime) {
       timestamp =
         date.toLocaleDateString(I18n.locale, { month: 'short' }) +
-        ' ' +
-        date.getDate() +
-        ', ' +
-        date.getFullYear() +
         I18n.t('global.at') +
         date.getUTCHours() +
         ':' +
@@ -115,7 +110,7 @@ class QSOCommentItem extends React.Component {
                 })
               }>
               <Avatar
-                size="small"
+                size="medium"
                 rounded
                 source={
                   this.props.comment.avatarpic
@@ -124,28 +119,43 @@ class QSOCommentItem extends React.Component {
                       }
                     : require('../../images/emptyprofile.png')
                 }
-              />{' '}
-              <Text style={{ fontSize: 5 }}>
-                {this.props.comment.qra.toUpperCase()}{' '}
-                {this.props.comment.firstname} {this.props.comment.lastname}{' '}
-              </Text>
-            </TouchableOpacity>{' '}
+              />
+            </TouchableOpacity>
             {/* <TextToFollow qra={this.props.comment.qra} /> */}
+          </View>
+          <View style={styles.action}>
+            <View style={styles.header}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('QRAProfile', {
+                    qra: this.props.comment.qra
+                  })
+                }>
+                <Text style={styles.headerText}>
+                  <Text> {this.props.comment.qra.toUpperCase()} </Text>
+                  <Text>{this.props.comment.firstname}</Text>
+                  <Text> {this.props.comment.lastname} </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.headerDetail}>
+              <Text style={styles.headerDetailText}>{timestamp}</Text>
+            </View>
           </View>
           <View style={styles.follow}>
             {!this.followed &&
               this.props.comment.qra !== this.props.currentQRA && (
                 <Button
-                  positive={!this.followed}
-                  onClick={() =>
-                    this.handleButtonClick(this.props.comment.qra)
-                  }>
-                  {this.props.followers.some(
-                    (o) => o.qra === this.props.comment.qra
-                  )
-                    ? I18n.t('qra.followToo')
-                    : I18n.t('qra.follow')}
-                </Button>
+                  containerStyle={{ padding: 0, margin: 0 }}
+                  onPress={() => this.handleButtonClick(this.props.comment.qra)}
+                  title={
+                    this.props.followers.some(
+                      (o) => o.qra === this.props.comment.qra
+                    )
+                      ? I18n.t('qra.followToo')
+                      : I18n.t('qra.follow')
+                  }
+                />
               )}
 
             {/* <FeedOptionsMenu
@@ -155,13 +165,11 @@ class QSOCommentItem extends React.Component {
               optionsCaller="FeedComment"
             /> */}
           </View>
-          <View style={styles.headerDetail}>
-            <Text style={{}}>{timestamp}</Text>
-          </View>
         </View>
-        <View>
-          <Text style={{ fontSize: 10 }}>
-            <ConvertToComp response={message} />
+        <View style={styles.message}>
+          <Text style={{ fontSize: 15 }}>
+            {/* <ConvertToComp response={message} /> */}
+            {message}
           </Text>
         </View>
       </View>
@@ -174,10 +182,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   bold: { fontWeight: 'bold' },
-  actionHeaderText: {
-    fontSize: 20
+  headerText: {
+    fontSize: 12
   },
-  actionDetailText: {},
+  headerDetailText: { fontSize: 10 },
+  headerDetail: {},
   commentHeader: {
     flex: 1,
     flexDirection: 'row',
@@ -195,15 +204,15 @@ const styles = StyleSheet.create({
     // marginTop: Constants.statusBarHeight
   },
   follow: {
-    flex: 1,
-    flexDirection: 'column'
+    flex: 1
+    // flexDirection: 'column'
   },
   action: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column'
     // flexBasis: 60,
-    flexGrow: 1,
-    flexShrink: 0
+    // flexGrow: 1,
+    // flexShrink: 0
   },
   actionHeader: {
     flex: 1,
@@ -231,6 +240,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32
+  },
+  message: {
+    flex: 1,
+    width: '100%'
   }
 });
 const mapStateToProps = (state, ownProps) => ({

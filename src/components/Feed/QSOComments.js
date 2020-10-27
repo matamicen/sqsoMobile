@@ -23,14 +23,14 @@ class QSOComments extends React.Component {
   }
 
   componentDidMount() {
-    if (!__DEV__)
-      if (this.props.qso.comments) {
-        // window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
-        //   event_category: 'qso',
-        //   event_label: 'commentModalOpen'
-        // });
-        this.setState({ comments: this.props.qso.comments });
-      }
+    // if (!__DEV__)
+    if (this.props.qso.comments) {
+      // window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
+      //   event_category: 'qso',
+      //   event_label: 'commentModalOpen'
+      // });
+      this.setState({ comments: this.props.qso.comments });
+    }
   }
 
   handleAddComment = (values) => {
