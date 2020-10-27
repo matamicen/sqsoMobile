@@ -3370,6 +3370,7 @@ export function doReceiveMediaCounter(data) {
   };
 }
 export function doRepost(idqso, token, qso) {
+  console.log('doRepost');
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'repost_WEBPRD', {
@@ -3398,15 +3399,17 @@ export function doRepost(idqso, token, qso) {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
+            console.log(response);
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';
-            toast.success(i18n.t('qso.qsoReposted'), {
-              position: toast.POSITION.BOTTOM_RIGHT,
-              className: css({
-                background: '#8BD8BD !important'
-              })
-            });
+            this.toast(I18n.t('qso.qsoReposted'), 2500);
+            // toast.success(i18n.t('qso.qsoReposted'), {
+            //   position: toast.POSITION.BOTTOM_RIGHT,
+            //   className: css({
+            //     background: '#8BD8BD !important'
+            //   })
+            // });
             // dispatch(doAddRepostToFeed(qso)); #TODO
           }
         })

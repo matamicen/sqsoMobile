@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Icon } from 'react-native-elements';
 import Share from 'react-native-share';
+import global_config from '../../global_config.json';
 import I18n from '../../utils/i18n';
 class QSOShareButtons extends React.Component {
   share = () => {
@@ -142,9 +143,8 @@ class QSOShareButtons extends React.Component {
       //   </View>
       // </Button>
       <Button
-        icon={
-          <Icon name="share-alt" type="font-awesome" size={15} color="white" />
-        }
+        type="clear"
+        icon={<Icon name="share-alt" type="font-awesome" />}
         onPress={() => this.share()}
       />
     );

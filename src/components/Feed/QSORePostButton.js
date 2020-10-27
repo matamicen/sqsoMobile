@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Alert, Text, View } from 'react-native';
+import React from 'react';
+import { Alert } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,8 +9,7 @@ class QSORePostButton extends React.PureComponent {
   constructor() {
     super();
     this.state = {
-      showConfirmationRequest: false,
-      openLogin: false
+      showConfirmationRequest: false
     };
   }
 
@@ -34,7 +33,7 @@ class QSORePostButton extends React.PureComponent {
   // };
   confirmationAlert = () =>
     Alert.alert(
-      'Alert Title',
+      I18n.t('qso.repost'),
       I18n.t('qso.confirmRepost'),
       [
         {
@@ -49,29 +48,23 @@ class QSORePostButton extends React.PureComponent {
   render() {
     // const { showConfirmationRequest } = this.state;
     return (
-      <Fragment>
-        <Button icon onClick={() => this.confirmationAlert()}>
-          <View style={{ justifyItems: 'center' }}>
-            <Icon name="retweet" type="font-awesome" />
-
-            <Text style={{ fontSize: 1 }}>{I18n.t('qso.repost')}</Text>
-          </View>
-        </Button>
-
-        {/* <Confirm
-          size="mini"
-          open={showConfirmationRequest}
-          onCancel={() => this.setState({ showConfirmationRequest: false })}
-          onConfirm={this.doRePost.bind(this)}
-          content={I18n.t('qso.confirmRepost')}
-        /> */}
-      </Fragment>
+      <Button
+        type="clear"
+        icon={<Icon name="retweet" type="font-awesome" />}
+        onPress={() => this.confirmationAlert()}
+        // title={I18n.t('qso.repost')}>
+      >
+        {/* <View style={{ justifyItems: 'center' }}>
+            <Text style={{ fontSize: 1 }} />
+          </View> */}
+      </Button>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  token: state.sqso.jwtToken
+const mapStateToProps = (state, ownProps) => ({
+  token: state.sqso.jwtToken,
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
