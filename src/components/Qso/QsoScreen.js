@@ -76,7 +76,7 @@ import {
    todaMediaEnviadaAS3, percentageCalculator, addMediaCheck } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
-import { LogLevel, RNFFmpeg,  RNFFprobe } from 'react-native-ffmpeg';
+import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
 
 
 import awsconfig from "../../aws-exports";
@@ -557,7 +557,7 @@ class QsoScreen extends Component {
       }else
       {
      
-      this.props.setExternalShreUrl(true);
+      this.props.setExternalShreUrl(false);
     
       }
 
@@ -972,6 +972,10 @@ if (this.pressVideo===false)
    {
      // el video viene de share
      this.pressVideo = false;
+     let pathoculto = false;
+     let auxuri = '';
+     let path = '';
+
      console.log('antes de llamar a takeFrame: ' +this.state.videoFromShare);
      let storagePermission = true;
 
@@ -990,26 +994,101 @@ if (this.pressVideo===false)
           }
    
       if (storagePermission) 
-     {
-            // open the reading video modal
-          this.setState({readingVideo: true})
+     {   
 
-            realUrl = await this.getVideoPath(this.state.videoFromShare);
-            // if (realUrl.status)
-            if(false)
-            { console.log('real url: '+ JSON.stringify(realUrl))
-            console.log('real url2: '+ realUrl.data.path)
+             // open the reading video modal
+             this.setState({readingVideo: true})
+             console.log('this.state.videoFromShare')
+             console.log(this.state.videoFromShare)
+             realUrl = await this.getVideoPath(this.state.videoFromShare);
+            // console.log(realUrl.data.path)
 
-            auxurl = "file://"+ realUrl.data.path;
-            this.takeFramePreview(auxurl);
-            // this.takeFramePreview(realUrl.data.path);
-          }else
+    
+
+                if (Platform.OS==='ios'){
+                path = RNFetchBlob.fs.dirs.DocumentDir+'/checkpath.jpg';
+                auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+                pathoculto = false;
+                }
+            else
+             
+                path = RNFetchBlob.fs.dirs.DCIMDir+'/checkpath.jpg';
+                
+            
+
+                // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+     
+                //  console.log(' status: '+realUrl.status);
+       
+      // uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+      // si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+      // y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+      // AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+     // en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+  if (Platform.OS==='android')
+    if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+    {
+      console.log('path:')
+      console.log(path)
+    //  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+      await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+    console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+          if (result===0)
+          {    
+            
+            // auxurl = "file://"+ realUrl.data.path;
+            //   this.takeFramePreview(auxurl);
+
+              pathoculto = false;
+              console.log('path no oculto');
+           }
+          else
           {
+
+            pathoculto = true;
+
+
             console.log('path oculto');
          
-            if (Platform.OS==='ios')
-             auxuri = this.state.videoFromShare.replace("file:///", '');
-            else
+          //   if (Platform.OS==='ios')
+          //    auxuri = this.state.videoFromShare.replace("file:///", '');
+          //   else
+          //    auxuri = this.state.videoFromShare;
+          //  //  const fileURI = auxuri.replace('content://', '/');
+          //  //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
+          //  RNFetchBlob.fs.readFile(auxuri,'base64')
+          //  // files will an array contains filenames
+          //  .then((files) => {
+          
+          //  console.log('finalizo lectura base64')
+          // //  console.log(files);
+         
+          //   this.saveVideoToDisk(files,'video/mp4');
+          
+        
+          //  })
+
+           }
+
+              });
+    
+ 
+
+            }
+               else
+                pathoculto = true; 
+                // todo este IF es solo si es Anroid
+
+       
+
+
+          if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+          { 
+            console.log('path oculto');
+         
+            // if (Platform.OS==='ios')
+            //  auxuri = this.state.videoFromShare.replace("file:///", '');
+            // else
              auxuri = this.state.videoFromShare;
            //  const fileURI = auxuri.replace('content://', '/');
            //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
@@ -1024,10 +1103,57 @@ if (this.pressVideo===false)
           
         
            })
-       
-       
-       
+
+
+          }else
+          {
+            
+           
+           if (Platform.OS==='android'){
+
+            auxurl = "file://"+ realUrl.data.path;
+            this.takeFramePreview(auxurl);
+           }
+            else // ios
+            this.takeFramePreview(auxuri);
+
+
           }
+  
+
+          //  if (realUrl.status)
+          //   //  if(false)
+          //   { console.log('real url: '+ JSON.stringify(realUrl))
+          //   console.log('real url2: '+ realUrl.data.path)
+
+          //    auxurl = "file://"+ realUrl.data.path;
+          //   this.takeFramePreview(auxurl);
+          //  //  this.takeFramePreview(realUrl.data.path);
+          // }else
+          // {
+          //   console.log('path oculto');
+         
+          //   if (Platform.OS==='ios')
+          //    auxuri = this.state.videoFromShare.replace("file:///", '');
+          //   else
+          //    auxuri = this.state.videoFromShare;
+          //  //  const fileURI = auxuri.replace('content://', '/');
+          //  //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
+          //  RNFetchBlob.fs.readFile(auxuri,'base64')
+          //  // files will an array contains filenames
+          //  .then((files) => {
+          
+          //  console.log('finalizo lectura base64')
+          // //  console.log(files);
+         
+          //   this.saveVideoToDisk(files,'video/mp4');
+          
+        
+          //  })
+       
+       
+       
+          // }
 
 
         } // storagePermission
@@ -1085,6 +1211,7 @@ if (this.pressVideo===false)
   }
 
   saveVideoToDisk = async (file64,mimeType) => {
+    console.log('savetodisk: '+ mimeType)
     if (mimeType==='video/mp4')
  { 
   let path = '';
@@ -1125,23 +1252,40 @@ if (this.pressVideo===false)
 
            const maximumSize = { width: 100, height: 200 };
            // const maximumSize = { width: 400, height: 200 };
-
+           fileaux =  this.props.qra + '_' + new Date().getTime()+'.mp4'; // le asigno un nombre univoco al video
 
            if (Platform.OS==='ios')
-                    path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.jpg`;
+                    path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
                 else
-                    path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.jpg`;
+                    path = RNFetchBlob.fs.dirs.DCIMDir+'/'+ new Date().getTime()+'.jpg';
                    
            inicioCom = new Date();
           //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
            await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ videoPath +" -vframes 1 -q:v 4 "+path).then(result => {
-            // console.log(`FFmpeg process exited with rc=${result}.`)
-              // console.log(result)
+             console.log(`FFmpeg take frame process exited with rc=${result}.`)
+              //  console.log(result)
               finCom = new Date();
               timepoCom = finCom-inicioCom;
               console.log('tiempo de takeFrame: '+ timepoCom);
 
-                     });
+
+                            RNFFprobe.getMediaInformation(videoPath).then(information => {
+                              if (information.getMediaProperties() !== undefined) {
+        
+                                  let streams = information.getStreams();
+                                // console.log(`size video a comprimir: ${information.getAllProperties().format.size}`);
+                                // console.log(`duration video a comprimir: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+                                // console.log(`Width video a comprimir: ${streams[0].getAllProperties().width}`);
+                                // console.log(`Height video a comprimir: ${streams[0].getAllProperties().height}`);
+
+                                // obtengo la duracion para luego sacar el progress verdadero de compresion y mostrar al usuario
+                                this.videoDurationSeconds = Math.floor(information.getAllProperties().format.duration/1);
+       
+                              }
+                      
+                          });
+
+              });
 
 
            
@@ -1172,33 +1316,33 @@ if (this.pressVideo===false)
               // console.log('fileaux antes de startupload: '+ auxfile )
 
               inicioCom = new Date();
-              await RNFFprobe.execute("-v quiet -print_format json -show_format -show_streams "+videoPath).then(result => {
-                // console.log(`RNFFprobe process exited with rc=${result}.`)
-                console.log(`RNFFprobe process exited with rc`)
-                  //  console.log(result)
-                  stringy = JSON.stringify(result);
-                  par = JSON.parse(stringy)  
-                  console.log('11: '+ par.streams)
-                  console.log('22: '+ stringy.streams)
-                  console.log('33: '+ par["streams"])
-                  console.log('44: '+ result["streams"])
-                    // console.log('stringy.width: ' +par.streams[0].width + ' stringy.height:'+par.streams[0].height)
-                  finCom = new Date();
-                  timepoCom = finCom-inicioCom;
-                  console.log('tiempo de RNFFprobe: '+ timepoCom);
+              // await RNFFprobe.execute("-v quiet -print_format json -show_format -show_streams "+videoPath).then(result => {
+              //   // console.log(`RNFFprobe process exited with rc=${result}.`)
+              //   console.log(`RNFFprobe process exited with rc`)
+              //     //  console.log(result)
+              //     stringy = JSON.stringify(result);
+              //     par = JSON.parse(stringy)  
+              //     console.log('11: '+ par.streams)
+              //     console.log('22: '+ stringy.streams)
+              //     console.log('33: '+ par["streams"])
+              //     console.log('44: '+ result["streams"])
+              //       // console.log('stringy.width: ' +par.streams[0].width + ' stringy.height:'+par.streams[0].height)
+              //     finCom = new Date();
+              //     timepoCom = finCom-inicioCom;
+              //     console.log('tiempo de RNFFprobe: '+ timepoCom);
     
-                         });
+              //            });
 
 
-              fileInfo = await Upload.getFileInfo(videoPath);
+              // fileInfo = await Upload.getFileInfo(videoPath);
               // res2 = await ProcessingManager.getVideoInfo(videoPath);
               
               image.width = 352; //res2.size.width;
               image.height =  640;//res2.size.height;
               image.duration = 0; //res2.duration;
-              image.size = fileInfo.size; // no trae el size esta api 
-              console.log('width: '+ image.width + ' height:'+image.height + ' fileInfo: '+fileInfo)
-              console.log(fileInfo);
+              image.size = 0; // no trae el size esta api 
+              // console.log('width: '+ image.width + ' height:'+image.height + ' fileInfo: '+fileInfo)
+              // console.log(fileInfo);
                 // if (Platform.OS==='ios')
                 //     path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.png`;
                 // else
@@ -1379,9 +1523,14 @@ if (this.pressVideo===false)
       // la logica dentro del ImagePicker Corpper es la misma que cuando se toma una foto de la galeria photoFromGallery
         console.log('path oculto');
     
-          ImagePicker.openCropper({
+           ImagePicker.openCropper({
           //   ImagePicker.openCamera({
+          //  ImagePicker.openPicker({
               path: shareExternalMedia,
+              //  width: (Platform.OS==='ios') ? 7100 : 1200,
+              //  height: (Platform.OS==='ios') ? 10500 : 1200,
+              // compressImageMaxWidth: true
+              // avoidEmptySpaceAroundImage: false
 
            }).then(image => {
              console.log(image);
@@ -2098,6 +2247,8 @@ if (this.pressVideo===false)
 
   }
 
+
+
   subo_s3 = async () => {
 
     let datasource = '';
@@ -2180,7 +2331,10 @@ if (this.pressVideo===false)
        } 
 
               if (this.envio.type==='video')
+
+             
                 {
+                 
                   // bitMultiplier = 10;
                   totalDimension = this.envio.width + this.envio.height;
                   needTrim = false;
@@ -2322,7 +2476,9 @@ if (this.pressVideo===false)
                     setTimeout(() => {
                       // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                           // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
-                            RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
+                       
+                          
+                          RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
                           // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                           if (completedExecution.returnCode === 0) {
                               console.log("FFmpeg process completed successfully");
@@ -2357,6 +2513,7 @@ if (this.pressVideo===false)
 
                     
                         }
+                       
                     });
 
 
@@ -2372,7 +2529,7 @@ if (this.pressVideo===false)
                       
                         
                        }
-                      , 3000);
+                      , 2000);
                     
 
                   // this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date()});
@@ -2514,24 +2671,30 @@ if (this.pressPublish===false)
 
             contcompress=0;
             // t1 = new Date();
-            factor = 12 / 15000000; // tarda aprox 20 seg. los 15mb
-            totCompressSecThisVideo = factor * this.state.videoSizeBeforeCompress;
-            console.log('video sin comprimir pesa: '+ this.state.videoSizeBeforeCompress)
+            // factor = 12 / 15000000; // tarda aprox 20 seg. los 15mb
+            // totCompressSecThisVideo = factor * this.state.videoSizeBeforeCompress;
+            // console.log('video sin comprimir pesa: '+ this.state.videoSizeBeforeCompress)
           while (this.state.videoCompression==='inprogress')
           {
             contcompress++; 
 
-              aux = percentageCalculator(this.state.percentageCompressionInitialTime,totCompressSecThisVideo);
+              // aux = percentageCalculator(this.state.percentageCompressionInitialTime,totCompressSecThisVideo);
 
-               if ((aux > 2) && (aux < 97))
-                   this.setState({videoCompressPercentage: aux})
-               if (aux > 96 )
-                   this.setState({videoCompressPercentage: 96})
-               if (aux < 3 )
-                   this.setState({videoCompressPercentage: 2})
+              //  if ((aux > 2) && (aux < 97))
+              //      this.setState({videoCompressPercentage: aux})
+              //  if (aux > 96 )
+              //      this.setState({videoCompressPercentage: 96})
+              //  if (aux < 3 )
+              //      this.setState({videoCompressPercentage: 2})
 
             await this.delay2(1000);
             console.log('delay compress '+ contcompress);
+            RNFFmpegConfig.getLastReceivedStatistics().then(statistics => {
+              timeCodeProcesado = Math.floor(statistics.time/1000); // convierto de milisegundos a segundos sin coma.
+              percentage = Math.floor(((timeCodeProcesado/this.videoDurationSeconds)*100)/1);
+              this.setState({videoCompressPercentage: percentage})
+            });
+            
           }
 
             console.log('upload video')

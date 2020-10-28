@@ -1733,7 +1733,7 @@ console.log(respuesta);
       console.log(`Progress: ${data.progress}%`)
       if (data.progress > 96)
       data.progress = 96;
-      dispatch(setVideoUploadProgress(data.progress))
+      dispatch(setVideoUploadProgress(Math.floor(data.progress/1)));
     })
     Upload.addListener('error', uploadId, (data) => {
       console.log(`Error BackgroundUpload: ${data.error}%`)
