@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
-//import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
 import PopupToFollow from '../PopupToFollow';
 import TextToFollow from '../TextToFollow';
 import FeedMedia from './FeedMedia';
@@ -25,14 +25,6 @@ class FeedItemRepost extends React.Component {
   constructor() {
     super();
     this.state = { comments: [], likes: [], error: null };
-
-    this.recalculateRowHeight = this.recalculateRowHeight.bind(this);
-  }
-
-  recalculateRowHeight() {
-    if (this.props.recalculateRowHeight) {
-      this.props.recalculateRowHeight(this.props.index);
-    }
   }
 
   // static getDerivedStateFromProps(props, prevState) {

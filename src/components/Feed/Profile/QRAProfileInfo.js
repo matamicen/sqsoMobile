@@ -1,14 +1,11 @@
 import React, { Fragment } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
-import * as Actions from '../../actions';
-import '../../styles/style.css';
+import * as Actions from '../../../actions';
+import I18n from '../../../utils/i18n';
 import QRAProfileInfoEdit from './QRAProfileInfoEdit';
-
-
 // const options = [
 //   { key: "Y", text: "Yes", value: "1" },
 //   { key: "N", text: "No", value: "0" }
@@ -61,8 +58,6 @@ class QRAProfileInfo extends React.Component {
     });
   };
   render() {
-     
-
     let {
       firstname,
       lastname,
@@ -85,148 +80,72 @@ class QRAProfileInfo extends React.Component {
       // lotw,
       // mailqsl
     } = this.state.qra;
-     (email = this.state.qra.email)
-      
+    email = this.state.qra.email;
+
     return (
       <Fragment>
-        <Segment raised>
-          <Form size="large">
-            {
-              this.props.currentQRA === this.props.qraInfo.qra && (
-                <View>
-                  <Button
-                    positive
-                    fluid
-                    size="mini"
-                    onClick={() => this.setState({ edit: true })}>
-                    {I18n.t('qra.editInfo')}
-                  </Button>
-                </View>
-              )}
+        <View>
+          {this.props.currentQRA === this.props.qraInfo.qra && (
+            <View>
+              <Button
+                onPush={() => this.setState({ edit: true })}
+                title={I18n.t('qra.editInfo')}
+              />
+            </View>
+          )}
 
-            <Form.Input
-              inline
-              transparent
-              name="firstname"
-              label={I18n.t('qra.firstName')}
-              value={firstname ? firstname : ''}
-            />
-            <Form.Input
-              inline
-              transparent
-              name="lastname"
-              label={I18n.t('qra.lastName')}
-              value={lastname ? lastname : ''}
-            />
+          <View>
+            <Text style={styles.text}>
+              {I18n.t('qra.firstName') + ': ' + firstname}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.lastName') + ': ' + lastname}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.email') + ': ' + email}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.birthday') +
+                ': ' +
+                new Date(birthday).toISOString().substring(0, 10)}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.addressLine1') + ': ' + address}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.addressLine2') + ': ' + address2}
+            </Text>
+            <Text style={styles.text}>{I18n.t('qra.city') + ': ' + city}</Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.state') + ': ' + state}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.zipCode') + ': ' + zipcode}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.country') + ': ' + country}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.cqZone') + ': ' + cqzone}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.ituZone') + ': ' + ituzone}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.gridLocator') + ': ' + gridlocator}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.licenseClass') + ': ' + licenseclass}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.iotaDesignator') + ': ' + iotadesignator}
+            </Text>
+            <Text style={styles.text}>
+              {I18n.t('qra.qsoInfo') + ': ' + qslinfo}
+            </Text>
+          </View>
+        </View>
 
-            <Form.Input
-              name="email"
-              label={I18n.t('qra.email')}
-              transparent
-              value={email ? email : ''}
-            />
-            <Form.Input
-              name="birthday"
-              label={I18n.t('qra.birthday')}
-              type="date"
-              inline
-              transparent
-              value={
-                birthday
-                  ? new Date(birthday).toISOString().substring(0, 10)
-                  : ''
-              }
-            />
-
-            <Form.Input
-              name="address"
-              label={I18n.t('qra.addressLine1')}
-              transparent
-              value={address ? address : ''}
-            />
-
-            <Form.Input
-              name="address2"
-              label={I18n.t('qra.addressLine2')}
-              transparent
-              value={address2 ? address2 : ''}
-            />
-
-            <Form.Input
-              name="city"
-              label={I18n.t('qra.city')}
-              inline
-              transparent
-              value={city ? city : ''}
-            />
-            <Form.Input
-              name="state"
-              label={I18n.t('qra.state')}
-              inline
-              transparent
-              value={state ? state : ''}
-            />
-            <Form.Input
-              name="zipcode"
-              label={I18n.t('qra.zipCode')}
-              inline
-              transparent
-              value={zipcode ? zipcode : ''}
-            />
-
-            <Form.Input
-              inline
-              transparent
-              name="country"
-              label={I18n.t('qra.country')}
-              value={country ? country : ''}
-            />
-
-            <Form.Input
-              name="cqzone"
-              label={I18n.t('qra.cqZone')}
-              inline
-              transparent
-              value={cqzone ? cqzone : ''}
-            />
-            <Form.Input
-              name="ituzone"
-              label={I18n.t('qra.ituZone')}
-              inline
-              transparent
-              value={ituzone ? ituzone : ''}
-            />
-            <Form.Input
-              name="gridlocator"
-              label={I18n.t('qra.gridLocator')}
-              inline
-              transparent
-              value={gridlocator ? gridlocator : ''}
-            />
-            <Form.Input
-              name="licenseclass"
-              label={I18n.t('qra.licenseClass')}
-              inline
-              transparent
-              value={licenseclass ? licenseclass : ''}
-            />
-
-            <Form.Input
-              name="iotadesignator"
-              label={I18n.t('qra.iotaDesignator')}
-              inline
-              transparent
-              value={iotadesignator ? iotadesignator : ''}
-            />
-
-            <Form.Input
-              name="qslinfo"
-              label={I18n.t('qra.qsoInfo')}
-              transparent
-              value={qslinfo ? qslinfo : ''}
-            />
-          </Form>
-        </Segment>
         {this.state.edit && (
           <QRAProfileInfoEdit
             qraInfo={this.props.qraInfo}
@@ -239,10 +158,12 @@ class QRAProfileInfo extends React.Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  text: { fontSize: 15, marginBottom: 8, marginLeft: 2 }
+});
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
   currentQRA: state.sqso.qra,
-,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

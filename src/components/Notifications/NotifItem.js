@@ -84,7 +84,7 @@ class NotifItem extends Component {
       Linking.canOpenURL(urlnotif)
         .then((supported) => {
           if (!supported) {
-            console.log('Can\'t handle url: ' + urlnotif);
+            console.log("Can't handle url: " + urlnotif);
           } else {
             // if(__DEV__)
             //   analytics().logEvent("OPENNOTIF_DEV", {"QRA": this.props.qra});

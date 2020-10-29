@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -202,6 +203,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(FeedItemHeader);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps, null, {
+    pure: false
+  })(FeedItemHeader)
+);

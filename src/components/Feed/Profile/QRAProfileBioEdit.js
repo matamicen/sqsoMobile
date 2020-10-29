@@ -1,22 +1,19 @@
 import API from '@aws-amplify/api';
 import Auth from '@aws-amplify/auth';
 import Storage from '@aws-amplify/storage';
-import * as Sentry from '@sentry/browser';
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+// import * as Sentry from '@sentry/browser';
+import crashlytics from '@react-native-firebase/crashlytics';
+// import { ContentState, convertToRaw, EditorState } from 'draft-js';
+// import draftToHtml from 'draftjs-to-html';
+// import htmlToDraft from 'html-to-draftjs';
 import React, { Fragment } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+// import { Editor } from 'react-draft-wysiwyg';
+// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
-import * as Actions from '../../actions';
-import global_config from '../../global_config.json';
-import '../../styles/style.css';
+import * as Actions from '../../../actions';
+import global_config from '../../../global_config.json';
 
 class QRAProfileBioEdit extends React.PureComponent {
   constructor(props) {
@@ -49,13 +46,12 @@ class QRAProfileBioEdit extends React.PureComponent {
           resolve(result);
         })
         .catch((error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__) {
-            console.log(error);
+            console.log(error.message);
+            crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
           } else {
-            Sentry.configureScope(function (scope) {
-              scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-            });
-            Sentry.captureException(error);
+            crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
           }
           reject(error);
         });
@@ -122,13 +118,16 @@ class QRAProfileBioEdit extends React.PureComponent {
                   Storage.remove(result.key, { level: 'protected' })
                     .then((result) => resolve(true))
                     .catch((error) => {
+                      crashlytics().log('error: ' + JSON.stringify(error));
                       if (__DEV__) {
-                        console.log(error);
+                        console.log(error.message);
+                        crashlytics().recordError(
+                          new Error('QRAProfileBioEdit_DEV')
+                        );
                       } else {
-                        Sentry.configureScope(function (scope) {
-                          scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-                        });
-                        Sentry.captureException(error);
+                        crashlytics().recordError(
+                          new Error('QRAProfileBioEdit_PRD')
+                        );
                       }
                       reject(error);
                     });
@@ -143,38 +142,35 @@ class QRAProfileBioEdit extends React.PureComponent {
                   });
               })
               .catch((error) => {
+                crashlytics().log('error: ' + JSON.stringify(error));
                 if (__DEV__) {
-                  console.log(error);
+                  console.log(error.message);
+                  crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
                 } else {
-                  Sentry.configureScope(function (scope) {
-                    scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-                  });
-                  Sentry.captureException(error);
+                  crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
                 }
                 reject(error);
               });
           })
           .catch((error) => {
+            crashlytics().log('error: ' + JSON.stringify(error));
             if (__DEV__) {
-              console.log(error);
+              console.log(error.message);
+              crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
             } else {
-              Sentry.configureScope(function (scope) {
-                scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-              });
-              Sentry.captureException(error);
+              crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
             }
             reject(error);
           });
         // });
       } catch (error) {
+        console.log('Unable to refresh Token');
+        crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__) {
-          console.log('Unable to refresh Token');
-          console.log(error);
+          console.log(error.message);
+          crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
         } else {
-          Sentry.configureScope(function (scope) {
-            scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-          });
-          Sentry.captureException(error);
+          crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
         }
       }
     });
@@ -195,7 +191,7 @@ class QRAProfileBioEdit extends React.PureComponent {
   };
   render() {
     const { editorState } = this.state;
-     
+
     return (
       <Fragment>
         <Modal
@@ -268,8 +264,8 @@ class QRAProfileBioEdit extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
   currentQRA: state.sqso.qra,
-  identityId: state.userData.identityId,
-,
+  // identityId: state.userData.identityId,
+
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

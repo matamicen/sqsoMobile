@@ -24,6 +24,7 @@ import {
   CAMERA_PERMISSION_FALSE,
   CAMERA_PERMISSION_TRUE,
   CHANGE_QSO_TYPE,
+  CLEAR_QRA,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
   COMMENT_ADD,
@@ -59,8 +60,11 @@ import {
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
   RECEIVE_FOLLOWERS,
+  RECEIVE_QRA,
+  RECEIVE_QRA_ERROR,
   REFRESH_FOLLOWINGS,
   REQUEST_FEED,
+  REQUEST_QRA,
   RESET_FOR_SIGN_OUT,
   RESET_QSO,
   SEND_ACTUAL_MEDIA,
@@ -3594,5 +3598,94 @@ export function doCommentDeleteResponse(idcomment = null, idqso = null) {
     idqso: idqso
   };
 }
+export function clearQRA() {
+  return {
+    type: CLEAR_QRA
+  };
+}
+export function doFetchQRA(qra, token = null) {
+  // window.gtag('config', 'G-H8G28LYKBY', {
+  //   custom_map: { dimension3: 'qra' }
+  // });
 
+  // if (process.env.REACT_APP_STAGE === 'production')
+  //   window.gtag('event', 'qraGetDetail_WEBPRD', {
+  //     event_category: 'QRA',
+  //     event_label: 'getDetail',
+  //     qra: qra
+  //   });
+
+  return async (dispatch) => {
+    try {
+      // const currentSession = await Auth.currentSession();
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qra-info/secured';
+      const myInit = {
+        body: {
+          qra: qra
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // PTIONAL
+      };
+      dispatch(doRequestQRA());
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          console.log(response);
+          dispatch(doReceiveQRA(response.body.message, response.body.error));
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__) {
+            console.log(error.message);
+            crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+          } else crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) {
+        console.log('Unable to refresh Token');
+        console.log(error);
+        crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+      } else crashlytics().recordError(new Error('doCommentAdd_WEBDEV'));
+
+      // dispatch(doLogout());
+    }
+  };
+}
+export function doRequestQRA() {
+  return {
+    type: REQUEST_QRA,
+    FetchingQRA: true,
+    QRAFetched: false
+  };
+}
+export function doReceiveQRA(data, error) {
+  const { monthly_qra_views, ...qraData } = data;
+  if (error === 0 && qraData.qra.disabled === 0) {
+    return {
+      type: RECEIVE_QRA,
+      qra: qraData,
+      FetchingQRA: false,
+      monthly_qra_views: monthly_qra_views,
+      QRAFetched: true
+    };
+  } else {
+    if (error === 1) {
+      return {
+        type: RECEIVE_QRA_ERROR,
+        error: data
+      };
+    } else {
+      return {
+        type: RECEIVE_QRA_ERROR,
+        error: 'QRA is disabled temporarily'
+      };
+    }
+  }
+}
 // END NATIVE FEED

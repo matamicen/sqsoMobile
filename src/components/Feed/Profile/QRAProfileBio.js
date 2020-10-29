@@ -1,19 +1,15 @@
 import API from '@aws-amplify/api';
-import Auth from '@aws-amplify/auth';
 import Storage from '@aws-amplify/storage';
-import * as Sentry from '@sentry/browser';
+import crashlytics from '@react-native-firebase/crashlytics';
 import React, { Fragment } from 'react';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import ReactHtmlParser from 'react-html-parser';
-import { Button } from 'react-native-elements';
+import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import HTMLView from 'react-native-htmlview';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../../actions';
-import global_config from '../../global_config.json';
-import '../../styles/style.css';
+import * as Actions from '../../../actions';
+import global_config from '../../../global_config.json';
+import I18n from '../../../utils/i18n';
 import QRAProfileBioEdit from './QRAProfileBioEdit';
-
-
 class QRAProfileBio extends React.Component {
   constructor(props) {
     super(props);
@@ -33,14 +29,14 @@ class QRAProfileBio extends React.Component {
           resolve(result);
         })
         .catch((error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__) {
-            console.log(error);
+            console.log(error.message);
+            crashlytics().recordError(new Error('QRAProfileBio_DEV'));
           } else {
-            Sentry.configureScope(function (scope) {
-              scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-            });
-            Sentry.captureException(error);
+            crashlytics().recordError(new Error('QRAProfileBio_PRD'));
           }
+
           reject(error);
         });
     });
@@ -69,9 +65,9 @@ class QRAProfileBio extends React.Component {
         //     }
         //     // console.log('session', err, session);
         //     let token = session.idToken.jwtToken;
-        const currentSession = await Auth.currentSession();
-        const token = currentSession.getIdToken().getJwtToken();
-        this.props.actions.refreshToken(token);
+        // const currentSession = await Auth.currentSession();
+        // const token = currentSession.getIdToken().getJwtToken();
+        // this.props.actions.refreshToken(token);
         let folder = 'bio/' + file.name;
 
         Storage.put(folder, file, {
@@ -106,17 +102,22 @@ class QRAProfileBio extends React.Component {
                   Storage.remove(result.key, { level: 'protected' })
                     .then((result) => resolve(true))
                     .catch((error) => {
+                      crashlytics().log('error: ' + JSON.stringify(error));
                       if (__DEV__) {
-                        console.log(error);
+                        console.log(error.message);
+                        crashlytics().recordError(
+                          new Error('QRAProfileBio_DEV')
+                        );
                       } else {
-                        Sentry.configureScope(function (scope) {
-                          scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-                        });
-                        Sentry.captureException(error);
+                        crashlytics().recordError(
+                          new Error('QRAProfileBio_PRD')
+                        );
                       }
+
                       reject(error);
                     });
-                  this.setState({ openPornConfirm: true });
+                  // this.setState({ openPornConfirm: true });
+                  this.confirmationAlert();
                 }
                 //SFW
                 else
@@ -127,72 +128,74 @@ class QRAProfileBio extends React.Component {
                   });
               })
               .catch((error) => {
+                crashlytics().log('error: ' + JSON.stringify(error));
                 if (__DEV__) {
-                  console.log(error);
+                  console.log(error.message);
+                  crashlytics().recordError(new Error('QRAProfileBio_DEV'));
                 } else {
-                  Sentry.configureScope(function (scope) {
-                    scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-                  });
-                  Sentry.captureException(error);
+                  crashlytics().recordError(new Error('QRAProfileBio_PRD'));
                 }
                 reject(error);
               });
           })
           .catch((error) => {
+            crashlytics().log('error: ' + JSON.stringify(error));
             if (__DEV__) {
-              console.log(error);
+              console.log(error.message);
+              crashlytics().recordError(new Error('QRAProfileBio_DEV'));
             } else {
-              Sentry.configureScope(function (scope) {
-                scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-              });
-              Sentry.captureException(error);
+              crashlytics().recordError(new Error('QRAProfileBio_PRD'));
             }
             reject(error);
           });
         // });
       } catch (error) {
+        crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__) {
-          console.log('Unable to refresh Token');
-          console.log(error);
+          console.log(error.message);
+          crashlytics().recordError(new Error('QRAProfileBio_DEV'));
         } else {
-          Sentry.configureScope(function (scope) {
-            scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-          });
-          Sentry.captureException(error);
+          crashlytics().recordError(new Error('QRAProfileBio_PRD'));
         }
       }
     });
   }
-
+  confirmationAlert = () =>
+    Alert.alert(
+      I18n.t('qso.repost'),
+      I18n.t('global.imageContainNudity'),
+      [
+        {
+          text: I18n.t('global.cancel'),
+          style: 'cancel'
+        },
+        { text: I18n.t('global.ok') }
+      ],
+      { cancelable: false }
+    );
   render() {
     const { edit } = this.state;
-     
+    const contentWidth = Dimensions.get('window').width;
     return (
       <Fragment>
-        <Confirm
-          size="mini"
-          open={this.state.openPornConfirm}
-          onCancel={() => this.setState({ openPornConfirm: false })}
-          onConfirm={() => this.setState({ openPornConfirm: false })}
-          cancelButton={I18n.t('global.cancel')}
-          confirmButton={I18n.t('global.ok')}
-          content={I18n.t('global.imageContainNudity')}
-        />
         {/* <Segment raised> */}
-        {
-          this.props.currentQRA === this.props.qraInfo.qra && (
-            <View>
-              <Button
-                positive
-                fluid
-                size="mini"
-                onClick={() => this.setState({ edit: true })}>
-                {I18n.t('qra.editBio')}
-              </Button>
-            </View>
-          )}
-
-        <View>{ReactHtmlParser(this.props.qraInfo.bio)}</View>
+        {this.props.currentQRA === this.props.qraInfo.qra && (
+          <View>
+            {/* <Button
+              positive
+              fluid
+              size="mini"
+              onClick={() => this.setState({ edit: true })}>
+              {I18n.t('qra.editBio')}
+            </Button> */}
+          </View>
+        )}
+        <ScrollView style={{ flex: 1, margin: 2 }}>
+          <HTMLView
+            value={this.props.qraInfo.bio}
+            // stylesheet={styles}
+          />
+        </ScrollView>
 
         {edit && (
           <QRAProfileBioEdit
@@ -207,11 +210,12 @@ class QRAProfileBio extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({});
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
   currentQRA: state.sqso.qra,
-  identityId: state.userData.identityId,
-,
+  // identityId: state.userData.identityId,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

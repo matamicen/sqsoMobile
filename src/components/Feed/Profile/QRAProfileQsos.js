@@ -1,7 +1,8 @@
 import React from 'react';
-import NewsFeed from '../Feed/NewsFeedPresentational';
+import NewsFeed from '../NewsFeedPresentational';
 export default class QRAProfileQsos extends React.Component {
   render() {
+    console.log('QRAProfileQsos');
     let qsos = [];
     if (this.props.qsos && this.props.qsos.length > 0) {
       for (let i = 0; i < this.props.qsos.length; i++) {

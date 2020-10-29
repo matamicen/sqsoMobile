@@ -1,33 +1,75 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
-import '../../styles/style.css';
-import PopupToFollow from '../PopupToFollow';
-const QRAProfileFollowing = ({ following, t }) => (
-  <View className="profile-following">
-    {following
-      ? following.map((qra, i) => (
-          <View className="qra" key={qra.qra}>
-            <View className="avatar">
-              <Link to={'/' + qra.qra}>
-                {qra.avatarpic ? (
-                  <Image avatar size="tiny" src={qra.avatarpic} />
-                ) : (
-                  <Image avatar size="tiny" src="/emptyprofile.png" />
-                )}
-              </Link>
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+// import { Link } from 'react-router-dom';
+// import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
+import { Avatar } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
+const QRAProfileFollowing = ({ following, navigation }) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={following}
+        renderItem={({ item }) => {
+          return (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                margin: 1,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                alignItems: 'center'
+              }}>
+              <TouchableOpacity
+                // style={styles.button}
+                onPress={() =>
+                  navigation.push('QRAProfile', {
+                    qra: item.qra
+                  })
+                }>
+                <Avatar
+                  size="medium"
+                  rounded
+                  source={
+                    item.avatarpic
+                      ? {
+                          uri: item.avatarpic
+                        }
+                      : require('../../../images/emptyprofile.png')
+                  }
+                />
+                <View className="qra">
+                  <Text>{item.qra}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-            <View className="qra">
-              {' '}
-              <PopupToFollow
-                qra={qra.qra}
-                key={qra.qra}
-                trigger={<Link to={'/' + qra.qra}>{qra.qra}</Link>}
-              />
-            </View>
-          </View>
-        ))
-      : ''}
-  </View>
-);
-export default QRAProfileFollowing;
+          );
+        }}
+        //Setting the number of column
+        numColumns={3}
+        keyExtractor={(item, index) => index}
+      />
+    </SafeAreaView>
+  );
+};
+const styles = StyleSheet.create({
+  header: { flex: 1, height: 50, flexGrow: 0 },
+  buttons: { height: 30, marginTop: 40 },
+  detail: { flex: 1, height: 100, flexGrow: 1, marginTop: 50 },
+  container: {
+    flex: 1
+    // flexDirection: 'column'
+    // justifyContent: 'flex-start'
+    // alignItems: 'center'
+    // flexGrow: 1
+    // marginTop: Constants.statusBarHeight
+  }
+});
+export default withNavigation(QRAProfileFollowing);

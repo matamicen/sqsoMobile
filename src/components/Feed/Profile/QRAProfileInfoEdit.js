@@ -3,11 +3,11 @@ import moment from 'moment';
 import React, { Fragment, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
-import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
+// import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+// import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
+// import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Yup from 'yup';
-import { MY_COUNTRIES_DATA } from './countries.js';
+// import { MY_COUNTRIES_DATA } from './countries.js';
 const QraProfileInfoEdit = (props) => {
   const [qra, setQRA] = useState({
     firstname: '',

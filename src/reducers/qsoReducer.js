@@ -12,6 +12,7 @@ import {
   CAMERA_PERMISSION_FALSE,
   CAMERA_PERMISSION_TRUE,
   CHANGE_QSO_TYPE,
+  CLEAR_QRA,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
   COMMENT_ADD,
@@ -48,9 +49,12 @@ import {
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
   RECEIVE_FOLLOWERS,
+  RECEIVE_QRA,
+  RECEIVE_QRA_ERROR,
   REFRESH_FOLLOWINGS,
   REPOST_QSO,
   REQUEST_FEED,
+  REQUEST_QRA,
   RESET_FOR_SIGN_OUT,
   RESET_QSO,
   SEND_ACTUAL_MEDIA,
@@ -2035,7 +2039,58 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
+    case CLEAR_QRA:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qra: null,
+          FetchingQRA: false,
+          QRAFetched: false
+        }
+      });
+      return newStore;
+    case REQUEST_QRA:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          FetchingQRA: action.FetchingQRA,
+          QRAFetched: action.QRAFetched,
+          qraError: null
+        }
+      });
+      return newStore;
+    case RECEIVE_QRA:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qra: action.qra,
+          FetchingQRA: action.FetchingQRA,
+          QRAFetched: action.QRAFetched,
+          userData: {
+            ...state.feed.userData,
+            qra: {
+              ...state.feed.userData.qra,
+              monthly_qra_views: action.monthly_qra_views
+            }
+          }
+        }
+      });
 
+      return newStore;
+    case RECEIVE_QRA_ERROR:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          FetchingQRA: false,
+          QRAFetched: true,
+          qraError: action.error
+        }
+      });
+      return newStore;
     default:
       return state;
   }

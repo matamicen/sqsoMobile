@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -257,4 +258,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QSOCommentItem);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QSOCommentItem)
+);
