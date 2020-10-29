@@ -1125,11 +1125,24 @@ if (this.pressVideo===false)
     console.log(data, 'grabo video aux en disco');
     this.takeFramePreview(path);
   } 
-  if (mimeType==='image/jpeg')
-  { const path = `${RNFetchBlob.fs.dirs.DCIMDir}/imageaux.jpg`;
+  if (mimeType==='image/jpg')
+  { 
+    let path = '';
+    // const path = `${RNFetchBlob.fs.dirs.DCIMDir}/imageaux.jpg`;
+    if (Platform.OS==='android')
+     path = `${RNFetchBlob.fs.dirs.DCIMDir}/imageaux.jpg`;
+   else 
+     path = `${RNFetchBlob.fs.dirs.DocumentDir}/imageaux.jpg`;
+  
+
    const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
-     console.log(data, 'grabo video aux en disco');
+     console.log(data, 'grabo imagen aux en disco');
     //  this.takeFramePreview(path);
+    // if (Platform.OS==='ios')
+    //     auxpath = path.replace("file:///", 'file://');
+    //     else
+    //     auxpath = path;
+
     this.send_image_info_to_muestro(path);
    } 
 
@@ -1300,6 +1313,52 @@ if (this.pressVideo===false)
 
 
   photoFromShare = async (shareExternalMedia) => {
+    console.log('getMediaInformation1 ');
+
+
+
+    let storagePermission = true;
+
+    if (Platform.OS==='android') // android debe preguntar permiso de storage por el Write del video al disco
+   {
+     
+         STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+           response = await request(STORAGE_PERMISSION)
+             //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+           //entonces recupero el share del asyncstorage
+         
+           if (response !== RESULTS.GRANTED)
+               storagePermission = false;
+   
+   }
+
+if (storagePermission) 
+{   
+
+    if (Platform.OS==='ios')
+    auxpath = shareExternalMedia.replace("file:///", '/');
+    else
+    auxpath = shareExternalMedia;
+
+   
+    RNFetchBlob.fs.readFile(auxpath,'base64')
+    // files will an array contains filenames
+    .then((files) => {
+   
+    console.log('finalizo lectura base64')
+   //  console.log(files);
+  
+     this.saveVideoToDisk(files,'image/jpg');
+   
+ 
+    })
+
+  }
+  
+  }
+
+  photoFromShare_0 = async (shareExternalMedia) => {
 
   let fileName2 = '';
   let uri = '';
@@ -1332,7 +1391,39 @@ if (this.pressVideo===false)
       // }else
       // {
 
+        console.log('getMediaInformation1 ');
 
+
+        //  realUrl = await this.getVideoPath(shareExternalMedia);
+        //  console.log('path imagen: '+realUrl);
+        //  console.log(realUrl);
+
+        RNFetchBlob.fs.readFile(shareExternalMedia,'base64')
+        // files will an array contains filenames
+        .then((files) => {
+       
+        console.log('finalizo lectura base64')
+       //  console.log(files);
+      
+         this.saveVideoToDisk(files,'image/jpg');
+       
+     
+        })
+
+        // RNFFprobe.getMediaInformation(shareExternalMedia).then(information => {
+          // RNFFprobe.getMediaInformation(shareExternalMedia).then(information => {
+          // if (information.getMediaProperties() !== undefined) {
+       
+           
+
+          //     let streams = information.getStreams();
+          //   console.log(`size papa1: ${information.getAllProperties().format.size}`);
+          //   console.log(`duration papa1: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+          //   console.log(`Width papa1: ${streams[0].getAllProperties().width}`);
+          //   console.log(`Height papa1: ${streams[0].getAllProperties().height}`);
+
+
+          // }});
 
       // el URI del External Share de una imagen viene en formato CONTENT:// pero el ImagePicker lo puede leer y no tarda en leerlo porque es una imagen, y de paso me formatea la imagen,
       // la logica dentro del ImagePicker Corpper es la misma que cuando se toma una foto de la galeria photoFromGallery
