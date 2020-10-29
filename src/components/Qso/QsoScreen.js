@@ -184,7 +184,8 @@ class QsoScreen extends Component {
       videoFromShare: null,
       readingVideo: false,
       percentageCompressionInitialTime: '',
-      videoSizeBeforeCompress: 0
+      videoSizeBeforeCompress: 0,
+      externalShareurl: false
   
 
      
@@ -246,7 +247,8 @@ class QsoScreen extends Component {
       actindicatorpostQsoNew: props.sqsoactindicatorpostqsonew,
       heightPhotoConfirm: props.sqsomodalconfirmphotoheight,
       pickerDisplayed: props.sqsomodalrecording,
-      videoPercentage: props.videopercentage
+      videoPercentage: props.videopercentage,
+      
     };
 
     return null;
@@ -557,7 +559,7 @@ class QsoScreen extends Component {
       }else
       {
      
-      this.props.setExternalShreUrl(false);
+      // this.props.setExternalShreUrl(false);
     
       }
 
@@ -925,30 +927,7 @@ if (this.pressVideo===false)
      
      
      
-              // }).catch(e => {
-              //   console.log(e);
-              // }); // catch del videoCompressor
-
-
-         //  console.log(getVideoPath('storage/emulated/0/DCIM/Camera/20200724_074453.mp4'));
-     
-         //  ProcessingManager.getVideoInfo(image.path)
-         //  ProcessingManager.getVideoInfo('storage/emulated/0/DCIM/Camera/20200724_074453.mp4')
-         //  .then(({ duration, size, frameRate, bitrate }) => console.log(duration, size, frameRate, bitrate ));
-      
-     
-           // ProcessingManager.compress('/storage/emulated/0/DCIM/Camera/20200724_074453.mp4', options) // like VideoPlayer compress options
-           // .then((data) => (
-             
-           //   console.log(data) 
-           
-           //  ) ).catch(console.warn);;
-     
-           // this.setState({
-           //   url: data.uri
-           // });
          
-           // uri = data.uri;
           
           }
      
@@ -1050,23 +1029,7 @@ if (this.pressVideo===false)
 
             console.log('path oculto');
          
-          //   if (Platform.OS==='ios')
-          //    auxuri = this.state.videoFromShare.replace("file:///", '');
-          //   else
-          //    auxuri = this.state.videoFromShare;
-          //  //  const fileURI = auxuri.replace('content://', '/');
-          //  //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
-          //  RNFetchBlob.fs.readFile(auxuri,'base64')
-          //  // files will an array contains filenames
-          //  .then((files) => {
-          
-          //  console.log('finalizo lectura base64')
-          // //  console.log(files);
-         
-          //   this.saveVideoToDisk(files,'video/mp4');
-          
-        
-          //  })
+       
 
            }
 
@@ -1086,12 +1049,9 @@ if (this.pressVideo===false)
           { 
             console.log('path oculto');
          
-            // if (Platform.OS==='ios')
-            //  auxuri = this.state.videoFromShare.replace("file:///", '');
-            // else
+      
              auxuri = this.state.videoFromShare;
-           //  const fileURI = auxuri.replace('content://', '/');
-           //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
+       
            RNFetchBlob.fs.readFile(auxuri,'base64')
            // files will an array contains filenames
            .then((files) => {
@@ -1121,72 +1081,13 @@ if (this.pressVideo===false)
           }
   
 
-          //  if (realUrl.status)
-          //   //  if(false)
-          //   { console.log('real url: '+ JSON.stringify(realUrl))
-          //   console.log('real url2: '+ realUrl.data.path)
-
-          //    auxurl = "file://"+ realUrl.data.path;
-          //   this.takeFramePreview(auxurl);
-          //  //  this.takeFramePreview(realUrl.data.path);
-          // }else
-          // {
-          //   console.log('path oculto');
-         
-          //   if (Platform.OS==='ios')
-          //    auxuri = this.state.videoFromShare.replace("file:///", '');
-          //   else
-          //    auxuri = this.state.videoFromShare;
-          //  //  const fileURI = auxuri.replace('content://', '/');
-          //  //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
-          //  RNFetchBlob.fs.readFile(auxuri,'base64')
-          //  // files will an array contains filenames
-          //  .then((files) => {
           
-          //  console.log('finalizo lectura base64')
-          // //  console.log(files);
-         
-          //   this.saveVideoToDisk(files,'video/mp4');
-          
-        
-          //  })
-       
-       
-       
-          // }
 
 
         } // storagePermission
 
           
-        //     }  los if de android
-        // }
-
-  //    realUrl = await this.getVideoPath(this.state.videoFromShare);
-  //    if (realUrl.status)
-  //    { console.log('real url: '+ JSON.stringify(realUrl))
-  //    console.log('real url2: '+ realUrl.data.path)
-
-  //    this.takeFramePreview(realUrl.data.path);
-  //  }else
-  //  {
-  //    console.log('path oculto');
-  //     auxuri = this.state.videoFromShare;
-  //   //  const fileURI = auxuri.replace('content://', '/');
-  //   //  enBlob = RNFetchBlob.fs.readFile(auxuri, 'base64')
-  //   RNFetchBlob.fs.readFile(auxuri,'base64')
-  //   // files will an array contains filenames
-  //   .then((files) => {
-   
-  //   console.log('finalizo lectura base64')
-  //   // this.videoShare64 = files;
-  //   this.saveVideoToDisk(files);
- 
-  //   })
-
-
-
-  //  }
+        
      
    }
 
@@ -1290,92 +1191,24 @@ if (this.pressVideo===false)
 
            
 
-           // Se necesita esperar que tome la foto de preview asi el componente Muestro la puede mostrar
-          //  if (Platform.OS==='ios')
-              // await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize, 'base64')
-              //   .then((data) => {
-              //     console.log('obtengo frame')
-              //     // console.log('width: '+image.width)
-              //   //  console.log(data)
-              //   this.base64preview = data;
-              //   });
-              // else
-              //   await ProcessingManager.getPreviewForSecond(videoPath, 0, maximumSize)
-              //   .then((data) => {
-              //     console.log('obtengo frame')
-              //     // console.log('width: '+image.width)
-              //   //  console.log(data)
-              //   this.base64preview = data;
-              //   });
+        
               
 
      
               this.videoPathBeforeCompress = videoPath;
 
-              // auxfile = videoPath.replace('file://', '');
-              // console.log('fileaux antes de startupload: '+ auxfile )
+            
 
               inicioCom = new Date();
-              // await RNFFprobe.execute("-v quiet -print_format json -show_format -show_streams "+videoPath).then(result => {
-              //   // console.log(`RNFFprobe process exited with rc=${result}.`)
-              //   console.log(`RNFFprobe process exited with rc`)
-              //     //  console.log(result)
-              //     stringy = JSON.stringify(result);
-              //     par = JSON.parse(stringy)  
-              //     console.log('11: '+ par.streams)
-              //     console.log('22: '+ stringy.streams)
-              //     console.log('33: '+ par["streams"])
-              //     console.log('44: '+ result["streams"])
-              //       // console.log('stringy.width: ' +par.streams[0].width + ' stringy.height:'+par.streams[0].height)
-              //     finCom = new Date();
-              //     timepoCom = finCom-inicioCom;
-              //     console.log('tiempo de RNFFprobe: '+ timepoCom);
-    
-              //            });
-
-
-              // fileInfo = await Upload.getFileInfo(videoPath);
-              // res2 = await ProcessingManager.getVideoInfo(videoPath);
+        
               
               image.width = 352; //res2.size.width;
               image.height =  640;//res2.size.height;
               image.duration = 0; //res2.duration;
               image.size = 0; // no trae el size esta api 
-              // console.log('width: '+ image.width + ' height:'+image.height + ' fileInfo: '+fileInfo)
-              // console.log(fileInfo);
-                // if (Platform.OS==='ios')
-                //     path = `${RNFetchBlob.fs.dirs.DocumentDir}/test11.png`;
-                // else
-                //     path = `${RNFetchBlob.fs.dirs.DCIMDir}/test11.png`;
+     
 
-                try { // se guarda la imagen de preview en disco para luego ser comprimida
-                //   const data = await RNFetchBlob.fs.writeFile(path, this.base64preview, 'base64');
-                //   console.log(data, 'grabo imagen en disco');
-                //   console.log(data);
-                //   console.log('path: '+ path)
-                 
-                //   // se comprime la imagen del preview para mostrar en Muestro.Js y en el feed con baja definicion
-                //   await ImageResizer.createResizedImage(path, image.width , image.height, 'JPEG',80).then((response) => {
-          
-                //     this.compressImagePreview = response.uri;
-                        
-                //   //  // this.size = response.size;
-                //   //   this.widthAvatar = nuevoWidthAvatar;
-                //   //   this.heightAvatar = nuevoHeightAvatar;
-                //     console.log('Compress imagepreview: ' + JSON.stringify(response));
-        
-          
-                //   }).catch((err) => {
-                //     // Oops, something went wrong. Check that the filename is correct and
-                //     // inspect err to get more details.
-                //     // crashlytics().setUserId(this.props.qra);
-                //     // crashlytics().log('error: ' + JSON.stringify(err)) ;
-                //     // if(__DEV__)
-                //     // crashlytics().recordError(new Error('createResiImg4_DEV'));
-                //     // else
-                //     // crashlytics().recordError(new Error('createResiImg4_PRD'));
-                //   });
-          
+                try { 
 
 
                   console.log('takePreview path: ' +path)
@@ -1393,25 +1226,7 @@ if (this.pressVideo===false)
          
 
            
-     
-            //este de abajo anda barbaro
-         //     ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 2,minimumBitrate: 300000})
-         //     .then((data) => {   // andan los de andres 8aql traidos de wsapp
-         //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
-         //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
-             
-         //     console.log('termino de comprimir1');
-         //     tiempo2 = Date.now();
-         //     tardo = tiempo2 - tiempo1;
-         //     console.log('tardo: '+ tardo)
-         //  console.log(data);
-         //  //    ProcessingManager.getVideoInfo(data.source)
-         //  // .then(({ duration, size, frameRate, bitrate }) => console.log(duration, size, frameRate, bitrate ));
-          
-          
-     
-         // uri y filename los va a tomar luego de comprimir despues de confirmar Muestro.
-         //  uri = data.source;
+
          uri = '';
           // uri = data;  TRIM
           
@@ -1952,20 +1767,25 @@ if (this.pressVideo===false)
       //  { // la app fue llamada desde un share externo
       //    this.videoFromGallery(true);
       //  }
-      if (this.props.externalshareurl)
+      if (this.state.externalShareurl)//(this.props.externalshareurl)
        { // la app fue llamada desde un share externo
         shareExternalMedia = await AsyncStorage.getItem('shareExternalMedia');
-        mimeType = await AsyncStorage.getItem('shareExternalMediaMimeType');
-        this.setState({videoFromShare: shareExternalMedia});
-        
+        mimeType = await AsyncStorage.getItem('shareExternalMediaMimeType');     
+              this.setState({videoFromShare: shareExternalMedia});
+
+  
+
         if(mimeType.indexOf("image") !== -1)
           this.photoFromShare(shareExternalMedia);
         
         if(mimeType.indexOf("video") !== -1)
         // (notification.data['pinpoint.notification.title'].indexOf("included you") !== -1) 
-         this.videoFromGallery(true);
+        this.videoFromGallery(true)
+      
+         
 
-         this.props.setExternalShreUrl(false);
+        //  this.props.setExternalShreUrl(false);
+        this.setState({externalShareurl: false})
        }
     } else {
       if (Platform.OS === "android") {
@@ -2455,18 +2275,7 @@ if (this.pressVideo===false)
                   console.log('this.videoPathBeforeCompress: '+this.videoPathBeforeCompress)
                   // mpeg4
                   inicioCom = new Date();
-                  // RNFFmpeg.execute("-y -i "+ this.videoPathBeforeCompress +" -c:v libx264 -crf 23 /storage/emulated/0/DCIM/file10.mp4").then(result => {
-                    // RNFFmpeg.execute("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4").then(result => {  // tardo 40 segundos y comprimio la mitad porque la scale es la mitad lo dejo en 5.6mb contra 13.9 del standard
-               
-               
-                    // RNFFmpeg.execute("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4").then(result => {
-                    // console.log(`FFmpeg process exited with rc=${result}.`)
-                    // console.log(result)
-                    // finCom = new Date();
-                    // timepoCom = finCom-inicioCom;
-                    // console.log('tiempo de compresion: '+ timepoCom);
-
-                    //        });
+                
 
                     if (Platform.OS==='ios')
                       destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/file10.mp4`;
@@ -2517,11 +2326,6 @@ if (this.pressVideo===false)
                     });
 
 
-
-
-
-
-
                             } else {
                               console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
                             }
@@ -2532,71 +2336,6 @@ if (this.pressVideo===false)
                       , 2000);
                     
 
-                  // this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date()});
-//                   ProcessingManager.compress(this.videoPathBeforeCompress, {bitrateMultiplier: bitMultiplier,minimumBitrate: 300000})
-//                   .then((data) => {   // andan los de andres 8aql traidos de wsapp
-//                     //      // ProcessingManager.trim(bodyJson.path, { startTime: 0,
-//                     //      //   endTime: 30})  .then((data) => {  // like VideoPlayer trim options
-                        
-//                     //     console.log('termino de comprimir1');
-//                     //     tiempo2 = Date.now();
-//                     console.log('salida de compresion');
-//                     console.log(data);
-
-//                     if (Platform.OS==='ios')
-//                       datasource = data;
-//                     else
-//                      datasource = data.source;
-// datasource = '/storage/emulated/0/DCIM/file10.mp4';
-//                     ProcessingManager.getVideoInfo(datasource)
-//                         // .then((info) => console.log(info ));
-//                         .then(({ duration, size, frameRate, bitrate }) => {
-//                           console.log(duration, size, frameRate, bitrate )
-//                           console.log(size.height+ ' - ' + size.width)
-//                           // al actualizar env se actualiza mediafileLocal por la setencia de arriba mediafileLocal = [ env ];
-                          //  this.envio.rectime = 15; // duration;
-                          //  this.envio.size = 2000; //Math.floor(env.size/bitMultiplier);
-//                           // this.envio.url = data.source;      
-                          //  this.envio.url = datasource;                     
-//                           console.log('size comprimido:'+ this.envio.size + ' - '+ this.envio.rectime+ ' - ' + this.envio.url)
-//                           console.log('sqlrdsid: '+this.envio.sqlrdsid + ' de redux: '+this.props.sqsosqlrdsid)
-//                           console.log('dataSource: '+datasource)
-
-//                           // actualizo mediafile en redux porque esto termina enviado a RDS el s3Upload
-                          // update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url}
-                          //  this.props.updateCommentInMemory(this.envio.name,update);
-
-                          // this.setState({videoCompression: 'finished'});
-
-//                           // if (this.props.sqsosqlrdsid !== '')
-//                           // { console.log('tiene sqlrdsid video')
-//                           //   this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar,this.props.sqsosqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
-//                           // }
-//                           //   else
-//                           // {
-//                           //   // por algun razon no pudo generar el qsoNew debeo llamar de nuevo con paraemtro de envio automatico a S3 y 
-//                           //   // pasarle mediafilelocal asi cuando termina qsonew llama a uploadmediatos3 para el comienzo del video ya comprimido.
-
-                      
-//                           //   console.log('no tenia sqlrdsid video')
-                         
-
-//                           //   videoCompress = true; // para que luego de crear el sqlrdsid pueda hacer el upload porque el video ya esta comprimido
-//                           //   this.props.postQsoNew(dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
-                 
-                      
-
-
-//                           // }
-
-// // comento el getvideo que no lo uso
-//                         });
-                        
-
-
-//                     }).catch(e => {
-//                       console.log(e);
-//                     });
 
                 }
                 
@@ -2951,8 +2690,8 @@ if (this.pressPublish===false)
     //  console.log('didUpdate:')
     //  console.log('prevProps.justpublished.: '+prevProps.justpublished)
     //   console.log('prevState.justpublished.: '+prevState.justpublished)
-    //   console.log('prevProps.videopercentage: '+prevProps.videopercentage)
-    //   console.log('prevState.videopercentage: '+prevState.videopercentage)
+      console.log('prevProps.videopercentage: '+prevProps.externalshareurl)
+      console.log('prevState.videopercentage: '+prevState.externalshareurl)
       // if (prevProps.justpublished && !this.justpublished)
       if (prevProps.videopercentage===-1)
          {
@@ -2966,6 +2705,12 @@ if (this.pressPublish===false)
           console.log('llamo afterPublish')
           this.goToHomeAfterPublish();
         }
+        if (prevProps.externalshareurl && !this.state.externalShareurl)  
+        {
+          console.log('DidUpodate Share')
+          this.setState({externalShareurl: true})
+        }
+        
     // }
   }
 

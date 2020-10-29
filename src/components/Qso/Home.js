@@ -82,10 +82,20 @@ class Home extends Component {
        
         this.props.setExternalShreUrl(true);
         this.props.navigation.navigate("QsoScreen");
-  
+        
+        //  console.log('timeout share 1')
+        //       setTimeout(
+        //       () => {
+        //           console.log('timeout share 2')
+                 
+                  
+ 
+        //         },
+        //       3000);
+        
       }
-      else
-      this.props.setExternalShreUrl(false);
+      // else
+      // this.props.setExternalShreUrl(false);
     })
     // if (Platform.OS==='ios')
  
