@@ -200,7 +200,12 @@ export const AppNavigator = createStackNavigator({
       header: null
     }
   },
-
+  AppNavigator2: {
+    screen: AppNavigator2,
+    navigationOptions: {
+      header: null
+    }
+  },
   CameraScreen2: {
     screen: CameraScreen,
     navigationOptions: {
@@ -216,12 +221,6 @@ export const AppNavigator = createStackNavigator({
   //   },
 
   //  },
-  AppNavigator2: {
-    screen: AppNavigator2,
-    navigationOptions: {
-      header: null
-    }
-  },
 
   QslScanQR: {
     screen: QslScanQR,
@@ -283,16 +282,16 @@ export const AppNavigator = createStackNavigator({
     }
   },
   QRAProfile: {
-    screen: QRAProfile,
-    navigationOptions: {
-      header: null
-    }
+    screen: QRAProfile
+    // navigationOptions: {
+    //   header: null
+    // }
   },
   QSODetail: {
-    screen: QSODetail,
-    navigationOptions: {
-      header: null
-    }
+    screen: QSODetail
+    // navigationOptions: {
+    //   header: null
+    // }
   },
   initialRouteName: 'Login'
 });
