@@ -13,6 +13,7 @@ import {
   CAMERA_PERMISSION_TRUE,
   CHANGE_QSO_TYPE,
   CLEAR_QRA,
+  CLEAR_QSO,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
   COMMENT_ADD,
@@ -51,10 +52,14 @@ import {
   RECEIVE_FOLLOWERS,
   RECEIVE_QRA,
   RECEIVE_QRA_ERROR,
+  RECEIVE_QSO,
+  RECEIVE_QSO_ERROR,
+  RECEIVE_QSO_MEDIA_COUNTER,
   REFRESH_FOLLOWINGS,
   REPOST_QSO,
   REQUEST_FEED,
   REQUEST_QRA,
+  REQUEST_QSO,
   RESET_FOR_SIGN_OUT,
   RESET_QSO,
   SEND_ACTUAL_MEDIA,
@@ -2088,6 +2093,75 @@ const qsoReducer = (state = initialState, action) => {
           FetchingQRA: false,
           QRAFetched: true,
           qraError: action.error
+        }
+      });
+      return newStore;
+    case REQUEST_QSO:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+
+          qso: null,
+          FetchingQSO: true,
+          QSOFetched: false
+        }
+      });
+      return newStore;
+    case CLEAR_QSO:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qso: null,
+          FetchingQSO: false,
+          QSOFetched: false
+        }
+      });
+      return newStore;
+    case RECEIVE_QSO:
+      console.log(action);
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qso: action.qso,
+          FetchingQSO: false,
+          QSOFetched: true,
+          qsoError: null,
+          userData: {
+            ...state.feed.userData,
+            qra: {
+              ...state.feed.userData.qra,
+              monthly_qso_views: action.monthly_qso_views
+            }
+          }
+        }
+      });
+      return newStore;
+    case RECEIVE_QSO_ERROR:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          FetchingQSO: false,
+          QSOFetched: true,
+          qsoError: action.error
+        }
+      });
+      return newStore;
+    case RECEIVE_QSO_MEDIA_COUNTER:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          userData: {
+            ...state.userData,
+            qra: {
+              ...state.userData.qra,
+              monthly_audio_play: action.monthly_audio_play
+            }
+          }
         }
       });
       return newStore;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  FlatList, StyleSheet, View
-} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { get_notifications } from '../../actions';
 import NotifItem from './NotifItem';

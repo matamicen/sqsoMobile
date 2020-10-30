@@ -12,6 +12,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import { connect } from 'react-redux';
 import Home from './Feed';
 import QRAProfile from './Feed/Profile';
+import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
 //import SignOutScreen from './SignOutScreen';
@@ -283,6 +284,12 @@ export const AppNavigator = createStackNavigator({
   },
   QRAProfile: {
     screen: QRAProfile,
+    navigationOptions: {
+      header: null
+    }
+  },
+  QSODetail: {
+    screen: QSODetail,
     navigationOptions: {
       header: null
     }

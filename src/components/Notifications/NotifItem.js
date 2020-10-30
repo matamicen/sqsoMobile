@@ -57,16 +57,50 @@ class NotifItem extends Component {
   //   });
   // }
 
-  onPressItem2 = async (idqra_notifications, urlnotif) => {
+  onPressItem2 = async (
+    idqra_notifications,
+    urlnotif,
+    activity_type,
+    QRA,
+    QSO_GUID
+  ) => {
     if (await hasAPIConnection()) {
-      this.props.setPressHome(1); // sete en 1 porque apreo notif entonces el proximo TAP en home debe refrescar.
-      // auxurl = urlnotif + '?' + new Date();
-      var auxurl = urlnotif + '?embedded=true&date=' + new Date();
-      await this.props.setWebView(this.props.webviewsession, auxurl);
+      var profile = new Set([1, 50, 51]);
+      var post = new Set([
+        10,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        12,
+        18,
+        20,
+        71
+      ]);
 
-      this.props.navigation.navigate('Home', {
-        url: urlnotif
-      });
+      // this.props.setPressHome(1); // sete en 1 porque apreo notif entonces el proximo TAP en home debe refrescar.
+      // auxurl = urlnotif + '?' + new Date();
+      // var auxurl = urlnotif + '?embedded=true&date=' + new Date();
+      // await this.props.setWebView(this.props.webviewsession, auxurl);
+
+      // this.props.navigation.navigate('Home', {
+      //   url: urlnotif
+      // });
+
+      if (profile.has(activity_type)) {
+        this.props.navigation.push('QRAProfile', {
+          qra: QRA
+        });
+      } else if (post.has(activity_type)) {
+        this.props.navigation.push('QSODetail', {
+          QSO_GUID: QSO_GUID
+        });
+      }
     } else this.setState({ nointernet: true });
   };
 
@@ -84,6 +118,8 @@ class NotifItem extends Component {
       Linking.canOpenURL(urlnotif)
         .then((supported) => {
           if (!supported) {
+            // eslint-disable-next-line no-useless-escape
+            // eslint-disable-next-line quotes
             console.log("Can't handle url: " + urlnotif);
           } else {
             // if(__DEV__)
@@ -161,7 +197,13 @@ class NotifItem extends Component {
             {this.props.avatar_pic !== null ? (
               <TouchableOpacity
                 onPress={() =>
-                  this.onPressItem2(this.props.idqra_activity, this.props.url)
+                  this.onPressItem2(
+                    this.props.idqra_activity,
+                    this.props.url,
+                    this.props.activity_type,
+                    this.props.QRA,
+                    this.props.QSO_GUID
+                  )
                 }
                 underlayColor="white">
                 <Image
@@ -173,7 +215,13 @@ class NotifItem extends Component {
             ) : (
               <TouchableOpacity
                 onPress={() =>
-                  this.onPressItem2(this.props.idqra_activity, this.props.url)
+                  this.onPressItem2(
+                    this.props.idqra_activity,
+                    this.props.url,
+                    this.props.activity_type,
+                    this.props.QRA,
+                    this.props.QSO_GUID
+                  )
                 }
                 underlayColor="white">
                 <Image
@@ -201,7 +249,13 @@ class NotifItem extends Component {
           <View style={{ flex: 0.6 }}>
             <TouchableOpacity
               onPress={() =>
-                this.onPressItem2(this.props.idqra_activity, this.props.url)
+                this.onPressItem2(
+                  this.props.idqra_activity,
+                  this.props.url,
+                  this.props.activity_type,
+                  this.props.QRA,
+                  this.props.QSO_GUID
+                )
               }
               underlayColor="white">
               {/* los \n son por si el mensaje de la notificacion ocupa 1 sola linea, le agrega dos lineas para

@@ -61,10 +61,14 @@ import {
   RECEIVE_FEED,
   RECEIVE_FOLLOWERS,
   RECEIVE_QRA,
-  RECEIVE_QRA_ERROR,
+
+  RECEIVE_QRA_ERROR, RECEIVE_QSO,
+
+  RECEIVE_QSO_ERROR,
   REFRESH_FOLLOWINGS,
   REQUEST_FEED,
   REQUEST_QRA,
+  REQUEST_QSO,
   RESET_FOR_SIGN_OUT,
   RESET_QSO,
   SEND_ACTUAL_MEDIA,
@@ -3633,7 +3637,6 @@ export function doFetchQRA(qra, token = null) {
       dispatch(doRequestQRA());
       API.post(apiName, path, myInit)
         .then((response) => {
-          console.log(response);
           dispatch(doReceiveQRA(response.body.message, response.body.error));
         })
         .catch(async (error) => {
@@ -3686,6 +3689,80 @@ export function doReceiveQRA(data, error) {
         error: 'QRA is disabled temporarily'
       };
     }
+  }
+}
+
+export function doRequestQSO() {
+  return {
+    type: REQUEST_QSO
+  };
+}
+export function doFetchQSO(idqso, token = null) {
+  // window.gtag('config', 'G-H8G28LYKBY', {
+  //   custom_map: { dimension2: 'qso' }
+  // });
+
+  // if (process.env.REACT_APP_STAGE === 'production')
+  //   window.gtag('event', 'qsoGetDetail_WEBPRD', {
+  //     event_category: 'QSO',
+  //     event_label: 'getDetail',
+  //     qso: idqso
+  //   });
+
+  return async (dispatch) => {
+    try {
+      // const currentSession = await Auth.currentSession();
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      const apiName = 'superqso';
+      const path = '/qso-detail/secured';
+      const myInit = {
+        body: {
+          guid: idqso
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          dispatch(doReceiveQSO(response.body.message, response.body.error));
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__) {
+            console.log(error.message);
+            crashlytics().recordError(new Error('doFetchQSO_WEBDEV'));
+          } else crashlytics().recordError(new Error('doFetchQSO_WEBDEV'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      console.log('Unable to refresh Token');
+      console.log(error);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) {
+        console.log(error.message);
+        crashlytics().recordError(new Error('doFetchQSO_WEBDEV'));
+      } else crashlytics().recordError(new Error('doFetchQSO_WEBDEV'));
+      // dispatch(doLogout());
+    }
+  };
+}
+export function doReceiveQSO(data, error) {
+  // eslint-disable-next-line camelcase
+  const { monthly_qso_views, ...qsoData } = data;
+  if (error === 0) {
+    return {
+      type: RECEIVE_QSO,
+      qso: qsoData,
+      monthly_qso_views: monthly_qso_views
+    };
+  } else {
+    return {
+      type: RECEIVE_QSO_ERROR,
+      error: data
+    };
   }
 }
 // END NATIVE FEED
