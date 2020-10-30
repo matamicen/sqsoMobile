@@ -1128,11 +1128,10 @@ if (this.pressVideo===false)
   if (mimeType==='image/jpg')
   { 
     let path = '';
-    // const path = `${RNFetchBlob.fs.dirs.DCIMDir}/imageaux.jpg`;
     if (Platform.OS==='android')
-     path = `${RNFetchBlob.fs.dirs.DCIMDir}/imageaux.jpg`;
+    path = RNFetchBlob.fs.dirs.DCIMDir+'/'+ new Date().getTime()+'.jpg';
    else 
-     path = `${RNFetchBlob.fs.dirs.DocumentDir}/imageaux.jpg`;
+     path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
   
 
    const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
