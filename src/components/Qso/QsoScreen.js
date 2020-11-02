@@ -865,6 +865,26 @@ if (this.pressVideo===false)
       console.log('tomo video de galeria');
       this.props.manageLocationPermissions("photofromgallery", 1);
 
+      let storagePermission = true;
+
+           if (Platform.OS==='android') // android debe preguntar permiso de storage por el Write del video al disco
+          {
+            
+                STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+                  response = await request(STORAGE_PERMISSION)
+                    //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+                  //entonces recupero el share del asyncstorage
+                
+                  if (response !== RESULTS.GRANTED)
+                      storagePermission = false;
+          
+          }
+   
+      if (storagePermission) 
+     {   
+
+
       // ImagePicker.openPicker({
      
       //      mediaType: "video",
@@ -923,7 +943,7 @@ if (this.pressVideo===false)
 
 
        
-       this.takeFramePreview(response.path);
+        this.takeFramePreview(response.path);
      
      
      
@@ -932,6 +952,8 @@ if (this.pressVideo===false)
           }
      
         });
+
+      }
       //    }).catch((err) => {
       //      console.log("cropImage Error", err.message);
       //      this.pressVideo = false;
@@ -1127,9 +1149,22 @@ if (this.pressVideo===false)
   } 
   if (mimeType==='image/jpg')
   { 
+    // borrar media creada
+    // const assetsDirExists = await RNFetchBlob.fs.isDir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso');
+    //     if(!assetsDirExists) {
+    //       console.log('creo el dir')
+    //         RNFetchBlob.fs.mkdir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso')
+    //                         .then((res) => {console.log("App directory created..")
+    //                       console.log(res)})
+    //                         .catch((err) => {console.log(err)})
+    //     }
+    //     else
+    //     console.log('el dir existe')
+
     let path = '';
     if (Platform.OS==='android')
     path = RNFetchBlob.fs.dirs.DCIMDir+'/'+ new Date().getTime()+'.jpg';
+    // path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
    else 
      path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
   
@@ -1874,7 +1909,7 @@ if (storagePermission)
       
          
 
-        //  this.props.setExternalShreUrl(false);
+        this.props.setExternalShreUrl(false);
         this.setState({externalShareurl: false})
        }
     } else {
@@ -2735,6 +2770,26 @@ if (this.pressPublish===false)
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
+              // borrar media creada
+//               console.log('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso');
+//               // deleteFolder = await RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso/');
+             
+//               RNFetchBlob.fs.df()
+//     .then((response) => {
+//       console.log(response);
+//         // console.log('Free space in bytes1: ' + response.free);
+//         // console.log('Total space in bytes1: ' + response.total);
+//         RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso').then(() => { console.log("Succeeded") 
+//         RNFetchBlob.fs.df()
+//         .then((response) => {
+//           console.log(response);
+//             // console.log('Free space in bytes2: ' + response.free);
+//             // console.log('Total space in bytes2: ' + response.total);
+//       }).catch((err) => { console.log("err",err) })
+// })
+// })
+              // RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso').then(() => { console.log("Succeeded") }).catch((err) => { console.log("err",err) })
+              // console.log('delete folder: '+deleteFolder);
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
               home = global_config.urlWeb + '?' + new Date();
               await this.props.setWebView(this.props.webviewsession,home);
@@ -2797,7 +2852,7 @@ if (this.pressPublish===false)
         }
         if (prevProps.externalshareurl && !this.state.externalShareurl)  
         {
-          console.log('DidUpodate Share')
+          console.log('DidUpdate Share')
           this.setState({externalShareurl: true})
         }
         
