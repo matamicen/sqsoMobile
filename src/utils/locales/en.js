@@ -59,6 +59,7 @@ export default {
     variosModWelOKButton: "OK",
     variosModNointernet: "There is no Internet connection.",
     variosModNovideomp4: "Sorry, you can not upload videos at this moment, we will let you know asap when this feature in enable.",
+    variosModReadingVideo: "Reading video ...",
     variosModNointernetOKButton: "OK",
     variosModprevideoRewFreeUser: "Free User",
     variosModprevideoRewHaveToWatchLink: "You have to watch a video reward to link these Qsos.",
@@ -196,8 +197,10 @@ export default {
     DeleteMediaTheentire2: "Are you sure to delete the entire post ?",
     DeleteMediaAreYouSurePhoto: "Are you sure to delete the",
     DeleteMediaAreYouSureAudio: "Are you sure to delete the",
+    DeleteMediaAreYouSureVideo: "Are you sure to delete the",
     DeleteMediaPhoto: "Photo",
     DeleteMediaAudio: "Audio",
+    DeleteMediaVideo: "Video",
     DeleteMediaCancel: "Keep editing",
     DeleteMediaDelete: "Delete",
     QsoTypeSWLpng: "swl.png",
@@ -405,4 +408,8 @@ export default {
     PLAYMEDIAPLAY: 'Play',
     PLAYMEDIAPAUSE: 'Pause',
     PLAYMEDIASTOP: 'Stop',
+    QsoScrMixMedia: 'You can not publish photos/audios with a video or more than one video',
+    QsoScrCompressingVideo: 'Compressing video',
+    QsoScrUploadingVideo: 'Uploading video',
+    QsoScrUploadingVideoError: 'Uploading video error.'
   };

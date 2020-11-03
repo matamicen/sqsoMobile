@@ -823,6 +823,9 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
        }
 
+       if (spot==='video')
+          return false;
+
        if (spot==='scanqr')
       {
        console.log('Intersitial monthly Scans: '+userInfo.monthly_scans);
@@ -878,7 +881,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
            }
    
   
-
+     
         
     
     }
@@ -1078,3 +1081,40 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       console.log('helper bandeja:' + bandejaNotifLocal )
       return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};
     }
+
+    export const percentageCalculator =  (initialTime, totalTime) => {
+
+      t2 = new Date()
+      dif = initialTime.getTime() - t2.getTime();
+      Seconds_from_T1_to_T2 = dif / 1000;
+      Seconds_Between_Dates = Math.abs(Seconds_from_T1_to_T2);
+      porcentage = (Seconds_Between_Dates * 100 ) / totalTime;
+      aux = Math.trunc(porcentage);
+
+      return aux
+    }
+
+
+    export const addMediaCheck=(mediatypetoadd, mediafiles)=>{
+ 
+      // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
+      // esto evita que pueda mandar un POST sin media
+  
+       checkpassed = true;
+
+       mediafiles.map(item => {
+        //  if(item.type !== 'profile' && item.status!=='inappropriate content') {
+        //    mediafilesSinProfile =  [...mediafilesSinProfile,item] 
+        //  }
+        if((item.type === 'audio' || item.type === 'image') && (mediatypetoadd==='video'))
+           checkpassed = false;
+         if((item.type === 'video') && (mediatypetoadd === 'audio' || mediatypetoadd === 'image' || mediatypetoadd === 'video')) // se agrego video porque si ya hay un video no se puede enviar un segundo video.
+           checkpassed = false;
+       })
+
+       console.log('mediaCheck:'+checkpassed)
+
+       return checkpassed;
+     
+       
+       }

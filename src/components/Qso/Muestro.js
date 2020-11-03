@@ -445,8 +445,9 @@ class Muestro extends Component {
 
             }
 
-        } else
-          {
+        } 
+
+       if (this.props.sqsomedia.type==='audio') {
             // pasa por aca si el media es un AUDIO
            fileaux =  this.props.sqsomedia.url;
            this.size = this.props.sqsomedia.size;
@@ -454,15 +455,27 @@ class Muestro extends Component {
 
           }
 
+          if (this.props.sqsomedia.type==='video') {
+            // toda esta info se obtiene luego de comprimrir el video
+            fileaux =  this.props.qra + '_' + new Date().getTime()+'.mp4'; // le asigno un nombre univoco al video
+            fileauxProfileAvatar = '';
+            this.size = this.props.sqsomedia.size;
+            this.width = this.props.sqsomedia.width;
+            this.height = this.props.sqsomedia.height;
+          }
+
 
 
         fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 
-        if (this.props.sqsomedia.type==='image') {
+        if (this.props.sqsomedia.type==='image') 
              folder = 'images/'+fileName2;
            
-        }
-          else folder = 'audios/'+fileName2;
+        if (this.props.sqsomedia.type==='audio')
+          folder = 'audios/'+fileName2;
+
+          if (this.props.sqsomedia.type==='video')
+          folder = 'videos/'+fileName2; // lo voy a llenar despues de comprimir que tengo el nombre final del video
 
 
           // se comento esto porque nunca va a ser profile, en este metodo  vienen solo las IMAGE y AUDIO
@@ -496,7 +509,8 @@ class Muestro extends Component {
                 console.log('tengo qra: '+this.props.sqsomedia.qra);
 
              envio = {name: fileName2, url: fileaux, fileauxProfileAvatar: this.compressImageURLProfileAvatar, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: this.props.sqsomedia.rectime  } 
+              status: this.stat, progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, urlNSFW: urlNSFW, urlAvatar: urlAvatar, date: fecha, width: this.width, height: this.height, qra: this.props.sqsomedia.qra, rectime: this.props.sqsomedia.rectime, 
+              duration: this.props.sqsomedia.duration, videoImagePreview: this.props.sqsomedia.previewCompressed  } 
                     
                
               
@@ -675,7 +689,7 @@ class Muestro extends Component {
     render() { 
         // this.props.imageurl
         console.log("RENDER MUESTRO, mediatosend: " +JSON.stringify(this.props.sqsomedia));
-           
+        // const encodedData = this.props.sqsomedia.base64preview;
    
               
         return( 
@@ -685,16 +699,18 @@ class Muestro extends Component {
         <View style={{flex:1, marginTop: 35}}>
             
             <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
-            { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') ?
+            { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') &&
              <Image style={styles.faceImageStyle}
             source={{ uri: this.props.sqsomedia.url }}
             resizeMethod="resize"
             resizeMode="contain"
           />
-          :
-          // <Image style={styles.faceImageStyleAudio}
+        }
+         
+          {/* // <Image style={styles.faceImageStyleAudio}
           //             source={require('../../images/audio.png')}
-          //                 /> }
+          //                 />  */}
+          { (this.props.sqsomedia.type==='audio') &&
           <View>
               <View>
                 <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text> 
@@ -702,6 +718,30 @@ class Muestro extends Component {
              <View style={{ marginTop: 12}}>
               <PlayMediaAudioPreview url={this.props.sqsomedia.url}  /> 
             </View>
+         
+         </View> }
+
+         { (this.props.sqsomedia.type==='video') &&
+          <View>
+          
+
+            <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
+            {/* <View style={{flex:0.75, justifyContent: 'center', alignItems: 'center'}}>      */}
+                  <Image style={styles.faceImageStyle}
+                  // source={{ uri: `data:image/png;base64,${encodedData}` }}
+                  source={{ uri: this.props.sqsomedia.previewCompressed }}
+                  resizeMethod="resize"
+                  resizeMode="contain"
+                  />
+            </View>
+            <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 55}}>
+                {/* <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text>  */}
+                <Image style={styles.faceImageStyleAudio}
+                     source={require('../../images/video1.png')}
+                         />
+                </View>
+
+            
          </View> }
 
                           {/* && Platform.OS==='android' */}

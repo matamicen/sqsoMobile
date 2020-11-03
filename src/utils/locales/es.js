@@ -59,6 +59,7 @@ export default {
     variosModWelOKButton: "OK",
     variosModNointernet: "No hay conexión a Internet.",
     variosModNovideomp4: "Lo sentimos, por el momento no se pueden subir videos. Le notificaremos cuando esta opción este habilitada.",
+    variosModReadingVideo: "Leyendo video ...",
     variosModNointernetOKButton: "OK",
     variosModprevideoRewFreeUser: "Usuario Gratuito",
     variosModprevideoRewHaveToWatchLink: "Ud. debe mirar un video de recompensa para poder unir estas Publicaciones.",
@@ -195,9 +196,11 @@ export default {
     DeleteMediaTheentire1: "Toda la publicación va a ser borrada si borras este/a último/a",
     DeleteMediaTheentire2: "¿Esta segúro de borrar toda la publicación?",
     DeleteMediaAreYouSurePhoto: "¿Ests segúro de borrar la",
-    DeleteMediaAreYouSureAudio: "¿Ests segúro de borrar el",
+    DeleteMediaAreYouSureAudio: "¿Estas segúro de borrar el",
+    DeleteMediaAreYouSureVideo: "¿Estas segúro de borrar el",
     DeleteMediaPhoto: "Foto",
     DeleteMediaAudio: "Audio",
+    DeleteMediaVideo: "Video",
     DeleteMediaCancel: "Seguir editando",
     DeleteMediaDelete: "Borrar",
     QsoTypeSWLpng: "escucha.png",
@@ -405,6 +408,10 @@ export default {
     PLAYMEDIAPLAY: 'Reproducir',
     PLAYMEDIAPAUSE: 'Pausar',
     PLAYMEDIASTOP: 'Parar',
+    QsoScrMixMedia: 'No se puede publicar fotos y/o audios con un video o mas de un video por publicación',
+    QsoScrCompressingVideo: 'Comprimiendo video',
+    QsoScrUploadingVideo: 'Subiendo video',
+    QsoScrUploadingVideoError: 'Error al subir el video.'
     
 
   };

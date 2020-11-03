@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, Platform, TouchableOpacity, Dimensions, TextInput, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import Permissions from 'react-native-permissions'
+// import Permissions from 'react-native-permissions'
+import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 import {  setPressHome } from '../../actions';
 import { hasAPIConnection} from '../../helper';
 import VariosModales from '../Qso/VariosModales';
@@ -134,18 +135,27 @@ class Util extends Component {
         console.log('entro a PEDIR PERMISOS');
         if (await hasAPIConnection())
         {
-          Permissions.request('microphone').then(response => {
+
+          if (Platform.OS==='android')
+          REC_PERMISSION = PERMISSIONS.ANDROID.RECORD_AUDIO;
+        else
+          REC_PERMISSION = PERMISSIONS.IOS.MICROPHONE;
+
+          // Permissions.request('microphone').then(response => {
+            request(REC_PERMISSION).then(response => {
             // Returns once the user has chosen to 'allow' or to 'not allow' access
             // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
             console.log('Microphone Permiso: '+response);
-          if (response==='authorized')
+          // if (response==='authorized')
+          if (response === RESULTS.GRANTED)
             {
               console.log('entro a PEDIR PERMISOS esta AUTORIZADO!!!');
               this.micPermission = true;
               // this.props.navigation.navigate("QslScanQR");
              }
       
-            if (response==='denied' &&  Platform.OS !== 'android')
+            // if (response==='denied' &&  Platform.OS !== 'android')
+            if (response === RESULTS.DENIED && Platform.OS !== "android")
             {
              Alert.alert(
               I18n.t("DENIED_ACCESS_2"),
@@ -163,7 +173,8 @@ class Util extends Component {
              )
             }
       
-            if (response==='restricted' &&  Platform.OS === 'android')
+            // if (response==='restricted' &&  Platform.OS === 'android')
+            if (response === RESULTS.BLOCKED && Platform.OS === "android")
             {
              Alert.alert(
               I18n.t("DENIED_ACCESS_2"),
@@ -181,7 +192,8 @@ class Util extends Component {
             
          
       
-          if (response==='restricted' &&  Platform.OS !== 'android')
+          // if (response==='restricted' &&  Platform.OS !== 'android')
+          if (response === RESULTS.BLOCKED && Platform.OS !== "android")
           {
            Alert.alert(
             I18n.t("ACCESS_TO_MICROPHONE"),
@@ -197,12 +209,19 @@ class Util extends Component {
            )
           }
       
+          if (Platform.OS==='android')
+          CAMERA_PERMISSION = PERMISSIONS.ANDROID.CAMERA;
+        else
+          CAMERA_PERMISSION = PERMISSIONS.IOS.CAMERA;
       
-          Permissions.request('camera').then(response => {
+          // Permissions.request('camera').then(response => {
+            request(CAMERA_PERMISSION).then(response => {
+
             // Returns once the user has chosen to 'allow' or to 'not allow' access
             // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
             console.log('Camera Permiso: '+response);
-          if (response==='authorized')
+          // if (response==='authorized')
+          if (response === RESULTS.GRANTED) 
             {
             // this.props.closeModalConfirmPhoto('image');
             // this.props.navigation.navigate("CameraScreen2");
@@ -210,7 +229,8 @@ class Util extends Component {
             
              }
       
-            if (response==='denied' &&  Platform.OS !== 'android')
+            // if (response==='denied' &&  Platform.OS !== 'android')
+            if (response === RESULTS.DENIED && Platform.OS !== "android") 
             {
              Alert.alert(
               I18n.t("DENIED_ACCESS_1"),
@@ -228,7 +248,8 @@ class Util extends Component {
              )
             }
       
-            if (response==='restricted' &&  Platform.OS === 'android')
+            // if (response==='restricted' &&  Platform.OS === 'android')
+            if (response === RESULTS.BLOCKED && Platform.OS === "android") 
             {
              Alert.alert(
               I18n.t("DENIED_ACCESS_1"),
@@ -246,7 +267,8 @@ class Util extends Component {
             
          
       
-          if (response==='restricted' &&  Platform.OS !== 'android')
+          // if (response==='restricted' &&  Platform.OS !== 'android')
+          if (response === RESULTS.BLOCKED && Platform.OS !== "android") 
           {
            Alert.alert(
             I18n.t("ACCESS_TO_CAMERA"),

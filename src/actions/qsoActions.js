@@ -27,7 +27,8 @@ import {FETCHING_API_REQUEST,
         SET_CONFIRM_PROFILE_PHOTO_MODAL, SET_PROFILE_MODAL_STAT,
         SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
         UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS,
-        SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED  } from './types';
+        SET_WEBVIEW, SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS, 
+        SET_UPLOAD_VIDEO_ERROR_MESSAGE, SET_EXTERNAL_SHARE_URL  } from './types';
 
 import awsconfig from '../aws-exports';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -54,6 +55,7 @@ import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-root-toast';
 import I18n from '../utils/i18n';
+import Upload from 'react-native-background-upload'
 
 // Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -126,6 +128,21 @@ export const setMode = (mode) => {
         mode: mode
     };
 }
+export const setVideoUploadProgress = (percentage) => {
+  return {
+      type: SET_VIDEO_UPLOAD_PROGRESS,
+      progress: percentage
+  };
+}
+
+
+export const setExternalShreUrl = (status) => {
+  return {
+      type: SET_EXTERNAL_SHARE_URL,
+      status: status
+  };
+}
+
 
 
 export const setWebView = (websession,weburl) => {
@@ -299,6 +316,15 @@ export const cameraPermissionTrue = () => {
         type: CAMERA_PERMISSION_TRUE       
        
     };
+}
+
+
+export const setUploadVideoError = (message) => {
+  return {
+      type: SET_UPLOAD_VIDEO_ERROR_MESSAGE,  
+      message: message     
+     
+  };
 }
 
 export const cameraPermissionFalse = () => {
@@ -481,7 +507,7 @@ export const updateQsoStatusSentAndSqlRdsId = (sqlrdsid,typestatus, bandstatus, 
     };
 }
 
-export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
+export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,videoCompressed, jwtToken) => {
     return async dispatch => {
       dispatch(fetchingApiRequest('postQsoNew'));
       console.log("ejecuta llamada API Qso NEW");  
@@ -508,6 +534,7 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
         }
 
         tiempo1 = Date.now();
+        console.log("antes del freeze!");
       respuesta =  await API.post(apiName, path, myInit);
       console.log("llamo api QsoNEW!");
       console.log(respuesta);
@@ -545,9 +572,16 @@ export const postQsoNew = (bodyqsonew,qsoqras,mediafiles,jwtToken) => {
                 // pudo haber pasado que el usuario empezo un QSO y luego cambio la foto de su profile
                 // entonces cuando sigue con su QSO y el sistema intenta enviar toda la media del QSO evito que 
                 // se envie el profile.
-              if (x.type!=='profile')
+                // Si el video aun no termino de comprimirse no se puede SUBIR
+              if (x.type!=='profile'){ 
+                
+              // if (x.type==='video' && videoCompressed)
+              //    dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
+              if (x.type==='audio' || x.type==='image')
                  dispatch(uploadMediaToS3(x.name, x.url,x.fileauxProfileAvatar, aux_sqlrdsid, x.description, x.size, x.type, x.rdsUrlS3, x.urlNSFW, x.urlAvatar,  x.date, x.width, x.height,'',x.qra,x.rectime,jwtToken));
-               // console.log(x.url)
+                 
+              }
+                // console.log(x.url)
               //  <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
               //  status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
             
@@ -1083,7 +1117,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
            folder = 'profile/profile_'+timeStamp+'.jpg';
          //folder = 'profile/profile.jpg';
 
-               enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+               enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => Buffer.from(data, 'base64'));
                //   return this.readFile(fileauxFinal)
                   enBlob
                   .then(buffer => Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
@@ -1118,7 +1152,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                      folder = 'profile/profile_av_'+timeStamp+'.jpg';
                    //folder = 'profile/profile_avatar.jpg';
 
-                     enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+                     enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => Buffer.from(data, 'base64'));
                      //   return this.readFile(fileauxFinal)
                         enBlob
                         .then(buffer => Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
@@ -1620,14 +1654,376 @@ export const postAddMedia = (mediaToadd, filename2, jwtToken) => {
     };
   };
 
- // fileauxProfileAvatar
- //qra,rectime
+
+    export const uploadVideoToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,qra,rectime,jwtToken) => {
+    return async dispatch => {
+      //  dispatch(fetchingApiRequest());
+      // let nombre = 'pepe_'+Date.now()+'.mp4';
+      
+        console.log("ejecuta UPLOAD VIDEO a S3 desde ACTION");  
+                  try {
+            // llama API pre signed
+            let apiName = 'superqso';
+            let path = "/s3presignedpost";
+            let myInit = { 
+              headers: {
+                'Authorization': jwtToken,
+                "Access-Control-Allow-Origin": "*",
+                'Content-Type': 'application/json'
+              }, 
+              body: {
+                name: fileName2,
+
+                  }
+              
+            }
+
+
+
+
+respuesta = await API.post(apiName, path, myInit);
+
+console.log(respuesta);
+
+
+  if (respuesta.body.error===false)
+//  if (1===3)
+{   auxfile = fileaux.replace('file://', '');
+  console.log('fileaux antes de startupload: '+ auxfile )
+  const fileInfo = await Upload.getFileInfo(auxfile);
+  console.log(fileInfo)
+  console.log('fileinfoMimetype: '+fileInfo.mimeType)
+  const options = {
+    url: respuesta.body.data.url,
+    field: 'file',
+    path: auxfile,
+    method: 'POST',
+    type: 'multipart',
+    maxRetries: 2, // set retry count (Android only). Default 2
+    headers: {
+      
+      'content-type': fileInfo.mimeType,
+
+    },
+    parameters: {
+      'content-type': fileInfo.mimeType,
+      'key' : respuesta.body.data.fields['key'],
+      'bucket' : respuesta.body.data.fields['bucket'],
+      'X-Amz-Algorithm' : respuesta.body.data.fields['X-Amz-Algorithm'] ,
+      'X-Amz-Credential' : respuesta.body.data.fields['X-Amz-Credential'],
+      'X-Amz-Date' : respuesta.body.data.fields['X-Amz-Date'],
+      'X-Amz-Security-Token' : respuesta.body.data.fields['X-Amz-Security-Token'],
+      'Policy' : respuesta.body.data.fields['Policy'],
+      'X-Amz-Signature' : respuesta.body.data.fields['X-Amz-Signature'], 
+  
+    },
+   
+    // Below are options only supported on Android
+    notification: {
+      enabled: true
+    },
+    useUtf8Charset: true
+  }
+
+  const identityID = await AsyncStorage.getItem('identity');
+  
+  Upload.startUpload(options).then((uploadId) => {
+    console.log('Upload started')
+    Upload.addListener('progress', uploadId, (data) => {
+      console.log(`Progress: ${data.progress}%`)
+      if (data.progress > 96)
+      data.progress = 96;
+      dispatch(setVideoUploadProgress(Math.floor(data.progress/1)));
+    })
+    Upload.addListener('error', uploadId, (data) => {
+      console.log(`Error BackgroundUpload: ${data.error}%`)
+      dispatch(setVideoUploadProgress(-1))
+      dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
+    })
+    Upload.addListener('cancelled', uploadId, (data) => {
+      console.log(`Cancelled!`)
+      dispatch(setVideoUploadProgress(-1))
+      dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
+    })
+    Upload.addListener('completed', uploadId, (data) => {
+      // data includes responseCode: number and responseBody: Object
+      console.log('Completed!')
+      videoPreviewURL = '';
+      folder = 'videos/'+fileName2;
+      videoName =  folder.replace(".mp4", '.jpg');
+      videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
+
+      // actualizo SENT como TRUE en mediafile para ese file.
+                  update = {"sent": true, "progress": 0.7}
+                  dispatch(updateMedia(fileName2,update,'item'));
+
+                  const customPrefix = {
+                    public: 'myPublicPrefix/',
+                    protected: '1/',
+                    private: 'myPrivatePrefix/'
+                  };
+                
+             
+                  // console.log('upload media identityid:' +identityID)
+
+     // Imagen de Preview de Video simplemente la ubico en el mismo bucket mismo nombre de archivo de video pero con extension jpg
+          //       videoName =  folder.replace(".mp4", '.jpg');
+          //       videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
+
+          let fileauxPreviewImage = fileauxProfileAvatar;
+          if (Platform.OS == 'ios')
+          {
+            fileauxPreviewImage =  fileauxProfileAvatar.replace("file:///", '');
+          }
+
+
+                  enBlob = RNFetchBlob.fs.readFile(fileauxPreviewImage, 'base64').
+                  then(data => Buffer.from(data, 'base64'));
+          
+                  enBlob
+           .then(buffer => 
+                  Storage.vault.put(videoName, buffer, { customPrefix, level: 'protected' }))
+                  .then (result => {
+                           console.log('envio imagePreview:'+result.key);
+
+                           console.log('222 llamo api de media')
+                           // procedo a llamar API de addmedia al RDS
+                           // fileInfo.size es el verdadero size del archivo despues de comprimir
+                           mediaToRds = {
+                             "qso":  sqlrdsid,
+                             "type": type ,
+                             "datasize": fileInfo.size,
+                             "datetime": date,   
+                             "width": width,
+                             "height": height,   
+                             "url":  rdsUrlS3,
+                             "description": description,
+                             "identityId" : identityID,
+                             "qra": qra,
+                             "rectime" : rectime,
+                             "videoPreview" : videoPreviewURL 
+           
+                         }
+         
+                         dispatch(postAddMedia(mediaToRds, fileName2,jwtToken));  
+                         // console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
+                  })
+
+                  
+
+    })
+  }).catch((err) => {
+    console.log('Upload error!', err)
+    // por una lado se envia el codigo de error por el procentaje y por otor lado el mensaje
+    // porque sino el DidUpdate de QsoScreen no renderea y no actualiza.
+    dispatch(setVideoUploadProgress(-1))
+    dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
+  })
+  
+
+}else
+{
+  // hubo un error en la llamda de pre signed
+  // por una lado se envia el codigo de error por el procentaje y por otor lado el mensaje
+  // porque sino el DidUpdate de QsoScreen no renderea y no actualiza.
+  dispatch(setVideoUploadProgress(-1))
+  dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
+
+}
+
+
+    //     let folder;
+    //     videoPreviewURL = '';
+  
+    //       // const response = await fetch(fileaux);
+    //       // const blobi = await response.blob();
+    //       update = {"sent": true, "progress": 0.45}
+    //       // dispatch(updateMedia(fileName2,update,'item')); descomentar
+  
+    //    //agrego native
+    //       let fileauxFinal = fileaux;
+    //       if (Platform.OS == 'ios')
+    //       {
+    //         fileauxFinal =  fileaux.replace("file:///", '');
+    //       }
+    //       console.log('contenido fileauxFinal: '+fileauxFinal);
+  
+    //          if (type==='image') folder = 'images/'+fileName2;
+    //          if (type==='audio') folder = 'audios/'+fileName2;
+    //          if (type==='video') folder = 'videos/'+fileName2;
+            
+  
+    //         // if (type==='profile') folder = 'profile/tmp/profile.jpg';
+    //         if (type==='profile') folder = 'profile/tmp/'+fileName2; 
+        
+    //       console.log('folder:'+ folder);
+    // //  let a = {"folder": folder}
+  
+    // const customPrefix = {
+    //   public: 'myPublicPrefix/',
+    //   protected: '1/',
+    //   private: 'myPrivatePrefix/'
+    // };
+  
+    // const identityID = await AsyncStorage.getItem('identity');
+    // console.log('upload media identityid:' +identityID)
+
+
+
+
+  
+  //, contentType: 'image/png'
+        //    enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').
+        //    then(data => Buffer.from(data, 'base64'));
+        //   //  console.log(enBlob.buffer);
+        //   //  console.log(enBlob)
+        // //   return this.readFile(fileauxFinal)
+        //    enBlob
+        //    .then(buffer => 
+           
+        //    Storage.vault.put(folder, buffer, { customPrefix, level: 'protected' }))
+        //    .then (result => {
+        //             console.log('resultado:'+result.key);
+        //           // actualizo SENT como TRUE en mediafile para ese file.
+        //           update = {"sent": true, "progress": 0.7}
+        //           dispatch(updateMedia(fileName2,update,'item'));
+  
+  
+            // si es video subo la imagen del preview que tengo el path en fileauxProfileAvatar
+          //     if (type==='video')
+          //     {
+          //       // simplemente la ubico en el mismo bucket mismo nombre de archivo de video pero con extension jpg
+          //       videoName =  folder.replace(".mp4", '.jpg');
+          //       videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
+          //         enBlob = RNFetchBlob.fs.readFile(fileauxProfileAvatar, 'base64').
+          //         then(data => Buffer.from(data, 'base64'));
+          
+          //         enBlob
+          //  .then(buffer => 
+          //         Storage.vault.put(videoName, buffer, { customPrefix, level: 'protected' }))
+          //         .then (result => {
+          //                  console.log('envio imagePreview:'+result.key);
+          //         })
+  
+          //       }
+  
+                  
+      
+  //                 // procedo a llamar API de addmedia al RDS
+  //                 mediaToRds = {
+  //                   "qso":  sqlrdsid,
+  //                   "type": type ,
+  //                   "datasize": size,
+  //                   "datetime": date,   
+  //                   "width": width,
+  //                   "height": height,   
+  //                   "url":  rdsUrlS3,
+  //                   "description": description,
+  //                   "identityId" : identityID,
+  //                   "qra": qra,
+  //                   "rectime" : rectime,
+  //                   "videoPreview" : videoPreviewURL 
+  
+  //               }
+  //            if (type !== 'profile')
+  //            {
+  //              console.log('imprimo jwt token:');
+  //              console.log(jwtToken);
+  //               dispatch(postAddMedia(mediaToRds, fileName2,jwtToken));  
+  //               console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
+  
+  
+  // // anda bien Kinesis con el codigo de aca abajo, pasa que vamos a usar Firebase para analytics.
+  
+  //             //   console.log('llamo kinesis addmedia')
+  //             //   let tiempo = Date.now()
+  //             //   resultki = Analytics.record({
+  //             //     data: { 
+                       
+  //             //         // The data blob to put into the record
+  //             //  //      QRA: 'LU8AJ', timeStamp: tiempo, mediatype: type, url: rdsUrlS3 
+  //             //  errornumber: '200', errordesc: 'errordesc',  version: 'APP_VER', qra: 'LU9DO', platform: 'Platf.OS', platformversion: 'Platf.Ver' ,timestamp: 'tiempo'
+                     
+  //             //     },
+  //             //     // OPTIONAL
+  //             //     partitionKey: 'myPartitionKey', 
+  //             //     streamName: 'analytic_stream'
+  //             // }, 'AWSKinesis');
+            
+  //             // console.log('resultado kinesis addmedia:'+ JSON.stringify(resultki));
+  //             // console.log('tiempo addmedia:'+tiempo)
+  
+  
+  //            }else
+  //            {
+  //             // modifico la URL debido a que es PROFILE y el primer llamado lo sube a la carpeta
+  //             // TMP para verificar si es NSFW
+  //             // let cant = rdsUrlS3.lenght - 4;
+  //             // console.log('texto menos 4 caracteres: '+rdsUrlS3.substr(0,cant) + ' verdadero '+ rdsUrlS3);
+  //             console.log("LLama postSetProfilePicNSFW: ");
+              
+  //             dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar,identityId,qra,jwtToken));
+             
+  
+  //            }
+  
+           
+                
+      
+                  
+                  // })
+            
+  
+                
+                  // .catch(err => {
+                  //   console.log(JSON.stringify(err));
+                  //   console.log("fallo el UPLOAD UPLOAD UPLOADS3");
+                  //   console.log("nombre filename:" + fileName2);
+   
+                  //   update = {"status": 'failed'}
+                  //   dispatch(updateMedia(fileName2,update,'item'));
+                  // //  // actualizo token por las dudas que haya fallado por Token Expired
+                  // //   session = await Auth.currentSession();
+                  // //   dispatch(setToken(session.idToken.jwtToken));
+                          
+                  // });
+  
+  
+                
+      }
+      catch (error) {
+        console.log('Api VIDEO UPLOAD S3 catch error:', error);
+  
+  
+        update = {"status": 'failed'}
+        dispatch(updateMedia(fileName2,update,'item'));
+  
+        // actualizo token por las dudas que haya fallado por Token Expired
+        session = await Auth.currentSession();
+        dispatch(setToken(session.idToken.jwtToken));
+  
+        //dispatch(fetchingApiFailure(error));
+        // Handle exceptions
+              crashlytics().setUserId(qra);
+              crashlytics().log('error: ' + JSON.stringify(error)) ;
+              if(__DEV__)
+              crashlytics().recordError(new Error('uploadVideoToS3_DEV'));
+              else
+              crashlytics().recordError(new Error('uploadVideoToS3_PRD'));
+      }
+           
+        
+      };
+    };
+
+
 export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height,identityId,qra,rectime,jwtToken) => {
   return async dispatch => {
     //  dispatch(fetchingApiRequest());
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
     try {
       let folder;
+      videoPreviewURL = '';
 
         // const response = await fetch(fileaux);
         // const blobi = await response.blob();
@@ -1643,7 +2039,8 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
         console.log('contenido fileauxFinal: '+fileauxFinal);
 
            if (type==='image') folder = 'images/'+fileName2;
-          else folder = 'audios/'+fileName2;
+           if (type==='audio') folder = 'audios/'+fileName2;
+           if (type==='video') folder = 'videos/'+fileName2;
           
 
           // if (type==='profile') folder = 'profile/tmp/profile.jpg';
@@ -1663,7 +2060,7 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
 
 //, contentType: 'image/png'
          enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').
-         then(data => new Buffer(data, 'base64'));
+         then(data => Buffer.from(data, 'base64'));
         //  console.log(enBlob.buffer);
         //  console.log(enBlob)
       //   return this.readFile(fileauxFinal)
@@ -1676,6 +2073,25 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
                 // actualizo SENT como TRUE en mediafile para ese file.
                 update = {"sent": true, "progress": 0.7}
                 dispatch(updateMedia(fileName2,update,'item'));
+
+
+          // si es video subo la imagen del preview que tengo el path en fileauxProfileAvatar
+            if (type==='video')
+            {
+              // simplemente la ubico en el mismo bucket mismo nombre de archivo de video pero con extension jpg
+              videoName =  folder.replace(".mp4", '.jpg');
+              videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
+                enBlob = RNFetchBlob.fs.readFile(fileauxProfileAvatar, 'base64').
+                then(data => Buffer.from(data, 'base64'));
+        
+                enBlob
+         .then(buffer => 
+                Storage.vault.put(videoName, buffer, { customPrefix, level: 'protected' }))
+                .then (result => {
+                         console.log('envio imagePreview:'+result.key);
+                })
+
+              }
 
                 
     
@@ -1691,7 +2107,8 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
                   "description": description,
                   "identityId" : identityID,
                   "qra": qra,
-                  "rectime" : rectime
+                  "rectime" : rectime,
+                  "videoPreview" : videoPreviewURL 
 
               }
            if (type !== 'profile')
@@ -1741,6 +2158,9 @@ export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsi
     
                 
                 })
+          
+
+              
                 // .catch(err => {
                 //   console.log(JSON.stringify(err));
                 //   console.log("fallo el UPLOAD UPLOAD UPLOADS3");
@@ -3260,3 +3680,7 @@ export const restoreCall = (call,message) => {
           localizedprice: localizedprice
       };
   }
+
+
+
+

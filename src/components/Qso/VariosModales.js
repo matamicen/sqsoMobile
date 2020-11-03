@@ -245,6 +245,56 @@ class VariosModales extends Component {
         </View>
       );
 
+      if (this.props.modalType === "readingvideo")
+      return (
+        <View>
+          <Modal
+            visible={this.state.show}
+            transparent={true}
+            onRequestClose={() => console.log("Close was requested")}
+          >
+            <View
+        
+              style={{
+                //  margin:20,
+                padding: 20,
+             //   backgroundColor: "#475788",
+                 backgroundColor:'rgba(36,54,101,0.93)',
+                top: 40,
+                left: 30,
+                right: 30,
+                position: "absolute",
+                borderBottomLeftRadius: 22,
+                borderBottomRightRadius: 22,
+                borderTopLeftRadius: 22,
+                borderTopRightRadius: 22
+
+                //  alignItems: 'center'
+              }}
+            >
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <Image
+                  source={require("../../images/videoColor.png")}
+                  style={{ width: 60, height: 60 }}
+                  resizeMode="contain"
+                />
+
+                <Text style={{ color: "#FFFFFF", fontSize: 20, padding: 10 }}>
+                {I18n.t("variosModReadingVideo")}
+                </Text>
+
+                {/* <TouchableOpacity
+                  onPress={() => this.props.closeInternetModal('nointernet')}
+                  style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
+                >
+                  <Text style={{ color: "#999", fontSize: 22 }}>{I18n.t("variosModNointernetOKButton")}</Text>
+                </TouchableOpacity> */}
+              </View>
+            </View>
+          </Modal>
+        </View>
+      );
+
       // este no se usa mas y habia quedado viejo, comento por las dudas 
       // pero salvo que me haya comido algo no lo llama nadie por eso no entra en i18n
 
