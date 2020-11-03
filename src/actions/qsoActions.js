@@ -75,94 +75,91 @@ import {
   SET_VIDEO_UPLOAD_PROGRESS,
   SET_UPLOAD_VIDEO_ERROR_MESSAGE,
   SET_EXTERNAL_SHARE_URL,
-  ACT_INDICATOR_IMAGE_ENABLED,
-  ACT_INDICATOR_POST_QSO_NEW_FALSE,
-  ACT_INDICATOR_POST_QSO_NEW_TRUE,
-  ADD_CALLSIGN,
-  ADD_MEDIA,
-  ADD_QRA,
-  AUDIO_RECORDING_PERMISSION_FALSE,
-  AUDIO_RECORDING_PERMISSION_TRUE,
-  CAMERA_PERMISSION_FALSE,
-  CAMERA_PERMISSION_TRUE,
-  CHANGE_QSO_TYPE,
+ 
+
+ 
+
+
+  
+
+
+
+
+
   CLEAR_QRA,
-  CLOSE_MODALCONFIRM_PHOTO,
-  CLOSE_MODAL_RECORDING,
+ 
+
   COMMENT_ADD,
   COMMENT_ADD_UPDATE,
   COMMENT_DELETE,
-  CONFIRMED_PURCHASE_FLAG,
-  COPY_CALLSIGN_TO_QSOQRAS,
-  DELETE_MEDIA_MEMORY,
-  FETCHING_API_FAILURE,
-  FETCHING_API_REQUEST,
-  FETCHING_API_SUCCESS,
-  FOLLOWERS_ALREADY_CALLED,
-  FOLLOWINGS_SELECTED,
+
+
+
+
+
+
+ 
+ 
   FOLLOW_RECEIVE,
-  INSERT_FOLLOWERS,
-  INSERT_FOLLOWINGS,
-  MANAGE_LOCATION_PERMISSIONS,
-  MANAGE_NOTIFICATIONS,
-  MANAGE_PUSH_TOKEN,
-  NEW_QSO_ACTIVE_FALSE,
-  NEW_QSO_ACTIVE_TRUE,
-  ON_PROGRESS_FALSE,
-  ON_PROGRESS_TRUE,
-  OPEN_MODALCONFIRM_PHOTO,
-  OPEN_MODAL_RECORDING,
-  PROFILE_PICTURE_REFRESH,
-  QRA_SEARCH,
-  QRA_SEARCH_LOCAL,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   QSO_DISLIKE,
   QSO_LIKE,
-  QSO_QRA_DELETE,
-  QSO_SCREEN_DIDMOUNT,
-  QSO_SENT_UPDATES_AND_SQLRDSID,
+
+
+
   RECEIVE_FEED,
   RECEIVE_FOLLOWERS,
   RECEIVE_QRA,
   RECEIVE_QRA_ERROR,
   RECEIVE_QSO,
   RECEIVE_QSO_ERROR,
-  REFRESH_FOLLOWINGS,
+
   REQUEST_FEED,
   REQUEST_QRA,
   REQUEST_QSO,
-  RESET_FOR_SIGN_OUT,
-  RESET_QSO,
-  SEND_ACTUAL_MEDIA,
-  SET_BAND,
-  SET_CONFIRM_PROFILE_PHOTO_MODAL,
-  SET_DELETED_FLAG,
-  SET_JUSTPUBLISHED,
-  SET_LOCATION,
-  SET_MODE,
-  SET_PRESSHOME,
-  SET_PROFILE_MODAL_STAT,
-  SET_QRA,
-  SET_QSOCALLSIGNS,
-  SET_RESTORE_CALL,
-  SET_RST,
-  SET_SENDING_PROFILE_PHOTO_MODAL,
-  SET_SHARE_URL_GUID,
-  SET_STOPALLAUDIOS,
-  SET_SUBSCRIPTION_INFO,
-  SET_TOKEN,
-  SET_URL_RDS_S3,
-  SET_USER_INFO,
-  SET_WEBVIEW,
-  SET_WELCOME_USER_FIRST_TIME,
-  UPDATE_COMMENT_MEMORY,
-  UPDATE_LINK_QSO,
-  UPDATE_MEDIA,
-  UPDATE_ONLYONE_QSOQRA_SENT_STATUS,
-  UPDATE_QRA_URL,
-  UPDATE_QSL_SCAN,
-  UPDATE_QSL_SCAN_RESULT,
-  UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
 } from './types';
 
 import awsconfig from '../aws-exports';
@@ -176,13 +173,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
-import { API, Auth, Storage } from 'aws-amplify';
 import { Buffer } from 'buffer';
-import { NetInfo, Platform } from 'react-native';
+
 import RNIap, { acknowledgePurchaseAndroid } from 'react-native-iap';
 import Toast from 'react-native-root-toast';
 import RNFetchBlob from 'rn-fetch-blob';
-import awsconfig from '../aws-exports';
+
 import { getDateQslScan } from '../helper';
 import I18n from '../utils/i18n';
 
@@ -273,12 +269,6 @@ export const setExternalShreUrl = (status) => {
 
 
 
-export const setWebView = (websession,weburl) => {
-  return {
-    type: SET_MODE,
-    mode: mode
-  };
-};
 
 export const setWebView = (websession, weburl) => {
   return {

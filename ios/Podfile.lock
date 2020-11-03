@@ -357,10 +357,10 @@ PODS:
     - React
   - react-native-camera/RN (3.1.1):
     - React
-  - react-native-flipper (0.61.0):
-    - React
   - react-native-ffmpeg/https-gpl (0.5.0):
     - mobile-ffmpeg-https-gpl (= 4.4)
+    - React
+  - react-native-flipper (0.61.0):
     - React
   - react-native-image-picker (2.3.4):
     - React-Core
@@ -370,7 +370,7 @@ PODS:
     - React
   - react-native-netinfo (5.9.7):
     - React-Core
-  - react-native-video (4.4.4):
+  - react-native-video (4.4.5):
     - React
     - react-native-video/Video (= 4.4.5)
   - react-native-video/Video (4.4.5):
@@ -495,8 +495,9 @@ PODS:
     - React
   - RNShare (3.0.0):
     - React
-  - RNVectorIcons (7.1.0):
   - RNShareMenu (5.0.2):
+    - React
+  - RNVectorIcons (7.1.0):
     - React
   - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
@@ -549,8 +550,8 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-background-upload (from `../node_modules/react-native-background-upload`)
   - react-native-camera (from `../node_modules/react-native-camera`)
-  - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-ffmpeg/https-gpl (from `../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec`)
+  - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-location (from `../node_modules/react-native-location`)
@@ -586,8 +587,8 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNShare (from `../node_modules/react-native-share`)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - RNShareMenu (from `../node_modules/react-native-share-menu`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -678,10 +679,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-upload"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
-  react-native-flipper:
-    :path: "../node_modules/react-native-flipper"
   react-native-ffmpeg:
     :podspec: "../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec"
+  react-native-flipper:
+    :path: "../node_modules/react-native-flipper"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
@@ -752,10 +753,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNShare:
     :path: "../node_modules/react-native-share"
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
   RNShareMenu:
     :path: "../node_modules/react-native-share-menu"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -818,13 +819,13 @@ SPEC CHECKSUMS:
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-background-upload: 4f82b6b9b2538a9f6d25dc275f4259d038065849
   react-native-camera: 9bf6e0cdce0d7dc059d9836eb381d96f58f83d83
-  react-native-flipper: 7936453fec474d5360a14cf6ac035bd689611ffd
   react-native-ffmpeg: 7c64ba2e41eeb06144ad77f17e62ecbbc29ae3c0
+  react-native-flipper: 7936453fec474d5360a14cf6ac035bd689611ffd
   react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
   react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
-  react-native-video: 25d5aebb3c9d7cdefe7a909306c7ab40be4a892c
+  react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
   react-native-webview: e2c0bce9a1a7c7edd4eb30f0c3016fce216245ce
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
   React-RCTAnimation: 9a883bbe1e9d2e158d4fb53765ed64c8dc2200c6
@@ -855,12 +856,12 @@ SPEC CHECKSUMS:
   RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
-  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   RNShareMenu: fefca627ce5cbe7999655b7126ba4d07193fd2b9
+  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 99888e1bd256df9fc50511efc3e1550ab52bb62f
+PODFILE CHECKSUM: c339c76caab38f7734f3ed12327790ff2a0be2bd
 
 COCOAPODS: 1.9.3
