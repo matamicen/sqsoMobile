@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 
 # Post Install processing for Flipper
@@ -23,10 +23,19 @@ def flipper_post_install(installer)
 end
 
 target 'sqsoMobile' do
+  pod 'react-native-ffmpeg/https-gpl', :podspec => '../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec'
   config = use_native_modules!
 
 use_react_native!(:path => config["reactNativePath"])
+permissions_path = '../node_modules/react-native-permissions/ios'
 
+pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
+pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
   
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
@@ -42,8 +51,20 @@ use_react_native!(:path => config["reactNativePath"])
   use_flipper!
   post_install do |installer|
     flipper_post_install(installer)
+       installer.pods_project.targets.each do |target|
+         target.build_configurations.each do |config|
+           config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+          end
+        end
   end
   
+end
+
+target 'ShareExtension' do
+  use_react_native!
+
+  pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
+  # Manually link packages here to keep your extension bundle size minimal
 end
 
 target 'sqsoMobile-tvOS' do

@@ -35,8 +35,10 @@ class MomentAgo extends Component {
     });
   }
 
-  render() {
-    // console.log('Render Moment Ago');
+  
+    
+render() { 
+    
 
     return this.state.ago;
     //  {this.state.ago}

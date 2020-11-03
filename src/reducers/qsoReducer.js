@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-undef */
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
@@ -93,71 +91,102 @@ import {
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS
 } from '../actions/types';
+import {FETCHING_API_REQUEST,
+    FETCHING_API_SUCCESS,
+    FETCHING_API_FAILURE,
+    SET_BAND, SET_MODE, ADD_QRA, ADD_MEDIA, CLOSE_MODALCONFIRM_PHOTO,
+    OPEN_MODALCONFIRM_PHOTO, SEND_ACTUAL_MEDIA,
+    ACT_INDICATOR_IMAGE_ENABLED, CAMERA_PERMISSION_TRUE,
+    CAMERA_PERMISSION_FALSE, AUDIO_RECORDING_PERMISSION_TRUE,
+    AUDIO_RECORDING_PERMISSION_FALSE, NEW_QSO_ACTIVE_TRUE, NEW_QSO_ACTIVE_FALSE,
+    CHANGE_QSO_TYPE, ON_PROGRESS_TRUE, ON_PROGRESS_FALSE, UPDATE_QRA_URL, SET_QRA,
+    QSO_SENT_UPDATES_AND_SQLRDSID, UPDATE_QSOQRA_SENT_STATUS,
+    UPDATE_ONLYONE_QSOQRA_SENT_STATUS, UPDATE_QSO_HEADER_STATUS, RESET_QSO,
+    UPDATE_MEDIA,
+    CLOSE_MODAL_RECORDING, OPEN_MODAL_RECORDING,
+    ACT_INDICATOR_POST_QSO_NEW_FALSE, ACT_INDICATOR_POST_QSO_NEW_TRUE,
+    QSO_QRA_DELETE, SET_URL_RDS_S3, INSERT_FOLLOWINGS, INSERT_FOLLOWERS, 
+    FOLLOWERS_ALREADY_CALLED,
+    FOLLOWINGS_SELECTED, QRA_SEARCH, UPDATE_QSL_SCAN, REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL,
+    PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, SET_TOKEN,
+     RESET_FOR_SIGN_OUT, MANAGE_PUSH_TOKEN, MANAGE_NOTIFICATIONS,
+     SET_USER_INFO, MANAGE_LOCATION_PERMISSIONS, QSO_SCREEN_DIDMOUNT, SET_WELCOME_USER_FIRST_TIME,
+     CONFIRMED_PURCHASE_FLAG, SET_SUBSCRIPTION_INFO, SET_RESTORE_CALL,
+     SET_SENDING_PROFILE_PHOTO_MODAL, SET_CONFIRM_PROFILE_PHOTO_MODAL,
+     SET_PROFILE_MODAL_STAT, SET_SHARE_URL_GUID, SET_RST, SET_DELETED_FLAG, DELETE_MEDIA_MEMORY,
+     UPDATE_COMMENT_MEMORY, ADD_CALLSIGN, COPY_CALLSIGN_TO_QSOQRAS, SET_QSOCALLSIGNS, SET_WEBVIEW,
+     SET_PRESSHOME, SET_JUSTPUBLISHED, SET_VIDEO_UPLOAD_PROGRESS, SET_UPLOAD_VIDEO_ERROR_MESSAGE,
+     SET_EXTERNAL_SHARE_URL   } from '../actions/types';
+import { SectionList } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
 
 const initialState = {
-  qra: '',
-  isFetching: false,
-  errorApiMessage: '',
-  apiSuccessMessage: '',
-  camerapermission: false,
-  audiorecordingpermission: false,
-  newqsoactive: false,
-  urlRdsS3: '',
-  identityId: '',
-  profilePicRefresh: '',
-  profileUrlCondition: true,
-  stopAllAudios: false,
-  jwtToken: '',
-  pushToken: '',
-  notificationsUnread: 0,
-  userInfo: {},
-  isFetchingUserInfo: false,
-  userInfoApiSuccesMessage: '',
-  userInfoApiSuccesStatus: false,
-  userInfoApiErrorMessage: '',
-  qsoScreenDidmount: true,
-  currentLocationPermission: false,
-  adShowed: false,
-  photoFromGallery: 0,
-  qsoScreenDidMountFirstTime: true,
-  welcomeUserFirstTime: false,
-  confirmedPurchaseFlag: false,
-  productId: '',
-  localizedPrice: 0,
-  iapShowed: 0,
-  env: 'QA',
-  restoreCalled: false,
-  restoreMessage: '',
-  sendingProfileModal: false,
-  confirmProfileModal: false,
-  sendingProfileModal_stat: 0,
-  cancelButton_stat: 0,
-  webviewSession: '',
-  webviewUrl: global_config.urlWeb,
-  pressHome: 1,
-  justPublished: false,
+qra: '',
+isFetching: false,
+errorApiMessage: '',
+apiSuccessMessage: '',
+camerapermission: false,
+audiorecordingpermission: false,
+newqsoactive: false,
+urlRdsS3: '',
+identityId: '',
+profilePicRefresh: '',
+profileUrlCondition: true,
+stopAllAudios: false,
+jwtToken: '',
+pushToken: '',
+notificationsUnread: 0,
+userInfo: {},
+isFetchingUserInfo: false,
+userInfoApiSuccesMessage: '',
+userInfoApiSuccesStatus: false,
+userInfoApiErrorMessage: '',
+qsoScreenDidmount: true,
+currentLocationPermission: false,
+adShowed: false,
+photoFromGallery: 0,
+qsoScreenDidMountFirstTime: true,
+welcomeUserFirstTime: false,
+confirmedPurchaseFlag: false,
+productId: '',
+localizedPrice: 0,
+iapShowed: 0,
+env: 'QA',
+restoreCalled: false,
+restoreMessage: '',
+sendingProfileModal: false,
+confirmProfileModal: false,
+sendingProfileModal_stat: 0,
+cancelButton_stat: 0,
+webviewSession: '',
+webviewUrl: global_config.urlWeb,
+pressHome: 1,
+justPublished: false,
+externalShareUrl: false,
 
-  currentQso: {
+
+currentQso: {
+    
     sqlrdsId: '',
     onProgress: false,
     datetime: '',
-    //      qsoqras: [{name: 'LU8AJ', url: 'https://randomuser.me/api/portraits/thumb/men/81.jpg'},
-    //               {name: 'LW5AAA', url: 'https://randomuser.me/api/portraits/med/men/72.jpg'}],
+//      qsoqras: [{name: 'LU8AJ', url: 'https://randomuser.me/api/portraits/thumb/men/81.jpg'},
+//               {name: 'LW5AAA', url: 'https://randomuser.me/api/portraits/med/men/72.jpg'}],
     qsoqras: [],
     qsocallsigns: [],
     qsotype: 'QSO',
     qsotypeSent: false,
-    band: I18n.t('ReducerBand'),
+    band: I18n.t("ReducerBand"),
     bandSent: false,
-    mode: I18n.t('ReducerMode'),
+    mode: I18n.t("ReducerMode"),
     modeSent: false,
     rst: '59',
     db: '-07',
     // rstBeforeChangeMode: '-07',
     digitalMode: false,
-    mediafiles: [{ name: 'vacio', type: 'vacio' }],
+    mediafiles: [ {name: 'vacio', type: 'vacio'}],
     modalconfirmphoto: false,
     phototype: '',
     modalconfirmphotoHeight: 0,
@@ -178,19 +207,29 @@ const initialState = {
     deletedFlag: false,
     deletedFlagMessage: '',
     qslscan: {
-      statusCode: 200,
-      headers: {},
-      body: {
-        error: 5,
-        message: {}
-      }
-    },
-    qsolink: {},
-    qsolinkCodes: { code: 0, message: ' ' },
+        "statusCode": 200,
+        "headers": {
+           
+        },
+        "body": {   
+             "error": 5,
+             "message": {  }
+                }
+             },
+     qsolink: {
+           
+                     },
+     qsolinkCodes: {code: 0, message: " "},
     refreshFollowings: false,
     latitude: 0,
     longitude: 0,
-    shareUrlGuid: ''
+    shareUrlGuid: '',
+        
+
+
+        //  },
+         videoPercentage: 0,
+         videoUploadError: '',
   },
   feed: {
     userData: {
@@ -348,7 +387,6 @@ const qsoReducer = (state = initialState, action) => {
           ...state,
           photoFromGallery: action.payload
         });
-
         return newStore;
       }
 
@@ -383,78 +421,106 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
 
-    case SET_RESTORE_CALL:
-      newStore = Object.assign({}, state, {
-        ...state,
-        restoreCalled: action.call,
-        restoreMessage: action.message
-      });
+      case SET_RESTORE_CALL:
+                      
+        newStore = Object.assign({}, state,
+           {
+               ...state,
+               restoreCalled: action.call,
+               restoreMessage: action.message
+           });
+       
+              return newStore;
 
-      return newStore;
+  
+     case SET_SUBSCRIPTION_INFO:
+        
 
-    case SET_SUBSCRIPTION_INFO:
-      newStore = Object.assign({}, state, {
-        ...state,
-        localizedPrice: action.localizedprice,
-        productId: action.productid
-      });
+        newStore = Object.assign({}, state,
+            {
+               ...state,
+               localizedPrice: action.localizedprice,
+               productId: action.productid
+            });
+           
+         return newStore;
 
-      return newStore;
+         
+         case SET_UPLOAD_VIDEO_ERROR_MESSAGE:
+            auxcurrentQso = {
+               ...state.currentQso,
+               videoUploadError: action.message
+                          
+           };
+           newStore = Object.assign({}, state,
+               {
+                   ...state,
+                   currentQso: auxcurrentQso
+               });
+           return newStore;
 
     case SET_BAND:
-      auxcurrentQso = {
-        ...state.currentQso,
-        band: action.band,
-        bandSent: false
-      };
-      newStore = Object.assign({}, state, {
-        ...state,
-        currentQso: auxcurrentQso
-      });
-      return newStore;
+    auxcurrentQso = {
+       ...state.currentQso,
+       band: action.band,
+       bandSent: false           
+   };
+   newStore = Object.assign({}, state,
+       {
+           ...state,
+           currentQso: auxcurrentQso
+       });
+   return newStore;
 
-    case SET_MODE:
-      auxcurrentQso = {
-        ...state.currentQso,
-        mode: action.mode,
-        modeSent: false
-      };
-      newStore = Object.assign({}, state, {
-        ...state,
-        currentQso: auxcurrentQso
+   case SET_MODE:
+   auxcurrentQso = {
+      ...state.currentQso,
+      mode: action.mode,
+      modeSent: false           
+  };
+  newStore = Object.assign({}, state,
+      {
+          ...state,
+          currentQso: auxcurrentQso
       });
-      return newStore;
+  return newStore;
 
-    case SET_RST:
-      console.log('cambio RST REDUX: ' + action.rst);
+  case SET_RST:
+      console.log('cambio RST REDUX: '+action.rst)
       if (action.digital)
-        auxcurrentQso = {
-          ...state.currentQso,
-          db: action.rst,
-          rst: '',
-          digitalMode: true
-          // rstBeforeChangeMode: action.rstbeforechange
+                auxcurrentQso = {
+                ...state.currentQso,
+                db: action.rst,
+                rst: '',
+                digitalMode: true
+                // rstBeforeChangeMode: action.rstbeforechange
+                            
+            };
+         else
+         auxcurrentQso = {
+            ...state.currentQso,
+            rst: action.rst,
+            db: '',
+            digitalMode: false
+            // rstBeforeChangeMode: action.rstbeforechange
+                        
         };
-      else
-        auxcurrentQso = {
-          ...state.currentQso,
-          rst: action.rst,
-          db: '',
-          digitalMode: false
-          // rstBeforeChangeMode: action.rstbeforechange
-        };
+        
+   newStore = Object.assign({}, state,
+       {
+           ...state,
+           currentQso: auxcurrentQso
+       });
+   return newStore;
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        currentQso: auxcurrentQso
-      });
-      return newStore;
-
-    case SET_WELCOME_USER_FIRST_TIME:
-      newStore = Object.assign({}, state, {
-        ...state,
-        welcomeUserFirstTime: action.payload
-      });
+  case SET_WELCOME_USER_FIRST_TIME:
+ 
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            welcomeUserFirstTime: action.payload
+        });
+        
       return newStore;
 
     // este en teoria se deja de usar, porque los QRA se ingresan en el AddCallSign en un Array Auxiliar
@@ -908,152 +974,191 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
 
-    case SET_JUSTPUBLISHED:
-      newStore = Object.assign({}, state, {
-        ...state,
+      case SET_JUSTPUBLISHED:
+ 
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+             
+                justPublished: action.status
+            });
+        return newStore; 
 
-        justPublished: action.status
-      });
-      return newStore;
+        case SET_EXTERNAL_SHARE_URL:
 
-    case SET_SHARE_URL_GUID:
-      //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
-      auxcurrentQso = {
-        ...state.currentQso,
-        shareUrlGuid: action.urlguid
-      };
-      newStore = Object.assign({}, state, {
-        ...state,
-        currentQso: auxcurrentQso
-      });
-      return newStore;
+           newStore = Object.assign({}, state,
+               {
+                   ...state,
+                
+                   externalShareUrl: action.status
+               });
+           return newStore; 
+
+
+     case SET_SHARE_URL_GUID:
+       //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
+         auxcurrentQso = {
+            ...state.currentQso,
+            shareUrlGuid: action.urlguid  
+                  
+        };
+        newStore = Object.assign({}, state,
+            {
+                ...state,
+                currentQso: auxcurrentQso
+            });
+        return newStore; 
+  
+  
 
     case CAMERA_PERMISSION_TRUE:
-      //console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-
-      newStore = Object.assign({}, state, {
-        ...state,
-        camerapermission: true
-      });
-      return newStore;
+     //console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            camerapermission: true
+        });
+    return newStore; 
 
     case CAMERA_PERMISSION_FALSE:
-      //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
+    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
+     
+     newStore = Object.assign({}, state,
+         {
+             ...state,
+             camerapermission: false
+         });
+     return newStore; 
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        camerapermission: false
-      });
-      return newStore;
-
-    case AUDIO_RECORDING_PERMISSION_TRUE:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-
-      newStore = Object.assign({}, state, {
-        ...state,
-        audiorecordingpermission: true
-      });
-      return newStore;
+     case AUDIO_RECORDING_PERMISSION_TRUE:
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            audiorecordingpermission: true
+        });
+    return newStore; 
 
     case AUDIO_RECORDING_PERMISSION_FALSE:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-
-      newStore = Object.assign({}, state, {
-        ...state,
-        audiorecordingpermission: false
-      });
-      return newStore;
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            audiorecordingpermission: false
+        });
+    return newStore; 
 
     case NEW_QSO_ACTIVE_TRUE:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            newqsoactive: true
+        });
+    return newStore; 
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        newqsoactive: true
-      });
-      return newStore;
 
     case NEW_QSO_ACTIVE_FALSE:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            newqsoactive: false
+        });
+    return newStore; 
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        newqsoactive: false
-      });
-      return newStore;
 
     case SET_STOPALLAUDIOS:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-
-      newStore = Object.assign({}, state, {
-        ...state,
-        stopAllAudios: action.payload
-      });
-      return newStore;
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            stopAllAudios: action.payload
+        });
+    return newStore; 
 
     case SET_URL_RDS_S3:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-
-      newStore = Object.assign({}, state, {
-        ...state,
-        urlRdsS3: action.urlrds,
-        identityId: action.identityid
-      });
-      return newStore;
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            urlRdsS3: action.urlrds,
+            identityId: action.identityid
+        });
+    return newStore; 
 
     case SET_TOKEN:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      //console.log('Reducer jwtToken:' + action.jwttoken);
-      newStore = Object.assign({}, state, {
-        ...state,
-        jwtToken: action.jwttoken
-      });
-      return newStore;
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    console.log("Reducer jwtToken:"+action.jwttoken);
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            jwtToken: action.jwttoken
+        });
+    return newStore; 
 
     case SET_PRESSHOME:
-      newStore = Object.assign({}, state, {
-        ...state,
-        pressHome: action.presshome
-      });
-      return newStore;
+     
+       newStore = Object.assign({}, state,
+           {
+               ...state,
+               pressHome: action.presshome
+           });
+       return newStore; 
+
 
     case MANAGE_PUSH_TOKEN:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-
-      newStore = Object.assign({}, state, {
-        ...state,
-        pushToken: action.pushtoken
-      });
-      return newStore;
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+   
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            pushToken: action.pushtoken
+        });
+    return newStore;
 
     case SET_WEBVIEW:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      // console.log("Reducer jwtToken:"+action.jwttoken);
+       // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+       // console.log("Reducer jwtToken:"+action.jwttoken);
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        // jwtToken: action.jwttoken,
-        webviewSession: action.webviewsession,
-        webviewUrl: action.webviewurl
-      });
+       newStore = Object.assign({}, state,
+           {
+               ...state,
+               // jwtToken: action.jwttoken,
+               webviewSession: action.webviewsession,
+               webviewUrl: action.webviewurl
+           });
 
-      return newStore;
+       return newStore; 
+
+
 
     case SET_USER_INFO:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      // console.log('Reducer User_Info:' + JSON.stringify(action.userinfo));
-      if (action.mode === 'ALL') {
-        newStore = Object.assign({}, state, {
-          ...state,
-          userInfo: action.userinfo
-        });
-        return newStore;
-      }
-
-      if (action.mode === 'scans_links') {
-        let modif = {
-          monthly_scans: action.userinfo.monthly_scans,
-          monthly_links: action.userinfo.monthly_links
+    // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    console.log("Reducer User_Info:"+JSON.stringify(action.userinfo));
+   if (action.mode==='ALL')
+           { newStore = Object.assign({}, state,
+               {
+                   ...state,
+                   userInfo: action.userinfo
+               });
+           return newStore;
+        }
+       
+        if (action.mode==='scans_links')
+         { 
+            let modif = {"monthly_scans" : action.userinfo.monthly_scans, "monthly_links" : action.userinfo.monthly_links };
+            auxUserInfo = {
+               ...state.userInfo,
+               monthly_scans: action.userinfo.monthly_scans,
+               monthly_links: action.userinfo.monthly_links
         };
         auxUserInfo = {
           ...state.userInfo,
@@ -1463,6 +1568,20 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
+        case SET_VIDEO_UPLOAD_PROGRESS:
+            
+              auxcurrentQso = {
+                 ...state.currentQso,
+                 videoPercentage: action.progress          
+             };
+       
+             newStore = Object.assign({}, state,
+                 {
+                     ...state,
+                     currentQso: auxcurrentQso,                
+                 });
+             return newStore; 
+
 
     case MANAGE_NOTIFICATIONS:
       // let auxcurrentQso;

@@ -154,6 +154,7 @@ android {
             keyPassword 'android'
         }
     }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -164,17 +165,17 @@ android {
             signingConfig signingConfigs.debug
 
             // comentar al momento de genera APK final asi se activa la compresion del APK
-         //   minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled enableProguardInReleaseBuilds
 
             // Enables code shrinking, obfuscation, and optimization for only
             // your project's release build type.
             // activarlo al momento de genera APK final porque tarda tiempo en build sino
-            minifyEnabled true
+//            minifyEnabled true
 
             // Enables resource shrinking, which is performed by the
             // Android Gradle plugin.
             // activarlo al momento de genera APK final porque tarda tiempo en build sino
-            shrinkResources true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -194,24 +195,39 @@ android {
     }
 
 
+    packagingOptions {
+        pickFirst '**/armeabi-v7a/libc++_shared.so'
+        pickFirst '**/x86/libc++_shared.so'
+        pickFirst '**/arm64-v8a/libc++_shared.so'
+        pickFirst '**/x86_64/libc++_shared.so'
+        pickFirst '**/x86/libjsc.so'
+        pickFirst '**/armeabi-v7a/libjsc.so'
+    }
+
+
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+        implementation fileTree(dir: "libs", include: ["*.jar"])
+        //noinspection GradleDynamicVersion
+        implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
-      exclude group:'com.facebook.fbjni'
-    }
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
-        exclude group:'com.squareup.okhttp3', module:'okhttp'
-    }
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
-    }
+    implementation "com.squareup.okhttp3:okhttp:4.4.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.4.1"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.4.1"
+
+
+        implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+        debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+            exclude group:'com.facebook.fbjni'
+        }
+        debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+            exclude group:'com.facebook.flipper'
+            exclude group:'com.squareup.okhttp3', module:'okhttp'
+        }
+        debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
+            exclude group:'com.facebook.flipper'
+        }
 
 //    implementation 'com.google.firebase:firebase-core:17.0.1'
 //    implementation 'com.google.firebase:firebase-messaging:19.0.1'

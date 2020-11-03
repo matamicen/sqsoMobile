@@ -18,17 +18,20 @@ import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 // import QsoHeader from './QsoHeader';
 // import QsoHeaderLink from './QsoHeaderLink';
-import {
-  getQslScan,
-  manage_notifications,
-  setPressHome,
-  setWebView,
-  updateLinkQso
-} from '../../actions';
-import global_config from '../../global_config.json';
+import { getQslScan, updateLinkQso, manage_notifications, setWebView, setPressHome, setExternalShreUrl } from '../../actions';
+
+import { getDateQslScan } from '../../helper';
 import { hasAPIConnection } from '../../helper';
 import I18n from '../../utils/i18n';
 import VariosModales from './VariosModales';
+import global_config from '../../global_config.json';
+
+import ShareMenu from 'react-native-share-menu';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
+
+
 
 class Home extends Component {
   static navigationOptions = {
@@ -77,7 +80,37 @@ class Home extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
+
+
+    ShareMenu.getSharedText((text) => {
+      console.log('el text del share 09:'+JSON.stringify(text) )
+       if (text!==null && (typeof text !== 'undefined')) {
+        // if (typeof text !== 'undefined') {
+        console.log('el text del share 09: '+ text)
+        auxshare1 = JSON.stringify(text);
+        auxshare2 = JSON.parse(auxshare1);
+        console.log('auxshare: ' + auxshare2.data)
+        AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+        AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
+       
+        this.props.setExternalShreUrl(true);
+        this.props.navigation.navigate("QsoScreen");
+        
+        //  console.log('timeout share 1')
+        //       setTimeout(
+        //       () => {
+        //           console.log('timeout share 2')
+                 
+                  
+ 
+        //         },
+        //       3000);
+        
+      }
+      // else
+      // this.props.setExternalShreUrl(false);
+    })
     // if (Platform.OS==='ios')
 
     // setTimeout(
@@ -879,11 +912,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getQslScan,
-  updateLinkQso,
-  manage_notifications,
-  setWebView,
-  setPressHome
-};
+    getQslScan,
+    updateLinkQso,
+    manage_notifications,
+    setWebView,
+    setPressHome,
+    setExternalShreUrl
+    
+   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

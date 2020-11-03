@@ -33,7 +33,7 @@ class MediaFiles extends Component {
   
 
   _renderItem = ({ item }) => {
-    const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia } = item;
+    const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height, qra, rectime, idmedia, videoImagePreview } = item;
 
    if (type!=='profile')
     return (
@@ -41,7 +41,7 @@ class MediaFiles extends Component {
        <View style={{ paddingRight: 8 }}>
         <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
          status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height}
-         qra={qra} rectime={rectime} idmedia={idmedia} mediafiles={this.props.mediafiles}/>
+         qra={qra} rectime={rectime} idmedia={idmedia} mediafiles={this.props.mediafiles} videoimagepreview={videoImagePreview}/>
         </View>
        
       </View>

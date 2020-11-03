@@ -45,6 +45,8 @@ import { hasAPIConnection } from '../../helper';
 import I18n from '../../utils/i18n';
 import CamaraSelect from '../Qso/CamaraSelect';
 import VariosModales from '../Qso/VariosModales';
+// import Permissions from 'react-native-permissions'
+import {request, PERMISSIONS, RESULTS} from "react-native-permissions";
 import Muestro from './../Qso/Muestro';
 //import Qra from './../Qso/Qra';
 import QraProfile from './../Qso/QraProfile';
@@ -227,30 +229,55 @@ class InitialScreen extends Component {
     if (await hasAPIConnection()) {
       // pongo flag en 0 del Modal de espera de Upload de Photo Profile por si ya
       // envio una foto antes.
-      // this.props.setProfileModalStat(0);
+     // this.props.setProfileModalStat(0);
+     if (Platform.OS==='android'){
+       CAMERA_PERMISSION = PERMISSIONS.ANDROID.CAMERA;
+       STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+     }
+    else
+      CAMERA_PERMISSION = PERMISSIONS.IOS.CAMERA;
+    
+   
 
-      Permissions.request('camera').then((response) => {
+      // Permissions.request('camera').then(response => {
+        request(CAMERA_PERMISSION).then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-        console.log('Camera Permiso: ' + response);
-        if (response === 'authorized' && Platform.OS === 'android') {
-          Permissions.request('storage').then((res) => {
+        console.log('Camera Permiso: '+response);
+      if (response===RESULTS.GRANTED &&  Platform.OS === 'android')
+        {
+
+          // Permissions.request('storage').then(res => {
+            request(STORAGE_PERMISSION).then(response => {
+            
             this.props.closeModalConfirmPhoto('profile');
             this.props.navigation.navigate('CameraScreen2');
           });
 
-          // this.props.closeModalConfirmPhoto('profile');
-          // this.props.navigation.navigate("CameraScreen2");
-        }
+          
+        // this.props.closeModalConfirmPhoto('profile');
+        // this.props.navigation.navigate("CameraScreen2");
+         }
 
-        if (response === 'authorized' && Platform.OS !== 'android') {
+        //  if (response==='authorized' &&  Platform.OS !== 'android')
+        if (response===RESULTS.GRANTED &&  Platform.OS !== 'android')
+          {
+            
+
+        // if (response === 'authorized' && Platform.OS !== 'android') {
           console.log('Camera Permiso ok IOS: ' + response);
           this.props.closeModalConfirmPhoto('profile');
           this.props.navigation.navigate('CameraScreen2');
         }
 
-        if (response === 'denied' && Platform.OS !== 'android') {
-          Alert.alert(I18n.t('DENIED_ACCESS_1'), I18n.t('TO_AUTHORIZE_2_IOS'), [
+  
+        // if (response==='denied' &&  Platform.OS !== 'android')
+        if (response===RESULTS.DENIED &&  Platform.OS !== 'android')
+        {
+         Alert.alert(
+          I18n.t("DENIED_ACCESS_1"),
+          I18n.t("TO_AUTHORIZE_2_IOS"),
+          [
             {
               text: 'No, thanks',
               onPress: () => console.log('Permission denied'),
@@ -260,7 +287,7 @@ class InitialScreen extends Component {
           ]);
         }
 
-        if (response === 'restricted' && Platform.OS === 'android') {
+        if (response===RESULTS.BLOCKED && Platform.OS === 'android') {
           Alert.alert(
             I18n.t('DENIED_ACCESS_1'),
             I18n.t('TO_AUTHORIZE_2_ANDROID'),
@@ -275,7 +302,7 @@ class InitialScreen extends Component {
           );
         }
 
-        if (response === 'restricted' && Platform.OS !== 'android') {
+        if (response===RESULTS.BLOCKED && Platform.OS !== 'android') {
           Alert.alert(I18n.t('ACCESS_TO_CAMERA'), I18n.t('PARENTAL_CONTROLS'), [
             {
               text: 'Ok',
