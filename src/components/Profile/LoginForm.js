@@ -615,9 +615,9 @@ class LoginForm extends Component {
             // );
 
             //apologize
-            if (pushtoken === null)
+            // if (pushtoken === null)
               // Si no encuentra pushToken guardado debe reinstalar la APP
-              //  if (1===2)
+                if (1===2)
               this.setState({ stopApp: true, pushTokenNotFound: true });
             else {
               // console.log('Antes de AsyncStorage.getItem');

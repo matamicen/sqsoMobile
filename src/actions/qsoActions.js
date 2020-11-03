@@ -3132,10 +3132,11 @@ export const doFetchPublicFeed = (qra = null) => {
     dispatch(doRequestFeed());
     const apiName = 'superqso';
     const path = '/qso-public-list';
-    const myInit = {
-      body: {}, // replace this with attributes you need
-      headers: { 'Content-Type': 'application/json' } // OPTIONAL
-    };
+    // const myInit = {
+    //   body: {}, // replace this with attributes you need
+    //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
+    // };
+    const myInit = { };
     API.get(apiName, path, myInit)
       .then((response) => {
         // console.log(response);
