@@ -6,7 +6,7 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 // import '../styles/style.css';
 
-class PopupToFollow extends React.Component {
+class PopupToFollow extends React.PureComponent {
   state = {
     isFollowing: this.props.following.some((o) => o.qra === this.props.qra),
     following: this.props.following

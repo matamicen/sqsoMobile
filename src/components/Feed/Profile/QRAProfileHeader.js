@@ -5,7 +5,7 @@ import I18n from '../../../utils/i18n';
 // import '../../styles/style.css';
 import { MY_COUNTRIES_DATA } from './countries.js';
 
-class QRAProfileHeader extends React.Component {
+class QRAProfileHeader extends React.PureComponent {
   state = { showModal: false };
   close = () => this.setState({ showModal: false });
   open = () => {

@@ -13,7 +13,7 @@ import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
 import './style.js';
 
-class FeedItemPost extends React.Component {
+class FeedItemPost extends React.PureComponent {
   constructor() {
     super();
     this.state = {

@@ -6,5 +6,11 @@ module.exports = {
     quotes: ['error', 'single'],
     // semi: ['error', 'never'],
     // 'sort-keys': ['error', 'asc', { caseSensitive: true, natural: false }],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };

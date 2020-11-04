@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 // import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
 import FollowCarrousel from '../follow/followCarrousel';
-class FeedItemFollow extends React.Component {
+class FeedItemFollow extends React.PureComponent {
   state = {
     followed: [],
     openLogin: false,

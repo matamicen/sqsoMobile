@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 
-class QSOLikeTextModalItem extends React.Component {
+class QSOLikeTextModalItem extends React.PureComponent {
   constructor() {
     super();
     this.followed = null;

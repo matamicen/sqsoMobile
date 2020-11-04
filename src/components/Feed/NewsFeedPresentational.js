@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import FeedItem from './FeedItem';
-
 class NewsFeed extends React.PureComponent {
   state = { currentVisibleIndex: null, list: this.props.list, refresh: false };
   componentDidUpdate(prevProps, prevState) {
@@ -23,20 +22,19 @@ class NewsFeed extends React.PureComponent {
     }
   };
   _renderItem = ({ item, index }) => {
+    console.log(index);
     return (
-      <View>
-        <FeedItem
-          ref={(ref) => {
-            this.cellRefs[item.id] = ref;
-          }}
-          key={index.toString}
-          idqsos={item.qso.idqsos}
-          currentIndex={index}
-          currentVisibleIndex={this.state.currentVisibleIndex}
-          type={item.type}
-          source={item.source}
-        />
-      </View>
+      <FeedItem
+        ref={(ref) => {
+          this.cellRefs[item.id] = ref;
+        }}
+        key={index.toString}
+        idqsos={item.qso.idqsos}
+        currentIndex={index}
+        currentVisibleIndex={this.state.currentVisibleIndex}
+        type={item.type}
+        source={item.source}
+      />
     );
   };
   renderSeparator = () => {
@@ -66,16 +64,18 @@ class NewsFeed extends React.PureComponent {
           }
         /> */}
         <FlatList
-          extraData={this.state.refresh}
+          // extraData={this.state.refresh}
           onScroll={this.handleScroll}
-          data={this.state.list}
+          data={this.props.list}
           onViewableItemsChanged={this._onViewableItemsChanged}
-          initialNumToRender={3}
+          initialNumToRender={5}
           viewabilityConfig={this.viewabilityConfig}
-          maxToRenderPerBatch={3}
+          maxToRenderPerBatch={5}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this._renderItem}
+          removeClippedSubviews={true} // Unmount components when outside of window
+          windowSize={3} // Reduce the window size
         />
       </View>
     );

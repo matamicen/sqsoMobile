@@ -9,7 +9,7 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import QSOCommentItem from './QSOCommentItem';
 
-class QSOComments extends React.Component {
+class QSOComments extends React.PureComponent {
   constructor() {
     super();
     this.state = {

@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 // import PopupToFollow from '../PopupToFollow';
 
-class QRA extends React.Component {
+class QRA extends React.PureComponent {
   render() {
     return (
       <View style={styles.container}>

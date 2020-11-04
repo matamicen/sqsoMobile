@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 
-class FeedAudio extends React.Component {
+class FeedAudio extends React.PureComponent {
   constructor() {
     super();
     this.state = {

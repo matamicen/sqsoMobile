@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.js';
 
-export default class FeedItemAd extends React.Component {
+export default class FeedItemAd extends React.PureComponent {
   render() {
     return (
       // <Segment

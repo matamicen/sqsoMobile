@@ -10,7 +10,7 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Actions from '../../actions';
 import QslCardPrint from './qslCard';
 
-class FeedOptionsMenu extends React.Component {
+class FeedOptionsMenu extends React.PureComponent {
   state = {
     showReportContent: false,
     showMessage: false,

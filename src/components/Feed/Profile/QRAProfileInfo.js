@@ -10,7 +10,7 @@ import QRAProfileInfoEdit from './QRAProfileInfoEdit';
 //   { key: "Y", text: "Yes", value: "1" },
 //   { key: "N", text: "No", value: "0" }
 // ];
-class QRAProfileInfo extends React.Component {
+class QRAProfileInfo extends React.PureComponent {
   constructor(props) {
     super(props);
 

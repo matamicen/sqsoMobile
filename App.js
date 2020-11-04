@@ -119,7 +119,7 @@ if (__DEV__) {
 
 // });
 
-export default class App extends React.Component {
+export default class App extends React.PureComponent {
   render() {
     console.disableYellowBox = true;
 

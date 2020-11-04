@@ -15,8 +15,6 @@ class FeedItemQSO extends React.PureComponent {
   constructor() {
     super();
     this.state = { showComments: false, comments: [], likes: [], error: null };
-
-    // this.recalculateRowHeight = this.recalculateRowHeight.bind(this);
   }
 
   //     }
@@ -30,16 +28,7 @@ class FeedItemQSO extends React.PureComponent {
   //   }
   //   return null;
   // }
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('feedItemQSO');
-    // console.log(this.props.qso.likes);
-    // if (this.props.qso !== prevProps.qso)
-    //   this.setState({
-    //     qso: this.props.qso,
-    //     comments: this.props.qso.comments,
-    //     likes: this.props.qso.likes
-    //   });
-  }
+
   render() {
     let shareText;
 

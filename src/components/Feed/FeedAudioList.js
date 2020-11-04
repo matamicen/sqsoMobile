@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 // import Item from "semantic-ui-react/dist/commonjs/views/Item";
 import FeedAudio from './FeedAudio';
-export default class FeedAudioList extends React.Component {
+export default class FeedAudioList extends React.PureComponent {
   render() {
     if (this.props.mediaList.length > 0) {
       return (

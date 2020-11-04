@@ -3,6 +3,7 @@ import Storage from '@aws-amplify/storage';
 import crashlytics from '@react-native-firebase/crashlytics';
 import React, { Fragment } from 'react';
 import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-elements';
 import HTMLView from 'react-native-htmlview';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,7 +11,7 @@ import * as Actions from '../../../actions';
 import global_config from '../../../global_config.json';
 import I18n from '../../../utils/i18n';
 import QRAProfileBioEdit from './QRAProfileBioEdit';
-class QRAProfileBio extends React.Component {
+class QRAProfileBio extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -178,16 +179,13 @@ class QRAProfileBio extends React.Component {
     const contentWidth = Dimensions.get('window').width;
     return (
       <Fragment>
-        {/* <Segment raised> */}
         {this.props.currentQRA === this.props.qraInfo.qra && (
           <View>
-            {/* <Button
-              positive
+            <Button
               fluid
-              size="mini"
-              onClick={() => this.setState({ edit: true })}>
-              {I18n.t('qra.editBio')}
-            </Button> */}
+              onPress={() => this.setState({ edit: true })}
+              title={I18n.t('qra.editBio')}
+            />
           </View>
         )}
         <ScrollView style={{ flex: 1, margin: 2 }}>
@@ -215,7 +213,7 @@ const styles = StyleSheet.create({});
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
   currentQRA: state.sqso.qra,
-  // identityId: state.userData.identityId,
+  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

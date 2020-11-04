@@ -1,23 +1,16 @@
+import crashlytics from '@react-native-firebase/crashlytics';
 import React from 'react';
 import {
-
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-  Alert
-
+    StyleSheet, Text, View
 } from 'react-native';
 import { connect } from 'react-redux';
 
 
-import crashlytics from '@react-native-firebase/crashlytics';
 
 
 
 //const App: () => React$Node = () => {
-  class ErrorBoundary extends React.Component {
+  class ErrorBoundary extends React.PureComponent {
 
 
     constructor(props) {

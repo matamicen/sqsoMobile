@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import NewsFeed from './NewsFeedContainer';
-class Home extends React.Component {
+class Home extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: ' ',
     // 50

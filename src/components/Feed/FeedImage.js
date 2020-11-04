@@ -54,7 +54,7 @@ import * as Actions from '../../actions';
 
 //   return { imageWidth };
 // };
-// class FeedImage extends React.Component {
+// class FeedImage extends React.PureComponent {
 const horizontalMargin = 5;
 
 const slideWidth = Dimensions.get('window').width - 30;

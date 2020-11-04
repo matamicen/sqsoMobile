@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 
-class QSOLikeButton extends React.Component {
+class QSOLikeButton extends React.PureComponent {
   constructor() {
     super();
     this.likeCounter = 0;

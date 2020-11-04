@@ -12,7 +12,7 @@ import QSORePostButton from './QSORePostButton';
 import QSOShareButtons from './QSOShareButtons';
 // import './style.js';
 
-class FeedSocialButtons extends React.Component {
+class FeedSocialButtons extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {

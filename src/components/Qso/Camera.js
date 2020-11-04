@@ -1,17 +1,20 @@
 //import { Constants, Camera, FileSystem, Permissions, ImageManipulator } from 'expo';
+import crashlytics from '@react-native-firebase/crashlytics';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, Platform, ActivityIndicator, Image } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { RNCamera } from 'react-native-camera';
+import ImagePicker from 'react-native-image-crop-picker';
 //import GalleryScreen from './GalleryScreen';
 // import Muestro from './Muestro';
 // import isIPhoneX from 'react-native-is-iphonex';
 import { NavigationActions, StackActions } from 'react-navigation';
-
 import { connect } from 'react-redux';
-import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
-         actindicatorImageEnabled, setConfirmProfilePhotoModal, setProfileModalStat } from '../../actions';
-import { RNCamera } from 'react-native-camera';
-import ImagePicker from 'react-native-image-crop-picker';
-import crashlytics from '@react-native-firebase/crashlytics';
+import {
+    actindicatorImageDisabled,
+    actindicatorImageEnabled, openModalConfirmPhoto, sendActualMedia,
+    setConfirmProfilePhotoModal, setProfileModalStat
+} from '../../actions';
+
 
 const landmarkSize = 2;
 
@@ -37,7 +40,7 @@ const wbOrder = {
   incandescent: 'auto',
 };
 
-class CameraScreen extends React.Component {
+class CameraScreen extends React.PureComponent {
 
   constructor(props) {
        super(props);

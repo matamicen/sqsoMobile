@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  FlatList,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    FlatList,
+    Modal,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ import I18n from '../../utils/i18n';
 import QSOLikeTextModalItem from './QSOLikeTextModalItem';
 
 // import './style.js';
-class QSOLikeText extends React.Component {
+class QSOLikeText extends React.PureComponent {
   constructor() {
     super();
     this.state = { likes: [], showModal: false };

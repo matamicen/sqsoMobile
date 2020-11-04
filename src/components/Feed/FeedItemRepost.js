@@ -21,7 +21,7 @@ import QSORePostButton from './QSORePostButton';
 import QSOShareButtons from './QSOShareButtons';
 import './style.js';
 
-class FeedItemRepost extends React.Component {
+class FeedItemRepost extends React.PureComponent {
   constructor() {
     super();
     this.state = { comments: [], likes: [], error: null };

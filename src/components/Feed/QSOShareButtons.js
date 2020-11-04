@@ -3,7 +3,7 @@ import { Button, Icon } from 'react-native-elements';
 import Share from 'react-native-share';
 import global_config from '../../global_config.json';
 import I18n from '../../utils/i18n';
-class QSOShareButtons extends React.Component {
+class QSOShareButtons extends React.PureComponent {
   share = () => {
     // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
     // const url = 'http://superqso-dev.us-east-1.elasticbeanstalk.com/qso/'+this.props.sharerluid;

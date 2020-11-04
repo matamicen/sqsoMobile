@@ -14,7 +14,7 @@ var ConvertToComp = (response) => {
   console.log(response);
   return response;
 };
-class QSOCommentItem extends React.Component {
+class QSOCommentItem extends React.PureComponent {
   constructor() {
     super();
     this.followed = null;
