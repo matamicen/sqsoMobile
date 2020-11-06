@@ -18,7 +18,7 @@ import { deleteQsoQra, followAdd, QsoQraDelete, unfollow } from '../../actions';
 import { getDate, getFollowStatus, hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 
-class QraLike extends Component {
+class QraLike extends React.PureComponent {
   constructor(props) {
     super(props);
 

@@ -1,4 +1,5 @@
-import React from 'react';
+// import React from 'react';
+import React, { Component } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import {
   createAppContainer,

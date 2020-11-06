@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { get_notifications } from '../../actions';
 import NotifItem from './NotifItem';
 
-class NotificationList extends Component {
+class NotificationList extends React.PureComponent {
   constructor(props) {
     super(props);
 

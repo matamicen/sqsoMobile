@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React from 'react';
+import React, { Component } from "react";
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';

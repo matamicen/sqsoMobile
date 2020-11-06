@@ -12,7 +12,7 @@ import {
   import VariosModales from "../Qso/VariosModales";
 
 
-class ContactUs extends Component {
+class ContactUs extends React.PureComponent {
 
 
   constructor(props) {

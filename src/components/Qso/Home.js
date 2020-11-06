@@ -33,7 +33,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 
 
-class Home extends Component {
+class Home extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: ' ',
     // 50

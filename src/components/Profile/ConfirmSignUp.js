@@ -7,7 +7,7 @@ import I18n from '../../utils/i18n';
 
 
 
-class ConfirmSignUp extends Component {
+class ConfirmSignUp extends React.PureComponent {
 
     constructor(props) {
         super(props);

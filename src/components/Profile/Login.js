@@ -4,7 +4,7 @@ import { Text, Image, View, Button, StyleSheet, Iamge, KeyboardAvoidingView, Pla
 import { connect } from 'react-redux';
 import LoginForm from './LoginForm';
 
-class Login extends Component {
+class Login extends React.PureComponent {
 //   static navigationOptions = {
 //       tabBarLabel: 'Profile'
 //behavior="padding"

@@ -5,7 +5,7 @@ import { setMode, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, acti
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
 
-class QsoQtrLink extends Component {
+class QsoQtrLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

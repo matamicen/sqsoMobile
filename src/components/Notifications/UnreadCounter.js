@@ -7,7 +7,7 @@ import { } from '../../actions';
 
 
 
-class UnreadCounter extends Component {
+class UnreadCounter extends React.PureComponent {
 
     constructor(props) {
         super(props);

@@ -29,7 +29,7 @@ import {
 import { getDate, getFollowStatus, hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
 
-class QraAddCallSign extends Component {
+class QraAddCallSign extends React.PureComponent {
   constructor(props) {
     super(props);
 

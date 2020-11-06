@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { deleteQsoQra, followAdd, QsoQraDelete, unfollow } from '../../actions';
 
-class Comment extends Component {
+class Comment extends React.PureComponent {
   constructor(props) {
     super(props);
 

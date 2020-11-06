@@ -18,7 +18,7 @@ import { getDate, getFollowStatus, hasAPIConnection } from '../../helper';
 import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
 
-class Qra extends Component {
+class Qra extends React.PureComponent {
   constructor(props) {
     super(props);
 

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import 'moment/locale/es';
-import { Component } from 'react';
+
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import I18n from '../../utils/i18n';
 
@@ -12,7 +13,7 @@ if (I18n.locale.substring(0, 2) === 'en') moment.locale('en');
 //  if (I18n.locale.substring(0, 2) ==='pt')
 //  moment.locale('pt');
 
-class MomentAgo extends Component {
+class MomentAgo extends React.PureComponent {
   constructor(props) {
     super(props);
 

@@ -5,7 +5,7 @@ import { fetchPeople } from '../../actions';
 import Qra from './Qra';
 //import PropTypes from 'prop-types';
 
-class QsoQrasLink extends Component {
+class QsoQrasLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

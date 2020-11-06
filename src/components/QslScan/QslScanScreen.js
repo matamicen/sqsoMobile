@@ -19,7 +19,7 @@ import Permissions from 'react-native-permissions'
 import I18n from '../../utils/i18n';
 
 
-class QslScanScreen extends Component {
+class QslScanScreen extends React.PureComponent {
   static navigationOptions = {
       tabBarLabel: ' ',
 

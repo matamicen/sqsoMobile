@@ -360,8 +360,6 @@ PODS:
   - react-native-ffmpeg/https-gpl (0.5.0):
     - mobile-ffmpeg-https-gpl (= 4.4)
     - React
-  - react-native-flipper (0.61.0):
-    - React
   - react-native-image-picker (2.3.4):
     - React-Core
   - react-native-image-resizer (1.0.1):
@@ -551,7 +549,6 @@ DEPENDENCIES:
   - react-native-background-upload (from `../node_modules/react-native-background-upload`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-ffmpeg/https-gpl (from `../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec`)
-  - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-location (from `../node_modules/react-native-location`)
@@ -681,8 +678,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-ffmpeg:
     :podspec: "../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec"
-  react-native-flipper:
-    :path: "../node_modules/react-native-flipper"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
@@ -820,7 +815,6 @@ SPEC CHECKSUMS:
   react-native-background-upload: 4f82b6b9b2538a9f6d25dc275f4259d038065849
   react-native-camera: 9bf6e0cdce0d7dc059d9836eb381d96f58f83d83
   react-native-ffmpeg: 7c64ba2e41eeb06144ad77f17e62ecbbc29ae3c0
-  react-native-flipper: 7936453fec474d5360a14cf6ac035bd689611ffd
   react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d

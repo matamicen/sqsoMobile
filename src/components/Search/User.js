@@ -10,7 +10,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import I18n from '../../utils/i18n';
 
 
-class User extends Component {
+class User extends React.PureComponent {
 
     constructor(props) {
         super(props);

@@ -58,7 +58,7 @@ import RestoreSubscription from './RestoreSubscription';
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
 
-class InitialScreen extends Component {
+class InitialScreen extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: ' ',
 

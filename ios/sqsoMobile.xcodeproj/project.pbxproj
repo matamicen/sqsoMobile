@@ -18,7 +18,6 @@
 		34D40E7DAD212EF05F11E3EB /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEDA5C645CF58935436A0F7A /* libPods-ShareExtension.a */; };
 		414863EBA3EEE9B70E37CA67 /* libPods-sqsoMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0337F866BBF58F82CD535A55 /* libPods-sqsoMobile-tvOS.a */; };
 		673381CE232C3525009E5299 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673381CD232C3525009E5299 /* StoreKit.framework */; };
-		674488802551F120004F868A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6744887F2551F120004F868A /* ShareViewController.swift */; };
 		674D70C022F0DB9D001547BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */; };
 		675923F6249BFD9900E75612 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 675923F8249BFD9900E75612 /* Localizable.strings */; };
 		6764767525405C9500963A7B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6764767325405C9500963A7B /* MainInterface.storyboard */; };
@@ -29,6 +28,7 @@
 		67A0B7792524CA800051BCC0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A0B7782524CA800051BCC0 /* AVFoundation.framework */; };
 		67A0B77B2524CA8F0051BCC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A0B77A2524CA8F0051BCC0 /* QuartzCore.framework */; };
 		67A0B77D2524CA9B0051BCC0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A0B77C2524CA9B0051BCC0 /* MobileCoreServices.framework */; };
+		67ADC8BE2555D0320073BE0D /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ADC8BD2555D0320073BE0D /* ShareViewController.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		855F92B290D1BAEF9A08E291 /* libPods-sqsoMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEF1E5B805FC5A281786439 /* libPods-sqsoMobile-tvOSTests.a */; };
 		C4FF6908C625E3FF0B0D5ABF /* libPods-sqsoMobile-sqsoMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F540A4D172F1F53B4CEAC37 /* libPods-sqsoMobile-sqsoMobileTests.a */; };
@@ -97,7 +97,6 @@
 		572E142166DB40E69248582E /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		63C52600466C5C59690F4977 /* Pods-sqsoMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile.debug.xcconfig"; path = "Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		673381CD232C3525009E5299 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		6744887F2551F120004F868A /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		674D70BF22F0DB9D001547BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		675923F7249BFD9900E75612 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		675923F9249BFE0200E75612 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -129,6 +128,7 @@
 		67A0B7782524CA800051BCC0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		67A0B77A2524CA8F0051BCC0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		67A0B77C2524CA9B0051BCC0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		67ADC8BD2555D0320073BE0D /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		7A52F819B97441E297F89003 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		803E696069C4431D7428B474 /* Pods-sqsoMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOS/Pods-sqsoMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		808D9A00AB0D707A05E9C4FC /* libPods-sqsoMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -287,7 +287,7 @@
 		6764767025405C9500963A7B /* ShareExtension */ = {
 			isa = PBXGroup;
 			children = (
-				6744887F2551F120004F868A /* ShareViewController.swift */,
+				67ADC8BD2555D0320073BE0D /* ShareViewController.swift */,
 				676476812540628B00963A7B /* ShareExtension.entitlements */,
 				6764767325405C9500963A7B /* MainInterface.storyboard */,
 				6764767625405C9500963A7B /* Info.plist */,
@@ -1087,7 +1087,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				674488802551F120004F868A /* ShareViewController.swift in Sources */,
+				67ADC8BE2555D0320073BE0D /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1435,6 +1435,10 @@
 				MARKETING_VERSION = 1.5.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.sqsoMobile.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = adHoc2_ShareExtension;
@@ -1471,6 +1475,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.5.2;
 				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.sqsoMobile.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = adHoc2_ShareExtension;

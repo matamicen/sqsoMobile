@@ -31,7 +31,7 @@ const isCloseToBottom2 = ({layoutMeasurement, contentOffset, contentSize}) => {
     contentSize.height - paddingToBottom;
 };
 
-class VariosModales extends Component {
+class VariosModales extends React.PureComponent {
   constructor(props) {
     super(props);
     this.empty = "require('../../images/emptyprofile.png')";

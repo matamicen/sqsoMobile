@@ -17,7 +17,7 @@ import {
 
 import Video from 'react-native-video';
 
- class PlayMediaAudioPost extends Component {
+ class PlayMediaAudioPost extends React.PureComponent {
   
     constructor(props) {
         super(props);

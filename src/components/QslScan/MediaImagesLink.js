@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import I18n from '../../utils/i18n';
 import Media from './Media';
 
-class MediaImagesLink extends Component {
+class MediaImagesLink extends React.PureComponent {
   constructor(props) {
     super(props);
   }

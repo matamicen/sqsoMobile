@@ -9,7 +9,7 @@ import I18n from '../../utils/i18n';
 
 
 
-class QsoType extends Component {
+class QsoType extends React.PureComponent {
 
     constructor(props) {
         super(props);

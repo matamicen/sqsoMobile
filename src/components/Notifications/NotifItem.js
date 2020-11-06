@@ -24,7 +24,7 @@ import VariosModales from '../Qso/VariosModales';
 // import moment from "moment";
 import MomentAgo from './MomentAgo';
 
-class NotifItem extends Component {
+class NotifItem extends React.PureComponent {
   constructor(props) {
     super(props);
 

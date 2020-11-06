@@ -7,7 +7,7 @@ import { fetchPeople } from '../../actions';
 import Media from './Media';
 import PropTypes from 'prop-types';
 
-class MediaFiles extends Component {
+class MediaFiles extends React.PureComponent {
 
     constructor(props) {
         super(props);

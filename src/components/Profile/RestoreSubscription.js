@@ -48,7 +48,7 @@ const itemSubs = Platform.select({
 let purchaseUpdateSubscription;
 let purchaseErrorSubscription;
 
-class RestoreSubscription extends Component {
+class RestoreSubscription extends React.PureComponent {
   constructor(props) {
     super(props);
 

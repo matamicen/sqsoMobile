@@ -19,7 +19,7 @@ import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
 import User from './User';
 
-class Search extends Component {
+class Search extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: ' ',
 

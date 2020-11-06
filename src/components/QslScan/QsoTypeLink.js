@@ -6,7 +6,7 @@ import { cambioqsotype, postQsoEdit, resetQso } from '../../actions';
 import PropTypes from 'prop-types';
 
 
-class QsoTypeLink extends Component {
+class QsoTypeLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { profilePictureRefresh } from '../../actions';
 
 
-class QraProfile extends Component {
+class QraProfile extends React.PureComponent {
   constructor(props) {
     super(props);
     this.empty = "require('../../images/emptyprofile.png')";

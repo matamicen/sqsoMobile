@@ -9,7 +9,7 @@ import RNExitApp from 'react-native-exit-app';
 
 
 
-class StopApp extends Component {
+class StopApp extends React.PureComponent {
 
     constructor(props) {
         super(props);

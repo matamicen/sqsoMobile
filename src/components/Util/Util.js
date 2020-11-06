@@ -14,7 +14,7 @@ import I18n from '../../utils/i18n';
 
 
 
-class Util extends Component {
+class Util extends React.PureComponent {
   static navigationOptions = {
       tabBarLabel: ' ',  
 

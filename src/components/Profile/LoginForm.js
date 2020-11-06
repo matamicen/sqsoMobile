@@ -89,7 +89,7 @@ const actualAppVersion = '1.0.0';
 // let purchaseUpdateSubscription;
 // let purchaseErrorSubscription;
 
-class LoginForm extends Component {
+class LoginForm extends React.PureComponent {
   //   static navigationOptions = {
   //       tabBarLabel: 'Profile'
 

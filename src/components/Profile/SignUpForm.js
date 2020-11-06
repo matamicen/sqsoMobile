@@ -45,7 +45,7 @@ Auth.configure(awsconfig);
 
 const NORTH_AMERICA = ['CA', 'MX', 'US'];
 
-class SignUpForm extends Component {
+class SignUpForm extends React.PureComponent {
   //   static navigationOptions = {
   //       tabBarLabel: 'Profile'
 

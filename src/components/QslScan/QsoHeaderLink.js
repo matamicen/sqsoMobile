@@ -11,7 +11,7 @@ import QsoDateLink from './QsoDateLink';
 import QsoQtrLink from './QsoQtrLink';
 
 
-class QsoHeaderLink extends Component {
+class QsoHeaderLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

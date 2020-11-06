@@ -47,7 +47,7 @@ const itemSubs = Platform.select({
 let purchaseUpdateSubscription;
 let purchaseErrorSubscription;
 
-class Iap extends Component {
+class Iap extends React.PureComponent {
   constructor(props) {
     super(props);
 

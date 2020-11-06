@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import Qra from './Qra';
 
-class FollowerList extends Component {
+class FollowerList extends React.PureComponent {
   constructor(props) {
     super(props);
   }

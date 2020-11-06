@@ -16,7 +16,7 @@ const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 230;
 // const itemHeight = 220;
 
-class ImageCarousel extends Component {
+class ImageCarousel extends React.PureComponent {
   constructor(props) {
     super(props);
 

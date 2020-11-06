@@ -5,7 +5,7 @@ import { fetchPeople } from '../../actions';
 import QraAddCallSign from './QraAddCallSign';
 //import PropTypes from 'prop-types';
 
-class QsoCallSigns extends Component {
+class QsoCallSigns extends React.PureComponent {
 
     constructor(props) {
         super(props);

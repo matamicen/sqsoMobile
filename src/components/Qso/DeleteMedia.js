@@ -12,7 +12,7 @@ import I18n from '../../utils/i18n';
 
 Auth.configure(awsconfig);
 
-class DeleteMedia extends Component {
+class DeleteMedia extends React.PureComponent {
 
     constructor(props) {
         super(props);

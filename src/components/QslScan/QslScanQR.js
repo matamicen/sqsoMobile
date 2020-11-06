@@ -18,7 +18,7 @@ import {
   import I18n from '../../utils/i18n';
 
 
-class QslScanQR extends Component {
+class QslScanQR extends React.PureComponent {
   // static navigationOptions = {
   //     tabBarLabel: 'Qsl ScanQR'
 

@@ -44,7 +44,7 @@ import PlayMediaAudioPreview from './PlayMediaAudioPreview';
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
 
-class EditMedia extends Component {
+class EditMedia extends React.PureComponent {
   constructor(props) {
     super(props);
 
