@@ -116,7 +116,7 @@ import RNIap, {
 Auth.configure(awsconfig);
 
 
-class QsoScreen extends Component {
+class QsoScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     TextInput.defaultProps = { allowFontScaling: false };

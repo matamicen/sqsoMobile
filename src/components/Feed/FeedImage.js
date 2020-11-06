@@ -54,7 +54,7 @@ import * as Actions from '../../actions';
 
 //   return { imageWidth };
 // };
-// class FeedImage extends React.PureComponent {
+//  class FeedImage extends React.PureComponent {
 const horizontalMargin = 5;
 
 const slideWidth = Dimensions.get('window').width - 30;
@@ -62,7 +62,7 @@ const slideWidth = Dimensions.get('window').width - 30;
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 230;
-export const FeedImage = (props) => {
+ export const FeedImage = (props) => {
   const _renderItem = ({ item, index }) => {
     // console.log('varios: '+ item.type + ' '+ item.url)
     if (item.type === 'image')
@@ -151,6 +151,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(FeedImage);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedImage);
+// export default connect(mapStateToProps, mapDispatchToProps, null, {
+//   pure: false
+// })(FeedImage);

@@ -2208,7 +2208,7 @@ dispatch(setUploadVideoError(I18n.t("QsoScrUploadingVideoError")));
         };
       };
 
-var toast = async (message, timer) => {
+ toast = async (message, timer) => {
   // Add a Toast on screen.
   let toast = Toast.show(message, {
     duration: Toast.durations.LONG,

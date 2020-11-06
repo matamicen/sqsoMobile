@@ -12,6 +12,7 @@ class FeedItem extends React.PureComponent {
   // }
   // }
   render() {
+    console.log('render FeedItem');
     switch (this.props.type) {
       case 'POST':
       case 'QAP':

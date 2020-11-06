@@ -30,6 +30,7 @@ class FeedItemQSO extends React.PureComponent {
   // }
 
   render() {
+    console.log('render FeedItemQSO');
     let shareText;
 
     switch (this.props.qso.type) {

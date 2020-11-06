@@ -306,7 +306,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(QRAProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileContainer);
+// export default connect(mapStateToProps, mapDispatchToProps, null, {
+//   pure: false
+// })(QRAProfileContainer);

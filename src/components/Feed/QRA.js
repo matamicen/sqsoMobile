@@ -57,7 +57,10 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps, null, {
-    pure: false
-  })(QRA)
+  connect(mapStateToProps, mapDispatchToProps)(QRA)
 );
+// export default withNavigation(
+//   connect(mapStateToProps, mapDispatchToProps, null, {
+//     pure: false
+//   })(QRA)
+// );

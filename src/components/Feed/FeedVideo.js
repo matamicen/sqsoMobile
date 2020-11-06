@@ -27,6 +27,7 @@ export default class FeedVideo extends React.PureComponent {
     } else this.setState({ showVideo: true });
   }
   render() {
+    console.log('render FeedVideo')
     var width = Dimensions.get('window').width;
     var videoHeight =
       (this.props.media.height * width) / this.props.media.width;

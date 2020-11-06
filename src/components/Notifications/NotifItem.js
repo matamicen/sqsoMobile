@@ -172,7 +172,7 @@ class NotifItem extends Component {
   };
 
   render() {
-    // console.log("RENDER NotifItem");
+     console.log("RENDER NotifItem");
     //console.log('josesito:')
     // fec = new Date(this.props.datetimecomment);
 

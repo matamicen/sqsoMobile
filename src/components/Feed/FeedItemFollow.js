@@ -73,7 +73,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(FeedItemFollow);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedItemFollow);
+// export default connect(mapStateToProps, mapDispatchToProps, null, {
+//   pure: false
+// })(FeedItemFollow);

@@ -204,6 +204,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(FeedAudio);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedAudio);
+// export default connect(mapStateToProps, mapDispatchToProps, null, {
+//   pure: false
+// })(FeedAudio);

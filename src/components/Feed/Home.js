@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import NewsFeed from './NewsFeedContainer';
+import ShareMenu from 'react-native-share-menu';
+import AsyncStorage from '@react-native-community/async-storage';
 class Home extends React.PureComponent {
   static navigationOptions = {
     tabBarLabel: ' ',
@@ -43,6 +45,25 @@ class Home extends React.PureComponent {
     // videoAlreadyDisplayed: false
   };
   componentDidMount() {
+
+    ShareMenu.getSharedText((text) => {
+      console.log('el text del share 09:'+JSON.stringify(text) )
+       if (text!==null && (typeof text !== 'undefined')) {
+        // if (typeof text !== 'undefined') {
+        console.log('el text del share 09: '+ text)
+        auxshare1 = JSON.stringify(text);
+        auxshare2 = JSON.parse(auxshare1);
+        console.log('auxshare: ' + auxshare2.data)
+        AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+        AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
+       
+        this.props.actions.setExternalShreUrl(true);
+        this.props.navigation.navigate("QsoScreen");
+        
+      }
+      // else
+      // this.props.setExternalShreUrl(false);
+    })
     // if (__DEV__)
     //   this.setState({ adActive: false });
     this.props.actions.doFollowFetch();

@@ -69,7 +69,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(QSORePostButton);
+export default connect(mapStateToProps, mapDispatchToProps)(QSORePostButton);
+// export default connect(mapStateToProps, mapDispatchToProps, null, {
+//   pure: false
+// })(QSORePostButton);

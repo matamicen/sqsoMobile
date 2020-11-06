@@ -32,6 +32,7 @@ class FeedSocialButtons extends React.PureComponent {
     //   });
   }
   render() {
+    console.log('FeedSocialButtons');
     const commentsCounter = '(' + this.props.qso.comments.length + ')';
     // let shareText;
 
@@ -119,6 +120,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(FeedSocialButtons);
+ export default connect(mapStateToProps, mapDispatchToProps)(FeedSocialButtons);
+// export default connect(mapStateToProps, mapDispatchToProps, null, {
+//   pure: false
+// })(FeedSocialButtons);
