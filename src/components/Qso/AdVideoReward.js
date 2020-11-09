@@ -13,7 +13,7 @@ import {
   import Iap from './Iap';
   import crashlytics from '@react-native-firebase/crashlytics';
 
-class AdVideoReward extends Component {
+class AdVideoReward extends React.PureComponent {
 
 
   constructor(props) {

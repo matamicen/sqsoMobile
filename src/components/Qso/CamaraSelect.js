@@ -12,7 +12,7 @@ import I18n from '../../utils/i18n';
 
 Auth.configure(awsconfig);
 
-class CamaraSelect extends Component {
+class CamaraSelect extends React.PureComponent {
 
     constructor(props) {
         super(props);

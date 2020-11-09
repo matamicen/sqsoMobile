@@ -8,7 +8,7 @@ import VariosModales from './VariosModales';
 import I18n from '../../utils/i18n';
 
 
-class QsoBand extends Component {
+class QsoBand extends React.PureComponent {
 
     constructor(props) {
         super(props);

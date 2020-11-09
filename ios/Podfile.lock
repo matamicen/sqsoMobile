@@ -368,10 +368,10 @@ PODS:
     - React
   - react-native-netinfo (5.9.7):
     - React-Core
-  - react-native-video (4.4.4):
+  - react-native-video (4.4.5):
     - React
-    - react-native-video/Video (= 4.4.4)
-  - react-native-video/Video (4.4.4):
+    - react-native-video/Video (= 4.4.5)
+  - react-native-video/Video (4.4.5):
     - React
   - react-native-webview (10.3.2):
     - React
@@ -495,6 +495,8 @@ PODS:
     - React
   - RNShareMenu (5.0.2):
     - React
+  - RNVectorIcons (7.1.0):
+    - React
   - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -583,6 +585,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNShareMenu (from `../node_modules/react-native-share-menu`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -747,6 +750,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNShareMenu:
     :path: "../node_modules/react-native-share-menu"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -814,7 +819,7 @@ SPEC CHECKSUMS:
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
   react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
-  react-native-video: 25d5aebb3c9d7cdefe7a909306c7ab40be4a892c
+  react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
   react-native-webview: e2c0bce9a1a7c7edd4eb30f0c3016fce216245ce
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
   React-RCTAnimation: 9a883bbe1e9d2e158d4fb53765ed64c8dc2200c6
@@ -846,10 +851,11 @@ SPEC CHECKSUMS:
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
   RNShareMenu: fefca627ce5cbe7999655b7126ba4d07193fd2b9
+  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 99888e1bd256df9fc50511efc3e1550ab52bb62f
+PODFILE CHECKSUM: c339c76caab38f7734f3ed12327790ff2a0be2bd
 
 COCOAPODS: 1.9.3

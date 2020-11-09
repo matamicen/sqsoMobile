@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
   
 
 
-class Privacy extends Component {
+class Privacy extends React.PureComponent {
 
 
   constructor(props) {

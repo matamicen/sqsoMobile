@@ -25,7 +25,7 @@ import I18n from '../../utils/i18n';
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
 
-class Muestro extends Component {
+class Muestro extends React.PureComponent {
 
     constructor(props) {
         super(props);

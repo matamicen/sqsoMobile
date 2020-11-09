@@ -12,7 +12,7 @@ import I18n from '../../utils/i18n';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
 
-class Media extends Component {
+class Media extends React.PureComponent {
   constructor(props) {
     super(props);
 

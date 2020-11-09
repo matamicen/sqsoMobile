@@ -5,7 +5,7 @@ import QraLike from './QraLike';
 //import PropTypes from 'prop-types';
 import I18n from '../../utils/i18n';
 
-class LikesLink extends Component {
+class LikesLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

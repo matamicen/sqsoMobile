@@ -10,7 +10,7 @@ import {Picker} from '@react-native-community/picker';
 
 
 
-class QsoRst extends Component {
+class QsoRst extends React.PureComponent {
 
     constructor(props) {
         super(props);

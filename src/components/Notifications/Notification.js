@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 //Amplify.configure(awsconfig);
 
-class Notification extends Component {
+class Notification extends React.PureComponent {
   static navigationOptions = {
       tabBarLabel: ' ',  
         

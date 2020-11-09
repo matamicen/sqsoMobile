@@ -53,7 +53,7 @@ import I18n from '../../utils/i18n';
     // },
   };
   
-class RecordAudio2 extends Component {
+class RecordAudio2 extends React.PureComponent {
     constructor(props) {
         super(props);
         this.recording = null;

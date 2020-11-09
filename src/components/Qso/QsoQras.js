@@ -6,7 +6,7 @@ import Qra from './Qra';
 //import PropTypes from 'prop-types';
 import I18n from '../../utils/i18n';
 
-class QsoQras extends Component {
+class QsoQras extends React.PureComponent {
 
     constructor(props) {
         super(props);

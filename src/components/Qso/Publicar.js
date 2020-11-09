@@ -7,7 +7,7 @@ import I18n from '../../utils/i18n';
   
 
 
-class Publicar extends Component {
+class Publicar extends React.PureComponent {
 
 
   constructor(props) {

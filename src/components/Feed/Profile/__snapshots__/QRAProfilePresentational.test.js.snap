@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App should render correctly in "debug" mode 1`] = `
+<View
+  className="profile-container"
+>
+  <Dimmer
+    page={true}
+  >
+    <Loader>
+      Loading
+    </Loader>
+  </Dimmer>
+  <View
+    className="site-header"
+  >
+    <Connect(AppNavigation) />
+  </View>
+  <View
+    className="profile-main"
+  >
+    <QRAProfileHeader
+      qraInfo={
+        Object {
+          "firstname": "Lio",
+        }
+      }
+    />
+    <View
+      className="profile-buttons"
+    >
+      <Segment>
+        <ButtonGroup
+          widths="3"
+        >
+          <Button
+            as="button"
+            onClick={[Function]}
+          >
+            QSO's
+          </Button>
+          <Button
+            as="button"
+            onClick={[Function]}
+          >
+            Info
+          </Button>
+          <Button
+            as="button"
+            onClick={[Function]}
+          >
+            Following
+          </Button>
+        </ButtonGroup>
+      </Segment>
+    </View>
+    <View
+      className="profile-detail"
+    >
+      <Segment />
+    </View>
+  </View>
+  <View
+    className="site-right"
+  >
+    <Advertisement
+      test="Wide Skyscraper"
+      unit="wide skyscraper"
+    />
+  </View>
+</View>
+`;

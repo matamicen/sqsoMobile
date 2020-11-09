@@ -16,7 +16,7 @@ import I18n from '../../utils/i18n';
 import HelpPublish from './HelpPublish';
 
 
-class QsoHeader extends Component {
+class QsoHeader extends React.PureComponent {
 
     constructor(props) {
         super(props);

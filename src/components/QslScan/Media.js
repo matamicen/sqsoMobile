@@ -7,7 +7,7 @@ import PlayMediaAudio from './PlayMediaAudio';
 
 
 
-class Media extends Component {
+class Media extends React.PureComponent {
 
     constructor(props) {
         super(props);

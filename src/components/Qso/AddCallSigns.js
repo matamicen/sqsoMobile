@@ -16,7 +16,7 @@ import I18n from '../../utils/i18n';
 
 Auth.configure(awsconfig);
 
-class AddCallSigns extends Component {
+class AddCallSigns extends React.PureComponent {
 
     constructor(props) {
         super(props);

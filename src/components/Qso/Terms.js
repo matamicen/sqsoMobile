@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
   
 
 
-class Terms extends Component {
+class Terms extends React.PureComponent {
 
 
   constructor(props) {
