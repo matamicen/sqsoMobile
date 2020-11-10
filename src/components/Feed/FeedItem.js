@@ -1,6 +1,6 @@
 import React from 'react';
 import FeedItemQSO from './FeedItemQSO';
-class FeedItem extends React.PureComponent {
+class FeedItem extends React.Component {
   // state = {
   //   qso: {}
   // };
@@ -11,6 +11,9 @@ class FeedItem extends React.PureComponent {
   //   this.setState({ qso: this.props.qso });
   // }
   // }
+  shouldComponentUpdate() {
+    return this.props.type ? true : false;
+  }
   render() {
     console.log('render FeedItem');
     switch (this.props.type) {

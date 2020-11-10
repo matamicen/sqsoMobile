@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
@@ -53,17 +54,22 @@ import {
   RECEIVE_QSO,
   RECEIVE_QSO_ERROR,
   RECEIVE_QSO_MEDIA_COUNTER,
+  RECEIVE_USERINFO,
+  RECEIVE_USER_BIO,
+  RECEIVE_USER_DATA_INFO,
   REFRESH_FOLLOWINGS,
   REPOST_QSO,
   REQUEST_FEED,
   REQUEST_QRA,
   REQUEST_QSO,
+  REQUEST_USERINFO,
   RESET_FOR_SIGN_OUT,
   RESET_QSO,
   SEND_ACTUAL_MEDIA,
   SET_BAND,
   SET_CONFIRM_PROFILE_PHOTO_MODAL,
   SET_DELETED_FLAG,
+  SET_EXTERNAL_SHARE_URL,
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
@@ -78,8 +84,10 @@ import {
   SET_STOPALLAUDIOS,
   SET_SUBSCRIPTION_INFO,
   SET_TOKEN,
+  SET_UPLOAD_VIDEO_ERROR_MESSAGE,
   SET_URL_RDS_S3,
   SET_USER_INFO,
+  SET_VIDEO_UPLOAD_PROGRESS,
   SET_WEBVIEW,
   SET_WELCOME_USER_FIRST_TIME,
   UPDATE_COMMENT_MEMORY,
@@ -91,13 +99,6 @@ import {
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS
 } from '../actions/types';
-import {
-  SET_VIDEO_UPLOAD_PROGRESS,
-  SET_UPLOAD_VIDEO_ERROR_MESSAGE,
-  SET_EXTERNAL_SHARE_URL
-} from '../actions/types';
-import { SectionList } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
 
@@ -2210,6 +2211,77 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
+    case REQUEST_USERINFO:
+      let userInfo = {
+        ...state.userData,
+        fetchingUser: action.fetchingUser,
+        userFetched: action.userFetched
+      };
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          userData: userInfo
+        }
+      });
+      return newStore;
+
+    case RECEIVE_USERINFO:
+      userInfo = {
+        ...state.userData,
+        following: action.following,
+        followers: action.followers,
+        notifications: action.notifications,
+        qra: action.qra,
+        fetchingUser: action.fetchingUser,
+        userFetched: action.userFetched
+      };
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          follow: state.feed.follow
+            ? state.feed.follow.filter((f) => {
+                return !action.following.some(
+                  (o) => o.idqra_followed === f.idqras
+                );
+              })
+            : [],
+          userData: userInfo
+        }
+      });
+      return newStore;
+    case RECEIVE_USER_DATA_INFO: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          userData: {
+            ...state.feed.userData,
+            qra: { ...state.feed.userData.qra, ...action.qra }
+          },
+          qra: {
+            ...state.feed.qra,
+            qra: { ...state.feed.qra.qra, ...action.qra }
+          }
+        }
+      });
+      return newStore;
+    }
+    case RECEIVE_USER_BIO: {
+      const qra = {
+        ...state.qra,
+        qra: action.qra
+      };
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qra: qra
+        }
+      });
+      return newStore;
+    }
     default:
       return state;
   }

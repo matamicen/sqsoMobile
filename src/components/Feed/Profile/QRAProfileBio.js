@@ -1,26 +1,35 @@
-import API from '@aws-amplify/api';
-import Storage from '@aws-amplify/storage';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { Storage } from 'aws-amplify';
 import React, { Fragment } from 'react';
-import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  Appearance,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  View
+} from 'react-native';
 import { Button } from 'react-native-elements';
-import HTMLView from 'react-native-htmlview';
+import { RichEditor } from 'react-native-pell-rich-editor';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
-import global_config from '../../../global_config.json';
 import I18n from '../../../utils/i18n';
-import QRAProfileBioEdit from './QRAProfileBioEdit';
 class QRAProfileBio extends React.PureComponent {
   constructor(props) {
     super(props);
-
+    const theme = props.theme || Appearance.getColorScheme();
+    const contentStyle = this.createContentStyle(theme);
     this.state = {
+      theme: theme,
+      contentStyle,
+      emojiVisible: false,
+      disabled: false,
+
       edit: false,
       openPornConfirm: false
     };
-
-    this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
   }
 
   getImage(path) {
@@ -42,125 +51,7 @@ class QRAProfileBio extends React.PureComponent {
         });
     });
   }
-  uploadImageCallBack(file) {
-    const customPrefix = {
-      public: 'myPublicPrefix/',
-      protected: '1/',
-      private: 'myPrivatePrefix/'
-    };
-    return new Promise(async (resolve, reject) => {
-      try {
-        // const cognitoUser = Auth.currentAuthenticatedUser();
-        // const currentSession = cognitoUser.signInUserSession;
-        // cognitoUser.refreshSession(
-        //   currentSession.refreshToken,
-        //   (error, session) => {
-        //     if (__DEV__) {
-        //       console.log('Unable to refresh Token');
-        //       console.log(error);
-        //     } else {
-        //       Sentry.configureScope(function(scope) {
-        //         scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-        //       });
-        //       Sentry.captureException(error);
-        //     }
-        //     // console.log('session', err, session);
-        //     let token = session.idToken.jwtToken;
-        // const currentSession = await Auth.currentSession();
-        // const token = currentSession.getIdToken().getJwtToken();
-        // this.props.actions.refreshToken(token);
-        let folder = 'bio/' + file.name;
 
-        Storage.put(folder, file, {
-          customPrefix: customPrefix,
-          level: 'protected',
-          contentType: 'image/png'
-        })
-          .then((result) => {
-            let filepath;
-
-            filepath =
-              global_config.s3Cloudfront +
-              '/1/' +
-              encodeURIComponent(this.props.identityId) +
-              '/' +
-              encodeURIComponent(result.key);
-            //CHECK NSFW
-            let apiName = 'superqso';
-            let path = '/nsfw-check';
-            let myInit = {
-              body: {
-                url: filepath
-              },
-              headers: {
-                Authorization: token
-              }
-            };
-            API.post(apiName, path, myInit)
-              .then((response) => {
-                if (response.body.error > 0) {
-                  //NSFW
-                  Storage.remove(result.key, { level: 'protected' })
-                    .then((result) => resolve(true))
-                    .catch((error) => {
-                      crashlytics().log('error: ' + JSON.stringify(error));
-                      if (__DEV__) {
-                        console.log(error.message);
-                        crashlytics().recordError(
-                          new Error('QRAProfileBio_DEV')
-                        );
-                      } else {
-                        crashlytics().recordError(
-                          new Error('QRAProfileBio_PRD')
-                        );
-                      }
-
-                      reject(error);
-                    });
-                  // this.setState({ openPornConfirm: true });
-                  this.confirmationAlert();
-                }
-                //SFW
-                else
-                  resolve({
-                    data: {
-                      link: filepath
-                    }
-                  });
-              })
-              .catch((error) => {
-                crashlytics().log('error: ' + JSON.stringify(error));
-                if (__DEV__) {
-                  console.log(error.message);
-                  crashlytics().recordError(new Error('QRAProfileBio_DEV'));
-                } else {
-                  crashlytics().recordError(new Error('QRAProfileBio_PRD'));
-                }
-                reject(error);
-              });
-          })
-          .catch((error) => {
-            crashlytics().log('error: ' + JSON.stringify(error));
-            if (__DEV__) {
-              console.log(error.message);
-              crashlytics().recordError(new Error('QRAProfileBio_DEV'));
-            } else {
-              crashlytics().recordError(new Error('QRAProfileBio_PRD'));
-            }
-            reject(error);
-          });
-        // });
-      } catch (error) {
-        crashlytics().log('error: ' + JSON.stringify(error));
-        if (__DEV__) {
-          console.log(error.message);
-          crashlytics().recordError(new Error('QRAProfileBio_DEV'));
-        } else {
-          crashlytics().recordError(new Error('QRAProfileBio_PRD'));
-        }
-      }
-    });
-  }
   confirmationAlert = () =>
     Alert.alert(
       I18n.t('qso.repost'),
@@ -174,35 +65,65 @@ class QRAProfileBio extends React.PureComponent {
       ],
       { cancelable: false }
     );
+  createContentStyle(theme) {
+    // Can be selected for more situations (cssText or contentCSSText).
+    const contentStyle = {
+      backgroundColor: '#000033',
+      color: '#fff',
+      placeholderColor: 'gray',
+      // cssText: '#editor {background-color: #f3f3f3}', // initial valid
+      contentCSSText: 'font-size: 16px; min-height: 200px; height: 100%;' // initial valid
+    };
+    if (theme === 'light') {
+      contentStyle.backgroundColor = '#fff';
+      contentStyle.color = '#000033';
+      contentStyle.placeholderColor = '#a9a9a9';
+    }
+    return contentStyle;
+  }
   render() {
+    const { contentStyle, disabled } = this.state;
+    const { backgroundColor, color, placeholderColor } = contentStyle;
+    const themeBg = { backgroundColor };
     const { edit } = this.state;
-    const contentWidth = Dimensions.get('window').width;
+
     return (
       <Fragment>
         {this.props.currentQRA === this.props.qraInfo.qra && (
           <View>
             <Button
               fluid
-              onPress={() => this.setState({ edit: true })}
+              onPress={() =>
+                this.props.navigation.navigate('QRAProfileBioEdit')
+              }
               title={I18n.t('qra.editBio')}
             />
           </View>
         )}
-        <ScrollView style={{ flex: 1, margin: 2 }}>
-          <HTMLView
-            value={this.props.qraInfo.bio}
-            // stylesheet={styles}
-          />
+        <ScrollView
+          style={[styles.scroll, themeBg]}
+          keyboardDismissMode={'none'}>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            keyboardVerticalOffset={100}
+            behavior={'position'}>
+            <RichEditor
+              // initialFocus={true}
+              disabled={disabled}
+              editorStyle={contentStyle} // default light style
+              containerStyle={themeBg}
+              // scrollEnabled={false}
+              ref={this.richText}
+              style={[styles.rich, themeBg]}
+              placeholder={'please input content'}
+              initialContentHTML={this.props.qraInfo.bio}
+              editorInitializedCallback={() => this.editorInitializedCallback}
+              onChange={() => this.handleChange}
+              onHeightChange={() => this.handleHeightChange}
+            />
+          </KeyboardAvoidingView>
         </ScrollView>
 
-        {edit && (
-          <QRAProfileBioEdit
-            qraInfo={this.props.qraInfo}
-            doSaveUserInfo={this.props.actions.doSaveUserInfo}
-            modalOpen={edit}
-            closeModal={() => this.setState({ edit: false })}
-          />
-        )}
         {/* </Segment> */}
       </Fragment>
     );
@@ -219,7 +140,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileBio);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileBio)
+);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(QRAProfileBio);

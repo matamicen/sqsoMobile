@@ -1,7 +1,6 @@
-import API from '@aws-amplify/api';
-import Auth from '@aws-amplify/auth';
-import Storage from '@aws-amplify/storage';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { API, Auth, Storage } from 'aws-amplify';
+import { Buffer } from 'buffer';
 import React from 'react';
 import {
   Appearance,
@@ -10,15 +9,14 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   View
 } from 'react-native';
-// import { Editor } from 'react-draft-wysiwyg';
-// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-native-elements';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
 import {
   actions,
   defaultActions,
@@ -27,6 +25,7 @@ import {
 } from 'react-native-pell-rich-editor';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import RNFetchBlob from 'rn-fetch-blob';
 import * as Actions from '../../../actions';
 import global_config from '../../../global_config.json';
 import { EmojiView } from './emoji';
@@ -35,61 +34,23 @@ const phizIcon = require('./phiz.png');
 const htmlIcon = require('./h5.png');
 const videoIcon = require('./video.png');
 const strikethrough = require('./strikethrough.png');
-class QRAProfileBioEdit extends React.PureComponent {
-  // richText = React.createRef();
+class QRAProfileBioEdit extends React.Component {
+  richText = React.createRef();
   linkModal = React.createRef();
+
   constructor(props) {
     super(props);
-    let editorState;
-    if (this.props.qraInfo.bio) {
-      // const contentBlock = htmlToDraft(this.props.qraInfo.bio);
-      // // const contentBlock = stateFromHTML(this.props.qraInfo.bio)
-      // if (contentBlock) {
-      //   const contentState = ContentState.createFromBlockArray(
-      //     contentBlock.contentBlocks
-      //   );
-      //   editorState = EditorState.createWithContent(contentState);
-      // }
-    }
+
     const theme = props.theme || Appearance.getColorScheme();
     const contentStyle = this.createContentStyle(theme);
     this.state = {
-      edit: false,
-      openPornConfirm: false,
-      editorState: editorState,
       theme: theme,
       contentStyle,
       emojiVisible: false,
       disabled: false
     };
-
-    this.handleOnSaveBio = this.handleOnSaveBio.bind(this);
-    this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
-    super(props);
-    // const that = this;
-
-    // that.state = {
-    //   theme: theme,
-    //   contentStyle,
-    //   emojiVisible: false,
-    //   disabled: false
-    // };
-    // that.onHome = ::that.onHome;
-    // that.save = ::that.save;
-    // that.onTheme = ::that.onTheme;
-    // that.onPressAddImage = ::that.onPressAddImage;
-    // that.onInsertLink = ::that.onInsertLink;
-    // that.onLinkDone = ::that.onLinkDone;
-    // that.themeChange = ::that.themeChange;
-    // that.handleChange = ::that.handleChange;
-    // that.handleHeightChange = ::that.handleHeightChange;
-    // that.insertEmoji = ::that.insertEmoji;
-    // that.insertHTML = ::that.insertHTML;
-    // that.insertVideo = ::that.insertVideo;
-    // that.handleEmoji = ::that.handleEmoji;
-    // that.onDisabled = ::that.onDisabled;
-    // that.editorInitializedCallback = ::that.editorInitializedCallback;
   }
+
   componentDidMount() {
     Appearance.addChangeListener(this.themeChange);
     Keyboard.addListener('keyboardDidShow', this.onKeyBoard);
@@ -124,10 +85,13 @@ class QRAProfileBioEdit extends React.PureComponent {
   }
 
   async save() {
+    const { identityId } = await Auth.currentCredentials();
+    console.log('PASO POR SIGNIN la credencial es:' + identityId);
+    var idenId = identityId.replace(':', '%3A');
     // Get the data here and call the interface to save the data
     let html = await this.richText.current?.getContentHtml();
-    // console.log(html);
-    alert(html);
+    this.props.actions.doSaveUserBio(this.props.token, html, idenId);
+    this.props.navigation.goBack();
   }
 
   /**
@@ -169,12 +133,195 @@ class QRAProfileBioEdit extends React.PureComponent {
       '<span style="color: blue; padding:0 10px;">HTML</span>'
     );
   }
+  async uploadImageCallBack(fileName, path) {
+    // const response = await fetch(fileaux);
+    // const blobi = await response.blob();
+
+    //agrego native
+
+    if (Platform.OS == 'ios') {
+      path = path.replace('file:///', '');
+    }
+    console.log('contenido fileauxFinal: ' + path);
+
+    folder = 'bio/' + fileName;
+
+    console.log('folder:' + folder);
+    let folder = 'bio/' + fileName;
+    const customPrefix = {
+      public: 'myPublicPrefix/',
+      protected: '1/',
+      private: 'myPrivatePrefix/'
+    };
+    const { identityId } = await Auth.currentCredentials();
+    console.log('PASO POR SIGNIN la credencial es:' + identityId);
+    var identityID = identityId.replace(':', '%3A');
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let enBlob = RNFetchBlob.fs
+          .readFile(path, 'base64')
+          .then((data) => Buffer.from(data, 'base64'));
+
+        enBlob
+          .then((buffer) =>
+            Storage.vault.put(folder, buffer, {
+              customPrefix,
+              level: 'protected'
+            })
+          )
+          .then(async (result) => {
+            console.log(result);
+            let filepath;
+
+            filepath =
+              global_config.s3Cloudfront + identityID + '/' + result.key;
+            //CHECK NSFW
+            console.log('check NSFW');
+            console.log(filepath);
+            let session = await Auth.currentSession();
+            this.props.actions.setToken(session.idToken.jwtToken);
+            let apiName = 'superqso';
+            let path = '/nsfw-check';
+            let myInit = {
+              body: {
+                url: filepath
+              },
+              headers: {
+                Authorization: session.idToken.jwtToken
+              }
+            };
+            API.post(apiName, path, myInit)
+              .then((response) => {
+                console.log('nsfw');
+                console.log(response);
+                if (response.body.error > 0) {
+                  //NSFW
+                  Storage.remove(result.key, { level: 'protected' })
+                    .then((result) => resolve(true))
+                    .catch((error) => {
+                      crashlytics().log('error: ' + JSON.stringify(error));
+                      if (__DEV__) {
+                        console.log(error.message);
+                        crashlytics().recordError(
+                          new Error('QRAProfileBio_DEV')
+                        );
+                      } else {
+                        crashlytics().recordError(
+                          new Error('QRAProfileBio_PRD')
+                        );
+                      }
+
+                      reject(error);
+                    });
+                  // this.setState({ openPornConfirm: true });
+                  this.confirmationAlert();
+                }
+                //SFW
+                else resolve(filepath);
+              })
+              .catch((error) => {
+                crashlytics().log('error: ' + JSON.stringify(error));
+                if (__DEV__) {
+                  console.log(error.message);
+                  crashlytics().recordError(new Error('QRAProfileBio_DEV'));
+                } else {
+                  crashlytics().recordError(new Error('QRAProfileBio_PRD'));
+                }
+                reject(error);
+              });
+          })
+          .catch((error) => {
+            crashlytics().log('error: ' + JSON.stringify(error));
+            if (__DEV__) {
+              console.log(error.message);
+              crashlytics().recordError(new Error('QRAProfileBio_DEV'));
+            } else {
+              crashlytics().recordError(new Error('QRAProfileBio_PRD'));
+            }
+            reject(error);
+          });
+        // });
+      } catch (error) {
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__) {
+          console.log(error.message);
+          crashlytics().recordError(new Error('QRAProfileBio_DEV'));
+        } else {
+          crashlytics().recordError(new Error('QRAProfileBio_PRD'));
+        }
+      }
+    });
+  }
 
   onPressAddImage() {
-    // insert URL
-    this.richText.current?.insertImage(
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png'
+    ImagePicker.showImagePicker(
+      {
+        title: 'Select Profile Picture',
+        mediaType: 'photo',
+        storageOptions: {
+          cameraRoll: false,
+          privateDirectory: true
+        },
+        takePhotoButtonTitle: null, // Remove this button
+        chooseFromLibraryButtonTitle: null, // Remove this button
+        customButtons: [
+          { name: 'camera', title: 'Take Photo...' },
+          { name: 'gallery', title: 'Choose from Library...' }
+        ]
+      },
+      async (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker.');
+        } else if (response.error) {
+          console.log('ImagePicker error: ', response.error);
+        } else if (response.customButton === 'camera') {
+          ImageCropPicker.openCamera({
+            // cropping: true,
+            // width: 500,
+            // height: 500,
+            // cropperCircleOverlay: true,
+            compressImageMaxWidth: 640,
+            compressImageMaxHeight: 480,
+            // freeStyleCropEnabled: true,
+            includeBase64: true
+          }).then(async (image) => {
+            var uri = image.path;
+            console.log(uri);
+            var fileName2 = uri.replace(/^.*[\\\/]/, '');
+            console.log(fileName2);
+            let imageSrc = await this.uploadImageCallBack(fileName2, uri);
+            console.log('imageSrc');
+            console.log(imageSrc);
+            if (imageSrc) this.richText.current?.insertImage(imageSrc);
+            // let imageSrc = `data:${image.mime};base64,${image.data}`;
+
+            // this.richText.current.insertImage({ src: imageSrc });
+            this.richText.current?.blurContentEditor();
+          });
+        } else if (response.customButton === 'gallery') {
+          ImageCropPicker.openPicker({
+            includeBase64: true,
+            compressImageQuality: 0.5
+          }).then(async (image) => {
+            var uri = image.path;
+            console.log(uri);
+            var fileName2 = uri.replace(/^.*[\\\/]/, '');
+            console.log(fileName2);
+            let imageSrc = await this.uploadImageCallBack(fileName2, uri);
+            console.log('imageSrc');
+            console.log(imageSrc);
+            if (imageSrc) this.richText.current?.insertImage(imageSrc);
+            this.richText.current.blurContentEditor();
+          });
+        }
+      }
     );
+
+    // insert URL
+    // this.richText.current?.insertImage(
+    //   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png'
+    // );
     // insert base64
     // this.richText.current?.insertImage(`data:${image.mime};base64,${image.data}`);
     // this.richText.current?.blurContentEditor();
@@ -187,10 +334,6 @@ class QRAProfileBioEdit extends React.PureComponent {
 
   onLinkDone({ title, url }) {
     this.richText.current?.insertLink(title, url);
-  }
-
-  onHome() {
-    this.props.navigation.push('index');
   }
 
   createContentStyle(theme) {
@@ -210,296 +353,63 @@ class QRAProfileBioEdit extends React.PureComponent {
     return contentStyle;
   }
 
-  onTheme() {
-    let { theme } = this.state;
-    theme = theme === 'light' ? 'dark' : 'light';
-    let contentStyle = this.createContentStyle(theme);
-    this.setState({ theme, contentStyle });
-  }
-
   onDisabled() {
     this.setState({ disabled: !this.state.disabled });
   }
 
-  getImage(path) {
-    return new Promise((resolve, reject) => {
-      Storage.get(path, { level: 'protected' })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((error) => {
-          crashlytics().log('error: ' + JSON.stringify(error));
-          if (__DEV__) {
-            console.log(error.message);
-            crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
-          } else {
-            crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
-          }
-          reject(error);
-        });
-    });
-  }
-  uploadImageCallBack(file) {
-    const customPrefix = {
-      public: 'myPublicPrefix/',
-      protected: '1/',
-      private: 'myPrivatePrefix/'
-    };
-    return new Promise(async (resolve, reject) => {
-      try {
-        // const cognitoUser = Auth.currentAuthenticatedUser();
-        // const currentSession = cognitoUser.signInUserSession;
-        // cognitoUser.refreshSession(
-        //   currentSession.refreshToken,
-        //   (error, session) => {
-        //     if (__DEV__) {
-        //       console.log('Unable to refresh Token');
-        //       console.log(error);
-        //     } else {
-        //       Sentry.configureScope(function(scope) {
-        //         scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-        //       });
-        //       Sentry.captureException(error);
-        //     }
-        //     // console.log('session', err, session);
-        //     let token = session.idToken.jwtToken;
-        const currentSession = await Auth.currentSession();
-        const token = currentSession.getIdToken().getJwtToken();
-        this.props.actions.refreshToken(token);
-        let folder = 'bio/' + file.name;
-
-        Storage.put(folder, file, {
-          customPrefix: customPrefix,
-          level: 'protected',
-          contentType: 'image/png'
-        })
-          .then((result) => {
-            let filepath;
-
-            filepath =
-              global_config.s3Cloudfront +
-              '/1/' +
-              encodeURIComponent(this.props.identityId) +
-              '/' +
-              encodeURIComponent(result.key);
-            //CHECK NSFW
-            let apiName = 'superqso';
-            let path = '/nsfw-check';
-            let myInit = {
-              body: {
-                url: filepath
-              },
-              headers: {
-                Authorization: token
-              }
-            };
-            API.post(apiName, path, myInit)
-              .then((response) => {
-                if (response.body.error > 0) {
-                  //NSFW
-                  Storage.remove(result.key, { level: 'protected' })
-                    .then((result) => resolve(true))
-                    .catch((error) => {
-                      crashlytics().log('error: ' + JSON.stringify(error));
-                      if (__DEV__) {
-                        console.log(error.message);
-                        crashlytics().recordError(
-                          new Error('QRAProfileBioEdit_DEV')
-                        );
-                      } else {
-                        crashlytics().recordError(
-                          new Error('QRAProfileBioEdit_PRD')
-                        );
-                      }
-                      reject(error);
-                    });
-                  this.setState({ openPornConfirm: true });
-                }
-                //SFW
-                else
-                  resolve({
-                    data: {
-                      link: filepath
-                    }
-                  });
-              })
-              .catch((error) => {
-                crashlytics().log('error: ' + JSON.stringify(error));
-                if (__DEV__) {
-                  console.log(error.message);
-                  crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
-                } else {
-                  crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
-                }
-                reject(error);
-              });
-          })
-          .catch((error) => {
-            crashlytics().log('error: ' + JSON.stringify(error));
-            if (__DEV__) {
-              console.log(error.message);
-              crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
-            } else {
-              crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
-            }
-            reject(error);
-          });
-        // });
-      } catch (error) {
-        console.log('Unable to refresh Token');
-        crashlytics().log('error: ' + JSON.stringify(error));
-        if (__DEV__) {
-          console.log(error.message);
-          crashlytics().recordError(new Error('QRAProfileBioEdit_DEV'));
-        } else {
-          crashlytics().recordError(new Error('QRAProfileBioEdit_PRD'));
-        }
-      }
-    });
-  }
-
-  close = () => this.setState({ edit: false });
-  open = () => this.setState({ edit: true });
-  handleOnSaveBio = () => {
-    this.props.actions.doSaveUserBio(
-      this.props.token,
-      // draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
-      this.props.identityId
-    );
-    this.props.closeModal();
-  };
-  onEditorStateChange = (editorState) => {
-    this.setState({ editorState: editorState });
-  };
-  // render() {
-  //   const { editorState } = this.state;
-
-  //   return (
-  //     <Fragment>
-  //       <Modal
-  //         centered={false}
-  //         size="small"
-  //         open={this.props.modalOpen}
-  //         onClose={() => this.props.closeModal()}>
-  //         <Header content={I18n.t('qra.editBio')} />
-  //         <Modal.Content>
-  //           <Container>
-  //             <Editor
-  //               editorState={editorState}
-  //               wrapperClassName="demo-wrapper"
-  //               editorClassName="demo-editor"
-  //               onEditorStateChange={this.onEditorStateChange}
-  //               toolbar={{
-  //                 inline: {
-  //                   inDropdown: true
-  //                 },
-  //                 list: {
-  //                   inDropdown: true
-  //                 },
-  //                 textAlign: {
-  //                   inDropdown: true
-  //                 },
-  //                 link: {
-  //                   inDropdown: true
-  //                 },
-  //                 history: {
-  //                   inDropdown: true
-  //                 },
-  //                 image: {
-  //                   urlEnabled: false,
-  //                   previewImage: true,
-  //                   alignmentEnabled: true,
-  //                   uploadCallback: this.uploadImageCallBack,
-  //                   alt: {
-  //                     present: true,
-  //                     mandatory: false
-  //                   },
-  //                   defaultSize: {
-  //                     height: 'auto',
-  //                     width: '100%'
-  //                   }
-  //                 }
-  //               }}
-  //             />
-  //           </Container>
-  //         </Modal.Content>
-  //         <Modal.Actions>
-  //           <Button
-  //             positive
-  //             icon="save"
-  //             type="submit"
-  //             labelPosition="right"
-  //             content={I18n.t('qra.saveBio')}
-  //             onClick={this.handleOnSaveBio}
-  //           />
-  //           <Button
-  //             icon="check"
-  //             content={I18n.t('global.cancel')}
-  //             onClick={() => this.props.closeModal()}
-  //           />
-  //         </Modal.Actions>
-  //       </Modal>
-  //     </Fragment>
-  //   );
-  // }
   render() {
-    // let that = this;
-    const { contentStyle, theme, emojiVisible, disabled } = this.state;
+    const { contentStyle, emojiVisible, disabled } = this.state;
     const { backgroundColor, color, placeholderColor } = contentStyle;
     const themeBg = { backgroundColor };
     return (
       <SafeAreaView style={[styles.container, themeBg]}>
-        <StatusBar
-          barStyle={theme !== 'dark' ? 'dark-content' : 'light-content'}
-        />
+        {/* <StatusBar barStyle={theme !== 'dark' ? 'dark-content' : 'light-content'} /> */}
         <InsertLinkModal
           placeholderColor={placeholderColor}
           color={color}
           backgroundColor={backgroundColor}
           onDone={() => this.onLinkDone}
-          ref={(r) => (this.linkModal = r)}
+          ref={this.linkModal}
         />
         <View style={styles.nav}>
-          <Button title={'HOME'} onPress={() => this.onHome} />
-          <Button title="Save" onPress={() => this.save} />
+          {/* <Button title={'HOME'} onPress={() => this.onHome} /> */}
+          <Button fluid title="Save" onPress={this.save.bind(this)} />
         </View>
         <ScrollView
           style={[styles.scroll, themeBg]}
           keyboardDismissMode={'none'}>
-          <View>
-            <View style={styles.item}>
-              <Button title={theme} onPress={() => this.onTheme} />
-              <Button
-                title={disabled ? 'enable' : 'disable'}
-                onPress={() => this.onDisabled}
-              />
-            </View>
-          </View>
-          <RichEditor
-            // initialFocus={true}
-            disabled={disabled}
-            editorStyle={contentStyle} // default light style
-            containerStyle={themeBg}
-            ref={(r) => (this.richText = r)}
-            style={[styles.rich, themeBg]}
-            placeholder={'please input content'}
-            initialContentHTML={this.props.qraInfo.bio}
-            editorInitializedCallback={() => this.editorInitializedCallback}
-            onChange={() => this.handleChange}
-            onHeightChange={() => this.handleHeightChange}
-          />
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            keyboardVerticalOffset={100}
+            behavior={'position'}>
+            <RichEditor
+              // initialFocus={true}
+              disabled={disabled}
+              editorStyle={contentStyle} // default light style
+              containerStyle={themeBg}
+              // scrollEnabled={false}
+              ref={this.richText}
+              style={[styles.rich, themeBg]}
+              placeholder={'please input content'}
+              initialContentHTML={this.props.qra.qra.bio}
+              editorInitializedCallback={() => this.editorInitializedCallback}
+              onChange={() => this.handleChange}
+              onHeightChange={() => this.handleHeightChange}
+            />
+          </KeyboardAvoidingView>
         </ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <RichToolbar
+            allowFileAccess={true}
             style={[styles.richBar, themeBg]}
             editor={this.richText}
             disabled={disabled}
             iconTint={color}
             selectedIconTint={'#2095F2'}
             disabledIconTint={'#8b8b8b'}
-            onPressAddImage={() => this.onPressAddImage}
-            onInsertLink={() => this.onInsertLink}
+            onPressAddImage={this.onPressAddImage.bind(this)}
+            onInsertLink={this.onInsertLink.bind(this)}
             iconSize={40} // default 50
             actions={[
               'insertVideo',
@@ -536,6 +446,7 @@ class QRAProfileBioEdit extends React.PureComponent {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -576,10 +487,9 @@ const styles = StyleSheet.create({
   }
 });
 const mapStateToProps = (state, ownProps) => ({
-  //state: state,
+  qra: state.sqso.feed.qra,
   currentQRA: state.sqso.qra,
   qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
-  // identityId: state.userData.identityId,
 
   token: state.sqso.jwtToken
 });
