@@ -13,6 +13,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import { connect } from 'react-redux';
 import Home from './Feed';
 import QRAProfile from './Feed/Profile';
+import QRAProfileBioEdit from './Feed/Profile/QRAProfileBioEdit';
 import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
@@ -293,6 +294,9 @@ export const AppNavigator = createStackNavigator({
     // navigationOptions: {
     //   header: null
     // }
+  },
+  QRAProfileBioEdit: {
+    screen: QRAProfileBioEdit
   },
   initialRouteName: 'Login'
 });
