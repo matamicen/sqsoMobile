@@ -1716,7 +1716,7 @@ export const uploadVideoToS3 = (
               //       videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
 
               let fileauxPreviewImage = fileauxProfileAvatar;
-              if (Platform.OS == 'ios') {
+              if (Platform.OS === 'ios') {
                 fileauxPreviewImage = fileauxProfileAvatar.replace(
                   'file:///',
                   ''
@@ -4025,9 +4025,8 @@ export function doFetchQRA(qra, token = null) {
 
   return async (dispatch) => {
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qra-info/secured';
       const myInit = {
@@ -4035,7 +4034,7 @@ export function doFetchQRA(qra, token = null) {
           qra: qra
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // PTIONAL
       };
       dispatch(doRequestQRA());
@@ -4154,7 +4153,6 @@ export function doFetchQSO(idqso, token = null) {
   };
 }
 export function doReceiveQSO(data, error) {
-  // eslint-disable-next-line camelcase
   const { monthly_qso_views, ...qsoData } = data;
   if (error === 0) {
     return {
@@ -4257,10 +4255,9 @@ export function doSaveUserBio(token, bio, identityId) {
     //     event_label: 'UserBioUpdate'
     //   });
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
-
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+      dispatch(doReceiveUserBio(bio));
       const apiName = 'superqso';
       const path = '/qra-info/bio';
       const myInit = {
@@ -4269,14 +4266,14 @@ export function doSaveUserBio(token, bio, identityId) {
           identityId: identityId
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
 
       API.post(apiName, path, myInit)
         .then((response) => {
-          if (response.body.error !== 0) console.log(response.body.message);
-          else dispatch(doReceiveUserBio(response.body.message));
+          // if (response.body.error !== 0) console.log(response.body.message);
+          // else);
         })
         .catch(async (error) => {
           console.log(error);
@@ -4298,10 +4295,10 @@ export function doSaveUserBio(token, bio, identityId) {
     }
   };
 }
-export function doReceiveUserBio(qra) {
+export function doReceiveUserBio(bio) {
   return {
     type: RECEIVE_USER_BIO,
-    qra: qra
+    bio: bio
   };
 }
 // END NATIVE FEED

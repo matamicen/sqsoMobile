@@ -3,6 +3,7 @@ import { API, Auth, Storage } from 'aws-amplify';
 import { Buffer } from 'buffer';
 import React from 'react';
 import {
+  Alert,
   Appearance,
   Keyboard,
   KeyboardAvoidingView,
@@ -16,7 +17,6 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import ImagePicker from 'react-native-image-picker';
 import {
   actions,
   defaultActions,
@@ -28,11 +28,12 @@ import { bindActionCreators } from 'redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import * as Actions from '../../../actions';
 import global_config from '../../../global_config.json';
+import I18n from '../../../utils/i18n';
 import { EmojiView } from './emoji';
 import { InsertLinkModal } from './insertLink';
 const phizIcon = require('./phiz.png');
 const htmlIcon = require('./h5.png');
-const videoIcon = require('./video.png');
+
 const strikethrough = require('./strikethrough.png');
 class QRAProfileBioEdit extends React.Component {
   richText = React.createRef();
@@ -86,10 +87,11 @@ class QRAProfileBioEdit extends React.Component {
 
   async save() {
     const { identityId } = await Auth.currentCredentials();
-    console.log('PASO POR SIGNIN la credencial es:' + identityId);
+
     var idenId = identityId.replace(':', '%3A');
     // Get the data here and call the interface to save the data
     let html = await this.richText.current?.getContentHtml();
+
     this.props.actions.doSaveUserBio(this.props.token, html, idenId);
     this.props.navigation.goBack();
   }
@@ -133,20 +135,26 @@ class QRAProfileBioEdit extends React.Component {
       '<span style="color: blue; padding:0 10px;">HTML</span>'
     );
   }
+  confirmationAlert = () =>
+    Alert.alert(
+      I18n.t('qso.repost'),
+      I18n.t('global.imageContainNudity'),
+      [
+        {
+          text: I18n.t('global.cancel'),
+          style: 'cancel'
+        },
+        { text: I18n.t('global.ok') }
+      ],
+      { cancelable: false }
+    );
   async uploadImageCallBack(fileName, path) {
-    // const response = await fetch(fileaux);
-    // const blobi = await response.blob();
-
-    //agrego native
-
-    if (Platform.OS == 'ios') {
+    if (Platform.OS === 'ios') {
       path = path.replace('file:///', '');
     }
-    console.log('contenido fileauxFinal: ' + path);
 
     folder = 'bio/' + fileName;
 
-    console.log('folder:' + folder);
     let folder = 'bio/' + fileName;
     const customPrefix = {
       public: 'myPublicPrefix/',
@@ -154,7 +162,7 @@ class QRAProfileBioEdit extends React.Component {
       private: 'myPrivatePrefix/'
     };
     const { identityId } = await Auth.currentCredentials();
-    console.log('PASO POR SIGNIN la credencial es:' + identityId);
+
     var identityID = identityId.replace(':', '%3A');
 
     return new Promise(async (resolve, reject) => {
@@ -171,18 +179,16 @@ class QRAProfileBioEdit extends React.Component {
             })
           )
           .then(async (result) => {
-            console.log(result);
             let filepath;
 
             filepath =
               global_config.s3Cloudfront + identityID + '/' + result.key;
             //CHECK NSFW
-            console.log('check NSFW');
-            console.log(filepath);
+
             let session = await Auth.currentSession();
             this.props.actions.setToken(session.idToken.jwtToken);
             let apiName = 'superqso';
-            let path = '/nsfw-check';
+            path = '/nsfw-check';
             let myInit = {
               body: {
                 url: filepath
@@ -255,76 +261,66 @@ class QRAProfileBioEdit extends React.Component {
   }
 
   onPressAddImage() {
-    ImagePicker.showImagePicker(
-      {
-        title: 'Select Profile Picture',
-        mediaType: 'photo',
-        storageOptions: {
-          cameraRoll: false,
-          privateDirectory: true
-        },
-        takePhotoButtonTitle: null, // Remove this button
-        chooseFromLibraryButtonTitle: null, // Remove this button
-        customButtons: [
-          { name: 'camera', title: 'Take Photo...' },
-          { name: 'gallery', title: 'Choose from Library...' }
-        ]
-      },
-      async (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker.');
-        } else if (response.error) {
-          console.log('ImagePicker error: ', response.error);
-        } else if (response.customButton === 'camera') {
-          ImageCropPicker.openCamera({
-            // cropping: true,
-            // width: 500,
-            // height: 500,
-            // cropperCircleOverlay: true,
-            compressImageMaxWidth: 640,
-            compressImageMaxHeight: 480,
-            // freeStyleCropEnabled: true,
-            includeBase64: true
-          }).then(async (image) => {
-            var uri = image.path;
-            console.log(uri);
-            var fileName2 = uri.replace(/^.*[\\\/]/, '');
-            console.log(fileName2);
-            let imageSrc = await this.uploadImageCallBack(fileName2, uri);
-            console.log('imageSrc');
-            console.log(imageSrc);
-            if (imageSrc) this.richText.current?.insertImage(imageSrc);
-            // let imageSrc = `data:${image.mime};base64,${image.data}`;
+    // ImagePicker.showImagePicker(
+    //   {
+    //     title: 'Select Profile Picture',
+    //     mediaType: 'photo',
+    //     storageOptions: {
+    //       cameraRoll: false,
+    //       privateDirectory: true
+    //     },
+    //     takePhotoButtonTitle: null, // Remove this button
+    //     chooseFromLibraryButtonTitle: null, // Remove this button
+    //     customButtons: [
+    //       { name: 'camera', title: 'Take Photo...' },
+    //       { name: 'gallery', title: 'Choose from Library...' }
+    //     ]
+    //   },
+    //   async (response) => {
+    //     if (response.didCancel) {
+    //       console.log('User cancelled image picker.');
+    //     } else if (response.error) {
+    //       console.log('ImagePicker error: ', response.error);
+    //     } else if (response.customButton === 'camera') {
+    //       ImageCropPicker.openCamera({
+    //         // cropping: true,
+    //         // width: 500,
+    //         // height: 500,
+    //         // cropperCircleOverlay: true,
+    //         compressImageMaxWidth: 640,
+    //         compressImageMaxHeight: 480,
+    //         // freeStyleCropEnabled: true,
+    //         includeBase64: true
+    //       }).then(async (image) => {
+    //         var uri = image.path;
 
-            // this.richText.current.insertImage({ src: imageSrc });
-            this.richText.current?.blurContentEditor();
-          });
-        } else if (response.customButton === 'gallery') {
-          ImageCropPicker.openPicker({
-            includeBase64: true,
-            compressImageQuality: 0.5
-          }).then(async (image) => {
-            var uri = image.path;
-            console.log(uri);
-            var fileName2 = uri.replace(/^.*[\\\/]/, '');
-            console.log(fileName2);
-            let imageSrc = await this.uploadImageCallBack(fileName2, uri);
-            console.log('imageSrc');
-            console.log(imageSrc);
-            if (imageSrc) this.richText.current?.insertImage(imageSrc);
-            this.richText.current.blurContentEditor();
-          });
-        }
-      }
-    );
+    //         var fileName2 = uri.replace(/^.*[\\\/]/, '');
 
-    // insert URL
-    // this.richText.current?.insertImage(
-    //   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png'
+    //         let imageSrc = await this.uploadImageCallBack(fileName2, uri);
+
+    //         if (imageSrc) this.richText.current?.insertImage(imageSrc);
+    //         // let imageSrc = `data:${image.mime};base64,${image.data}`;
+
+    //         // this.richText.current.insertImage({ src: imageSrc });
+    //         this.richText.current?.blurContentEditor();
+    //       });
+    //     } else if (response.customButton === 'gallery') {
+    ImageCropPicker.openPicker({
+      includeBase64: true,
+      compressImageQuality: 0.5
+    }).then(async (image) => {
+      var uri = image.path;
+
+      var fileName2 = uri.replace(/^.*[\\\/]/, '');
+
+      let imageSrc = await this.uploadImageCallBack(fileName2, uri);
+
+      if (imageSrc) this.richText.current?.insertImage(imageSrc);
+      this.richText.current.blurContentEditor();
+    });
+    // }
+    // }
     // );
-    // insert base64
-    // this.richText.current?.insertImage(`data:${image.mime};base64,${image.data}`);
-    // this.richText.current?.blurContentEditor();
   }
 
   onInsertLink() {
@@ -343,7 +339,8 @@ class QRAProfileBioEdit extends React.Component {
       color: '#fff',
       placeholderColor: 'gray',
       // cssText: '#editor {background-color: #f3f3f3}', // initial valid
-      contentCSSText: 'font-size: 16px; min-height: 200px; height: 100%;' // initial valid
+      contentCSSText:
+        'font-size: 16px;width: 100%;  min-height: 200px; height: 100%;' // initial valid
     };
     if (theme === 'light') {
       contentStyle.backgroundColor = '#fff';
@@ -378,25 +375,20 @@ class QRAProfileBioEdit extends React.Component {
         <ScrollView
           style={[styles.scroll, themeBg]}
           keyboardDismissMode={'none'}>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            keyboardVerticalOffset={100}
-            behavior={'position'}>
-            <RichEditor
-              // initialFocus={true}
-              disabled={disabled}
-              editorStyle={contentStyle} // default light style
-              containerStyle={themeBg}
-              // scrollEnabled={false}
-              ref={this.richText}
-              style={[styles.rich, themeBg]}
-              placeholder={'please input content'}
-              initialContentHTML={this.props.qra.qra.bio}
-              editorInitializedCallback={() => this.editorInitializedCallback}
-              onChange={() => this.handleChange}
-              onHeightChange={() => this.handleHeightChange}
-            />
-          </KeyboardAvoidingView>
+          <RichEditor
+            // initialFocus={true}
+            disabled={disabled}
+            editorStyle={contentStyle} // default light style
+            containerStyle={themeBg}
+            scrollEnabled={false}
+            ref={this.richText}
+            style={[styles.rich, themeBg]}
+            placeholder={'please input content'}
+            initialContentHTML={this.props.qra.qra.bio}
+            editorInitializedCallback={() => this.editorInitializedCallback}
+            onChange={() => this.handleChange}
+            onHeightChange={() => this.handleHeightChange}
+          />
         </ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -433,12 +425,12 @@ class QRAProfileBioEdit extends React.Component {
               [actions.heading4]: ({ tintColor }) => (
                 <Text style={[styles.tib, { color: tintColor }]}>H3</Text>
               ),
-              insertHTML: htmlIcon,
-              insertVideo: videoIcon
+              insertHTML: htmlIcon
+              // insertVideo: videoIcon
             }}
             insertEmoji={() => this.handleEmoji}
             insertHTML={() => this.insertHTML}
-            insertVideo={() => this.insertVideo}
+            // insertVideo={() => this.insertVideo}
           />
           {emojiVisible && <EmojiView onSelect={() => this.insertEmoji} />}
         </KeyboardAvoidingView>
@@ -460,6 +452,8 @@ const styles = StyleSheet.create({
   rich: {
     minHeight: 300,
     flex: 1
+    // justifyContent: 'center',
+    // alignItems: 'center'
   },
   richBar: {
     height: 50,

@@ -11,7 +11,7 @@ import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
 // import './style.js';
 
-class FeedItemQSO extends React.PureComponent {
+class FeedItemQSO extends React.Component {
   constructor() {
     super();
     this.state = { showComments: false, comments: [], likes: [], error: null };
@@ -28,9 +28,10 @@ class FeedItemQSO extends React.PureComponent {
   //   }
   //   return null;
   // }
-
+  shouldComponentUpdate() {
+    return this.props.qso ? true : false;
+  }
   render() {
-    console.log('render FeedItemQSO');
     let shareText;
 
     switch (this.props.qso.type) {

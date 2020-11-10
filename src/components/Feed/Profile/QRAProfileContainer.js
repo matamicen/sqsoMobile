@@ -1,39 +1,9 @@
 import React, { Fragment } from 'react';
-import { Image, Platform, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
-import I18n from '../../../utils/i18n';
 import QRAProfile from './QRAProfilePresentational';
 class QRAProfileContainer extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: ' ',
-    // 50
-    tabBarIcon: ({ tintColor }) => {
-      // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
-      return (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            style={{
-              width: 28,
-              height: 28,
-              marginLeft: 5,
-              marginTop: Platform.OS === 'ios' ? 24 : 28
-            }}
-            //  style={{ width: 28, height: 28, marginLeft: 18 }}
-
-            source={require('../../../images/home4.png')}
-            // />
-          />
-          {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>
-            {I18n.t('HomeTitle')}
-          </Text>
-        </View>
-      );
-    }
-  };
   constructor() {
     super();
     this.followed = null;
@@ -230,7 +200,9 @@ class QRAProfileContainer extends React.PureComponent {
     // //   };
     // // });
   }
-
+  // shouldComponentUpdate() {
+  //   return this.props.qra ? true : false;
+  // }
   render() {
     let qraInfo = null;
     if (this.props.qra) qraInfo = this.props.qra.qra;
@@ -306,7 +278,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileContainer);
-// export default connect(mapStateToProps, mapDispatchToProps, null, {
-//   pure: false
-// })(QRAProfileContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QRAProfileContainer);

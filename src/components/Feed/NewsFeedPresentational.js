@@ -22,7 +22,6 @@ class NewsFeed extends React.PureComponent {
     }
   };
   _renderItem = ({ item, index }) => {
-    console.log(index);
     return (
       <FeedItem
         ref={(ref) => {

@@ -2270,8 +2270,8 @@ const qsoReducer = (state = initialState, action) => {
     }
     case RECEIVE_USER_BIO: {
       const qra = {
-        ...state.qra,
-        qra: action.qra
+        ...state.feed.qra,
+        qra: { ...state.feed.qra.qra, bio: action.bio }
       };
       newStore = Object.assign({}, state, {
         ...state,

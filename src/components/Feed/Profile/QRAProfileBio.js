@@ -1,22 +1,16 @@
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Storage } from 'aws-amplify';
 import React, { Fragment } from 'react';
-import {
-  Alert,
-  Appearance,
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  View
-} from 'react-native';
+import { Alert, Appearance, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import { RichEditor } from 'react-native-pell-rich-editor';
+import { WebView } from 'react-native-webview';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
 class QRAProfileBio extends React.PureComponent {
+  richText = React.createRef();
   constructor(props) {
     super(props);
     const theme = props.theme || Appearance.getColorScheme();
@@ -25,8 +19,8 @@ class QRAProfileBio extends React.PureComponent {
       theme: theme,
       contentStyle,
       emojiVisible: false,
-      disabled: false,
-
+      disabled: true,
+      bio: null,
       edit: false,
       openPornConfirm: false
     };
@@ -81,12 +75,25 @@ class QRAProfileBio extends React.PureComponent {
     }
     return contentStyle;
   }
+
   render() {
     const { contentStyle, disabled } = this.state;
-    const { backgroundColor, color, placeholderColor } = contentStyle;
+    const { backgroundColor } = contentStyle;
     const themeBg = { backgroundColor };
-    const { edit } = this.state;
-
+    // console.log(this.richText);
+    // if (this.props.bio && this.richText.current)
+    //   this.richText.current?.setContentHtml(this.props.bio);
+    const source = this.props.qra.qra.bio
+      ? {
+          html:
+            '<head><meta name=\'viewport\' content=\'width=640, user-scalable=no\'> </head>' +
+            '<style> img { display: block; max-width: 100%; height: auto; } </style>' +
+            '<style> div { word-wrap: break-word; max-width: 100%; overflow-wrap: break-word; } </style>' +
+            '<body>' +
+            this.props.qra.qra.bio +
+            '</body></html>'
+        }
+      : {};
     return (
       <Fragment>
         {this.props.currentQRA === this.props.qraInfo.qra && (
@@ -100,39 +107,38 @@ class QRAProfileBio extends React.PureComponent {
             />
           </View>
         )}
-        <ScrollView
-          style={[styles.scroll, themeBg]}
-          keyboardDismissMode={'none'}>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            keyboardVerticalOffset={100}
-            behavior={'position'}>
-            <RichEditor
-              // initialFocus={true}
-              disabled={disabled}
-              editorStyle={contentStyle} // default light style
-              containerStyle={themeBg}
-              // scrollEnabled={false}
-              ref={this.richText}
-              style={[styles.rich, themeBg]}
-              placeholder={'please input content'}
-              initialContentHTML={this.props.qraInfo.bio}
-              editorInitializedCallback={() => this.editorInitializedCallback}
-              onChange={() => this.handleChange}
-              onHeightChange={() => this.handleHeightChange}
-            />
-          </KeyboardAvoidingView>
-        </ScrollView>
 
-        {/* </Segment> */}
+        <WebView
+          style={{ flex: 1, width: '100%' }}
+          scalesPageToFit={false}
+          useWebKit={false} // mixedContentMode="compatibility" sharedCookiesEnabled
+          thirdPartyCookiesEnabled
+          originWhitelist={['*']}
+          source={source}
+        />
       </Fragment>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: '#e5e5e5'
+    fontSize: 30
+  },
+  scroll: {
+    backgroundColor: '#ffffff'
+  },
+  rich: {
+    minHeight: 300,
+    flex: 1
+  }
+});
 const mapStateToProps = (state, ownProps) => ({
-  //state: state,
+  qra: state.sqso.feed.qra,
   currentQRA: state.sqso.qra,
   qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
   token: state.sqso.jwtToken
