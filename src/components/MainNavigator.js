@@ -1,5 +1,5 @@
 // import React from 'react';
-import React, { Component } from 'react';
+import React from 'react';
 import { Dimensions, Platform } from 'react-native';
 import {
   createAppContainer,
@@ -12,8 +12,8 @@ import {
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
 import Home from './Feed';
+import FeedHeaderBar from './Feed/FeedHeaderBar';
 import QRAProfile from './Feed/Profile';
-import QRAProfileBioEdit from './Feed/Profile/QRAProfileBioEdit';
 import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
@@ -30,7 +30,6 @@ import ErrorBoundary from './Qso/ErrorBoundary';
 // import Home from './Qso/Home';
 import QsoScreen from './Qso/QsoScreen';
 import UtilScreen from './Util/Util';
-
 const middleware = createReactNavigationReduxMiddleware(
   'root',
   (state) => state.nav
@@ -295,8 +294,12 @@ export const AppNavigator = createStackNavigator({
     //   header: null
     // }
   },
-  QRAProfileBioEdit: {
-    screen: QRAProfileBioEdit
+
+  FeedHeaderBar: {
+    screen: FeedHeaderBar,
+    navigationOptions: {
+      header: null
+    }
   },
   initialRouteName: 'Login'
 });

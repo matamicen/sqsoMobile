@@ -1,10 +1,11 @@
 import React from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
-// import 'react-virtualized/styles.css'; // only needs to be imported once
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import FeedHeaderBar from './FeedHeaderBar';
 import NewsFeed from './NewsFeedPresentational';
-// import './style.css';
+
 
 class NewsFeedContainer extends React.PureComponent {
   state = { qsos: this.props.qsos };
@@ -27,11 +28,16 @@ class NewsFeedContainer extends React.PureComponent {
 
     if (this.state.qsos) {
       return (
-        <NewsFeed
-          list={qsos}
-          fetchingQSOS={this.props.fetchingQSOS}
-          qsosFetched={this.props.qsosFetched}
-        />
+        <View style={{ flex: 1 }}>
+          <View>
+            <FeedHeaderBar />
+          </View>
+          <NewsFeed
+            list={qsos}
+            fetchingQSOS={this.props.fetchingQSOS}
+            qsosFetched={this.props.qsosFetched}
+          />
+        </View>
       );
     } else return null;
   }
