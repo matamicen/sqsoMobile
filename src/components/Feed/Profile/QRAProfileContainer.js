@@ -59,9 +59,10 @@ class QRAProfileContainer extends React.PureComponent {
     // });
 
     const { navigation } = this.props;
-    const qraInMemory = navigation.getParam('qra', 'NO-ID');
+    let qraInMemory = navigation.getParam('qra', this.props.currentQRA);
     // let qraInMemory = this.props.qra ? this.props.qra.qra.qra : '';
     console.log('qraInMemory ' + qraInMemory);
+
     if (
       (!this.props.fetchingQRA && !this.props.QRAFetched) ||
       this.props.QRAFetched

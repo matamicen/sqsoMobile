@@ -48,6 +48,7 @@ import {
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
+  RECEIVE_FIELDDAYS,
   RECEIVE_FOLLOWERS,
   RECEIVE_QRA,
   RECEIVE_QRA_ERROR,
@@ -60,6 +61,7 @@ import {
   REFRESH_FOLLOWINGS,
   REPOST_QSO,
   REQUEST_FEED,
+  REQUEST_FIELDDAYS,
   REQUEST_QRA,
   REQUEST_QSO,
   REQUEST_USERINFO,
@@ -225,6 +227,9 @@ const initialState = {
     qsos: [],
     FetchingQSOS: false,
     qsosFetched: false,
+    fieldDays: [],
+    FetchingFieldDays: false,
+    fieldDaysFetched: false,
     qso: null,
     qso_link: null,
     FetchingQSO: false,
@@ -1721,6 +1726,27 @@ const qsoReducer = (state = initialState, action) => {
       newStore = Object.assign({}, state, {
         ...state,
         feed: { ...state.feed, FetchingQSOS: true, qsosFetched: false }
+      });
+      return newStore;
+    case REQUEST_FIELDDAYS:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          FetchingFieldDays: true,
+          fieldDaysFetched: false
+        }
+      });
+      return newStore;
+    case RECEIVE_FIELDDAYS:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          fieldDays: action.fieldDays,
+          FetchingFieldDays: false,
+          fieldDaysFetched: true
+        }
       });
       return newStore;
     case RECEIVE_FEED:

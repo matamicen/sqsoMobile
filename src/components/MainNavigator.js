@@ -6,7 +6,8 @@ import {
   createBottomTabNavigator,
   createDrawerNavigator,
   createStackNavigator,
-  createSwitchNavigator
+  createSwitchNavigator,
+  HeaderBackButton
 } from 'react-navigation';
 //import MainPage from './MainPage';
 //import ChooseColorPage from './ChooseColorPage';
@@ -15,6 +16,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import { connect } from 'react-redux';
 import Home from './Feed';
 import FeedHeaderBar from './Feed/FeedHeaderBar';
+import FieldDaysFeed from './Feed/FieldDaysFeed';
 import QRAProfile from './Feed/Profile';
 import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
@@ -194,15 +196,7 @@ const AppNavigator2 = createBottomTabNavigator(
     })
   }
 );
-const DrawerNavigator = createDrawerNavigator(
-  {
-    Home: { screen: AppNavigator2 },
-    QsoScreen: { screen: QsoScreen }
-  },
-  {
-    initialRouteName: 'Home'
-  }
-);
+
 // export const AppNavigator = StackNavigator({
 export const AppNavigator = createStackNavigator({
   Root: {
@@ -314,6 +308,59 @@ export const AppNavigator = createStackNavigator({
   initialRouteName: 'Login'
 });
 
+export const ProfileRouteConfigs = {
+  QRAProfile: {
+    screen: QRAProfile,
+    // params: { qra: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+export const FieldDaysRouteConfigs = {
+  FieldDaysFeed: {
+    screen: FieldDaysFeed,
+
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+const StackNavigatorConfig = {
+  mode: 'modal',
+  headerMode: 'float',
+  headerTransitionPreset: 'face-in-place'
+};
+export const ProfileStackNavigator = createStackNavigator(
+  ProfileRouteConfigs,
+  StackNavigatorConfig
+);
+export const FieldDaysStackNavigator = createStackNavigator(
+  FieldDaysRouteConfigs,
+  StackNavigatorConfig
+);
+const DrawerRouteConfigs = {
+  Home: AppNavigator2,
+  FieldDays: FieldDaysStackNavigator,
+  Profile: ProfileStackNavigator
+};
+const DrawerNavigatorConfig = {
+  // contentComponent: (props) => <DrawerNavigator {...props} />,
+  // drawerType: 'slide',
+  initialRouteName: 'Home',
+  drawerPosition: 'right',
+  overlayColor: 'transparent'
+  // mode: 'modal'
+};
+
+const DrawerNavigator = createDrawerNavigator(
+  DrawerRouteConfigs,
+  DrawerNavigatorConfig
+);
 const App = createSwitchNavigator({
   App: {
     screen: AppNavigator

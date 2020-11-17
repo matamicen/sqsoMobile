@@ -45,6 +45,7 @@ class FeedItem extends React.Component {
         //     />
         //   );
         // case 'AD':
+        //   return null;
         //   if (props.index === 0) {
         //     return (
         //       <Fragment>

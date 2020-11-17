@@ -17,6 +17,8 @@ import { getDateQslScan } from '../helper';
 import I18n from '../utils/i18n';
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
+  REQUEST_FIELDDAYS,
+  RECEIVE_FIELDDAYS,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
   ACT_INDICATOR_POST_QSO_NEW_TRUE,
   ADD_CALLSIGN,
@@ -3572,11 +3574,26 @@ export const doReceiveFeed = (qsos) => {
     qsosFetched: true
   };
 };
+export const doReceiveFieldDays = (qsos) => {
+  return {
+    type: RECEIVE_FIELDDAYS,
+    fieldDays: qsos,
+    FetchingFieldDays: false,
+    fieldDaysFetched: true
+  };
+};
 export const doRequestFeed = () => {
   return {
     type: REQUEST_FEED,
     FetchingQSOS: true,
     qsosFetched: false
+  };
+};
+export const doRequestFieldDay = () => {
+  return {
+    type: REQUEST_FIELDDAYS,
+    FetchingFieldDays: true,
+    fieldDaysFetched: false
   };
 };
 export const doFollowFetch = () => {
@@ -4299,6 +4316,45 @@ export function doReceiveUserBio(bio) {
   return {
     type: RECEIVE_USER_BIO,
     bio: bio
+  };
+}
+export function doFetchFieldDaysFeed(qra = null) {
+  // console.log('doFetchPublicFeed');
+  // window.gtag('config', 'G-H8G28LYKBY', {
+  //   custom_map: { dimension1: 'userQRA' }
+  // });
+
+  // if (process.env.REACT_APP_STAGE === 'production')
+  //   window.gtag('event', 'getFieldDaysFeed_WEBPRD', {
+  //     event_category: 'User',
+  //     event_label: 'getFieldDaysFeed',
+  //     userQRA: qra
+  //   });
+
+  return async (dispatch) => {
+    dispatch(doRequestFieldDay());
+    const apiName = 'superqso';
+    const path = '/qsoGetByType';
+    const myInit = {
+      body: { type: 'FLDDAY' }, // replace this with attributes you need
+      headers: {} // OPTIONAL
+    };
+    API.post(apiName, path, myInit)
+      .then((response) => {
+        // console.log(response);
+        if (response.body.error === 0) {
+          dispatch(doReceiveFieldDays(response.body.message));
+        } else console.log(response.body.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__) {
+          console.log(error.message);
+          crashlytics().recordError(new Error('doFetchFieldDaysFeed_WEBDEV'));
+        } else
+          crashlytics().recordError(new Error('doFetchFieldDaysFeed_WEBPRD'));
+      });
   };
 }
 // END NATIVE FEED
