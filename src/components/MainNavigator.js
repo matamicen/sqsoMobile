@@ -4,7 +4,9 @@ import { Dimensions, Platform } from 'react-native';
 import {
   createAppContainer,
   createBottomTabNavigator,
-  createStackNavigator
+  createDrawerNavigator,
+  createStackNavigator,
+  createSwitchNavigator
 } from 'react-navigation';
 //import MainPage from './MainPage';
 //import ChooseColorPage from './ChooseColorPage';
@@ -192,7 +194,15 @@ const AppNavigator2 = createBottomTabNavigator(
     })
   }
 );
-
+const DrawerNavigator = createDrawerNavigator(
+  {
+    Home: { screen: AppNavigator2 },
+    QsoScreen: { screen: QsoScreen }
+  },
+  {
+    initialRouteName: 'Home'
+  }
+);
 // export const AppNavigator = StackNavigator({
 export const AppNavigator = createStackNavigator({
   Root: {
@@ -304,7 +314,16 @@ export const AppNavigator = createStackNavigator({
   initialRouteName: 'Login'
 });
 
-const Appnavig = createAppContainer(AppNavigator);
+const App = createSwitchNavigator({
+  App: {
+    screen: AppNavigator
+  },
+
+  Drawer: {
+    screen: DrawerNavigator
+  }
+});
+const Appnavig = createAppContainer(App);
 
 const AppWithNavigationState2 = ({ dispatch, nav }) => (
   // <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav, addListener })} />

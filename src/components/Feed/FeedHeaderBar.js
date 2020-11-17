@@ -1,12 +1,11 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Avatar, Icon, Overlay, SearchBar } from 'react-native-elements';
-import { withNavigation } from 'react-navigation';
+import { DrawerActions, withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedHeaderSearch from './FeedHeaderSearch';
-
 class FeedHeaderBar extends React.Component {
   constructor() {
     super();
@@ -67,7 +66,14 @@ class FeedHeaderBar extends React.Component {
               marginTop: 12,
               marginRight: 5
             }}>
-            <Icon size={30} name="navicon" type="font-awesome" />
+            <Icon
+              size={30}
+              name="navicon"
+              type="font-awesome"
+              onPress={() =>
+                this.props.navigation.dispatch(DrawerActions.openDrawer())
+              }
+            />
           </View>
         </View>
         <Overlay
