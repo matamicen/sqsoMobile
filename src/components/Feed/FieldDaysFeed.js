@@ -70,6 +70,7 @@ class FieldDaysFeed extends React.PureComponent {
       }
       return (
         <NewsFeed
+          feedType="FIELDDAYS"
           list={qsos}
           QRAFetched={this.props.QRAFetched}
           FetchingQRA={this.props.FetchingQRA}

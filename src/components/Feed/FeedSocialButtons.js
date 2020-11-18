@@ -55,6 +55,7 @@ class FeedSocialButtons extends React.PureComponent {
     return (
       <View style={styles.container}>
         <QSOLikeText
+          feedType={this.props.feedType}
           // qso={this.props.qso}
           // likes={this.props.qso.likes}
           idqsos={this.props.idqsos}
@@ -62,6 +63,7 @@ class FeedSocialButtons extends React.PureComponent {
         <View style={styles.buttons}>
           <View style={styles.like}>
             <QSOLikeButton
+              feedType={this.props.feedType}
               // qso={this.props.qso}
               idqsos={this.props.idqsos}
             />
@@ -76,12 +78,14 @@ class FeedSocialButtons extends React.PureComponent {
           </View>
           <View style={styles.repost}>
             <QSORePostButton
+              feedType={this.props.feedType}
               idqsos={this.props.idqsos}
               // qso={this.props.qso}
             />
           </View>
           <View style={styles.share}>
             <QSOShareButtons
+              feedType={this.props.feedType}
               idqso={this.props.qso.GUID_URL}
               idqsos={this.props.idqsos}
               title={this.props.shareText}
@@ -90,6 +94,7 @@ class FeedSocialButtons extends React.PureComponent {
         </View>
         {this.state.showComments && (
           <QSOComments
+            feedType={this.props.feedType}
             showComments={this.state.showComments}
             doClose={() => this.setState({ showComments: false })}
             index={this.props.index}
@@ -112,15 +117,24 @@ const styles = StyleSheet.create({
   repost: { flex: 1 },
   share: { flex: 1 }
 });
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
-  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
+  qso: selectorFeedType(state, ownProps),
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
- export default connect(mapStateToProps, mapDispatchToProps)(FeedSocialButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedSocialButtons);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(FeedSocialButtons);

@@ -247,11 +247,20 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 });
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra,
 
-  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
+  qso: selectorFeedType(state, ownProps),
   followers: state.sqso.currentQso.followers,
   following: state.sqso.currentQso.followings
 });

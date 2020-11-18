@@ -6,7 +6,6 @@ import * as Actions from '../../actions';
 import FeedHeaderBar from './FeedHeaderBar';
 import NewsFeed from './NewsFeedPresentational';
 
-
 class NewsFeedContainer extends React.PureComponent {
   state = { qsos: this.props.qsos };
   componentDidUpdate(prevProps) {
@@ -33,6 +32,7 @@ class NewsFeedContainer extends React.PureComponent {
             <FeedHeaderBar />
           </View>
           <NewsFeed
+            feedType="MAIN"
             list={qsos}
             fetchingQSOS={this.props.fetchingQSOS}
             qsosFetched={this.props.qsosFetched}

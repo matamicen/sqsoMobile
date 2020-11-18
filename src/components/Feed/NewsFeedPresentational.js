@@ -34,6 +34,7 @@ class NewsFeed extends React.PureComponent {
             ref={(ref) => {
               this.cellRefs[item.id] = ref;
             }}
+            feedType={this.props.feedType}
             key={index.toString}
             idqsos={item.qso.idqsos}
             currentIndex={index}

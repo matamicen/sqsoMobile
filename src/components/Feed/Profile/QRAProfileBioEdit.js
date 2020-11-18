@@ -480,10 +480,19 @@ const styles = StyleSheet.create({
     color: '#515156'
   }
 });
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   qra: state.sqso.feed.qra,
   currentQRA: state.sqso.qra,
-  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
+  qso: selectorFeedType(state, ownProps),
 
   token: state.sqso.jwtToken
 });

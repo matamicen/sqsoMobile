@@ -138,8 +138,12 @@ class FeedItemQSO extends React.Component {
       //   /> */}
       // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
-        <FeedItemHeader idqsos={this.props.qso.idqsos} />
+        <FeedItemHeader
+          feedType={this.props.feedType}
+          idqsos={this.props.qso.idqsos}
+        />
         <QRAs
+          feedType={this.props.feedType}
           avatarpic={this.props.qso.avatarpic}
           qso_owner={this.props.qso.qra}
           qras={this.props.qso.qras}
@@ -147,6 +151,7 @@ class FeedItemQSO extends React.Component {
 
         <FeedMedia
           // qso={this.props.qso}
+          feedType={this.props.feedType}
           currentIndex={this.props.currentIndex}
           currentVisibleIndex={this.props.currentVisibleIndex}
           idqsos={this.props.idqsos}
@@ -154,6 +159,7 @@ class FeedItemQSO extends React.Component {
         />
         {/* <QSOLikeText qso={qso} likes={this.state.likes} /> */}
         <FeedSocialButtons
+          feedType={this.props.feedType}
           comments={this.props.qso.comments}
           idqsos={this.props.idqsos}
           index={this.props.index}
@@ -174,10 +180,18 @@ const styles = StyleSheet.create({
     // marginTop: Constants.statusBarHeight
   }
 });
-
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   fetchingQSOS: state.sqso.feed.FetchingQSOS,
-  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
+  qso: selectorFeedType(state, ownProps),
   qsosFetched: state.sqso.feed.qsosFetched,
   currentQRA: state.sqso.qra
 });

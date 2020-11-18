@@ -24,6 +24,7 @@ class FeedItem extends React.Component {
         case 'LISTEN':
           return (
             <FeedItemQSO
+              feedType={this.props.feedType}
               key={this.props.idqsos}
               // qso={this.props.qso}
               idqsos={this.props.idqsos}

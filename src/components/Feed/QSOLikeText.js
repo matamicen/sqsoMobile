@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-    FlatList,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  FlatList,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -224,10 +224,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5
   }
 });
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else return null;
+};
+const selectorFeedTypeLikes = (state, ownProps) => {
+  console.log(ownProps);
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes;
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
+      .likes;
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
+      .likes;
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
-  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
-  likes: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes,
+  qso: selectorFeedType(state, ownProps),
+  likes: selectorFeedTypeLikes(state, ownProps),
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
