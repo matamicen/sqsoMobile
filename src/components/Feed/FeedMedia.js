@@ -24,7 +24,6 @@ class FeedMedia extends React.PureComponent {
   //     });
   // }
   render() {
-     console.log('render FeedMedia');
     let picList = this.props.qso.media.filter(
       (media) => media.type === 'image'
     );
@@ -87,16 +86,24 @@ class FeedMedia extends React.PureComponent {
     );
   }
 }
-
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
-  qso: state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos),
+  qso: selectorFeedType(state, ownProps),
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-  export default connect(mapStateToProps, mapDispatchToProps)(FeedMedia);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedMedia);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(FeedMedia);

@@ -117,7 +117,6 @@ class FeedAudio extends React.PureComponent {
         );
       } else {
         return (
-          // <Fragment>
           <View style={styles.container}>
             <View style={styles.audio}>
               <VideoPlayer
@@ -145,15 +144,17 @@ class FeedAudio extends React.PureComponent {
               <Text>
                 {this.props.media.description && (
                   <Text>
-                    <b>{this.props.media.description}</b>
+                    {this.props.media.description}
                     {' - '}
                   </Text>
                 )}
-                {date.toLocaleDateString(I18n.locale, { month: 'short' })}{' '}
-                {date.getUTCHours() +
-                  ':' +
-                  (date.getMinutes() < 10 ? '0' : '') +
-                  date.getMinutes()}
+                <Text>
+                  {date.toLocaleDateString(I18n.locale, { month: 'short' })}{' '}
+                  {date.getUTCHours() +
+                    ':' +
+                    (date.getMinutes() < 10 ? '0' : '') +
+                    date.getMinutes()}
+                </Text>
                 {this.props.media.views_counter > 0 && (
                   <Text>
                     {I18n.t('qso.audioPlays', {
@@ -164,7 +165,6 @@ class FeedAudio extends React.PureComponent {
               </Text>
             </View>
           </View>
-          // </Fragment>
         );
       }
     } else {

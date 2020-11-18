@@ -15,6 +15,7 @@ export default class QRAProfileQsos extends React.PureComponent {
       }
       return (
         <NewsFeed
+          feedType="PROFILE"
           list={qsos}
           QRAFetched={this.props.QRAFetched}
           FetchingQRA={this.props.FetchingQRA}

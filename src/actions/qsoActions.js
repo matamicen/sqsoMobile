@@ -17,6 +17,8 @@ import { getDateQslScan } from '../helper';
 import I18n from '../utils/i18n';
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
+  REQUEST_FIELDDAYS,
+  RECEIVE_FIELDDAYS,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
   ACT_INDICATOR_POST_QSO_NEW_TRUE,
   ADD_CALLSIGN,
@@ -1716,7 +1718,7 @@ export const uploadVideoToS3 = (
               //       videoPreviewURL = rdsUrlS3.replace(".mp4", '.jpg');
 
               let fileauxPreviewImage = fileauxProfileAvatar;
-              if (Platform.OS == 'ios') {
+              if (Platform.OS === 'ios') {
                 fileauxPreviewImage = fileauxProfileAvatar.replace(
                   'file:///',
                   ''
@@ -3572,11 +3574,26 @@ export const doReceiveFeed = (qsos) => {
     qsosFetched: true
   };
 };
+export const doReceiveFieldDays = (qsos) => {
+  return {
+    type: RECEIVE_FIELDDAYS,
+    fieldDays: qsos,
+    FetchingFieldDays: false,
+    fieldDaysFetched: true
+  };
+};
 export const doRequestFeed = () => {
   return {
     type: REQUEST_FEED,
     FetchingQSOS: true,
     qsosFetched: false
+  };
+};
+export const doRequestFieldDay = () => {
+  return {
+    type: REQUEST_FIELDDAYS,
+    FetchingFieldDays: true,
+    fieldDaysFetched: false
   };
 };
 export const doFollowFetch = () => {
@@ -4025,9 +4042,8 @@ export function doFetchQRA(qra, token = null) {
 
   return async (dispatch) => {
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qra-info/secured';
       const myInit = {
@@ -4035,7 +4051,7 @@ export function doFetchQRA(qra, token = null) {
           qra: qra
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // PTIONAL
       };
       dispatch(doRequestQRA());
@@ -4154,7 +4170,6 @@ export function doFetchQSO(idqso, token = null) {
   };
 }
 export function doReceiveQSO(data, error) {
-  // eslint-disable-next-line camelcase
   const { monthly_qso_views, ...qsoData } = data;
   if (error === 0) {
     return {
@@ -4257,10 +4272,9 @@ export function doSaveUserBio(token, bio, identityId) {
     //     event_label: 'UserBioUpdate'
     //   });
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
-
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+      dispatch(doReceiveUserBio(bio));
       const apiName = 'superqso';
       const path = '/qra-info/bio';
       const myInit = {
@@ -4269,14 +4283,14 @@ export function doSaveUserBio(token, bio, identityId) {
           identityId: identityId
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
 
       API.post(apiName, path, myInit)
         .then((response) => {
-          if (response.body.error !== 0) console.log(response.body.message);
-          else dispatch(doReceiveUserBio(response.body.message));
+          // if (response.body.error !== 0) console.log(response.body.message);
+          // else);
         })
         .catch(async (error) => {
           console.log(error);
@@ -4298,10 +4312,49 @@ export function doSaveUserBio(token, bio, identityId) {
     }
   };
 }
-export function doReceiveUserBio(qra) {
+export function doReceiveUserBio(bio) {
   return {
     type: RECEIVE_USER_BIO,
-    qra: qra
+    bio: bio
+  };
+}
+export function doFetchFieldDaysFeed(qra = null) {
+  // console.log('doFetchPublicFeed');
+  // window.gtag('config', 'G-H8G28LYKBY', {
+  //   custom_map: { dimension1: 'userQRA' }
+  // });
+
+  // if (process.env.REACT_APP_STAGE === 'production')
+  //   window.gtag('event', 'getFieldDaysFeed_WEBPRD', {
+  //     event_category: 'User',
+  //     event_label: 'getFieldDaysFeed',
+  //     userQRA: qra
+  //   });
+
+  return async (dispatch) => {
+    dispatch(doRequestFieldDay());
+    const apiName = 'superqso';
+    const path = '/qsoGetByType';
+    const myInit = {
+      body: { type: 'FLDDAY' }, // replace this with attributes you need
+      headers: {} // OPTIONAL
+    };
+    API.post(apiName, path, myInit)
+      .then((response) => {
+        // console.log(response);
+        if (response.body.error === 0) {
+          dispatch(doReceiveFieldDays(response.body.message));
+        } else console.log(response.body.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        crashlytics().log('error: ' + JSON.stringify(error));
+        if (__DEV__) {
+          console.log(error.message);
+          crashlytics().recordError(new Error('doFetchFieldDaysFeed_WEBDEV'));
+        } else
+          crashlytics().recordError(new Error('doFetchFieldDaysFeed_WEBPRD'));
+      });
   };
 }
 // END NATIVE FEED

@@ -1,10 +1,13 @@
 // import React from 'react';
-import React, { Component } from 'react';
+import React from 'react';
 import { Dimensions, Platform } from 'react-native';
 import {
   createAppContainer,
   createBottomTabNavigator,
-  createStackNavigator
+  createDrawerNavigator,
+  createStackNavigator,
+  createSwitchNavigator,
+  HeaderBackButton
 } from 'react-navigation';
 //import MainPage from './MainPage';
 //import ChooseColorPage from './ChooseColorPage';
@@ -12,8 +15,9 @@ import {
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
 import Home from './Feed';
+import FeedHeaderBar from './Feed/FeedHeaderBar';
+import FieldDaysFeed from './Feed/FieldDaysFeed';
 import QRAProfile from './Feed/Profile';
-import QRAProfileBioEdit from './Feed/Profile/QRAProfileBioEdit';
 import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
@@ -30,7 +34,6 @@ import ErrorBoundary from './Qso/ErrorBoundary';
 // import Home from './Qso/Home';
 import QsoScreen from './Qso/QsoScreen';
 import UtilScreen from './Util/Util';
-
 const middleware = createReactNavigationReduxMiddleware(
   'root',
   (state) => state.nav
@@ -295,13 +298,79 @@ export const AppNavigator = createStackNavigator({
     //   header: null
     // }
   },
-  QRAProfileBioEdit: {
-    screen: QRAProfileBioEdit
+
+  FeedHeaderBar: {
+    screen: FeedHeaderBar,
+    navigationOptions: {
+      header: null
+    }
   },
   initialRouteName: 'Login'
 });
 
-const Appnavig = createAppContainer(AppNavigator);
+export const ProfileRouteConfigs = {
+  QRAProfile: {
+    screen: QRAProfile,
+    // params: { qra: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+export const FieldDaysRouteConfigs = {
+  FieldDaysFeed: {
+    screen: FieldDaysFeed,
+
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+const StackNavigatorConfig = {
+  mode: 'modal',
+  headerMode: 'float',
+  headerTransitionPreset: 'face-in-place'
+};
+export const ProfileStackNavigator = createStackNavigator(
+  ProfileRouteConfigs,
+  StackNavigatorConfig
+);
+export const FieldDaysStackNavigator = createStackNavigator(
+  FieldDaysRouteConfigs,
+  StackNavigatorConfig
+);
+const DrawerRouteConfigs = {
+  Home: AppNavigator2,
+  FieldDays: FieldDaysStackNavigator,
+  Profile: ProfileStackNavigator
+};
+const DrawerNavigatorConfig = {
+  // contentComponent: (props) => <DrawerNavigator {...props} />,
+  // drawerType: 'slide',
+  initialRouteName: 'Home',
+  drawerPosition: 'right',
+  overlayColor: 'transparent'
+  // mode: 'modal'
+};
+
+const DrawerNavigator = createDrawerNavigator(
+  DrawerRouteConfigs,
+  DrawerNavigatorConfig
+);
+const App = createSwitchNavigator({
+  App: {
+    screen: AppNavigator
+  },
+
+  Drawer: {
+    screen: DrawerNavigator
+  }
+});
+const Appnavig = createAppContainer(App);
 
 const AppWithNavigationState2 = ({ dispatch, nav }) => (
   // <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav, addListener })} />
