@@ -381,12 +381,10 @@
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "sqsoMobileTests" */;
 			buildPhases = (
 				21F931402A39A2EE1C23A1CB /* [CP] Check Pods Manifest.lock */,
-				8FD0CA868BDEE3D21CDF524B /* [CP] Prepare Artifacts */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				B1A2B4F3C9D3C2636D5296D0 /* [CP] Copy Pods Resources */,
-				75087D9E4270B03BCF5B6B6D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -404,7 +402,6 @@
 			buildPhases = (
 				7F1BEC6EBA8ABB90A6D71B10 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
-				DCDC8481FB79B151FD21FC88 /* [CP] Prepare Artifacts */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -414,7 +411,6 @@
 				B869E59EFBF4CC3EC69BFA32 /* [CP-User] [RNFB] Crashlytics Configuration */,
 				673F53E3238F1BF4005525E6 /* ShellScript */,
 				6764767D25405C9500963A7B /* Embed App Extensions */,
-				0D08A104DE04CE502F5F1CAD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -491,7 +487,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1170;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1220;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -614,23 +610,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		0D08A104DE04CE502F5F1CAD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		14E2048C2F35241CF1A24168 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -796,23 +775,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
 		};
-		75087D9E4270B03BCF5B6B6D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile-sqsoMobileTests/Pods-sqsoMobile-sqsoMobileTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile-sqsoMobileTests/Pods-sqsoMobile-sqsoMobileTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7F1BEC6EBA8ABB90A6D71B10 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -833,39 +795,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8FD0CA868BDEE3D21CDF524B /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile-sqsoMobileTests/Pods-sqsoMobile-sqsoMobileTests-artifacts.sh",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/mobileffmpeg.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavcodec.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavdevice.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavfilter.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavformat.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavutil.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libswresample.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libswscale.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/gmp.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/gnutls.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libhogweed.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libnettle.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libvidstab.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/x264.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/x265.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/xvidcore.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile-sqsoMobileTests/Pods-sqsoMobile-sqsoMobileTests-artifacts.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		97DACED5505E74581E76D9C6 /* [CP] Check Pods Manifest.lock */ = {
@@ -955,39 +884,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec Fabric Run from Pods\"\n  \"${PODS_ROOT}/Fabric/run\"\nelse\n  echo \"info: Exec Fabric Run from framework\"\n  \"${PROJECT_DIR}/Fabric.framework/run\"\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		DCDC8481FB79B151FD21FC88 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile-artifacts.sh",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/mobileffmpeg.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavcodec.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavdevice.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavfilter.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavformat.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libavutil.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libswresample.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libswscale.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/gmp.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/gnutls.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libhogweed.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libnettle.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/libvidstab.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/x264.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/x265.xcframework",
-				"${PODS_ROOT}/mobile-ffmpeg-https-gpl/xvidcore.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-sqsoMobile/Pods-sqsoMobile-artifacts.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EE1AB353AAF3444BE639062A /* [CP] Copy Pods Resources */ = {
@@ -1136,6 +1032,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A32A329B1E6531BAB205894C /* Pods-sqsoMobile-sqsoMobileTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1145,7 +1042,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = sqsoMobileTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"<Multiple",
@@ -1172,13 +1069,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EF52E05E4D06F498444E6621 /* Pods-sqsoMobile-sqsoMobileTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				INFOPLIST_FILE = sqsoMobileTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"<Multiple",
@@ -1238,7 +1136,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "arm64 arm64e arm7s arm7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1280,7 +1177,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "RNVideoProcessing/sqsoMobile-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "arm64 arm64e arm7s arm7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1313,7 +1209,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1345,7 +1241,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1376,7 +1272,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sqsoMobile-tvOS.app/sqsoMobile-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1407,7 +1303,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sqsoMobile-tvOS.app/sqsoMobile-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1430,7 +1326,7 @@
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.5.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1471,7 +1367,7 @@
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.5.2;
 				MTL_FAST_MATH = YES;
@@ -1495,6 +1391,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1513,6 +1410,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1537,7 +1435,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1555,6 +1453,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1573,6 +1472,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1590,7 +1490,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1599,6 +1499,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
