@@ -143,6 +143,7 @@ class QsoScreen extends React.PureComponent {
     this.pressPublish = false;
     this.pressVideo = false;
     this.imagePreviewPath = '';
+    this.videoSize = 0;
    
 
 
@@ -1222,13 +1223,14 @@ if (this.pressVideo===false)
         
                                   let streams = information.getStreams();
                                 // console.log(`size video a comprimir: ${information.getAllProperties().format.size}`);
+                                
                                 // console.log(`duration video a comprimir: ${Math.floor(information.getAllProperties().format.duration/1)}`);
                                 // console.log(`Width video a comprimir: ${streams[0].getAllProperties().width}`);
                                 // console.log(`Height video a comprimir: ${streams[0].getAllProperties().height}`);
 
                                 // obtengo la duracion para luego sacar el progress verdadero de compresion y mostrar al usuario
                                 this.videoDurationSeconds = Math.floor(information.getAllProperties().format.duration/1);
-       
+                                this.videoSize = information.getAllProperties().format.size;
                               }
                       
                           });
@@ -2280,122 +2282,14 @@ if (storagePermission)
              
                 {
                  
-                  // bitMultiplier = 10;
+              
                   totalDimension = this.envio.width + this.envio.height;
                   needTrim = false;
-                  let dataTrim = '';
-                  let bitMultiplier = 0;
-                  let trimEndSecond = 0;
-                  let ratio = 0;
-                  let maxMb = 0;
-                  let maxSec = 0;
-                  let mbCoef = 15000000; // 15 mb de coeficiente
+                 
                   let destination_path = '';
 
-                  // console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
-
-                 if (this.envio.size<30000001)
-                 {
-                      if (this.envio.size<20000001)
-                      {
-                        bitMultiplier = 1.5;
-                        needTrim = false;
-
-                      }
-                      else
-                      {// tiene mas de 20mb y menos de 30mb
-                        bitMultiplier = 2;
-                        needTrim = false;
-                      }
-
-                 }
-                 else
-                 {// tiene mas de 30mb se usa algortimo calculo de compresion dependiendo la calidad del video para no hacerlos mierda y no quedarse cortos tampoco
-                   
-                  // calculo el ratio para saber la calidad del video aprox.
-                  ratio = Math.floor(this.envio.size / this.envio.duration);
-                  console.log('ratio: '+ ratio);
-
-                    if(ratio <400001)
-                      bitMultiplier = 2;
-                    if(ratio >400000 && ratio <700001)
-                      bitMultiplier = 3;
-                    if(ratio >700000 && ratio <1000001)
-                      bitMultiplier = 4;
-                    if(ratio >1000000 && ratio <1300001)
-                      bitMultiplier = 5;     
-                    if(ratio >1300000 && ratio <1600001)
-                      bitMultiplier = 6;  
-                    if(ratio >1600000 && ratio <1900001)
-                      bitMultiplier = 7;  
-                   if(ratio >1900000 && ratio <2000001)
-                     bitMultiplier = 8;  
-                   if(ratio >2000000)
-                     bitMultiplier = 10;           
-                
-
-                 maxMb = mbCoef *  bitMultiplier;
-                 maxSec = Math.floor(maxMb / ratio);
-
-                 if (this.envio.duration<maxSec)
-                   needTrim = false;
-                 else
-                 {
-                   needTrim = true;
-                   trimEndSecond = maxSec;
-                 }
-                   
-
-
-                // // analizo definicion de video para elegir compresion y decidir si hago TRIM o no
-                // if (totalDimension<2051)
-                //  {
-                //   bitMultiplier = 2;
-                //   needTrim = false;
-                //   // console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
-
-                //  }
-                //  if (totalDimension>2050 && totalDimension<2500 )
-                //  {
-                //   bitMultiplier = 7;
-                //   if (this.envio.duration>60)
-                //      needTrim = true;
-                //     //  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
-
-                //  }
-                //  if (totalDimension>2499 )
-                //  {
-                //   bitMultiplier = 10;
-                //   if (this.envio.duration>60)
-                //      needTrim = true;
-                //     //  console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size)
-                   
-             
-
-                //  }
-
-                }
-
-                 console.log('totalDimension: '+ totalDimension + ' duration: '+ this.envio.duration + ' size: ' + this.envio.size + ' ratio: '+ratio + ' maxMb: '+maxMb + ' maxSec: '+maxSec + ' needTrim: '+needTrim + ' bitMultiplier: '+bitMultiplier)
-
-                 needTrim=false;
-                 console.log('comienzo trim');
-                  if (needTrim)
-                  {
-                   
-                    this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date(), videoSizeBeforeCompress: maxMb});
-                        //  dataTrim = await ProcessingManager.trim(this.videoPathBeforeCompress, { startTime: 0,
-                    //  endTime: trimEndSecond})
-                     console.log('dataTrim: '+ JSON.stringify(dataTrim))
-                     this.videoPathBeforeCompress = dataTrim;
-                    
-                    }
-                    else
                     this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date(), videoSizeBeforeCompress: this.envio.size})
 
-                  console.log('comienzo a comprimir video');
-                  console.log('bitMultiplier: '+bitMultiplier + ' - needTrim: '+needTrim)
-                  console.log('nombre del video: '+this.envio.name)
 
                   console.log('this.videoPathBeforeCompress: '+this.videoPathBeforeCompress)
                   // mpeg4
@@ -2407,13 +2301,35 @@ if (storagePermission)
                     else
                       destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/file10.mp4`;
 
+                      console.log('videoDurationSeconds:'+this.videoDurationSeconds + ' videoSize: '+this.videoSize)
+
+                      // hago tiempo por si apreto my rapido CONTINUAR y luego PUBLICAR y aun GetVideoInfo no trajo la informacion, 
+                      //por ahi en Videos largos puede pasar que esto sirva.
+                      while(this.videoSize===0)
+                      {
+
+                      }
+
+                      // el algortimo de trim hay qu emejorarlo, por ahora esta muy light
+                      if (this.videoSize > 270000000 && this.videoDurationSeconds>120)
+                        {
+                          needTrim = true;
+                          this.videoDurationSeconds = 120; // se lo seteo para que el progress del compress lo haga contra el tiempo correcto del video en 120 segundos.
+                        }
+                      else
+                        needTrim = false;
+
+             if (needTrim)
                     setTimeout(() => {
                       // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                           // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                        
-                          
-                          RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
-                          // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                          // este de abajo es el que anda nomral
+                          // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
+              
+                             RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
+                              // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
+                            // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                           if (completedExecution.returnCode === 0) {
                               console.log("FFmpeg process completed successfully");
                               console.log(completedExecution)
@@ -2460,9 +2376,67 @@ if (storagePermission)
                        }
                       , 2000);
                     
+                
+                else
+                setTimeout(() => {
+                  // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                      // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                   
+                      // este de abajo es el que anda nomral
+                      RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
+          
+                        //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
+                          // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
+                        // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                      if (completedExecution.returnCode === 0) {
+                          console.log("FFmpeg process completed successfully");
+                          console.log(completedExecution)
+                      // console.log(result)
+                      finCom = new Date();
+                      timepoCom = finCom-inicioCom;
+                      console.log('tiempo de compresion: '+ timepoCom);
+                      // datasource = '/storage/emulated/0/DCIM/file10.mp4';
+                      // datasource = destination_path;
+                     
+              
+                  console.log('getMediaInformation ');
+                  RNFFprobe.getMediaInformation(destination_path).then(information => {
+                    if (information.getMediaProperties() !== undefined) {
+                 
+                     
+
+                        let streams = information.getStreams();
+                      console.log(`size papa: ${information.getAllProperties().format.size}`);
+                      console.log(`duration papa: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+                      console.log(`Width papa: ${streams[0].getAllProperties().width}`);
+                      console.log(`Height papa: ${streams[0].getAllProperties().height}`);
 
 
-                }
+                      this.envio.rectime = Math.floor(information.getAllProperties().format.duration/1); // duration;
+                      this.envio.size = information.getAllProperties().format.size; //Math.floor(env.size/bitMultiplier);
+                      this.envio.url = destination_path; 
+                      update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url, width: streams[0].getAllProperties().width, height: streams[0].getAllProperties().height}
+                      this.props.updateCommentInMemory(this.envio.name,update);
+                      this.setState({videoCompression: 'finished'});
+
+                
+                    }
+                   
+                });
+
+
+                        } else {
+                          console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
+                        }
+                      }).then(executionId => console.log(`Async FFmpeg process started with executionId ${executionId}.`));
+                  
+                    
+                   }
+                  , 2000);
+
+
+
+                } // if (video)
                 
           }
 
