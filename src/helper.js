@@ -1128,10 +1128,17 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
              // este async es para pdoer usar un await dentro de un promise y no usar los .then ... 
         (async () => {
 
-       const assetsDirExists = await RNFetchBlob.fs.isDir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso');
+          if (Platform.OS==='android')
+            qsopath = RNFetchBlob.fs.dirs.DCIMDir+'/sqso';
+          else
+            qsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso';
+            // qsopath = RNFetchBlob.fs.dirs.DownloadDir+'/sqso'; 
+            
+       const assetsDirExists = await RNFetchBlob.fs.isDir(qsopath);
        if(!assetsDirExists) {
          console.log('creo el dir')
-           RNFetchBlob.fs.mkdir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso')
+          //  RNFetchBlob.fs.mkdir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso')
+          RNFetchBlob.fs.mkdir(qsopath)
                            .then((res) => {console.log("App directory created..")
                          console.log(res)})
                            .catch((err) => {console.log(err)

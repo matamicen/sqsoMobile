@@ -1012,7 +1012,7 @@ if (this.pressVideo===false)
 
 
                 if (Platform.OS==='ios'){
-                path = RNFetchBlob.fs.dirs.DocumentDir+'/checkpath.jpg';
+                path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
                 auxuri = this.state.videoFromShare.replace("file:///", 'file://');
                 pathoculto = false;
                 }
@@ -1150,7 +1150,7 @@ if (this.pressVideo===false)
   if (Platform.OS==='android')
      path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/videoaux.mp4`;
    else 
-     path = `${RNFetchBlob.fs.dirs.DocumentDir}/videoaux.mp4`;
+     path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/videoaux.mp4`;
   
   const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
     console.log(data, 'grabo video aux en disco');
@@ -1158,24 +1158,14 @@ if (this.pressVideo===false)
   } 
   if (mimeType==='image/jpg')
   { 
-    // borrar media creada
-    // const assetsDirExists = await RNFetchBlob.fs.isDir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso');
-    //     if(!assetsDirExists) {
-    //       console.log('creo el dir')
-    //         RNFetchBlob.fs.mkdir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso')
-    //                         .then((res) => {console.log("App directory created..")
-    //                       console.log(res)})
-    //                         .catch((err) => {console.log(err)})
-    //     }
-    //     else
-    //     console.log('el dir existe')
+   
 
     let path = '';
     if (Platform.OS==='android')
     path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+  new Date().getTime()+'.jpg';
     // path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
    else 
-     path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
+     path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/'+ new Date().getTime()+'.jpg';
   
 
    const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
@@ -1215,7 +1205,7 @@ if (this.pressVideo===false)
            fileaux =  this.props.qra + '_' + new Date().getTime()+'.mp4'; // le asigno un nombre univoco al video
 
            if (Platform.OS==='ios')
-                    path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
+                    path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/'+ new Date().getTime()+'.jpg';
                 else
                     path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
                    
@@ -2309,7 +2299,7 @@ if (storagePermission)
                   await createSQSOfolder();
 
                     if (Platform.OS==='ios')
-                      destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/file10.mp4`;
+                      destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/file10.mp4`;
                     else
                       destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/file10.mp4`;
 
@@ -2758,7 +2748,12 @@ if (this.pressPublish===false)
 
 // proceso de borrar carpeta sqso
               console.log('delete folder: ');
-              RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso').then(() => 
+              if (Platform.OS==='android') 
+                theqsopath = 'file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso'
+                else
+                theqsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso' 
+
+              RNFetchBlob.fs.unlink(theqsopath).then(() => 
               { console.log("Succeeded") 
               
               if (Platform.OS==='android') // el scanFile funciona solo en android
