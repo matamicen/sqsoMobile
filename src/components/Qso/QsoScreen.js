@@ -73,7 +73,7 @@ import {
   showVideoReward,
   showIntersitial,
   updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish,
-   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck } from "../../helper";
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
@@ -144,6 +144,8 @@ class QsoScreen extends React.PureComponent {
     this.pressVideo = false;
     this.imagePreviewPath = '';
     this.videoSize = 0;
+    this.file10_delete = {}
+    this.videoaux_delete = {}
    
 
 
@@ -1006,6 +1008,8 @@ if (this.pressVideo===false)
             // console.log(realUrl.data.path)
 
     
+                await createSQSOfolder();
+
 
                 if (Platform.OS==='ios'){
                 path = RNFetchBlob.fs.dirs.DocumentDir+'/checkpath.jpg';
@@ -1014,7 +1018,7 @@ if (this.pressVideo===false)
                 }
             else
              
-                path = RNFetchBlob.fs.dirs.DCIMDir+'/checkpath.jpg';
+                path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
                 
             
 
@@ -1136,11 +1140,15 @@ if (this.pressVideo===false)
 
   saveVideoToDisk = async (file64,mimeType) => {
     console.log('savetodisk: '+ mimeType)
+
+    await createSQSOfolder();
+
+    
     if (mimeType==='video/mp4')
  { 
   let path = '';
   if (Platform.OS==='android')
-     path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
+     path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/videoaux.mp4`;
    else 
      path = `${RNFetchBlob.fs.dirs.DocumentDir}/videoaux.mp4`;
   
@@ -1164,7 +1172,7 @@ if (this.pressVideo===false)
 
     let path = '';
     if (Platform.OS==='android')
-    path = RNFetchBlob.fs.dirs.DCIMDir+'/'+ new Date().getTime()+'.jpg';
+    path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+  new Date().getTime()+'.jpg';
     // path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
    else 
      path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
@@ -1191,6 +1199,9 @@ if (this.pressVideo===false)
       duration: 0,
       size: 0
     }
+
+    await createSQSOfolder();
+
     let path = '';
     // lo vuelvo a null por si sube un proximo video en otra publicacion
            this.setState({videoFromGallery: null})
@@ -1206,7 +1217,7 @@ if (this.pressVideo===false)
            if (Platform.OS==='ios')
                     path = RNFetchBlob.fs.dirs.DocumentDir+'/'+ new Date().getTime()+'.jpg';
                 else
-                    path = RNFetchBlob.fs.dirs.DCIMDir+'/'+ new Date().getTime()+'.jpg';
+                    path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
                    
            inicioCom = new Date();
           //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
@@ -2295,11 +2306,12 @@ if (storagePermission)
                   // mpeg4
                   inicioCom = new Date();
                 
+                  await createSQSOfolder();
 
                     if (Platform.OS==='ios')
                       destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/file10.mp4`;
                     else
-                      destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/file10.mp4`;
+                      destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/file10.mp4`;
 
                       console.log('videoDurationSeconds:'+this.videoDurationSeconds + ' videoSize: '+this.videoSize)
 
@@ -2744,26 +2756,29 @@ if (this.pressPublish===false)
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-              // borrar media creada
-//               console.log('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso');
-//               // deleteFolder = await RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso/');
-             
-//               RNFetchBlob.fs.df()
-//     .then((response) => {
-//       console.log(response);
-//         // console.log('Free space in bytes1: ' + response.free);
-//         // console.log('Total space in bytes1: ' + response.total);
-//         RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso').then(() => { console.log("Succeeded") 
-//         RNFetchBlob.fs.df()
-//         .then((response) => {
-//           console.log(response);
-//             // console.log('Free space in bytes2: ' + response.free);
-//             // console.log('Total space in bytes2: ' + response.total);
-//       }).catch((err) => { console.log("err",err) })
-// })
-// })
-              // RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso').then(() => { console.log("Succeeded") }).catch((err) => { console.log("err",err) })
-              // console.log('delete folder: '+deleteFolder);
+// proceso de borrar carpeta sqso
+              console.log('delete folder: ');
+              RNFetchBlob.fs.unlink('file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso').then(() => 
+              { console.log("Succeeded") 
+              
+              if (Platform.OS==='android') // el scanFile funciona solo en android
+              {
+                RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
+           
+              .then(() => {
+                      console.log("scan file success")
+                    })
+                    .catch((err) => {
+                      console.log("scan file error")
+                    })
+                 }
+
+            
+            
+            }).catch((err) =>
+               { console.log("err unlink",err) })
+// fin proceso de borrar carpeta sqso
+
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
               home = global_config.urlWeb + '?' + new Date();
               await this.props.setWebView(this.props.webviewsession,home);

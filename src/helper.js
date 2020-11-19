@@ -8,6 +8,7 @@ import global_config from './global_config.json';
 // import firebase from '@react-native-firebase/app';
 // import * as config from '@react-native-firebase/remote-config';
 import I18n from './utils/i18n';
+import RNFetchBlob from 'rn-fetch-blob';
 
 Analytics.addPluggable(new AWSKinesisProvider());
 
@@ -1118,3 +1119,39 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
      
        
        }
+
+
+       export async function createSQSOfolder () {
+     
+        return await new Promise((resolve, reject) => {
+
+             // este async es para pdoer usar un await dentro de un promise y no usar los .then ... 
+        (async () => {
+
+       const assetsDirExists = await RNFetchBlob.fs.isDir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso');
+       if(!assetsDirExists) {
+         console.log('creo el dir')
+           RNFetchBlob.fs.mkdir(RNFetchBlob.fs.dirs.DCIMDir+'/sqso')
+                           .then((res) => {console.log("App directory created..")
+                         console.log(res)})
+                           .catch((err) => {console.log(err)
+                            reject(false)
+                          
+                          })
+       }
+       else
+       console.log('el dir existe')
+
+       
+       return resolve(true);
+     
+      })()
+
+      })
+   
+ 
+
+     
+     
+       
+      }
