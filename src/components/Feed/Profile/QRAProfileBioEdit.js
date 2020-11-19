@@ -93,7 +93,7 @@ class QRAProfileBioEdit extends React.Component {
     let html = await this.richText.current?.getContentHtml();
 
     this.props.actions.doSaveUserBio(this.props.token, html, idenId);
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('Home');
   }
 
   /**
@@ -124,11 +124,11 @@ class QRAProfileBioEdit extends React.Component {
     this.setState({ emojiVisible: !emojiVisible });
   }
 
-  insertVideo() {
-    this.richText.current?.insertVideo(
-      'https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4'
-    );
-  }
+  // insertVideo() {
+  //   this.richText.current?.insertVideo(
+  //     'https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4'
+  //   );
+  // }
 
   insertHTML() {
     this.richText.current?.insertHTML(
@@ -384,7 +384,7 @@ class QRAProfileBioEdit extends React.Component {
             ref={this.richText}
             style={[styles.rich, themeBg]}
             placeholder={'please input content'}
-            initialContentHTML={this.props.qra.qra.bio}
+            initialContentHTML={this.props.qra.bio}
             editorInitializedCallback={() => this.editorInitializedCallback}
             onChange={() => this.handleChange}
             onHeightChange={() => this.handleHeightChange}
@@ -480,19 +480,19 @@ const styles = StyleSheet.create({
     color: '#515156'
   }
 });
-const selectorFeedType = (state, ownProps) => {
-  if (ownProps.feedType === 'MAIN')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'PROFILE')
-    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'FIELDDAYS')
-    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
-  else return null;
-};
+// const selectorFeedType = (state, ownProps) => {
+//   if (ownProps.feedType === 'MAIN')
+//     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+//   else if (ownProps.feedType === 'PROFILE')
+//     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+//   else if (ownProps.feedType === 'FIELDDAYS')
+//     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+//   else return null;
+// };
 const mapStateToProps = (state, ownProps) => ({
-  qra: state.sqso.feed.qra,
+  qra: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
-  qso: selectorFeedType(state, ownProps),
+  // qso: selectorFeedType(state, ownProps),
 
   token: state.sqso.jwtToken
 });
