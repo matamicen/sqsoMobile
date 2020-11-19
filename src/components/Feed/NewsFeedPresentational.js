@@ -26,7 +26,6 @@ class NewsFeed extends React.PureComponent {
     }
   };
   _renderItem = ({ item, index }) => {
-    console.log(index, item.type);
     if (item)
       return (
         <View>

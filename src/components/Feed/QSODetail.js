@@ -135,8 +135,6 @@ class QSODetail extends React.PureComponent {
   }
 
   render() {
-    console.log(this.state);
-    console.log(this.props.qso);
     let error;
     switch (this.state.qsoError) {
       case 'QSO does not exist':

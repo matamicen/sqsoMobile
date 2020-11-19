@@ -2301,6 +2301,10 @@ const qsoReducer = (state = initialState, action) => {
       };
       newStore = Object.assign({}, state, {
         ...state,
+        userInfo: {
+          ...state.userInfo,
+          bio: action.bio
+        },
         feed: {
           ...state.feed,
           qra: qra
