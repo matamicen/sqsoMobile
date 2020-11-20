@@ -61,7 +61,8 @@ import ShareQso from "./ShareQso";
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import ImagePicker2 from 'react-native-image-picker';
+// import ImagePicker2 from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker'
 import Upload from 'react-native-background-upload';
 import ShareMenu from 'react-native-share-menu';
 
@@ -835,6 +836,127 @@ class QsoScreen extends React.PureComponent {
     this.props.setPressHome(0);
   }
 
+  analyzeVideoPath = async (incomingPath) => {
+
+    let pathoculto = false;
+    let auxuri = '';
+    let path = '';
+
+    this.setState({readingVideo: true})
+    console.log('IncomingPath')
+    console.log(incomingPath)
+    realUrl = await this.getVideoPath(incomingPath);
+   // console.log(realUrl.data.path)
+
+
+       await createSQSOfolder();
+
+
+       if (Platform.OS==='ios'){
+       path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
+      //  auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+          auxuri = incomingPath.replace("file:///", 'file://');
+       pathoculto = false;
+       }
+   else
+    
+       path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
+       
+   
+
+       // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+
+       //  console.log(' status: '+realUrl.status);
+
+// uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+// si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+// y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+// AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+// en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+if (Platform.OS==='android')
+if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+{
+console.log('path:')
+console.log(path)
+//  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+ if (result===0)
+ {    
+   
+   // auxurl = "file://"+ realUrl.data.path;
+   //   this.takeFramePreview(auxurl);
+
+     pathoculto = false;
+     console.log('path no oculto');
+  }
+ else
+ {
+
+   pathoculto = true;
+
+
+   console.log('path oculto');
+
+
+
+  }
+
+     });
+
+
+
+   }
+      else
+       pathoculto = true; 
+       // todo este IF es solo si es Anroid
+
+
+
+
+ if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+ { 
+   console.log('path oculto');
+
+
+    // auxuri = this.state.videoFromShare;
+    auxuri = incomingPath;
+
+  RNFetchBlob.fs.readFile(auxuri,'base64')
+  // files will an array contains filenames
+  .then((files) => {
+ 
+  console.log('finalizo lectura base64')
+ //  console.log(files);
+
+   this.saveVideoToDisk(files,'video/mp4');
+ 
+
+  })
+
+
+ }else
+ {
+   
+  
+  if (Platform.OS==='android'){
+
+   auxurl = "file://"+ realUrl.data.path;
+   this.takeFramePreview(auxurl);
+  }
+   else // ios
+   this.takeFramePreview(auxuri);
+
+
+ }
+
+
+
+
+
+
+  }
+
   videoFromGallery = async (fromShare) => {
 
 if (this.pressVideo===false)
@@ -909,7 +1031,8 @@ if (this.pressVideo===false)
       
        
       // ImagePicker2.showImagePicker(options, response => {
-        ImagePicker2.launchImageLibrary(options, response => {
+        // ImagePicker2.launchImageLibrary(options, response => {
+          launchImageLibrary(options, response => {
         console.log('Response = ', response);
   
         if (response.didCancel) {
@@ -942,14 +1065,22 @@ if (this.pressVideo===false)
 
      
        this.pressVideo = false;
+       this.analyzeVideoPath(response.uri)
+      //  this.analyzeVideoPath(response.path) android ok
 
 
 
        
-        this.takeFramePreview(response.path);
+        // this.takeFramePreview(response.path);
+        // comienzo agregado
+
+             // open the reading video modal
+                      
+
+
      
      
-     
+     // fin de agregado
          
           
           }
@@ -1000,112 +1131,114 @@ if (this.pressVideo===false)
       if (storagePermission) 
      {   
 
-             // open the reading video modal
-             this.setState({readingVideo: true})
-             console.log('this.state.videoFromShare')
-             console.log(this.state.videoFromShare)
-             realUrl = await this.getVideoPath(this.state.videoFromShare);
-            // console.log(realUrl.data.path)
+      this.analyzeVideoPath(this.state.videoFromShare)
+
+  //            // open the reading video modal
+  //            this.setState({readingVideo: true})
+  //            console.log('this.state.videoFromShare')
+  //            console.log(this.state.videoFromShare)
+  //            realUrl = await this.getVideoPath(this.state.videoFromShare);
+  //           // console.log(realUrl.data.path)
 
     
-                await createSQSOfolder();
+  //               await createSQSOfolder();
 
 
-                if (Platform.OS==='ios'){
-                path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
-                auxuri = this.state.videoFromShare.replace("file:///", 'file://');
-                pathoculto = false;
-                }
-            else
+  //               if (Platform.OS==='ios'){
+  //               path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
+  //               auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+  //               pathoculto = false;
+  //               }
+  //           else
              
-                path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
+  //               path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
                 
             
 
-                // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+  //               // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
      
-                //  console.log(' status: '+realUrl.status);
+  //               //  console.log(' status: '+realUrl.status);
        
-      // uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
-      // si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
-      // y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
-      // AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
-     // en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
-  if (Platform.OS==='android')
-    if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
-    {
-      console.log('path:')
-      console.log(path)
-    //  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
-      await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
-    console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
-          if (result===0)
-          {    
+  //     // uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+  //     // si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+  //     // y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+  //     // AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+  //    // en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+  // if (Platform.OS==='android')
+  //   if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+  //   {
+  //     console.log('path:')
+  //     console.log(path)
+  //   //  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+  //     await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+  //   console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+  //         if (result===0)
+  //         {    
             
-            // auxurl = "file://"+ realUrl.data.path;
-            //   this.takeFramePreview(auxurl);
+  //           // auxurl = "file://"+ realUrl.data.path;
+  //           //   this.takeFramePreview(auxurl);
 
-              pathoculto = false;
-              console.log('path no oculto');
-           }
-          else
-          {
+  //             pathoculto = false;
+  //             console.log('path no oculto');
+  //          }
+  //         else
+  //         {
 
-            pathoculto = true;
+  //           pathoculto = true;
 
 
-            console.log('path oculto');
+  //           console.log('path oculto');
          
        
 
-           }
+  //          }
 
-              });
+  //             });
     
  
 
-            }
-               else
-                pathoculto = true; 
-                // todo este IF es solo si es Anroid
+  //           }
+  //              else
+  //               pathoculto = true; 
+  //               // todo este IF es solo si es Anroid
 
        
 
 
-          if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
-          { 
-            console.log('path oculto');
+  //         if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+  //         { 
+  //           console.log('path oculto');
          
       
-             auxuri = this.state.videoFromShare;
+  //            auxuri = this.state.videoFromShare;
        
-           RNFetchBlob.fs.readFile(auxuri,'base64')
-           // files will an array contains filenames
-           .then((files) => {
+  //          RNFetchBlob.fs.readFile(auxuri,'base64')
+  //          // files will an array contains filenames
+  //          .then((files) => {
           
-           console.log('finalizo lectura base64')
-          //  console.log(files);
+  //          console.log('finalizo lectura base64')
+  //         //  console.log(files);
          
-            this.saveVideoToDisk(files,'video/mp4');
+  //           this.saveVideoToDisk(files,'video/mp4');
           
         
-           })
+  //          })
 
 
-          }else
-          {
+  //         }else
+  //         {
             
            
-           if (Platform.OS==='android'){
+  //          if (Platform.OS==='android'){
 
-            auxurl = "file://"+ realUrl.data.path;
-            this.takeFramePreview(auxurl);
-           }
-            else // ios
-            this.takeFramePreview(auxuri);
+  //           auxurl = "file://"+ realUrl.data.path;
+  //           this.takeFramePreview(auxurl);
+  //          }
+  //           else // ios
+  //           this.takeFramePreview(auxuri);
 
 
-          }
+  //         }
   
 
           
