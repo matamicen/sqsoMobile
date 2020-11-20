@@ -20,6 +20,7 @@ import FeedHeaderBar from './Feed/FeedHeaderBar';
 import FieldDaysFeed from './Feed/FieldDaysFeed';
 import QRAProfile from './Feed/Profile';
 import QRAProfileBioEdit from './Feed/Profile/QRAProfileBioEdit';
+import QRAProfileInfoEdit from './Feed/Profile/QRAProfileInfoEdit';
 import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
@@ -303,6 +304,9 @@ export const AppNavigator = createStackNavigator({
   QRAProfileBioEdit: {
     screen: QRAProfileBioEdit
   },
+  QRAProfileInfoEdit: {
+    screen: QRAProfileInfoEdit
+  },
   FeedHeaderBar: {
     screen: FeedHeaderBar,
     navigationOptions: {
@@ -311,9 +315,20 @@ export const AppNavigator = createStackNavigator({
   },
   initialRouteName: 'Login'
 });
-export const editProfileRouteConfigs = {
-  QRAProfile: {
+export const editBioRouteConfigs = {
+  qraBioEdit: {
     screen: QRAProfileBioEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+export const editInfoRouteConfigs = {
+  qraInfoEdit: {
+    screen: QRAProfileInfoEdit,
     // params: { tab: this.props.currentQRA },
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
@@ -349,8 +364,12 @@ const StackNavigatorConfig = {
   headerMode: 'float',
   headerTransitionPreset: 'face-in-place'
 };
-export const editProfileStackNavigator = createStackNavigator(
-  editProfileRouteConfigs,
+export const editBioStackNavigator = createStackNavigator(
+  editBioRouteConfigs,
+  StackNavigatorConfig
+);
+export const editInfoStackNavigator = createStackNavigator(
+  editInfoRouteConfigs,
   StackNavigatorConfig
 );
 export const MyPostsStackNavigator = createStackNavigator(
@@ -380,8 +399,14 @@ const DrawerRouteConfigs = {
       title: I18n.t('navBar.myPosts')
     }
   },
-  editProfile: {
-    screen: editProfileStackNavigator,
+  editBio: {
+    screen: editBioStackNavigator,
+    navigationOptions: {
+      title: I18n.t('navBar.editBio')
+    }
+  },
+  editInfo: {
+    screen: editInfoStackNavigator,
     navigationOptions: {
       title: I18n.t('navBar.editProfile')
     }

@@ -31,6 +31,7 @@ import global_config from '../../../global_config.json';
 import I18n from '../../../utils/i18n';
 import { EmojiView } from './emoji';
 import { InsertLinkModal } from './insertLink';
+
 const phizIcon = require('./phiz.png');
 const htmlIcon = require('./h5.png');
 
@@ -369,8 +370,11 @@ class QRAProfileBioEdit extends React.Component {
           ref={this.linkModal}
         />
         <View style={styles.nav}>
-          {/* <Button title={'HOME'} onPress={() => this.onHome} /> */}
-          <Button fluid title="Save" onPress={this.save.bind(this)} />
+          <Button
+            fluid
+            title={I18n.t('qra.saveBio')}
+            onPress={this.save.bind(this)}
+          />
         </View>
         <ScrollView
           style={[styles.scroll, themeBg]}
@@ -445,9 +449,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   nav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 5
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // marginHorizontal: 5
   },
   rich: {
     minHeight: 300,

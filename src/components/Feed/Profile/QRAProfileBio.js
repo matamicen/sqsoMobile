@@ -86,7 +86,7 @@ class QRAProfileBio extends React.PureComponent {
     const source = this.props.qra.qra.bio
       ? {
           html:
-            "<head><meta name='viewport' content='width=640, user-scalable=no'> </head>" +
+            '<head><meta name=\'viewport\' content=\'width=640, user-scalable=no\'> </head>' +
             '<style> img { display: block; max-width: 100%; height: auto; } </style>' +
             '<style> div { word-wrap: break-word; max-width: 100%; overflow-wrap: break-word; } </style>' +
             '<body>' +
@@ -100,9 +100,7 @@ class QRAProfileBio extends React.PureComponent {
           <View>
             <Button
               fluid
-              onPress={() =>
-                this.props.navigation.navigate('QRAProfileBioEdit')
-              }
+              onPress={() => this.props.navigation.push('QRAProfileBioEdit')}
               title={I18n.t('qra.editBio')}
             />
           </View>

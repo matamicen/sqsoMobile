@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
-import QRAProfileInfoEdit from './QRAProfileInfoEdit';
 // const options = [
 //   { key: "Y", text: "Yes", value: "1" },
 //   { key: "N", text: "No", value: "0" }
@@ -40,10 +40,9 @@ class QRAProfileInfo extends React.PureComponent {
     };
   }
 
-  close = () => this.setState({ edit: false });
   componentDidUpdate(prevProps, prevState) {
     if (this.props.qraInfo !== prevProps.qraInfo)
-      this.setState({ qra: this.props.qraInfo });
+      this.setState({ qra: this.props.qra });
   }
   handleOnSaveInfo = (e) => {
     this.props.actions.doSaveUserInfo(this.props.token, this.state.qra);
@@ -88,7 +87,7 @@ class QRAProfileInfo extends React.PureComponent {
           {this.props.currentQRA === this.props.qraInfo.qra && (
             <View>
               <Button
-                onPush={() => this.setState({ edit: true })}
+                onPress={() => this.props.navigation.push('QRAProfileInfoEdit')}
                 title={I18n.t('qra.editInfo')}
               />
             </View>
@@ -145,15 +144,6 @@ class QRAProfileInfo extends React.PureComponent {
             </Text>
           </View>
         </View>
-
-        {this.state.edit && (
-          <QRAProfileInfoEdit
-            qraInfo={this.props.qraInfo}
-            doSaveUserInfo={this.props.actions.doSaveUserInfo}
-            modalOpen={this.state.edit}
-            closeModal={() => this.setState({ edit: false })}
-          />
-        )}
       </Fragment>
     );
   }
@@ -169,7 +159,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileInfo);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileInfo)
+);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(QRAProfileInfo);
