@@ -161,6 +161,7 @@ class DeletePost extends React.PureComponent {
             deletePost2 = async  () => {
               this.props.newqsoactiveFalse();
               this.props.resetQso();
+              this.props.deleteqsofolder();
               this.props.closeDeletePost();
 
             }

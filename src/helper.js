@@ -1155,10 +1155,8 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       })()
 
       })
-   
- 
 
-     
-     
        
       }
+
+

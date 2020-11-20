@@ -2746,33 +2746,9 @@ if (this.pressPublish===false)
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-// proceso de borrar carpeta sqso
-              console.log('delete folder: ');
-              if (Platform.OS==='android') 
-                theqsopath = 'file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso'
-                else
-                theqsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso' 
 
-              RNFetchBlob.fs.unlink(theqsopath).then(() => 
-              { console.log("Succeeded") 
-              
-              if (Platform.OS==='android') // el scanFile funciona solo en android
-              {
-                RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
-           
-              .then(() => {
-                      console.log("scan file success")
-                    })
-                    .catch((err) => {
-                      console.log("scan file error")
-                    })
-                 }
+                this.deleteQSOfolder();
 
-            
-            
-            }).catch((err) =>
-               { console.log("err unlink",err) })
-// fin proceso de borrar carpeta sqso
 
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
               home = global_config.urlWeb + '?' + new Date();
@@ -2812,7 +2788,55 @@ if (this.pressPublish===false)
 
    descartar_publicacion = () => {
     this.setState({deletePost: true})
+ 
    }
+
+   deleteQSOfolder = () => {
+
+    RNFFmpeg.cancel();
+ 
+
+   // el borrado es con timeout para que termine bien el cancel de ffmpeg
+    setTimeout(() => {
+    
+// proceso de borrar carpeta sqso
+console.log('delete folder: ');
+if (Platform.OS==='android') 
+  theqsopath = 'file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso'
+  else
+  theqsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso' 
+
+RNFetchBlob.fs.unlink(theqsopath).then(() => 
+{ console.log("Succeeded") 
+
+if (Platform.OS==='android') // el scanFile funciona solo en android
+{
+  RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
+
+.then(() => {
+        console.log("scan file success")
+      })
+      .catch((err) => {
+        console.log("scan file error")
+      })
+   }
+
+
+
+}).catch((err) =>
+ { console.log("err unlink",err) })
+//fin proceso de borrar carpeta sqso
+
+
+        
+}
+, 3000);
+
+      }
+    
+
+  
+    
 
    componentDidUpdate(prevProps, prevState) {
     // if (prevState.justpublished) {
@@ -3219,7 +3243,7 @@ close_upload_failed = () => {
       }
 
      {(this.state.deletePost) &&
-              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()}/>
+              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()} deleteqsofolder={this.deleteQSOfolder.bind()}/>
             }
             
     
