@@ -114,16 +114,19 @@ class DeleteMedia extends React.PureComponent {
             //     this.props.closeDelete()
             //   }
 
+      
+
             if (this.props.type==='video') // si es video por mas que se haya creado sqlrdsid debe borrarlo de memoria
                                            //  porque la API de bacjkend se llama luego de hacer el upload del video y en video el upload se hace cuando se apreta PUBLICAR
                this.props.deleteMediaInMemory(this.props.name);
+       
             else
             // si fue enviado al backend entonces borro el media de la publicacion y BD siempre, no importa si no quedan medias en la publicacion, la validacion esa la hace el boton 
             // de publicar 
                 this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
 
 
-
+                this.props.stopffmpegcompression()
                 this.props.closeDelete()
                //#PUBLSIH 
 
