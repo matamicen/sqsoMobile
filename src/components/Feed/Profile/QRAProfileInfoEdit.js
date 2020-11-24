@@ -264,12 +264,13 @@ class QraProfileInfoEdit extends React.Component {
               <TouchableOpacity
                 // style={styles.birthdateContainer}
                 onPress={() => this.chooseCountry()}>
-                <Text
-                  // style={styles.birthdateText}
-                  ref={(countryRef) => (this.countryRef = countryRef)}>
-                  {' '}
-                  {this.state.country}
-                </Text>
+                <Input
+                  disabled
+                  value={this.state.country}
+                  onChangeText={handleChange('country')}
+                  onBlur={() => setFieldTouched('country')}
+                  label={I18n.t('qra.country')}
+                />
               </TouchableOpacity>
 
               {this.state.showFlag && (
