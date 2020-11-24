@@ -23,6 +23,9 @@ import {
   RichEditor,
   RichToolbar
 } from 'react-native-pell-rich-editor';
+import {
+  withNavigation
+} from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -87,6 +90,7 @@ class QRAProfileBioEdit extends React.Component {
   }
 
   async save() {
+    console.log('SaveBio');
     const { identityId } = await Auth.currentCredentials();
 
     var idenId = identityId.replace(':', '%3A');
@@ -94,7 +98,20 @@ class QRAProfileBioEdit extends React.Component {
     let html = await this.richText.current?.getContentHtml();
 
     this.props.actions.doSaveUserBio(this.props.token, html, idenId);
-    this.props.navigation.navigate('Home');
+    if (this.props.navigation.dangerouslyGetParent().state.index > 0) {
+      // const popAction = StackActions.pop({
+      //   n: 1
+      // });
+      // const resetAction = StackActions.reset({
+      //   index: 0,
+      //   actions: [NavigationActions.navigate({ routeName: 'QRAProfile' })]
+      // });
+      // this.props.navigation.dispatch(resetAction);
+      this.props.navigation.goBack();
+
+      // // this.props.navigation.navigate('Home');
+      // this.props.navigation.goBack();
+    } else this.props.navigation.navigate('Home');
   }
 
   /**
@@ -503,7 +520,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileBioEdit);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileBioEdit)
+);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(QRAProfileBioEdit);

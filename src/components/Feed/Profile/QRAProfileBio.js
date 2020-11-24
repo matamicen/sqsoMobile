@@ -77,6 +77,7 @@ class QRAProfileBio extends React.PureComponent {
   }
 
   render() {
+    console.log('QRAProfileBio');
     const { contentStyle, disabled } = this.state;
     const { backgroundColor } = contentStyle;
     const themeBg = { backgroundColor };
@@ -100,7 +101,10 @@ class QRAProfileBio extends React.PureComponent {
           <View>
             <Button
               fluid
-              onPress={() => this.props.navigation.push('QRAProfileBioEdit')}
+              onPress={() => {
+                console.log('onpress');
+                this.props.navigation.push('qraBioEdit');
+              }}
               title={I18n.t('qra.editBio')}
             />
           </View>

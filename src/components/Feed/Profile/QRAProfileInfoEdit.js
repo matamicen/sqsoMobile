@@ -5,24 +5,19 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
-import { Button } from 'react-native-elements';
+import { Button, Input } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-// import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
-// import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import * as Yup from 'yup';
 import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
 
-// import { MY_COUNTRIES_DATA } from './countries.js';
 class QraProfileInfoEdit extends React.Component {
-  // const [qra, setQRA] = useState(
   state = {
     firstname: '',
     lastname: this.props.qra.lastname,
@@ -141,6 +136,19 @@ class QraProfileInfoEdit extends React.Component {
             });
 
             this.props.actions.doSaveUserInfo(this.props.token, val);
+            if (this.props.navigation.dangerouslyGetParent().state.index > 0) {
+              // const popAction = StackActions.pop({
+              //   n: 1
+              // });
+              // // const resetAction = StackActions.reset({
+              // //   index: 0,
+              // //   actions: [NavigationActions.navigate({ routeName: 'QRAProfile' })]
+              // // });
+              // this.props.navigation.dispatch(popAction);
+              // this.props.navigation.navigate('Home');
+              this.props.navigation.goBack();
+            } else this.props.navigation.navigate('Home');
+            // this.props.navigation.navigate('Home');
           }}>
           {({
             values,
@@ -160,12 +168,12 @@ class QraProfileInfoEdit extends React.Component {
                   onPress={handleSubmit}
                 />
               </View>
-              <View style={{ flex: 1 }}>
-                <TextInput
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Input
                   value={values.firstname}
                   onChangeText={handleChange('firstname')}
                   onBlur={() => setFieldTouched('firstname')}
-                  placeholder={I18n.t('qra.firstName')}
+                  label={I18n.t('qra.firstName')}
                 />
 
                 {touched.firstname && errors.firstname && (
@@ -175,11 +183,11 @@ class QraProfileInfoEdit extends React.Component {
                 )}
               </View>
               <View style={{ flex: 1 }}>
-                <TextInput
+                <Input
                   value={values.lastname}
                   onChangeText={handleChange('lastname')}
                   onBlur={() => setFieldTouched('lastname')}
-                  placeholder={I18n.t('qra.lastName')}
+                  label={I18n.t('qra.lastName')}
                 />
                 {touched.lastname && errors.lastname && (
                   <Text style={{ fontSize: 10, color: 'red' }}>
@@ -187,66 +195,66 @@ class QraProfileInfoEdit extends React.Component {
                   </Text>
                 )}
               </View>
-              <TextInput
+              <Input
                 value={values.birthday}
                 onChangeText={handleChange('birthday')}
                 onBlur={() => setFieldTouched('birthday')}
-                placeholder={I18n.t('qra.birthday')}
+                label={I18n.t('qra.birthday')}
               />
               {touched.birthday && errors.birthday && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.birthday}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.address}
                 onChangeText={handleChange('address')}
                 onBlur={() => setFieldTouched('address')}
-                placeholder={I18n.t('qra.addressLine1')}
+                label={I18n.t('qra.addressLine1')}
               />
               {touched.address && errors.address && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.address}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.address2}
                 onChangeText={handleChange('address2')}
                 onBlur={() => setFieldTouched('address2')}
-                placeholder={I18n.t('qra.addressLine2')}
+                label={I18n.t('qra.addressLine2')}
               />
               {touched.address2 && errors.address2 && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.address2}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.city}
                 onChangeText={handleChange('city')}
                 onBlur={() => setFieldTouched('city')}
-                placeholder={I18n.t('qra.city')}
+                label={I18n.t('qra.city')}
               />
               {touched.city && errors.city && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.city}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.state}
                 onChangeText={handleChange('state')}
                 onBlur={() => setFieldTouched('state')}
-                placeholder={I18n.t('qra.state')}
+                label={I18n.t('qra.state')}
               />
               {touched.state && errors.state && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.state}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.zipcode}
                 onChangeText={handleChange('zipcode')}
                 onBlur={() => setFieldTouched('zipcode')}
-                placeholder={I18n.t('qra.zipCode')}
+                label={I18n.t('qra.zipCode')}
               />
               {touched.zipcode && errors.zipcode && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
@@ -291,22 +299,22 @@ class QraProfileInfoEdit extends React.Component {
                   // ref={ref => {this.countryPicker = ref}}
                 />
               )}
-              <TextInput
+              <Input
                 value={values.cqzone}
                 onChangeText={handleChange('cqzone')}
                 onBlur={() => setFieldTouched('cqzone')}
-                placeholder={I18n.t('qra.cqZone')}
+                label={I18n.t('qra.cqZone')}
               />
               {touched.cqzone && errors.cqzone && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.cqzone}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.ituzone}
                 onChangeText={handleChange('ituzone')}
                 onBlur={() => setFieldTouched('ituzone')}
-                placeholder={I18n.t('qra.ituZone')}
+                label={I18n.t('qra.ituZone')}
               />
               {touched.ituzone && errors.ituzone && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
@@ -314,44 +322,44 @@ class QraProfileInfoEdit extends React.Component {
                 </Text>
               )}
 
-              <TextInput
+              <Input
                 value={values.gridlocator}
                 onChangeText={handleChange('gridlocator')}
                 onBlur={() => setFieldTouched('gridlocator')}
-                placeholder={I18n.t('qra.gridLocator')}
+                label={I18n.t('qra.gridLocator')}
               />
               {touched.gridlocator && errors.gridlocator && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.gridlocator}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.licenseclass}
                 onChangeText={handleChange('licenseclass')}
                 onBlur={() => setFieldTouched('licenseclass')}
-                placeholder={I18n.t('qra.licenseClass')}
+                label={I18n.t('qra.licenseClass')}
               />
               {touched.licenseclass && errors.licenseclass && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.licenseclass}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.iotadesignator}
                 onChangeText={handleChange('iotadesignator')}
                 onBlur={() => setFieldTouched('iotadesignator')}
-                placeholder={I18n.t('qra.iotaDesignator')}
+                label={I18n.t('qra.iotaDesignator')}
               />
               {touched.iotadesignator && errors.iotadesignator && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.iotadesignator}
                 </Text>
               )}
-              <TextInput
+              <Input
                 value={values.qslinfo}
                 onChangeText={handleChange('qslinfo')}
                 onBlur={() => setFieldTouched('qslinfo')}
-                placeholder={I18n.t('qra.qsoInfo')}
+                label={I18n.t('qra.qsoInfo')}
               />
               {touched.qslinfo && errors.qslinfo && (
                 <Text style={{ fontSize: 10, color: 'red' }}>
@@ -414,4 +422,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QraProfileInfoEdit);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QraProfileInfoEdit)
+);

@@ -4187,6 +4187,8 @@ export function doReceiveQSO(data, error) {
   }
 }
 export function doSaveUserInfo(token, qra) {
+  console.log('doSaveUserInfo');
+  console.log(qra);
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'UserInfoUpdate_WEBPRD', {
@@ -4204,7 +4206,7 @@ export function doSaveUserInfo(token, qra) {
       const path = '/qra-info/info';
       const myInit = {
         body: {
-          qra: qra
+          qra
         }, // replace this with attributes you need
         headers: {
           Authorization: token
@@ -4212,7 +4214,10 @@ export function doSaveUserInfo(token, qra) {
       };
       API.post(apiName, path, myInit)
         .then((response) => {
-          if (response.body.error !== 0) console.log(response.body.message);
+          if (response.body.error !== 0) {
+            console.log('error');
+            console.log(response.body.message);
+          }
           // else dispatch(doReceiveUserDataInfo(response.body.message));
         })
         .catch(async (error) => {
@@ -4237,6 +4242,7 @@ export function doSaveUserInfo(token, qra) {
   };
 }
 export function doRequestUserInfo() {
+  console.log('doRequestUserInfo');
   return {
     type: REQUEST_USERINFO,
     fetchingUser: true,
@@ -4250,6 +4256,7 @@ export function doReceiveUserInfo(
   qra = null,
   notifications = null
 ) {
+  console.log('doReceiveUserInfo');
   return {
     type: RECEIVE_USERINFO,
     followers: followers,
@@ -4261,12 +4268,14 @@ export function doReceiveUserInfo(
   };
 }
 export function doReceiveUserDataInfo(qra) {
+  console.log('doReceiveUserDataInfo');
   return {
     type: RECEIVE_USER_DATA_INFO,
     qra: qra
   };
 }
 export function doSaveUserBio(token, bio, identityId) {
+  console.log('doSaveUserBio');
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'UserBioUpdate_WEBPRD', {
@@ -4315,6 +4324,7 @@ export function doSaveUserBio(token, bio, identityId) {
   };
 }
 export function doReceiveUserBio(bio) {
+  console.log('doReceiveUserBio');
   return {
     type: RECEIVE_USER_BIO,
     bio: bio
