@@ -1045,8 +1045,9 @@ if (this.pressVideo===false)
           console.log('User tapped custom button: ', response.customButton);
         } else {
           //  this.takeFrame3(response)
-  
-          
+        
+       
+
         // }
 
           console.log('comprime Video22:');
@@ -1369,6 +1370,8 @@ if (this.pressVideo===false)
                       
                           });
 
+              }).catch(err=> {
+              
               });
 
 
@@ -1404,6 +1407,7 @@ if (this.pressVideo===false)
 
                 } catch (error) {
                   console.log(error.message);
+         
                 }
 
          
@@ -2333,6 +2337,7 @@ if (storagePermission)
   subo_s3 = async () => {
 
     let datasource = '';
+    let compress = '';
 
     this.setState({showIntersitial:false});
     this.setState({showVideoReward:false});
@@ -2462,7 +2467,14 @@ if (storagePermission)
                           // este de abajo es el que anda nomral
                           // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
               
-                             RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
+                           
+                            if (Platform.OS==='ios') // ios comprime mucho mas entonces hay que darle mas definicion para que no aruine los videos
+                            compress=' -vf scale=-2:400 ';
+                           else
+                            compress=' -vf scale=-2:320 ';
+
+                            RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00"+compress+destination_path, completedExecution => {    
+                            //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
                               // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
                             // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                           if (completedExecution.returnCode === 0) {
@@ -2504,6 +2516,7 @@ if (storagePermission)
 
                             } else {
                               console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
+                            
                             }
                           }).then(executionId => console.log(`Async FFmpeg process started with executionId ${executionId}.`));
                       
@@ -2517,9 +2530,17 @@ if (storagePermission)
                   // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                       // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                    
+                       
+                       if (Platform.OS==='ios') // ios comprime mucho mas entonces hay que darle mas definicion para que no aruine los videos
+                        compress=' -vf scale=-2:400 ';
+                         else
+                          compress=' -vf scale=-2:320 ';
                       // este de abajo es el que anda nomral
-                      RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
-          
+                   
+                      RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +compress+destination_path, completedExecution => {   
+
+                        // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:480 "+destination_path, completedExecution => { 
+                      //   RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" "+destination_path, completedExecution => {   
                         //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
                           // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
                         // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
