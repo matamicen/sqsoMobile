@@ -362,8 +362,8 @@ PODS:
     - React
   - react-native-flipper (0.64.0):
     - React
-  - react-native-image-picker (2.3.4):
-    - React-Core
+  - react-native-image-picker (3.0.0-vnext.4):
+    - React
   - react-native-image-resizer (1.0.1):
     - React
   - react-native-location (2.3.2):
@@ -821,7 +821,7 @@ SPEC CHECKSUMS:
   react-native-camera: 9bf6e0cdce0d7dc059d9836eb381d96f58f83d83
   react-native-ffmpeg: 7c64ba2e41eeb06144ad77f17e62ecbbc29ae3c0
   react-native-flipper: 40d6bbb5a6e5e685fd81868b1950dabed035366d
-  react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
+  react-native-image-picker: fef69510872f9ea79c0a449e703dba0cd3b06edb
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
   react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
