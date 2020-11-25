@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React, { Component } from "react";
+import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
@@ -7,12 +7,11 @@ import thunk from 'redux-thunk';
 // import PushNotification from '@aws-amplify/pushnotification';
 //import {  kinesis_catch } from './src/helper';
 import reactotron from './ReactotronConfig';
-import AppWithNavigationState2 from './src/components/MainNavigator';
+import AppNavigator from './src/components/navigation/';
 import { armoPushNotifyLocalNotif } from './src/helper';
 //import AppContainer from "./src/containers/AppContainer";
 // agregado nuevo
 import AppReducer from './src/reducers/AppReducer';
-
 
 // PushNotification.configure(awsconfig);
 
@@ -126,7 +125,7 @@ export default class App extends React.PureComponent {
     return (
       <SafeAreaView style={styles.safeArea}>
         <Provider store={store}>
-          <AppWithNavigationState2 />
+          <AppNavigator />
         </Provider>
       </SafeAreaView>
     );
