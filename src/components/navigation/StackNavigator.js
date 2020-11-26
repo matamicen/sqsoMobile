@@ -1,47 +1,34 @@
-import { createStackNavigator } from 'react-navigation';
+import React from 'react';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation';
+import I18n from '../../utils/i18n';
 import FeedHeaderBar from '../Feed/FeedHeaderBar';
+import FieldDaysFeed from '../Feed/FieldDaysFeed';
 import QRAProfile from '../Feed/Profile';
 import QRAProfileBioEdit from '../Feed/Profile/QRAProfileBioEdit';
 import QRAProfileInfoEdit from '../Feed/Profile/QRAProfileInfoEdit';
 import QSODetail from '../Feed/QSODetail';
 import Notifications from '../Notifications/Notification';
 import ForgotScreen from '../Profile/ForgotPassword';
-//import SignOutScreen from './SignOutScreen';
-import ProfileScreen from '../Profile/InitialScreen';
 import SignUpScreen from '../Profile/SignUpForm';
 import QslScanQR from '../QslScan/QslScanQR';
 import QslScanResult from '../QslScan/QslScanResult';
 import QsoLink from '../QslScan/QsoLink';
 import CameraScreen from '../Qso/Camera';
-// import Home from './Qso/Home';
-import QsoScreen from '../Qso/QsoScreen';
-import UtilScreen from '../Util/Util';
 import { TabNavigator } from './TabNavigator';
-export const HomeNavigator = createStackNavigator({
-  //   Root: {
-  //     screen: Login,
-  //     navigationOptions: {
-  //       header: null
-  //     }
-  //   },
+export const MainNavigator = createStackNavigator({
   Home: {
     screen: TabNavigator,
     navigationOptions: {
       header: null
     }
   },
-  FeedHeaderBar: {
-    screen: FeedHeaderBar,
+
+  CameraScreen2: {
+    screen: CameraScreen,
     navigationOptions: {
       header: null
     }
   },
-  //   AppNavigator2: {
-  //     screen: AppNavigator2,
-  //     navigationOptions: {
-  //       header: null
-  //     }
-  //   },
 
   // Login: {
   //   screen: Login,
@@ -52,6 +39,27 @@ export const HomeNavigator = createStackNavigator({
 
   //  },
 
+  QslScanQR: {
+    screen: QslScanQR,
+    navigationOptions: {
+      header: null
+    }
+  },
+
+  QsoLink: {
+    screen: QsoLink,
+    navigationOptions: {
+      header: null
+    }
+  },
+
+  QslScanResult: {
+    screen: QslScanResult,
+    navigationOptions: {
+      header: null
+    }
+  },
+
   // BePremium: {
   //   screen: BePremium,
   //   navigationOptions: {
@@ -60,6 +68,13 @@ export const HomeNavigator = createStackNavigator({
   //   },
 
   //   },
+
+  Notifications: {
+    screen: Notifications,
+    navigationOptions: {
+      header: null
+    }
+  },
 
   SignUpScreen: {
     screen: SignUpScreen,
@@ -101,83 +116,100 @@ export const HomeNavigator = createStackNavigator({
   QRAProfileInfoEdit: {
     screen: QRAProfileInfoEdit
   },
-
-  initialRouteName: 'Login'
-});
-
-export const PostNavigator = createStackNavigator({
-  QsoScreen: {
-    screen: QsoScreen,
+  FeedHeaderBar: {
+    screen: FeedHeaderBar,
     navigationOptions: {
       header: null
     }
   },
-  CameraScreen2: {
-    screen: CameraScreen,
-    navigationOptions: {
-      header: null
-    }
+  initialRouteName: 'Home'
+});
+const editBioRouteConfigs = {
+  qraBioEdit: {
+    screen: QRAProfileBioEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   }
-});
-export const NotifNavigator = createStackNavigator({
-  Notifications: {
-    screen: Notifications,
-    navigationOptions: {
-      header: null
-    }
-  },
+};
+const editInfoRouteConfigs = {
+  qraInfoEdit: {
+    screen: QRAProfileInfoEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+const MyPostsRouteConfigs = {
   QRAProfile: {
-    screen: QRAProfile
-    // navigationOptions: {
-    //   header: null
-    // }
+    screen: QRAProfile,
+    // params: { qra: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   },
-  QSODetail: {
-    screen: QSODetail
-    // navigationOptions: {
-    //   header: null
-    // }
+  qraInfoEdit: {
+    screen: QRAProfileInfoEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   },
-  QRAProfileBioEdit: {
-    screen: QRAProfileBioEdit
-  },
-  QRAProfileInfoEdit: {
-    screen: QRAProfileInfoEdit
+  qraBioEdit: {
+    screen: QRAProfileBioEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   }
-});
-export const ToolsNavigator = createStackNavigator({
-  UtilScreen: {
-    screen: UtilScreen,
+};
+const FieldDaysRouteConfigs = {
+  Home: {
+    screen: TabNavigator,
     navigationOptions: {
-      header: null
+      title: I18n.t('HomeTitle')
     }
   },
-  QslScanQR: {
-    screen: QslScanQR,
-    navigationOptions: {
-      header: null
-    }
-  },
+  FieldDaysFeed: {
+    screen: FieldDaysFeed,
 
-  QsoLink: {
-    screen: QsoLink,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  QslScanResult: {
-    screen: QslScanResult,
-    navigationOptions: {
-      header: null
-    }
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   }
-});
-export const ProfileNavigator = createStackNavigator({
-  ProfileScreen: {
-    screen: ProfileScreen,
-    navigationOptions: {
-      header: null
-    }
-  }
-});
+};
+const StackNavigatorConfig = {
+  mode: 'modal',
+  headerMode: 'float',
+  headerTransitionPreset: 'face-in-place'
+};
+export const editBioStackNavigator = createStackNavigator(
+  editBioRouteConfigs,
+  StackNavigatorConfig
+);
+export const editInfoStackNavigator = createStackNavigator(
+  editInfoRouteConfigs,
+  StackNavigatorConfig
+);
+export const MyPostsStackNavigator = createStackNavigator(
+  MyPostsRouteConfigs,
+  StackNavigatorConfig
+);
+export const FieldDaysStackNavigator = createStackNavigator(
+  FieldDaysRouteConfigs,
+  StackNavigatorConfig
+);

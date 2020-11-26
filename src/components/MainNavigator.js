@@ -316,12 +316,6 @@ export const AppNavigator = createStackNavigator({
   initialRouteName: 'Login'
 });
 export const editBioRouteConfigs = {
-  // Home: {
-  //   screen: AppNavigator2,
-  //   navigationOptions: {
-  //     header: null
-  //   }
-  // },
   qraBioEdit: {
     screen: QRAProfileBioEdit,
     // params: { tab: this.props.currentQRA },
@@ -333,12 +327,6 @@ export const editBioRouteConfigs = {
   }
 };
 export const editInfoRouteConfigs = {
-  // Home: {
-  //   screen: AppNavigator2,
-  //   navigationOptions: {
-  //     header: null
-  //   }
-  // },
   qraInfoEdit: {
     screen: QRAProfileInfoEdit,
     // params: { tab: this.props.currentQRA },
