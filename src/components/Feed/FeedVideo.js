@@ -44,7 +44,8 @@ export default class FeedVideo extends React.PureComponent {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            height: videoHeight
+            height: videoHeight,
+            width
           })
         }>
         {/* <View style={{ width: '100%' }} ref={componentRef}> */}
@@ -89,17 +90,22 @@ export default class FeedVideo extends React.PureComponent {
             style={{
               flex: 1,
               justifyContent: 'center',
-              alignItems: 'center',
+              // alignItems: 'center',
               width,
               height: videoHeight
             }}>
             <Tile
+              width={width}
+              height={videoHeight}
               imageSrc={{
                 uri: this.props.media.videoPreview
               }}
-              icon={{ name: 'play-circle', type: 'font-awesome' }}
+              // imageProps={
+              //   PlaceholderContent={<ActivityIndicator />}
+              // }
+              icon={{ size: 70, name: 'play-circle', type: 'font-awesome' }}
               onPress={() => this.setState({ showVideo: true })}
-              featured
+              // featured
             />
           </View>
         )}
