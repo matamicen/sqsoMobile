@@ -1777,6 +1777,7 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     case RECEIVE_FOLLOWERS:
+      console.log('RECEIVE_FOLLOWERS');
       newStore = Object.assign({}, state, {
         ...state,
         currentQso: {
@@ -2238,6 +2239,7 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case REQUEST_USERINFO:
+      console.log('REQUEST_USERINFO');
       let userInfo = {
         ...state.userData,
         fetchingUser: action.fetchingUser,
@@ -2264,6 +2266,10 @@ const qsoReducer = (state = initialState, action) => {
       };
       newStore = Object.assign({}, state, {
         ...state,
+        userInfo: {
+          ...state.userInfo,
+          ...action.qra
+        },
         feed: {
           ...state.feed,
           follow: state.feed.follow
@@ -2278,29 +2284,45 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case RECEIVE_USER_DATA_INFO: {
+      console.log('RECEIVE_USER_DATA_INFO');
       newStore = Object.assign({}, state, {
         ...state,
+        userInfo: {
+          ...state.userInfo,
+          ...action.qra
+        },
         feed: {
           ...state.feed,
           userData: {
             ...state.feed.userData,
-            qra: { ...state.feed.userData.qra, ...action.qra }
+            qra: state.feed.userData.qra
+              ? { ...state.feed.userData.qra, ...action.qra }
+              : { ...action.qra }
           },
           qra: {
             ...state.feed.qra,
-            qra: { ...state.feed.qra.qra, ...action.qra }
+            qra: state.feed.qra
+              ? { ...state.feed.qra.qra, ...action.qra }
+              : { ...action.qra }
           }
         }
       });
       return newStore;
     }
     case RECEIVE_USER_BIO: {
+      console.log('RECEIVE_USER_BIO');
       const qra = {
         ...state.feed.qra,
-        qra: { ...state.feed.qra.qra, bio: action.bio }
+        qra: state.feed.qra
+          ? { ...state.feed.qra.qra, bio: action.bio }
+          : { bio: action.bio }
       };
       newStore = Object.assign({}, state, {
         ...state,
+        userInfo: {
+          ...state.userInfo,
+          bio: action.bio
+        },
         feed: {
           ...state.feed,
           qra: qra

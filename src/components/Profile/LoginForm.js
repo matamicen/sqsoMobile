@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Amplify, { Auth } from 'aws-amplify';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -141,7 +141,7 @@ class LoginForm extends React.PureComponent {
         'adentro de getDerivedStateFromProps: ' + props.userInfoApiSuccesStatus
       );
       props.followersAlreadyCalled(true);
-      props.navigation.navigate('AppNavigator2');
+      props.navigation.navigate('Home');
       //  this.setState({showloginForm: true});
 
       return { showloginForm: true };
@@ -582,66 +582,73 @@ class LoginForm extends React.PureComponent {
           //   //  this.webviewurlfromKilledPush = '';
           //    }   else
 
-           // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-           await this.props.setWebView(webViewUserSession,global_config.urlWeb+'?embedded=true')
-   
-    
+          // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+          await this.props.setWebView(
+            webViewUserSession,
+            global_config.urlWeb + '?embedded=true'
+          );
 
-           // console.log('Antes d Auth.currentCredentials() ');
-            // const { identityId } = await Auth.currentCredentials();
-            // console.log('la credencial es:' + identityId);
-            // var res = identityId.replace(":", "%3A");
-            // console.log('la credencial RES:' + res);
-            console.log('Antes d Auth.currentCredentials() getItem ');
-            this.setState({mess: I18n.t("loading") })
-            const res = await AsyncStorage.getItem('identity');
-            console.log('identityID: '+res);
-      
-            // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
+          // console.log('Antes d Auth.currentCredentials() ');
+          // const { identityId } = await Auth.currentCredentials();
+          // console.log('la credencial es:' + identityId);
+          // var res = identityId.replace(":", "%3A");
+          // console.log('la credencial RES:' + res);
+          console.log('Antes d Auth.currentCredentials() getItem ');
+          this.setState({ mess: I18n.t('loading') });
+          const res = await AsyncStorage.getItem('identity');
+          console.log('identityID: ' + res);
+
+          // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
           //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
-         //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
-        
-            // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
-            this.props.setUrlRdsS3(res,global_config.s3Cloudfront+res+'/');
-            
-            // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
-            // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
-            try {
-      
-              var pushtoken = await AsyncStorage.getItem('pushtoken');
-              console.log('mat2 el pushtoken del asyncStorage es:'+pushtoken);
-              console.log('mat2 el pushtoken del store es:'+this.props.pushtoken);
-      
-              //apologize
+          //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
+
+          // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+          this.props.setUrlRdsS3(res, global_config.s3Cloudfront + res + '/');
+
+          // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
+          // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
+          try {
+            var pushtoken = await AsyncStorage.getItem('pushtoken');
+            console.log('mat2 el pushtoken del asyncStorage es:' + pushtoken);
+            console.log(
+              'mat2 el pushtoken del store es:' + this.props.pushtoken
+            );
+
+            //apologize
             // if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-              if (1===2)
-            this.setState({stopApp: true, pushTokenNotFound: true})
-              else
-              {
-              console.log("Antes de AsyncStorage.getItem");
+            if (1 === 2)
+              this.setState({ stopApp: true, pushTokenNotFound: true });
+            else {
+              console.log('Antes de AsyncStorage.getItem');
               const value = await AsyncStorage.getItem('username');
-              if (value !== null){
+              if (value !== null) {
                 // We have data!!
-                console.log("PASO por AUTENTICACION y trajo del LOCAL STORAGE: " + value);
-                // seteo el usuario logueado en store 
-               this.props.setQra(value);
+                console.log(
+                  'PASO por AUTENTICACION y trajo del LOCAL STORAGE: ' + value
+                );
+                // seteo el usuario logueado en store
+                this.props.setQra(value);
                 //Si ya estaba logueado lo envio a la pantalla inicial
-                console.log("Tiene credenciales LoginForm, ya estaba logueado!!");
-          
-                console.log("si el resultado de getUserInfo da OK entonces por medio de getDerivedStateFromProps va havia pantalla principal")
-                console.log("esto se maneja asi debido a que si el ancho de banda del usuario es bajo, no deja pasar a la pantalla principal a menos que este userInfo ejecutada");
-      
+                console.log(
+                  'Tiene credenciales LoginForm, ya estaba logueado!!'
+                );
+
+                console.log(
+                  'si el resultado de getUserInfo da OK entonces por medio de getDerivedStateFromProps va havia pantalla principal'
+                );
+                console.log(
+                  'esto se maneja asi debido a que si el ancho de banda del usuario es bajo, no deja pasar a la pantalla principal a menos que este userInfo ejecutada'
+                );
+
                 this.props.getUserInfo(session.idToken.jwtToken);
-              
-           
+
                 // this.props.followersAlreadyCalled(true);
                 // this.props.navigation.navigate("AppNavigator2");
                 // this.setState({showloginForm: true});
               }
-      
+
               var qratoken = await AsyncStorage.getItem('qratoken');
-              console.log('AsyncStorage qratoken: '+qratoken);
-      
+              console.log('AsyncStorage qratoken: ' + qratoken);
 
               // chequeo si el username logueado que esta en value, esta en qratoken del async, si no
               if (qratoken !== value) {
@@ -742,7 +749,8 @@ class LoginForm extends React.PureComponent {
           loginerrorMessage: I18n.t('loginerrorMessUserEmpty')
         });
         this.usernotfound = true;
-      } else
+      } else {
+        console.log('signIn');
         await Auth.signIn(
           this.state.username.toLowerCase(),
           this.state.password
@@ -809,7 +817,7 @@ class LoginForm extends React.PureComponent {
               //  kinesis_catch('#012',err,this.state.username.toUpperCase());
             }
           });
-
+      }
       if (!this.usernotfound) {
         try {
           const { identityId } = await Auth.currentCredentials();
@@ -999,7 +1007,7 @@ class LoginForm extends React.PureComponent {
           index: 0,
           actions: [
             NavigationActions.navigate({
-              routeName: 'AppNavigator2',
+              routeName: 'Home',
               params: { foo: 'bar' }
             })
           ]

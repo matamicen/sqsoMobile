@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
-import QRAProfileInfoEdit from './QRAProfileInfoEdit';
 // const options = [
 //   { key: "Y", text: "Yes", value: "1" },
 //   { key: "N", text: "No", value: "0" }
@@ -40,15 +40,13 @@ class QRAProfileInfo extends React.PureComponent {
     };
   }
 
-  close = () => this.setState({ edit: false });
   componentDidUpdate(prevProps, prevState) {
     if (this.props.qraInfo !== prevProps.qraInfo)
-      this.setState({ qra: this.props.qraInfo });
+      this.setState({ qra: this.props.qra });
   }
-  handleOnSaveInfo = (e) => {
-    this.props.actions.doSaveUserInfo(this.props.token, this.state.qra);
-    this.close();
-  };
+  // handleOnSaveInfo = (e) => {
+  //   this.props.actions.doSaveUserInfo(this.props.token, this.state.qra);
+  // };
   changeHandler = (e, { name, value }) => {
     this.setState({
       qra: {
@@ -79,82 +77,77 @@ class QRAProfileInfo extends React.PureComponent {
       // eqsl,
       // lotw,
       // mailqsl
-    } = this.state.qra;
-    email = this.state.qra.email;
-
+    } = this.props.qraInfo;
+    email = this.props.qraInfo.email;
+    console.log(this.props.currentQRA);
+    console.log(this.props.qraInfo);
     return (
-      <Fragment>
-        <View>
-          {this.props.currentQRA === this.props.qraInfo.qra && (
-            <View>
-              <Button
-                onPush={() => this.setState({ edit: true })}
-                title={I18n.t('qra.editInfo')}
-              />
-            </View>
-          )}
-
+      <ScrollView>
+        {this.props.currentQRA === this.props.qraInfo.qra && (
           <View>
-            <Text style={styles.text}>
-              {I18n.t('qra.firstName') + ': ' + firstname}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.lastName') + ': ' + lastname}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.email') + ': ' + email}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.birthday') +
-                ': ' +
-                new Date(birthday).toISOString().substring(0, 10)}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.addressLine1') + ': ' + address}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.addressLine2') + ': ' + address2}
-            </Text>
-            <Text style={styles.text}>{I18n.t('qra.city') + ': ' + city}</Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.state') + ': ' + state}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.zipCode') + ': ' + zipcode}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.country') + ': ' + country}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.cqZone') + ': ' + cqzone}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.ituZone') + ': ' + ituzone}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.gridLocator') + ': ' + gridlocator}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.licenseClass') + ': ' + licenseclass}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.iotaDesignator') + ': ' + iotadesignator}
-            </Text>
-            <Text style={styles.text}>
-              {I18n.t('qra.qsoInfo') + ': ' + qslinfo}
-            </Text>
-          </View>
-        </View>
+            <Button
+              onPress={() => {
+                this.props.navigation.push('qraInfoEdit');
 
-        {this.state.edit && (
-          <QRAProfileInfoEdit
-            qraInfo={this.props.qraInfo}
-            doSaveUserInfo={this.props.actions.doSaveUserInfo}
-            modalOpen={this.state.edit}
-            closeModal={() => this.setState({ edit: false })}
-          />
+                // this.props.navigation.dispatch(
+                //   NavigationActions.navigate({
+                //     index: 0,
+                //     actions: [NavigationActions.navigate({ routeName: 'Home' })]
+                //   })
+                // );
+              }}
+              title={I18n.t('qra.editInfo')}
+            />
+          </View>
         )}
-      </Fragment>
+
+        <View>
+          <Text style={styles.text}>
+            {I18n.t('qra.firstName') + ': ' + firstname}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.lastName') + ': ' + lastname}
+          </Text>
+          <Text style={styles.text}>{I18n.t('qra.email') + ': ' + email}</Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.birthday') +
+              ': ' +
+              new Date(birthday).toISOString().substring(0, 10)}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.addressLine1') + ': ' + address}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.addressLine2') + ': ' + address2}
+          </Text>
+          <Text style={styles.text}>{I18n.t('qra.city') + ': ' + city}</Text>
+          <Text style={styles.text}>{I18n.t('qra.state') + ': ' + state}</Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.zipCode') + ': ' + zipcode}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.country') + ': ' + country}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.cqZone') + ': ' + cqzone}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.ituZone') + ': ' + ituzone}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.gridLocator') + ': ' + gridlocator}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.licenseClass') + ': ' + licenseclass}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.iotaDesignator') + ': ' + iotadesignator}
+          </Text>
+          <Text style={styles.text}>
+            {I18n.t('qra.qsoInfo') + ': ' + qslinfo}
+          </Text>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -162,14 +155,17 @@ const styles = StyleSheet.create({
   text: { fontSize: 15, marginBottom: 8, marginLeft: 2 }
 });
 const mapStateToProps = (state, ownProps) => ({
-  //state: state,
+  qraInfo: state.sqso.feed.qra.qra,
   currentQRA: state.sqso.qra,
+  qra: state.sqso.feed.qra,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileInfo);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileInfo)
+);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(QRAProfileInfo);

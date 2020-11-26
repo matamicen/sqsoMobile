@@ -14,10 +14,13 @@ import {
 // for react-navigation 1.0.0-beta.30
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
+import I18n from '../utils/i18n';
 import Home from './Feed';
 import FeedHeaderBar from './Feed/FeedHeaderBar';
 import FieldDaysFeed from './Feed/FieldDaysFeed';
 import QRAProfile from './Feed/Profile';
+import QRAProfileBioEdit from './Feed/Profile/QRAProfileBioEdit';
+import QRAProfileInfoEdit from './Feed/Profile/QRAProfileInfoEdit';
 import QSODetail from './Feed/QSODetail';
 import Notifications from './Notifications/Notification';
 import ForgotScreen from './Profile/ForgotPassword';
@@ -298,7 +301,12 @@ export const AppNavigator = createStackNavigator({
     //   header: null
     // }
   },
-
+  QRAProfileBioEdit: {
+    screen: QRAProfileBioEdit
+  },
+  QRAProfileInfoEdit: {
+    screen: QRAProfileInfoEdit
+  },
   FeedHeaderBar: {
     screen: FeedHeaderBar,
     navigationOptions: {
@@ -307,8 +315,29 @@ export const AppNavigator = createStackNavigator({
   },
   initialRouteName: 'Login'
 });
-
-export const ProfileRouteConfigs = {
+export const editBioRouteConfigs = {
+  qraBioEdit: {
+    screen: QRAProfileBioEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+export const editInfoRouteConfigs = {
+  qraInfoEdit: {
+    screen: QRAProfileInfoEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
+export const MyPostsRouteConfigs = {
   QRAProfile: {
     screen: QRAProfile,
     // params: { qra: this.props.currentQRA },
@@ -317,9 +346,33 @@ export const ProfileRouteConfigs = {
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       )
     })
+  },
+  qraInfoEdit: {
+    screen: QRAProfileInfoEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  },
+  qraBioEdit: {
+    screen: QRAProfileBioEdit,
+    // params: { tab: this.props.currentQRA },
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   }
 };
 export const FieldDaysRouteConfigs = {
+  Home: {
+    screen: AppNavigator2,
+    navigationOptions: {
+      title: I18n.t('HomeTitle')
+    }
+  },
   FieldDaysFeed: {
     screen: FieldDaysFeed,
 
@@ -335,8 +388,16 @@ const StackNavigatorConfig = {
   headerMode: 'float',
   headerTransitionPreset: 'face-in-place'
 };
-export const ProfileStackNavigator = createStackNavigator(
-  ProfileRouteConfigs,
+export const editBioStackNavigator = createStackNavigator(
+  editBioRouteConfigs,
+  StackNavigatorConfig
+);
+export const editInfoStackNavigator = createStackNavigator(
+  editInfoRouteConfigs,
+  StackNavigatorConfig
+);
+export const MyPostsStackNavigator = createStackNavigator(
+  MyPostsRouteConfigs,
   StackNavigatorConfig
 );
 export const FieldDaysStackNavigator = createStackNavigator(
@@ -344,9 +405,36 @@ export const FieldDaysStackNavigator = createStackNavigator(
   StackNavigatorConfig
 );
 const DrawerRouteConfigs = {
-  Home: AppNavigator2,
-  FieldDays: FieldDaysStackNavigator,
-  Profile: ProfileStackNavigator
+  Home: {
+    screen: AppNavigator2,
+    navigationOptions: {
+      title: I18n.t('HomeTitle')
+    }
+  },
+  FieldDays: {
+    screen: FieldDaysStackNavigator,
+    navigationOptions: {
+      title: I18n.t('navBar.lastFieldDays')
+    }
+  },
+  myPosts: {
+    screen: MyPostsStackNavigator,
+    navigationOptions: {
+      title: I18n.t('navBar.myPosts')
+    }
+  },
+  editBio: {
+    screen: editBioStackNavigator,
+    navigationOptions: {
+      title: I18n.t('navBar.editBio')
+    }
+  },
+  editInfo: {
+    screen: editInfoStackNavigator,
+    navigationOptions: {
+      title: I18n.t('navBar.editProfile')
+    }
+  }
 };
 const DrawerNavigatorConfig = {
   // contentComponent: (props) => <DrawerNavigator {...props} />,

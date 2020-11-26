@@ -234,7 +234,6 @@ const selectorFeedType = (state, ownProps) => {
   else return null;
 };
 const selectorFeedTypeLikes = (state, ownProps) => {
-  console.log(ownProps);
   if (ownProps.feedType === 'MAIN')
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes;
   else if (ownProps.feedType === 'PROFILE')

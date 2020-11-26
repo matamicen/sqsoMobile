@@ -23,16 +23,8 @@ class FeedSocialButtons extends React.PureComponent {
       error: null
     };
   }
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('socialButtons');
-    // if (this.props.qso && this.props.qso !== prevProps.qso)
-    //   this.setState({
-    //     qso: this.props.qso,
-    //     likes: this.props.qso.likes
-    //   });
-  }
+
   render() {
-    console.log('FeedSocialButtons');
     const commentsCounter = '(' + this.props.qso.comments.length + ')';
     // let shareText;
 

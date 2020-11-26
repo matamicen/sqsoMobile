@@ -23,6 +23,9 @@ import {
   RichEditor,
   RichToolbar
 } from 'react-native-pell-rich-editor';
+import {
+  withNavigation
+} from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -31,6 +34,7 @@ import global_config from '../../../global_config.json';
 import I18n from '../../../utils/i18n';
 import { EmojiView } from './emoji';
 import { InsertLinkModal } from './insertLink';
+
 const phizIcon = require('./phiz.png');
 const htmlIcon = require('./h5.png');
 
@@ -86,6 +90,7 @@ class QRAProfileBioEdit extends React.Component {
   }
 
   async save() {
+    console.log('SaveBio');
     const { identityId } = await Auth.currentCredentials();
 
     var idenId = identityId.replace(':', '%3A');
@@ -93,7 +98,20 @@ class QRAProfileBioEdit extends React.Component {
     let html = await this.richText.current?.getContentHtml();
 
     this.props.actions.doSaveUserBio(this.props.token, html, idenId);
-    this.props.navigation.goBack();
+    if (this.props.navigation.dangerouslyGetParent().state.index > 0) {
+      // const popAction = StackActions.pop({
+      //   n: 1
+      // });
+      // const resetAction = StackActions.reset({
+      //   index: 0,
+      //   actions: [NavigationActions.navigate({ routeName: 'QRAProfile' })]
+      // });
+      // this.props.navigation.dispatch(resetAction);
+      this.props.navigation.goBack();
+
+      // // this.props.navigation.navigate('Home');
+      // this.props.navigation.goBack();
+    } else this.props.navigation.navigate('Home');
   }
 
   /**
@@ -124,11 +142,11 @@ class QRAProfileBioEdit extends React.Component {
     this.setState({ emojiVisible: !emojiVisible });
   }
 
-  insertVideo() {
-    this.richText.current?.insertVideo(
-      'https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4'
-    );
-  }
+  // insertVideo() {
+  //   this.richText.current?.insertVideo(
+  //     'https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4'
+  //   );
+  // }
 
   insertHTML() {
     this.richText.current?.insertHTML(
@@ -369,8 +387,11 @@ class QRAProfileBioEdit extends React.Component {
           ref={this.linkModal}
         />
         <View style={styles.nav}>
-          {/* <Button title={'HOME'} onPress={() => this.onHome} /> */}
-          <Button fluid title="Save" onPress={this.save.bind(this)} />
+          <Button
+            fluid
+            title={I18n.t('qra.saveBio')}
+            onPress={this.save.bind(this)}
+          />
         </View>
         <ScrollView
           style={[styles.scroll, themeBg]}
@@ -384,7 +405,7 @@ class QRAProfileBioEdit extends React.Component {
             ref={this.richText}
             style={[styles.rich, themeBg]}
             placeholder={'please input content'}
-            initialContentHTML={this.props.qra.qra.bio}
+            initialContentHTML={this.props.qra.bio}
             editorInitializedCallback={() => this.editorInitializedCallback}
             onChange={() => this.handleChange}
             onHeightChange={() => this.handleHeightChange}
@@ -445,9 +466,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   nav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 5
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // marginHorizontal: 5
   },
   rich: {
     minHeight: 300,
@@ -480,26 +501,28 @@ const styles = StyleSheet.create({
     color: '#515156'
   }
 });
-const selectorFeedType = (state, ownProps) => {
-  if (ownProps.feedType === 'MAIN')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'PROFILE')
-    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'FIELDDAYS')
-    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
-  else return null;
-};
+// const selectorFeedType = (state, ownProps) => {
+//   if (ownProps.feedType === 'MAIN')
+//     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+//   else if (ownProps.feedType === 'PROFILE')
+//     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+//   else if (ownProps.feedType === 'FIELDDAYS')
+//     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+//   else return null;
+// };
 const mapStateToProps = (state, ownProps) => ({
-  qra: state.sqso.feed.qra,
+  qra: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
-  qso: selectorFeedType(state, ownProps),
+  // qso: selectorFeedType(state, ownProps),
 
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QRAProfileBioEdit);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileBioEdit)
+);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(QRAProfileBioEdit);

@@ -57,7 +57,6 @@ class FieldDaysFeed extends React.PureComponent {
   render() {
     let qsos = [];
     if (this.props.fieldDays.length > 0) {
-      console.log(this.props.fieldDays);
       for (let i = 0; i < this.props.fieldDays.length; i++) {
         qsos.push({
           qso: this.props.fieldDays[i],
