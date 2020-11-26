@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation';
-import I18n from '../../utils/i18n';
 import FeedHeaderBar from '../Feed/FeedHeaderBar';
 import FieldDaysFeed from '../Feed/FieldDaysFeed';
 import QRAProfile from '../Feed/Profile';
@@ -176,12 +175,12 @@ const MyPostsRouteConfigs = {
   }
 };
 const FieldDaysRouteConfigs = {
-  Home: {
-    screen: TabNavigator,
-    navigationOptions: {
-      title: I18n.t('HomeTitle')
-    }
-  },
+  // Home: {
+  //   screen: TabNavigator,
+  //   navigationOptions: {
+  //     title: I18n.t('navBar.lastFieldDays')
+  //   }
+  // },
   FieldDaysFeed: {
     screen: FieldDaysFeed,
 
