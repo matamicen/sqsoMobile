@@ -71,7 +71,7 @@ class NewsFeed extends React.PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this._renderItem.bind(this)}
           removeClippedSubviews={true} // Unmount components when outside of window
-          windowSize={3} // Reduce the window size
+          windowSize={5} // Reduce the window size
         />
       </View>
     );
