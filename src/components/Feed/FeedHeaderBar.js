@@ -71,8 +71,6 @@ class FeedHeaderBar extends React.Component {
               name="navicon"
               type="font-awesome"
               onPress={() => {
-                console.log('hamburger clicked');
-                // this.props.navigation.navigate('Drawer');
                 this.props.navigation.dispatch(DrawerActions.openDrawer());
               }}
             />
