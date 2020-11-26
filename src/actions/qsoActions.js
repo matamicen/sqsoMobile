@@ -3633,7 +3633,6 @@ export const doFollowFetch = () => {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doFollowFetch');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -3686,7 +3685,6 @@ export const doFollowQRA = (token, follower) => {
         });
     } catch (error) {
       if (__DEV__) {
-        console.log('doFollowFetch');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -3734,7 +3732,6 @@ export const doUnfollowQRA = (token, follower) => {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doFollowFetch');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -3748,7 +3745,6 @@ export const doUnfollowQRA = (token, follower) => {
   };
 };
 export const doReceiveFollowers = (following) => {
-  console.log('doReceiveFollowers');
   return {
     type: RECEIVE_FOLLOWERS,
     following: following
@@ -3791,7 +3787,6 @@ export const doQsoMediaPlay = (idMedia, token, idqso) => {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doQsoMediaPlay');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -3809,7 +3804,6 @@ export function doReceiveMediaCounter(data) {
   };
 }
 export function doRepost(idqso, token, qso) {
-  console.log('doRepost');
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'repost_WEBPRD', {
@@ -3861,7 +3855,6 @@ export function doRepost(idqso, token, qso) {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doQsoMediaPlay');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -3929,7 +3922,6 @@ export function doCommentDelete(idcomment, idqso, token) {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doQsoMediaPlay');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -4000,7 +3992,6 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
       // );
     } catch (error) {
       if (__DEV__) {
-        console.log('doQsoMediaPlay');
         console.log(error);
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
@@ -4195,8 +4186,6 @@ export function doReceiveQSO(data, error) {
   }
 }
 export function doSaveUserInfo(token, qra) {
-  console.log('doSaveUserInfo');
-  console.log(qra);
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'UserInfoUpdate_WEBPRD', {
@@ -4223,7 +4212,6 @@ export function doSaveUserInfo(token, qra) {
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error !== 0) {
-            console.log('error');
             console.log(response.body.message);
           }
           // else dispatch(doReceiveUserDataInfo(response.body.message));
@@ -4250,7 +4238,6 @@ export function doSaveUserInfo(token, qra) {
   };
 }
 export function doRequestUserInfo() {
-  console.log('doRequestUserInfo');
   return {
     type: REQUEST_USERINFO,
     fetchingUser: true,
@@ -4264,7 +4251,6 @@ export function doReceiveUserInfo(
   qra = null,
   notifications = null
 ) {
-  console.log('doReceiveUserInfo');
   return {
     type: RECEIVE_USERINFO,
     followers: followers,
@@ -4276,14 +4262,12 @@ export function doReceiveUserInfo(
   };
 }
 export function doReceiveUserDataInfo(qra) {
-  console.log('doReceiveUserDataInfo');
   return {
     type: RECEIVE_USER_DATA_INFO,
     qra: qra
   };
 }
 export function doSaveUserBio(token, bio, identityId) {
-  console.log('doSaveUserBio');
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'UserBioUpdate_WEBPRD', {
@@ -4332,7 +4316,6 @@ export function doSaveUserBio(token, bio, identityId) {
   };
 }
 export function doReceiveUserBio(bio) {
-  console.log('doReceiveUserBio');
   return {
     type: RECEIVE_USER_BIO,
     bio: bio

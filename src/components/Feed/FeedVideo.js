@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dimensions, ImageBackground, StyleSheet, View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { Tile } from 'react-native-elements';
 // import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-controls';
 // import './style.js';
@@ -27,6 +27,7 @@ export default class FeedVideo extends React.PureComponent {
     } else this.setState({ showVideo: true });
   }
   render() {
+    console.log('showVideo: ' + this.state.showVideo);
     var width = Dimensions.get('window').width;
     var videoHeight =
       (this.props.media.height * width) / this.props.media.width;
@@ -48,67 +49,59 @@ export default class FeedVideo extends React.PureComponent {
         }>
         {/* <View style={{ width: '100%' }} ref={componentRef}> */}
         {this.state.showVideo && (
-          // <Video
-          <VideoPlayer
-            // ref={(ref) => {
-            //   this.player = ref;
-            // }}
-            // id="my-video"
-            // className="video-js"
-            // controls
-            // fullscreen={true}
-            navigator={this.props.navigator}
-            resizeMode="cover"
-            playInBackground={false}
-            playWhenInactive={false}
-            posterResizeMode="cover"
-            poster={this.props.media.videoPreview}
-            // paused={props.paused}
-            paused={false}
-            style={
-              (styles.backgroundVideo,
-              {
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width,
-                height: videoHeight
-              })
-            }
-            source={{
-              uri: this.props.media.url
-            }}
-            // onLayout={this.handleVideoLayout}
-            // style={styles.backgroundVideo}
-          />
+          <View>
+            <VideoPlayer
+              // ref={(ref) => {
+              //   this.player = ref;
+              // }}
+              // id="my-video"
+              // className="video-js"
+              // controls
+              // fullscreen={true}
+              navigator={this.props.navigator}
+              resizeMode="cover"
+              playInBackground={false}
+              playWhenInactive={false}
+              posterResizeMode="cover"
+              poster={this.props.media.videoPreview}
+              // paused={props.paused}
+              paused={false}
+              style={
+                (styles.backgroundVideo,
+                {
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width,
+                  height: videoHeight
+                })
+              }
+              source={{
+                uri: this.props.media.url
+              }}
+              // onLayout={this.handleVideoLayout}
+              // style={styles.backgroundVideo}
+            />
+          </View>
         )}
         {!this.state.showVideo && (
-          <ImageBackground
-            // style={{ width, height: videoHeight - 20 }}
+          <View
             style={{
               flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
               width,
-              height: videoHeight,
-              justifyContent: 'center'
-            }}
-            source={{
-              uri: this.props.media.videoPreview
-            }}
-            blurRadius={1}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-              <Icon
-                raised
-                name="play"
-                type="font-awesome"
-                onPress={() => this.setState({ showVideo: true })}
-              />
-            </View>
-          </ImageBackground>
+              height: videoHeight
+            }}>
+            <Tile
+              imageSrc={{
+                uri: this.props.media.videoPreview
+              }}
+              icon={{ name: 'play-circle', type: 'font-awesome' }}
+              onPress={() => this.setState({ showVideo: true })}
+              featured
+            />
+          </View>
         )}
         {/* <source src={props.media.url} type="video/mp4" /> */}
         {/* </View> */}

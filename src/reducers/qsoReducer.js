@@ -2239,7 +2239,6 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case REQUEST_USERINFO:
-      console.log('REQUEST_USERINFO');
       let userInfo = {
         ...state.userData,
         fetchingUser: action.fetchingUser,
@@ -2284,7 +2283,6 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case RECEIVE_USER_DATA_INFO: {
-      console.log('RECEIVE_USER_DATA_INFO');
       newStore = Object.assign({}, state, {
         ...state,
         userInfo: {
@@ -2310,7 +2308,6 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
     case RECEIVE_USER_BIO: {
-      console.log('RECEIVE_USER_BIO');
       const qra = {
         ...state.feed.qra,
         qra: state.feed.qra
