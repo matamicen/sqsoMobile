@@ -1,5 +1,12 @@
 import React from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import { Image } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -62,7 +69,7 @@ const slideWidth = Dimensions.get('window').width - 30;
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 230;
- export const FeedImage = (props) => {
+export const FeedImage = (props) => {
   const _renderItem = ({ item, index }) => {
     // console.log('varios: '+ item.type + ' '+ item.url)
     if (item.type === 'image')
@@ -76,6 +83,8 @@ const itemHeight = 230;
                 source={{ uri: item.url }}
                 resizeMethod="resize"
                 resizeMode="contain"
+                transition
+                PlaceholderContent={<ActivityIndicator />}
               />
             </View>
             <View
