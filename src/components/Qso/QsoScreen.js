@@ -3292,7 +3292,7 @@ close_upload_failed = () => {
               
             } */}
 
-              <TouchableOpacity style={{width: 65,height:63 }}
+              {/* <TouchableOpacity style={{width: 65,height:63 }}
                 onPress={() => this.videoFromGallery(false)}
               >
                 <Image
@@ -3301,7 +3301,7 @@ close_upload_failed = () => {
                   resizeMode="contain"
                 />
                 <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
           
         
           </View>
@@ -3329,6 +3329,23 @@ close_upload_failed = () => {
           {/* ) : null} */}
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
+
+          {this.props.sqsonewqsoactive ? (
+            <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
+                 <TouchableOpacity style={{width: 65,height:63 }}
+                onPress={() => this.videoFromGallery(false)}
+              >
+                <Image
+                  source={require("../../images/camara-de-video.png")}
+                  style={{ width: 27, height: 27, marginLeft: 22, marginTop: 0 }}
+                  resizeMode="contain"
+                />
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
+
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
               <TouchableOpacity style={{width: 65,height:63 }}
