@@ -1,14 +1,12 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import Login from '../Profile/Login';
 import ErrorBoundary from '../Qso/ErrorBoundary';
 import { DrawerNavigator } from './DrawerNavigator';
+import { AuthNavigator } from './StackNavigator';
 const SwitchNavigator = createSwitchNavigator(
   {
     App: DrawerNavigator,
-    Auth: {
-      screen: Login
-    }
+    Auth: AuthNavigator
   },
   {
     initialRouteName: 'Auth'

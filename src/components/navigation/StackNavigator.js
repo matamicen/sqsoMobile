@@ -8,12 +8,27 @@ import QRAProfileInfoEdit from '../Feed/Profile/QRAProfileInfoEdit';
 import QSODetail from '../Feed/QSODetail';
 import Notifications from '../Notifications/Notification';
 import ForgotScreen from '../Profile/ForgotPassword';
+import Login from '../Profile/Login';
 import SignUpScreen from '../Profile/SignUpForm';
 import QslScanQR from '../QslScan/QslScanQR';
 import QslScanResult from '../QslScan/QslScanResult';
 import QsoLink from '../QslScan/QsoLink';
 import CameraScreen from '../Qso/Camera';
 import { TabNavigator } from './TabNavigator';
+export const AuthNavigator = createStackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Home: {
+    screen: TabNavigator,
+    navigationOptions: {
+      header: null
+    }
+  }
+});
 export const MainNavigator = createStackNavigator({
   Home: {
     screen: TabNavigator,
