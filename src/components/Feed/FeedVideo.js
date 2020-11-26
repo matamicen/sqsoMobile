@@ -22,9 +22,11 @@ export default class FeedVideo extends React.PureComponent {
     // );
   };
   componentDidUpdate(props) {
-    if (props.currentIndex !== props.currentVisibleIndex) {
-      this.setState({ showVideo: false });
-    } else this.setState({ showVideo: true });
+    // console.log(props.currentIndex);
+    // console.log(props.currentVisibleIndex);
+    // if (props.currentIndex !== props.currentVisibleIndex) {
+    //   this.setState({ showVideo: false });
+    // } else this.setState({ showVideo: true });
   }
   render() {
     console.log('showVideo: ' + this.state.showVideo);
@@ -39,14 +41,14 @@ export default class FeedVideo extends React.PureComponent {
     return (
       <View
         style={
-          (styles.container,
+          // (styles.container,
           {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
             height: videoHeight,
             width
-          })
+          }
         }>
         {/* <View style={{ width: '100%' }} ref={componentRef}> */}
         {this.state.showVideo && (
@@ -88,13 +90,18 @@ export default class FeedVideo extends React.PureComponent {
         {!this.state.showVideo && (
           <View
             style={{
-              flex: 1,
-              justifyContent: 'center',
+              // flex: 1,
+              // justifyContent: 'center',
               // alignItems: 'center',
               width,
               height: videoHeight
             }}>
             <Tile
+              contentContainerStyle={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
               width={width}
               height={videoHeight}
               imageSrc={{
@@ -105,7 +112,7 @@ export default class FeedVideo extends React.PureComponent {
               // }
               icon={{ size: 70, name: 'play-circle', type: 'font-awesome' }}
               onPress={() => this.setState({ showVideo: true })}
-              // featured
+              featured
             />
           </View>
         )}
@@ -117,7 +124,7 @@ export default class FeedVideo extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center' },
+  // container: { flex: 1, justifyContent: 'center' },
   backgroundVideo: {
     // position: 'absolute'
     // top: 0,
