@@ -123,7 +123,7 @@ export const TabNavigator = createBottomTabNavigator(
     initialRouteName: 'Home',
     tabBarPosition: 'bottom',
     swipeEnabled: true, // fixes a bug in react navigation
-    lazy: true, // fixes a bug in react navigation
+    lazy: false, // fixes a bug in react navigation
 
     tabBarOptions: {
       //  labelStyle: {
