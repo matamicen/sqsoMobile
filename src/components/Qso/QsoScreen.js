@@ -538,36 +538,38 @@ class QsoScreen extends React.PureComponent {
 
     if (nextAppState === "active") {
 
-          ShareMenu.getSharedText((text) => {
-      console.log('el text del share 05:'+JSON.stringify(text) )
+      // La captura del Share paso al HOME del FEED por el Navigation LAZY 
+
+    //       ShareMenu.getSharedText((text) => {
+    //   console.log('el text del share 05:'+JSON.stringify(text) )
       
-      // if (text!==null) {
-        if (text!==null && (typeof text !== 'undefined')) {
+    //   // if (text!==null) {
+    //     if (text!==null && (typeof text !== 'undefined')) {
        
-        console.log('el text del share hay data 05: '+ text)
-        auxshare1 = JSON.stringify(text);
-        auxshare2 = JSON.parse(auxshare1);
-        console.log('auxshare: ' + auxshare2.data)
-        AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
-        AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
-        this.props.setExternalShreUrl(true);
+    //     console.log('el text del share hay data 05: '+ text)
+    //     auxshare1 = JSON.stringify(text);
+    //     auxshare2 = JSON.parse(auxshare1);
+    //     console.log('auxshare: ' + auxshare2.data)
+    //     AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+    //     AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
+    //     this.props.setExternalShreUrl(true);
      
-              this.props.newqsoactiveFalse();
-              this.props.resetQso();
+    //           this.props.newqsoactiveFalse();
+    //           this.props.resetQso();
              
 
-             this.props.navigation.navigate("QsoScreen");
+    //          this.props.navigation.navigate("QsoScreen");
        
 
       
-      }else
-      {
+    //   }else
+    //   {
      
-      // this.props.setExternalShreUrl(false);
+    //   // this.props.setExternalShreUrl(false);
     
-      }
+    //   }
 
-    })
+    // })
   
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
