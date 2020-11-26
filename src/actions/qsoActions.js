@@ -1734,8 +1734,14 @@ export const uploadVideoToS3 = (
                   Storage.vault.put(videoName, buffer, {
                     customPrefix,
                     level: 'protected'
-                  })
-                )
+                  }))
+                .catch((error) => { 
+                  console.log('Foto Preview upload to s3 failed!')
+                  dispatch(setVideoUploadProgress(-1));
+                  dispatch(setUploadVideoError(I18n.t('QsoScrUploadingVideoError')));
+
+              
+              })
                 .then((result) => {
                   console.log('envio imagePreview:' + result.key);
 
@@ -1920,6 +1926,8 @@ export const uploadVideoToS3 = (
 
       update = { status: 'failed' };
       dispatch(updateMedia(fileName2, update, 'item'));
+      dispatch(setVideoUploadProgress(-1));
+      dispatch(setUploadVideoError(I18n.t('QsoScrUploadingVideoError')));
 
       // actualizo token por las dudas que haya fallado por Token Expired
       session = await Auth.currentSession();
