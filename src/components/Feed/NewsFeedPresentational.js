@@ -49,7 +49,7 @@ class NewsFeed extends React.PureComponent {
       <View
         style={{
           height: 1,
-          width: '86%',
+          width: '100%',
           backgroundColor: '#CED0CE',
           marginLeft: '14%'
         }}

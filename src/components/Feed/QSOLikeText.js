@@ -231,6 +231,7 @@ const selectorFeedType = (state, ownProps) => {
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };
 const selectorFeedTypeLikes = (state, ownProps) => {
@@ -242,6 +243,7 @@ const selectorFeedTypeLikes = (state, ownProps) => {
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
       .likes;
+  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso.likes;
   else return null;
 };
 const mapStateToProps = (state, ownProps) => ({

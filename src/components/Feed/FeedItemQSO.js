@@ -11,7 +11,7 @@ import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
 // import './style.js';
 
-class FeedItemQSO extends React.Component {
+class FeedItemQSO extends React.PureComponent {
   constructor() {
     super();
     this.state = { showComments: false, comments: [], likes: [], error: null };
@@ -28,9 +28,7 @@ class FeedItemQSO extends React.Component {
   //   }
   //   return null;
   // }
-  shouldComponentUpdate() {
-    return this.props.qso ? true : false;
-  }
+
   render() {
     let shareText;
 
@@ -61,6 +59,7 @@ class FeedItemQSO extends React.Component {
         break;
       default:
     }
+
     return (
       // <Fragment>
       //   <Segment raised>
@@ -93,49 +92,8 @@ class FeedItemQSO extends React.Component {
       //     )}
       //     <Divider hidden style={{ marginTop: '1vh' }} />
 
-      //     <Button.Group fluid basic>
-      //       <QSOLikeButton
-      //         qso={this.props.qso}
-      //         recalculateRowHeight={this.recalculateRowHeight}
-      //       />
-      //       <Button onClick={() => this.setState({ showComments: true })}>
-      //         <View>
-      //           <Icon name="comment outline" />{' '}
-      //           {this.props.qso.comments.length > 0 && commentsCounter}
-      //         </View>
-      //       </Button>
-      //       <QSORePostButton qso={this.props.qso} />
-      //       <QSOShareButtons
-      //         idqso={this.props.qso.GUID_URL}
-      //         title={shareText}
-      //       />
-      //     </Button.Group>
-
-      //     {this.state.showComments && (
-      //       <QSOComments
-      //         showComments={this.state.showComments}
-      //         doClose={() => this.setState({ showComments: false })}
-      //         index={this.props.index}
-      //         qso={this.props.qso}
-      //         comments={this.props.comments}
-      //         recalculateRowHeight={this.recalculateRowHeight}
-      //       />
-      //     )}
       //   </Segment>
-      //   {/* <Confirm
-      //     size="mini"
-      //     open={this.state.openLogin}
-      //     onCancel={() => this.setState({ openLogin: false })}
-      //     onConfirm={() =>
-      //       this.props.history.push({
-      //         pathname: '/login',
-      //         state: { from: this.props.location.pathname }
-      //       })
-      //     }
-      //     cancelButton={I18n.t('global.cancel')}
-      //     confirmButton={I18n.t('auth.login')}
-      //     content={I18n.t('auth.loginToPerformAction')}
-      //   /> */}
+
       // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
         <FeedItemHeader
@@ -181,12 +139,14 @@ const styles = StyleSheet.create({
   }
 });
 const selectorFeedType = (state, ownProps) => {
+  console.log(ownProps);
   if (ownProps.feedType === 'MAIN')
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };
 const mapStateToProps = (state, ownProps) => ({
