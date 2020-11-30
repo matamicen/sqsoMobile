@@ -1,7 +1,14 @@
 import { Formik } from 'formik';
 import React, { Fragment } from 'react';
-import { FlatList, Modal, StyleSheet, TextInput, View } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View
+} from 'react-native';
+import { Button, Icon, Overlay } from 'react-native-elements';
 import { connect } from 'react-redux';
 // import TextareaAutosize from 'react-textarea-autosize';
 import { bindActionCreators } from 'redux';
@@ -34,7 +41,8 @@ class QSOComments extends React.PureComponent {
   }
 
   handleAddComment = (values) => {
-    // console.log(values);
+    console.log('handleAddComment');
+    console.log(values);
     // e.preventDefault();
     if (values === '') return;
 
@@ -71,6 +79,7 @@ class QSOComments extends React.PureComponent {
     });
     // e.target.comment.value = null;
     this.setState({ comment: '' });
+    values.comment = '';
     // this.props.recalculateRowHeight();
 
     comment.firstname = this.props.firstname;
@@ -115,7 +124,10 @@ class QSOComments extends React.PureComponent {
   _ListFooterComponent = () => (
     <Formik
       initialValues={{ comment: '' }}
-      onSubmit={(values) => this.handleAddComment(values)}>
+      onSubmit={(values, actions) => {
+        console.log(values, actions);
+        this.handleAddComment(values);
+      }}>
       {({
         values,
         handleChange,
@@ -123,26 +135,69 @@ class QSOComments extends React.PureComponent {
         setFieldTouched,
         touched,
         isValid,
+        handleBlur,
         handleSubmit
       }) => (
-        <View style={styles.form}>
-          <TextInput
-            multiline
-            style={styles.comment}
-            // onChangeText={(text) => this.setState({ comment: text })}
-            onChangeText={handleChange('comment')}
-            value={values.comment}
-          />
-          <Button
-            size="medium"
-            title={I18n.t('qso.add')}
-            onPress={handleSubmit}
-          />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+
+            padding: 0
+          }}>
+          <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}>
+            <TextInput
+              name="comment"
+              placeholder={I18n.t('qso.writeComment')}
+              multiline
+              onBlur={handleBlur('comment')}
+              style={{ borderWidth: 1, width: 200 }}
+              onChangeText={handleChange('comment')}
+              value={values.comment}
+              autoFocus
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              width: 100,
+              height: '100%',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              alignContent: 'flex-end',
+              marginHorizontal: 20,
+              flexBasis: 0,
+              flexGrow: 0
+            }}>
+            <Button
+              buttonStyle={{
+                padding: 1,
+                // margin: 0,
+                width: 100,
+                height: '100%'
+              }}
+              size="small"
+              title={I18n.t('qso.add')}
+              onPress={handleSubmit}
+            />
+          </View>
         </View>
       )}
     </Formik>
   );
-
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: '100%',
+          backgroundColor: '#CED0CE'
+          // marginLeft: '14%'
+        }}
+      />
+    );
+  };
   render() {
     // let comments = null;
     // if (this.state.comments) {
@@ -158,76 +213,80 @@ class QSOComments extends React.PureComponent {
 
     return (
       <Fragment>
-        <Modal
+        <Overlay
+          animationType="slide"
+          isVisible={this.props.showComments}
+          onBackdropPress={() => this.props.doClose()}
+          backdropStyle={{ opacity: 1 }}
+          width="auto"
+          height="auto"
+          borderRadius={8}
+          overlayStyle={{
+            position: 'absolute',
+
+            flex: 1,
+            top: 50,
+            bottom: 50,
+            width: '80%',
+            height: '80%'
+          }}>
+          {/* <Modal
           position={'top'}
           animationType={'slide'}
           transparent={true}
           visible={this.props.showComments}
-          onRequestClose={() => this.props.doClose()}>
+          onRequestClose={() => this.props.doClose()}> */}
           {/* {I18n.t('qso.likeModalHeader')}{' '}
           {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
-          <View style={styles.modal}>
-            <View style={styles.iconView}>
-              <Icon
-                name="close"
-                type="font-awesome"
-                onPress={() => this.props.doClose()}
-              />
-            </View>
-            <View style={styles.itemsView}>
-              <FlatList
-                pagingEnabled={true}
-                onScroll={this.handleScroll}
-                data={this.state.comments}
-                onViewableItemsChanged={this._onViewableItemsChanged}
-                initialNumToRender={3}
-                viewabilityConfig={this.viewabilityConfig}
-                maxToRenderPerBatch={3}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={this._renderItem}
-                contentContainerStyle={styles.container}
-                ListFooterComponent={this._ListFooterComponent}
-              />
-            </View>
-          </View>
-        </Modal>
+          <KeyboardAvoidingView
+            behavior="padding"
+            style={{ flex: 1, justifyContent: 'center' }}>
+            <ScrollView style={{ flex: 1 }}>
+              <View style={styles.iconView}>
+                <Icon
+                  name="close"
+                  type="font-awesome"
+                  onPress={() => this.props.doClose()}
+                />
+              </View>
+              <View style={styles.itemsView}>
+                <FlatList
+                  extraData={this.props.comments}
+                  pagingEnabled={true}
+                  onScroll={this.handleScroll}
+                  data={this.props.comments}
+                  onViewableItemsChanged={this._onViewableItemsChanged}
+                  initialNumToRender={3}
+                  // viewabilityConfig={this.viewabilityConfig}
+                  maxToRenderPerBatch={3}
+                  keyExtractor={(item, index) => index.toString()}
+                  ItemSeparatorComponent={this.renderSeparator}
+                  renderItem={this._renderItem}
+                  contentContainerStyle={styles.container}
+                  ListFooterComponent={this._ListFooterComponent}
+                />
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </Overlay>
       </Fragment>
     );
   }
 }
 const styles = StyleSheet.create({
-  form: { flex: 1, flexDirection: 'row' },
-  comment: {
-    width: '70%',
-    maxHeight: 80,
-    borderWidth: 1,
-    fontSize: 20,
-    minHeight: 5,
-    backgroundColor: 'white'
-  },
+  form: { flex: 1 },
+  comment: { borderWidth: 1 },
   itemsView: {
-    flex: 1
-    // flexDirection: 'column',
-    // alignItems: 'flex-start',
-    // justifyContent: 'flex-start'
+    flex: 1,
+    width: '100%'
+    // maxHeight: '80%'
+    // flexGrow: 0
   },
 
   iconView: {
     alignSelf: 'flex-end'
   },
-  modal: {
-    flex: 1,
-    marginTop: 100,
-    marginBottom: 150,
-    marginLeft: 50,
-    width: '80%',
-    height: 50,
-    padding: 10,
-    backgroundColor: 'gray',
-    // paddingVertical: 5,
-    alignItems: 'flex-start',
-    borderRadius: 12
-  },
+
   text: {
     fontSize: 20
   },
@@ -242,9 +301,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center'
   },
-  container: {
-    paddingHorizontal: 5
-  }
+  container: { flexGrow: 1 }
 });
 const selectorFeedType = (state, ownProps) => {
   if (ownProps.feedType === 'MAIN')
@@ -253,10 +310,13 @@ const selectorFeedType = (state, ownProps) => {
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };
+
 const mapStateToProps = (state, ownProps) => ({
   qso: selectorFeedType(state, ownProps),
+  comments: selectorFeedType(state, ownProps).comments,
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra,
   firstname: state.sqso.userInfo.firstname,
