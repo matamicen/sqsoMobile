@@ -46,7 +46,8 @@ import {
   setToken,
   setUrlRdsS3,
   setWebView,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  apiCheckVersion
 } from '../../actions';
 import { APP_VERSION } from '../../appVersion';
 import AmplifyAuthStorage from '../../AsyncStorage';
@@ -54,7 +55,6 @@ import awsconfig from '../../aws-exports';
 import global_config from '../../global_config.json';
 //import {  Permissions } from 'expo';
 import {
-  apiVersionCheck,
   armoPushNotifyLocalNotif,
   hasAPIConnection
 } from '../../helper';
@@ -136,6 +136,17 @@ class LoginForm extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     // console.log('afuer de getDerivedStateFromProps: '  + props);
     // console.log(props);
+    console.log('mustupgradeapp: '+ props.mustupgradeapp)
+
+    if (props.mustupgradeapp)
+    {
+      return { 
+         stopApp: true,
+         appNeedUpgrade: true,
+         upgradeText: I18n.t('STOPAPP_UPGRADE')
+    }
+  }
+
     if (props.userInfoApiSuccesStatus) {
       console.log(
         'adentro de getDerivedStateFromProps: ' + props.userInfoApiSuccesStatus
@@ -450,22 +461,9 @@ class LoginForm extends React.PureComponent {
     if (await hasAPIConnection()) {
       // console.log('SI hay internet: ');
 
-      // chequeo version minima de APP
-      var apiCall = await apiVersionCheck();
-      // console.log('despues de apiVersionCheck: ' + apiCall);
-
-      if (apiCall.stop) {
-        // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
-        // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
-        this.setState({
-          stopApp: true,
-          appNeedUpgrade: true,
-          upgradeText: I18n.t('STOPAPP_UPGRADE')
-        });
-        this.debeHacerUpgrade = true;
-      }
-      // fin chequeo de version minima de la APP
-
+      console.log('llama ApiCheckVersion')
+      this.props.apiCheckVersion();
+      
       var userLogin0 = await AsyncStorage.getItem('userlogin');
       if (userLogin0 === null) {
         this.debeHacerUpgrade = true; // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
@@ -546,6 +544,7 @@ class LoginForm extends React.PureComponent {
 
       // si debe hacer upgrade no deja entrar aca
       if (this.debeHacerUpgrade === false) {
+        // if (1===1) { 
         // Compruebo si ya estaba logueado con sus credenciales
         try {
           // console.log('Antes de Auth.currentSession() ');
@@ -1393,7 +1392,8 @@ const mapStateToProps = (state) => {
     qra: state.sqso.qra,
     userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
     env: state.sqso.env,
-    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime
+    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
+    mustupgradeapp: state.sqso.mustUpgradeApp
   };
 };
 
@@ -1414,7 +1414,8 @@ const mapDispatchToProps = {
   setSubscriptionInfo,
   manageLocationPermissions,
   welcomeUserFirstTime,
-  setWebView
+  setWebView,
+  apiCheckVersion
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -116,6 +116,8 @@ class Home extends React.PureComponent {
 }
 
 })
+
+this.props.actions.apiCheckVersion();
   }
 }
 
