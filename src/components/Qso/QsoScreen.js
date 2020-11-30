@@ -52,7 +52,7 @@ import {
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
   postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress,
-  setExternalShreUrl} from "../../actions";
+  setExternalShreUrl, apiCheckVersion} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -73,7 +73,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish,
+  updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
    todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
@@ -538,6 +538,8 @@ class QsoScreen extends React.PureComponent {
 
     if (nextAppState === "active") {
 
+    
+
       // La captura del Share paso al HOME del FEED por el Navigation LAZY 
 
     //       ShareMenu.getSharedText((text) => {
@@ -587,12 +589,13 @@ class QsoScreen extends React.PureComponent {
         {
 
          // chequeo version minima de APP  
-            apiCall = await apiVersionCheck();
-            console.log('despues de apiVersionCheck: '+apiCall)
+            // apiCall = await apiVersionCheck();
+            this.props.apiCheckVersion();
+            // console.log('despues de apiVersionCheck: '+apiCall)
 
-            if (apiCall.stop)
-              // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
-              this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
+            // if (apiCall.stop)
+            //   // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+            //   this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
            // fin chequeo de version minima de la APP
 
         var session = await Auth.currentSession();
@@ -3019,6 +3022,15 @@ if (Platform.OS==='android') // el scanFile funciona solo en android
           console.log('DidUpdate Share')
           this.setState({externalShareurl: true})
         }
+
+        if (prevProps.mustupgradeapp)
+        {
+          this.setState({ 
+             stopApp: true,
+             appNeedUpgrade: true,
+             upgradeText: I18n.t('STOPAPP_UPGRADE')
+        })
+      }
         
     // }
   }
@@ -3718,7 +3730,8 @@ const mapStateToProps = state => {
     mediafiles: state.sqso.currentQso.mediafiles,
     videopercentage: state.sqso.currentQso.videoPercentage,
     videouploaderror: state.sqso.currentQso.videoUploadError,
-    externalshareurl: state.sqso.externalShareUrl
+    externalshareurl: state.sqso.externalShareUrl,
+    mustupgradeapp: state.sqso.mustUpgradeApp
 
   };
 };
@@ -3765,7 +3778,8 @@ const mapDispatchToProps = {
   updateCommentInMemory,
   uploadVideoToS3,
   setVideoUploadProgress,
-  setExternalShreUrl
+  setExternalShreUrl,
+  apiCheckVersion
 };
 
 export default connect(

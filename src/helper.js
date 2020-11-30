@@ -488,65 +488,6 @@ export const ValidacionAddCallsign =  (qsoqras,qraLogged,callToAdd) => {
 
 
 
-export async function apiVersionCheck() {
- try{ 
-
-  versionActual = APP_VERSION;
-  console.log("esta por llamar a apiVersionCheck:");
- 
-
-  //  ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
-  url = global_config.apiEndpoint + '/globalParamsPublic'
-  ApiCall = await fetch(url);
-   const respuesta = await ApiCall.json();
-
-       console.log("respuesta apiVersionCheck:");
-       console.log(respuesta);
- 
-    if (respuesta.body.error===0)
-    { 
-      console.log('minVersion: '+respuesta.body.message[0].value)
-      v_required = respuesta.body.message[0].value;
-     if (versionCompare(v_required, versionActual)===false)
-     {
-          // console.log('debe hacer Upgrade de la APP')
-          // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
-          // this.debeHacerUpgrade = true;
-          res = {stop: true, message: respuesta.body.message[1].value }
-          return res;
-          
-     }
-     else{
-       // si falla por algun tipo de conectividad no le hago aparecer el cartel.
-      res = {stop: false, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-      return res;
-    }
-     
-          
-    }
-    
-  }
-  catch (error) {
-     console.log('Api apiVersionCheck catch error:', error);
-    //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-  
-    // Decidi no mostrar el mensaje de UPGRADE APP porque este catch sucede cuando no falla el llamado a la API por falta de internet o conectividad o algo por el estilo
-    res = {stop: false, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-    crashlytics().log('error: ' + JSON.stringify(error)) ;
-    if(__DEV__)
-    crashlytics().recordError(new Error('apiVersionCheck_DEV'));
-    else
-    crashlytics().recordError(new Error('apiVersionCheck_PRD'));
-
-    return res;
-
-
-    }  
- 
-
-   
-}
-
 export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
 
   if (followings.length>0)
