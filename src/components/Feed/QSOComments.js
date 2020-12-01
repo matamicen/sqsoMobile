@@ -158,10 +158,10 @@ class QSOComments extends React.PureComponent {
               autoFocus
             />
           </View>
-          <View
+          {/* <View
             style={{
               flex: 1,
-              width: 100,
+              width: 1000,
               height: '100%',
               justifyContent: 'flex-end',
               alignItems: 'flex-end',
@@ -169,7 +169,8 @@ class QSOComments extends React.PureComponent {
               marginHorizontal: 20,
               flexBasis: 0,
               flexGrow: 0
-            }}>
+            }}> */}
+            <View>
             <Button
               buttonStyle={{
                 padding: 1,
@@ -181,6 +182,8 @@ class QSOComments extends React.PureComponent {
               title={I18n.t('qso.add')}
               onPress={handleSubmit}
             />
+            
+          
           </View>
         </View>
       )}
