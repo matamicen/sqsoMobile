@@ -67,7 +67,7 @@ class FeedVideo extends React.PureComponent {
               // className="video-js"
               // controls
               // fullscreen={true}
-              onPause={this.props.actions.doPauseVideo(this.props.idqsos)}
+              onPause={() => this.props.actions.doPauseVideo(this.props.idqsos)}
               navigator={this.props.navigator}
               resizeMode="cover"
               playInBackground={false}

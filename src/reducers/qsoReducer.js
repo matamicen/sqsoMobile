@@ -76,6 +76,7 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
+  SET_MUSTUPGRADEAPP,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
@@ -100,8 +101,7 @@ import {
   UPDATE_QRA_URL,
   UPDATE_QSL_SCAN,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS,
-  SET_MUSTUPGRADEAPP
+  UPDATE_QSO_HEADER_STATUS
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -1077,17 +1077,14 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
 
-      case SET_MUSTUPGRADEAPP:
-   
-  
-        newStore = Object.assign({}, state, {
-          ...state,
-         
-          mustUpgradeApp: action.mustupgradeapp
-          
-        });
-  
-        return newStore;
+    case SET_MUSTUPGRADEAPP:
+      newStore = Object.assign({}, state, {
+        ...state,
+
+        mustUpgradeApp: action.mustupgradeapp
+      });
+
+      return newStore;
 
     case SET_USER_INFO:
       // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
@@ -2343,8 +2340,6 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
     case PAUSE_VIDEO: {
-      console.log('PAUSE_VIDEO');
-
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
