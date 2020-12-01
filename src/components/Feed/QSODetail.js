@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-import NewsFeed from './NewsFeedPresentational';
+import NewsFeedPresentational from './NewsFeedPresentational';
 
 class QSODetail extends React.PureComponent {
   static navigationOptions = {
@@ -169,7 +169,9 @@ class QSODetail extends React.PureComponent {
 
     return (
       <Fragment>
-        {this.props.qso && <NewsFeed feedType="DETAIL" list={qsos} />}
+        {this.props.qso && (
+          <NewsFeedPresentational feedType="DETAIL" list={qsos} />
+        )}
       </Fragment>
     );
   }

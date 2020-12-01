@@ -79,8 +79,7 @@ class QRAProfileInfo extends React.PureComponent {
       // mailqsl
     } = this.props.qraInfo;
     email = this.props.qraInfo.email;
-    console.log(this.props.currentQRA);
-    console.log(this.props.qraInfo);
+
     return (
       <ScrollView>
         {this.props.currentQRA === this.props.qraInfo.qra && (

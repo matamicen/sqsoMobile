@@ -52,7 +52,44 @@ import {
   ON_PROGRESS_FALSE,
   ON_PROGRESS_TRUE,
   OPEN_MODALCONFIRM_PHOTO,
-  OPEN_MODAL_RECORDING,
+  OPEN_MODAL_RECORDING, PAUSE_VIDEO,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
@@ -4311,6 +4348,12 @@ export function doReceiveUserBio(bio) {
   return {
     type: RECEIVE_USER_BIO,
     bio: bio
+  };
+}
+export function doPauseVideo(idqsos) {
+  return {
+    type: PAUSE_VIDEO,
+    idqsos
   };
 }
 export function doFetchFieldDaysFeed(qra = null) {

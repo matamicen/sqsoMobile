@@ -77,11 +77,10 @@ class QRAProfileBio extends React.PureComponent {
   }
 
   render() {
-    console.log('QRAProfileBio');
     const { contentStyle, disabled } = this.state;
     const { backgroundColor } = contentStyle;
     const themeBg = { backgroundColor };
-    // console.log(this.richText);
+
     // if (this.props.bio && this.richText.current)
     //   this.richText.current?.setContentHtml(this.props.bio);
     const source = this.props.qra.qra.bio
@@ -102,7 +101,6 @@ class QRAProfileBio extends React.PureComponent {
             <Button
               fluid
               onPress={() => {
-                console.log('onpress');
                 this.props.navigation.push('qraBioEdit');
               }}
               title={I18n.t('qra.editBio')}

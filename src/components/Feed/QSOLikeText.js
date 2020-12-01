@@ -30,7 +30,6 @@ class QSOLikeText extends React.PureComponent {
     // this.setState({ likes: this.props.qso.likes });
     // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
     // if (qso) this.setState({ qso: qso });
-    // console.log(this.props.qso.likes);
     // if (
     //   this.props.qso.likes.length === 1 &&
     //   this.props.qso.likes[0].qra === this.props.currentQRA
@@ -52,7 +51,6 @@ class QSOLikeText extends React.PureComponent {
     let maxLikers = 2;
     let others = 0;
     // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
-    // console.log(qso);
 
     let likes = this.props.qso.likes ? this.props.qso.likes : [];
     // let avatarPic = null;

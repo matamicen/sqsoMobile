@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedHeaderBar from './FeedHeaderBar';
-import NewsFeed from './NewsFeedPresentational';
+import NewsFeedPresentational from './NewsFeedPresentational';
 
 class NewsFeedContainer extends React.PureComponent {
   state = { qsos: this.props.qsos };
@@ -31,7 +31,7 @@ class NewsFeedContainer extends React.PureComponent {
           <View>
             <FeedHeaderBar />
           </View>
-          <NewsFeed
+          <NewsFeedPresentational
             feedType="MAIN"
             list={qsos}
             fetchingQSOS={this.props.fetchingQSOS}

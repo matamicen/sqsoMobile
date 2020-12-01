@@ -39,6 +39,7 @@ import {
   ON_PROGRESS_TRUE,
   OPEN_MODALCONFIRM_PHOTO,
   OPEN_MODAL_RECORDING,
+  PAUSE_VIDEO,
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
@@ -2325,6 +2326,60 @@ const qsoReducer = (state = initialState, action) => {
           qra: qra
         }
       });
+      return newStore;
+    }
+    case PAUSE_VIDEO: {
+      console.log('PAUSE_VIDEO');
+
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqsos) {
+              qso.media = qso.media.map((m) => {
+                if (m.type === 'video') m.paused = true;
+                return m;
+              });
+            }
+            return qso;
+          }),
+          // qso_link:
+          //   state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
+          //     ? {
+          //         ...state.feed.qso_link,
+          //         likes: [...state.feed.qso_link.likes, like]
+          //       }
+          //     : state.feed.qso_link,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        qso.media = qso.media.map((m) => {
+                          if (m.type === 'video') m.paused = true;
+                          return m;
+                        });
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  media: state.feed.qso.media.map((m) => {
+                    if (m.type === 'video') m.paused = true;
+                    return m;
+                  })
+                }
+              : null
+        }
+      });
+
       return newStore;
     }
     default:

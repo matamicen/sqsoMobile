@@ -5,8 +5,7 @@ class FeedItem extends React.Component {
   //   qso: {}
   // };
   // componentDidUpdate(prevProps, prevState) {
-  // console.log(this.props.qso.likes);
-  // console.log(prevProps.qso.likes);
+
   // if (this.props.qso && this.props.qso !== prevProps.qso) {
   //   this.setState({ qso: this.props.qso });
   // }

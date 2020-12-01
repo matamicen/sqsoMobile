@@ -71,7 +71,6 @@ const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 230;
 export const FeedImage = (props) => {
   const _renderItem = ({ item, index }) => {
-    // console.log('varios: '+ item.type + ' '+ item.url)
     if (item.type === 'image')
       return (
         <View style={styles.slide}>

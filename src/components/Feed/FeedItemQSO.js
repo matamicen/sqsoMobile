@@ -20,7 +20,7 @@ class FeedItemQSO extends React.PureComponent {
   //     }
   // static getDerivedStateFromProps(props, prevState) {
   //   if (props.qso.comments !== prevState.comments) {
-  //     console.log('update');
+
   //     return { qso: props.qso, comments: props.qso.comments };
   //   }
   //   if (props.qso.likes !== prevState.likes) {
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
   }
 });
 const selectorFeedType = (state, ownProps) => {
-  console.log(ownProps);
   if (ownProps.feedType === 'MAIN')
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')

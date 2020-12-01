@@ -11,7 +11,6 @@ import I18n from '../../utils/i18n';
 // import FeedOptionsMenu from './FeedOptionsMenu';
 
 var ConvertToComp = (response) => {
-  console.log(response);
   return response;
 };
 class QSOCommentItem extends React.PureComponent {

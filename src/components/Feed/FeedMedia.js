@@ -40,14 +40,11 @@ class FeedMedia extends React.PureComponent {
       <View>
         {videoList.length > 0 && (
           <View>
-            <Divider
-              hidden
-              // style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
-            />
+            <Divider hidden />
             <FeedVideoList
+              feedType={this.props.feedType}
               mediaList={videoList}
-              // measure={this.props.measure}
-              idqso={this.props.qso.idqsos}
+              idqsos={this.props.qso.idqsos}
               currentIndex={this.props.currentIndex}
               currentVisibleIndex={this.props.currentVisibleIndex}
               qso_owner={this.props.qso.qra}
@@ -56,13 +53,9 @@ class FeedMedia extends React.PureComponent {
         )}
         {picList.length > 0 && (
           <View>
-            <Divider
-              hidden
-              // style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
-            />
+            <Divider hidden />
             <FeedImage
               img={picList}
-              // measure={this.props.measure}
               idqso={this.props.qso.idqsos}
               qso_owner={this.props.qso.qra}
             />
@@ -70,15 +63,11 @@ class FeedMedia extends React.PureComponent {
         )}
         {audioList.length > 0 && (
           <View>
-            <Divider
-              hidden
-              // style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
-            />
+            <Divider hidden />
             <FeedAudioList
               mediaList={audioList}
               idqso={this.props.qso.idqsos}
               qso_owner={this.props.qso.qra}
-              // recalculateRowHeight={this.props.recalculateRowHeight}
             />
           </View>
         )}

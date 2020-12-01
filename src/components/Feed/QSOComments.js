@@ -41,8 +41,6 @@ class QSOComments extends React.PureComponent {
   }
 
   handleAddComment = (values) => {
-    console.log('handleAddComment');
-    console.log(values);
     // e.preventDefault();
     if (values === '') return;
 
@@ -125,7 +123,7 @@ class QSOComments extends React.PureComponent {
     <Formik
       initialValues={{ comment: '' }}
       onSubmit={(values, actions) => {
-        console.log(values, actions);
+        
         this.handleAddComment(values);
       }}>
       {({

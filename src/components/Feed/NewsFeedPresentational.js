@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FlatList, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 import FeedItem from './FeedItem';
-class NewsFeed extends React.PureComponent {
+class NewsFeedPresentational extends React.PureComponent {
   state = {
     currentVisibleIndex: null,
     list: this.props.list,
@@ -20,10 +23,15 @@ class NewsFeed extends React.PureComponent {
     this.viewabilityConfig = { viewAreaCoveragePercentThreshold: 80 };
   }
 
-  _onViewableItemsChanged = ({ viewableItems, changed }) => {
-    if (viewableItems && viewableItems.length > 0) {
-      this.setState({ currentVisibleIndex: viewableItems[0].index });
-    }
+  _onViewableItemsChanged = (props) => {
+    props.changed.map((c) => {
+      if (!c.isViewable && c.item.type !== 'AD') {
+        this.props.actions.doPauseVideo(c.item.qso.idqsos);
+      }
+    });
+    // if (viewableItems && viewableItems.length > 0) {
+    //   // this.setState({ currentVisibleIndex: viewableItems[0] });
+    // }
   };
   _renderItem = ({ item, index }) => {
     if (item)
@@ -77,7 +85,24 @@ class NewsFeed extends React.PureComponent {
     );
   }
 }
-NewsFeed.propTypes = {
+NewsFeedPresentational.propTypes = {
   list: PropTypes.array.isRequired
 };
-export default NewsFeed;
+const mapStateToProps = (state) => {
+  return {
+    // qsos: state.sqso.feed.qsos,
+    // FetchingQSOS: state.sqso.feed.FetchingQSOS,
+    // qsosFetched: state.sqso.feed.qsosFetched
+    // authenticating: state.sqso.feed.userData.authenticating,
+    // token: state.sqso.feed.userData.token
+    // public: state.sqso.feed.userData.public
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewsFeedPresentational);
