@@ -58,8 +58,8 @@ class NewsFeedPresentational extends React.PureComponent {
         style={{
           height: 1,
           width: '100%',
-          backgroundColor: '#CED0CE',
-          marginLeft: '14%'
+          backgroundColor: '#CED0CE'
+          // marginLeft: '14%'
         }}
       />
     );

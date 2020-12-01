@@ -1,19 +1,12 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { Avatar, Icon, Overlay, SearchBar } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Avatar, Icon } from 'react-native-elements';
 import { DrawerActions, withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedHeaderSearch from './FeedHeaderSearch';
 class FeedHeaderBar extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      modalVisible: false
-    };
-  }
-
   render() {
     return (
       <View style={{ height: 60, zIndex: 999 }}>
@@ -48,15 +41,13 @@ class FeedHeaderBar extends React.Component {
               flexGrow: 1,
               zIndex: 999
             }}>
-            <Pressable onPress={() => this.setState({ modalVisible: true })}>
-              <SearchBar
-                round
-                lightTheme
-                placeholder="Type Here..."
-                onChangeText={() => this.setState({ modalVisible: true })}
-                // value={search}
-              />
-            </Pressable>
+            <FeedHeaderSearch
+              navigate={(qra) => {
+                this.props.navigation.navigate('QRAProfile', {
+                  qra
+                });
+              }}
+            />
           </View>
           <View
             style={{
@@ -76,18 +67,6 @@ class FeedHeaderBar extends React.Component {
             />
           </View>
         </View>
-        <Overlay
-          isVisible={this.state.modalVisible}
-          onBackdropPress={() => this.setState({ modalVisible: false })}>
-          <FeedHeaderSearch
-            navigate={(qra) => {
-              this.props.navigation.navigate('QRAProfile', {
-                qra
-              });
-              this.setState({ modalVisible: false });
-            }}
-          />
-        </Overlay>
       </View>
     );
   }

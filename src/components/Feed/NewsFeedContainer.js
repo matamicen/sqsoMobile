@@ -27,16 +27,18 @@ class NewsFeedContainer extends React.PureComponent {
 
     if (this.state.qsos) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, zIndex: 1 }}>
           <View>
             <FeedHeaderBar />
           </View>
-          <NewsFeedPresentational
-            feedType="MAIN"
-            list={qsos}
-            fetchingQSOS={this.props.fetchingQSOS}
-            qsosFetched={this.props.qsosFetched}
-          />
+          <View style={{ flex: 1, zIndex: 0 }}>
+            <NewsFeedPresentational
+              feedType="MAIN"
+              list={qsos}
+              fetchingQSOS={this.props.fetchingQSOS}
+              qsosFetched={this.props.qsosFetched}
+            />
+          </View>
         </View>
       );
     } else return null;
