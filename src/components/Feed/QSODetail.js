@@ -167,7 +167,11 @@ class QSODetail extends React.PureComponent {
       qsos.push({ qso: this.props.qso, type: this.props.qso.type });
     }
 
-    return <Fragment>{this.props.qso && <NewsFeed list={qsos} />}</Fragment>;
+    return (
+      <Fragment>
+        {this.props.qso && <NewsFeed feedType="DETAIL" list={qsos} />}
+      </Fragment>
+    );
   }
 }
 const mapStateToProps = (state) => ({

@@ -24,8 +24,6 @@ class QSOCommentItem extends React.PureComponent {
     };
   }
   handleButtonClick(idqra) {
-    if (!this.props.token) return null;
-
     if (!this.followed) {
       // if (!__DEV__)
       //   window.gtag('event', 'qraFollowComment_WEBPRD', {
@@ -254,7 +252,7 @@ const selectorFeedType = (state, ownProps) => {
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
-  else return null;
+  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
 };
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
