@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Platform, Text, View } from 'react-native';
+import { Image, Platform, Text, View, AppState } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -74,7 +74,52 @@ class Home extends React.PureComponent {
       // );
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
     }
+
+    AppState.addEventListener("change", this._handleAppStateChange);
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = async nextAppState => {
+
+  if (nextAppState === "active") {
+
+    ShareMenu.getSharedText((text) => {
+    console.log('el text del share 05:'+JSON.stringify(text) )
+
+// if (text!==null) {
+  if (text!==null && (typeof text !== 'undefined')) {
+ 
+  console.log('el text del share hay data 05: '+ text)
+  auxshare1 = JSON.stringify(text);
+  auxshare2 = JSON.parse(auxshare1);
+  console.log('auxshare: ' + auxshare2.data)
+  AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+  AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
+  this.props.actions.setExternalShreUrl(true);
+
+        this.props.actions.newqsoactiveFalse();
+        this.props.actions.resetQso();
+       
+
+       this.props.navigation.navigate("QsoScreen");
+ 
+
+
+}else
+{
+
+// this.props.setExternalShreUrl(false);
+
+}
+
+})
+
+this.props.actions.apiCheckVersion();
+  }
+}
 
   static getDerivedStateFromProps(props, state) {
     if (props.qsos.length > 0) return { active: false, qsos: props.qsos };

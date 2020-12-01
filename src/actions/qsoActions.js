@@ -13,7 +13,9 @@ import RNIap, { acknowledgePurchaseAndroid } from 'react-native-iap';
 import Toast from 'react-native-root-toast';
 import RNFetchBlob from 'rn-fetch-blob';
 import awsconfig from '../aws-exports';
-import { getDateQslScan } from '../helper';
+import { getDateQslScan, versionCompare } from '../helper';
+import {APP_VERSION} from '../appVersion';
+import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
@@ -148,7 +150,8 @@ import {
   UPDATE_QSL_SCAN,
   UPDATE_QSL_SCAN_RESULT,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS
+  UPDATE_QSO_HEADER_STATUS,
+  SET_MUSTUPGRADEAPP
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -238,6 +241,14 @@ export const setWebView = (websession, weburl) => {
     type: SET_WEBVIEW,
     webviewsession: websession,
     webviewurl: weburl
+  };
+};
+
+export const setUpgradeApp = (status) => {
+  return {
+    type: SET_MUSTUPGRADEAPP,
+    mustupgradeapp: status
+    
   };
 };
 
@@ -1773,8 +1784,14 @@ export const uploadVideoToS3 = (
                   Storage.vault.put(videoName, buffer, {
                     customPrefix,
                     level: 'protected'
-                  })
-                )
+                  }))
+                .catch((error) => { 
+                  console.log('Foto Preview upload to s3 failed!')
+                  dispatch(setVideoUploadProgress(-1));
+                  dispatch(setUploadVideoError(I18n.t('QsoScrUploadingVideoError')));
+
+              
+              })
                 .then((result) => {
                   console.log('envio imagePreview:' + result.key);
 
@@ -1959,6 +1976,8 @@ export const uploadVideoToS3 = (
 
       update = { status: 'failed' };
       dispatch(updateMedia(fileName2, update, 'item'));
+      dispatch(setVideoUploadProgress(-1));
+      dispatch(setUploadVideoError(I18n.t('QsoScrUploadingVideoError')));
 
       // actualizo token por las dudas que haya fallado por Token Expired
       session = await Auth.currentSession();
@@ -3189,6 +3208,72 @@ export const linkQsos = (qra, json, jwtToken) => {
       if (__DEV__) crashlytics().recordError(new Error('APIlinkQsos_DEV'));
       else crashlytics().recordError(new Error('APIlinkQsos_PRD'));
     }
+  };
+};
+
+export const apiCheckVersion = () => {
+  return async (dispatch) => {
+    try{ 
+      
+
+      versionActual = APP_VERSION;
+      console.log("esta por llamar a apiVersionCheck desde Action!:");
+     
+    
+      //  ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
+      url = global_config.apiEndpoint + '/globalParamsPublic'
+      ApiCall = await fetch(url);
+       const respuesta = await ApiCall.json();
+    
+           console.log("respuesta apiVersionCheck:");
+           console.log(respuesta);
+     
+        if (respuesta.body.error===0)
+        { 
+          console.log('minVersion: '+respuesta.body.message[0].value)
+          v_required = respuesta.body.message[0].value;
+          console.log('versionactual:'+ versionActual)
+         if (versionCompare(v_required, versionActual)===false)
+         {
+              // console.log('debe hacer Upgrade de la APP')
+              // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
+              // this.debeHacerUpgrade = true;
+              console.log('necesita upgrade')
+              res = {stop: true, message: respuesta.body.message[1].value }
+              console.log(res)
+              dispatch(setUpgradeApp(true))
+              // return res;
+              
+         }
+         else{
+           // si falla por algun tipo de conectividad no le hago aparecer el cartel.
+           console.log('NO necesita upgrade')
+           res = {stop: false, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+           dispatch(setUpgradeApp(false))
+           console.log(res)
+          // return res;
+        }
+         
+              
+        }
+        
+      }
+      catch (error) {
+         console.log('Api apiVersionCheck catch error:', error);
+        //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+      
+        // Decidi no mostrar el mensaje de UPGRADE APP porque este catch sucede cuando no falla el llamado a la API por falta de internet o conectividad o algo por el estilo
+        res = {stop: false, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+        crashlytics().log('error: ' + JSON.stringify(error)) ;
+        if(__DEV__)
+        crashlytics().recordError(new Error('apiVersionCheck_DEV'));
+        else
+        crashlytics().recordError(new Error('apiVersionCheck_PRD'));
+    
+        return res;
+    
+    
+        }
   };
 };
 

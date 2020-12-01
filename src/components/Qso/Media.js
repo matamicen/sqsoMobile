@@ -11,6 +11,8 @@ import DeleteMedia from './DeleteMedia';
 import I18n from '../../utils/i18n';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
+import {  RNFFmpeg } from 'react-native-ffmpeg';
+
 
 class Media extends React.PureComponent {
   constructor(props) {
@@ -55,7 +57,14 @@ class Media extends React.PureComponent {
   };
   CloseDeleteMedia = () => {
     this.setState({ deleteMedia: false });
+    
   };
+
+  stopFFmpegCompression = () => {
+
+    RNFFmpeg.cancel();
+ 
+      }
 
   closeVariosModales = () => {
     this.setState({ nointernet: false });
@@ -304,6 +313,7 @@ class Media extends React.PureComponent {
             type={this.props.type}
             mediafiles={this.props.mediafiles}
             closeDelete={this.CloseDeleteMedia.bind()}
+            stopffmpegcompression={this.stopFFmpegCompression.bind()}
             desc={this.props.type === "audio" ? "audio" : "photo"}
           />
         )}

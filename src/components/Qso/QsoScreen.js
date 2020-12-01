@@ -52,7 +52,7 @@ import {
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
   postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress,
-  setExternalShreUrl} from "../../actions";
+  setExternalShreUrl, apiCheckVersion} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -61,7 +61,8 @@ import ShareQso from "./ShareQso";
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
-import ImagePicker2 from 'react-native-image-picker';
+// import ImagePicker2 from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker'
 import Upload from 'react-native-background-upload';
 import ShareMenu from 'react-native-share-menu';
 
@@ -72,7 +73,7 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish,
+  updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
    todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
@@ -537,36 +538,40 @@ class QsoScreen extends React.PureComponent {
 
     if (nextAppState === "active") {
 
-          ShareMenu.getSharedText((text) => {
-      console.log('el text del share 05:'+JSON.stringify(text) )
+    
+
+      // La captura del Share paso al HOME del FEED por el Navigation LAZY 
+
+    //       ShareMenu.getSharedText((text) => {
+    //   console.log('el text del share 05:'+JSON.stringify(text) )
       
-      // if (text!==null) {
-        if (text!==null && (typeof text !== 'undefined')) {
+    //   // if (text!==null) {
+    //     if (text!==null && (typeof text !== 'undefined')) {
        
-        console.log('el text del share hay data 05: '+ text)
-        auxshare1 = JSON.stringify(text);
-        auxshare2 = JSON.parse(auxshare1);
-        console.log('auxshare: ' + auxshare2.data)
-        AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
-        AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
-        this.props.setExternalShreUrl(true);
+    //     console.log('el text del share hay data 05: '+ text)
+    //     auxshare1 = JSON.stringify(text);
+    //     auxshare2 = JSON.parse(auxshare1);
+    //     console.log('auxshare: ' + auxshare2.data)
+    //     AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+    //     AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
+    //     this.props.setExternalShreUrl(true);
      
-              this.props.newqsoactiveFalse();
-              this.props.resetQso();
+    //           this.props.newqsoactiveFalse();
+    //           this.props.resetQso();
              
 
-             this.props.navigation.navigate("QsoScreen");
+    //          this.props.navigation.navigate("QsoScreen");
        
 
       
-      }else
-      {
+    //   }else
+    //   {
      
-      // this.props.setExternalShreUrl(false);
+    //   // this.props.setExternalShreUrl(false);
     
-      }
+    //   }
 
-    })
+    // })
   
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
@@ -584,12 +589,13 @@ class QsoScreen extends React.PureComponent {
         {
 
          // chequeo version minima de APP  
-            apiCall = await apiVersionCheck();
-            console.log('despues de apiVersionCheck: '+apiCall)
+            // apiCall = await apiVersionCheck();
+            this.props.apiCheckVersion();
+            // console.log('despues de apiVersionCheck: '+apiCall)
 
-            if (apiCall.stop)
-              // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
-              this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
+            // if (apiCall.stop)
+            //   // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+            //   this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
            // fin chequeo de version minima de la APP
 
         var session = await Auth.currentSession();
@@ -835,6 +841,127 @@ class QsoScreen extends React.PureComponent {
     this.props.setPressHome(0);
   }
 
+  analyzeVideoPath = async (incomingPath) => {
+
+    let pathoculto = false;
+    let auxuri = '';
+    let path = '';
+
+    this.setState({readingVideo: true})
+    console.log('IncomingPath')
+    console.log(incomingPath)
+    realUrl = await this.getVideoPath(incomingPath);
+   // console.log(realUrl.data.path)
+
+
+       await createSQSOfolder();
+
+
+       if (Platform.OS==='ios'){
+       path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
+      //  auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+          auxuri = incomingPath.replace("file:///", 'file://');
+       pathoculto = false;
+       }
+   else
+    
+       path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
+       
+   
+
+       // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+
+       //  console.log(' status: '+realUrl.status);
+
+// uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+// si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+// y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+// AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+// en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+if (Platform.OS==='android')
+if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+{
+console.log('path:')
+console.log(path)
+//  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+ if (result===0)
+ {    
+   
+   // auxurl = "file://"+ realUrl.data.path;
+   //   this.takeFramePreview(auxurl);
+
+     pathoculto = false;
+     console.log('path no oculto');
+  }
+ else
+ {
+
+   pathoculto = true;
+
+
+   console.log('path oculto');
+
+
+
+  }
+
+     });
+
+
+
+   }
+      else
+       pathoculto = true; 
+       // todo este IF es solo si es Anroid
+
+
+
+
+ if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+ { 
+   console.log('path oculto');
+
+
+    // auxuri = this.state.videoFromShare;
+    auxuri = incomingPath;
+
+  RNFetchBlob.fs.readFile(auxuri,'base64')
+  // files will an array contains filenames
+  .then((files) => {
+ 
+  console.log('finalizo lectura base64')
+ //  console.log(files);
+
+   this.saveVideoToDisk(files,'video/mp4');
+ 
+
+  })
+
+
+ }else
+ {
+   
+  
+  if (Platform.OS==='android'){
+
+   auxurl = "file://"+ realUrl.data.path;
+   this.takeFramePreview(auxurl);
+  }
+   else // ios
+   this.takeFramePreview(auxuri);
+
+
+ }
+
+
+
+
+
+
+  }
+
   videoFromGallery = async (fromShare) => {
 
 if (this.pressVideo===false)
@@ -909,7 +1036,8 @@ if (this.pressVideo===false)
       
        
       // ImagePicker2.showImagePicker(options, response => {
-        ImagePicker2.launchImageLibrary(options, response => {
+        // ImagePicker2.launchImageLibrary(options, response => {
+          launchImageLibrary(options, response => {
         console.log('Response = ', response);
   
         if (response.didCancel) {
@@ -922,8 +1050,9 @@ if (this.pressVideo===false)
           console.log('User tapped custom button: ', response.customButton);
         } else {
           //  this.takeFrame3(response)
-  
-          
+        
+       
+
         // }
 
           console.log('comprime Video22:');
@@ -942,14 +1071,22 @@ if (this.pressVideo===false)
 
      
        this.pressVideo = false;
+       this.analyzeVideoPath(response.uri)
+      //  this.analyzeVideoPath(response.path) android ok
 
 
 
        
-        this.takeFramePreview(response.path);
+        // this.takeFramePreview(response.path);
+        // comienzo agregado
+
+             // open the reading video modal
+                      
+
+
      
      
-     
+     // fin de agregado
          
           
           }
@@ -1000,112 +1137,114 @@ if (this.pressVideo===false)
       if (storagePermission) 
      {   
 
-             // open the reading video modal
-             this.setState({readingVideo: true})
-             console.log('this.state.videoFromShare')
-             console.log(this.state.videoFromShare)
-             realUrl = await this.getVideoPath(this.state.videoFromShare);
-            // console.log(realUrl.data.path)
+      this.analyzeVideoPath(this.state.videoFromShare)
+
+  //            // open the reading video modal
+  //            this.setState({readingVideo: true})
+  //            console.log('this.state.videoFromShare')
+  //            console.log(this.state.videoFromShare)
+  //            realUrl = await this.getVideoPath(this.state.videoFromShare);
+  //           // console.log(realUrl.data.path)
 
     
-                await createSQSOfolder();
+  //               await createSQSOfolder();
 
 
-                if (Platform.OS==='ios'){
-                path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
-                auxuri = this.state.videoFromShare.replace("file:///", 'file://');
-                pathoculto = false;
-                }
-            else
+  //               if (Platform.OS==='ios'){
+  //               path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
+  //               auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+  //               pathoculto = false;
+  //               }
+  //           else
              
-                path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
+  //               path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
                 
             
 
-                // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+  //               // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
      
-                //  console.log(' status: '+realUrl.status);
+  //               //  console.log(' status: '+realUrl.status);
        
-      // uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
-      // si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
-      // y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
-      // AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
-     // en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
-  if (Platform.OS==='android')
-    if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
-    {
-      console.log('path:')
-      console.log(path)
-    //  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
-      await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
-    console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
-          if (result===0)
-          {    
+  //     // uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+  //     // si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+  //     // y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+  //     // AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+  //    // en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+  // if (Platform.OS==='android')
+  //   if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+  //   {
+  //     console.log('path:')
+  //     console.log(path)
+  //   //  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+  //     await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+  //   console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+  //         if (result===0)
+  //         {    
             
-            // auxurl = "file://"+ realUrl.data.path;
-            //   this.takeFramePreview(auxurl);
+  //           // auxurl = "file://"+ realUrl.data.path;
+  //           //   this.takeFramePreview(auxurl);
 
-              pathoculto = false;
-              console.log('path no oculto');
-           }
-          else
-          {
+  //             pathoculto = false;
+  //             console.log('path no oculto');
+  //          }
+  //         else
+  //         {
 
-            pathoculto = true;
+  //           pathoculto = true;
 
 
-            console.log('path oculto');
+  //           console.log('path oculto');
          
        
 
-           }
+  //          }
 
-              });
+  //             });
     
  
 
-            }
-               else
-                pathoculto = true; 
-                // todo este IF es solo si es Anroid
+  //           }
+  //              else
+  //               pathoculto = true; 
+  //               // todo este IF es solo si es Anroid
 
        
 
 
-          if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
-          { 
-            console.log('path oculto');
+  //         if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+  //         { 
+  //           console.log('path oculto');
          
       
-             auxuri = this.state.videoFromShare;
+  //            auxuri = this.state.videoFromShare;
        
-           RNFetchBlob.fs.readFile(auxuri,'base64')
-           // files will an array contains filenames
-           .then((files) => {
+  //          RNFetchBlob.fs.readFile(auxuri,'base64')
+  //          // files will an array contains filenames
+  //          .then((files) => {
           
-           console.log('finalizo lectura base64')
-          //  console.log(files);
+  //          console.log('finalizo lectura base64')
+  //         //  console.log(files);
          
-            this.saveVideoToDisk(files,'video/mp4');
+  //           this.saveVideoToDisk(files,'video/mp4');
           
         
-           })
+  //          })
 
 
-          }else
-          {
+  //         }else
+  //         {
             
            
-           if (Platform.OS==='android'){
+  //          if (Platform.OS==='android'){
 
-            auxurl = "file://"+ realUrl.data.path;
-            this.takeFramePreview(auxurl);
-           }
-            else // ios
-            this.takeFramePreview(auxuri);
+  //           auxurl = "file://"+ realUrl.data.path;
+  //           this.takeFramePreview(auxurl);
+  //          }
+  //           else // ios
+  //           this.takeFramePreview(auxuri);
 
 
-          }
+  //         }
   
 
           
@@ -1236,6 +1375,8 @@ if (this.pressVideo===false)
                       
                           });
 
+              }).catch(err=> {
+              
               });
 
 
@@ -1271,6 +1412,7 @@ if (this.pressVideo===false)
 
                 } catch (error) {
                   console.log(error.message);
+         
                 }
 
          
@@ -2200,6 +2342,7 @@ if (storagePermission)
   subo_s3 = async () => {
 
     let datasource = '';
+    let compress = '';
 
     this.setState({showIntersitial:false});
     this.setState({showVideoReward:false});
@@ -2329,7 +2472,14 @@ if (storagePermission)
                           // este de abajo es el que anda nomral
                           // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
               
-                             RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
+                           
+                            if (Platform.OS==='ios') // ios comprime mucho mas entonces hay que darle mas definicion para que no aruine los videos
+                            compress=' -vf scale=-2:400 ';
+                           else
+                            compress=' -vf scale=-2:320 ';
+
+                            RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00"+compress+destination_path, completedExecution => {    
+                            //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
                               // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
                             // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                           if (completedExecution.returnCode === 0) {
@@ -2371,6 +2521,7 @@ if (storagePermission)
 
                             } else {
                               console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
+                            
                             }
                           }).then(executionId => console.log(`Async FFmpeg process started with executionId ${executionId}.`));
                       
@@ -2384,9 +2535,17 @@ if (storagePermission)
                   // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                       // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
                    
+                       
+                       if (Platform.OS==='ios') // ios comprime mucho mas entonces hay que darle mas definicion para que no aruine los videos
+                        compress=' -vf scale=-2:400 ';
+                         else
+                          compress=' -vf scale=-2:320 ';
                       // este de abajo es el que anda nomral
-                      RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
-          
+                   
+                      RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +compress+destination_path, completedExecution => {   
+
+                        // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:480 "+destination_path, completedExecution => { 
+                      //   RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" "+destination_path, completedExecution => {   
                         //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
                           // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
                         // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
@@ -2746,33 +2905,9 @@ if (this.pressPublish===false)
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
 
-// proceso de borrar carpeta sqso
-              console.log('delete folder: ');
-              if (Platform.OS==='android') 
-                theqsopath = 'file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso'
-                else
-                theqsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso' 
 
-              RNFetchBlob.fs.unlink(theqsopath).then(() => 
-              { console.log("Succeeded") 
-              
-              if (Platform.OS==='android') // el scanFile funciona solo en android
-              {
-                RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
-           
-              .then(() => {
-                      console.log("scan file success")
-                    })
-                    .catch((err) => {
-                      console.log("scan file error")
-                    })
-                 }
+                this.deleteQSOfolder();
 
-            
-            
-            }).catch((err) =>
-               { console.log("err unlink",err) })
-// fin proceso de borrar carpeta sqso
 
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
               home = global_config.urlWeb + '?' + new Date();
@@ -2812,7 +2947,55 @@ if (this.pressPublish===false)
 
    descartar_publicacion = () => {
     this.setState({deletePost: true})
+ 
    }
+
+   deleteQSOfolder = () => {
+
+    RNFFmpeg.cancel();
+ 
+
+   // el borrado es con timeout para que termine bien el cancel de ffmpeg
+    setTimeout(() => {
+    
+// proceso de borrar carpeta sqso
+console.log('delete folder: ');
+if (Platform.OS==='android') 
+  theqsopath = 'file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso'
+  else
+  theqsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso' 
+
+RNFetchBlob.fs.unlink(theqsopath).then(() => 
+{ console.log("Succeeded") 
+
+if (Platform.OS==='android') // el scanFile funciona solo en android
+{
+  RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
+
+.then(() => {
+        console.log("scan file success")
+      })
+      .catch((err) => {
+        console.log("scan file error")
+      })
+   }
+
+
+
+}).catch((err) =>
+ { console.log("err unlink",err) })
+//fin proceso de borrar carpeta sqso
+
+
+        
+}
+, 3000);
+
+      }
+    
+
+  
+    
 
    componentDidUpdate(prevProps, prevState) {
     // if (prevState.justpublished) {
@@ -2839,6 +3022,15 @@ if (this.pressPublish===false)
           console.log('DidUpdate Share')
           this.setState({externalShareurl: true})
         }
+
+        if (prevProps.mustupgradeapp)
+        {
+          this.setState({ 
+             stopApp: true,
+             appNeedUpgrade: true,
+             upgradeText: I18n.t('STOPAPP_UPGRADE')
+        })
+      }
         
     // }
   }
@@ -3114,7 +3306,7 @@ close_upload_failed = () => {
               
             } */}
 
-              <TouchableOpacity style={{width: 65,height:63 }}
+              {/* <TouchableOpacity style={{width: 65,height:63 }}
                 onPress={() => this.videoFromGallery(false)}
               >
                 <Image
@@ -3123,7 +3315,7 @@ close_upload_failed = () => {
                   resizeMode="contain"
                 />
                 <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
           
         
           </View>
@@ -3151,6 +3343,23 @@ close_upload_failed = () => {
           {/* ) : null} */}
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
+
+          {this.props.sqsonewqsoactive ? (
+            <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
+                 <TouchableOpacity style={{width: 65,height:63 }}
+                onPress={() => this.videoFromGallery(false)}
+              >
+                <Image
+                  source={require("../../images/camara-de-video.png")}
+                  style={{ width: 27, height: 27, marginLeft: 22, marginTop: 0 }}
+                  resizeMode="contain"
+                />
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
+
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
               <TouchableOpacity style={{width: 65,height:63 }}
@@ -3219,7 +3428,7 @@ close_upload_failed = () => {
       }
 
      {(this.state.deletePost) &&
-              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()}/>
+              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()} deleteqsofolder={this.deleteQSOfolder.bind()}/>
             }
             
     
@@ -3521,7 +3730,8 @@ const mapStateToProps = state => {
     mediafiles: state.sqso.currentQso.mediafiles,
     videopercentage: state.sqso.currentQso.videoPercentage,
     videouploaderror: state.sqso.currentQso.videoUploadError,
-    externalshareurl: state.sqso.externalShareUrl
+    externalshareurl: state.sqso.externalShareUrl,
+    mustupgradeapp: state.sqso.mustUpgradeApp
 
   };
 };
@@ -3568,7 +3778,8 @@ const mapDispatchToProps = {
   updateCommentInMemory,
   uploadVideoToS3,
   setVideoUploadProgress,
-  setExternalShreUrl
+  setExternalShreUrl,
+  apiCheckVersion
 };
 
 export default connect(

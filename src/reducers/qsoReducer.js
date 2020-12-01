@@ -100,7 +100,8 @@ import {
   UPDATE_QRA_URL,
   UPDATE_QSL_SCAN,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS
+  UPDATE_QSO_HEADER_STATUS,
+  SET_MUSTUPGRADEAPP
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -148,6 +149,7 @@ const initialState = {
   pressHome: 1,
   justPublished: false,
   externalShareUrl: false,
+  mustUpgradeApp: false,
 
   currentQso: {
     sqlrdsId: '',
@@ -1074,6 +1076,18 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
+
+      case SET_MUSTUPGRADEAPP:
+   
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+         
+          mustUpgradeApp: action.mustupgradeapp
+          
+        });
+  
+        return newStore;
 
     case SET_USER_INFO:
       // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
