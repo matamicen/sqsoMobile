@@ -97,10 +97,13 @@ class QSODetail extends React.PureComponent {
     let qsoInMemory = navigation.getParam('QSO_GUID', 'NO-ID');
     console.log('QSODetail' + qsoInMemory);
 
+    let previousGUID = this.props.qso && this.props.qso.GUID_URL;
+
     if (
       (!this.props.FetchingQSO && !this.props.QSOFetched) ||
       (this.props.QSOFetched &&
-        this.props.navigation.getParam('QSO_GUID', 'NO-ID') !== qsoInMemory)
+        this.props.qso &&
+        this.props.navigation.getParam('QSO_GUID', 'NO-ID') !== previousGUID)
     ) {
       this.props.actions.doRequestQSO();
       this.props.actions.doFetchQSO(

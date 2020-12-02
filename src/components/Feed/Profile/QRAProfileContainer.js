@@ -60,7 +60,11 @@ class QRAProfileContainer extends React.PureComponent {
 
     const { navigation } = this.props;
     let qraInMemory = navigation.getParam('qra', this.props.currentQRA);
+    let screen = navigation.getParam('screen');
+
+    if (screen === 'MYPOSTS') qraInMemory = this.props.currentQRA;
     // let qraInMemory = this.props.qra ? this.props.qra.qra.qra : '';
+    qraInMemory = qraInMemory ? qraInMemory : this.props.currentQRA;
     console.log('qraInMemory ' + qraInMemory);
 
     if (

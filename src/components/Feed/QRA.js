@@ -13,8 +13,9 @@ class QRA extends React.PureComponent {
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate('QRAProfile', {
-              qra: this.props.qra
+            this.props.navigation.push('QRAProfile', {
+              qra: this.props.qra,
+              screen: 'PROFILE'
             })
           }>
           <View style={styles.center}>

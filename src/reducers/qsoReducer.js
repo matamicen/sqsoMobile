@@ -2344,15 +2344,17 @@ const qsoReducer = (state = initialState, action) => {
         ...state,
         feed: {
           ...state.feed,
-          qsos: state.feed.qsos.map((qso) => {
-            if (qso.idqsos === action.idqsos) {
-              qso.media = qso.media.map((m) => {
-                if (m.type === 'video') m.paused = true;
-                return m;
-              });
-            }
-            return qso;
-          }),
+          qsos: state.feed.qsos
+            ? state.feed.qsos.map((qso) => {
+                if (qso.idqsos === action.idqsos) {
+                  qso.media = qso.media.map((m) => {
+                    if (m.type === 'video') m.paused = true;
+                    return m;
+                  });
+                }
+                return qso;
+              })
+            : [],
           // qso_link:
           //   state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
           //     ? {
@@ -2366,10 +2368,11 @@ const qsoReducer = (state = initialState, action) => {
                 qsos:
                   state.feed.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
-                        qso.media = qso.media.map((m) => {
-                          if (m.type === 'video') m.paused = true;
-                          return m;
-                        });
+                        if (qso.media)
+                          qso.media = qso.media.map((m) => {
+                            if (m.type === 'video') m.paused = true;
+                            return m;
+                          });
                         return qso;
                       })
                     : []

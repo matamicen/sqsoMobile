@@ -31,7 +31,8 @@ const QRAProfileFollowing = ({ following, navigation }) => {
                 // style={styles.button}
                 onPress={() =>
                   navigation.push('QRAProfile', {
-                    qra: item.qra
+                    qra: item.qra,
+                    screen: 'PROFILE'
                   })
                 }>
                 <Avatar

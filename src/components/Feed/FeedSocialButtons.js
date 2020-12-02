@@ -43,61 +43,63 @@ class FeedSocialButtons extends React.PureComponent {
     //     break;
     //   default:
     // }
-
-    return (
-      <View style={styles.container}>
-        <QSOLikeText
-          feedType={this.props.feedType}
-          // qso={this.props.qso}
-          // likes={this.props.qso.likes}
-          idqsos={this.props.idqsos}
-        />
-        <View style={styles.buttons}>
-          <View style={styles.like}>
-            <QSOLikeButton
-              feedType={this.props.feedType}
-              // qso={this.props.qso}
-              idqsos={this.props.idqsos}
-            />
-          </View>
-          <View style={styles.comment}>
-            <Button
-              type="clear"
-              icon={<Icon name="comment-o" type="font-awesome" />}
-              onPress={() => this.setState({ showComments: true })}
-              title={this.props.qso.comments.length > 0 ? commentsCounter : ''}
-            />
-          </View>
-          <View style={styles.repost}>
-            <QSORePostButton
-              feedType={this.props.feedType}
-              idqsos={this.props.idqsos}
-              // qso={this.props.qso}
-            />
-          </View>
-          <View style={styles.share}>
-            <QSOShareButtons
-              feedType={this.props.feedType}
-              idqso={this.props.qso.GUID_URL}
-              idqsos={this.props.idqsos}
-              title={this.props.shareText}
-            />
-          </View>
-        </View>
-        {this.state.showComments && (
-          <QSOComments
+    if (this.props.qso)
+      return (
+        <View style={styles.container}>
+          <QSOLikeText
             feedType={this.props.feedType}
-            showComments={this.state.showComments}
-            doClose={() => this.setState({ showComments: false })}
-            index={this.props.index}
             // qso={this.props.qso}
+            // likes={this.props.qso.likes}
             idqsos={this.props.idqsos}
-            // comments={this.props.comments}
-            // recalculateRowHeight={this.props.recalculateRowHeight}
           />
-        )}
-      </View>
-    );
+          <View style={styles.buttons}>
+            <View style={styles.like}>
+              <QSOLikeButton
+                feedType={this.props.feedType}
+                // qso={this.props.qso}
+                idqsos={this.props.idqsos}
+              />
+            </View>
+            <View style={styles.comment}>
+              <Button
+                type="clear"
+                icon={<Icon name="comment-o" type="font-awesome" />}
+                onPress={() => this.setState({ showComments: true })}
+                title={
+                  this.props.qso.comments.length > 0 ? commentsCounter : ''
+                }
+              />
+            </View>
+            <View style={styles.repost}>
+              <QSORePostButton
+                feedType={this.props.feedType}
+                idqsos={this.props.idqsos}
+                // qso={this.props.qso}
+              />
+            </View>
+            <View style={styles.share}>
+              <QSOShareButtons
+                feedType={this.props.feedType}
+                idqso={this.props.qso.GUID_URL}
+                idqsos={this.props.idqsos}
+                title={this.props.shareText}
+              />
+            </View>
+          </View>
+          {this.state.showComments && (
+            <QSOComments
+              feedType={this.props.feedType}
+              showComments={this.state.showComments}
+              doClose={() => this.setState({ showComments: false })}
+              index={this.props.index}
+              // qso={this.props.qso}
+              idqsos={this.props.idqsos}
+              // comments={this.props.comments}
+              // recalculateRowHeight={this.props.recalculateRowHeight}
+            />
+          )}
+        </View>
+      );
   }
 }
 const styles = StyleSheet.create({

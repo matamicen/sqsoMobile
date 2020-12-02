@@ -104,7 +104,8 @@ class QSOCommentItem extends React.PureComponent {
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('QRAProfile', {
-                  qra: this.props.comment.qra
+                  qra: this.props.comment.qra,
+                  screen: 'PROFILE'
                 })
               }>
               <Avatar
@@ -126,7 +127,8 @@ class QSOCommentItem extends React.PureComponent {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('QRAProfile', {
-                    qra: this.props.comment.qra
+                    qra: this.props.comment.qra,
+                    screen: 'PROFILE'
                   })
                 }>
                 <Text style={styles.headerText}>

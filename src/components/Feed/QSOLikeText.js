@@ -241,7 +241,8 @@ const selectorFeedTypeLikes = (state, ownProps) => {
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
       .likes;
-  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso.likes;
+  else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
+    return state.sqso.feed.qso.likes;
   else return null;
 };
 const mapStateToProps = (state, ownProps) => ({

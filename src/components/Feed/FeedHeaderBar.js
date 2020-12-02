@@ -43,8 +43,9 @@ class FeedHeaderBar extends React.Component {
             }}>
             <FeedHeaderSearch
               navigate={(qra) => {
-                this.props.navigation.navigate('QRAProfile', {
-                  qra
+                this.props.navigation.push('QRAProfile', {
+                  qra,
+                  screen: 'PROFILE'
                 });
               }}
             />

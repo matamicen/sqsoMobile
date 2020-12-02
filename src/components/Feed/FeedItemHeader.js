@@ -53,8 +53,9 @@ class FeedItemHeader extends React.PureComponent {
             <TouchableOpacity
               // style={styles.button}
               onPress={() =>
-                this.props.navigation.navigate('QRAProfile', {
-                  qra: this.props.qso.qra
+                this.props.navigation.push('QRAProfile', {
+                  qra: this.props.qso.qra,
+                  screen: 'PROFILE'
                 })
               }>
               <Avatar
@@ -79,8 +80,9 @@ class FeedItemHeader extends React.PureComponent {
             <TouchableOpacity
               // style={styles.button}
               onPress={() =>
-                this.props.navigation.navigate('QRAProfile', {
-                  qra: this.props.qso.qra
+                this.props.navigation.push('QRAProfile', {
+                  qra: this.props.qso.qra,
+                  screen: 'PROFILE'
                 })
               }>
               <Text style={styles.actionHeaderText}>{this.props.qso.qra}</Text>
