@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
@@ -234,6 +235,13 @@ class QRAProfileContainer extends React.PureComponent {
     ) {
       this.followed = this.props.following.some(
         (o) => o.qra === this.props.navigation.getParam('qra', 'NO-ID')
+      );
+    }
+    if (this.props.fetchingQRA) {
+      return (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
       );
     }
     return (

@@ -166,7 +166,6 @@ class QSODetail extends React.PureComponent {
     }
 
     if (this.props.FetchingQSO) {
-      console.log('ActivityIndicator');
       return (
         <View style={{ flex: 1 }}>
           <ActivityIndicator size="large" color="#00ff00" />
