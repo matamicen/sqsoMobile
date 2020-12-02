@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Icon } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,7 +12,7 @@ class FeedItemHeader extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
   }
-
+  state = { openMenu: false };
   render() {
     let text;
     let shareText;
@@ -132,11 +132,22 @@ class FeedItemHeader extends React.PureComponent {
             </Text>
           </View>
         </View>
+        <View style={styles.menu}>
+          <Icon
+            size={30}
+            name="ellipsis-v"
+            type="font-awesome"
+            onPress={() => {
+              this.setState({ openMenu: true });
+            }}
+          />
+        </View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  menu: { padding: 7 },
   bold: { fontWeight: 'bold' },
   actionHeaderText: {
     fontSize: 20
