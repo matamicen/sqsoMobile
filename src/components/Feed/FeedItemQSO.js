@@ -61,11 +61,7 @@ class FeedItemQSO extends React.PureComponent {
     }
 
     return (
-      // <Fragment>
-      //   <Segment raised>
-      //     <View className="qso-header">
-
-      //       {/* {date.toLocaleDateString("i18n.language", {month: "short"}) + ' ' + date.getDate() + ', ' + date.getFullYear()} */}
+      //
       //       <View
       //         className="qso-header-button"
       //         style={{
@@ -85,16 +81,7 @@ class FeedItemQSO extends React.PureComponent {
       //           }
       //         />
       //       </View>
-      //     </View>
 
-      //     {this.props.qso.links && (
-      //       <FeedLinkList links={this.props.qso.links} />
-      //     )}
-      //     <Divider hidden style={{ marginTop: '1vh' }} />
-
-      //   </Segment>
-
-      // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
         <FeedItemHeader
           feedType={this.props.feedType}
@@ -115,7 +102,7 @@ class FeedItemQSO extends React.PureComponent {
           idqsos={this.props.idqsos}
           qso_owner={this.props.qso.qra}
         />
-        {/* <QSOLikeText qso={qso} likes={this.state.likes} /> */}
+
         <FeedSocialButtons
           feedType={this.props.feedType}
           comments={this.props.qso.comments}

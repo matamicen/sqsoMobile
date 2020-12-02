@@ -1,21 +1,15 @@
 import React from 'react';
 import FeedItemQSO from './FeedItemQSO';
+import FeedItemRepost from './FeedItemRepost';
 class FeedItem extends React.Component {
-  // state = {
-  //   qso: {}
-  // };
-  // componentDidUpdate(prevProps, prevState) {
-
-  // if (this.props.qso && this.props.qso !== prevProps.qso) {
-  //   this.setState({ qso: this.props.qso });
-  // }
-  // }
   shouldComponentUpdate() {
     return this.props.type ? true : false;
   }
   render() {
     if (this.props.type)
       switch (this.props.type) {
+        case 'AD':
+          return null;
         case 'POST':
         case 'QAP':
         case 'FLDDAY':
@@ -27,25 +21,22 @@ class FeedItem extends React.Component {
               key={this.props.idqsos}
               // qso={this.props.qso}
               idqsos={this.props.idqsos}
-              currentIndex={this.props.currentIndex}
-              currentVisibleIndex={this.props.currentVisibleIndex}
-              // measure={this.props.measure}
-              // recalculateRowHeight={this.props.recalculateRowHeight}
+
               // index={this.props.index}
             />
           );
-        // case 'SHARE':
-        //   return (
-        //     <FeedItemRepost
-        //       key={this.props.qso.idqsos}
-        //       qso={this.props.qso}
-        //       measure={this.props.measure}
-        //       recalculateRowHeight={this.props.recalculateRowHeight}
-        //       index={this.props.index}
-        //     />
-        //   );
-        // case 'AD':
-        //   return null;
+
+        case 'SHARE':
+          return (
+            <FeedItemRepost
+              feedType={this.props.feedType}
+              key={this.props.idqsos}
+              idqsos={this.props.idqsos}
+              // qso={this.props.qso}
+              index={this.props.index}
+            />
+          );
+
         //   if (props.index === 0) {
         //     return (
         //       <Fragment>
