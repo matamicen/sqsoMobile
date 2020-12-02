@@ -112,7 +112,7 @@ class FeedItemHeader extends React.PureComponent {
               {this.props.qso.rst && (
                 <Fragment>
                   <Text style={styles.bold}>RST:</Text>
-                  <Text>{this.props.qso.db}</Text>
+                  <Text>{this.props.qso.rst}</Text>
                 </Fragment>
               )}
               <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
