@@ -1,5 +1,12 @@
 import React, { Fragment } from 'react';
-import { Image, Platform, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 // import Advertisement from "semantic-ui-react/dist/commonjs/views/Advertisement";
@@ -149,21 +156,23 @@ class QSODetail extends React.PureComponent {
       default:
         error = this.state.qsoError;
     }
-    // if (this.state.qsoError) {
-    //   return (
-    //     <Modal
-    //       open={this.state.qsoError ? true : false}
-    //       onClose={() => {
-    //         this.setState({ qsoError: null });
-    //         // this.props.history.push('/');
-    //       }}
-    //       size="small">
-    //       <Modal.Content>
-    //         <Text>{error}</Text>
-    //       </Modal.Content>
-    //     </Modal>
-    //   );
-    // }
+    if (this.state.qsoError) {
+      Alert.alert(
+        null,
+        error,
+        [{ text: 'OK', onPress: () => this.props.navigate.push('Home') }],
+        { cancelable: false }
+      );
+    }
+
+    if (this.props.FetchingQSO) {
+      console.log('ActivityIndicator');
+      return (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
+      );
+    }
 
     let qsos = [];
     if (this.props.qso) {
