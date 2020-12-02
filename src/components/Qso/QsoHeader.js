@@ -10,6 +10,8 @@ import QsoBand from './QsoBand';
 import QsoMode from './QsoMode';
 import QsoRst from './QsoRst';
 import QsodB from './QsodB';
+import QsoDate from './QsoDate';
+import QsoUtc from './QsoUtc';
 import QsoEnterQra from './QsoEnterQra';
 import AddCallSigns from './AddCallSigns';
 import I18n from '../../utils/i18n';
@@ -79,7 +81,7 @@ class QsoHeader extends React.PureComponent {
               
         return(  <View style={styles.content} >
                
-           <View style={{flex:0.6}}>
+           <View style={{flex:0.48}}>
                <View style={{flexDirection: 'row', flex:1}}>
                   {/* <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile_avatar.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                   {/* { this.props.sqsonewqsoactive && */}
@@ -104,8 +106,8 @@ class QsoHeader extends React.PureComponent {
         
             </View>
               {/* flex: 1 */}
-         <View style={{flex:0.31}}>
-             <View style={{flexDirection: 'row', marginTop: 6, flex:0.5 }}>
+         <View style={{flex:0.43}}>
+             <View style={{flexDirection: 'row', marginTop: 0, flex:0.5 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
               {/* { this.props.sqsonewqsoactive ? */}
@@ -150,23 +152,17 @@ class QsoHeader extends React.PureComponent {
                
                {/* Duplico */}
                <View style={{flexDirection: 'row', marginTop: 6, flex:0.5 }}>
-               <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.222 , alignItems: 'center'  }}>  
+               <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?  
-                        <QsoBand />  : null }
+                        <QsoDate />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.224 : 0.222, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?    
-                        <QsoMode />  : null }
+                        <QsoUtc />  : null }
                     </View>  
-
-                    <View style={{flex: Platform.OS==='ios' ? 0.246 : 0.246, flexDirection: 'row'}}>
-                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?    
-                       (this.props.digitalmode) ? <QsodB /> : <QsoRst />
-                        
-                        : null }
-                    </View>  
+ 
 
                </View>
 

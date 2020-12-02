@@ -75,6 +75,8 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
+  SET_QSOUTC,
+  SET_QSODATE,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
@@ -452,6 +454,32 @@ const qsoReducer = (state = initialState, action) => {
         currentQso: auxcurrentQso
       });
       return newStore;
+
+      
+      case SET_QSOUTC:
+        auxcurrentQso = {
+          ...state.currentQso,
+          qsoutc: action.utcFormat,
+          
+        };
+        newStore = Object.assign({}, state, {
+          ...state,
+          currentQso: auxcurrentQso
+        });
+        return newStore;
+
+        case SET_QSODATE:
+          auxcurrentQso = {
+            ...state.currentQso,
+            qsodate: action.dateFormat
+           
+            
+          };
+          newStore = Object.assign({}, state, {
+            ...state,
+            currentQso: auxcurrentQso
+          });
+          return newStore;
 
     case SET_RST:
       console.log('cambio RST REDUX: ' + action.rst);
@@ -1221,6 +1249,9 @@ const qsoReducer = (state = initialState, action) => {
         band: I18n.t('ReducerBand'),
         bandSent: false,
         mode: I18n.t('ReducerMode'),
+        qsodate: '',
+        qsodateFormat: '',
+        qsoutc: '',
         modeSent: false,
         rst: '59',
         db: '-07',

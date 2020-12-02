@@ -88,6 +88,8 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
+  SET_QSODATE,
+  SET_QSOUTC,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
@@ -185,6 +187,22 @@ export const setMode = (mode) => {
     mode: mode
   };
 };
+
+export const setQsoDate = (dateFormat) => {
+  return {
+    type: SET_QSODATE,
+    date: dateFormat
+    
+  };
+};
+
+export const setQsoUtc = (utcFormat) => {
+  return {
+    type: SET_QSOUTC,
+    utc: utcFormat
+  };
+};
+
 export const setVideoUploadProgress = (percentage) => {
   return {
     type: SET_VIDEO_UPLOAD_PROGRESS,
@@ -811,6 +829,8 @@ export const qsoPublish = (qsoHeader, qsoqras, jwtToken) => {
           db: qsoHeader.db,
           qso: qsoHeader.sqlrdsid,
           type: qsoHeader.type,
+          qsodate: qsoHeader.qsodate,
+          qsoutc: qsoHeader.qsoutc,
           qras: arr
           // "draft" : 0
         }

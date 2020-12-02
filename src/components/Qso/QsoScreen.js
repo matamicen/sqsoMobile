@@ -2884,6 +2884,8 @@ if (this.pressPublish===false)
             modeAux = '';
             rstAux = '';
             dbAux = '';
+            qsodate = '';
+            qsoutc = '';
           }
           else
           {
@@ -2891,6 +2893,8 @@ if (this.pressPublish===false)
             modeAux = this.props.mode;
             rstAux = this.props.rst;
             dbAux = this.props.db;
+            qsodate = this.props.qsodate;
+            qsoutc = this.props.qsoutc;
 
           }
   
@@ -2901,6 +2905,8 @@ if (this.pressPublish===false)
                               "qra": this.props.qra,
                               "rst" : rstAux,
                               "db" : dbAux,
+                              "qsodate" : qsodate,
+                              "qsoutc" : qsoutc,
                               "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
@@ -3080,7 +3086,7 @@ close_upload_failed = () => {
        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
          Esto estaba porque el teclado aparecia cuando se ingresaban los callsign sin el modal, ahora no tiene sentido porque no hay mas teclado en qsoScreen directo, los teclados estan en los modales. */}
    
-        <View style={{ flex: 0.3 }}>
+        <View style={{ flex: 0.37 }}>
           <QsoHeader />
           
          
@@ -3285,7 +3291,7 @@ close_upload_failed = () => {
         </View>
         {/* </TouchableWithoutFeedback>  */}
        
-        <View style={{ flex: 0.52 }}>
+        <View style={{ flex: 0.45 }}>
        
            
           <MediaFiles />
@@ -3731,7 +3737,9 @@ const mapStateToProps = state => {
     videopercentage: state.sqso.currentQso.videoPercentage,
     videouploaderror: state.sqso.currentQso.videoUploadError,
     externalshareurl: state.sqso.externalShareUrl,
-    mustupgradeapp: state.sqso.mustUpgradeApp
+    mustupgradeapp: state.sqso.mustUpgradeApp,
+    qsodate: state.sqso.currentQso.qsodate,
+    qsoutc: state.sqso.currentQso.qsoutc,
 
   };
 };

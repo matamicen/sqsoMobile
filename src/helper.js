@@ -164,6 +164,92 @@ mediafilesSinProfile = [];
 
    }
 
+   export const getDate2 =  (qsoDate) => {
+    var day = '';
+    var month = '';
+    var hours = '';
+    var minutes = '';
+    var seconds = '';
+    // var now = new Date();
+    // var date = new Date( now.getTime() + (now.getTimezoneOffset() * 60000));
+    var date = qsoDate;
+    var monthaux = date.getMonth() + 1;
+    var dayOfMonthaux = date.getDate();
+    var year = date.getFullYear();
+    var houraux = date.getHours();
+    var minutesaux = date.getMinutes();
+    var secondsaux = date.getSeconds();
+
+    if (monthaux<10) month = '0'+monthaux
+      else
+        month = monthaux;
+    if (dayOfMonthaux<10) day = '0'+dayOfMonthaux
+      else
+       day = dayOfMonthaux;
+    if (houraux<10) hours = '0'+houraux
+       else
+        hours = houraux;
+    if (minutesaux<10) minutes = '0'+minutesaux
+        else
+         minutes  = minutesaux;
+    if (secondsaux<10) seconds = '0'+secondsaux
+        else
+        seconds  = secondsaux;
+
+
+    devuelvo = year + '-' + month + '-' + day + ' ' + hours+':'+minutes+':'+seconds;
+
+
+    return devuelvo;
+
+   }
+
+   export const getQsoDateTimeZoneIncluded = () => {
+   
+    dateNowAux = new Date();
+    hourNow = dateNowAux.getHours();
+    timeZoneOffset  = Math.floor(dateNowAux.getTimezoneOffset()/60);
+    console.log('hour didMount:' + hourNow + ' timeZone: '+ timeZoneOffset)
+    // horaoff = hour+Math.floor(dateNow.getTimezoneOffset()/60);
+    // console.log('sumo:' + horaoff)
+    dateNow = new Date(dateNowAux.getTime() + (dateNowAux.getTimezoneOffset() * 60000));
+
+    // recalculo fecha en base al offset del timeZone
+    if (timeZoneOffset > 0) // GMT (-)
+    {
+        hourOff = 24 + timeZoneOffset
+      if (hourNow < hourOff) // mantiene el mismo dia
+        // this.setState({date: dateNow, showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
+        //     month: 'short'
+        //   })})
+        dateNow = dateNow
+       else
+       {   // se pasa al otro dia por el offset del timeZone
+           dateNow.setDate(dateNow.getDate() + 1)
+       }
+
+
+    }
+    else
+    {
+        hourOff = hourNow + timeZoneOffset
+      if (hourOff > 0) // mantiene el mismo dia
+        // this.setState({date: dateNow,showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
+        //     month: 'short'
+        //   })})
+        dateNow = dateNow
+       else
+       {   // se pasa al otro dia por el offset del timeZone
+           dateNow.setDate(dateNow.getDate() - 1)
+       }
+
+    }
+    return dateNow;
+  }
+
+    
+ 
+
 
    getDateHelper =  () => {
     var day = '';
