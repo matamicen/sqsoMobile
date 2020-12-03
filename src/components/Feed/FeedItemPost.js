@@ -50,8 +50,6 @@ class FeedItemPost extends React.PureComponent {
   //   return null;
   // }
   render() {
-     
-
     // let picList = this.props.qso.media.filter(media => media.type === 'image');
     // let audioList = this.props.qso.media.filter(
     //   media => media.type === 'audio'
@@ -115,7 +113,7 @@ class FeedItemPost extends React.PureComponent {
           )}
           <FeedMedia
             qso={this.props.qso}
-            measure={this.props.measure}
+            // measure={this.props.measure}
             idqso={this.props.qso.idqsos}
             qso_owner={this.props.qso.qra}
             recalculateRowHeight={this.recalculateRowHeight}

@@ -12,10 +12,10 @@ import Upload from 'react-native-background-upload';
 import RNIap, { acknowledgePurchaseAndroid } from 'react-native-iap';
 import Toast from 'react-native-root-toast';
 import RNFetchBlob from 'rn-fetch-blob';
+import { APP_VERSION } from '../appVersion';
 import awsconfig from '../aws-exports';
-import { getDateQslScan, versionCompare } from '../helper';
-import {APP_VERSION} from '../appVersion';
 import global_config from '../global_config.json';
+import { getDateQslScan, versionCompare } from '../helper';
 import I18n from '../utils/i18n';
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
@@ -38,6 +38,7 @@ import {
   CONFIRMED_PURCHASE_FLAG,
   COPY_CALLSIGN_TO_QSOQRAS,
   DELETE_MEDIA_MEMORY,
+  DELETE_QSO,
   FETCHING_API_FAILURE,
   FETCHING_API_REQUEST,
   FETCHING_API_SUCCESS,
@@ -54,44 +55,8 @@ import {
   ON_PROGRESS_FALSE,
   ON_PROGRESS_TRUE,
   OPEN_MODALCONFIRM_PHOTO,
-  OPEN_MODAL_RECORDING, PAUSE_VIDEO,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  OPEN_MODAL_RECORDING,
+  PAUSE_VIDEO,
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
@@ -125,6 +90,7 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
+  SET_MUSTUPGRADEAPP,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
@@ -150,8 +116,7 @@ import {
   UPDATE_QSL_SCAN,
   UPDATE_QSL_SCAN_RESULT,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS,
-  SET_MUSTUPGRADEAPP
+  UPDATE_QSO_HEADER_STATUS
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -248,7 +213,6 @@ export const setUpgradeApp = (status) => {
   return {
     type: SET_MUSTUPGRADEAPP,
     mustupgradeapp: status
-    
   };
 };
 
@@ -1784,14 +1748,15 @@ export const uploadVideoToS3 = (
                   Storage.vault.put(videoName, buffer, {
                     customPrefix,
                     level: 'protected'
-                  }))
-                .catch((error) => { 
-                  console.log('Foto Preview upload to s3 failed!')
+                  })
+                )
+                .catch((error) => {
+                  console.log('Foto Preview upload to s3 failed!');
                   dispatch(setVideoUploadProgress(-1));
-                  dispatch(setUploadVideoError(I18n.t('QsoScrUploadingVideoError')));
-
-              
-              })
+                  dispatch(
+                    setUploadVideoError(I18n.t('QsoScrUploadingVideoError'))
+                  );
+                })
                 .then((result) => {
                   console.log('envio imagePreview:' + result.key);
 
@@ -3213,67 +3178,60 @@ export const linkQsos = (qra, json, jwtToken) => {
 
 export const apiCheckVersion = () => {
   return async (dispatch) => {
-    try{ 
-      
-
+    try {
       versionActual = APP_VERSION;
-      console.log("esta por llamar a apiVersionCheck desde Action!:");
-     
-    
+      console.log('esta por llamar a apiVersionCheck desde Action!:');
+
       //  ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
-      url = global_config.apiEndpoint + '/globalParamsPublic'
+      url = global_config.apiEndpoint + '/globalParamsPublic';
       ApiCall = await fetch(url);
-       const respuesta = await ApiCall.json();
-    
-           console.log("respuesta apiVersionCheck:");
-           console.log(respuesta);
-     
-        if (respuesta.body.error===0)
-        { 
-          console.log('minVersion: '+respuesta.body.message[0].value)
-          v_required = respuesta.body.message[0].value;
-          console.log('versionactual:'+ versionActual)
-         if (versionCompare(v_required, versionActual)===false)
-         {
-              // console.log('debe hacer Upgrade de la APP')
-              // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
-              // this.debeHacerUpgrade = true;
-              console.log('necesita upgrade')
-              res = {stop: true, message: respuesta.body.message[1].value }
-              console.log(res)
-              dispatch(setUpgradeApp(true))
-              // return res;
-              
-         }
-         else{
-           // si falla por algun tipo de conectividad no le hago aparecer el cartel.
-           console.log('NO necesita upgrade')
-           res = {stop: false, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-           dispatch(setUpgradeApp(false))
-           console.log(res)
+      const respuesta = await ApiCall.json();
+
+      console.log('respuesta apiVersionCheck:');
+      console.log(respuesta);
+
+      if (respuesta.body.error === 0) {
+        console.log('minVersion: ' + respuesta.body.message[0].value);
+        v_required = respuesta.body.message[0].value;
+        console.log('versionactual:' + versionActual);
+        if (versionCompare(v_required, versionActual) === false) {
+          // console.log('debe hacer Upgrade de la APP')
+          // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: respuesta.body.message[1].value});
+          // this.debeHacerUpgrade = true;
+          console.log('necesita upgrade');
+          res = { stop: true, message: respuesta.body.message[1].value };
+          console.log(res);
+          dispatch(setUpgradeApp(true));
+          // return res;
+        } else {
+          // si falla por algun tipo de conectividad no le hago aparecer el cartel.
+          console.log('NO necesita upgrade');
+          res = {
+            stop: false,
+            message:
+              'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!'
+          };
+          dispatch(setUpgradeApp(false));
+          console.log(res);
           // return res;
         }
-         
-              
-        }
-        
       }
-      catch (error) {
-         console.log('Api apiVersionCheck catch error:', error);
-        //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-      
-        // Decidi no mostrar el mensaje de UPGRADE APP porque este catch sucede cuando no falla el llamado a la API por falta de internet o conectividad o algo por el estilo
-        res = {stop: false, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-        crashlytics().log('error: ' + JSON.stringify(error)) ;
-        if(__DEV__)
-        crashlytics().recordError(new Error('apiVersionCheck_DEV'));
-        else
-        crashlytics().recordError(new Error('apiVersionCheck_PRD'));
-    
-        return res;
-    
-    
-        }
+    } catch (error) {
+      console.log('Api apiVersionCheck catch error:', error);
+      //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+
+      // Decidi no mostrar el mensaje de UPGRADE APP porque este catch sucede cuando no falla el llamado a la API por falta de internet o conectividad o algo por el estilo
+      res = {
+        stop: false,
+        message:
+          'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!'
+      };
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) crashlytics().recordError(new Error('apiVersionCheck_DEV'));
+      else crashlytics().recordError(new Error('apiVersionCheck_PRD'));
+
+      return res;
+    }
   };
 };
 
@@ -4480,4 +4438,66 @@ export function doFetchFieldDaysFeed(qra = null) {
       });
   };
 }
+export function doDeleteQso(idqso, token) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'qsoDelete_WEBPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'delete'
+    //   });
+    try {
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+
+      const apiName = 'superqso';
+      const path = '/qsonew';
+      const myInit = {
+        body: {
+          qso: idqso
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: session.idToken.jwtToken
+        } // OPTIONAL
+      };
+      API.del(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            // this.toast(I18n.t('qso.qsoDeleted'), 2500);
+            // toast.success(I18n.t('qso.qsoDeleted'), {
+            //   position: toast.POSITION.BOTTOM_RIGHT,
+            //   className: css({
+            //     background: '#8BD8BD !important'
+            //   })
+            // });
+            dispatch(doDeleteQsoResponse(idqso));
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          console.log(error);
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__) {
+            console.log(error.message);
+            crashlytics().recordError(new Error('doDeleteQSO_WEBDEV'));
+          } else crashlytics().recordError(new Error('doDeleteQSO_WEBPRD'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      console.log(error);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) {
+        console.log(error.message);
+        crashlytics().recordError(new Error('doDeleteQSO_WEBDEV'));
+      } else crashlytics().recordError(new Error('doDeleteQSO_WEBPRD'));
+    }
+  };
+}
+
+export function doDeleteQsoResponse(idqso = null) {
+  return {
+    type: DELETE_QSO,
+    idqso: idqso
+  };
+}
+
 // END NATIVE FEED

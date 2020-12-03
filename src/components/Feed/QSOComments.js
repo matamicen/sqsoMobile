@@ -123,7 +123,6 @@ class QSOComments extends React.PureComponent {
     <Formik
       initialValues={{ comment: '' }}
       onSubmit={(values, actions) => {
-        
         this.handleAddComment(values);
       }}>
       {({
@@ -168,7 +167,7 @@ class QSOComments extends React.PureComponent {
               flexBasis: 0,
               flexGrow: 0
             }}> */}
-            <View>
+          <View>
             <Button
               buttonStyle={{
                 padding: 1,
@@ -180,8 +179,6 @@ class QSOComments extends React.PureComponent {
               title={I18n.t('qso.add')}
               onPress={handleSubmit}
             />
-            
-          
           </View>
         </View>
       )}
@@ -224,19 +221,12 @@ class QSOComments extends React.PureComponent {
           borderRadius={8}
           overlayStyle={{
             position: 'absolute',
-
             flex: 1,
             top: 50,
             bottom: 50,
             width: '80%',
             height: '80%'
           }}>
-          {/* <Modal
-          position={'top'}
-          animationType={'slide'}
-          transparent={true}
-          visible={this.props.showComments}
-          onRequestClose={() => this.props.doClose()}> */}
           {/* {I18n.t('qso.likeModalHeader')}{' '}
           {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
           <KeyboardAvoidingView

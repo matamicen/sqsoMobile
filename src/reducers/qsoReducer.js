@@ -2394,6 +2394,30 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     }
+    case DELETE_QSO: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos:
+            state.feed.qsos &&
+            state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+          fieldDays:
+            state.fieldDays.qsos &&
+            state.fieldDays.qsos.filter((qso) => qso.idqsos !== action.idqso),
+          qra: state.qra
+            ? {
+                ...state.qra,
+                qsos: state.qra.qsos.filter((qso) => {
+                  return qso.idqsos !== action.idqso;
+                })
+              }
+            : state.qra
+        }
+      });
+
+      return newStore;
+    }
     default:
       return state;
   }
