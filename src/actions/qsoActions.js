@@ -829,12 +829,13 @@ export const qsoPublish = (qsoHeader, qsoqras, jwtToken) => {
           db: qsoHeader.db,
           qso: qsoHeader.sqlrdsid,
           type: qsoHeader.type,
-          qsodate: qsoHeader.qsodate,
-          qsoutc: qsoHeader.qsoutc,
+          realDateTime : qsoHeader.realDateTime,
           qras: arr
           // "draft" : 0
         }
       };
+
+      console.log('qsoHeader.realDateTime: '+qsoHeader.realDateTime);
 
       var respuesta = await API.post(apiName, path, myInit);
       //console.log('llamo api! QSO_PUBLISH');
@@ -2745,6 +2746,7 @@ export const getUserInfo = (jwtToken) => {
       // console.log(respuesta);
 
       if (respuesta.body.error === 0) {
+        console.log("ejecuto bien user-info");
         var followings = respuesta.body.message.following;
         var followers = respuesta.body.message.followers;
         //   console.log("la url que envio:" + url);

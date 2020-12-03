@@ -459,7 +459,7 @@ const qsoReducer = (state = initialState, action) => {
       case SET_QSOUTC:
         auxcurrentQso = {
           ...state.currentQso,
-          qsoutc: action.utcFormat,
+          qsoutc: action.utc,
           
         };
         newStore = Object.assign({}, state, {
@@ -471,7 +471,7 @@ const qsoReducer = (state = initialState, action) => {
         case SET_QSODATE:
           auxcurrentQso = {
             ...state.currentQso,
-            qsodate: action.dateFormat
+            qsodate: action.date
            
             
           };
@@ -1249,9 +1249,9 @@ const qsoReducer = (state = initialState, action) => {
         band: I18n.t('ReducerBand'),
         bandSent: false,
         mode: I18n.t('ReducerMode'),
-        qsodate: '',
+        qsodate: new Date(),
         qsodateFormat: '',
-        qsoutc: '',
+        qsoutc: new Date(),
         modeSent: false,
         rst: '59',
         db: '-07',

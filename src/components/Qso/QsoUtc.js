@@ -66,7 +66,11 @@ class QsoUtc extends React.PureComponent {
 
         // }
         dateNow = getQsoDateTimeZoneIncluded();
-        this.setState({date: dateNow, showUtc: dateNow.getHours()+':'+dateNow.getMinutes()})
+        showT = dateNow.getHours() +
+          ':' +
+          (dateNow.getMinutes() < 10 ? '0' : '') +
+          dateNow.getMinutes()
+        this.setState({date: dateNow, showUtc: showT})
         console.log('date recalculado:' + dateNow)
         this.props.setQsoUtc(dateNow)
        
@@ -94,7 +98,11 @@ class QsoUtc extends React.PureComponent {
         console.log('time: '+currentDate )
         
 // // esta es la hora que muestra en pantalla
-        showT = currentDate.getHours()+':'+currentDate.getMinutes()
+        // showT = currentDate.getHours()+':'+currentDate.getMinutes()
+        showT = currentDate.getHours() +
+          ':' +
+          (currentDate.getMinutes() < 10 ? '0' : '') +
+          currentDate.getMinutes()
 
           
         this.setState({show: Platform.OS === 'ios', date: currentDate, showUtc: showT});

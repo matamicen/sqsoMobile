@@ -74,7 +74,7 @@ import {
   showVideoReward,
   showIntersitial,
   updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
-   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder } from "../../helper";
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2 } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
@@ -2877,6 +2877,9 @@ if (this.pressPublish===false)
 
  // #PUBLISH
   publicar = async (jwtToken) => {
+    let realdate_aux2 = new Date();
+    let realdate_aux = new Date();
+    let realtime_aux = new Date();
 
               if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
           {
@@ -2884,17 +2887,32 @@ if (this.pressPublish===false)
             modeAux = '';
             rstAux = '';
             dbAux = '';
-            qsodate = '';
-            qsoutc = '';
+            realDateTime = '';
           }
           else
           {
+             realdate_aux = this.props.qsodate;
+             realtime_aux = this.props.qsoutc;
+             console.log('parse: '+realdate_aux.getFullYear() + ' '+realdate_aux.getMonth()+' '+ realdate_aux.getDay()+ ' '+realtime_aux.getHours()+ ' '+realtime_aux.getMinutes())
+             console.log('realdate_aux: ' +realdate_aux)
+              console.log('realtime_aux: ' +realtime_aux)
+            // de realdate saco la fecha y de realtime saco la hora seteada por el usuario.
+            // realdate_aux2.setDate(realdate_aux.getFullYear(),realdate_aux.getMonth(),realdate_aux.getDay(),realtime_aux.getHours(),realtime_aux.getMinutes(), 0 )
+           realdate_aux.setHours(realtime_aux.getHours());
+           realdate_aux.setMinutes(realtime_aux.getMinutes());
+           realdate_aux.setSeconds(0);
+            console.log('realdate_aux_afterProcess: ' +realdate_aux)
+            // formateo la fecha y hora en formato mysql
+            realDateTime = getDate2(realdate_aux);
+            console.log('realDateTime: ' +realDateTime)
+              
             bandAux = this.props.band;
             modeAux = this.props.mode;
             rstAux = this.props.rst;
             dbAux = this.props.db;
-            qsodate = this.props.qsodate;
-            qsoutc = this.props.qsoutc;
+            // realDateTime = '';
+            // qsodate = this.props.qsodate;
+            // qsoutc = this.props.qsoutc;
 
           }
   
@@ -2905,8 +2923,7 @@ if (this.pressPublish===false)
                               "qra": this.props.qra,
                               "rst" : rstAux,
                               "db" : dbAux,
-                              "qsodate" : qsodate,
-                              "qsoutc" : qsoutc,
+                              "realDateTime" : realDateTime,
                               "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
@@ -2958,7 +2975,8 @@ if (this.pressPublish===false)
 
    deleteQSOfolder = () => {
 
-    RNFFmpeg.cancel();
+    // este cancel de RNFFmpeg hace crashear al 4to discard consecutivo de una publicacion
+    //  RNFFmpeg.cancel();
  
 
    // el borrado es con timeout para que termine bien el cancel de ffmpeg
