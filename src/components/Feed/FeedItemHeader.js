@@ -132,16 +132,18 @@ class FeedItemHeader extends React.PureComponent {
             </Text>
           </View>
         </View>
-        <View style={styles.menu}>
-          <Icon
-            size={30}
-            name="ellipsis-v"
-            type="font-awesome"
-            onPress={() => {
-              this.setState({ openMenu: true });
-            }}
-          />
-        </View>
+        {this.props.feedType !== 'REPOST' && (
+          <View style={styles.menu}>
+            <Icon
+              size={30}
+              name="ellipsis-v"
+              type="font-awesome"
+              onPress={() => {
+                this.setState({ openMenu: true });
+              }}
+            />
+          </View>
+        )}
       </View>
     );
   }
