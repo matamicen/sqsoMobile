@@ -83,7 +83,7 @@ const ReportContent = (props) => (
                   autoFocus
                 />
               </View>
-              <View>
+              <View style={styles.view}>
                 <TextInput
                   name="email"
                   placeholder={I18n.t('auth.labelEmail')}
@@ -105,7 +105,7 @@ const ReportContent = (props) => (
   name="idmedia"
   value={this.props.idqsos_media}
 /> */}
-              <View>
+              <View style={styles.view}>
                 <Button
                   buttonStyle={styles.button}
                   size="small"
@@ -355,66 +355,6 @@ class FeedOptionsMenu extends React.PureComponent {
                   text={I18n.t('reportContent.reportContent')}
                 />
               )}
-            {/*<Modal
-                open={showReportContent}
-                onOpen={this.openReportedContent}
-                onClose={this.closeReportedContent}
-                size="tiny"
-                closeIcon
-                trigger={
-                  <Dropdown.Item
-                    icon="warning"
-                    text={I18n.t('reportContent.reportContent')}
-                  />
-                }>
-                <Modal.Header>
-                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
-                </Modal.Header>
-                <Modal.Content>
-                  <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
-                    <Form.TextArea
-                      required
-                      name="comments"
-                      label={I18n.t('reportContent.labelComments')}
-                      placeholder={I18n.t('reportContent.whyRemoveContent')}
-                    />
-                    <Form.Input
-                      name="email"
-                      label={I18n.t('auth.labelEmail')}
-                    />
-                    <Form.Field>
-                      <ReCAPTCHA
-                        sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={(response) =>
-                          this.setState({ recaptchaToken: response })
-                        }
-                      />
-                    </Form.Field>
-                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
-
-                    <Modal
-                      open={showMessage}
-                      onOpen={this.open}
-                      onClose={this.close}
-                      size="small">
-                      <Modal.Header>
-                        {I18n.t('reportContent.reportContent')}
-                      </Modal.Header>
-                      <Modal.Content>
-                        <p>{I18n.t('reportContent.contentReported')}</p>
-                      </Modal.Content>
-                      <Modal.Actions>
-                        <Button
-                          icon="check"
-                          content={I18n.t('global.close')}
-                          onClick={this.close}
-                        />
-                      </Modal.Actions>
-                    </Modal>
-                  </Form>
-                </Modal.Content>
-              </Modal>
-            )} */}
             {/* END FEED ITEM REPORT QSO*/}
             {/* FEED IMAGE REPORT CONTENT */}
             {this.props.optionsCaller === 'FeedImage' &&
@@ -708,7 +648,8 @@ const styles = StyleSheet.create({
   },
   formik: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'space-evenly'
   },
   view: {
     flex: 1

@@ -1,4 +1,5 @@
 import React from 'react';
+import FeedItemAd from './FeedItemAd';
 import FeedItemQSO from './FeedItemQSO';
 import FeedItemRepost from './FeedItemRepost';
 class FeedItem extends React.Component {
@@ -9,7 +10,7 @@ class FeedItem extends React.Component {
     if (this.props.type)
       switch (this.props.type) {
         case 'AD':
-          return null;
+          return <FeedItemAd />;
         case 'POST':
         case 'QAP':
         case 'FLDDAY':
