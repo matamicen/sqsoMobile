@@ -4462,14 +4462,9 @@ export function doDeleteQso(idqso, token) {
       API.del(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            // this.toast(I18n.t('qso.qsoDeleted'), 2500);
-            // toast.success(I18n.t('qso.qsoDeleted'), {
-            //   position: toast.POSITION.BOTTOM_RIGHT,
-            //   className: css({
-            //     background: '#8BD8BD !important'
-            //   })
-            // });
-            dispatch(doDeleteQsoResponse(idqso));
+            this.toast(I18n.t('qso.qsoDeleted'), 2500);
+
+            // dispatch(doDeleteQsoResponse(idqso));
           } else console.log(response.body.message);
         })
         .catch(async (error) => {

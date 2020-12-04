@@ -1040,8 +1040,8 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
 
     case SET_TOKEN:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      console.log('Reducer jwtToken:' + action.jwttoken);
+      
+      
       newStore = Object.assign({}, state, {
         ...state,
         jwtToken: action.jwttoken

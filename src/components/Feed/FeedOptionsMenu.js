@@ -23,12 +23,109 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 const { SlideInMenu } = renderers;
 // import QslCardPrint from './qslCard';
+
+const ReportContent = (props) => (
+  <Overlay
+    animationType="slide"
+    isVisible={props.showReportContent}
+    onBackdropPress={() => props.closeOverlay()}
+    backdropStyle={{ opacity: 1 }}
+    width="auto"
+    height="auto"
+    borderRadius={8}
+    overlayStyle={styles.overlayStyle}>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
+        <View
+          style={{
+            alignSelf: 'flex-end'
+          }}>
+          <Icon
+            name="close"
+            type="font-awesome"
+            onPress={() => props.closeOverlay()}
+          />
+        </View>
+
+        <Text h4>{I18n.t('reportContent.helpUnderstandWhatsHappening')}</Text>
+
+        <Formik
+          initialValues={{ comment: '' }}
+          onSubmit={(values, actions) => {
+            switch (props.optionsCaller) {
+              case 'FeedItem':
+                props.handleOnSubmitReportQso(values);
+                break;
+              default:
+            }
+          }}>
+          {({
+            values,
+            handleChange,
+            errors,
+            setFieldTouched,
+            touched,
+            isValid,
+            handleBlur,
+            handleSubmit
+          }) => (
+            <View style={styles.formik}>
+              <View style={styles.view}>
+                <TextInput
+                  name="comments"
+                  placeholder={I18n.t('reportContent.whyRemoveContent')}
+                  multiline
+                  numberOfLines={4}
+                  onBlur={handleBlur('comment')}
+                  style={{ borderWidth: 1, width: '100%' }}
+                  onChangeText={handleChange('comments')}
+                  value={values.comments}
+                  autoFocus
+                />
+              </View>
+              <View>
+                <TextInput
+                  name="email"
+                  placeholder={I18n.t('auth.labelEmail')}
+                  onBlur={handleBlur('email')}
+                  style={{ borderWidth: 1, width: '100%' }}
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                  autoFocus
+                />
+              </View>
+              {/* <ReCAPTCHA
+    sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
+    onChange={(response) =>
+      this.setState({ recaptchaToken: response })
+    }
+  /> */}
+              {/* <Form.Input
+  type="hidden"
+  name="idmedia"
+  value={this.props.idqsos_media}
+/> */}
+              <View>
+                <Button
+                  buttonStyle={styles.button}
+                  size="small"
+                  title={I18n.t('global.submit')}
+                  onPress={handleSubmit}
+                />
+              </View>
+            </View>
+          )}
+        </Formik>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  </Overlay>
+);
 class FeedOptionsMenu extends React.PureComponent {
   state = {
     showReportContent: false,
     showMessage: false,
     recaptchaToken: null,
-    openMenu: true,
+    openMenu: false,
     comments: ''
   };
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
@@ -112,7 +209,7 @@ class FeedOptionsMenu extends React.PureComponent {
         });
     }
   }
-  handleOnSubmitReportQso(e) {
+  handleOnSubmitReportQso(values) {
     // e.preventDefault();
 
     // if (!__DEV__)
@@ -123,9 +220,10 @@ class FeedOptionsMenu extends React.PureComponent {
     var datetime = new Date();
 
     if (
-      !e.target.comments.value ||
+      !values.comments
+      // ||
       // !e.target.email.value ||
-      !this.state.recaptchaToken
+      // !this.state.recaptchaToken
     )
       alert(I18n.t('reportContent.fillFields'));
     else {
@@ -135,9 +233,9 @@ class FeedOptionsMenu extends React.PureComponent {
       let myInit = {
         body: {
           idqso: this.props.idqso,
-          detail: e.target.comments.value,
+          detail: values.comments,
           datetime: datetime,
-          email: e.target.email.value
+          email: values.email
         }, // replace this with attributes you need
         headers: {
           // Authorization: this.props.token
@@ -147,7 +245,7 @@ class FeedOptionsMenu extends React.PureComponent {
         .then((response) => {
           if (response.error > 0) {
           } else {
-            this.open();
+            this.setState({ showReportContent: false, openMenu: false });
           }
         })
         .catch((error) => {
@@ -241,11 +339,83 @@ class FeedOptionsMenu extends React.PureComponent {
             {this.props.optionsCaller === 'FeedItem' &&
               this.props.currentQRA === this.props.qso_owner && (
                 <MenuOption
-                  onSelect={this.deleteQso.bind(this)}
+                  onSelect={() => {
+                    this.deleteQso();
+                    this.setState({ openMenu: false });
+                  }}
                   text={I18n.t('reportContent.deleteQSO')}
                 />
               )}
             {/* END FEED ITEM DELETE QSO*/}
+            {/* FEED ITEM REPORT QSO*/}
+            {this.props.optionsCaller === 'FeedItem' &&
+              this.props.currentQRA !== this.props.qso_owner && (
+                <MenuOption
+                  onSelect={() => this.setState({ showReportContent: true })}
+                  text={I18n.t('reportContent.reportContent')}
+                />
+              )}
+            {/*<Modal
+                open={showReportContent}
+                onOpen={this.openReportedContent}
+                onClose={this.closeReportedContent}
+                size="tiny"
+                closeIcon
+                trigger={
+                  <Dropdown.Item
+                    icon="warning"
+                    text={I18n.t('reportContent.reportContent')}
+                  />
+                }>
+                <Modal.Header>
+                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
+                </Modal.Header>
+                <Modal.Content>
+                  <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
+                    <Form.TextArea
+                      required
+                      name="comments"
+                      label={I18n.t('reportContent.labelComments')}
+                      placeholder={I18n.t('reportContent.whyRemoveContent')}
+                    />
+                    <Form.Input
+                      name="email"
+                      label={I18n.t('auth.labelEmail')}
+                    />
+                    <Form.Field>
+                      <ReCAPTCHA
+                        sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
+                        onChange={(response) =>
+                          this.setState({ recaptchaToken: response })
+                        }
+                      />
+                    </Form.Field>
+                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
+
+                    <Modal
+                      open={showMessage}
+                      onOpen={this.open}
+                      onClose={this.close}
+                      size="small">
+                      <Modal.Header>
+                        {I18n.t('reportContent.reportContent')}
+                      </Modal.Header>
+                      <Modal.Content>
+                        <p>{I18n.t('reportContent.contentReported')}</p>
+                      </Modal.Content>
+                      <Modal.Actions>
+                        <Button
+                          icon="check"
+                          content={I18n.t('global.close')}
+                          onClick={this.close}
+                        />
+                      </Modal.Actions>
+                    </Modal>
+                  </Form>
+                </Modal.Content>
+              </Modal>
+            )} */}
+            {/* END FEED ITEM REPORT QSO*/}
             {/* FEED IMAGE REPORT CONTENT */}
             {this.props.optionsCaller === 'FeedImage' &&
               // this.props.currentQRA &&
@@ -438,71 +608,7 @@ class FeedOptionsMenu extends React.PureComponent {
             />
           )} */}
             {/* END FEED ITEM QSL CARD*/}
-            {/* FEED ITEM REPORT QSO*/}
-            {/* {this.props.optionsCaller === 'FeedItem' &&
-            
-            this.props.currentQRA !== this.props.qso_owner && (
-              <Modal
-                open={showReportContent}
-                onOpen={this.openReportedContent}
-                onClose={this.closeReportedContent}
-                size="tiny"
-                closeIcon
-                trigger={
-                  <Dropdown.Item
-                    icon="warning"
-                    text={I18n.t('reportContent.reportContent')}
-                  />
-                }>
-                <Modal.Header>
-                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
-                </Modal.Header>
-                <Modal.Content>
-                  <Form onSubmit={(e) => this.handleOnSubmitReportQso(e)}>
-                    <Form.TextArea
-                      required
-                      name="comments"
-                      label={I18n.t('reportContent.labelComments')}
-                      placeholder={I18n.t('reportContent.whyRemoveContent')}
-                    />
-                    <Form.Input
-                      name="email"
-                      label={I18n.t('auth.labelEmail')}
-                    />
-                    <Form.Field>
-                      <ReCAPTCHA
-                        sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={(response) =>
-                          this.setState({ recaptchaToken: response })
-                        }
-                      />
-                    </Form.Field>
-                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
 
-                    <Modal
-                      open={showMessage}
-                      onOpen={this.open}
-                      onClose={this.close}
-                      size="small">
-                      <Modal.Header>
-                        {I18n.t('reportContent.reportContent')}
-                      </Modal.Header>
-                      <Modal.Content>
-                        <p>{I18n.t('reportContent.contentReported')}</p>
-                      </Modal.Content>
-                      <Modal.Actions>
-                        <Button
-                          icon="check"
-                          content={I18n.t('global.close')}
-                          onClick={this.close}
-                        />
-                      </Modal.Actions>
-                    </Modal>
-                  </Form>
-                </Modal.Content>
-              </Modal>
-            )} */}
-            {/* END FEED ITEM REPORT QSO*/}
             {/*  FEED ITEM REPORT COMMENT */}
             {/* {this.props.optionsCaller === 'FeedComment' &&
             
@@ -575,88 +681,17 @@ class FeedOptionsMenu extends React.PureComponent {
               />
             )} */}
             {/* END FEED ITEM DELETE COMMENT*/}
-
-            <Overlay
-              animationType="slide"
-              isVisible={this.state.showReportContent}
-              onBackdropPress={() => this.setState({ showReportContent })}
-              backdropStyle={{ opacity: 1 }}
-              width="auto"
-              height="auto"
-              borderRadius={8}
-              overlayStyle={styles.overlayStyle}>
-              <KeyboardAvoidingView
-                behavior="padding"
-                style={{ flex: 1, justifyContent: 'center' }}>
-                <ScrollView style={{ flex: 1 }}>
-                  <Text h1>
-                    {I18n.t('reportContent.helpUnderstandWhatsHappening')}
-                  </Text>
-                  <Formik
-                    initialValues={{ comment: '' }}
-                    onSubmit={(values, actions) => {
-                      this.handleOnSubmitReportMedia(values);
-                    }}>
-                    {({
-                      values,
-                      handleChange,
-                      errors,
-                      setFieldTouched,
-                      touched,
-                      isValid,
-                      handleBlur,
-                      handleSubmit
-                    }) => (
-                      <View style={styles.formik}>
-                        <View style={styles.view}>
-                          <TextInput
-                            name="comments"
-                            placeholder={I18n.t('reportContent.whyRemovePhoto')}
-                            multiline
-                            onBlur={handleBlur('comment')}
-                            style={{ borderWidth: 1, width: 200 }}
-                            onChangeText={handleChange('comments')}
-                            value={values.comments}
-                            autoFocus
-                          />
-                        </View>
-                        <View>
-                          <TextInput
-                            name="email"
-                            placeholder={I18n.t('auth.labelEmail')}
-                            onBlur={handleBlur('email')}
-                            style={{ borderWidth: 1, width: 200 }}
-                            onChangeText={handleChange('email')}
-                            value={values.email}
-                            autoFocus
-                          />
-                        </View>
-                        {/* <ReCAPTCHA
-                sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                onChange={(response) =>
-                  this.setState({ recaptchaToken: response })
-                }
-              /> */}
-                        {/* <Form.Input
-              type="hidden"
-              name="idmedia"
-              value={this.props.idqsos_media}
-            /> */}
-                        <View>
-                          <Button
-                            buttonStyle={styles.button}
-                            size="small"
-                            title={I18n.t('global.submit')}
-                            onPress={handleSubmit}
-                          />
-                        </View>
-                      </View>
-                    )}
-                  </Formik>
-                </ScrollView>
-              </KeyboardAvoidingView>
-            </Overlay>
           </MenuOptions>
+          {this.state.showReportContent && (
+            <ReportContent
+              optionsCaller={this.props.optionsCaller}
+              showReportContent={this.state.showReportContent}
+              closeOverlay={() => this.setState({ showReportContent: false })}
+              handleOnSubmitReportQso={(values) =>
+                this.handleOnSubmitReportQso(values)
+              }
+            />
+          )}
         </Menu>
       </Fragment>
     );
@@ -673,21 +708,12 @@ const styles = StyleSheet.create({
   },
   formik: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: 'column'
   },
   view: {
-    flex: 1,
-    flexGrow: 0,
-    flexShrink: 1,
-    width: 200
+    flex: 1
   },
-  button: {
-    padding: 1,
-    // margin: 0,
-    width: 100,
-    height: '100%'
-  },
+  button: {},
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -726,7 +752,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   text: {
-    fontSize: 18
+    fontSize: 30,
+    backgroundColor: 'gray'
   }
 });
 const mapStateToProps = (state) => ({
