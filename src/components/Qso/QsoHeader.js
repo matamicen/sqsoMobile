@@ -150,15 +150,15 @@ class QsoHeader extends React.PureComponent {
 
                </View> 
                
-               {/* Duplico */}
+               {/* QSODate y QsoUTC */}
                <View style={{flexDirection: 'row', marginTop: 6, flex:0.5 }}>
-               <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5 , alignItems: 'center'  }}>  
+               <View style={{flex: Platform.OS==='ios' ? 0.6 : 0.6 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?  
                         <QsoDate />  : null }
                        
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.4 : 0.4, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?    
                         <QsoUtc />  : null }
                     </View>  

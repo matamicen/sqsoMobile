@@ -349,6 +349,9 @@ export default {
   QsoHeaderHelpQAP: '¿Como publicar un QAP?',
   QsoHeaderHelpFLDDAY: '¿Como publicar una Act.?',
   QsoHeaderHelpTag: '¿Que significa etiquetar?',
+  QsoDate: 'Fecha:',
+  QsoDateCancel: 'cancelar',
+  QsoDateSelect: 'seleccionar',
   PUSH_FOLLOWSYOU_TITLE: '%{callsign} comenzó a seguirte',
   PUSH_FOLLOWSYOU_MESSAGE: 'Mirá su perfil aquí',
   PUSH_COMMENTEDPARTICPATING_TITLE:

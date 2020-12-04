@@ -8,6 +8,9 @@ import {  getQsoDateTimeZoneIncluded} from '../../helper';
 import VariosModales from './VariosModales';
 import I18n from '../../utils/i18n';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+// import 'moment/locale/es';
+// import 'moment/locale/en';
 
 class QsoDate extends React.PureComponent {
 
@@ -23,7 +26,8 @@ class QsoDate extends React.PureComponent {
           show: false,
           showDate: new Date().toLocaleDateString(I18n.locale.substring(0, 2), {
             month: 'short'
-          })
+          }),
+         
          
        
         };
@@ -31,53 +35,25 @@ class QsoDate extends React.PureComponent {
 
     componentDidMount() {
 
-        // dateNowAux = new Date();
-        // hourNow = dateNowAux.getHours();
-        // timeZoneOffset  = Math.floor(dateNowAux.getTimezoneOffset()/60);
-        // console.log('hour didMount:' + hourNow + ' timeZone: '+ timeZoneOffset)
-        // // horaoff = hour+Math.floor(dateNow.getTimezoneOffset()/60);
-        // // console.log('sumo:' + horaoff)
-        // dateNow = new Date(dateNowAux.getTime() + (dateNowAux.getTimezoneOffset() * 60000));
 
-        // // recalculo fecha en base al offset del timeZone
-        // if (timeZoneOffset > 0) // GMT (-)
-        // {
-        //     hourOff = 24 + timeZoneOffset
-        //   if (hourNow < hourOff) // mantiene el mismo dia
-        //     this.setState({date: dateNow, showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
-        //         month: 'short'
-        //       })})
-        //    else
-        //    {   // se pasa al otro dia por el offset del timeZone
-        //        dateNow.setDate(dateNow.getDate() + 1)
-        //    }
-
-
-        // }
-        // else
-        // {
-        //     hourOff = hourNow + timeZoneOffset
-        //   if (hourOff > 0) // mantiene el mismo dia
-        //     this.setState({date: dateNow,showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
-        //         month: 'short'
-        //       })})
-        //    else
-        //    {   // se pasa al otro dia por el offset del timeZone
-        //        dateNow.setDate(dateNow.getDate() - 1)
-        //    }
-
-        // }
+        console.log('I18n.locale.substring(0, 2):'+I18n.locale.substring(0, 2))
         dateNow = getQsoDateTimeZoneIncluded();
-        this.setState({date: dateNow, showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
-                    month: 'short'
-                  })})
+        console.log('moment: '+ moment(dateNow).format("MMM D YYYY") )
+        if (I18n.locale.substring(0, 2) === 'es'){
+          
+          showD = moment(dateNow).format("D MMM YYYY")
+        } 
+        else
+        {
+          showD = moment(dateNow).format("MMM D YYYY")
+      }
+        // showD = moment(dateNow).format("MMM D YYYY")
+        // showD = moment(dateNow)
+        this.setState({date: dateNow, showDate: showD})
         console.log('date recalculado:' + dateNow)
         this.props.setQsoDate(dateNow)
        
-       
-
-
- 
+  
        }
 
    
@@ -91,15 +67,20 @@ class QsoDate extends React.PureComponent {
     
       onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        
-// // esta es la fecha que muestra en pantalla
-        showD = currentDate.toLocaleDateString(I18n.locale.substring(0, 2), {
-            month: 'short'
-          })
 
+    if (I18n.locale.substring(0, 2) === 'es'){
           
-        this.setState({show: Platform.OS === 'ios', date: currentDate, showDate: showD});
+      showD = moment(currentDate).format("D MMM YYYY")
+    } 
+    else
+    {
+      showD = moment(currentDate).format("MMM D YYYY")
+  }
+ 
 
+        this.setState({show: Platform.OS === 'ios', date: currentDate, showDate: showD});
+        console.log('fecha seleccionada: '+selectedDate)
+        console.log('showD: '+showD)
 
 
         this.props.setQsoDate(currentDate)
@@ -120,6 +101,10 @@ class QsoDate extends React.PureComponent {
         this.showMode('time');
       };
 
+      closeDatePicker = () => {
+        this.setState({show: false})
+      }
+
 
 
 
@@ -138,20 +123,69 @@ class QsoDate extends React.PureComponent {
                                  
                                  {/* marginLeft: 48  style={{ width: 70, height: 50 }}*/}
               <TouchableOpacity style={styles.buttonModeContainer} onPress={() => this.showDatepicker()} >                                       
-               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center' }} onPress={() => this.showDatepicker()} >Date: {this.state.showDate}</Text>
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center' }} onPress={() => this.showDatepicker()} >{I18n.t("QsoDate")} {this.state.showDate}</Text>
               </TouchableOpacity>
 
-
-            
-              {this.state.show && (
-        <DateTimePicker
+              {(this.state.show && Platform.OS === 'android') && (
+       
+         <DateTimePicker
           testID="dateTimePicker"
+          style={{width:'100%'}}
           value={this.state.date}
           mode={this.state.mode}
           is24Hour={true}
           display="spinner"
           onChange={this.onChange}
         />
+        
+        
+      )}
+            
+              {(this.state.show && Platform.OS === 'ios') && (
+                <Modal
+                visible={true}
+                animationType={"slide"}
+                transparent={true}
+                onRequestClose={() => console.log("Close was requested")}
+              >
+                <View
+                  style={{
+                    margin: 10,
+                    padding: 10,
+                    backgroundColor: "rgba(255,255,255,0.98)",
+                    marginTop: 120,
+                    //  bottom: 150,
+                    left: 10,
+                    right: 10,
+                    height: 350,
+                    position: "absolute",
+                    alignItems: "center",
+                    borderRadius: 12
+                  }}>
+         <DateTimePicker
+          testID="dateTimePicker"
+          style={{width:'100%'}}
+          value={this.state.date}
+          mode={this.state.mode}
+          is24Hour={true}
+          display="spinner"
+          onChange={this.onChange}
+        />
+        <View style={{flexDirection: "row", flex: 1}} >
+        <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateCancel")}</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateSelect")}</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+
+        </View>
+        </Modal>
         
       )}
 
@@ -179,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8BD8BD',
        paddingVertical: 5,
        borderRadius: 22,
-       width: 170,
+       width: 190,
        height: 36,
        marginTop: 0
        }

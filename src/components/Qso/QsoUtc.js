@@ -29,42 +29,7 @@ class QsoUtc extends React.PureComponent {
 
     componentDidMount() {
 
-        // dateNowAux = new Date();
-        // hourNow = dateNowAux.getHours();
-        // timeZoneOffset  = Math.floor(dateNowAux.getTimezoneOffset()/60);
-        // console.log('hour didMount:' + hourNow + ' timeZone: '+ timeZoneOffset)
-        // // horaoff = hour+Math.floor(dateNow.getTimezoneOffset()/60);
-        // // console.log('sumo:' + horaoff)
-        // dateNow = new Date(dateNowAux.getTime() + (dateNowAux.getTimezoneOffset() * 60000));
 
-        // // recalculo fecha en base al offset del timeZone
-        // if (timeZoneOffset > 0) // GMT (-)
-        // {
-        //     hourOff = 24 + timeZoneOffset
-        //   if (hourNow < hourOff) // mantiene el mismo dia
-        //     this.setState({date: dateNow, showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
-        //         month: 'short'
-        //       })})
-        //    else
-        //    {   // se pasa al otro dia por el offset del timeZone
-        //        dateNow.setDate(dateNow.getDate() + 1)
-        //    }
-
-
-        // }
-        // else
-        // {
-        //     hourOff = hourNow + timeZoneOffset
-        //   if (hourOff > 0) // mantiene el mismo dia
-        //     this.setState({date: dateNow,showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
-        //         month: 'short'
-        //       })})
-        //    else
-        //    {   // se pasa al otro dia por el offset del timeZone
-        //        dateNow.setDate(dateNow.getDate() - 1)
-        //    }
-
-        // }
         dateNow = getQsoDateTimeZoneIncluded();
         showT = dateNow.getHours() +
           ':' +
@@ -131,7 +96,9 @@ class QsoUtc extends React.PureComponent {
 
 
 
-
+      closeDatePicker = () => {
+        this.setState({show: false})
+      }
 
 
   
@@ -151,7 +118,8 @@ class QsoUtc extends React.PureComponent {
 
             
             
-              {this.state.show && (
+              {/* {this.state.show && ( */}
+            {(this.state.show && Platform.OS === 'android') && (
                   <RNDateTimePicker mode="time" 
                   value={this.state.date}
                     display="spinner"
@@ -159,17 +127,58 @@ class QsoUtc extends React.PureComponent {
                    onChange={this.onChange}
                   
                   />
-        // <DateTimePicker
-        // <RNDateTimePicker 
-        //   testID="dateTimePicker"
-        //   value={this.state.date}
-        //   mode={this.state.mode}
-        //   is24Hour={true}
-        //   display="spinner"
-        //   onChange={this.onChange}
-        // />
+       
         
       )}
+
+
+      {(this.state.show && Platform.OS === 'ios') && (
+                <Modal
+                visible={true}
+                animationType={"slide"}
+                transparent={true}
+                onRequestClose={() => console.log("Close was requested")}
+              >
+                <View
+                  style={{
+                    margin: 10,
+                    padding: 10,
+                    backgroundColor: "rgba(255,255,255,0.98)",
+                    marginTop: 120,
+                    //  bottom: 150,
+                    left: 10,
+                    right: 10,
+                    height: 350,
+                    position: "absolute",
+                    alignItems: "center",
+                    borderRadius: 12
+                  }}>
+        <RNDateTimePicker mode="time" 
+                  value={this.state.date}
+                  style={{width:'100%'}}
+                    display="spinner"
+                    is24Hour={true}
+                   onChange={this.onChange}
+                  
+                  />
+        <View style={{flexDirection: "row", flex: 1}} >
+        <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >cancel</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >select</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+
+        </View>
+        </Modal>
+        
+      )}
+
 
 
                

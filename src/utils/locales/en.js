@@ -322,6 +322,9 @@ export default {
   QsoHeaderHelpSWL: 'How to publish a SWL?',
   QsoHeaderHelpPOST: 'How to publish a Other?',
   QsoHeaderHelpQAP: '¿How to publish a QAP?',
+  QsoDate: 'Date:',
+  QsoDateCancel: 'cancel',
+  QsoDateSelect: 'select',
   QsoHeaderHelpFLDDAY: '¿How to publish a FDAY?',
   helpPublishSdtitle: '¿What is Callsign?',
   helpPublishSdMessage1:
