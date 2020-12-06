@@ -11,11 +11,14 @@ import QsoMode from './QsoMode';
 import QsoRst from './QsoRst';
 import QsodB from './QsodB';
 import QsoDate from './QsoDate';
+import QsoDateBegin from './QsoDateBegin';
 import QsoUtc from './QsoUtc';
 import QsoEnterQra from './QsoEnterQra';
 import AddCallSigns from './AddCallSigns';
 import I18n from '../../utils/i18n';
 import HelpPublish from './HelpPublish';
+
+
 
 
 class QsoHeader extends React.PureComponent {
@@ -152,15 +155,18 @@ class QsoHeader extends React.PureComponent {
                
                {/* QSODate y QsoUTC */}
                <View style={{flexDirection: 'row', marginTop: 6, flex:0.5 }}>
-               <View style={{flex: Platform.OS==='ios' ? 0.6 : 0.6 , alignItems: 'center'  }}>  
-                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?  
-                        <QsoDate />  : null }
-                       
+               <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5 , alignItems: 'center'  }}>  
+                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' &&  
+                        <QsoDate />   }
+                   { this.props.sqsonewqsoactive && this.props.qsotype==='FLDDAY' && 
+                        <QsoDateBegin />  }       
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.4 : 0.4, alignItems: 'center'}}>
-                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?    
-                        <QsoUtc />  : null }
+                    <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5, alignItems: 'center'}}>
+                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' &&    
+                        <QsoUtc />   }
+                     { this.props.sqsonewqsoactive && this.props.qsotype==='FLDDAY' && 
+                        <QsoDateBegin />  } 
                     </View>  
  
 

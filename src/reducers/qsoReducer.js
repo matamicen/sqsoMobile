@@ -469,12 +469,22 @@ const qsoReducer = (state = initialState, action) => {
         return newStore;
 
         case SET_QSODATE:
+          if (action.param==='QsoDate')
           auxcurrentQso = {
             ...state.currentQso,
-            qsodate: action.date
-           
-            
+            qsodate: action.date      
           };
+          if (action.param==='ActivityBegin')
+          auxcurrentQso = {
+            ...state.currentQso,
+            activityDateBegin: action.date
+          };
+          if (action.param==='ActivityEnd')
+          auxcurrentQso = {
+            ...state.currentQso,
+            activityDateEnd: action.date
+          };
+
           newStore = Object.assign({}, state, {
             ...state,
             currentQso: auxcurrentQso
@@ -1250,6 +1260,8 @@ const qsoReducer = (state = initialState, action) => {
         bandSent: false,
         mode: I18n.t('ReducerMode'),
         qsodate: new Date(),
+        activityDateBegin: new Date('1900','01','01'),
+        activityDateEnd: new Date('1900','01','01'),
         qsodateFormat: '',
         qsoutc: new Date(),
         modeSent: false,

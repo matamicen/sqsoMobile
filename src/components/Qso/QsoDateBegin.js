@@ -12,7 +12,7 @@ import moment from 'moment';
 // import 'moment/locale/es';
 // import 'moment/locale/en';
 
-class QsoDate extends React.PureComponent {
+class QsoDateBegin extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -24,9 +24,7 @@ class QsoDate extends React.PureComponent {
           date:new Date(),
           mode: 'date',
           show: false,
-          showDate: new Date().toLocaleDateString(I18n.locale.substring(0, 2), {
-            month: 'short'
-          }),
+          showDate: 'Enter Date',
          
          
        
@@ -38,20 +36,26 @@ class QsoDate extends React.PureComponent {
 
         console.log('I18n.locale.substring(0, 2):'+I18n.locale.substring(0, 2))
         dateNow = getQsoDateTimeZoneIncluded();
+        
         console.log('moment: '+ moment(dateNow).format("MMM D YYYY") )
-        if (I18n.locale.substring(0, 2) === 'es'){
+      //   if (I18n.locale.substring(0, 2) === 'es'){
           
-          showD = moment(dateNow).format("D MMM YYYY")
-        } 
-        else
-        {
-          showD = moment(dateNow).format("MMM D YYYY")
-      }
-        // showD = moment(dateNow).format("MMM D YYYY")
-        // showD = moment(dateNow)
-        this.setState({date: dateNow, showDate: showD})
+      //     showD = moment(dateNow).format("D MMM YYYY")
+      //   } 
+      //   else
+      //   {
+      //     showD = moment(dateNow).format("MMM D YYYY")
+      // }
+      
+      
+        this.setState({date: dateNow, showDate: 'Enter Date'})
         console.log('date recalculado:' + dateNow)
-        this.props.setQsoDate(dateNow,'QsoDate')
+
+        // no envia fecha de begin a redux, mantiene el ano 1900 por defecto
+        // solo envia a redux si el usuario cambia la fecha, es para luego poder validar
+        // si el usuario ingreso fecha o no al momento de Publicar.
+        
+        // this.props.setQsoDate(dateNow,'ActivityBegin')
        
   
        }
@@ -66,24 +70,31 @@ class QsoDate extends React.PureComponent {
 
     
       onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-
-    if (I18n.locale.substring(0, 2) === 'es'){
-          
-      showD = moment(currentDate).format("D MMM YYYY")
-    } 
-    else
+        const currentDate = selectedDate || this.state.date;
+        console.log('date y selectedDate: '+selectedDate + ' ' +date)
+        if (selectedDate !== undefined) // por si apreta Cancel en fecha
     {
-      showD = moment(currentDate).format("MMM D YYYY")
-  }
- 
+          if (I18n.locale.substring(0, 2) === 'es'){
+              
+          showD = moment(currentDate).format("D MMM YYYY")
+        } 
+        else
+        {
+          showD = moment(currentDate).format("MMM D YYYY")
+      }
+    }
+      else
+        showD = this.state.showDate
+    
 
         this.setState({show: Platform.OS === 'ios', date: currentDate, showDate: showD});
         console.log('fecha seleccionada: '+selectedDate)
         console.log('showD: '+showD)
 
-
-        this.props.setQsoDate(currentDate)
+        if (selectedDate !== undefined) // no envio fecha si apreto CANCEL porque me cambiaria el ano 1900 
+                                        // que es donde yo chequeo si el usuario ingreso o no la fecha al momentode publicar
+          this.props.setQsoDate(currentDate,'ActivityBegin')
+  // }  
      
       };
     
@@ -202,7 +213,7 @@ class QsoDate extends React.PureComponent {
 
  }
 
- QsoDate.propTypes = {
+ QsoDateBegin.propTypes = {
    
 };
 
@@ -235,5 +246,4 @@ const mapDispatchToProps = {
     setQsoDate
    }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QsoDate);
-
+export default connect(mapStateToProps, mapDispatchToProps)(QsoDateBegin);

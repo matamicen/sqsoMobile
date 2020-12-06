@@ -188,10 +188,11 @@ export const setMode = (mode) => {
   };
 };
 
-export const setQsoDate = (dateFormat) => {
+export const setQsoDate = (dateFormat,param) => {
   return {
     type: SET_QSODATE,
-    date: dateFormat
+    date: dateFormat,
+    param: param
     
   };
 };
