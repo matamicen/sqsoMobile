@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-// import FeedOptionsMenu from './FeedOptionsMenu';
+import FeedOptionsMenu from './FeedOptionsMenu';
 
 var ConvertToComp = (response) => {
   return response;
@@ -157,13 +157,14 @@ class QSOCommentItem extends React.PureComponent {
                   }
                 />
               )}
-
-            {/* <FeedOptionsMenu
+          </View>
+          <View style={styles.menu}>
+            <FeedOptionsMenu
               comment_owner={this.props.comment.qra}
               idqso={this.props.comment.idqso}
               idcomment={this.props.comment.idqsos_comments}
               optionsCaller="FeedComment"
-            /> */}
+            />
           </View>
         </View>
         <View style={styles.message}>

@@ -61,27 +61,6 @@ class FeedItemQSO extends React.PureComponent {
     }
 
     return (
-      //
-      //       <View
-      //         className="qso-header-button"
-      //         style={{
-      //           float: 'right'
-      //         }}>
-      //         <FeedOptionsMenu
-      //           qso_owner={this.props.qso.qra}
-      //           idqso={this.props.qso.idqsos}
-      //           guid={this.props.qso.GUID_QR}
-      //           qso={this.props.qso}
-      //           optionsCaller="FeedItem"
-      //           QslCard={
-      //             this.props.currentQRA === this.props.qso.qra ||
-      //             this.props.qso.qras.some(
-      //               (o) => o.qra === this.props.currentQRA
-      //             )
-      //           }
-      //         />
-      //       </View>
-
       <Card containerStyle={{ padding: 0, margin: 0 }}>
         <FeedItemHeader
           feedType={this.props.feedType}

@@ -326,7 +326,10 @@ class FeedOptionsMenu extends React.PureComponent {
         <Menu
           onBackdropPress={() => this.setState({ openMenu: false })}
           opened={this.state.openMenu}
-          name={this.props.idqso.toString()}
+          name={
+            this.props.idqso.toString() +
+            (this.props.idcomment ? this.props.idcomment.toString() : null)
+          }
           renderer={SlideInMenu}
           // onSelect={(value) => this.selectNumber(value)}
         >
@@ -335,6 +338,81 @@ class FeedOptionsMenu extends React.PureComponent {
             customStyles={{
               optionText: [styles.text, styles.slideInOption]
             }}>
+            {/* FEED ITEM DELETE COMMENT*/}
+            {this.props.optionsCaller === 'FeedComment' &&
+              this.props.currentQRA === this.props.comment_owner && (
+                <MenuOption
+                  onSelect={() => {
+                    this.deleteComment();
+                    this.setState({ openMenu: false });
+                  }}
+                  text={I18n.t('reportContent.deleteComment')}
+                />
+              )}
+            {/* END FEED ITEM DELETE COMMENT*/}
+            {/*  FEED ITEM REPORT COMMENT */}
+            {/* {this.props.optionsCaller === 'FeedComment' &&
+            
+            this.props.comment_owner !== this.props.currentQRA && (
+              <Modal
+                open={showReportContent}
+                onOpen={this.openReportedContent}
+                onClose={this.closeReportedContent}
+                size="tiny"
+                closeIcon
+                trigger={
+                  <Dropdown.Item
+                    icon="warning"
+                    text={I18n.t('reportContent.reportContent')}
+                  />
+                }>
+                <Modal.Header>
+                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
+                </Modal.Header>
+                <Modal.Content>
+                  <Form onSubmit={(e) => this.handleOnSubmitReportComment(e)}>
+                    <Form.TextArea
+                      required
+                      name="comments"
+                      label={I18n.t('reportContent.labelComments')}
+                      placeholder={I18n.t('reportContent.whyRemoveContent')}
+                    />
+                    <Form.Input name="email" label={I18n.t('qra.email')} />
+                    <Form.Field>
+                      <ReCAPTCHA
+                        sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
+                        onChange={(response) =>
+                          this.setState({ recaptchaToken: response })
+                        }
+                      />
+                    </Form.Field>
+                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
+
+                    <Modal
+                      open={showMessage}
+                      onOpen={this.open}
+                      onClose={this.close}
+                      size="small">
+                      <Modal.Header>
+                        {I18n.t('reportContent.reportComment')}
+                      </Modal.Header>
+                      <Modal.Content>
+                        <p>{I18n.t('reportContent.commentReported')}</p>
+                      </Modal.Content>
+                      <Modal.Actions>
+                        <Button
+                          icon="check"
+                          content={I18n.t('global.close')}
+                          onClick={this.close}
+                        />
+                      </Modal.Actions>
+                    </Modal>
+                  </Form>
+                </Modal.Content>
+              </Modal>
+            )} */}
+            {/* END FEED ITEM REPORT COMMENT */}
+
             {/* FEED ITEM DELETE QSO*/}
             {this.props.optionsCaller === 'FeedItem' &&
               this.props.currentQRA === this.props.qso_owner && (
@@ -548,79 +626,6 @@ class FeedOptionsMenu extends React.PureComponent {
             />
           )} */}
             {/* END FEED ITEM QSL CARD*/}
-
-            {/*  FEED ITEM REPORT COMMENT */}
-            {/* {this.props.optionsCaller === 'FeedComment' &&
-            
-            this.props.comment_owner !== this.props.currentQRA && (
-              <Modal
-                open={showReportContent}
-                onOpen={this.openReportedContent}
-                onClose={this.closeReportedContent}
-                size="tiny"
-                closeIcon
-                trigger={
-                  <Dropdown.Item
-                    icon="warning"
-                    text={I18n.t('reportContent.reportContent')}
-                  />
-                }>
-                <Modal.Header>
-                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
-                </Modal.Header>
-                <Modal.Content>
-                  <Form onSubmit={(e) => this.handleOnSubmitReportComment(e)}>
-                    <Form.TextArea
-                      required
-                      name="comments"
-                      label={I18n.t('reportContent.labelComments')}
-                      placeholder={I18n.t('reportContent.whyRemoveContent')}
-                    />
-                    <Form.Input name="email" label={I18n.t('qra.email')} />
-                    <Form.Field>
-                      <ReCAPTCHA
-                        sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={(response) =>
-                          this.setState({ recaptchaToken: response })
-                        }
-                      />
-                    </Form.Field>
-                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
-
-                    <Modal
-                      open={showMessage}
-                      onOpen={this.open}
-                      onClose={this.close}
-                      size="small">
-                      <Modal.Header>
-                        {I18n.t('reportContent.reportComment')}
-                      </Modal.Header>
-                      <Modal.Content>
-                        <p>{I18n.t('reportContent.commentReported')}</p>
-                      </Modal.Content>
-                      <Modal.Actions>
-                        <Button
-                          icon="check"
-                          content={I18n.t('global.close')}
-                          onClick={this.close}
-                        />
-                      </Modal.Actions>
-                    </Modal>
-                  </Form>
-                </Modal.Content>
-              </Modal>
-            )} */}
-            {/* END FEED ITEM REPORT COMMENT */}
-            {/* FEED ITEM DELETE COMMENT*/}
-            {/* {this.props.optionsCaller === 'FeedComment' &&
-            this.props.currentQRA === this.props.comment_owner && (
-              <Dropdown.Item
-                icon="delete"
-                text={I18n.t('reportContent.deleteComment')}
-                onClick={this.deleteComment.bind(this)}
-              />
-            )} */}
-            {/* END FEED ITEM DELETE COMMENT*/}
           </MenuOptions>
           {this.state.showReportContent && (
             <ReportContent
