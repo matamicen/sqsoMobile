@@ -53,6 +53,9 @@ const ReportContent = (props) => (
           initialValues={{ comment: '' }}
           onSubmit={(values, actions) => {
             switch (props.optionsCaller) {
+              case 'FeedComment':
+                props.handleOnSubmitReportComment(values);
+                break;
               case 'FeedItem':
                 props.handleOnSubmitReportQso(values);
                 break;
@@ -158,7 +161,7 @@ class FeedOptionsMenu extends React.PureComponent {
     // this.props.actions.doQslCardPrint(this.props.idqso, this.props.token);
     // QslCardPrint(this.props);
   }
-  handleOnSubmitReportComment(e) {
+  handleOnSubmitReportComment(values) {
     // if (!__DEV__)
     //   window.gtag('event', 'reportContent_WEBPRD', {
     //     event_category: 'QSO',
@@ -167,9 +170,10 @@ class FeedOptionsMenu extends React.PureComponent {
     var datetime = new Date();
     // e.preventDefault();
     if (
-      !e.target.comments.value ||
+      !values.comments
+      // ||
       // !e.target.email.value ||
-      !this.state.recaptchaToken
+      // !this.state.recaptchaToken
     )
       // eslint-disable-next-line no-alert
       alert(I18n.t('reportContent.fillFields'));
@@ -181,9 +185,9 @@ class FeedOptionsMenu extends React.PureComponent {
         body: {
           idqso: this.props.idqso,
           idcomment: this.props.idcomment,
-          detail: e.target.comments.value,
+          detail: values.comments,
           datetime: datetime,
-          email: e.target.email.value
+          email: values.email
         }, // replace this with attributes you need
         headers: {
           // Authorization: this.props.token
@@ -193,7 +197,7 @@ class FeedOptionsMenu extends React.PureComponent {
         .then((response) => {
           if (response.body.error > 0) {
           } else {
-            this.open();
+            this.setState({ showReportContent: false, openMenu: false });
             //ReactG.event({ category: "QSO", action: "contentReported" });
           }
         })
@@ -328,7 +332,7 @@ class FeedOptionsMenu extends React.PureComponent {
           opened={this.state.openMenu}
           name={
             this.props.idqso.toString() +
-            (this.props.idcomment ? this.props.idcomment.toString() : null)
+            (this.props.message ? this.props.message : null)
           }
           renderer={SlideInMenu}
           // onSelect={(value) => this.selectNumber(value)}
@@ -351,66 +355,13 @@ class FeedOptionsMenu extends React.PureComponent {
               )}
             {/* END FEED ITEM DELETE COMMENT*/}
             {/*  FEED ITEM REPORT COMMENT */}
-            {/* {this.props.optionsCaller === 'FeedComment' &&
-            
-            this.props.comment_owner !== this.props.currentQRA && (
-              <Modal
-                open={showReportContent}
-                onOpen={this.openReportedContent}
-                onClose={this.closeReportedContent}
-                size="tiny"
-                closeIcon
-                trigger={
-                  <Dropdown.Item
-                    icon="warning"
-                    text={I18n.t('reportContent.reportContent')}
-                  />
-                }>
-                <Modal.Header>
-                  {I18n.t('reportContent.helpUnderstandWhatsHappening')}
-                </Modal.Header>
-                <Modal.Content>
-                  <Form onSubmit={(e) => this.handleOnSubmitReportComment(e)}>
-                    <Form.TextArea
-                      required
-                      name="comments"
-                      label={I18n.t('reportContent.labelComments')}
-                      placeholder={I18n.t('reportContent.whyRemoveContent')}
-                    />
-                    <Form.Input name="email" label={I18n.t('qra.email')} />
-                    <Form.Field>
-                      <ReCAPTCHA
-                        sitekey="6Lf1VL8UAAAAAEyE2sQHbSr-tbH3_fwZqxEXEg-l"
-                        onChange={(response) =>
-                          this.setState({ recaptchaToken: response })
-                        }
-                      />
-                    </Form.Field>
-                    <Form.Button>{I18n.t('global.submit')}</Form.Button>
-
-                    <Modal
-                      open={showMessage}
-                      onOpen={this.open}
-                      onClose={this.close}
-                      size="small">
-                      <Modal.Header>
-                        {I18n.t('reportContent.reportComment')}
-                      </Modal.Header>
-                      <Modal.Content>
-                        <p>{I18n.t('reportContent.commentReported')}</p>
-                      </Modal.Content>
-                      <Modal.Actions>
-                        <Button
-                          icon="check"
-                          content={I18n.t('global.close')}
-                          onClick={this.close}
-                        />
-                      </Modal.Actions>
-                    </Modal>
-                  </Form>
-                </Modal.Content>
-              </Modal>
-            )} */}
+            {this.props.optionsCaller === 'FeedComment' &&
+              this.props.comment_owner !== this.props.currentQRA && (
+                <MenuOption
+                  onSelect={() => this.setState({ showReportContent: true })}
+                  text={I18n.t('reportContent.reportContent')}
+                />
+              )}
             {/* END FEED ITEM REPORT COMMENT */}
 
             {/* FEED ITEM DELETE QSO*/}
@@ -635,6 +586,9 @@ class FeedOptionsMenu extends React.PureComponent {
               handleOnSubmitReportQso={(values) =>
                 this.handleOnSubmitReportQso(values)
               }
+              handleOnSubmitReportComment={(values) =>
+                this.handleOnSubmitReportComment(values)
+              }
             />
           )}
         </Menu>
@@ -649,7 +603,7 @@ const styles = StyleSheet.create({
     top: 50,
     bottom: 50,
     width: '80%',
-    height: '80%'
+    maxHeight: '80%'
   },
   formik: {
     flex: 1,

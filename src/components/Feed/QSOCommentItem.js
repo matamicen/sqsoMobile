@@ -164,6 +164,7 @@ class QSOCommentItem extends React.PureComponent {
               idqso={this.props.comment.idqso}
               idcomment={this.props.comment.idqsos_comments}
               optionsCaller="FeedComment"
+              message={message}
             />
           </View>
         </View>
