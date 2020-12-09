@@ -161,7 +161,7 @@ class QSOCommentItem extends React.PureComponent {
           <View style={styles.menu}>
             <FeedOptionsMenu
               comment_owner={this.props.comment.qra}
-              idqso={this.props.comment.idqso}
+              idqso={this.props.idqsos}
               idcomment={this.props.comment.idqsos_comments}
               optionsCaller="FeedComment"
               message={message}

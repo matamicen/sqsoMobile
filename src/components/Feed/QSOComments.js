@@ -224,9 +224,9 @@ class QSOComments extends React.PureComponent {
             position: 'absolute',
             flex: 1,
             top: 50,
-            bottom: 50,
-            width: '80%',
-            maxHeight: '80%'
+            // bottom: 50,
+            width: '80%'
+            // maxHeight: '80%2'
           }}>
           <KeyboardAvoidingView
             behavior="padding"

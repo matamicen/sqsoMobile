@@ -601,9 +601,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flex: 1,
     top: 50,
-    bottom: 50,
-    width: '80%',
-    maxHeight: '80%'
+    // bottom: 50,
+    width: '80%'
+    // height: '80%'
   },
   formik: {
     flex: 1,
