@@ -9,7 +9,7 @@ import VariosModales from './VariosModales';
 import I18n from '../../utils/i18n';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 
-class QsoUtc extends React.PureComponent {
+class QsoUtcEnd extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -30,25 +30,26 @@ class QsoUtc extends React.PureComponent {
     componentDidMount() {
 
 
-        dateNowUTC = getQsoDateTimeZoneIncluded();
-        showT = dateNowUTC.getHours() +
-          ':' +
-          (dateNowUTC.getMinutes() < 10 ? '0' : '') +
-          dateNowUTC.getMinutes()
-        this.setState({date: dateNowUTC, showUtc: showT})
-        console.log('date recalculadoUTC:' + dateNowUTC)
-
-       
-  
-        // sin el timeout no actualiza la hora en redux  (no entiendo porque)
-            setTimeout(() => {
-        this.props.setQsoUtc(dateNowUTC,'QsoUtc')
-          
-        }
-        , 1000);
+        // dateNow = getQsoDateTimeZoneIncluded();
+        dateNow1 = new Date();
+        dateNow1.setHours(23);
+        dateNow1.setMinutes(59);
+        dateNow1.setSeconds(0);
         
+        showT = dateNow1.getHours() +
+          ':' +
+          (dateNow1.getMinutes() < 10 ? '0' : '') +
+          dateNow1.getMinutes()
+        this.setState({date: dateNow1, showUtc: showT})
+        console.log('date recalculadoUTCend:' + dateNow1)
        
-       
+        this.props.setQsoUtc(dateNow1,'ActivityEndUtc')
+            // sin el timeout no actualiza la hora en redux  (no entiendo porque)
+            // setTimeout(() => {
+            //     this.props.setQsoUtc(dateNow1,'ActivityEndUtc')
+                  
+            //      }
+            //     , 2000);
 
 
  
@@ -69,7 +70,7 @@ class QsoUtc extends React.PureComponent {
           // pero luego cada cambio en UTC o Date son independientes, ya l maneja el usuario a mano y antes de ser enviado 
           // a la publicacion se junta la fecha de QsoDate y la hora de UTC
         const currentDate = selectedDate || date;
-        console.log('time: '+currentDate )
+        console.log('time utcend: '+currentDate )
         
 // // esta es la hora que muestra en pantalla
         // showT = currentDate.getHours()+':'+currentDate.getMinutes()
@@ -83,7 +84,7 @@ class QsoUtc extends React.PureComponent {
 
 
 
-        this.props.setQsoUtc(currentDate,'QsoUtc')
+        this.props.setQsoUtc(currentDate,'ActivityEndUtc')
      
       };
     
@@ -121,7 +122,7 @@ class QsoUtc extends React.PureComponent {
                                  
                                  {/* marginLeft: 48  style={{ width: 70, height: 50 }}*/}
               <TouchableOpacity style={styles.buttonModeContainer} onPress={() => this.showDatepicker()} >                                       
-               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center' }} onPress={() => this.showDatepicker()} >UTC: {this.state.showUtc}</Text>
+               <Text style={{ fontSize: 17, color: '#243665',  textAlign: 'center' }} onPress={() => this.showDatepicker()} >UTC: {this.state.showUtc}</Text>
               </TouchableOpacity>
 
 
@@ -164,13 +165,13 @@ class QsoUtc extends React.PureComponent {
                   }}>
         <RNDateTimePicker mode="time" 
                   value={this.state.date}
-                  style={{width:'100%', marginLeft: 220,marginTop:20}}
+                  style={{width:'100%',marginLeft: 220,marginTop:20}}
                     display="default"
                     is24Hour={true}
                    onChange={this.onChange}
                   
                   />
-        <View style={{flexDirection: "row", flex: 1, marginTop:50}} >
+        <View style={{flexDirection: "row", flex: 1, marginTop: 50}} >
         <View style={{flex: 0.5}} >
           <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
                <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >cancel</Text>
@@ -202,7 +203,7 @@ class QsoUtc extends React.PureComponent {
 
  }
 
- QsoUtc.propTypes = {
+ QsoUtcEnd.propTypes = {
    
 };
 
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
  const mapStateToProps = state => {
     return {        
    
-        // qsoutc: state.sqso.currentQso.qsoutc,
+        // qsodate: state.sqso.currentQso.qsodate,
      
         jwtToken: state.sqso.jwtToken 
      };
@@ -235,5 +236,5 @@ const mapDispatchToProps = {
     setQsoUtc
    }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QsoUtc);
+export default connect(mapStateToProps, mapDispatchToProps)(QsoUtcEnd);
 

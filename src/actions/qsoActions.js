@@ -197,10 +197,11 @@ export const setQsoDate = (dateFormat,param) => {
   };
 };
 
-export const setQsoUtc = (utcFormat) => {
+export const setQsoUtc = (utcFormat,param) => {
   return {
     type: SET_QSOUTC,
-    utc: utcFormat
+    utc: utcFormat,
+    param: param
   };
 };
 
@@ -831,6 +832,8 @@ export const qsoPublish = (qsoHeader, qsoqras, jwtToken) => {
           qso: qsoHeader.sqlrdsid,
           type: qsoHeader.type,
           realDateTime : qsoHeader.realDateTime,
+          activityBegin : qsoHeader.activityBegin,
+          activityEnd: qsoHeader.activityEnd,
           qras: arr
           // "draft" : 0
         }

@@ -52,7 +52,7 @@ import {
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
   postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress,
-  setExternalShreUrl, apiCheckVersion} from "../../actions";
+  setExternalShreUrl, apiCheckVersion, setQsoUtc} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -1974,6 +1974,7 @@ if (storagePermission)
 
   newQso = async (qsotype) => {
     if (await hasAPIConnection()) {
+
       this.videorewardmustbeshown = false;
       this.intersitialmustbeshown = false;
       this.pressPublish = false;
@@ -2377,7 +2378,7 @@ if (storagePermission)
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
           console.log('mediafile Local:'+mediafileLocal);
           console.log(mediafileLocal);
-          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia))
+          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend))
               await this.props.onprogressTrue();
             else
               this.props.onprogressFalse();
@@ -2610,7 +2611,7 @@ if (this.pressPublish===false)
   this.pressPublish = true;
 
   // comento para poder pribar el upload mas rapido
-    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend))
    await this.props.onprogressTrue();
   else this.props.onprogressFalse();
 
@@ -2863,8 +2864,8 @@ if (this.pressPublish===false)
 {
   console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
   this.pressPublish = false;
-  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
-  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend));
+  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend);
   this.missingMessage =  missMessage.message;
   this.setState({ missingFields: true})
 } 
@@ -2880,17 +2881,44 @@ if (this.pressPublish===false)
     let realdate_aux2 = new Date();
     let realdate_aux = new Date();
     let realtime_aux = new Date();
+    let activityBegin_aux = new Date();
+    let activityEnd_aux = new Date();
+    let activityBeginUtc_aux = new Date();
+    let activityEndUtc_aux = new Date();
+    let beginDate = ''
+    let endDate = ''
 
               if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
           {
+          
+             if (this.props.qsotype==='FLDDAY')
+             {
+              console.log('finales0: '+this.props.activityutcbegin + '  '+ this.props.activityutcend)
+              activityBegin_aux = this.props.activitydatebegin;
+              activityEnd_aux = this.props.activitydateend;
+              activityBeginUtc_aux = this.props.activityutcbegin;
+              activityEndUtc_aux = this.props.activityutcend;
+              activityBegin_aux.setHours(activityBeginUtc_aux.getHours());
+              activityBegin_aux.setMinutes(activityBeginUtc_aux.getMinutes());
+              activityBegin_aux.setSeconds(0);
+              activityEnd_aux.setHours(activityEndUtc_aux.getHours());
+              activityEnd_aux.setMinutes(activityEndUtc_aux.getMinutes());
+              activityEnd_aux.setSeconds(0);
+              beginDate = getDate2(activityBegin_aux);
+              endDate = getDate2(activityEnd_aux);
+              console.log('finales1: '+beginDate + '  '+ endDate)
+             }
+
             bandAux = '';
             modeAux = '';
             rstAux = '';
             dbAux = '';
             realDateTime = '';
+         
           }
           else
           {
+            console.log('this.props.qsoutc:' + this.props.qsoutc)
              realdate_aux = this.props.qsodate;
              realtime_aux = this.props.qsoutc;
              console.log('parse: '+realdate_aux.getFullYear() + ' '+realdate_aux.getMonth()+' '+ realdate_aux.getDay()+ ' '+realtime_aux.getHours()+ ' '+realtime_aux.getMinutes())
@@ -2924,6 +2952,8 @@ if (this.pressPublish===false)
                               "rst" : rstAux,
                               "db" : dbAux,
                               "realDateTime" : realDateTime,
+                              "activityBegin" : beginDate,
+                              "activityEnd" : endDate,
                               "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
@@ -3758,6 +3788,10 @@ const mapStateToProps = state => {
     mustupgradeapp: state.sqso.mustUpgradeApp,
     qsodate: state.sqso.currentQso.qsodate,
     qsoutc: state.sqso.currentQso.qsoutc,
+    activitydatebegin: state.sqso.currentQso.activityDateBegin,
+    activitydateend: state.sqso.currentQso.activityDateEnd,
+    activityutcbegin: state.sqso.currentQso.activityUtcBegin,
+    activityutcend: state.sqso.currentQso.activityUtcEnd,
 
   };
 };
@@ -3805,7 +3839,8 @@ const mapDispatchToProps = {
   uploadVideoToS3,
   setVideoUploadProgress,
   setExternalShreUrl,
-  apiCheckVersion
+  apiCheckVersion,
+  setQsoUtc
 };
 
 export default connect(

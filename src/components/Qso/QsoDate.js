@@ -50,7 +50,7 @@ class QsoDate extends React.PureComponent {
         // showD = moment(dateNow).format("MMM D YYYY")
         // showD = moment(dateNow)
         this.setState({date: dateNow, showDate: showD})
-        console.log('date recalculado:' + dateNow)
+        console.log('date recalculadoQSODate:' + dateNow)
         this.props.setQsoDate(dateNow,'QsoDate')
        
   
@@ -67,7 +67,9 @@ class QsoDate extends React.PureComponent {
     
       onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-
+       
+ if (selectedDate !== undefined) // por si apreta Cancel en fecha
+ {
     if (I18n.locale.substring(0, 2) === 'es'){
           
       showD = moment(currentDate).format("D MMM YYYY")
@@ -76,6 +78,10 @@ class QsoDate extends React.PureComponent {
     {
       showD = moment(currentDate).format("MMM D YYYY")
   }
+
+ }
+  else
+        showD = this.state.showDate
  
 
         this.setState({show: Platform.OS === 'ios', date: currentDate, showDate: showD});
@@ -83,7 +89,7 @@ class QsoDate extends React.PureComponent {
         console.log('showD: '+showD)
 
 
-        this.props.setQsoDate(currentDate)
+        this.props.setQsoDate(currentDate,'QsoDate')
      
       };
     
@@ -150,28 +156,29 @@ class QsoDate extends React.PureComponent {
               >
                 <View
                   style={{
-                    margin: 10,
+                    margin: 10,    
                     padding: 10,
                     backgroundColor: "rgba(255,255,255,0.98)",
                     marginTop: 120,
                     //  bottom: 150,
                     left: 10,
                     right: 10,
-                    height: 350,
+                    height: 150,
                     position: "absolute",
                     alignItems: "center",
+                    justifyContent: 'center',
                     borderRadius: 12
                   }}>
          <DateTimePicker
           testID="dateTimePicker"
-          style={{width:'100%'}}
+           style={{width:'100%', marginLeft: 170,marginTop:20}}
           value={this.state.date}
           mode={this.state.mode}
           is24Hour={true}
-          display="spinner"
+          display="default"
           onChange={this.onChange}
         />
-        <View style={{flexDirection: "row", flex: 1}} >
+        <View style={{flexDirection: "row", flex: 1, marginTop: 50}} >
         <View style={{flex: 0.5}} >
           <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
                <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateCancel")}</Text>
@@ -223,7 +230,7 @@ const styles = StyleSheet.create({
  const mapStateToProps = state => {
     return {        
    
-        qsodate: state.sqso.currentQso.qsodate,
+        // qsodate: state.sqso.currentQso.qsodate,
      
         jwtToken: state.sqso.jwtToken 
      };

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TouchableHighlight, TouchableOpacity, DatePickerAndroid,
-    Keyboard,
-    Platform,  } from 'react-native';
+    Keyboard,  } from 'react-native';
 import { connect } from 'react-redux';
 import {  setQsoDate } from '../../actions';
 import PropTypes from 'prop-types';
@@ -13,7 +12,7 @@ import moment from 'moment';
 // import 'moment/locale/es';
 // import 'moment/locale/en';
 
-class QsoDateBegin extends React.PureComponent {
+class QsoDateEnd extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -50,7 +49,7 @@ class QsoDateBegin extends React.PureComponent {
       
       
         this.setState({date: dateNow, showDate: 'Enter Date'})
-        console.log('date recalculadoDateBegin:' + dateNow)
+        console.log('date recalculadoDateEnd:' + dateNow)
 
         // no envia fecha de begin a redux, mantiene el ano 1900 por defecto
         // solo envia a redux si el usuario cambia la fecha, es para luego poder validar
@@ -94,7 +93,7 @@ class QsoDateBegin extends React.PureComponent {
 
         if (selectedDate !== undefined) // no envio fecha si apreto CANCEL porque me cambiaria el ano 1900 
                                         // que es donde yo chequeo si el usuario ingreso o no la fecha al momentode publicar
-          this.props.setQsoDate(currentDate,'ActivityBeginDate')
+          this.props.setQsoDate(currentDate,'ActivityEndDate')
   // }  
      
       };
@@ -115,9 +114,6 @@ class QsoDateBegin extends React.PureComponent {
 
       closeDatePicker = () => {
         this.setState({show: false})
-   
-       
-       
       }
 
       selectDatePicker = () => {
@@ -137,14 +133,13 @@ class QsoDateBegin extends React.PureComponent {
         // showD = this.state.showDate
 
         this.setState({ showDate: showD});
-        this.props.setQsoDate(this.state.date,'ActivityBeginDate')
+        this.props.setQsoDate(this.state.date,'ActivityEndDate')
 
       }
        
       }
-   
 
-  
+
 
 
 
@@ -162,7 +157,7 @@ class QsoDateBegin extends React.PureComponent {
                                  
                                  {/* marginLeft: 48  style={{ width: 70, height: 50 }}*/}
               <TouchableOpacity style={styles.buttonModeContainer} onPress={() => this.showDatepicker()} >                                       
-               <Text style={{ fontSize: 17, color: '#243665',  textAlign: 'center' }} onPress={() => this.showDatepicker()} >{I18n.t("QsoDateBegin")} {this.state.showDate}</Text>
+               <Text style={{ fontSize: 17, color: '#243665',  textAlign: 'center' }} onPress={() => this.showDatepicker()} >{I18n.t("QsoDateEnd")} {this.state.showDate}</Text>
               </TouchableOpacity>
 
               {(this.state.show && Platform.OS === 'android') && (
@@ -241,7 +236,7 @@ class QsoDateBegin extends React.PureComponent {
 
  }
 
- QsoDateBegin.propTypes = {
+ QsoDateEnd.propTypes = {
    
 };
 
@@ -274,4 +269,4 @@ const mapDispatchToProps = {
     setQsoDate
    }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QsoDateBegin);
+export default connect(mapStateToProps, mapDispatchToProps)(QsoDateEnd);

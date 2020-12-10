@@ -12,6 +12,9 @@ import QsoRst from './QsoRst';
 import QsodB from './QsodB';
 import QsoDate from './QsoDate';
 import QsoDateBegin from './QsoDateBegin';
+import QsoUtcBegin from './QsoUtcBegin';
+import QsoDateEnd from './QsoDateEnd';
+import QsoUtcEnd from './QsoUtcEnd';
 import QsoUtc from './QsoUtc';
 import QsoEnterQra from './QsoEnterQra';
 import AddCallSigns from './AddCallSigns';
@@ -110,6 +113,7 @@ class QsoHeader extends React.PureComponent {
             </View>
               {/* flex: 1 */}
          <View style={{flex:0.43}}>
+           {this.props.qsotype!=='FLDDAY' ?
              <View style={{flexDirection: 'row', marginTop: 0, flex:0.5 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
@@ -133,6 +137,7 @@ class QsoHeader extends React.PureComponent {
                  
                     </View>
                    
+         
                     <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.222 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?  
                         <QsoBand />  : null }
@@ -150,23 +155,36 @@ class QsoHeader extends React.PureComponent {
                         
                         : null }
                     </View>  
+        
 
                </View> 
+               :
+                
+                 <View style={{flexDirection: 'row', marginTop: 0, flex:0.5 }}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.63 : 0.63 , alignItems: 'center'  }}>  
+                       <QsoDateBegin /> 
+                    </View>
+                    <View style={{flex: Platform.OS==='ios' ? 0.37 : 0.37, alignItems: 'center'}}>
+                       <QsoUtcBegin />
+                     </View> 
+                     </View>
+                
+                }
                
                {/* QSODate y QsoUTC */}
                <View style={{flexDirection: 'row', marginTop: 6, flex:0.5 }}>
-               <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5 , alignItems: 'center'  }}>  
+               <View style={{flex: Platform.OS==='ios' ? 0.63 : 0.63 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' &&  
                         <QsoDate />   }
                    { this.props.sqsonewqsoactive && this.props.qsotype==='FLDDAY' && 
-                        <QsoDateBegin />  }       
+                        <QsoDateEnd />  }       
                          </View>
                   
-                    <View style={{flex: Platform.OS==='ios' ? 0.5 : 0.5, alignItems: 'center'}}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.37 : 0.37, alignItems: 'center'}}>
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' &&    
                         <QsoUtc />   }
                      { this.props.sqsonewqsoactive && this.props.qsotype==='FLDDAY' && 
-                        <QsoDateBegin />  } 
+                        <QsoUtcEnd />  } 
                     </View>  
  
 

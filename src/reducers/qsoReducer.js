@@ -168,6 +168,13 @@ const initialState = {
     modeSent: false,
     rst: '59',
     db: '-07',
+    qsodate: new Date(),
+    activityDateBegin: new Date('1900','01','01'),
+    activityDateEnd: new Date('1900','01','01'),
+    qsodateFormat: '',
+    qsoutc: new Date(),
+    activityUtcBegin: new Date(),
+    activityUtcEnd: new Date(),
     // rstBeforeChangeMode: '-07',
     digitalMode: false,
     mediafiles: [{ name: 'vacio', type: 'vacio' }],
@@ -457,11 +464,30 @@ const qsoReducer = (state = initialState, action) => {
 
       
       case SET_QSOUTC:
+        console.log('qsoutc reducer: '+action.utc + ' param: '+action.param)
+        if (action.param==='QsoUtc')
         auxcurrentQso = {
           ...state.currentQso,
           qsoutc: action.utc,
           
         };
+        if (action.param==='ActivityBeginUtc')
+        { console.log('entro ActivityBeginUtc')
+        auxcurrentQso = {
+          ...state.currentQso,
+          activityUtcBegin: action.utc,
+          
+        };
+      }
+        if (action.param==='ActivityEndUtc')
+        { console.log('entro ActivityEndUtc')
+        auxcurrentQso = {
+          ...state.currentQso,
+          activityUtcEnd: action.utc,
+          
+        };
+      }
+
         newStore = Object.assign({}, state, {
           ...state,
           currentQso: auxcurrentQso
@@ -474,12 +500,12 @@ const qsoReducer = (state = initialState, action) => {
             ...state.currentQso,
             qsodate: action.date      
           };
-          if (action.param==='ActivityBegin')
+          if (action.param==='ActivityBeginDate')
           auxcurrentQso = {
             ...state.currentQso,
             activityDateBegin: action.date
           };
-          if (action.param==='ActivityEnd')
+          if (action.param==='ActivityEndDate')
           auxcurrentQso = {
             ...state.currentQso,
             activityDateEnd: action.date
@@ -1264,6 +1290,8 @@ const qsoReducer = (state = initialState, action) => {
         activityDateEnd: new Date('1900','01','01'),
         qsodateFormat: '',
         qsoutc: new Date(),
+        activityUtcBegin: new Date(),
+        activityUtcEnd: new Date(),
         modeSent: false,
         rst: '59',
         db: '-07',
