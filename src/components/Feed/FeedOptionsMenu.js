@@ -332,7 +332,10 @@ class FeedOptionsMenu extends React.PureComponent {
           opened={this.state.openMenu}
           name={
             this.props.idqso.toString() +
-            (this.props.message ? this.props.message : null)
+            (this.props.message ? this.props.message : null) +
+            this.props.comment_owner
+              ? this.props.comment_owner
+              : null
           }
           renderer={SlideInMenu}
           // onSelect={(value) => this.selectNumber(value)}
