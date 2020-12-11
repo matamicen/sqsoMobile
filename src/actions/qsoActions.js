@@ -3725,11 +3725,11 @@ export const doFollowReceive = (follow) => {
 };
 
 export const doFollowQRA = (token, follower) => {
+  console.log('doFollowQRA');
   return async (dispatch) => {
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qra-follower';
       const myInit = {
@@ -3738,7 +3738,7 @@ export const doFollowQRA = (token, follower) => {
           datetime: new Date()
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       await API.post(apiName, path, myInit)
@@ -3776,9 +3776,10 @@ export const doUnfollowQRA = (token, follower) => {
   //     event_label: 'unfollow'
   //   });
 
-  return (dispatch) => {
+  return async (dispatch) => {
     try {
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qra-follower';
       const myInit = {
@@ -3786,7 +3787,7 @@ export const doUnfollowQRA = (token, follower) => {
           qra: follower
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.del(apiName, path, myInit)
@@ -3830,9 +3831,8 @@ export const doQsoMediaPlay = (idMedia, token, idqso) => {
   //   });
   return async (dispatch) => {
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qso/media-play';
       const myInit = {
@@ -3841,7 +3841,7 @@ export const doQsoMediaPlay = (idMedia, token, idqso) => {
           idqso: idqso
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
@@ -3883,10 +3883,8 @@ export function doRepost(idqso, token, qso) {
     //     event_label: 'repost'
     //   });
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
-      // dispatch(doRequestUserInfo());
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qso-share';
       var datetime = new Date();
@@ -3897,7 +3895,7 @@ export function doRepost(idqso, token, qso) {
           type: 'SHARE'
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
@@ -3964,10 +3962,8 @@ export function doCommentDelete(idcomment, idqso, token) {
     //   });
     dispatch(doCommentDeleteResponse(idcomment, idqso));
     try {
-      // const currentSession = await Auth.currentSession();
-
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qso-comment';
       const myInit = {
@@ -3976,7 +3972,7 @@ export function doCommentDelete(idcomment, idqso, token) {
           qso: idqso
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.del(apiName, path, myInit)
@@ -4030,10 +4026,8 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
 
     dispatch(doCommentAddResponse(idqso, comment));
     try {
-      // const currentSession = await Auth.currentSession();
-
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qso-comment';
       const myInit = {
@@ -4043,7 +4037,7 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
           datetime: comment.datetime
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
