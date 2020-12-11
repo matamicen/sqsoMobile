@@ -53,7 +53,7 @@ class QRAProfile extends React.PureComponent {
                 followers={this.props.followers}
                 userFetched={this.props.userFetched}
                 followed={this.props.followed}
-                onPress={this.props.onPress}
+                onPress={() => this.props.onClick()}
                 currentQRA={this.props.currentQRA}
               />
             </View>
@@ -94,9 +94,9 @@ class QRAProfile extends React.PureComponent {
   }
 }
 const styles = StyleSheet.create({
-  header: { flex: 1, height: 50, flexGrow: 0 },
-  buttons: { height: 30, marginTop: 40 },
-  detail: { flex: 1, height: 100, flexGrow: 1, marginTop: 50 },
+  header: { flex: 1, height: 80, flexGrow: 0 },
+  buttons: { height: 30, marginTop: 65 },
+  detail: { flex: 1, height: 110, flexGrow: 1, marginTop: 70 },
   container: {
     flex: 1,
     flexDirection: 'column'

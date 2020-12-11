@@ -721,7 +721,7 @@ export default {
     firstName: 'Nombre',
     info: 'Info',
     bio: 'Biografia',
-    qsos: 'QSOs',
+    qsos: 'Pubs',
     following: 'Siguiendo',
     followers: 'Seguidores'
   },

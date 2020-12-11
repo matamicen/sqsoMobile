@@ -156,17 +156,17 @@ class QRAProfileContainer extends React.PureComponent {
   // }
   handleTabClick(i) {
     switch (i) {
-      case 2:
-        this.props.history.push('/' + this.props.match.params.qra + '/bio');
-        break;
-      case 3:
-        this.props.history.push('/' + this.props.match.params.qra + '/info');
-        break;
-      case 4:
-        this.props.history.push(
-          '/' + this.props.match.params.qra + '/following'
-        );
-        break;
+      // case 2:
+      //   this.props.history.push('/' + this.props.match.params.qra + '/bio');
+      //   break;
+      // case 3:
+      //   this.props.history.push('/' + this.props.match.params.qra + '/info');
+      //   break;
+      // case 4:
+      //   this.props.history.push(
+      //     '/' + this.props.match.params.qra + '/following'
+      //   );
+      //   break;
       default:
         this.props.history.push(
           '/' + this.props.navigation.getParam('qra', 'NO-ID')
@@ -176,35 +176,32 @@ class QRAProfileContainer extends React.PureComponent {
     this.setState({ tab: i });
   }
   handleButtonClick() {
-    // if (!this.props.token) return null;
-    // if (
-    //   // !this.props.following.some(o => o.qra === this.props.match.params.qra)
-    //   !this.followed
-    // ) {
-    //   // if (!__DEV__)
-    //   // window.gtag('event', 'qraFollowProfile_WEBPRD', {
-    //   //   event_category: 'User',
-    //   //   event_label: 'follow'
-    //   // });
-    //   this.props.actions.doFollowQRA(
-    //     this.props.token,
-    //     this.props.match.params.qra
-    //   );
-    //   this.followed = true;
-    //   this.setState({ followed: this.followed });
-    // } else {
-    //   this.props.actions.doUnfollowQRA(
-    //     this.props.token,
-    //     this.props.match.params.qra
-    //   );
-    //   this.followed = false;
-    //   this.setState({ followed: this.followed });
-    // }
-    // // this.setState(prevState => {
-    // //   return {
-    // //     followed: !prevState.followed
-    // //   };
-    // // });
+    if (!this.props.token) return null;
+    if (
+      // !this.props.following.some(o => o.qra === this.props.match.params.qra)
+      !this.followed
+    ) {
+      // if (!__DEV__)
+      // window.gtag('event', 'qraFollowProfile_WEBPRD', {
+      //   event_category: 'User',
+      //   event_label: 'follow'
+      // });
+      this.props.actions.doFollowQRA(this.props.token, this.props.qra.qra.qra);
+      this.followed = true;
+      this.setState({ followed: this.followed });
+    } else {
+      this.props.actions.doUnfollowQRA(
+        this.props.token,
+        this.props.qra.qra.qra
+      );
+      this.followed = false;
+      this.setState({ followed: this.followed });
+    }
+    // this.setState(prevState => {
+    //   return {
+    //     followed: !prevState.followed
+    //   };
+    // });
   }
   // shouldComponentUpdate() {
   //   return this.props.qra ? true : false;
@@ -256,7 +253,7 @@ class QRAProfileContainer extends React.PureComponent {
             followers={this.props.followers}
             loaderActive={this.state.loaderActive}
             qra={this.state.qra}
-            onClick={this.handleButtonClick}
+            onClick={() => this.handleButtonClick()}
             userFetched={this.props.userFetched}
             currentQRA={this.props.currentQRA}
             followed={this.followed}
