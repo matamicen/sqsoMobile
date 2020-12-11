@@ -690,7 +690,7 @@ export default {
     youLikeThis: ' te gustó esto',
     manyLikeThis: ' les gustó esto',
     startLikePhrase: 'A ',
-    likeModalHeader: 'A estos colegas les gusta este '
+    likeModalHeader: 'A estos colegas les gusta esta Publicación'
   },
   qra: {
     loading: 'Cargando SD/Colega...',
