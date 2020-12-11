@@ -1040,8 +1040,6 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
 
     case SET_TOKEN:
-      
-      
       newStore = Object.assign({}, state, {
         ...state,
         jwtToken: action.jwttoken
@@ -2103,7 +2101,7 @@ const qsoReducer = (state = initialState, action) => {
             ? {
                 ...state.feed.qra,
                 qsos:
-                  state.feed.feed.qra && state.feed.qra.qsos
+                  state.feed.qra.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
                         if (qso.idqsos === action.idqso) {
                           qso.comments = qso.comments.filter(

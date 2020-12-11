@@ -41,7 +41,6 @@ class QSOComments extends React.PureComponent {
   }
 
   handleAddComment = (values) => {
-    console.log('handleAddComment');
     // e.preventDefault();
     if (values === '') return;
 
