@@ -52,7 +52,7 @@ import {
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
   postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress,
-  setExternalShreUrl, apiCheckVersion} from "../../actions";
+  setExternalShreUrl, apiCheckVersion, setQsoUtc} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -74,7 +74,7 @@ import {
   showVideoReward,
   showIntersitial,
   updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
-   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder } from "../../helper";
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2 } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
@@ -1974,6 +1974,7 @@ if (storagePermission)
 
   newQso = async (qsotype) => {
     if (await hasAPIConnection()) {
+
       this.videorewardmustbeshown = false;
       this.intersitialmustbeshown = false;
       this.pressPublish = false;
@@ -2377,7 +2378,7 @@ if (storagePermission)
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
           console.log('mediafile Local:'+mediafileLocal);
           console.log(mediafileLocal);
-          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia))
+          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend))
               await this.props.onprogressTrue();
             else
               this.props.onprogressFalse();
@@ -2610,7 +2611,7 @@ if (this.pressPublish===false)
   this.pressPublish = true;
 
   // comento para poder pribar el upload mas rapido
-    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend))
    await this.props.onprogressTrue();
   else this.props.onprogressFalse();
 
@@ -2863,8 +2864,8 @@ if (this.pressPublish===false)
 {
   console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
   this.pressPublish = false;
-  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
-  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend));
+  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend);
   this.missingMessage =  missMessage.message;
   this.setState({ missingFields: true})
 } 
@@ -2877,20 +2878,69 @@ if (this.pressPublish===false)
 
  // #PUBLISH
   publicar = async (jwtToken) => {
+    let realdate_aux2 = new Date();
+    let realdate_aux = new Date();
+    let realtime_aux = new Date();
+    let activityBegin_aux = new Date();
+    let activityEnd_aux = new Date();
+    let activityBeginUtc_aux = new Date();
+    let activityEndUtc_aux = new Date();
+    let beginDate = ''
+    let endDate = ''
 
               if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
           {
+          
+             if (this.props.qsotype==='FLDDAY')
+             {
+              console.log('finales0: '+this.props.activityutcbegin + '  '+ this.props.activityutcend)
+              activityBegin_aux = this.props.activitydatebegin;
+              activityEnd_aux = this.props.activitydateend;
+              activityBeginUtc_aux = this.props.activityutcbegin;
+              activityEndUtc_aux = this.props.activityutcend;
+              activityBegin_aux.setHours(activityBeginUtc_aux.getHours());
+              activityBegin_aux.setMinutes(activityBeginUtc_aux.getMinutes());
+              activityBegin_aux.setSeconds(0);
+              activityEnd_aux.setHours(activityEndUtc_aux.getHours());
+              activityEnd_aux.setMinutes(activityEndUtc_aux.getMinutes());
+              activityEnd_aux.setSeconds(0);
+              beginDate = getDate2(activityBegin_aux);
+              endDate = getDate2(activityEnd_aux);
+              console.log('finales1: '+beginDate + '  '+ endDate)
+             }
+
             bandAux = '';
             modeAux = '';
             rstAux = '';
             dbAux = '';
+            realDateTime = '';
+         
           }
           else
           {
+            console.log('this.props.qsoutc:' + this.props.qsoutc)
+             realdate_aux = this.props.qsodate;
+             realtime_aux = this.props.qsoutc;
+             console.log('parse: '+realdate_aux.getFullYear() + ' '+realdate_aux.getMonth()+' '+ realdate_aux.getDay()+ ' '+realtime_aux.getHours()+ ' '+realtime_aux.getMinutes())
+             console.log('realdate_aux: ' +realdate_aux)
+              console.log('realtime_aux: ' +realtime_aux)
+            // de realdate saco la fecha y de realtime saco la hora seteada por el usuario.
+            // realdate_aux2.setDate(realdate_aux.getFullYear(),realdate_aux.getMonth(),realdate_aux.getDay(),realtime_aux.getHours(),realtime_aux.getMinutes(), 0 )
+           realdate_aux.setHours(realtime_aux.getHours());
+           realdate_aux.setMinutes(realtime_aux.getMinutes());
+           realdate_aux.setSeconds(0);
+            console.log('realdate_aux_afterProcess: ' +realdate_aux)
+            // formateo la fecha y hora en formato mysql
+            realDateTime = getDate2(realdate_aux);
+            console.log('realDateTime: ' +realDateTime)
+              
             bandAux = this.props.band;
             modeAux = this.props.mode;
             rstAux = this.props.rst;
             dbAux = this.props.db;
+            // realDateTime = '';
+            // qsodate = this.props.qsodate;
+            // qsoutc = this.props.qsoutc;
 
           }
   
@@ -2901,6 +2951,9 @@ if (this.pressPublish===false)
                               "qra": this.props.qra,
                               "rst" : rstAux,
                               "db" : dbAux,
+                              "realDateTime" : realDateTime,
+                              "activityBegin" : beginDate,
+                              "activityEnd" : endDate,
                               "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
@@ -2952,7 +3005,8 @@ if (this.pressPublish===false)
 
    deleteQSOfolder = () => {
 
-    RNFFmpeg.cancel();
+    // este cancel de RNFFmpeg hace crashear al 4to discard consecutivo de una publicacion
+    //  RNFFmpeg.cancel();
  
 
    // el borrado es con timeout para que termine bien el cancel de ffmpeg
@@ -3080,7 +3134,7 @@ close_upload_failed = () => {
        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
          Esto estaba porque el teclado aparecia cuando se ingresaban los callsign sin el modal, ahora no tiene sentido porque no hay mas teclado en qsoScreen directo, los teclados estan en los modales. */}
    
-        <View style={{ flex: 0.3 }}>
+        <View style={{ flex: 0.37 }}>
           <QsoHeader />
           
          
@@ -3285,7 +3339,7 @@ close_upload_failed = () => {
         </View>
         {/* </TouchableWithoutFeedback>  */}
        
-        <View style={{ flex: 0.52 }}>
+        <View style={{ flex: 0.45 }}>
        
            
           <MediaFiles />
@@ -3731,7 +3785,13 @@ const mapStateToProps = state => {
     videopercentage: state.sqso.currentQso.videoPercentage,
     videouploaderror: state.sqso.currentQso.videoUploadError,
     externalshareurl: state.sqso.externalShareUrl,
-    mustupgradeapp: state.sqso.mustUpgradeApp
+    mustupgradeapp: state.sqso.mustUpgradeApp,
+    qsodate: state.sqso.currentQso.qsodate,
+    qsoutc: state.sqso.currentQso.qsoutc,
+    activitydatebegin: state.sqso.currentQso.activityDateBegin,
+    activitydateend: state.sqso.currentQso.activityDateEnd,
+    activityutcbegin: state.sqso.currentQso.activityUtcBegin,
+    activityutcend: state.sqso.currentQso.activityUtcEnd,
 
   };
 };
@@ -3779,7 +3839,8 @@ const mapDispatchToProps = {
   uploadVideoToS3,
   setVideoUploadProgress,
   setExternalShreUrl,
-  apiCheckVersion
+  apiCheckVersion,
+  setQsoUtc
 };
 
 export default connect(

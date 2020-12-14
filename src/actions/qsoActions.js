@@ -88,6 +88,8 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
+  SET_QSODATE,
+  SET_QSOUTC,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
@@ -185,6 +187,24 @@ export const setMode = (mode) => {
     mode: mode
   };
 };
+
+export const setQsoDate = (dateFormat,param) => {
+  return {
+    type: SET_QSODATE,
+    date: dateFormat,
+    param: param
+    
+  };
+};
+
+export const setQsoUtc = (utcFormat,param) => {
+  return {
+    type: SET_QSOUTC,
+    utc: utcFormat,
+    param: param
+  };
+};
+
 export const setVideoUploadProgress = (percentage) => {
   return {
     type: SET_VIDEO_UPLOAD_PROGRESS,
@@ -811,10 +831,15 @@ export const qsoPublish = (qsoHeader, qsoqras, jwtToken) => {
           db: qsoHeader.db,
           qso: qsoHeader.sqlrdsid,
           type: qsoHeader.type,
+          realDateTime : qsoHeader.realDateTime,
+          activityBegin : qsoHeader.activityBegin,
+          activityEnd: qsoHeader.activityEnd,
           qras: arr
           // "draft" : 0
         }
       };
+
+      console.log('qsoHeader.realDateTime: '+qsoHeader.realDateTime);
 
       var respuesta = await API.post(apiName, path, myInit);
       //console.log('llamo api! QSO_PUBLISH');
@@ -2725,6 +2750,7 @@ export const getUserInfo = (jwtToken) => {
       // console.log(respuesta);
 
       if (respuesta.body.error === 0) {
+        console.log("ejecuto bien user-info");
         var followings = respuesta.body.message.following;
         var followers = respuesta.body.message.followers;
         //   console.log("la url que envio:" + url);
