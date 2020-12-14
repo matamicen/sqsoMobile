@@ -176,6 +176,7 @@ class QSODetail extends React.PureComponent {
     let qsos = [];
     if (this.props.qso) {
       qsos.push({ qso: this.props.qso, type: this.props.qso.type });
+      qsos.push({ type: 'AD', qso: { idqso: null } });
     }
 
     return (
