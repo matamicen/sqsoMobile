@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedHeaderBar from './FeedHeaderBar';
-import NewsFeed from './NewsFeedPresentational';
+import NewsFeedPresentational from './NewsFeedPresentational';
 
 class NewsFeedContainer extends React.PureComponent {
   state = { qsos: this.props.qsos };
@@ -27,16 +27,18 @@ class NewsFeedContainer extends React.PureComponent {
 
     if (this.state.qsos) {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, zIndex: 1 }}>
           <View>
             <FeedHeaderBar />
           </View>
-          <NewsFeed
-            feedType="MAIN"
-            list={qsos}
-            fetchingQSOS={this.props.fetchingQSOS}
-            qsosFetched={this.props.qsosFetched}
-          />
+          <View style={{ flex: 1, zIndex: 0 }}>
+            <NewsFeedPresentational
+              feedType="MAIN"
+              list={qsos}
+              fetchingQSOS={this.props.fetchingQSOS}
+              qsosFetched={this.props.qsosFetched}
+            />
+          </View>
         </View>
       );
     } else return null;

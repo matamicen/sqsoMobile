@@ -1,26 +1,14 @@
 //import i18n from 'i18next';
-import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import { View } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import React from 'react';
+import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
-import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-import PopupToFollow from '../PopupToFollow';
-import TextToFollow from '../TextToFollow';
+import FeedItemHeader from './FeedItemHeader';
 import FeedMedia from './FeedMedia';
-import FeedOptionsMenu from './FeedOptionsMenu';
+import FeedSocialButtons from './FeedSocialButtons';
 import QRAs from './QRAs';
-import QSOComments from './QSOComments';
-import QSOLikeButton from './QSOLikeButton';
-import QSOLikeText from './QSOLikeText';
-import QSORePostButton from './QSORePostButton';
-import QSOShareButtons from './QSOShareButtons';
-import './style.js';
-
 class FeedItemRepost extends React.PureComponent {
   constructor() {
     super();
@@ -75,282 +63,53 @@ class FeedItemRepost extends React.PureComponent {
     var repostDate = new Date(this.props.qso.datetime);
     var date = new Date(this.props.qso.original[0].datetime);
     return (
-      <Fragment>
-        <View>
-          <View className="qso-header">
-            <View className="qso-avatar">
-              <Link to={'/' + this.props.qso.qra}>
-                <Image
-                  src={
-                    this.props.qso.avatarpic
-                      ? this.props.qso.avatarpic
-                      : '/emptyprofile.png'
-                  }
-                  size="mini"
-                  avatar
-                  style={{
-                    width: '50px',
-                    height: '50px'
-                  }}
-                />
-              </Link>
-              <TextToFollow qra={this.props.qso.qra} />
-            </View>
-            <View className="qso-header-action">
-              <PopupToFollow
-                qra={this.props.qso.qra}
-                trigger={
-                  <Link to={'/' + this.props.qso.qra}>
-                    {this.props.qso.qra}
-                  </Link>
-                }
-              />
-              {I18n.t('qso.sharedContent')}
-            </View>
-            <View className="qso-header-info-post">
-              <View>
-                <b>{I18n.t('qso.date')}: </b>
-                {repostDate.toLocaleDateString(i18n.language, {
-                  month: 'short'
-                }) +
-                  ' ' +
-                  repostDate.getDate() +
-                  ', ' +
-                  repostDate.getFullYear()}
-              </View>
-              <View>
-                <b>UTC: </b>
-                {repostDate.getUTCHours() +
-                  ':' +
-                  (repostDate.getMinutes() < 10 ? '0' : '') +
-                  repostDate.getMinutes()}
-              </View>
-            </View>
-            <View
-              className="qso-header-button"
-              style={{
-                float: 'right'
-              }}>
-              <FeedOptionsMenu
-                qso_owner={this.props.qso.qra}
-                idqso={this.props.qso.idqsos}
-                guid={this.props.qso.GUID_QR}
-                optionsCaller="FeedItem"
-                QslCard={false}
-              />
-            </View>
-          </View>
-
-          {/* <Divider hidden /> */}
-          <Segment raised>
-            <View className="qso-header">
-              <View className="qso-avatar">
-                <Link to={'/' + this.props.qso.original[0].qra}>
-                  <Image
-                    src={
-                      this.props.qso.original[0].avatarpic
-                        ? this.props.qso.original[0].avatarpic
-                        : '/emptyprofile.png'
-                    }
-                    size="mini"
-                    avatar
-                    style={{
-                      width: '50px',
-                      height: '50px'
-                    }}
-                  />
-                </Link>
-                <TextToFollow qra={this.props.qso.original[0].qra} />
-              </View>
-              <View className="qso-header-action">
-                <PopupToFollow
-                  qra={this.props.qso.original[0].qra}
-                  trigger={
-                    <Link to={'/' + this.props.qso.original[0].qra}>
-                      {this.props.qso.original[0].qra}
-                    </Link>
-                  }
-                />
-                {text}
-              </View>
-              <View className="qso-header-info">
-                {this.props.qso.original[0].mode && (
-                  <View>
-                    <b>{I18n.t('qso.mode')}</b>
-                    <br />
-                    {this.props.qso.original[0].mode}
-                  </View>
-                )}
-                {this.props.qso.original[0].band && (
-                  <View>
-                    <b>{I18n.t('qso.band')} </b>
-                    <br />
-                    {this.props.qso.original[0].band}
-                  </View>
-                )}
-                {this.props.qso.db && (
-                  <View>
-                    <b>dB </b>
-                    <br />
-                    {this.props.qso.db ? this.props.qso.db : null}
-                  </View>
-                )}
-                {!this.props.qso.rst && (
-                  <View>
-                    <b>RST </b>
-                    <br />
-                    {this.props.qso.rst ? this.props.qso.rst : '59'}
-                  </View>
-                )}
-                <View>
-                  <b>{I18n.t('qso.date')} </b>
-                  <br />
-                  {date.toLocaleDateString(i18n.language, { month: 'short' }) +
-                    ' ' +
-                    date.getDate() +
-                    ', ' +
-                    date.getFullYear()}
-                </View>
-                <View>
-                  <b>UTC: </b>
-                  {date.getUTCHours() +
-                    ':' +
-                    (date.getMinutes() < 10 ? '0' : '') +
-                    date.getMinutes()}
-                </View>
-              </View>
-
-              <View
-                className="qso-header-button"
-                style={{
-                  float: 'right'
-                }}>
-                <FeedOptionsMenu
-                  qso_owner={this.props.qso.qra}
-                  idqso={this.props.qso.idqsos}
-                  guid={this.props.qso.GUID_QR}
-                  optionsCaller="FeedItem"
-                  QslCard={false}
-                />
-              </View>
-            </View>
-
-            {this.props.qso.qras.length > 0 && (
-              <Fragment>
-                <Divider
-                  hidden
-                  style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
-                />
-                <QRAs
-                  avatarpic={this.props.qso.original[0].avatarpic}
-                  qso_owner={this.props.qso.original[0].qra}
-                  qras={this.props.qso.qras}
-                />
-              </Fragment>
-            )}
-            <FeedMedia
-              qso={this.props.qso}
-              measure={this.props.measure}
-              idqso={this.props.qso.idqsos}
-              qso_owner={this.props.qso.qra}
-              recalculateRowHeight={this.recalculateRowHeight}
-            />
-          </Segment>
-
-          <Divider
-            hidden
-            style={{ marginTop: '0.5vh', marginBottom: '0.5vh' }}
+      <Card containerStyle={{ padding: 0, margin: 0 }}>
+        <FeedItemHeader
+          feedType={this.props.feedType}
+          idqsos={this.props.qso.idqsos}
+        />
+        <Card>
+          <FeedItemHeader feedType="REPOST" idqsos={this.props.qso.idqsos} />
+          <QRAs
+            feedType={this.props.feedType}
+            avatarpic={this.props.qso.avatarpic}
+            qso_owner={this.props.qso.qra}
+            qras={this.props.qso.qras}
           />
-          <QSOLikeText
-            qso={this.props.qso}
-            likes={this.state.likes}
-            recalculateRowHeight={this.recalculateRowHeight}
+          <FeedMedia
+            // qso={this.props.qso}
+            feedType={this.props.feedType}
+            idqsos={this.props.idqsos}
+            qso_owner={this.props.qso.qra}
           />
-          <Button.Group widths="4" basic>
-            <QSOLikeButton
-              qso={this.props.qso}
-              recalculateRowHeight={this.recalculateRowHeight}
-            />
-            <Button onClick={() => this.setState({ showComments: true })}>
-              <Icon name="comment outline" />{' '}
-              {this.props.qso.comments.length > 0 && commentsCounter}
-            </Button>
-            <QSORePostButton qso={this.props.qso} />
-            <QSOShareButtons
-              idqso={this.props.qso.GUID_URL}
-              title={shareText}
-            />
-          </Button.Group>
-
-          {this.state.showComments && (
-            <QSOComments
-              showComments={this.state.showComments}
-              doClose={() => this.setState({ showComments: false })}
-              index={this.props.index}
-              qso={this.props.qso}
-              comments={this.props.comments}
-              recalculateRowHeight={this.recalculateRowHeight}
-            />
-          )}
-        </View>
-        {/* <Confirm
-          size="mini"
-          open={this.state.openLogin}
-          onCancel={() => this.setState({ openLogin: false })}
-          onConfirm={() =>
-            this.props.history.push({
-              pathname: '/login',
-              state: { from: this.props.location.pathname }
-            })
-          }
-          cancelButton={I18n.t('global.cancel')}
-          confirmButton={I18n.t('auth.login')}
-          content={I18n.t('auth.loginToPerformAction')}
-        /> */}
-      </Fragment>
+        </Card>
+        <FeedSocialButtons
+          feedType={this.props.feedType}
+          comments={this.props.qso.comments}
+          idqsos={this.props.idqsos}
+          index={this.props.index}
+          qso_owner={this.props.qso.qra}
+          shareText={shareText}
+        />
+      </Card>
     );
   }
 }
-FeedItemRepost.propTypes = {
-  actions: PropTypes.shape({
-    // doStartingLogin: PropTypes.func,
-    // doLogout: PropTypes.func,
-    // doLogin: PropTypes.func,
-    // doFetchUserInfo: PropTypes.func,
-    // doSetPublicSession: PropTypes.func
-  }).isRequired,
-  measure: PropTypes.func,
-  qso: PropTypes.shape({
-    avatarpic: PropTypes.string,
-    idqsos: PropTypes.number,
-    GUID_QR: PropTypes.string,
-    GUID_URL: PropTypes.string,
-    rst: PropTypes.string,
-    qras: PropTypes.array,
-    comments: PropTypes.array,
-    original: PropTypes.array,
-    media: PropTypes.array,
-    qra: PropTypes.string
-  }),
-  location: PropTypes.shape({
-    // pathname: PropTypes.string,
-    // data: PropTypes.shape({ newPasswordRequired: PropTypes.bool })
-  }),
 
-  recalculateRowHeight: PropTypes.func,
-  index: PropTypes.number
-
-  // public: PropTypes.bool,
-  // history: PropTypes.shape({
-  //   push: PropTypes.func,
-  //   location: PropTypes.shape({
-  //     state: PropTypes.shape({})
-  //   }).isRequired
-  // }).isRequired
+const selectorFeedType = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
+  else return null;
 };
-const mapStateToProps = (state, qsos) => ({
-  fetchingQSOS: state.FetchingQSOS,
-  qsosFetched: state.qsosFetched,
+const mapStateToProps = (state, ownProps) => ({
+  fetchingQSOS: state.sqso.feed.FetchingQSOS,
+  qso: selectorFeedType(state, ownProps),
+  qsosFetched: state.sqso.feed.qsosFetched,
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({

@@ -128,7 +128,7 @@ class FeedAudio extends React.PureComponent {
                 disableVolume
                 disableFullscreen
                 disableBack
-                controlTimeout={1500000}
+                controlTimeout={1500}
                 // controls
                 navigator={this.props.navigator}
                 muted={false}

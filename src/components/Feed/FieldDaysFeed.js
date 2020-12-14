@@ -3,7 +3,7 @@ import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
-import NewsFeed from './NewsFeedPresentational';
+import NewsFeedPresentational from './NewsFeedPresentational';
 
 class FieldDaysFeed extends React.PureComponent {
   state = {
@@ -68,7 +68,7 @@ class FieldDaysFeed extends React.PureComponent {
         });
       }
       return (
-        <NewsFeed
+        <NewsFeedPresentational
           feedType="FIELDDAYS"
           list={qsos}
           QRAFetched={this.props.QRAFetched}

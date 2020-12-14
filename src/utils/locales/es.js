@@ -695,7 +695,7 @@ export default {
     youLikeThis: ' te gustó esto',
     manyLikeThis: ' les gustó esto',
     startLikePhrase: 'A ',
-    likeModalHeader: 'A estos colegas les gusta este '
+    likeModalHeader: 'A estos colegas les gusta esta Publicación'
   },
   qra: {
     loading: 'Cargando SD/Colega...',
@@ -726,7 +726,7 @@ export default {
     firstName: 'Nombre',
     info: 'Info',
     bio: 'Biografia',
-    qsos: 'QSOs',
+    qsos: 'Pubs',
     following: 'Siguiendo',
     followers: 'Seguidores'
   },

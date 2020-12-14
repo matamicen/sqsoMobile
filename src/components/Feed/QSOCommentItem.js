@@ -8,10 +8,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-// import FeedOptionsMenu from './FeedOptionsMenu';
+import FeedOptionsMenu from './FeedOptionsMenu';
 
 var ConvertToComp = (response) => {
-  console.log(response);
   return response;
 };
 class QSOCommentItem extends React.PureComponent {
@@ -105,7 +104,8 @@ class QSOCommentItem extends React.PureComponent {
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('QRAProfile', {
-                  qra: this.props.comment.qra
+                  qra: this.props.comment.qra,
+                  screen: 'PROFILE'
                 })
               }>
               <Avatar
@@ -127,7 +127,8 @@ class QSOCommentItem extends React.PureComponent {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('QRAProfile', {
-                    qra: this.props.comment.qra
+                    qra: this.props.comment.qra,
+                    screen: 'PROFILE'
                   })
                 }>
                 <Text style={styles.headerText}>
@@ -156,13 +157,15 @@ class QSOCommentItem extends React.PureComponent {
                   }
                 />
               )}
-
-            {/* <FeedOptionsMenu
+          </View>
+          <View style={styles.menu}>
+            <FeedOptionsMenu
               comment_owner={this.props.comment.qra}
-              idqso={this.props.comment.idqso}
+              idqso={this.props.idqsos}
               idcomment={this.props.comment.idqsos_comments}
               optionsCaller="FeedComment"
-            /> */}
+              message={message}
+            />
           </View>
         </View>
         <View style={styles.message}>

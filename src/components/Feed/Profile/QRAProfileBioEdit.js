@@ -23,9 +23,7 @@ import {
   RichEditor,
   RichToolbar
 } from 'react-native-pell-rich-editor';
-import {
-  withNavigation
-} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -70,15 +68,6 @@ class QRAProfileBioEdit extends React.Component {
       this.setState({ emojiVisible: false });
   };
 
-  editorInitializedCallback() {
-    this.richText.current?.registerToolbar(function (items) {
-      console.log(
-        'Toolbar click, selected items (insert end callback):',
-        items
-      );
-    });
-  }
-
   /**
    * theme change to editor color
    * @param colorScheme
@@ -90,7 +79,6 @@ class QRAProfileBioEdit extends React.Component {
   }
 
   async save() {
-    console.log('SaveBio');
     const { identityId } = await Auth.currentCredentials();
 
     var idenId = identityId.replace(':', '%3A');
@@ -118,17 +106,13 @@ class QRAProfileBioEdit extends React.Component {
    * editor change data
    * @param {string} html
    */
-  handleChange(html) {
-    // console.log('editor data:', html);
-  }
+  handleChange(html) {}
 
   /**
    * editor height change
    * @param {number} height
    */
-  handleHeightChange(height) {
-    console.log('editor height change:', height);
-  }
+  handleHeightChange(height) {}
 
   insertEmoji(emoji) {
     this.richText.current?.insertText(emoji);
@@ -217,8 +201,6 @@ class QRAProfileBioEdit extends React.Component {
             };
             API.post(apiName, path, myInit)
               .then((response) => {
-                console.log('nsfw');
-                console.log(response);
                 if (response.body.error > 0) {
                   //NSFW
                   Storage.remove(result.key, { level: 'protected' })

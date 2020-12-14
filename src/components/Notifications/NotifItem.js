@@ -1,7 +1,7 @@
 // import * as Progress from 'react-native-progress';
 import analytics from '@react-native-firebase/analytics';
 import crashlytics from '@react-native-firebase/crashlytics';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Dimensions,
   Image,
@@ -94,7 +94,8 @@ class NotifItem extends React.PureComponent {
 
       if (profile.has(activity_type)) {
         this.props.navigation.push('QRAProfile', {
-          qra: QRA
+          qra: QRA,
+          screen: 'PROFILE'
         });
       } else if (post.has(activity_type)) {
         this.props.navigation.push('QSODetail', {
@@ -172,7 +173,7 @@ class NotifItem extends React.PureComponent {
   };
 
   render() {
-     console.log("RENDER NotifItem");
+    // console.log('RENDER NotifItem');
     //console.log('josesito:')
     // fec = new Date(this.props.datetimecomment);
 

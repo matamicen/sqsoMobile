@@ -113,22 +113,39 @@ export const MainNavigator = createStackNavigator({
     }
   },
   QRAProfile: {
-    screen: QRAProfile
-    // navigationOptions: {
-    //   header: null
-    // }
+    screen: QRAProfile,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   },
   QSODetail: {
-    screen: QSODetail
+    screen: QSODetail,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
     // navigationOptions: {
     //   header: null
     // }
   },
   QRAProfileBioEdit: {
-    screen: QRAProfileBioEdit
+    screen: QRAProfileBioEdit,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   },
   QRAProfileInfoEdit: {
-    screen: QRAProfileInfoEdit
+    screen: QRAProfileInfoEdit,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
   },
   FeedHeaderBar: {
     screen: FeedHeaderBar,
@@ -141,7 +158,7 @@ export const MainNavigator = createStackNavigator({
 const editBioRouteConfigs = {
   qraBioEdit: {
     screen: QRAProfileBioEdit,
-    // params: { tab: this.props.currentQRA },
+    params: { qra: null },
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
@@ -152,7 +169,7 @@ const editBioRouteConfigs = {
 const editInfoRouteConfigs = {
   qraInfoEdit: {
     screen: QRAProfileInfoEdit,
-    // params: { tab: this.props.currentQRA },
+    params: { qra: null },
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
@@ -163,16 +180,14 @@ const editInfoRouteConfigs = {
 const MyPostsRouteConfigs = {
   QRAProfile: {
     screen: QRAProfile,
-    // params: { qra: this.props.currentQRA },
+    params: { screen: 'MYPOSTS' },
     navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
-      )
+      headerLeft: <HeaderBackButton onPress={(_) => navigation.push('Home')} />
     })
   },
   qraInfoEdit: {
     screen: QRAProfileInfoEdit,
-    // params: { tab: this.props.currentQRA },
+    params: { screen: 'qraInfoEdit' },
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
@@ -181,7 +196,7 @@ const MyPostsRouteConfigs = {
   },
   qraBioEdit: {
     screen: QRAProfileBioEdit,
-    // params: { tab: this.props.currentQRA },
+    params: { screen: 'qraBioEdit' },
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
@@ -207,7 +222,8 @@ const FieldDaysRouteConfigs = {
   }
 };
 const StackNavigatorConfig = {
-  mode: 'modal',
+  drawerType: 'slide',
+  unmountInactiveRoutes: true,
   headerMode: 'float',
   headerTransitionPreset: 'face-in-place'
 };

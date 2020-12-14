@@ -1,12 +1,19 @@
 import React, { Fragment } from 'react';
-import { Image, Platform, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 // import Advertisement from "semantic-ui-react/dist/commonjs/views/Advertisement";
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-import NewsFeed from './NewsFeedPresentational';
+import NewsFeedPresentational from './NewsFeedPresentational';
 
 class QSODetail extends React.PureComponent {
   static navigationOptions = {
@@ -97,10 +104,13 @@ class QSODetail extends React.PureComponent {
     let qsoInMemory = navigation.getParam('QSO_GUID', 'NO-ID');
     console.log('QSODetail' + qsoInMemory);
 
+    let previousGUID = this.props.qso && this.props.qso.GUID_URL;
+
     if (
       (!this.props.FetchingQSO && !this.props.QSOFetched) ||
       (this.props.QSOFetched &&
-        this.props.navigation.getParam('QSO_GUID', 'NO-ID') !== qsoInMemory)
+        this.props.qso &&
+        this.props.navigation.getParam('QSO_GUID', 'NO-ID') !== previousGUID)
     ) {
       this.props.actions.doRequestQSO();
       this.props.actions.doFetchQSO(
@@ -146,21 +156,22 @@ class QSODetail extends React.PureComponent {
       default:
         error = this.state.qsoError;
     }
-    // if (this.state.qsoError) {
-    //   return (
-    //     <Modal
-    //       open={this.state.qsoError ? true : false}
-    //       onClose={() => {
-    //         this.setState({ qsoError: null });
-    //         // this.props.history.push('/');
-    //       }}
-    //       size="small">
-    //       <Modal.Content>
-    //         <Text>{error}</Text>
-    //       </Modal.Content>
-    //     </Modal>
-    //   );
-    // }
+    if (this.state.qsoError) {
+      Alert.alert(
+        null,
+        error,
+        [{ text: 'OK', onPress: () => this.props.navigate.push('Home') }],
+        { cancelable: false }
+      );
+    }
+
+    if (this.props.FetchingQSO) {
+      return (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
+      );
+    }
 
     let qsos = [];
     if (this.props.qso) {
@@ -169,7 +180,9 @@ class QSODetail extends React.PureComponent {
 
     return (
       <Fragment>
-        {this.props.qso && <NewsFeed feedType="DETAIL" list={qsos} />}
+        {this.props.qso && (
+          <NewsFeedPresentational feedType="DETAIL" list={qsos} />
+        )}
       </Fragment>
     );
   }

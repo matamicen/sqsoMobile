@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
@@ -60,7 +61,11 @@ class QRAProfileContainer extends React.PureComponent {
 
     const { navigation } = this.props;
     let qraInMemory = navigation.getParam('qra', this.props.currentQRA);
+    let screen = navigation.getParam('screen');
+
+    if (screen === 'MYPOSTS') qraInMemory = this.props.currentQRA;
     // let qraInMemory = this.props.qra ? this.props.qra.qra.qra : '';
+    qraInMemory = qraInMemory ? qraInMemory : this.props.currentQRA;
     console.log('qraInMemory ' + qraInMemory);
 
     if (
@@ -151,17 +156,17 @@ class QRAProfileContainer extends React.PureComponent {
   // }
   handleTabClick(i) {
     switch (i) {
-      case 2:
-        this.props.history.push('/' + this.props.match.params.qra + '/bio');
-        break;
-      case 3:
-        this.props.history.push('/' + this.props.match.params.qra + '/info');
-        break;
-      case 4:
-        this.props.history.push(
-          '/' + this.props.match.params.qra + '/following'
-        );
-        break;
+      // case 2:
+      //   this.props.history.push('/' + this.props.match.params.qra + '/bio');
+      //   break;
+      // case 3:
+      //   this.props.history.push('/' + this.props.match.params.qra + '/info');
+      //   break;
+      // case 4:
+      //   this.props.history.push(
+      //     '/' + this.props.match.params.qra + '/following'
+      //   );
+      //   break;
       default:
         this.props.history.push(
           '/' + this.props.navigation.getParam('qra', 'NO-ID')
@@ -171,35 +176,32 @@ class QRAProfileContainer extends React.PureComponent {
     this.setState({ tab: i });
   }
   handleButtonClick() {
-    // if (!this.props.token) return null;
-    // if (
-    //   // !this.props.following.some(o => o.qra === this.props.match.params.qra)
-    //   !this.followed
-    // ) {
-    //   // if (!__DEV__)
-    //   // window.gtag('event', 'qraFollowProfile_WEBPRD', {
-    //   //   event_category: 'User',
-    //   //   event_label: 'follow'
-    //   // });
-    //   this.props.actions.doFollowQRA(
-    //     this.props.token,
-    //     this.props.match.params.qra
-    //   );
-    //   this.followed = true;
-    //   this.setState({ followed: this.followed });
-    // } else {
-    //   this.props.actions.doUnfollowQRA(
-    //     this.props.token,
-    //     this.props.match.params.qra
-    //   );
-    //   this.followed = false;
-    //   this.setState({ followed: this.followed });
-    // }
-    // // this.setState(prevState => {
-    // //   return {
-    // //     followed: !prevState.followed
-    // //   };
-    // // });
+    if (!this.props.token) return null;
+    if (
+      // !this.props.following.some(o => o.qra === this.props.match.params.qra)
+      !this.followed
+    ) {
+      // if (!__DEV__)
+      // window.gtag('event', 'qraFollowProfile_WEBPRD', {
+      //   event_category: 'User',
+      //   event_label: 'follow'
+      // });
+      this.props.actions.doFollowQRA(this.props.token, this.props.qra.qra.qra);
+      this.followed = true;
+      this.setState({ followed: this.followed });
+    } else {
+      this.props.actions.doUnfollowQRA(
+        this.props.token,
+        this.props.qra.qra.qra
+      );
+      this.followed = false;
+      this.setState({ followed: this.followed });
+    }
+    // this.setState(prevState => {
+    //   return {
+    //     followed: !prevState.followed
+    //   };
+    // });
   }
   // shouldComponentUpdate() {
   //   return this.props.qra ? true : false;
@@ -232,6 +234,13 @@ class QRAProfileContainer extends React.PureComponent {
         (o) => o.qra === this.props.navigation.getParam('qra', 'NO-ID')
       );
     }
+    if (this.props.fetchingQRA) {
+      return (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
+      );
+    }
     return (
       <Fragment>
         {/* //   <Dimmer active={this.state.loaderActive} page>
@@ -244,7 +253,7 @@ class QRAProfileContainer extends React.PureComponent {
             followers={this.props.followers}
             loaderActive={this.state.loaderActive}
             qra={this.state.qra}
-            onClick={this.handleButtonClick}
+            onClick={() => this.handleButtonClick()}
             userFetched={this.props.userFetched}
             currentQRA={this.props.currentQRA}
             followed={this.followed}

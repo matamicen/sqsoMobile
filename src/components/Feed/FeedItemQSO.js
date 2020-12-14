@@ -20,7 +20,7 @@ class FeedItemQSO extends React.PureComponent {
   //     }
   // static getDerivedStateFromProps(props, prevState) {
   //   if (props.qso.comments !== prevState.comments) {
-  //     console.log('update');
+
   //     return { qso: props.qso, comments: props.qso.comments };
   //   }
   //   if (props.qso.likes !== prevState.likes) {
@@ -61,40 +61,6 @@ class FeedItemQSO extends React.PureComponent {
     }
 
     return (
-      // <Fragment>
-      //   <Segment raised>
-      //     <View className="qso-header">
-
-      //       {/* {date.toLocaleDateString("i18n.language", {month: "short"}) + ' ' + date.getDate() + ', ' + date.getFullYear()} */}
-      //       <View
-      //         className="qso-header-button"
-      //         style={{
-      //           float: 'right'
-      //         }}>
-      //         <FeedOptionsMenu
-      //           qso_owner={this.props.qso.qra}
-      //           idqso={this.props.qso.idqsos}
-      //           guid={this.props.qso.GUID_QR}
-      //           qso={this.props.qso}
-      //           optionsCaller="FeedItem"
-      //           QslCard={
-      //             this.props.currentQRA === this.props.qso.qra ||
-      //             this.props.qso.qras.some(
-      //               (o) => o.qra === this.props.currentQRA
-      //             )
-      //           }
-      //         />
-      //       </View>
-      //     </View>
-
-      //     {this.props.qso.links && (
-      //       <FeedLinkList links={this.props.qso.links} />
-      //     )}
-      //     <Divider hidden style={{ marginTop: '1vh' }} />
-
-      //   </Segment>
-
-      // </Fragment>
       <Card containerStyle={{ padding: 0, margin: 0 }}>
         <FeedItemHeader
           feedType={this.props.feedType}
@@ -115,7 +81,7 @@ class FeedItemQSO extends React.PureComponent {
           idqsos={this.props.idqsos}
           qso_owner={this.props.qso.qra}
         />
-        {/* <QSOLikeText qso={qso} likes={this.state.likes} /> */}
+
         <FeedSocialButtons
           feedType={this.props.feedType}
           comments={this.props.qso.comments}
@@ -139,7 +105,6 @@ const styles = StyleSheet.create({
   }
 });
 const selectorFeedType = (state, ownProps) => {
-  console.log(ownProps);
   if (ownProps.feedType === 'MAIN')
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')

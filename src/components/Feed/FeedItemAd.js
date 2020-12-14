@@ -1,34 +1,21 @@
+import { BannerAd, BannerAdSize } from '@react-native-firebase/admob';
 import React from 'react';
-import './style.js';
+import { Platform } from 'react-native';
+var adUnitId;
 
-export default class FeedItemAd extends React.PureComponent {
-  render() {
-    return (
-      // <Segment
-      //   raised
-      //   secondary  
-      //   style={{ padding: 'initial', textAlign: 'center' }}>
-      // <View>
-      //   <View className="adDesktop">
-      //     <Ad
-      //       adslot="/22031658057/Home/home_feed"
-      //       width={500}
-      //       height={250}
-      //       // id="div-ads-instance-home-feed"
-      //       displayOnly={false}
-      //     />
-      //   </View>
-      //   <View className="adMobile">
-      //     <Ad
-      //       adslot="/22031658057/Home/home_feed"
-      //       width={300}
-      //       height={250}
-      //       // id="div-ads-instance-home-feed"
-      //       displayOnly={false}
-      //     />
-      //   </View>
-      //   {/* </Segment> */}
-      // </View>
-    );
+export default function FeedItemAdd() {
+  if (Platform.OS === 'ios') {
+    adUnitId = 'ca-app-pub-7016811987787025/5885684679';
+  } else {
+    adUnitId = 'ca-app-pub-7016811987787025/6306332985';
   }
+  return (
+    <BannerAd
+      unitId={adUnitId}
+      size={BannerAdSize.FULL_BANNER}
+      requestOptions={{
+        requestNonPersonalizedAdsOnly: true
+      }}
+    />
+  );
 }

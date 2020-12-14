@@ -294,7 +294,6 @@ class QraProfileInfoEdit extends React.Component {
                       country: value.name,
                       showFlag: false
                     });
-                    console.log(value);
                   }}
                   // onClose = { this.setState({showFlag: false})}
                   // ref={ref => {this.countryPicker = ref}}

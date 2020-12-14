@@ -1,8 +1,7 @@
 import React from 'react';
-import NewsFeed from '../NewsFeedPresentational';
+import NewsFeedPresentational from '../NewsFeedPresentational';
 export default class QRAProfileQsos extends React.PureComponent {
   render() {
-    console.log('QRAProfileQsos');
     let qsos = [];
     if (this.props.qsos && this.props.qsos.length > 0) {
       for (let i = 0; i < this.props.qsos.length; i++) {
@@ -14,7 +13,7 @@ export default class QRAProfileQsos extends React.PureComponent {
         });
       }
       return (
-        <NewsFeed
+        <NewsFeedPresentational
           feedType="PROFILE"
           list={qsos}
           QRAFetched={this.props.QRAFetched}

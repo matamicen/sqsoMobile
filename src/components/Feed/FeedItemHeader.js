@@ -6,13 +6,22 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
+import FeedOptionsMenu from './FeedOptionsMenu';
 // import './style.js';
 import TextToFollow from './TextToFollow';
+
 class FeedItemHeader extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
   }
+  state = { openMenu: false };
+  openMenu() {
+    this.menu.open();
+  }
 
+  onRef = (r) => {
+    this.menu = r;
+  };
   render() {
     let text;
     let shareText;
@@ -53,8 +62,9 @@ class FeedItemHeader extends React.PureComponent {
             <TouchableOpacity
               // style={styles.button}
               onPress={() =>
-                this.props.navigation.navigate('QRAProfile', {
-                  qra: this.props.qso.qra
+                this.props.navigation.push('QRAProfile', {
+                  qra: this.props.qso.qra,
+                  screen: 'PROFILE'
                 })
               }>
               <Avatar
@@ -79,8 +89,9 @@ class FeedItemHeader extends React.PureComponent {
             <TouchableOpacity
               // style={styles.button}
               onPress={() =>
-                this.props.navigation.navigate('QRAProfile', {
-                  qra: this.props.qso.qra
+                this.props.navigation.push('QRAProfile', {
+                  qra: this.props.qso.qra,
+                  screen: 'PROFILE'
                 })
               }>
               <Text style={styles.actionHeaderText}>{this.props.qso.qra}</Text>
@@ -110,7 +121,7 @@ class FeedItemHeader extends React.PureComponent {
               {this.props.qso.rst && (
                 <Fragment>
                   <Text style={styles.bold}>RST:</Text>
-                  <Text>{this.props.qso.db}</Text>
+                  <Text>{this.props.qso.rst}</Text>
                 </Fragment>
               )}
               <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
@@ -130,11 +141,27 @@ class FeedItemHeader extends React.PureComponent {
             </Text>
           </View>
         </View>
+        {this.props.feedType !== 'REPOST' && (
+          <View style={styles.menu}>
+            <FeedOptionsMenu
+              qso_owner={this.props.qso.qra}
+              idqso={this.props.qso.idqsos}
+              guid={this.props.qso.GUID_QR}
+              qso={this.props.qso}
+              optionsCaller="FeedItem"
+              QslCard={
+                this.props.currentQRA === this.props.qso.qra ||
+                this.props.qso.qras.some((o) => o.qra === this.props.currentQRA)
+              }
+            />
+          </View>
+        )}
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  menu: { padding: 7 },
   bold: { fontWeight: 'bold' },
   actionHeaderText: {
     fontSize: 20
@@ -193,8 +220,50 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32
+  },
+
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'lightgray'
+  },
+  topbar: {
+    flexDirection: 'row',
+    backgroundColor: 'dimgray',
+    paddingTop: 15
+  },
+  trigger: {
+    padding: 5,
+    margin: 5
+  },
+  triggerText: {
+    color: 'white'
+  },
+  disabled: {
+    color: '#ccc'
+  },
+  divider: {
+    marginVertical: 5,
+    marginHorizontal: 2,
+    borderBottomWidth: 1,
+    borderColor: '#ccc'
+  },
+  logView: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  logItem: {
+    flexDirection: 'row',
+    padding: 8
+  },
+  slideInOption: {
+    padding: 5
+  },
+  text: {
+    fontSize: 18
   }
 });
+
 const selectorFeedType = (state, ownProps) => {
   if (ownProps.feedType === 'MAIN')
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
@@ -202,6 +271,9 @@ const selectorFeedType = (state, ownProps) => {
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'REPOST')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
+      .original[0];
   else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };

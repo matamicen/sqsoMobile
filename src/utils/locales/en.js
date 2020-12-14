@@ -671,7 +671,7 @@ export default {
     youLikeThis: ' liked this',
     manyLikeThis: ' liked this',
     startLikePhrase: '',
-    likeModalHeader: 'These Hams likes this'
+    likeModalHeader: 'These Hams likes this Post'
   },
   qra: {
     loading: 'Loading Callsign...',
@@ -702,7 +702,7 @@ export default {
     firstName: 'First name',
     info: 'Info',
     bio: 'Bio',
-    qsos: 'QSOs',
+    qsos: 'Posts',
     following: 'Following',
     followers: 'Followers'
   },

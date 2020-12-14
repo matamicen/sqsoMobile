@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import I18n from '../../../utils/i18n';
-// import '../../styles/style.css';
 import { MY_COUNTRIES_DATA } from './countries.js';
 
 class QRAProfileHeader extends React.PureComponent {
@@ -58,118 +57,90 @@ class QRAProfileHeader extends React.PureComponent {
       : null;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.avatar}>
-          <TouchableOpacity
-            // style={styles.button}
-            onPress={() => this.open()}>
-            <Avatar
-              size="large"
-              rounded
-              source={
-                this.props.qraInfo.profilepic
-                  ? {
-                      uri: this.props.qraInfo.profilepic
-                    }
-                  : require('../../../images/emptyprofile.png')
-              }
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.detail}>
-          <View style={styles.qra}>
-            <Text style={styles.qraText}>
-              <Text>{this.props.qraInfo.qra}</Text>
-              <Text style={styles.flagText}>
-                {this.props.qraInfo.country !== '' &&
-                  this.props.qraInfo.country !== null && (
-                    <Text>
-                      {this.country2emoji(this.props.qraInfo.country)}
-                    </Text>
-                  )}
-                <Text>{result.length > 0 ? result[0].text : null}</Text>
-              </Text>
-            </Text>
-          </View>
-
-          <View style={styles.name}>
-            <Text style={styles.nameText}>
-              {this.props.qraInfo.firstname &&
-                this.props.qraInfo.firstname + ' '}
-              {this.props.qraInfo.lastname && this.props.qraInfo.lastname}
-            </Text>
-          </View>
-
-          <View style={styles.kpi}>
-            {this.props.qraInfo.views_counter ? (
-              <View style={{}}>
-                <Text>
-                  {I18n.t('qra.views')}: {this.props.qraInfo.views_counter}
-                </Text>
-              </View>
-            ) : null}
-            {this.props.qraInfo.qsos_counter ? (
-              <View style={{}}>
-                <Text>
-                  {I18n.t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
-                </Text>
-              </View>
-            ) : null}
-            {this.props.qraInfo.followers_counter ? (
-              <View style={{}}>
-                <Text>
-                  {' '}
-                  {I18n.t('qra.followers')}:{' '}
-                  {this.props.qraInfo.followers_counter}
-                </Text>
-              </View>
-            ) : (
-              ''
-            )}
-          </View>
-
-          <View className="follow">
-            {this.props.userFetched &&
-              this.props.qraInfo.qra !== this.props.currentQRA && (
-                <Button
-                  size="small"
-                  // positive={!props.following.some(o => o.qra === this.props.qraInfo.qra)}
-                  positive={!this.props.followed}
-                  onPress={() => this.props.onClick()}
-                  style={{}}>
-                  title={buttonText}
-                </Button>
-              )}
-          </View>
-        </View>
-
-        {/* <Modal
-          centered={false}
-          closeIcon={{
-            // style: { top: '0.0535rem', right: '0rem' },
-            color: 'black',
-            name: 'close'
-          }}
-          open={this.state.showModal}
-          onClose={this.close}
-          // style={{ height: '90%', overflowY: 'auto' }}
-          style={{}}>
-          <View style={{}}>
-            <Image
-              // centered
-              // rounded
-              alt={'no description'}
-              // size="medium"
-              source={{ uri: this.props.qraInfo.profilepic }}
-              style={
-                {
-                  // objectFit: 'contain',
-                  // width: '100%'
+      <View style={styles.header}>
+        <View style={styles.container}>
+          <View style={styles.avatar}>
+            <TouchableOpacity
+              // style={styles.button}
+              onPress={() => this.open()}>
+              <Avatar
+                size="large"
+                rounded
+                source={
+                  this.props.qraInfo.profilepic
+                    ? {
+                        uri: this.props.qraInfo.profilepic
+                      }
+                    : require('../../../images/emptyprofile.png')
                 }
-              }
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.detail}>
+            <View style={styles.qra}>
+              <Text style={styles.qraText}>
+                <Text>{this.props.qraInfo.qra}</Text>
+                <Text style={styles.flagText}>
+                  {this.props.qraInfo.country !== '' &&
+                    this.props.qraInfo.country !== null && (
+                      <Text>
+                        {this.country2emoji(this.props.qraInfo.country)}
+                      </Text>
+                    )}
+                  <Text>{result.length > 0 ? result[0].text : null}</Text>
+                </Text>
+              </Text>
+            </View>
+
+            <View style={styles.name}>
+              <Text style={styles.nameText}>
+                {this.props.qraInfo.firstname &&
+                  this.props.qraInfo.firstname + ' '}
+                {this.props.qraInfo.lastname && this.props.qraInfo.lastname}
+              </Text>
+            </View>
+
+            <View style={styles.kpi}>
+              {this.props.qraInfo.views_counter !== null && (
+                <View>
+                  <Text>
+                    {I18n.t('qra.views')}: {this.props.qraInfo.views_counter}
+                  </Text>
+                </View>
+              )}
+              {this.props.qraInfo.qsos_counter !== null && (
+                <View>
+                  <Text>
+                    {I18n.t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
+                  </Text>
+                </View>
+              )}
+              {this.props.qraInfo.followers_counter !== null && (
+                <View>
+                  <Text>
+                    <Text>
+                      {I18n.t('qra.followers')}:
+                      {this.props.qraInfo.followers_counter}
+                    </Text>
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+        </View>
+        {this.props.qraInfo.qra !== this.props.currentQRA && (
+          <View style={styles.follow}>
+            <Button
+              containerStyle={{ padding: 0, margin: 0 }}
+              // size="small"
+              // positive={!props.following.some(o => o.qra === this.props.qraInfo.qra)}
+              // // positive={!this.props.followed}
+              fluid
+              onPress={() => this.props.onPress()}
+              title={buttonText}
             />
           </View>
-        </Modal> */}
+        )}
       </View>
     );
   }
@@ -197,6 +168,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column'
   },
+  follow: {
+    // flex: 1,
+    // alignSelf: 'flex-start',
+    // justifyContent: 'flex-start',
+    marginTop: 80,
+    width: '100%',
+    height: 100
+  },
   kpi: {
     flex: 1,
     flexDirection: 'row',
@@ -208,10 +187,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row'
+
     // justifyContent: 'center'
     // alignItems: 'center'
     // flexGrow: 1
     // marginTop: Constants.statusBarHeight
+  },
+
+  header: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start'
   }
 });
 export default QRAProfileHeader;

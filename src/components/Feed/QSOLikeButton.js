@@ -23,47 +23,52 @@ class QSOLikeButton extends React.PureComponent {
       idqra: null
     };
   }
+  componentDidUpdate() {
+    console.log(this.props.qso);
+  }
+  static getDerivedStateFromProps(props, prevState) {
+    console.log(props.likes);
+    console.log(props.qso);
 
-  // static getDerivedStateFromProps(props, prevState) {
-  //   if (props.userInfo.idqras && prevState.idqra !== props.userInfo.idqras) {
-  //     if (this.props.qso.likes.some((o) => o.idqra === props.userInfo.idqras)) {
-  //       return {
-  //         qso: this.props.qso,
-  //         liked: true,
-  //         icon: 'thumbs-up',
-  //         likes: this.props.qso.likes,
-  //         likeCounter: this.props.qso.likes.length
-  //       };
-  //     } else {
-  //       return {
-  //         qso: this.props.qso,
-  //         liked: false,
-  //         icon: 'thumbs-o-up',
-  //         likes: this.props.qso.likes,
-  //         likeCounter: this.props.qso.likes.length
-  //       };
-  //       // if (
-  //       //   props.userData.qra
-  //       // ) {
-  //       //   if (props.qso.likes.some(o => o.idqra === props.userData.qra.idqras)) {
-  //       //     return {
-  //       //       liked: true,
-  //       //       icon: 'thumbs up',
-  //       //       likes: props.qso.likes,
-  //       //       likeCounter: props.qso.likes.length
-  //       //     };
-  //       //   } else {
-  //       //     return {
-  //       //       liked: false,
-  //       //       icon: 'thumbs outline up',
-  //       //       likes: props.qso.likes,
-  //       //       likeCounter: props.qso.likes.length
-  //       //     };
-  //       //   }
-  //     }
-  //   }
-  //   return null;
-  // }
+    if (props.userInfo.idqras && prevState.idqra !== props.userInfo.idqras) {
+      if (props.likes.some((o) => o.idqra === props.userInfo.idqras)) {
+        return {
+          qso: props.qso,
+          liked: true,
+          icon: 'thumbs-up',
+          likes: props.likes,
+          likeCounter: props.likes.length
+        };
+      } else {
+        return {
+          qso: props.qso,
+          liked: false,
+          icon: 'thumbs-o-up',
+          likes: props.likes,
+          likeCounter: props.likes.length
+        };
+        // if (
+        //   props.userData.qra
+        // ) {
+        //   if (props.qso.likes.some(o => o.idqra === props.userData.qra.idqras)) {
+        //     return {
+        //       liked: true,
+        //       icon: 'thumbs up',
+        //       likes: props.qso.likes,
+        //       likeCounter: props.qso.likes.length
+        //     };
+        //   } else {
+        //     return {
+        //       liked: false,
+        //       icon: 'thumbs outline up',
+        //       likes: props.qso.likes,
+        //       likeCounter: props.qso.likes.length
+        //     };
+        //   }
+      }
+    }
+    return null;
+  }
   async doLike(token = null) {
     // if (!__DEV__) {
     //   window.gtag('event', 'qsoLiked_WEBPRD', {
@@ -211,7 +216,7 @@ class QSOLikeButton extends React.PureComponent {
 
   render() {
     let icon;
-
+    this.likeCounter = this.state.likeCounter;
     if (this.liked !== true && this.liked !== false) {
       icon = this.state.icon;
       this.liked = this.state.liked;
@@ -219,7 +224,7 @@ class QSOLikeButton extends React.PureComponent {
     else icon = 'thumbs-o-up';
 
     let counter = this.likeCounter > 0 ? this.likeCounter.toString() : null;
-
+    // if (!counter) counter = this.state.likeCounter.toString();
     return (
       <Button
         type="clear"
@@ -241,10 +246,24 @@ const selectorFeedType = (state, ownProps) => {
   else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };
+const selectorFeedTypeLikes = (state, ownProps) => {
+  if (ownProps.feedType === 'MAIN')
+    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes;
+  else if (ownProps.feedType === 'PROFILE')
+    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
+      .likes;
+  else if (ownProps.feedType === 'FIELDDAYS')
+    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
+      .likes;
+  else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
+    return state.sqso.feed.qso.likes;
+  else return null;
+};
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
   userInfo: state.sqso.userInfo,
   qso: selectorFeedType(state, ownProps),
+  likes: selectorFeedTypeLikes(state, ownProps),
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

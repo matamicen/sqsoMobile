@@ -10,9 +10,8 @@ import { Image } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import {Button} from 'react-native-elements';
-// import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
+
 
 // const styles = {
 //   margin: '0px',
@@ -71,7 +70,6 @@ const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 230;
 export const FeedImage = (props) => {
   const _renderItem = ({ item, index }) => {
-    // console.log('varios: '+ item.type + ' '+ item.url)
     if (item.type === 'image')
       return (
         <View style={styles.slide}>
@@ -161,6 +159,3 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FeedImage);
-// export default connect(mapStateToProps, mapDispatchToProps, null, {
-//   pure: false
-// })(FeedImage);

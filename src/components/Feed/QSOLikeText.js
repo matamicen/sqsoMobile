@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   FlatList,
-  Modal,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
-import { Avatar, Icon } from 'react-native-elements';
+import { Avatar, Icon, Overlay } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -30,7 +30,6 @@ class QSOLikeText extends React.PureComponent {
     // this.setState({ likes: this.props.qso.likes });
     // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
     // if (qso) this.setState({ qso: qso });
-    // console.log(this.props.qso.likes);
     // if (
     //   this.props.qso.likes.length === 1 &&
     //   this.props.qso.likes[0].qra === this.props.currentQRA
@@ -52,7 +51,6 @@ class QSOLikeText extends React.PureComponent {
     let maxLikers = 2;
     let others = 0;
     // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
-    // console.log(qso);
 
     let likes = this.props.qso.likes ? this.props.qso.likes : [];
     // let avatarPic = null;
@@ -141,16 +139,25 @@ class QSOLikeText extends React.PureComponent {
             <Text style={styles.text}>{outputText}</Text>
           </View>
         </TouchableOpacity>
-
-        <Modal
-          position={'top'}
-          animationType={'slide'}
-          transparent={true}
-          visible={this.state.showModal}
-          onRequestClose={() => this.setState({ showModal: false })}>
-          {/* {I18n.t('qso.likeModalHeader')}{' '}
-          {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
-          <View style={styles.modal}>
+        <Overlay
+          animationType="slide"
+          isVisible={this.state.showModal}
+          onBackdropPress={() => this.setState({ showModal: false })}
+          backdropStyle={{ opacity: 1 }}
+          width="auto"
+          height="auto"
+          borderRadius={8}
+          overlayStyle={{
+            position: 'absolute',
+            flex: 1,
+            top: 50,
+            // bottom: 50,
+            width: '80%'
+            // maxHeight: '80%'
+          }}>
+          <KeyboardAvoidingView
+            behavior="padding"
+            style={{ flex: 1, justifyContent: 'center' }}>
             <View style={styles.iconView}>
               <Icon
                 name="close"
@@ -158,21 +165,24 @@ class QSOLikeText extends React.PureComponent {
                 onPress={() => this.setState({ showModal: false })}
               />
             </View>
-            <View style={styles.itemsView} />
-            <FlatList
-              pagingEnabled={true}
-              onScroll={this.handleScroll}
-              data={likes}
-              onViewableItemsChanged={this._onViewableItemsChanged}
-              initialNumToRender={3}
-              viewabilityConfig={this.viewabilityConfig}
-              maxToRenderPerBatch={3}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={this._renderItem}
-              contentContainerStyle={styles.container}
-            />
-          </View>
-        </Modal>
+            <Text h3>{I18n.t('qso.likeModalHeader')}</Text>
+
+            <View style={styles.itemsView}>
+              <FlatList
+                pagingEnabled={true}
+                onScroll={this.handleScroll}
+                data={likes}
+                onViewableItemsChanged={this._onViewableItemsChanged}
+                initialNumToRender={3}
+                viewabilityConfig={this.viewabilityConfig}
+                maxToRenderPerBatch={3}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={this._renderItem}
+                contentContainerStyle={styles.container}
+              />
+            </View>
+          </KeyboardAvoidingView>
+        </Overlay>
       </View>
     );
   }
@@ -201,9 +211,9 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 50,
     padding: 10,
-    backgroundColor: 'gray',
+
     // paddingVertical: 5,
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
     borderRadius: 12
   },
   text: {
@@ -243,7 +253,8 @@ const selectorFeedTypeLikes = (state, ownProps) => {
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
       .likes;
-  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso.likes;
+  else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
+    return state.sqso.feed.qso.likes;
   else return null;
 };
 const mapStateToProps = (state, ownProps) => ({

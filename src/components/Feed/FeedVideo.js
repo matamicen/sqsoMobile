@@ -3,11 +3,15 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import { Tile } from 'react-native-elements';
 // import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-controls';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 // import './style.js';
 
-export default class FeedVideo extends React.PureComponent {
+class FeedVideo extends React.PureComponent {
   state = {
-    showVideo: false
+    showVideo: false,
+    paused: false
   };
   // const width = Dimensions.get('window');
 
@@ -22,6 +26,8 @@ export default class FeedVideo extends React.PureComponent {
     // );
   };
   componentDidUpdate(props) {
+    this.setState({ paused: props.media.paused ? true : false });
+    if (this.player) this.player.paused = props.media.paused ? true : false;
     // console.log(props.currentIndex);
     // console.log(props.currentVisibleIndex);
     // if (props.currentIndex !== props.currentVisibleIndex) {
@@ -37,6 +43,7 @@ export default class FeedVideo extends React.PureComponent {
       videoHeight = Dimensions.get('window').height - 177;
       width = (this.props.media.width * videoHeight) / this.props.media.height;
     }
+
     return (
       <View
         style={
@@ -53,13 +60,14 @@ export default class FeedVideo extends React.PureComponent {
         {this.state.showVideo && (
           <View>
             <VideoPlayer
-              // ref={(ref) => {
-              //   this.player = ref;
-              // }}
+              ref={(ref) => {
+                this.player = ref;
+              }}
               // id="my-video"
               // className="video-js"
               // controls
               // fullscreen={true}
+              onPause={() => this.props.actions.doPauseVideo(this.props.idqsos)}
               navigator={this.props.navigator}
               resizeMode="cover"
               playInBackground={false}
@@ -67,7 +75,12 @@ export default class FeedVideo extends React.PureComponent {
               posterResizeMode="cover"
               poster={this.props.media.videoPreview}
               // paused={props.paused}
-              paused={false}
+              paused={this.props.media.paused ? true : false}
+              onLoad={() => {
+                // this.setState({
+                //   paused: true
+                // });
+              }}
               style={
                 (styles.backgroundVideo,
                 {
@@ -110,7 +123,7 @@ export default class FeedVideo extends React.PureComponent {
               //   PlaceholderContent={<ActivityIndicator />}
               // }
               icon={{ size: 70, name: 'play-circle', type: 'font-awesome' }}
-              onPress={() => this.setState({ showVideo: true })}
+              onPress={() => this.setState({ showVideo: true, paused: false })}
               featured
             />
           </View>
@@ -132,3 +145,25 @@ const styles = StyleSheet.create({
     // right: 0
   }
 });
+const selectorFeedType = (state, ownProps) => {
+  let qso;
+  if (ownProps.feedType === 'MAIN')
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE')
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
+  else return null;
+  if (qso)
+    return qso.media.find((m) => (m.idqsos_media = ownProps.idqsos_media));
+};
+const mapStateToProps = (state, ownProps) => ({
+  token: state.sqso.jwtToken,
+  media: selectorFeedType(state, ownProps),
+  currentQRA: state.sqso.qra
+});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(FeedVideo);

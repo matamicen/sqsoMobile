@@ -39,6 +39,7 @@ import {
   ON_PROGRESS_TRUE,
   OPEN_MODALCONFIRM_PHOTO,
   OPEN_MODAL_RECORDING,
+  PAUSE_VIDEO,
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
@@ -77,6 +78,7 @@ import {
   SET_MODE,
   SET_QSOUTC,
   SET_QSODATE,
+  SET_MUSTUPGRADEAPP,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
@@ -101,8 +103,7 @@ import {
   UPDATE_QRA_URL,
   UPDATE_QSL_SCAN,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS,
-  SET_MUSTUPGRADEAPP
+  UPDATE_QSO_HEADER_STATUS
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -1103,8 +1104,6 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
 
     case SET_TOKEN:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      console.log('Reducer jwtToken:' + action.jwttoken);
       newStore = Object.assign({}, state, {
         ...state,
         jwtToken: action.jwttoken
@@ -1140,17 +1139,14 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
 
-      case SET_MUSTUPGRADEAPP:
-   
-  
-        newStore = Object.assign({}, state, {
-          ...state,
-         
-          mustUpgradeApp: action.mustupgradeapp
-          
-        });
-  
-        return newStore;
+    case SET_MUSTUPGRADEAPP:
+      newStore = Object.assign({}, state, {
+        ...state,
+
+        mustUpgradeApp: action.mustupgradeapp
+      });
+
+      return newStore;
 
     case SET_USER_INFO:
       // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
@@ -2176,7 +2172,7 @@ const qsoReducer = (state = initialState, action) => {
             ? {
                 ...state.feed.qra,
                 qsos:
-                  state.feed.feed.qra && state.feed.qra.qsos
+                  state.feed.qra.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
                         if (qso.idqsos === action.idqso) {
                           qso.comments = qso.comments.filter(
@@ -2410,6 +2406,85 @@ const qsoReducer = (state = initialState, action) => {
           qra: qra
         }
       });
+      return newStore;
+    }
+    case PAUSE_VIDEO: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: state.feed.qsos
+            ? state.feed.qsos.map((qso) => {
+                if (qso.idqsos === action.idqsos) {
+                  qso.media = qso.media.map((m) => {
+                    if (m.type === 'video') m.paused = true;
+                    return m;
+                  });
+                }
+                return qso;
+              })
+            : [],
+          // qso_link:
+          //   state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
+          //     ? {
+          //         ...state.feed.qso_link,
+          //         likes: [...state.feed.qso_link.likes, like]
+          //       }
+          //     : state.feed.qso_link,
+          qra: state.feed.qra
+            ? {
+                ...state.feed.qra,
+                qsos:
+                  state.feed.qra && state.feed.qra.qsos
+                    ? state.feed.qra.qsos.map((qso) => {
+                        if (qso.media)
+                          qso.media = qso.media.map((m) => {
+                            if (m.type === 'video') m.paused = true;
+                            return m;
+                          });
+                        return qso;
+                      })
+                    : []
+              }
+            : null,
+
+          qso:
+            state.feed.qso && state.feed.qso.idqsos
+              ? {
+                  ...state.feed.qso,
+                  media: state.feed.qso.media.map((m) => {
+                    if (m.type === 'video') m.paused = true;
+                    return m;
+                  })
+                }
+              : null
+        }
+      });
+
+      return newStore;
+    }
+    case DELETE_QSO: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos:
+            state.feed.qsos &&
+            state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+          fieldDays:
+            state.fieldDays.qsos &&
+            state.fieldDays.qsos.filter((qso) => qso.idqsos !== action.idqso),
+          qra: state.qra
+            ? {
+                ...state.qra,
+                qsos: state.qra.qsos.filter((qso) => {
+                  return qso.idqsos !== action.idqso;
+                })
+              }
+            : state.qra
+        }
+      });
+
       return newStore;
     }
     default:

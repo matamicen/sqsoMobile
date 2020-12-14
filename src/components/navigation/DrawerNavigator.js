@@ -1,5 +1,6 @@
 import { createDrawerNavigator } from 'react-navigation';
 import I18n from '../../utils/i18n';
+import SideMenu from './SideMenu';
 import {
   editBioStackNavigator,
   editInfoStackNavigator,
@@ -44,8 +45,9 @@ const DrawerNavigatorConfig = {
   // drawerType: 'slide',
   initialRouteName: 'Home',
   drawerPosition: 'right',
-  overlayColor: 'transparent'
-  // mode: 'modal'
+  overlayColor: 'transparent',
+  contentComponent: SideMenu,
+  drawerWidth: 300
 };
 
 export const DrawerNavigator = createDrawerNavigator(

@@ -3,19 +3,19 @@ import React, { Fragment } from 'react';
 import {
   FlatList,
   KeyboardAvoidingView,
-  ScrollView,
   StyleSheet,
+  Text,
   TextInput,
   View
 } from 'react-native';
 import { Button, Icon, Overlay } from 'react-native-elements';
+import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
 // import TextareaAutosize from 'react-textarea-autosize';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import QSOCommentItem from './QSOCommentItem';
-
 class QSOComments extends React.PureComponent {
   constructor() {
     super();
@@ -31,18 +31,16 @@ class QSOComments extends React.PureComponent {
 
   componentDidMount() {
     // if (!__DEV__)
-    if (this.props.qso.comments) {
+    if (this.props.comments) {
       // window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
       //   event_category: 'qso',
       //   event_label: 'commentModalOpen'
       // });
-      this.setState({ comments: this.props.qso.comments });
+      this.setState({ comments: this.props.comments });
     }
   }
 
   handleAddComment = (values) => {
-    console.log('handleAddComment');
-    console.log(values);
     // e.preventDefault();
     if (values === '') return;
 
@@ -99,7 +97,7 @@ class QSOComments extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      JSON.stringify(this.props.qso.comments) !==
+      JSON.stringify(this.props.comments) !==
       JSON.stringify(this.state.comments)
     )
       this.setState({
@@ -125,7 +123,6 @@ class QSOComments extends React.PureComponent {
     <Formik
       initialValues={{ comment: '' }}
       onSubmit={(values, actions) => {
-        console.log(values, actions);
         this.handleAddComment(values);
       }}>
       {({
@@ -170,7 +167,7 @@ class QSOComments extends React.PureComponent {
               flexBasis: 0,
               flexGrow: 0
             }}> */}
-            <View>
+          <View>
             <Button
               buttonStyle={{
                 padding: 1,
@@ -182,8 +179,6 @@ class QSOComments extends React.PureComponent {
               title={I18n.t('qso.add')}
               onPress={handleSubmit}
             />
-            
-          
           </View>
         </View>
       )}
@@ -226,50 +221,57 @@ class QSOComments extends React.PureComponent {
           borderRadius={8}
           overlayStyle={{
             position: 'absolute',
-
             flex: 1,
             top: 50,
-            bottom: 50,
-            width: '80%',
-            height: '80%'
+            // bottom: 50,
+            width: '80%'
+            // maxHeight: '80%2'
           }}>
-          {/* <Modal
-          position={'top'}
-          animationType={'slide'}
-          transparent={true}
-          visible={this.props.showComments}
-          onRequestClose={() => this.props.doClose()}> */}
-          {/* {I18n.t('qso.likeModalHeader')}{' '}
-          {qso.type === 'POST' ? I18n.t('qso.POST') : ' QSO'} */}
           <KeyboardAvoidingView
             behavior="padding"
             style={{ flex: 1, justifyContent: 'center' }}>
-            <ScrollView style={{ flex: 1 }}>
-              <View style={styles.iconView}>
-                <Icon
-                  name="close"
-                  type="font-awesome"
-                  onPress={() => this.props.doClose()}
-                />
+            <MenuProvider
+              skipInstanceCheck
+              style={{
+                flexDirection: 'column',
+
+                backgroundColor: 'white'
+              }}>
+              <View style={{ flex: 1 }}>
+                <Text h3>
+                  <Text>{I18n.t('qso.likeModalHeader')}</Text>
+                  <Text>
+                    {this.props.qso.type === 'POST'
+                      ? I18n.t('qso.POST')
+                      : ' QSO'}
+                  </Text>
+                </Text>
+                <View style={styles.iconView}>
+                  <Icon
+                    name="close"
+                    type="font-awesome"
+                    onPress={() => this.props.doClose()}
+                  />
+                </View>
+                <View style={styles.itemsView}>
+                  <FlatList
+                    extraData={this.state.comments}
+                    pagingEnabled={true}
+                    onScroll={this.handleScroll}
+                    data={this.state.comments}
+                    onViewableItemsChanged={this._onViewableItemsChanged}
+                    initialNumToRender={3}
+                    // viewabilityConfig={this.viewabilityConfig}
+                    maxToRenderPerBatch={3}
+                    keyExtractor={(item, index) => index.toString()}
+                    ItemSeparatorComponent={this.renderSeparator}
+                    renderItem={this._renderItem}
+                    contentContainerStyle={styles.container}
+                    ListFooterComponent={this._ListFooterComponent}
+                  />
+                </View>
               </View>
-              <View style={styles.itemsView}>
-                <FlatList
-                  extraData={this.props.comments}
-                  pagingEnabled={true}
-                  onScroll={this.handleScroll}
-                  data={this.props.comments}
-                  onViewableItemsChanged={this._onViewableItemsChanged}
-                  initialNumToRender={3}
-                  // viewabilityConfig={this.viewabilityConfig}
-                  maxToRenderPerBatch={3}
-                  keyExtractor={(item, index) => index.toString()}
-                  ItemSeparatorComponent={this.renderSeparator}
-                  renderItem={this._renderItem}
-                  contentContainerStyle={styles.container}
-                  ListFooterComponent={this._ListFooterComponent}
-                />
-              </View>
-            </ScrollView>
+            </MenuProvider>
           </KeyboardAvoidingView>
         </Overlay>
       </Fragment>

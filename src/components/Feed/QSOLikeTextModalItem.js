@@ -63,7 +63,8 @@ class QSOLikeTextModalItem extends React.PureComponent {
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('QRAProfile', {
-                qra: l.qra
+                qra: l.qra,
+                screen: 'PROFILE'
               })
             }>
             <Avatar
@@ -83,7 +84,8 @@ class QSOLikeTextModalItem extends React.PureComponent {
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('QRAProfile', {
-                qra: l.qra
+                qra: l.qra,
+                screen: 'PROFILE'
               })
             }>
             <Text style={{ fontSize: 15 }}>{l.qra}</Text>
@@ -96,7 +98,8 @@ class QSOLikeTextModalItem extends React.PureComponent {
         <View style={styles.follow}>
           {!this.followed && l.qra !== this.props.currentQRA && (
             <Button
-              // positive={!this.followed}
+              containerStyle={{ padding: 0, margin: 0 }}
+              raised
               onPress={() => this.handleButtonClick(l.qra)}
               title={
                 this.props.followers.some((o) => o.qra === l.qra)
