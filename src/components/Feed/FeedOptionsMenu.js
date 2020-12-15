@@ -332,7 +332,7 @@ class FeedOptionsMenu extends React.PureComponent {
           opened={this.state.openMenu}
           name={
             this.props.idqso.toString() +
-            (this.props.message ? this.props.message : null) +
+            (this.props.idqsos_comments ? this.props.idqsos_comments : null) +
             this.props.comment_owner
               ? this.props.comment_owner
               : null
