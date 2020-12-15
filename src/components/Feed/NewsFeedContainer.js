@@ -28,7 +28,7 @@ class NewsFeedContainer extends React.PureComponent {
     if (this.state.qsos) {
       return (
         <View style={{ flex: 1, zIndex: 1 }}>
-          <View>
+           <View style={{ zIndex: 1 }}>
             <FeedHeaderBar />
           </View>
           <View style={{ flex: 1, zIndex: 0 }}>
