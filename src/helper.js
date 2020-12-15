@@ -28,7 +28,45 @@ export const chau=()=>{
   return 'chau';
 }
 
-export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles)=>{
+check_begin_end_date = (activitydatebegin,activitydateend,activityutcbegin,activityutcend) => {
+
+        beginDateAndTime_aux = new Date()
+        endDateAndTime_aux = new Date()
+        beginDateAndTime_aux = activitydatebegin;
+        endDateAndTime_aux = activitydateend;
+        beginDateAndTime_aux.setHours(activityutcbegin.getHours());
+        beginDateAndTime_aux.setMinutes(activityutcbegin.getMinutes());
+        beginDateAndTime_aux.setSeconds(0);
+        beginDateAndTime_aux.setMilliseconds(0) // si no se ponen milisegundos no compara bien
+        endDateAndTime_aux.setHours(activityutcend.getHours());
+        endDateAndTime_aux.setMinutes(activityutcend.getMinutes());
+        endDateAndTime_aux.setSeconds(0);
+        endDateAndTime_aux.setMilliseconds(0) // si no se ponen milisegundos no compara bien
+        console.log('Final Start Date: '+beginDateAndTime_aux)
+        console.log('Final End Date: '+endDateAndTime_aux)
+       
+
+
+        if (beginDateAndTime_aux.getFullYear()===1900 || endDateAndTime_aux.getFullYear()===1900)
+           return false; // false
+
+        if (endDateAndTime_aux > beginDateAndTime_aux)
+        //  if(dates.compare(endDateAndTime_aux,beginDateAndTime_aux)>1)
+         {
+          console.log('end es mayor que start OK')
+          return true;
+        }
+          
+        else{
+          console.log('end date es menor que start date FAILED')
+          return false;  // false
+        }
+         
+
+
+}
+
+export const updateOnProgress=(qsotype,band,mode,qsoqras,mediafiles,activitydatebegin,activitydateend,activityutcbegin,activityutcend)=>{
  
  // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
  // esto evita que pueda mandar un POST sin media
@@ -45,8 +83,19 @@ mediafilesSinProfile = [];
 
   let devuelvo;
     if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY') && mediafilesSinProfile.length > 1){
-      
-      return true;
+
+      if (qsotype==='FLDDAY'){
+
+        if(check_begin_end_date(activitydatebegin,activitydateend,activityutcbegin,activityutcend))
+         return true
+         else
+         return false;
+     
+
+
+      }
+      else
+         return true;
     }
     else {
       // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
@@ -64,7 +113,7 @@ mediafilesSinProfile = [];
    
   }
 
-  export const missingFieldsToPublish=(qsotype,band,mode,qsoqras,mediafiles)=>{
+  export const missingFieldsToPublish=(qsotype,band,mode,qsoqras,mediafiles,activitydatebegin,activitydateend,activityutcbegin,activityutcend)=>{
  
     // saco el item de profile por si eluser se saco una foto cuando ya habia empezado un POST, 
     // esto evita que pueda mandar un POST sin media
@@ -79,9 +128,19 @@ mediafilesSinProfile = [];
      })
    
      let devuelvo;
-       if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY') && mediafilesSinProfile.length < 2){
-         devuelvo = { message: I18n.t("MISSPOSTMEDIA")}
-         return devuelvo;
+       if((qsotype==='POST' || qsotype==='QAP' || qsotype==='FLDDAY')){
+        if (mediafilesSinProfile.length < 2)
+        {  devuelvo = { message: I18n.t("MISSPOSTMEDIA")}
+           return devuelvo;
+         }
+        if (!check_begin_end_date(activitydatebegin,activitydateend,activityutcbegin,activityutcend))
+          {
+             devuelvo = { message: I18n.t("MISSDATES")}
+           return devuelvo;
+
+          }
+        
+
        }
        else {
          // se cambio a mediafiles.length > 1 porque se invento un media inicial vacio para que funcione la salida del teclado de iOS si se toca
@@ -163,6 +222,92 @@ mediafilesSinProfile = [];
     return devuelvo;
 
    }
+
+   export const getDate2 =  (qsoDate) => {
+    var day = '';
+    var month = '';
+    var hours = '';
+    var minutes = '';
+    var seconds = '';
+    // var now = new Date();
+    // var date = new Date( now.getTime() + (now.getTimezoneOffset() * 60000));
+    var date = qsoDate;
+    var monthaux = date.getMonth() + 1;
+    var dayOfMonthaux = date.getDate();
+    var year = date.getFullYear();
+    var houraux = date.getHours();
+    var minutesaux = date.getMinutes();
+    var secondsaux = date.getSeconds();
+
+    if (monthaux<10) month = '0'+monthaux
+      else
+        month = monthaux;
+    if (dayOfMonthaux<10) day = '0'+dayOfMonthaux
+      else
+       day = dayOfMonthaux;
+    if (houraux<10) hours = '0'+houraux
+       else
+        hours = houraux;
+    if (minutesaux<10) minutes = '0'+minutesaux
+        else
+         minutes  = minutesaux;
+    if (secondsaux<10) seconds = '0'+secondsaux
+        else
+        seconds  = secondsaux;
+
+
+    devuelvo = year + '-' + month + '-' + day + ' ' + hours+':'+minutes+':'+seconds;
+
+
+    return devuelvo;
+
+   }
+
+   export const getQsoDateTimeZoneIncluded = () => {
+   
+    dateNowAux = new Date();
+    hourNow = dateNowAux.getHours();
+    timeZoneOffset  = Math.floor(dateNowAux.getTimezoneOffset()/60);
+    console.log('hour didMount:' + hourNow + ' timeZone: '+ timeZoneOffset)
+    // horaoff = hour+Math.floor(dateNow.getTimezoneOffset()/60);
+    // console.log('sumo:' + horaoff)
+    dateNow = new Date(dateNowAux.getTime() + (dateNowAux.getTimezoneOffset() * 60000));
+
+    // recalculo fecha en base al offset del timeZone
+    if (timeZoneOffset > 0) // GMT (-)
+    {
+        hourOff = 24 + timeZoneOffset
+      if (hourNow < hourOff) // mantiene el mismo dia
+        // this.setState({date: dateNow, showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
+        //     month: 'short'
+        //   })})
+        dateNow = dateNow
+       else
+       {   // se pasa al otro dia por el offset del timeZone
+           dateNow.setDate(dateNow.getDate() + 1)
+       }
+
+
+    }
+    else
+    {
+        hourOff = hourNow + timeZoneOffset
+      if (hourOff > 0) // mantiene el mismo dia
+        // this.setState({date: dateNow,showDate: dateNow.toLocaleDateString(I18n.locale.substring(0, 2), {
+        //     month: 'short'
+        //   })})
+        dateNow = dateNow
+       else
+       {   // se pasa al otro dia por el offset del timeZone
+           dateNow.setDate(dateNow.getDate() - 1)
+       }
+
+    }
+    return dateNow;
+  }
+
+    
+ 
 
 
    getDateHelper =  () => {

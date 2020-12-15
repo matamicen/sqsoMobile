@@ -322,6 +322,11 @@ export default {
   QsoHeaderHelpSWL: 'How to publish a SWL?',
   QsoHeaderHelpPOST: 'How to publish a Other?',
   QsoHeaderHelpQAP: '¿How to publish a QAP?',
+  QsoDate: 'Date:',
+  QsoDateBegin: 'Start Date:',
+  QsoDateEnd: 'End Date:',
+  QsoDateCancel: 'cancel',
+  QsoDateSelect: 'select',
   QsoHeaderHelpFLDDAY: '¿How to publish a FDAY?',
   helpPublishSdtitle: '¿What is Callsign?',
   helpPublishSdMessage1:
@@ -457,8 +462,8 @@ export default {
   BACKBUTTONANDROIDCANCEL: 'Cancel',
   BACKBUTTONANDROIDEXIT: 'Exit',
   MISSPOSTMEDIA: 'The post needs a photo or an audio to publish.',
-  MISSQRAS:
-    'Callsign is missing, you must add at least one callsign of the HAM tha you worked/listened to publsih.',
+  MISSDATES: 'The end date of the activity must be greater than the starting date.',
+  MISSQRAS: 'Callsign is missing, you must add at least one callsign of the HAM tha you worked/listened to publsih.',
   MISSBAND: 'Band is missing, you must enter a Band to publish.',
   MISSMODE: 'Mode is missing, you must enter a Mode to publish.',
   MISSCLOSE: 'Close',

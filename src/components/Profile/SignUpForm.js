@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import {
   ActivityIndicator,
   DatePickerAndroid,
-  DatePickerIOS,
   FlatList,
   Keyboard,
   Modal,
@@ -39,6 +38,8 @@ import { hasAPIConnection } from '../../helper';
 import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -97,7 +98,15 @@ class SignUpForm extends React.PureComponent {
       namec: '',
       showFlag: false,
 
-      privacy: false
+      privacy: false,
+      date:new Date(),
+      mode: 'date',
+      show: false,
+      // showD: I18n.t('signupBirthdate'),
+      // showDate: new Date().toLocaleDateString(I18n.locale.substring(0, 2), {
+      //   month: 'short'
+      // }),
+      showDate: I18n.t('signupBirthdate')
     };
   }
 
@@ -106,76 +115,77 @@ class SignUpForm extends React.PureComponent {
     console.log('SignUp Did PushToken:' + this.props.pushtoken);
   }
 
-  setDate = async (newDate) => {
-    //   console.log(date +"/"+ month +"/"+year);
-    this.setState({ chosenDate: newDate });
-  };
 
-  setDateIOS = () => {
-    var day = this.state.chosenDate.getDate();
-    var month = this.state.chosenDate.getMonth() + 1;
-    var year = this.state.chosenDate.getFullYear();
 
-    dateofbirth = new Date(year, month + 1, day);
-    today = new Date();
-    this.diffyears = today.getFullYear() - dateofbirth.getFullYear();
-    console.log('diferencia: ' + this.diffyears);
 
-    this.setState({ birthdate: month + '/' + day + '/' + year });
-    this.setState({ day: day, month: month, year: year });
-    this.close_birthdate_modalIOS();
-  };
+// nuevo Componente DATE
 
-  date_picker = () => {
-    console.log('DATE PICKER PRESIONO');
-    Keyboard.dismiss();
-    if (Platform.OS == 'ios') {
-      console.log('DATE PICKER reconocio IOS');
-      this.setState({ pickerDateIOS: true });
-    } else {
-      console.log('DATE PICKER reconocio ANDROID');
-      this.date_picker_android();
-    }
-  };
+onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || this.state.date;
+ 
+if (selectedDate !== undefined) // por si apreta Cancel en fecha
+{
+if (I18n.locale.substring(0, 2) === 'es'){
+    
+showD = moment(currentDate).format("D MMM YYYY")
+} 
+else
+{
+showD = moment(currentDate).format("MMM D YYYY")
+}
 
-  close_birthdate_modalIOS = () => {
-    this.setState({ pickerDateIOS: false });
-  };
+}
+else
+  showD = this.state.showDate
+
+
+  this.setState({show: Platform.OS === 'ios', date: currentDate, showDate: showD});
+  console.log('fecha seleccionada: '+currentDate)
+  console.log('showD: '+showD)
+
+  console.log('dia: ' + currentDate.getDate() + ' mes: ' + currentDate.getMonth() + ' año: ' + currentDate.getFullYear());
+  today = new Date();
+  this.diffyears = today.getFullYear() - currentDate.getFullYear();
+  console.log('diferencia: ' + this.diffyears);
+this.setState({ day: currentDate.getDate(), month: currentDate.getMonth() + 1, year: currentDate.getFullYear() });
+
+  
+
+};
+
+ showMode = (currentMode) => {
+
+  this.setState({show: true, mode: currentMode });
+};
+
+ showDatepicker = () => {
+   this.showMode('date');
+  
+};
+
+//  showTimepicker = () => {
+//   this.showMode('time');
+// };
+
+closeDatePicker = () => {
+  this.setState({show: false})
+}
+
+
+// Fin nuevo componente DATE
+
+
+
+
+
+
+
+
 
   close_confirmSignup = () => {
     this.setState({ confirmSignup: false });
   };
 
-  date_picker_android = async () => {
-    try {
-      const { action, year, month, day } = await DatePickerAndroid.open({
-        // Use `new Date()` for current date.
-        // May 25 2020. Month 0 is January.
-        //  date: new Date(2020, 4, 25)
-        date: new Date()
-      });
-      if (action !== DatePickerAndroid.dismissedAction) {
-        // Selected year, month (0-11), day
-
-        console.log('dia: ' + day + ' mes: ' + month + ' año: ' + year);
-
-        dateofbirth = new Date(year, month + 1, day);
-        today = new Date();
-        this.diffyears = today.getFullYear() - dateofbirth.getFullYear();
-        console.log('diferencia: ' + this.diffyears);
-
-        this.setState({ birthdate: month + 1 + '/' + day + '/' + year });
-        this.setState({ day: day, month: month + 1, year: year });
-      }
-    } catch ({ code, message }) {
-      console.warn('Cannot open date picker', message);
-      // kinesis_catch('#019',code +' '+ message,this.state.qra.toUpperCase());
-      crashlytics().setUserId(this.state.qra.toUpperCase());
-      crashlytics().log('error: ' + code + ' message: ' + message);
-      if (__DEV__) crashlytics().recordError(new Error('DatePicker_DEV'));
-      else crashlytics().recordError(new Error('DatePicker_PRD'));
-    }
-  };
 
   birthday_convert = () => {
     if (this.state.day < 10) dia = '0' + this.state.day;
@@ -669,6 +679,11 @@ class SignUpForm extends React.PureComponent {
     }, 100);
   };
 
+
+
+
+
+
   render() {
     console.log('LoginForm Screen');
     console.log(
@@ -1086,14 +1101,17 @@ class SignUpForm extends React.PureComponent {
                   <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                       style={styles.birthdateContainer}
-                      onPress={() => this.date_picker()}>
+                      // onPress={() => this.date_picker()}>
+                          onPress={() => this.showDatepicker()}>
+                    
                       <Text
                         style={styles.birthdateText}
                         ref={(birthdatedRef) =>
                           (this.birthdatedRef = birthdatedRef)
                         }>
                         {' '}
-                        {this.state.birthdate}
+                        {/* {this.state.birthdate} */}
+                        {this.state.showDate}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ height: 40, width: 60 }}>
@@ -1227,7 +1245,7 @@ class SignUpForm extends React.PureComponent {
 
                   <TouchableOpacity
                     style={{ marginTop: 5 }}
-                    onPress={() => this.props.navigation.navigate('Root')}>
+                    onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={styles.buttonText2}>
                       {I18n.t('signupBackToLogin')}
                     </Text>
@@ -1319,7 +1337,85 @@ class SignUpForm extends React.PureComponent {
           {/* </KeyboardAvoidingView>  */}
 
           {/* animationType={"slide"} */}
-          <Modal
+
+          {(this.state.show && Platform.OS === 'android') && (
+       
+       <DateTimePicker
+        testID="dateTimePicker"
+        style={{width:'100%'}}
+        value={this.state.date}
+        mode={this.state.mode}
+        is24Hour={true}
+        display="spinner"
+        onChange={this.onChange}
+      />
+      
+      
+    )}
+          
+            {(this.state.show && Platform.OS === 'ios') && (
+              <Modal
+              visible={true}
+              animationType={"slide"}
+              transparent={true}
+              onRequestClose={() => console.log("Close was requested")}
+            >
+              <View
+                style={{
+                  margin: 10,    
+                  padding: 10,
+                  backgroundColor: "rgba(255,255,255,0.98)",
+                  marginTop: 120,
+                  //  bottom: 150,
+                  left: 10,
+                  right: 10,
+                  height: 150,
+                  position: "absolute",
+                  alignItems: "center",
+                  justifyContent: 'center',
+                  borderRadius: 12
+                }}>
+       <DateTimePicker
+        testID="dateTimePicker"
+         style={{width:'100%', marginLeft: 170,marginTop:20}}
+        value={this.state.date}
+        mode={this.state.mode}
+        is24Hour={true}
+        display="default"
+        onChange={this.onChange}
+      />
+
+<View style={{flexDirection: "row", flex: 1, marginTop: 50}} >
+        <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateCancel")}</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateSelect")}</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+
+        </View>
+        </Modal>
+        
+      )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+          {/* <Modal
             visible={this.state.pickerDateIOS}
             transparent={true}
             onRequestClose={() => console.log('Close was requested')}>
@@ -1341,7 +1437,7 @@ class SignUpForm extends React.PureComponent {
                 //  alignItems: 'center'
               }}>
               {/* #f8f8ff */}
-              <DatePickerIOS
+              {/* <DatePickerIOS
                 mode="date"
                 style={{ backgroundColor: 'rgba(139,139,139,1)' }}
                 date={this.state.chosenDate}
@@ -1365,7 +1461,7 @@ class SignUpForm extends React.PureComponent {
                 </TouchableOpacity>
               </View>
             </View>
-          </Modal>
+          </Modal>  */}
 
           {this.state.confirmSignup && (
             <ConfirmSignUp
