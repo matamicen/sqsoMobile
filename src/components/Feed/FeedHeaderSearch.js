@@ -26,7 +26,7 @@ const FeedHeaderSearch = (props) => {
           // "Authorization": this.props.token
         } // OPTIONAL
       };
-      API.get(apiName, path, myInit)
+      API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error > 0) {
             this.setState({ isLoading: false, error: response.body.message });
