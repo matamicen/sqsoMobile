@@ -88,7 +88,7 @@ class FeedItemPost extends React.PureComponent {
               }}>
               <FeedOptionsMenu
                 qso_owner={this.props.qso.qra}
-                idqso={this.props.qso.idqsos}
+                idqsos={this.props.qso.idqsos}
                 guid={this.props.qso.GUID_QR}
                 qso={this.props.qso}
                 optionsCaller="FeedItem"

@@ -23,13 +23,8 @@ class QSOLikeButton extends React.PureComponent {
       idqra: null
     };
   }
-  componentDidUpdate() {
-    console.log(this.props.qso);
-  }
+  componentDidUpdate() {}
   static getDerivedStateFromProps(props, prevState) {
-    console.log(props.likes);
-    console.log(props.qso);
-
     if (props.userInfo.idqras && prevState.idqra !== props.userInfo.idqras) {
       if (props.likes.some((o) => o.idqra === props.userInfo.idqras)) {
         return {

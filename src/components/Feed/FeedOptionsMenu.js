@@ -314,7 +314,12 @@ class FeedOptionsMenu extends React.PureComponent {
     }
   }
   render() {
-    const { showMessage, showReportContent } = this.state;
+    let name;
+    if (this.props.optionsCaller === 'FeedComment') {
+      name = this.props.idqsos + this.props.idcomment;
+    } else {
+      name = this.props.idqsos + this.props.optionsCaller;
+    }
 
     return (
       <Fragment>
@@ -330,13 +335,7 @@ class FeedOptionsMenu extends React.PureComponent {
         <Menu
           onBackdropPress={() => this.setState({ openMenu: false })}
           opened={this.state.openMenu}
-          name={
-            this.props.idqso.toString() +
-            (this.props.idqsos_comments ? this.props.idqsos_comments : null) +
-            this.props.comment_owner
-              ? this.props.comment_owner
-              : null
-          }
+          name={name.toString()}
           renderer={SlideInMenu}
           // onSelect={(value) => this.selectNumber(value)}
         >

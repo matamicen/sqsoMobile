@@ -73,7 +73,6 @@ const FeedHeaderSearch = (props) => {
             <View key={item.qra}>
               <TouchableOpacity
                 onPress={() => {
-                  console.log(item.qra);
                   setFilteredUsers([]);
                   props.navigate(item.qra);
                 }}>

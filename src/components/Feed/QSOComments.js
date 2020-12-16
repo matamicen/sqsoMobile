@@ -225,6 +225,14 @@ class QSOComments extends React.PureComponent {
           // behavior={Platform.OS === 'ios' ? 'padding' : null}
           // style={{ flex: 1, justifyContent: 'center' }}
           >
+            <Text h2>{I18n.t('qso.likeModalHeader')}</Text>
+            <View style={styles.iconView}>
+              <Icon
+                name="close"
+                type="font-awesome"
+                onPress={() => this.props.doClose()}
+              />
+            </View>
             <ScrollView>
               <MenuProvider
                 skipInstanceCheck
@@ -234,21 +242,6 @@ class QSOComments extends React.PureComponent {
                   backgroundColor: 'white'
                 }}>
                 <View style={{ flex: 1 }}>
-                  <Text h3>
-                    <Text>{I18n.t('qso.likeModalHeader')}</Text>
-                    <Text>
-                      {this.props.qso.type === 'POST'
-                        ? I18n.t('qso.POST')
-                        : ' QSO'}
-                    </Text>
-                  </Text>
-                  <View style={styles.iconView}>
-                    <Icon
-                      name="close"
-                      type="font-awesome"
-                      onPress={() => this.props.doClose()}
-                    />
-                  </View>
                   {/* <ScrollView nestedScrollEnabled={true} style={{ flex: 1 }}> */}
                   <View style={{ flex: 1 }}>
                     <FlatList

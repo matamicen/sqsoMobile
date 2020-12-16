@@ -28,8 +28,7 @@ class FeedVideo extends React.PureComponent {
   componentDidUpdate(props) {
     this.setState({ paused: props.media.paused ? true : false });
     if (this.player) this.player.paused = props.media.paused ? true : false;
-    // console.log(props.currentIndex);
-    // console.log(props.currentVisibleIndex);
+
     // if (props.currentIndex !== props.currentVisibleIndex) {
     //   this.setState({ showVideo: false });
     // } else this.setState({ showVideo: true });
