@@ -1,14 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import {
-  FlatList,
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button, Icon, Overlay } from 'react-native-elements';
 import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
@@ -123,6 +115,7 @@ class QSOComments extends React.PureComponent {
       </View>
     );
   };
+
   _ListFooterComponent = () => (
     <Formik
       initialValues={{ comment: '' }}
@@ -152,11 +145,12 @@ class QSOComments extends React.PureComponent {
               name="comment"
               placeholder={I18n.t('qso.writeComment')}
               multiline
+              removeClippedSubviews={false}
+              keyboardDismissMode="none"
               onBlur={handleBlur('comment')}
               style={{ borderWidth: 1, width: 200 }}
               onChangeText={handleChange('comment')}
               value={values.comment}
-              autoFocus
             />
           </View>
 
@@ -215,16 +209,22 @@ class QSOComments extends React.PureComponent {
           // position: 'absolute',
           flex: 1,
           top: 20,
-          bottom: 50,
+          bottom: 100,
           width: '90%',
           maxHeight: '90%'
         }}>
-        <View styles={{ flex: 1, height: '80%' }}>
-          <KeyboardAvoidingView
-          // enabled
-          // behavior={Platform.OS === 'ios' ? 'padding' : null}
-          // style={{ flex: 1, justifyContent: 'center' }}
-          >
+        {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}> */}
+        {/* <ScrollView> */}
+        <MenuProvider
+          skipInstanceCheck
+          style={
+            {
+              // flexDirection: 'column',
+              // flex: 1,
+              // backgroundColor: 'white'
+            }
+          }>
+          <View>
             <Text h2>{I18n.t('qso.likeModalHeader')}</Text>
             <View style={styles.iconView}>
               <Icon
@@ -233,43 +233,30 @@ class QSOComments extends React.PureComponent {
                 onPress={() => this.props.doClose()}
               />
             </View>
-            <ScrollView>
-              <MenuProvider
-                skipInstanceCheck
-                style={{
-                  // flexDirection: 'column',
+          </View>
+          <FlatList
+            extraData={this.state.comments}
+            // nestedScrollEnabled={true}
+            // keyboardShouldPersistTaps="handled"
+            // pagingEnabled={true}
+            onScroll={this.handleScroll}
+            data={this.state.comments}
+            scrollEnabled={true}
+            // onViewableItemsChanged={this._onViewableItemsChanged}
+            // initialNumToRender={3}
+            removeClippedSubviews={false}
+            // viewabilityConfig={this.viewabilityConfig}
+            // maxToRenderPerBatch={3}
+            keyExtractor={(item, index) => index.toString()}
+            ItemSeparatorComponent={this.renderSeparator}
+            renderItem={this._renderItem}
+            // contentContainerStyle={styles.container}
 
-                  backgroundColor: 'white'
-                }}>
-                <View style={{ flex: 1 }}>
-                  {/* <ScrollView nestedScrollEnabled={true} style={{ flex: 1 }}> */}
-                  <View style={{ flex: 1 }}>
-                    <FlatList
-                      extraData={this.state.comments}
-                      nestedScrollEnabled={true}
-                      // keyboardShouldPersistTaps="handled"
-                      // pagingEnabled={true}
-                      // onScroll={this.handleScroll}
-                      data={this.state.comments}
-                      scrollEnabled={true}
-                      // onViewableItemsChanged={this._onViewableItemsChanged}
-                      initialNumToRender={3}
-                      // viewabilityConfig={this.viewabilityConfig}
-                      maxToRenderPerBatch={3}
-                      keyExtractor={(item, index) => index.toString()}
-                      ItemSeparatorComponent={this.renderSeparator}
-                      renderItem={this._renderItem}
-                      contentContainerStyle={styles.container}
-                      removeClippedSubviews={true} // Unmount components when outside of window
-                      ListFooterComponent={this._ListFooterComponent}
-                    />
-                  </View>
-                </View>
-                {/* </ScrollView> */}
-              </MenuProvider>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </View>
+            // removeClippedSubviews={true} // Unmount components when outside of window
+            ListFooterComponent={this._ListFooterComponent}
+          />
+        </MenuProvider>
+        {/* </KeyboardAvoidingView> */}
       </Overlay>
     );
   }
@@ -278,7 +265,7 @@ const styles = StyleSheet.create({
   form: { flex: 1 },
   comment: { borderWidth: 1 },
   itemsView: {
-    flex: 1,
+    // flex: 1,
     width: '100%'
     // maxHeight: '80%'
     // flexGrow: 0
@@ -302,7 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center'
   },
-  container: { flex: 1, flexGrow: 1 }
+  container: { flex: 1 }
 });
 const selectorFeedType = (state, ownProps) => {
   if (ownProps.feedType === 'MAIN')

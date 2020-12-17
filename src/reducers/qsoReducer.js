@@ -76,19 +76,13 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
-
-
   SET_MUSTUPGRADEAPP,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
-  SET_QSOCALLSIGNS, SET_QSODATE, SET_QSOUTC,
-
-
-
-
-
-
+  SET_QSOCALLSIGNS,
+  SET_QSODATE,
+  SET_QSOUTC,
   SET_RESTORE_CALL,
   SET_RST,
   SET_SENDING_PROFILE_PHOTO_MODAL,
@@ -1152,7 +1146,7 @@ const qsoReducer = (state = initialState, action) => {
 
     case SET_USER_INFO:
       // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      console.log('Reducer User_Info:' + JSON.stringify(action.userinfo));
+      // console.log('Reducer User_Info:' + JSON.stringify(action.userinfo));
       if (action.mode === 'ALL') {
         newStore = Object.assign({}, state, {
           ...state,
