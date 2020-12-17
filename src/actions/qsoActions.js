@@ -1144,7 +1144,7 @@ export const postSetProfilePicNSFW = (
         let folder;
         let timeStamp = Date.now();
         let fileauxFinal = fileaux;
-        if (Platform.OS == 'ios') {
+        if (Platform.OS === 'ios') {
           fileauxFinal = fileaux.replace('file:///', '');
         }
         console.log('contenido fileauxFinal: ' + fileauxFinal);
@@ -3927,7 +3927,7 @@ export function doRepost(idqso, token, qso) {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
-            console.log(response);
+            dispatch(doFetchPublicFeed());
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';
