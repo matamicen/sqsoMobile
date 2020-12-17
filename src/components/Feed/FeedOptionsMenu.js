@@ -155,7 +155,7 @@ class FeedOptionsMenu extends React.PureComponent {
     );
   }
   deleteQso() {
-    this.props.actions.doDeleteQso(this.props.idqso, this.props.token);
+    this.props.actions.doDeleteQso(this.props.idqsos, this.props.token);
   }
   printQSLCard() {
     // this.props.actions.doQslCardPrint(this.props.idqso, this.props.token);
@@ -183,7 +183,7 @@ class FeedOptionsMenu extends React.PureComponent {
       let path = '/content-reported';
       let myInit = {
         body: {
-          idqso: this.props.idqso,
+          idqso: this.props.idqsos,
           idcomment: this.props.idcomment,
           detail: values.comments,
           datetime: datetime,
@@ -236,7 +236,7 @@ class FeedOptionsMenu extends React.PureComponent {
       let path = '/content-reported';
       let myInit = {
         body: {
-          idqso: this.props.idqso,
+          idqso: this.props.idqsos,
           detail: values.comments,
           datetime: datetime,
           email: values.email
@@ -284,7 +284,7 @@ class FeedOptionsMenu extends React.PureComponent {
       let path = '/content-reported';
       let myInit = {
         body: {
-          idqso: this.props.idqso,
+          idqso: this.props.idqsos,
           idmedia: e.target.idmedia.value,
           detail: e.target.comments.value,
           datetime: datetime,
