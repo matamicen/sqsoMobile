@@ -142,7 +142,7 @@ class FeedOptionsMenu extends React.PureComponent {
   deleteMedia() {
     this.props.actions.doDeleteMedia(
       this.props.idqsos_media,
-      this.props.idqso,
+      this.props.idqsos,
       this.props.token
     );
   }
@@ -150,7 +150,7 @@ class FeedOptionsMenu extends React.PureComponent {
   deleteComment() {
     this.props.actions.doCommentDelete(
       this.props.idcomment,
-      this.props.idqso,
+      this.props.idqsos,
       this.props.token
     );
   }
