@@ -56,7 +56,8 @@ class FeedHeaderBar extends React.Component {
               flexBasis: 40,
               flexGrow: 0,
               marginTop: 12,
-              marginRight: 5
+              marginRight: 5,
+              zIndex: 999
             }}>
             <Icon
               size={30}

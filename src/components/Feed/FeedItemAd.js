@@ -1,6 +1,6 @@
 import { BannerAd, BannerAdSize } from '@react-native-firebase/admob';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 var adUnitId;
 
 export default function FeedItemAdd() {
@@ -10,12 +10,14 @@ export default function FeedItemAdd() {
     adUnitId = 'ca-app-pub-7016811987787025/6306332985';
   }
   return (
-    <BannerAd
-      unitId={adUnitId}
-      size={BannerAdSize.FULL_BANNER}
-      requestOptions={{
-        requestNonPersonalizedAdsOnly: true
-      }}
-    />
+    <View style={{ zIndex: 0, justifyContent: 'center', alignSelf: 'center' }}>
+      <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.MEDIUM_RECTANGLE}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true
+        }}
+      />
+    </View>
   );
 }

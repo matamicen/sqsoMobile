@@ -4,7 +4,7 @@ import FeedVideo from './FeedVideo';
 
 class FeedVideoList extends React.PureComponent {
   render() {
-    if (this.props.mediaList.length > 0) {
+    if (this.props.mediaList) {
       return (
         <View>
           <FeedVideo

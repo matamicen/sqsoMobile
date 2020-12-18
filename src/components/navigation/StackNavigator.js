@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator, HeaderBackButton } from 'react-navigation';
-import FeedHeaderBar from '../Feed/FeedHeaderBar';
 import FieldDaysFeed from '../Feed/FieldDaysFeed';
 import QRAProfile from '../Feed/Profile';
 import QRAProfileBioEdit from '../Feed/Profile/QRAProfileBioEdit';
@@ -147,12 +146,12 @@ export const MainNavigator = createStackNavigator({
       )
     })
   },
-  FeedHeaderBar: {
-    screen: FeedHeaderBar,
-    navigationOptions: {
-      header: null
-    }
-  },
+  // FeedHeaderBar: {
+  //   screen: FeedHeaderBar,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
   initialRouteName: 'Home'
 });
 const editBioRouteConfigs = {

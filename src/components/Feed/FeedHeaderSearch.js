@@ -70,8 +70,9 @@ const FeedHeaderSearch = (props) => {
           placeholder={I18n.t('navBar.searchCallsign')}
           renderItem={({ item }) => (
             // For the suggestion view
-            <View key={item.qra}>
+            <View key={item.qra} style={{ elevation: 1 }}>
               <TouchableOpacity
+                delayPressIn={150}
                 onPress={() => {
                   setFilteredUsers([]);
                   props.navigate(item.qra);
