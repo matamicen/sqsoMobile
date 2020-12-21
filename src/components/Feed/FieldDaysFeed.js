@@ -84,8 +84,7 @@ const mapStateToProps = (state) => ({
   qsosFetched: state.sqso.feed.fieldDaysFetched,
   currentQRA: state.sqso.qra,
   token: state.sqso.jwtToken,
-  fieldDays: state.sqso.feed.fieldDays,
-  account_type: state.sqso.feed.userData.qra.account_type
+  fieldDays: state.sqso.feed.fieldDays
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
