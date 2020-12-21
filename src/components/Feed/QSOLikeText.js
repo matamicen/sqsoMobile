@@ -40,7 +40,11 @@ class QSOLikeText extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     return (
       <View>
-        <QSOLikeTextModalItem l={item} idqsos={this.props.idqsos} />
+        <QSOLikeTextModalItem
+          l={item}
+          idqsos={this.props.idqsos}
+          closeModal={() => this.setState({ showModal: false })}
+        />
       </View>
     );
   };

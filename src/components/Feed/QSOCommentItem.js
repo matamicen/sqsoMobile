@@ -102,12 +102,13 @@ class QSOCommentItem extends React.PureComponent {
         <View style={styles.commentHeader}>
           <View style={styles.avatar}>
             <TouchableOpacity
-              onPress={() =>
+              onPress={() => {
                 this.props.navigation.navigate('QRAProfile', {
                   qra: this.props.comment.qra,
                   screen: 'PROFILE'
-                })
-              }>
+                });
+                this.props.closeModal();
+              }}>
               <Avatar
                 size="medium"
                 rounded
@@ -125,12 +126,13 @@ class QSOCommentItem extends React.PureComponent {
           <View style={styles.action}>
             <View style={styles.header}>
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
                   this.props.navigation.navigate('QRAProfile', {
                     qra: this.props.comment.qra,
                     screen: 'PROFILE'
-                  })
-                }>
+                  });
+                  this.props.closeModal();
+                }}>
                 <Text style={styles.headerText}>
                   <Text> {this.props.comment.qra.toUpperCase()} </Text>
                   <Text>{this.props.comment.firstname}</Text>
