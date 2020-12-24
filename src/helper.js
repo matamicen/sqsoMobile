@@ -1026,6 +1026,8 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       pushTitle = "";
       pushMessage = "";
       bandejaNotifLocal = "";
+      activityType = '';
+      qsoguid = '';
       // if (Platform.OS==='android'){
       //     titleLocArgs = JSON.parse(title_loc_args);
       //     locArgs = JSON.parse(loc_args);
@@ -1165,8 +1167,33 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         bandejaNotifLocal = pushTitle +' | ' +pushMessage;
       }
 
+
+      // console.log('antes del crash ')
+      // if (locArgs !== undefined)
+      //  console.log('no es undefined')
+      //  else
+      //  console.log('es undefined')
+     
+      //  console.log('despues del crash ')
+       
+      if (locArgs !== undefined) // si no es undefined porque se envio el parametro QSOGUID
+      {
+        // si existe QSOGUID es porque es una publicacion
+        activityType = 109 // le pongo  activity Type 109 que sea publicacion asi va al QsoDetail en el click de la notificacion
+        qsoguid = locArgs[1]
+      }
+      else
+      { // si viene vacio el QSOGUID es PROFILE o push de Marketing
+        if (title_loc_key==='PUSH_MARKETING_TITLE')
+          activityType = '110' // con 110 cuando hace click en la notificacion o va a ningun lado
+        else
+          activityType = 108 // pongo un activity type 108 que sea de PROFILE asi va al profile del usuario cuando hace click en la notificacion
+
+          qsoguid = ''
+        }
+
       console.log('helper bandeja:' + bandejaNotifLocal )
-      return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal};
+      return { "pushTitle": pushTitle, "pushMessage": pushMessage, "bandejaNotifLocal": bandejaNotifLocal, "QsoGuid": qsoguid, "activityType": activityType};
     }
 
     export const percentageCalculator =  (initialTime, totalTime) => {

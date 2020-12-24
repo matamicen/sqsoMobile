@@ -239,18 +239,18 @@ export default {
   QsoTypeANYdescOther:
     'Publica algo genérico, una foto de tu estación, proyectos, antenas, amigos, etc.',
   QsoTypeANYdescFieldDay:
-    'Promocioná una activación, concurso o charla, subí la imagen con los datos de la misma.',
+    'Promocioná una actividad, concurso o charla.',
   QsoTypeANYdescQAP:
-    'Publica que estas QAP, subí una foto del equipo con la frecuencia y aclara en la descrip. la hora y el modo.',
+    'Publica que estas QAP.',
   QsoTypePOST: 'Genérico',
   QsoTypeQAP: 'QAP',
-  QsoTypeFLDDAY: 'Activación',
+  QsoTypeFLDDAY: 'Actividad',
   QsoTypeLISTEN: 'Escucha',
   QsoTypecannotchange1:
     'Al tener audios/fotos no podes cambiar a una publicación',
   QsoTypecannotchange2: 'tendrías que iniciar una nueva publicación y elegír',
   QsoTypecannotchange3:
-    'Lo que se puede cambiar siempre es QSO y Escucha entre si o Activación, QAP y Otro entre si.',
+    'Lo que se puede cambiar siempre es QSO y Escucha entre si o Actividad, QAP y Otro entre si.',
   QsoTypeclose: 'Cerrar',
   qsoActionsPublishingCallsigns: 'Publicando SD ...',
   qsoActionsPublishingPostType: 'Actualizando tipo de publicación ...',
@@ -303,7 +303,7 @@ export default {
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
   helpPublishPOSTtitle: '¿Como publicar un Otro?',
   helpPublishPOSTMessage1:
-    'Para poder publicar un otro o algo genérico debes agregar solo una foto o un audio.',
+    'Para poder publicar un otro o algo genérico debes agregar una foto/video o un audio y escribir el titulo en la descripción.',
   helpPublishPOSTfield1: 'Interesante:',
   helpPublishPOSTfield2:
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
@@ -311,17 +311,16 @@ export default {
   helpPublishPOSTfield4: '',
   helpPublishPOSTMessage2:
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
-  helpPublishFLDDAYtitle: '¿Como publicar una Activación?',
+  helpPublishFLDDAYtitle: '¿Como publicar una Actividad?',
   helpPublishFLDDAYMessage1:
-    'Para poder publicar una activación debes agregar una imagen con la informacion de la misma.',
+    'Para poder publicar una actividad debes agregar una imagen/foto o video con la informacion de la misma y escribir el titulo de la actividad en la descripción.',
   helpPublishFLDDAYMessage2:
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
   helpPublishFLDDAYfield1: 'Interesante:',
   helpPublishFLDDAYfield2:
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
   helpPublishQAPtitle: '¿Como publicar un QAP?',
-  helpPublishQAPMessage1:
-    'Para poder publicar un QAP debes agregar una imagen con la información o una foto del equipo con la frecuencia que vas a estar QAP y agrega La fecha/hora y el modo en la descripcón de la foto',
+  helpPublishQAPMessage1:  'Para poder publicar un QAP debes agregar una imagen/video con la información o una foto del equipo con la frecuencia que vas a estar QAP y escribir La fecha/hora y el modo en la descripción.',
   helpPublishQAPMessage2:
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
   helpPublishQAPfield1: 'Interesante:',
@@ -341,7 +340,7 @@ export default {
     'Entonces tú etiquetas algunas SD que sabes que tienen muchos seguidores y en el texto descripción de la foto que publicas escribís:',
   helpPublishTagRePublicar: 'Se agreadece RePublicar',
   helpPublishTagMessage4:
-    'Si la SD etiquetada RePublica tu publicación, esta le va a llegar a todos sus seguidores, de esta manera más colegas se enteran de tu activación!',
+    'Si la SD etiquetada RePublica tu publicación, esta le va a llegar a todos sus seguidores, de esta manera más colegas se enteran de tu actividad!',
   QsoHeaderHelpQSO: '¿Como publicar un QSO?',
   QsoHeaderSdTag: '¿Que es SD?',
   QsoHeaderHelpSWL: '¿Como publicar un una Escucha?',
@@ -373,10 +372,10 @@ export default {
   PUSH_LISTENEDQSO_MESSAGE: 'en Modo: %{mode} Banda: %{band} UTC: %{utc}',
   PUSH_LISTENEDYOUQSO_TITLE: '%{callsign} te escuchó a tí en un QSO',
   PUSH_LISTENEDYOUQSO_MESSAGE: 'en Modo: %{mode} Banda: %{band}',
-  PUSH_NEWFLDDAY_TITLE: '%{callsign} promocionó una Activación',
+  PUSH_NEWFLDDAY_TITLE: '%{callsign} promocionó una Actividad',
   PUSH_NEWFLDDAY_MESSAGE: 'Mirá los detalles aquí',
   PUSH_TAGYOUNEWFLDDAY_TITLE:
-    '%{callsign} te etiquetó en su public. de Activación',
+    '%{callsign} te etiquetó en su public. de Actividades',
   PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'Mirá los detalles aquí',
   PUSH_NEWQAP_TITLE: '%{callsign} publicó que esta QAP',
   PUSH_NEWQAP_MESSAGE: 'Mirá los detalles aquí',
@@ -388,7 +387,7 @@ export default {
   PUSH_REPOSTLISTEN_MESSAGE: 'Mirá los detalles aquí',
   PUSH_REPOSTANY_TITLE: '%{callsign} republicó una publicación',
   PUSH_REPOSTANY_MESSAGE: 'Mirá los detalles aquí',
-  PUSH_REPOSTFLDDAY_TITLE: '%{callsign} republicó una activación',
+  PUSH_REPOSTFLDDAY_TITLE: '%{callsign} republicó una actividad',
   PUSH_REPOSTFLDDAY_MESSAGE: 'Mirá los detalles aquí',
   PUSH_REPOSTQAP_TITLE: '%{callsign} republicó un QAP',
   PUSH_REPOSTQAP_MESSAGE: 'Mirá los detalles aquí',
@@ -418,8 +417,8 @@ export default {
   NOTIF_ACTIVTYPE_12_QAP: '%{callsign} etiquetó a %{refqra} en un QAP',
   NOTIF_ACTIVTYPE_12_QAPYOU: '%{callsign} te etiquetó a tí en un QAP',
   NOTIF_ACTIVTYPE_12_FLDAY:
-    '%{callsign} etiquetó a %{refqra} en una activación',
-  NOTIF_ACTIVTYPE_12_FLDDAYYOU: '%{callsign} te etiquetó a tí en un activación',
+    '%{callsign} etiquetó a %{refqra} en una actividad',
+  NOTIF_ACTIVTYPE_12_FLDDAYYOU: '%{callsign} te etiquetó a tí en un actividad',
   NOTIF_ACTIVTYPE_01_YOU: '%{callsign} comenzó a seguirte',
   NOTIF_ACTIVTYPE_01_OTHER: '%{callsign} comenzó a seguir a %{refqra}',
   NOTIF_ACTIVTYPE_50: '%{callsign} actualizó su biografía',
@@ -432,7 +431,7 @@ export default {
   NOTIF_ACTIVTYPE_60:
     '%{callsign} escuchó un QSO en Banda: %{band} Modo: %{mode}',
   NOTIF_ACTIVTYPE_61: '%{callsign} publicó que esta QAP',
-  NOTIF_ACTIVTYPE_62: '%{callsign} promocionó una activación',
+  NOTIF_ACTIVTYPE_62: '%{callsign} promocionó una actividad',
   NOTIF_ACTIVTYPE_63: '%{callsign} creó una nueva publicación',
   NOTIF_ACTIVTYPE_64: '%{callsign} republicó un QSO',
   NOTIF_ACTIVTYPE_65: '%{callsign} republicó una escucha',
@@ -647,12 +646,12 @@ export default {
     workedQSO: '{{QRA}} trabajó un QSO',
     listenedQSO: '{{QRA}} escuchó un QSO',
     createdQAP: '{{QRA}} publicó que está QAP',
-    createdFLDDAY: '{{QRA}} promocionó una activación',
+    createdFLDDAY: '{{QRA}} promocionó una actividad',
     createdPOST: '{{QRA}} creó una publicación',
     sharedQSO: '{{QRA}} republicó un QSO',
     sharedLISTEN: '{{QRA}} republicó una escucha de un QSO',
     sharedQAP: '{{QRA}} republicó un QAP',
-    sharedFLDDAY: '{{QRA}} republicó una activación',
+    sharedFLDDAY: '{{QRA}} republicó una actividad',
     sharedPOST: '{{QRA}} republicó una publicación'
   },
   qso: {
@@ -665,7 +664,7 @@ export default {
     checkOutPost: 'Mirá esta publicación...',
     checkOutQSO: 'Mirá este QSO...',
     checkOutQAP: 'Mirá quien está QAP...',
-    checkOutFLDDAY: 'Mirá esta activación...',
+    checkOutFLDDAY: 'Mirá esta actividad...',
     add: 'Comentar',
     postDeleted: 'Esta publicación ha sido eliminada y no puede ser mostrada',
     notExist: 'Esta publicación no existe',
@@ -679,7 +678,7 @@ export default {
     workedAQSO: ' trabajó un QSO',
     createdPost: ' creó una publicación',
     createdQAP: ' publicó que está QAP',
-    createdFLDDAY: ' promocionó una activación',
+    createdFLDDAY: ' promocionó una actividad',
     listenedQSO: ' escuchó un QSO',
     repostedQSO: ' republicó un QSO',
     date: 'Fecha',
