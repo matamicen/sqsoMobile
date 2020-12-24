@@ -3578,11 +3578,11 @@ close_upload_failed = () => {
 
 
                          {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/activacion.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/actividad09.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/fieldday10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/activity10.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
 
@@ -3606,7 +3606,7 @@ close_upload_failed = () => {
                 
                        <Image source={require('../../images/qap10.png')} style={{width: 50, height: 50, flex: 0.3} } 
                        resizeMode="contain" />
-                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 8, height:85, marginTop:3 }}>{I18n.t("QsoTypeANYdescQAP")}
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 8, height:85, marginTop:35 }}>{I18n.t("QsoTypeANYdescQAP")}
                        </Text>
                      </View>
             </TouchableOpacity>              
