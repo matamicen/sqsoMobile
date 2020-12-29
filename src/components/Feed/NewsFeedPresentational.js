@@ -37,7 +37,7 @@ class NewsFeedPresentational extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     if (item)
       return (
-        <View>
+        <View style={{ zIndex: 0 }}>
           <FeedItem
             ref={(ref) => {
               this.cellRefs[item.id] = ref;
@@ -67,7 +67,7 @@ class NewsFeedPresentational extends React.PureComponent {
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, zIndex: 0 }}>
         <MenuProvider skipInstanceCheck backHandler={true} style={{ flex: 1 }}>
           <FlatList
             // extraData={this.state.refresh}

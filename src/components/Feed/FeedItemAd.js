@@ -10,13 +10,21 @@ export default function FeedItemAdd() {
     adUnitId = 'ca-app-pub-1064314468310203/8095250311';
   }
   return (
-    <View style={{ zIndex: 0, justifyContent: 'center', alignSelf: 'center' }}>
+    <View
+      style={{
+        zIndex: 0,
+        justifyContent: 'center',
+        alignSelf: 'center'
+      }}>
       <BannerAd
+        style={{ zIndex: 0 }}
         unitId={adUnitId}
         size={BannerAdSize.MEDIUM_RECTANGLE}
-        requestOptions={{
-          requestNonPersonalizedAdsOnly: true
-        }}
+        requestOptions={
+          {
+            // requestNonPersonalizedAdsOnly: true
+          }
+        }
       />
     </View>
   );

@@ -72,8 +72,7 @@ const FeedHeaderSearch = (props) => {
             // For the suggestion view
             <View key={item.qra} style={{ elevation: 1 }}>
               <TouchableOpacity
-                delayPressIn={150}
-                onPress={() => {
+                onPressIn={() => {
                   setFilteredUsers([]);
                   props.navigate(item.qra);
                 }}>
