@@ -94,19 +94,6 @@ const FeedHeaderSearch = (props) => {
           placeholder={I18n.t('navBar.searchCallsign')}
           renderItem={({ item }) => (
             // For the suggestion view
-          
-              //    {/* <TouchableOpacity
-              //   onPress={() => {
-              //     props.actions.setFeedTouchable(true);
-              //     setFilteredUsers([]);
-              //     console.log('press clear')
-              //     this.textInput.clear()
-        
-              //   }}>
-            
-              //     <Text style={styles.itemText}>Cancelar</Text>
-               
-              // </TouchableOpacity> */}
               
             <View key={item.qra}>
               <TouchableOpacity
