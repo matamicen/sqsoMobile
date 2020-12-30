@@ -103,7 +103,8 @@ import {
   UPDATE_QRA_URL,
   UPDATE_QSL_SCAN,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS
+  UPDATE_QSO_HEADER_STATUS,
+  SET_FEEDTOUCHABLE
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -255,7 +256,8 @@ const initialState = {
     followFetching: false,
     follow: null,
     latestUsers: null,
-    embeddedSession: false
+    embeddedSession: false,
+    FeedTouchable: true
   }
 };
 
@@ -2487,6 +2489,20 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     }
+
+    case SET_FEEDTOUCHABLE:
+      console.log('setfeedtouchable: '+ action.status)
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          FeedTouchable: action.status
+          
+        }
+      });
+      return newStore;
+
+
     default:
       return state;
   }
