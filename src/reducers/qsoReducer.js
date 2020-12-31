@@ -1917,7 +1917,6 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     case QSO_LIKE:
-      console.log('QSO_LIKE');
       let like = {
         idqso: action.idqso,
         idqra: action.idqra,
@@ -1964,7 +1963,13 @@ const qsoReducer = (state = initialState, action) => {
                   ...state.feed.qso,
                   likes: [...state.feed.qso.likes, like]
                 }
-              : {}
+              : {},
+          fieldDays: state.feed.fieldDays.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.likes = [...qso.likes, like];
+            }
+            return qso;
+          })
         }
       });
 
@@ -1975,6 +1980,15 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.likes = qso.likes.filter(
+                (like) => like.idqra !== action.idqra
+              );
+            }
+
+            return qso;
+          }),
+          fieldDays: state.feed.fieldDays.map((qso) => {
             if (qso.idqsos === action.idqso) {
               qso.likes = qso.likes.filter(
                 (like) => like.idqra !== action.idqra
