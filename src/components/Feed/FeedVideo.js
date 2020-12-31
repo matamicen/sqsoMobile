@@ -154,6 +154,9 @@ const selectorFeedType = (state, ownProps) => {
     qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
   else return null;
+  if (qso === undefined) {
+    console.log(ownProps);
+  }
   if (qso)
     return qso.media.find((m) => (m.idqsos_media = ownProps.idqsos_media));
 };
