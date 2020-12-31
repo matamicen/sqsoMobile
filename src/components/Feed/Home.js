@@ -46,6 +46,10 @@ class Home extends React.PureComponent {
     // videoAlreadyDisplayed: false
   };
   componentDidMount() {
+    this.props.navigation.setParams({
+      tabBarOnPress: () =>
+        this.props.actions.doFetchPublicFeed(this.props.currentQRA)
+    });
     ShareMenu.getSharedText((text) => {
       console.log('el text del share 09:' + JSON.stringify(text));
       if (text !== null && typeof text !== 'undefined') {

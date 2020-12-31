@@ -3620,7 +3620,6 @@ export const setSubscriptionInfo = (productid, localizedprice) => {
 
 // BEGIN NATIVE FEED
 export const doFetchPublicFeed = (qra = null) => {
-  // console.log('doFetchPublicFeed');
   // window.gtag('config', 'G-H8G28LYKBY', {
   //   custom_map: { dimension1: 'userQRA' }
   // });
