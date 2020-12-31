@@ -32,10 +32,9 @@ class NewsFeedContainer extends React.PureComponent {
             <FeedHeaderBar />
           </View>
           <View
-            style={{
-              flex: 1,
-              zIndex: 0
-            }}>
+            style={{ flex: 1, zIndex: 0 }}
+            // pointerEvents={'auto'}
+            pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
             <NewsFeedPresentational
               feedType="MAIN"
               list={qsos}
@@ -53,7 +52,8 @@ const mapStateToProps = (state) => {
   return {
     qsos: state.sqso.feed.qsos,
     FetchingQSOS: state.sqso.feed.FetchingQSOS,
-    qsosFetched: state.sqso.feed.qsosFetched
+    qsosFetched: state.sqso.feed.qsosFetched,
+    feedtouchable: state.sqso.feed.FeedTouchable
     // authenticating: state.sqso.feed.userData.authenticating,
 
     // token: state.sqso.feed.userData.token

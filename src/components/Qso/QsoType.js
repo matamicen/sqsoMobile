@@ -224,7 +224,7 @@ class QsoType extends React.PureComponent {
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/fieldday12.png')} style={{width: 50, height: 50}} 
+                            <Image source={require('../../images/activacion12.png')} style={{width: 50, height: 50}} 
                             resizeMode="contain" />
                           }
                      </TouchableOpacity> 

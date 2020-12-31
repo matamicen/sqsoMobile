@@ -118,7 +118,8 @@ import {
   UPDATE_QSL_SCAN,
   UPDATE_QSL_SCAN_RESULT,
   UPDATE_QSOQRA_SENT_STATUS,
-  UPDATE_QSO_HEADER_STATUS
+  UPDATE_QSO_HEADER_STATUS,
+  SET_FEEDTOUCHABLE
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -4512,5 +4513,12 @@ export function doDeleteQsoResponse(idqso = null) {
     idqso: idqso
   };
 }
+
+export const setFeedTouchable = (status) => {
+  return {
+    type: SET_FEEDTOUCHABLE,
+    status: status
+  };
+};
 
 // END NATIVE FEED

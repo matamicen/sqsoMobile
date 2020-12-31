@@ -65,7 +65,7 @@ class NotifItem extends React.PureComponent {
     QSO_GUID
   ) => {
     if (await hasAPIConnection()) {
-      var profile = new Set([1, 50, 51]);
+      var profile = new Set([1, 50, 51, 108]); // 108 es porque viene de Push Foreground
       var post = new Set([
         10,
         60,
@@ -80,8 +80,9 @@ class NotifItem extends React.PureComponent {
         12,
         18,
         20,
-        71
-      ]);
+        71,
+        109
+      ]); // 109 es porque viene de Push Foreground
 
       // this.props.setPressHome(1); // sete en 1 porque apreo notif entonces el proximo TAP en home debe refrescar.
       // auxurl = urlnotif + '?' + new Date();
@@ -722,9 +723,10 @@ class NotifItem extends React.PureComponent {
                 </View>
               )}
 
-              {/* El 108 es el de la notificacion que viene por push pero el telefono esta en Foreground entonces la capturo y 
-                           y la doy de alta en la bandeja de notificaciones */}
-              {this.props.activity_type === 108 && (
+              {/* El 108 109 o 110(marketing) es el de la notificacion que viene por push pero el telefono esta en Foreground entonces la capturo y 
+                           y la doy de alta en la bandeja de notificaciones, el 108 es un PROFILE y el 109 es una Publicacion
+                            */}
+              {(this.props.activity_type === 108 || this.props.activity_type === 109 || this.props.activity_type === 110) && (
                 <Text style={{ fontSize: 15, height: 75 }}>
                   {this.props.message} {'\n'}{' '}
                 </Text>
