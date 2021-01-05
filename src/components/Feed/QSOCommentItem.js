@@ -13,6 +13,85 @@ import FeedOptionsMenu from './FeedOptionsMenu';
 var ConvertToComp = (response) => {
   return response;
 };
+class Comment extends React.PureComponent {
+  render() {
+    let withTags;
+    let element = [];
+    const regex = /<(MENTION)>.*<\/\1>/;
+
+    let message = this.props.comment;
+    // let message = 'Hola <MENTION>@MM</MENTION>info@mm.com';
+    // console.log(message);
+    let commentSplit = message.split(/<MENTION>([^<.*>;]*)<\/MENTION>/gim);
+    // console.log(commentSplit);
+    element = commentSplit.map((word, i) => {
+      if (word[0] === '@' && word.match(/@([a-zA-Z0-9]+)/)) {
+        return React.createElement(
+          TouchableOpacity,
+          {
+            key: i,
+            onPress: () => {
+              this.props.closeModal();
+              this.props.navigation.navigate('QRAProfile', {
+                screen: 'PROFILE',
+                qra: word.substring(1)
+              });
+            }
+          },
+          [React.createElement(Text, { key: i }, [word])]
+        );
+      } else {
+        return React.createElement(Text, { key: i }, [word]);
+      }
+    });
+
+    // do {
+    //   withTags = regex.exec(message);
+    //   console.log(withTags);
+    //   if (withTags) {
+    //     let qra;
+    //     const regex2 = />@([a-zA-Z0-9]+)/;
+
+    //     let message2 = withTags[0];
+    //     qra = regex2.exec(message2);
+
+    //     var oldWord = withTags[0];
+    //     console.log(message);
+    //     console.log('oldWord ' + oldWord);
+    //     console.log(qra);
+    //     // message = message.replace(
+    //     //   new RegExp(oldWord, 'g'),
+    //     //   '<TouchableOpacity ' +
+    //     //     'onPress={() => ' +
+    //     //     // eslint-disable-next-line quotes
+    //     //     "this.props.navigation.navigate('QRAProfile', { " +
+    //     //     'qra: ' +
+    //     //     qra[1] +
+    //     //     '}) ' +
+    //     //     // eslint-disable-next-line quotes
+    //     //     '}> <Text style={{ fontSize: 10 }}> ' +
+    //     //     '@' +
+    //     //     qra[1] +
+    //     //     '</Text>  </TouchableOpacity>'
+    //     // );
+
+    //     message = message.replace(
+    //       oldWord,
+    //       React.createElement(
+    //         TouchableOpacity,
+    //         {
+    //           onPress: () =>
+    //             this.props.navigation.navigate('QRAProfile', { qra: qra[1] })
+    //         },
+    //         ['@' + qra[1]]
+    //       )
+    //     );
+    //   }
+    // } while (withTags);
+
+    return element;
+  }
+}
 class QSOCommentItem extends React.PureComponent {
   constructor() {
     super();
@@ -42,40 +121,70 @@ class QSOCommentItem extends React.PureComponent {
     // this.props.recalculateRowHeight();
   };
   render() {
-    let withTags;
-    const regex = /<(MENTION)>.*<\/\1>/;
+    // let withTags;
+    // const regex = /<(MENTION)>.*<\/\1>/;
 
-    let message = this.props.comment.comment;
+    // let message = this.props.comment.comment;
 
-    do {
-      withTags = regex.exec(message);
-      if (withTags) {
-        let qra;
-        const regex2 = />@([a-zA-Z0-9]+)/;
+    // do {
+    //   withTags = regex.exec(message);
+    //   console.log(withTags);
+    //   if (withTags) {
+    //     let qra;
+    //     const regex2 = />@([a-zA-Z0-9]+)/;
 
-        let message2 = withTags[0];
-        qra = regex2.exec(message2);
+    //     let message2 = withTags[0];
+    //     qra = regex2.exec(message2);
 
-        var oldWord = withTags[0];
+    //     var oldWord = withTags[0];
+    //     console.log(message);
+    //     console.log('oldWord ' + oldWord);
+    //     console.log(qra);
+    //     // message = message.replace(
+    //     //   new RegExp(oldWord, 'g'),
+    //     //   '<TouchableOpacity ' +
+    //     //     'onPress={() => ' +
+    //     //     // eslint-disable-next-line quotes
+    //     //     "this.props.navigation.navigate('QRAProfile', { " +
+    //     //     'qra: ' +
+    //     //     qra[1] +
+    //     //     '}) ' +
+    //     //     // eslint-disable-next-line quotes
+    //     //     '}> <Text style={{ fontSize: 10 }}> ' +
+    //     //     '@' +
+    //     //     qra[1] +
+    //     //     '</Text>  </TouchableOpacity>'
+    //     // );
 
-        message = message.replace(
-          new RegExp(oldWord, 'g'),
-          '<TouchableOpacity ' +
-            'onPress={() => ' +
-            // eslint-disable-next-line quotes
-            "this.props.navigation.navigate('QRAProfile', { " +
-            'qra: ' +
-            qra[1] +
-            '}) ' +
-            // eslint-disable-next-line quotes
-            '}> <Text style={{ fontSize: 10 }}> ' +
-            '@' +
-            qra[1] +
-            '</Text>  </TouchableOpacity>'
-        );
-      }
-    } while (withTags);
-
+    //     message = message.replace(
+    //       oldWord,
+    //       React.createElement(
+    //         TouchableOpacity,
+    //         {
+    //           onPress: () =>
+    //             this.props.navigation.navigate('QRAProfile', { qra: qra[1] })
+    //         },
+    //         ['@' + qra[1]]
+    //       )
+    //     );
+    //   }
+    // } while (withTags);
+    // console.log(message);
+    //     var parts = "I am a cow; cows say moo. MOOOOO.".split(/(\bmoo+\b)/gi);
+    // for (var i = 1; i < parts.length; i += 2) {
+    //   parts[i] = <span className="match" key={i}>{parts[i]}</span>;
+    // }
+    // return <div>{parts}</div>;
+    // https://stackoverflow.com/questions/29286899/how-do-i-make-components-in-react-native-without-using-jsx
+    // console.log(message);
+    // let Comment = React.createClass({
+    //   displayName: 'Comment',
+    //   render: function () {
+    //     return React.createElement(Text, [], [message]);
+    //   }
+    // });
+    // let Comment = () => React.createElement(Text, [], [message]);
+    // console.log(Comment);
     var date = new Date(this.props.comment.datetime);
     var timestamp = '';
     if (
@@ -103,11 +212,11 @@ class QSOCommentItem extends React.PureComponent {
           <View style={styles.avatar}>
             <TouchableOpacity
               onPress={() => {
+                this.props.closeModal();
                 this.props.navigation.navigate('QRAProfile', {
                   qra: this.props.comment.qra,
                   screen: 'PROFILE'
                 });
-                this.props.closeModal();
               }}>
               <Avatar
                 size="medium"
@@ -127,11 +236,11 @@ class QSOCommentItem extends React.PureComponent {
             <View style={styles.header}>
               <TouchableOpacity
                 onPress={() => {
+                  this.props.closeModal();
                   this.props.navigation.navigate('QRAProfile', {
                     qra: this.props.comment.qra,
                     screen: 'PROFILE'
                   });
-                  this.props.closeModal();
                 }}>
                 <Text style={styles.headerText}>
                   <Text> {this.props.comment.qra.toUpperCase()} </Text>
@@ -166,14 +275,20 @@ class QSOCommentItem extends React.PureComponent {
               idqsos={this.props.idqsos}
               idcomment={this.props.comment.idqsos_comments}
               optionsCaller="FeedComment"
-              message={message}
+              message={this.props.comment.comment}
             />
           </View>
         </View>
         <View style={styles.message}>
           <Text style={{ fontSize: 15 }}>
             {/* <ConvertToComp response={message} /> */}
-            {message}
+            <Comment
+              comment={this.props.comment.comment}
+              navigation={this.props.navigation}
+              closeModal={() => {
+                this.props.closeModal();
+              }}
+            />
           </Text>
         </View>
       </View>

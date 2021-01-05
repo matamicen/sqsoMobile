@@ -110,7 +110,10 @@ class QSOComments extends React.PureComponent {
           comment={item}
           currentQRA={this.props.currentQRA}
           idqsos={this.props.idqsos}
-          closeModal={() => this.props.doClose()}
+          closeModal={() => {
+            console.log('close');
+            this.props.doClose();
+          }}
           // recalculateRowHeight={this.props.recalculateRowHeight}
         />
       </View>
