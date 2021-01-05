@@ -142,7 +142,7 @@ class FeedOptionsMenu extends React.PureComponent {
   deleteMedia() {
     this.props.actions.doDeleteMedia(
       this.props.idqsos_media,
-      this.props.idqso,
+      this.props.idqsos,
       this.props.token
     );
   }
@@ -150,12 +150,12 @@ class FeedOptionsMenu extends React.PureComponent {
   deleteComment() {
     this.props.actions.doCommentDelete(
       this.props.idcomment,
-      this.props.idqso,
+      this.props.idqsos,
       this.props.token
     );
   }
   deleteQso() {
-    this.props.actions.doDeleteQso(this.props.idqso, this.props.token);
+    this.props.actions.doDeleteQso(this.props.idqsos, this.props.token);
   }
   printQSLCard() {
     // this.props.actions.doQslCardPrint(this.props.idqso, this.props.token);
@@ -183,7 +183,7 @@ class FeedOptionsMenu extends React.PureComponent {
       let path = '/content-reported';
       let myInit = {
         body: {
-          idqso: this.props.idqso,
+          idqso: this.props.idqsos,
           idcomment: this.props.idcomment,
           detail: values.comments,
           datetime: datetime,
@@ -236,7 +236,7 @@ class FeedOptionsMenu extends React.PureComponent {
       let path = '/content-reported';
       let myInit = {
         body: {
-          idqso: this.props.idqso,
+          idqso: this.props.idqsos,
           detail: values.comments,
           datetime: datetime,
           email: values.email
@@ -284,7 +284,7 @@ class FeedOptionsMenu extends React.PureComponent {
       let path = '/content-reported';
       let myInit = {
         body: {
-          idqso: this.props.idqso,
+          idqso: this.props.idqsos,
           idmedia: e.target.idmedia.value,
           detail: e.target.comments.value,
           datetime: datetime,
@@ -314,7 +314,12 @@ class FeedOptionsMenu extends React.PureComponent {
     }
   }
   render() {
-    const { showMessage, showReportContent } = this.state;
+    let name;
+    if (this.props.optionsCaller === 'FeedComment') {
+      name = this.props.idqsos + this.props.idcomment;
+    } else {
+      name = this.props.idqsos + this.props.optionsCaller;
+    }
 
     return (
       <Fragment>
@@ -330,13 +335,7 @@ class FeedOptionsMenu extends React.PureComponent {
         <Menu
           onBackdropPress={() => this.setState({ openMenu: false })}
           opened={this.state.openMenu}
-          name={
-            this.props.idqso.toString() +
-            (this.props.message ? this.props.message : null) +
-            this.props.comment_owner
-              ? this.props.comment_owner
-              : null
-          }
+          name={name.toString()}
           renderer={SlideInMenu}
           // onSelect={(value) => this.selectNumber(value)}
         >

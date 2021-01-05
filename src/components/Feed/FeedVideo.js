@@ -28,8 +28,7 @@ class FeedVideo extends React.PureComponent {
   componentDidUpdate(props) {
     this.setState({ paused: props.media.paused ? true : false });
     if (this.player) this.player.paused = props.media.paused ? true : false;
-    // console.log(props.currentIndex);
-    // console.log(props.currentVisibleIndex);
+
     // if (props.currentIndex !== props.currentVisibleIndex) {
     //   this.setState({ showVideo: false });
     // } else this.setState({ showVideo: true });
@@ -155,6 +154,7 @@ const selectorFeedType = (state, ownProps) => {
     qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
   else return null;
+
   if (qso)
     return qso.media.find((m) => (m.idqsos_media = ownProps.idqsos_media));
 };

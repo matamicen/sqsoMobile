@@ -28,14 +28,13 @@ class NewsFeedContainer extends React.PureComponent {
     if (this.state.qsos) {
       return (
         <View style={{ flex: 1, zIndex: 1 }}>
-           <View style={{ zIndex: 1 }}>
+          <View style={{ zIndex: 1 }}>
             <FeedHeaderBar />
           </View>
-          <View style={{ flex: 1, zIndex: 0 }}  
-          // pointerEvents={'auto'}
-          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}
-    
-          >
+          <View
+            style={{ flex: 1, zIndex: 0 }}
+            // pointerEvents={'auto'}
+            pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
             <NewsFeedPresentational
               feedType="MAIN"
               list={qsos}

@@ -61,12 +61,13 @@ class QSOLikeTextModalItem extends React.PureComponent {
       <View key={l.qra} style={styles.itemView}>
         <View style={styles.avatarView}>
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => {
               this.props.navigation.navigate('QRAProfile', {
                 qra: l.qra,
                 screen: 'PROFILE'
-              })
-            }>
+              });
+              this.props.closeModal();
+            }}>
             <Avatar
               size="small"
               rounded
@@ -82,12 +83,13 @@ class QSOLikeTextModalItem extends React.PureComponent {
         </View>
         <View style={styles.name}>
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => {
               this.props.navigation.navigate('QRAProfile', {
                 qra: l.qra,
                 screen: 'PROFILE'
-              })
-            }>
+              });
+              this.props.closeModal();
+            }}>
             <Text style={{ fontSize: 15 }}>{l.qra}</Text>
 
             <Text style={{ fontSize: 10 }}>

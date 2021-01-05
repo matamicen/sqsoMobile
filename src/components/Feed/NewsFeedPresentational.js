@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FlatList, View } from 'react-native';
+import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -36,7 +37,7 @@ class NewsFeedPresentational extends React.PureComponent {
   _renderItem = ({ item, index }) => {
     if (item)
       return (
-        <View>
+        <View style={{ zIndex: 0 }}>
           <FeedItem
             ref={(ref) => {
               this.cellRefs[item.id] = ref;
@@ -66,21 +67,23 @@ class NewsFeedPresentational extends React.PureComponent {
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <FlatList
-          // extraData={this.state.refresh}
-          onScroll={this.handleScroll}
-          data={this.props.list}
-          onViewableItemsChanged={this._onViewableItemsChanged}
-          initialNumToRender={5}
-          viewabilityConfig={this.viewabilityConfig}
-          maxToRenderPerBatch={5}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={this.renderSeparator}
-          renderItem={this._renderItem.bind(this)}
-          removeClippedSubviews={true} // Unmount components when outside of window
-          windowSize={5} // Reduce the window size
-        />
+      <View style={{ flex: 1, zIndex: 0 }}>
+        <MenuProvider skipInstanceCheck backHandler={true} style={{ flex: 1 }}>
+          <FlatList
+            // extraData={this.state.refresh}
+            onScroll={this.handleScroll}
+            data={this.props.list}
+            onViewableItemsChanged={this._onViewableItemsChanged}
+            initialNumToRender={5}
+            viewabilityConfig={this.viewabilityConfig}
+            maxToRenderPerBatch={5}
+            keyExtractor={(item, index) => index.toString()}
+            ItemSeparatorComponent={this.renderSeparator}
+            renderItem={this._renderItem.bind(this)}
+            removeClippedSubviews={true} // Unmount components when outside of window
+            windowSize={5} // Reduce the window size
+          />
+        </MenuProvider>
       </View>
     );
   }

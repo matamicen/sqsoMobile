@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NavigationActions, withNavigation } from 'react-navigation';
 import I18n from '../../utils/i18n';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 class SideMenu extends Component {
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
@@ -20,7 +23,10 @@ class SideMenu extends Component {
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.navItemStyle}
-                onPress={() => this.props.navigation.navigate('Home')}>
+                onPress={() => {
+                  this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+                  this.props.navigation.navigate('Home');
+                }}>
                 {I18n.t('HomeTitle')}
               </Text>
             </View>
@@ -30,7 +36,10 @@ class SideMenu extends Component {
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.navItemStyle}
-                onPress={() => this.props.navigation.navigate('FieldDays')}>
+                onPress={() => {
+                  this.props.actions.doFetchFieldDaysFeed();
+                  this.props.navigation.navigate('FieldDays');
+                }}>
                 {I18n.t('navBar.lastFieldDays')}
               </Text>
             </View>
@@ -97,4 +106,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgrey'
   }
 });
-export default withNavigation(SideMenu);
+
+const mapStateToProps = (state) => ({
+  currentQRA: state.sqso.qra
+});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(SideMenu)
+);

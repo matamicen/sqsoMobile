@@ -155,6 +155,9 @@ export const TabNavigator = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarOnPress: ({ defaultHandler }) => {
         if (navigation) {
+          if (navigation.state.key === 'Home') {
+            navigation.state.params.tabBarOnPress();
+          }
           const screenFunctions = getScreenRegisteredFunctions(
             navigation.state
           );

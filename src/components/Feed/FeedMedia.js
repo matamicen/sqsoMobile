@@ -44,9 +44,7 @@ class FeedMedia extends React.PureComponent {
             <FeedVideoList
               feedType={this.props.feedType}
               mediaList={videoList}
-              idqsos={this.props.qso.idqsos}
-              currentIndex={this.props.currentIndex}
-              currentVisibleIndex={this.props.currentVisibleIndex}
+              idqsos={this.props.idqsos}
               qso_owner={this.props.qso.qra}
             />
           </View>

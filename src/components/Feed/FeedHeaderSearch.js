@@ -1,6 +1,13 @@
 import { API } from 'aws-amplify';
 import { default as React, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, TextInput, Keyboard } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Keyboard
+} from 'react-native';
 // Import Autocomplete component
 import Autocomplete from 'react-native-autocomplete-input';
 import { Avatar } from 'react-native-elements';
@@ -18,29 +25,33 @@ const FeedHeaderSearch = (props) => {
   // For Selected Data
   const [selectedValue, setSelectedValue] = useState({});
 
-  const renderInput = props => (
-    <TextInput {...props} ref={input => { this.textInput = input }} />
+  const renderInput = (props) => (
+    <TextInput
+      {...props}
+      ref={(input) => {
+        this.textInput = input;
+      }}
+    />
   );
 
   const findUser = (query) => {
     // Method called every time when we change the value of the input
     // if (query) {
-      let apiName = 'superqso';
-      let path = '/qra-list?qra=' + query;
-      let myInit = {
-        body: {}, // replace this with attributes you need
-        headers: {
-          // "Authorization": this.props.token
-        } // OPTIONAL
-      };
+    let apiName = 'superqso';
+    let path = '/qra-list?qra=' + query;
+    let myInit = {
+      body: {}, // replace this with attributes you need
+      headers: {
+        // "Authorization": this.props.token
+      } // OPTIONAL
+    };
 
-      console.log('query:'+ query)
-      console.log('length:'+ query.length)
-      if (query.length<3)
-          props.actions.setFeedTouchable(true);
+    console.log('query:' + query);
+    console.log('length:' + query.length);
+    if (query.length < 3) props.actions.setFeedTouchable(true);
 
-          // comienza a buscar a partir de 3 letras
-    if (query.length>2)
+    // comienza a buscar a partir de 3 letras
+    if (query.length > 2)
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error > 0) {
@@ -50,9 +61,6 @@ const FeedHeaderSearch = (props) => {
             // this.setState({ data: response.body.message, isLoading: false });
             setFilteredUsers(response.body.message);
             props.actions.setFeedTouchable(false);
-          
-           
-
           }
         })
         .catch((error) => {
@@ -60,12 +68,12 @@ const FeedHeaderSearch = (props) => {
           this.setState({ isLoading: false, error });
           props.actions.setFeedTouchable(true);
         });
-      // Making a case insensitive regular expression
-      // const regex = new RegExp(`${query.trim()}`, 'i');
-      // Setting the filtered film array according the query
-      // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
-      // } 
-   else {
+    // Making a case insensitive regular expression
+    // const regex = new RegExp(`${query.trim()}`, 'i');
+    // Setting the filtered film array according the query
+    // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
+    // }
+    else {
       // If the query is null then return blank
       setFilteredUsers([]);
     }
@@ -78,7 +86,6 @@ const FeedHeaderSearch = (props) => {
           autoCapitalize="none"
           autoCorrect={false}
           containerStyle={styles.autocompleteContainer}
-        
           renderTextInput={renderInput}
           // Data to show in suggestion
           data={filteredUsers}
@@ -94,16 +101,15 @@ const FeedHeaderSearch = (props) => {
           placeholder={I18n.t('navBar.searchCallsign')}
           renderItem={({ item }) => (
             // For the suggestion view
-              
+
             <View key={item.qra}>
               <TouchableOpacity
                 onPress={() => {
                   props.actions.setFeedTouchable(true);
-                  console.log(item.qra);
                   setFilteredUsers([]);
                   Keyboard.dismiss();
                   props.navigate(item.qra);
-                  this.textInput.clear()
+                  this.textInput.clear();
                 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Avatar round source={{ uri: item.avatarpic }} />
@@ -111,7 +117,6 @@ const FeedHeaderSearch = (props) => {
                 </View>
               </TouchableOpacity>
             </View>
-        
           )}
         />
       </View>
@@ -152,13 +157,9 @@ const styles = StyleSheet.create({
   }
 });
 
-
-const mapStateToProps = (state) => ({
- 
-});
+const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedHeaderSearch);
-

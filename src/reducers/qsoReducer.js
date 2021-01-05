@@ -76,13 +76,13 @@ import {
   SET_JUSTPUBLISHED,
   SET_LOCATION,
   SET_MODE,
-  SET_QSOUTC,
-  SET_QSODATE,
   SET_MUSTUPGRADEAPP,
   SET_PRESSHOME,
   SET_PROFILE_MODAL_STAT,
   SET_QRA,
   SET_QSOCALLSIGNS,
+  SET_QSODATE,
+  SET_QSOUTC,
   SET_RESTORE_CALL,
   SET_RST,
   SET_SENDING_PROFILE_PHOTO_MODAL,
@@ -171,8 +171,8 @@ const initialState = {
     rst: '59',
     db: '-07',
     qsodate: new Date(),
-    activityDateBegin: new Date('1900','01','01'),
-    activityDateEnd: new Date('1900','01','01'),
+    activityDateBegin: new Date('1900', '01', '01'),
+    activityDateEnd: new Date('1900', '01', '01'),
     qsodateFormat: '',
     qsoutc: new Date(),
     activityUtcBegin: new Date(),
@@ -465,60 +465,56 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
 
-      
-      case SET_QSOUTC:
-        console.log('qsoutc reducer: '+action.utc + ' param: '+action.param)
-        if (action.param==='QsoUtc')
+    case SET_QSOUTC:
+      console.log('qsoutc reducer: ' + action.utc + ' param: ' + action.param);
+      if (action.param === 'QsoUtc')
         auxcurrentQso = {
           ...state.currentQso,
-          qsoutc: action.utc,
-          
+          qsoutc: action.utc
         };
-        if (action.param==='ActivityBeginUtc')
-        { console.log('entro ActivityBeginUtc')
+      if (action.param === 'ActivityBeginUtc') {
+        console.log('entro ActivityBeginUtc');
         auxcurrentQso = {
           ...state.currentQso,
-          activityUtcBegin: action.utc,
-          
+          activityUtcBegin: action.utc
         };
       }
-        if (action.param==='ActivityEndUtc')
-        { console.log('entro ActivityEndUtc')
+      if (action.param === 'ActivityEndUtc') {
+        console.log('entro ActivityEndUtc');
         auxcurrentQso = {
           ...state.currentQso,
-          activityUtcEnd: action.utc,
-          
+          activityUtcEnd: action.utc
         };
       }
 
-        newStore = Object.assign({}, state, {
-          ...state,
-          currentQso: auxcurrentQso
-        });
-        return newStore;
+      newStore = Object.assign({}, state, {
+        ...state,
+        currentQso: auxcurrentQso
+      });
+      return newStore;
 
-        case SET_QSODATE:
-          if (action.param==='QsoDate')
-          auxcurrentQso = {
-            ...state.currentQso,
-            qsodate: action.date      
-          };
-          if (action.param==='ActivityBeginDate')
-          auxcurrentQso = {
-            ...state.currentQso,
-            activityDateBegin: action.date
-          };
-          if (action.param==='ActivityEndDate')
-          auxcurrentQso = {
-            ...state.currentQso,
-            activityDateEnd: action.date
-          };
+    case SET_QSODATE:
+      if (action.param === 'QsoDate')
+        auxcurrentQso = {
+          ...state.currentQso,
+          qsodate: action.date
+        };
+      if (action.param === 'ActivityBeginDate')
+        auxcurrentQso = {
+          ...state.currentQso,
+          activityDateBegin: action.date
+        };
+      if (action.param === 'ActivityEndDate')
+        auxcurrentQso = {
+          ...state.currentQso,
+          activityDateEnd: action.date
+        };
 
-          newStore = Object.assign({}, state, {
-            ...state,
-            currentQso: auxcurrentQso
-          });
-          return newStore;
+      newStore = Object.assign({}, state, {
+        ...state,
+        currentQso: auxcurrentQso
+      });
+      return newStore;
 
     case SET_RST:
       console.log('cambio RST REDUX: ' + action.rst);
@@ -817,7 +813,7 @@ const qsoReducer = (state = initialState, action) => {
 
     case ADD_MEDIA:
       console.log('desdeREDUCER ADD_MEDIA!! : ');
-      console.log(action.newmedia);
+
       // var auxmedia = new Array();
       var auxmedia = state.currentQso.mediafiles;
       console.log('mediafiles cant: ' + auxmedia.length);
@@ -1152,7 +1148,7 @@ const qsoReducer = (state = initialState, action) => {
 
     case SET_USER_INFO:
       // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      console.log('Reducer User_Info:' + JSON.stringify(action.userinfo));
+      // console.log('Reducer User_Info:' + JSON.stringify(action.userinfo));
       if (action.mode === 'ALL') {
         newStore = Object.assign({}, state, {
           ...state,
@@ -1284,8 +1280,8 @@ const qsoReducer = (state = initialState, action) => {
         bandSent: false,
         mode: I18n.t('ReducerMode'),
         qsodate: new Date(),
-        activityDateBegin: new Date('1900','01','01'),
-        activityDateEnd: new Date('1900','01','01'),
+        activityDateBegin: new Date('1900', '01', '01'),
+        activityDateEnd: new Date('1900', '01', '01'),
         qsodateFormat: '',
         qsoutc: new Date(),
         activityUtcBegin: new Date(),
@@ -1921,7 +1917,6 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     case QSO_LIKE:
-      console.log('QSO_LIKE');
       let like = {
         idqso: action.idqso,
         idqra: action.idqra,
@@ -1968,7 +1963,13 @@ const qsoReducer = (state = initialState, action) => {
                   ...state.feed.qso,
                   likes: [...state.feed.qso.likes, like]
                 }
-              : {}
+              : {},
+          fieldDays: state.feed.fieldDays.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.likes = [...qso.likes, like];
+            }
+            return qso;
+          })
         }
       });
 
@@ -1979,6 +1980,15 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
+            if (qso.idqsos === action.idqso) {
+              qso.likes = qso.likes.filter(
+                (like) => like.idqra !== action.idqra
+              );
+            }
+
+            return qso;
+          }),
+          fieldDays: state.feed.fieldDays.map((qso) => {
             if (qso.idqsos === action.idqso) {
               qso.likes = qso.likes.filter(
                 (like) => like.idqra !== action.idqra
@@ -2276,7 +2286,6 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case RECEIVE_QSO:
-      console.log(action);
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2491,17 +2500,14 @@ const qsoReducer = (state = initialState, action) => {
     }
 
     case SET_FEEDTOUCHABLE:
-      console.log('setfeedtouchable: '+ action.status)
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
           ...state.feed,
           FeedTouchable: action.status
-          
         }
       });
       return newStore;
-
 
     default:
       return state;
