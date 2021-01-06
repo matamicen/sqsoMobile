@@ -240,6 +240,7 @@ const initialState = {
     qsos: [],
     FetchingQSOS: false,
     qsosFetched: false,
+    feedFetchedDate: null,
     fieldDays: [],
     FetchingFieldDays: false,
     fieldDaysFetched: false,
@@ -1835,7 +1836,8 @@ const qsoReducer = (state = initialState, action) => {
           ...state.feed,
           qsos: action.qsos,
           FetchingQSOS: false,
-          qsosFetched: true
+          qsosFetched: true,
+          feedFetchedDate: new Date()
         }
       });
       return newStore;
