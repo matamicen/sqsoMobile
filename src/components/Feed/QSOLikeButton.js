@@ -1,7 +1,7 @@
-import API from '@aws-amplify/api';
 import crashlytics from '@react-native-firebase/crashlytics';
 // import * as Sentry from '@sentry/browser';
 import React from 'react';
+import { API, Auth } from 'aws-amplify';
 import { Button, Icon } from 'react-native-elements';
 //import I18n from '../../utils/i18n';;
 import { connect } from 'react-redux';
@@ -23,7 +23,25 @@ class QSOLikeButton extends React.PureComponent {
       idqra: null
     };
   }
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.likes.some((o) => o.idqra === this.props.userInfo.idqras)) {
+      this.setState({
+        qso: this.props.qso,
+        liked: true,
+        icon: 'thumbs-up',
+        likes: this.props.likes,
+        likeCounter: this.props.likes.length
+      });
+    } else {
+      this.setState({
+        qso: this.props.qso,
+        liked: false,
+        icon: 'thumbs-o-up',
+        likes: this.props.likes,
+        likeCounter: this.props.likes.length
+      });
+    }
+  }
   static getDerivedStateFromProps(props, prevState) {
     if (props.userInfo.idqras && prevState.idqra !== props.userInfo.idqras) {
       if (props.likes.some((o) => o.idqra === props.userInfo.idqras)) {
@@ -75,7 +93,8 @@ class QSOLikeButton extends React.PureComponent {
       // const currentSession = await Auth.currentSession();
       // token = currentSession.getIdToken().getJwtToken();
       // this.props.actions.refreshToken(token);
-
+      let session = await Auth.currentSession();
+      this.props.actions.setToken(session.idToken.jwtToken);
       let apiName = 'superqso';
       let path = '/qso-like';
       let myInit = {
@@ -85,7 +104,7 @@ class QSOLikeButton extends React.PureComponent {
             : this.props.qso.idqsos
         }, // replace this with attributes you need
         headers: {
-          Authorization: token ? token : this.props.token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
@@ -125,9 +144,9 @@ class QSOLikeButton extends React.PureComponent {
       // });
     }
     try {
-      // const currentSession = await Auth.currentSession();
-      // token = currentSession.getIdToken().getJwtToken();
-      // this.props.actions.refreshToken(token);
+      let session = await Auth.currentSession();
+      this.props.actions.setToken(session.idToken.jwtToken);
+
       let apiName = 'superqso';
       let path = '/qso-like';
       let myInit = {
@@ -137,7 +156,7 @@ class QSOLikeButton extends React.PureComponent {
             : this.props.qso.idqsos
         }, // replace this with attributes you need
         headers: {
-          Authorization: token ? token : this.props.token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.del(apiName, path, myInit)
@@ -188,7 +207,8 @@ class QSOLikeButton extends React.PureComponent {
         this.props.currentQRA,
         this.props.userInfo.firstname,
         this.props.userInfo.lastname,
-        this.props.userInfo.avatarpic
+        this.props.userInfo.avatarpic,
+        this.props.qso.idqso_shared
       );
       this.doLike();
     } else {
@@ -201,9 +221,10 @@ class QSOLikeButton extends React.PureComponent {
         liked: false,
         icon: 'thumbs-o-up'
       });
-      this.props.actions.doDislikeQSO(
+      this.props.actions.doUnlikeQSO(
         this.props.qso.idqsos,
-        this.props.userInfo.idqras
+        this.props.userInfo.idqras,
+        this.props.qso.idqso_shared
       );
       this.doUnLike();
     }
@@ -212,6 +233,7 @@ class QSOLikeButton extends React.PureComponent {
   render() {
     let icon;
     this.likeCounter = this.state.likeCounter;
+    this.liked = this.state.liked;
     if (this.liked !== true && this.liked !== false) {
       icon = this.state.icon;
       this.liked = this.state.liked;
@@ -242,17 +264,20 @@ const selectorFeedType = (state, ownProps) => {
   else return null;
 };
 const selectorFeedTypeLikes = (state, ownProps) => {
+  let likes = [];
   if (ownProps.feedType === 'MAIN')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes;
+    likes = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
+      .likes;
   else if (ownProps.feedType === 'PROFILE')
-    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
+    likes = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
       .likes;
   else if (ownProps.feedType === 'FIELDDAYS')
-    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
+    likes = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
       .likes;
   else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
-    return state.sqso.feed.qso.likes;
-  else return null;
+    likes = state.sqso.feed.qso.likes;
+
+  return likes;
 };
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,

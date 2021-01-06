@@ -43,7 +43,7 @@ import {
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
-  QSO_DISLIKE,
+  QSO_UNLIKE,
   QSO_LIKE,
   QSO_QRA_DELETE,
   QSO_SCREEN_DIDMOUNT,
@@ -1932,7 +1932,12 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.likes = [...qso.likes, like];
             }
             return qso;
@@ -1950,7 +1955,12 @@ const qsoReducer = (state = initialState, action) => {
                 qsos:
                   state.feed.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
-                        if (qso.idqsos === action.idqso) {
+                        if (
+                          qso.idqsos === action.idqso ||
+                          qso.idqsos === action.idqso_shared ||
+                          qso.idqso_shared === action.idqso ||
+                          qso.idqso_shared === action.idqso_shared
+                        ) {
                           qso.likes = [...qso.likes, like];
                         }
                         return qso;
@@ -1967,7 +1977,12 @@ const qsoReducer = (state = initialState, action) => {
                 }
               : {},
           fieldDays: state.feed.fieldDays.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.likes = [...qso.likes, like];
             }
             return qso;
@@ -1976,13 +1991,18 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
-    case QSO_DISLIKE:
+    case QSO_UNLIKE:
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.likes = qso.likes.filter(
                 (like) => like.idqra !== action.idqra
               );
@@ -1991,7 +2011,12 @@ const qsoReducer = (state = initialState, action) => {
             return qso;
           }),
           fieldDays: state.feed.fieldDays.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.likes = qso.likes.filter(
                 (like) => like.idqra !== action.idqra
               );
@@ -2015,7 +2040,12 @@ const qsoReducer = (state = initialState, action) => {
                 qsos:
                   state.feed.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
-                        if (qso.idqsos === action.idqso) {
+                        if (
+                          qso.idqsos === action.idqso ||
+                          qso.idqsos === action.idqso_shared ||
+                          qso.idqso_shared === action.idqso ||
+                          qso.idqso_shared === action.idqso_shared
+                        ) {
                           qso.likes = qso.likes.filter(
                             (like) => like.idqra !== action.idqra
                           );

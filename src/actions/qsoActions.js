@@ -60,7 +60,7 @@ import {
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
-  QSO_DISLIKE,
+  QSO_UNLIKE,
   QSO_LIKE,
   QSO_QRA_DELETE,
   QSO_SCREEN_DIDMOUNT,
@@ -3960,22 +3960,32 @@ export function doRepost(idqso, token, qso) {
   };
 }
 
-export function doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic) {
+export function doLikeQSO(
+  idqso,
+  idqra,
+  qra,
+  firstname,
+  lastname,
+  avatarpic,
+  idqso_shared
+) {
   return {
     type: QSO_LIKE,
-    idqso: idqso,
-    idqra: idqra,
-    qra: qra,
-    firstname: firstname,
-    lastname: lastname,
-    avatarpic: avatarpic
+    idqso,
+    idqra,
+    qra,
+    firstname,
+    lastname,
+    avatarpic,
+    idqso_shared
   };
 }
-export function doDislikeQSO(idqso, idqra) {
+export function doUnlikeQSO(idqso, idqra, idqso_shared) {
   return {
-    type: QSO_DISLIKE,
-    idqso: idqso,
-    idqra: idqra
+    type: QSO_UNLIKE,
+    idqso,
+    idqra,
+    idqso_shared
   };
 }
 export function doCommentDelete(idcomment, idqso, token) {

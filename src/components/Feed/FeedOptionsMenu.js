@@ -316,7 +316,7 @@ class FeedOptionsMenu extends React.PureComponent {
   render() {
     let name;
     if (this.props.optionsCaller === 'FeedComment') {
-      name = this.props.idqsos + this.props.idcomment;
+      name = this.props.idqsos + '-' + this.props.idcomment;
     } else {
       name = this.props.idqsos + this.props.optionsCaller;
     }

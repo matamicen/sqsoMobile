@@ -35,7 +35,7 @@ class QSOComments extends React.PureComponent {
 
   handleAddComment = (values) => {
     // e.preventDefault();
-    if (values === '') return;
+    if (values.comment === '') return;
 
     let datetime = new Date();
     let comment = {

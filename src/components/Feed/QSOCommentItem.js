@@ -10,14 +10,9 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 
-var ConvertToComp = (response) => {
-  return response;
-};
 class Comment extends React.PureComponent {
   render() {
-    let withTags;
     let element = [];
-    const regex = /<(MENTION)>.*<\/\1>/;
 
     let message = this.props.comment;
     // let message = 'Hola <MENTION>@MM</MENTION>info@mm.com';
@@ -44,50 +39,6 @@ class Comment extends React.PureComponent {
         return React.createElement(Text, { key: i }, [word]);
       }
     });
-
-    // do {
-    //   withTags = regex.exec(message);
-    //   console.log(withTags);
-    //   if (withTags) {
-    //     let qra;
-    //     const regex2 = />@([a-zA-Z0-9]+)/;
-
-    //     let message2 = withTags[0];
-    //     qra = regex2.exec(message2);
-
-    //     var oldWord = withTags[0];
-    //     console.log(message);
-    //     console.log('oldWord ' + oldWord);
-    //     console.log(qra);
-    //     // message = message.replace(
-    //     //   new RegExp(oldWord, 'g'),
-    //     //   '<TouchableOpacity ' +
-    //     //     'onPress={() => ' +
-    //     //     // eslint-disable-next-line quotes
-    //     //     "this.props.navigation.navigate('QRAProfile', { " +
-    //     //     'qra: ' +
-    //     //     qra[1] +
-    //     //     '}) ' +
-    //     //     // eslint-disable-next-line quotes
-    //     //     '}> <Text style={{ fontSize: 10 }}> ' +
-    //     //     '@' +
-    //     //     qra[1] +
-    //     //     '</Text>  </TouchableOpacity>'
-    //     // );
-
-    //     message = message.replace(
-    //       oldWord,
-    //       React.createElement(
-    //         TouchableOpacity,
-    //         {
-    //           onPress: () =>
-    //             this.props.navigation.navigate('QRAProfile', { qra: qra[1] })
-    //         },
-    //         ['@' + qra[1]]
-    //       )
-    //     );
-    //   }
-    // } while (withTags);
 
     return element;
   }
@@ -121,70 +72,6 @@ class QSOCommentItem extends React.PureComponent {
     // this.props.recalculateRowHeight();
   };
   render() {
-    // let withTags;
-    // const regex = /<(MENTION)>.*<\/\1>/;
-
-    // let message = this.props.comment.comment;
-
-    // do {
-    //   withTags = regex.exec(message);
-    //   console.log(withTags);
-    //   if (withTags) {
-    //     let qra;
-    //     const regex2 = />@([a-zA-Z0-9]+)/;
-
-    //     let message2 = withTags[0];
-    //     qra = regex2.exec(message2);
-
-    //     var oldWord = withTags[0];
-    //     console.log(message);
-    //     console.log('oldWord ' + oldWord);
-    //     console.log(qra);
-    //     // message = message.replace(
-    //     //   new RegExp(oldWord, 'g'),
-    //     //   '<TouchableOpacity ' +
-    //     //     'onPress={() => ' +
-    //     //     // eslint-disable-next-line quotes
-    //     //     "this.props.navigation.navigate('QRAProfile', { " +
-    //     //     'qra: ' +
-    //     //     qra[1] +
-    //     //     '}) ' +
-    //     //     // eslint-disable-next-line quotes
-    //     //     '}> <Text style={{ fontSize: 10 }}> ' +
-    //     //     '@' +
-    //     //     qra[1] +
-    //     //     '</Text>  </TouchableOpacity>'
-    //     // );
-
-    //     message = message.replace(
-    //       oldWord,
-    //       React.createElement(
-    //         TouchableOpacity,
-    //         {
-    //           onPress: () =>
-    //             this.props.navigation.navigate('QRAProfile', { qra: qra[1] })
-    //         },
-    //         ['@' + qra[1]]
-    //       )
-    //     );
-    //   }
-    // } while (withTags);
-    // console.log(message);
-    //     var parts = "I am a cow; cows say moo. MOOOOO.".split(/(\bmoo+\b)/gi);
-    // for (var i = 1; i < parts.length; i += 2) {
-    //   parts[i] = <span className="match" key={i}>{parts[i]}</span>;
-    // }
-    // return <div>{parts}</div>;
-    // https://stackoverflow.com/questions/29286899/how-do-i-make-components-in-react-native-without-using-jsx
-    // console.log(message);
-    // let Comment = React.createClass({
-    //   displayName: 'Comment',
-    //   render: function () {
-    //     return React.createElement(Text, [], [message]);
-    //   }
-    // });
-    // let Comment = () => React.createElement(Text, [], [message]);
-    // console.log(Comment);
     var date = new Date(this.props.comment.datetime);
     var timestamp = '';
     if (
@@ -271,6 +158,7 @@ class QSOCommentItem extends React.PureComponent {
           </View>
           <View style={styles.menu}>
             <FeedOptionsMenu
+              comment={this.props.comment}
               comment_owner={this.props.comment.qra}
               idqsos={this.props.idqsos}
               idcomment={this.props.comment.idqsos_comments}
