@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import {
+  NavigationActions,
+  withNavigation,
+  DrawerActions
+} from 'react-navigation';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,6 +29,8 @@ class SideMenu extends Component {
                 style={styles.navItemStyle}
                 onPress={() => {
                   this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+
                   this.props.navigation.navigate('Home');
                 }}>
                 {I18n.t('HomeTitle')}
@@ -38,6 +44,8 @@ class SideMenu extends Component {
                 style={styles.navItemStyle}
                 onPress={() => {
                   this.props.actions.doFetchFieldDaysFeed();
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+
                   this.props.navigation.navigate('FieldDays');
                 }}>
                 {I18n.t('navBar.lastFieldDays')}
@@ -49,7 +57,10 @@ class SideMenu extends Component {
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.navItemStyle}
-                onPress={() => this.props.navigation.navigate('QRAProfile')}>
+                onPress={() => {
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.props.navigation.navigate('QRAProfile');
+                }}>
                 {I18n.t('navBar.myPosts')}
               </Text>
             </View>
@@ -59,7 +70,10 @@ class SideMenu extends Component {
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.navItemStyle}
-                onPress={() => this.props.navigation.navigate('editBio')}>
+                onPress={() => {
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.props.navigation.navigate('editBio');
+                }}>
                 {I18n.t('navBar.editBio')}
               </Text>
             </View>
@@ -69,7 +83,10 @@ class SideMenu extends Component {
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.navItemStyle}
-                onPress={() => this.props.navigation.navigate('editInfo')}>
+                onPress={() => {
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.props.navigation.navigate('editInfo');
+                }}>
                 {I18n.t('navBar.editProfile')}
               </Text>
             </View>
