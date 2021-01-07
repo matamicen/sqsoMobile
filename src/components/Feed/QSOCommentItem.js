@@ -161,6 +161,7 @@ class QSOCommentItem extends React.PureComponent {
               comment={this.props.comment}
               comment_owner={this.props.comment.qra}
               idqsos={this.props.idqsos}
+              idqso_shared={this.props.qso.idqso_shared}
               idcomment={this.props.comment.idqsos_comments}
               optionsCaller="FeedComment"
               message={this.props.comment.comment}
@@ -254,13 +255,16 @@ const styles = StyleSheet.create({
   }
 });
 const selectorFeedType = (state, ownProps) => {
+  let qso;
   if (ownProps.feedType === 'MAIN')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')
-    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
-    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
+    qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
+
+  return qso;
 };
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,

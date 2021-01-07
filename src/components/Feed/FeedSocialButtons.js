@@ -124,6 +124,7 @@ const selectorFeedType = (state, ownProps) => {
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
   qso: selectorFeedType(state, ownProps),
+  comments: selectorFeedType(state, ownProps).comments,
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({

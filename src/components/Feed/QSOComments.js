@@ -98,7 +98,7 @@ class QSOComments extends React.PureComponent {
     )
       this.setState({
         index: this.props.index,
-        comments: this.props.qso.comments,
+        comments: this.props.comments,
         qso: this.props.qso
       });
   }
@@ -110,8 +110,8 @@ class QSOComments extends React.PureComponent {
           comment={item}
           currentQRA={this.props.currentQRA}
           idqsos={this.props.idqsos}
+          feedType={this.props.feedType}
           closeModal={() => {
-            console.log('close');
             this.props.doClose();
           }}
           // recalculateRowHeight={this.props.recalculateRowHeight}

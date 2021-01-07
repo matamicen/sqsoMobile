@@ -2073,7 +2073,12 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.comments = qso.comments.map((c) => {
                 if (
                   c.qra === action.comment.qra &&
@@ -2109,7 +2114,12 @@ const qsoReducer = (state = initialState, action) => {
                 qsos:
                   state.feed.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
-                        if (qso.idqsos === action.idqso) {
+                        if (
+                          qso.idqsos === action.idqso ||
+                          qso.idqsos === action.idqso_shared ||
+                          qso.idqso_shared === action.idqso ||
+                          qso.idqso_shared === action.idqso_shared
+                        ) {
                           qso.comments = qso.comments.map((c) => {
                             if (
                               c.qra === action.comment.qra &&
@@ -2145,12 +2155,18 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     case COMMENT_ADD:
+      console.log(action);
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.comments = [...qso.comments, action.comment];
             }
             return qso;
@@ -2168,7 +2184,12 @@ const qsoReducer = (state = initialState, action) => {
                 qsos:
                   state.feed.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
-                        if (qso.idqsos === action.idqso) {
+                        if (
+                          qso.idqsos === action.idqso ||
+                          qso.idqsos === action.idqso_shared ||
+                          qso.idqso_shared === action.idqso ||
+                          qso.idqso_shared === action.idqso_shared
+                        ) {
                           qso.comments = [...qso.comments, action.comment];
                         }
                         return qso;
@@ -2194,7 +2215,12 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           qsos: state.feed.qsos.map((qso) => {
-            if (qso.idqsos === action.idqso) {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              qso.idqso_shared === action.idqso_shared
+            ) {
               qso.comments = qso.comments.filter(
                 (comment) => comment.idqsos_comments !== action.idcomment
               );
@@ -2218,7 +2244,12 @@ const qsoReducer = (state = initialState, action) => {
                 qsos:
                   state.feed.qra.qra && state.feed.qra.qsos
                     ? state.feed.qra.qsos.map((qso) => {
-                        if (qso.idqsos === action.idqso) {
+                        if (
+                          qso.idqsos === action.idqso ||
+                          qso.idqsos === action.idqso_shared ||
+                          qso.idqso_shared === action.idqso ||
+                          qso.idqso_shared === action.idqso_shared
+                        ) {
                           qso.comments = qso.comments.filter(
                             (comment) =>
                               comment.idqsos_comments !== action.idcomment

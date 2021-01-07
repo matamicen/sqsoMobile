@@ -3988,14 +3988,14 @@ export function doUnlikeQSO(idqso, idqra, idqso_shared) {
     idqso_shared
   };
 }
-export function doCommentDelete(idcomment, idqso, token) {
+export function doCommentDelete(idcomment, idqso, token, idqso_shared) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'qsoCommentDel_WEBPRD', {
     //     event_category: 'QSO',
     //     event_label: 'commentDel'
     //   });
-    dispatch(doCommentDeleteResponse(idcomment, idqso));
+    dispatch(doCommentDeleteResponse(idcomment, idqso, idqso_shared));
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4035,7 +4035,7 @@ export function doCommentDelete(idcomment, idqso, token) {
     }
   };
 }
-export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
+export function doCommentAdd(idqso, comment, token, idqso_shared) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'qsoCommentAdd_WEBPRD', {
@@ -4059,7 +4059,7 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
       }
     } while (m);
 
-    dispatch(doCommentAddResponse(idqso, comment));
+    dispatch(doCommentAddResponse(idqso, comment, idqso_shared));
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4079,7 +4079,12 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
         .then((response) => {
           if (response.body.error === 0) {
             dispatch(
-              doCommentAddApiResponse(idqso, comment, response.body.message)
+              doCommentAddApiResponse(
+                idqso,
+                comment,
+                response.body.message,
+                idqso_shared
+              )
             );
           } else console.log(response.body.message);
         })
@@ -4103,26 +4108,38 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
     }
   };
 }
-export function doCommentAddApiResponse(idqso = null, comment, idcomment) {
+export function doCommentAddApiResponse(
+  idqso = null,
+  comment,
+  idcomment,
+  idqso_shared
+) {
   return {
     type: COMMENT_ADD_UPDATE,
-    idqso: idqso,
+    idqso,
     comment: { ...comment, idqsos_comments: idcomment },
-    idqsos_comments: idcomment
+    idqsos_comments: idcomment,
+    idqso_shared
   };
 }
-export function doCommentAddResponse(idqso = null, comment) {
+export function doCommentAddResponse(idqso, comment, idqso_shared) {
   return {
     type: COMMENT_ADD,
-    idqso: idqso,
-    comment: comment
+    idqso,
+    comment,
+    idqso_shared
   };
 }
-export function doCommentDeleteResponse(idcomment = null, idqso = null) {
+export function doCommentDeleteResponse(
+  idcomment = null,
+  idqso = null,
+  idqso_shared
+) {
   return {
     type: COMMENT_DELETE,
-    idcomment: idcomment,
-    idqso: idqso
+    idcomment,
+    idqso,
+    idqso_shared
   };
 }
 export function clearQRA() {
