@@ -49,7 +49,8 @@ class QSOCommentItem extends React.PureComponent {
     this.followed = null;
     this.state = {
       comment: null,
-      followed: null
+      followed: null,
+      followings: []
     };
   }
   handleButtonClick(idqra) {
@@ -68,21 +69,23 @@ class QSOCommentItem extends React.PureComponent {
       this.setState({ followed: this.followed });
     }
   }
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.props.followings !== this.state.followings)
+      this.setState({ followings: this.props.following });
     // this.props.recalculateRowHeight();
   };
   render() {
     var date = new Date(this.props.comment.datetime);
     var timestamp = '';
-    if (
-      this.followed !== true &&
-      this.followed !== false &&
-      this.state.followed === this.followed
-    ) {
-      this.followed = this.props.following.some(
-        (o) => o.idqra_followed === this.props.comment.idqra
-      );
-    }
+    // if (
+    //   this.followed !== true &&
+    //   this.followed !== false &&
+    //   this.state.followed === this.followed
+    // ) {
+    this.followed = this.props.followings.some(
+      (o) => o.idqra_followed === this.props.comment.idqra
+    );
+    // }
     if (this.props.comment.datetime) {
       timestamp =
         date.toLocaleDateString(I18n.locale, { month: 'short' }) +
@@ -272,7 +275,7 @@ const mapStateToProps = (state, ownProps) => ({
 
   qso: selectorFeedType(state, ownProps),
   followers: state.sqso.currentQso.followers,
-  following: state.sqso.currentQso.followings
+  followings: state.sqso.currentQso.followings
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

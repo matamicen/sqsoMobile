@@ -1858,7 +1858,6 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     case RECEIVE_FOLLOWERS:
-      console.log('RECEIVE_FOLLOWERS');
       newStore = Object.assign({}, state, {
         ...state,
         currentQso: {

@@ -3750,7 +3750,6 @@ export const doFollowReceive = (follow) => {
 };
 
 export const doFollowQRA = (token, follower) => {
-  console.log('doFollowQRA');
   return async (dispatch) => {
     try {
       let session = await Auth.currentSession();
