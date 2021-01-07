@@ -1935,7 +1935,11 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.likes = [...qso.likes, like];
             }
@@ -1958,7 +1962,9 @@ const qsoReducer = (state = initialState, action) => {
                           qso.idqsos === action.idqso ||
                           qso.idqsos === action.idqso_shared ||
                           qso.idqso_shared === action.idqso ||
-                          qso.idqso_shared === action.idqso_shared
+                          (qso.idqso_shared &&
+                            action.idqso_shared &&
+                            qso.idqso_shared === action.idqso_shared)
                         ) {
                           qso.likes = [...qso.likes, like];
                         }
@@ -1980,7 +1986,9 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.likes = [...qso.likes, like];
             }
@@ -2000,7 +2008,9 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.likes = qso.likes.filter(
                 (like) => like.idqra !== action.idqra
@@ -2014,7 +2024,9 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.likes = qso.likes.filter(
                 (like) => like.idqra !== action.idqra
@@ -2043,7 +2055,9 @@ const qsoReducer = (state = initialState, action) => {
                           qso.idqsos === action.idqso ||
                           qso.idqsos === action.idqso_shared ||
                           qso.idqso_shared === action.idqso ||
-                          qso.idqso_shared === action.idqso_shared
+                          (qso.idqso_shared &&
+                            action.idqso_shared &&
+                            qso.idqso_shared === action.idqso_shared)
                         ) {
                           qso.likes = qso.likes.filter(
                             (like) => like.idqra !== action.idqra
@@ -2076,7 +2090,9 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.comments = qso.comments.map((c) => {
                 if (
@@ -2117,7 +2133,9 @@ const qsoReducer = (state = initialState, action) => {
                           qso.idqsos === action.idqso ||
                           qso.idqsos === action.idqso_shared ||
                           qso.idqso_shared === action.idqso ||
-                          qso.idqso_shared === action.idqso_shared
+                          (qso.idqso_shared &&
+                            action.idqso_shared &&
+                            qso.idqso_shared === action.idqso_shared)
                         ) {
                           qso.comments = qso.comments.map((c) => {
                             if (
@@ -2164,7 +2182,9 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.comments = [...qso.comments, action.comment];
             }
@@ -2187,7 +2207,9 @@ const qsoReducer = (state = initialState, action) => {
                           qso.idqsos === action.idqso ||
                           qso.idqsos === action.idqso_shared ||
                           qso.idqso_shared === action.idqso ||
-                          qso.idqso_shared === action.idqso_shared
+                          (qso.idqso_shared &&
+                            action.idqso_shared &&
+                            qso.idqso_shared === action.idqso_shared)
                         ) {
                           qso.comments = [...qso.comments, action.comment];
                         }
@@ -2218,7 +2240,9 @@ const qsoReducer = (state = initialState, action) => {
               qso.idqsos === action.idqso ||
               qso.idqsos === action.idqso_shared ||
               qso.idqso_shared === action.idqso ||
-              qso.idqso_shared === action.idqso_shared
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
             ) {
               qso.comments = qso.comments.filter(
                 (comment) => comment.idqsos_comments !== action.idcomment
@@ -2247,7 +2271,9 @@ const qsoReducer = (state = initialState, action) => {
                           qso.idqsos === action.idqso ||
                           qso.idqsos === action.idqso_shared ||
                           qso.idqso_shared === action.idqso ||
-                          qso.idqso_shared === action.idqso_shared
+                          (qso.idqso_shared &&
+                            action.idqso_shared &&
+                            qso.idqso_shared === action.idqso_shared)
                         ) {
                           qso.comments = qso.comments.filter(
                             (comment) =>
