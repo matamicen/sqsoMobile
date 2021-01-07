@@ -54,7 +54,8 @@ class FeedMedia extends React.PureComponent {
             <Divider hidden />
             <FeedImage
               img={picList}
-              idqso={this.props.qso.idqsos}
+              idqsos={this.props.idqsos}
+              type={this.props.qso.type}
               qso_owner={this.props.qso.qra}
             />
           </View>
