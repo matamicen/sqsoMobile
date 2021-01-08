@@ -65,7 +65,7 @@ class NewsFeedPresentational extends React.PureComponent {
     return (
       <View
         style={{
-          height: 1,
+          height: 20,
           width: '100%',
           backgroundColor: '#CED0CE'
           // marginLeft: '14%'
