@@ -52,7 +52,7 @@ import {
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
   postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress,
-  setExternalShreUrl, apiCheckVersion, setQsoUtc} from "../../actions";
+  setExternalShreUrl, apiCheckVersion, setQsoUtc, doFetchPublicFeed} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -2991,6 +2991,7 @@ if (this.pressPublish===false)
   }
 
    goToHomeAfterPublish = async () => {
+    this.props.doFetchPublicFeed(this.props.qra) // para que actualice el feed con la publicacion recien publicada
     this.props.navigation.navigate('Home')
     this.props.setJustPublished(false);
     this.props.setPressHome(1);
@@ -3840,7 +3841,8 @@ const mapDispatchToProps = {
   setVideoUploadProgress,
   setExternalShreUrl,
   apiCheckVersion,
-  setQsoUtc
+  setQsoUtc,
+  doFetchPublicFeed
 };
 
 export default connect(
