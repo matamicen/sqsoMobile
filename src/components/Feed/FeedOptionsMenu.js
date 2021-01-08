@@ -151,7 +151,8 @@ class FeedOptionsMenu extends React.PureComponent {
     this.props.actions.doCommentDelete(
       this.props.idcomment,
       this.props.idqsos,
-      this.props.token
+      this.props.token,
+      this.props.idqso_shared
     );
   }
   deleteQso() {
@@ -316,7 +317,7 @@ class FeedOptionsMenu extends React.PureComponent {
   render() {
     let name;
     if (this.props.optionsCaller === 'FeedComment') {
-      name = this.props.idqsos + this.props.idcomment;
+      name = this.props.idqsos + '-' + this.props.idcomment;
     } else {
       name = this.props.idqsos + this.props.optionsCaller;
     }

@@ -35,7 +35,7 @@ class QSOComments extends React.PureComponent {
 
   handleAddComment = (values) => {
     // e.preventDefault();
-    if (values === '') return;
+    if (values.comment === '') return;
 
     let datetime = new Date();
     let comment = {
@@ -108,7 +108,7 @@ class QSOComments extends React.PureComponent {
     )
       this.setState({
         index: this.props.index,
-        comments: this.props.qso.comments,
+        comments: this.props.comments,
         qso: this.props.qso
       });
   }
@@ -120,7 +120,10 @@ class QSOComments extends React.PureComponent {
           comment={item}
           currentQRA={this.props.currentQRA}
           idqsos={this.props.idqsos}
-          closeModal={() => this.props.doClose()}
+          feedType={this.props.feedType}
+          closeModal={() => {
+            this.props.doClose();
+          }}
           // recalculateRowHeight={this.props.recalculateRowHeight}
         />
       </View>

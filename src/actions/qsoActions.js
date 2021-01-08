@@ -60,7 +60,7 @@ import {
   PROFILE_PICTURE_REFRESH,
   QRA_SEARCH,
   QRA_SEARCH_LOCAL,
-  QSO_DISLIKE,
+  QSO_UNLIKE,
   QSO_LIKE,
   QSO_QRA_DELETE,
   QSO_SCREEN_DIDMOUNT,
@@ -3750,7 +3750,6 @@ export const doFollowReceive = (follow) => {
 };
 
 export const doFollowQRA = (token, follower) => {
-  console.log('doFollowQRA');
   return async (dispatch) => {
     try {
       let session = await Auth.currentSession();
@@ -3960,32 +3959,42 @@ export function doRepost(idqso, token, qso) {
   };
 }
 
-export function doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic) {
+export function doLikeQSO(
+  idqso,
+  idqra,
+  qra,
+  firstname,
+  lastname,
+  avatarpic,
+  idqso_shared
+) {
   return {
     type: QSO_LIKE,
-    idqso: idqso,
-    idqra: idqra,
-    qra: qra,
-    firstname: firstname,
-    lastname: lastname,
-    avatarpic: avatarpic
+    idqso,
+    idqra,
+    qra,
+    firstname,
+    lastname,
+    avatarpic,
+    idqso_shared
   };
 }
-export function doDislikeQSO(idqso, idqra) {
+export function doUnlikeQSO(idqso, idqra, idqso_shared) {
   return {
-    type: QSO_DISLIKE,
-    idqso: idqso,
-    idqra: idqra
+    type: QSO_UNLIKE,
+    idqso,
+    idqra,
+    idqso_shared
   };
 }
-export function doCommentDelete(idcomment, idqso, token) {
+export function doCommentDelete(idcomment, idqso, token, idqso_shared) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'qsoCommentDel_WEBPRD', {
     //     event_category: 'QSO',
     //     event_label: 'commentDel'
     //   });
-    dispatch(doCommentDeleteResponse(idcomment, idqso));
+    dispatch(doCommentDeleteResponse(idcomment, idqso, idqso_shared));
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4025,7 +4034,7 @@ export function doCommentDelete(idcomment, idqso, token) {
     }
   };
 }
-export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
+export function doCommentAdd(idqso, comment, token, idqso_shared) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'qsoCommentAdd_WEBPRD', {
@@ -4049,7 +4058,7 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
       }
     } while (m);
 
-    dispatch(doCommentAddResponse(idqso, comment));
+    dispatch(doCommentAddResponse(idqso, comment, idqso_shared));
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4069,7 +4078,12 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
         .then((response) => {
           if (response.body.error === 0) {
             dispatch(
-              doCommentAddApiResponse(idqso, comment, response.body.message)
+              doCommentAddApiResponse(
+                idqso,
+                comment,
+                response.body.message,
+                idqso_shared
+              )
             );
           } else console.log(response.body.message);
         })
@@ -4093,26 +4107,38 @@ export function doCommentAdd(idqso, comment, token, idqso_shared = null) {
     }
   };
 }
-export function doCommentAddApiResponse(idqso = null, comment, idcomment) {
+export function doCommentAddApiResponse(
+  idqso = null,
+  comment,
+  idcomment,
+  idqso_shared
+) {
   return {
     type: COMMENT_ADD_UPDATE,
-    idqso: idqso,
+    idqso,
     comment: { ...comment, idqsos_comments: idcomment },
-    idqsos_comments: idcomment
+    idqsos_comments: idcomment,
+    idqso_shared
   };
 }
-export function doCommentAddResponse(idqso = null, comment) {
+export function doCommentAddResponse(idqso, comment, idqso_shared) {
   return {
     type: COMMENT_ADD,
-    idqso: idqso,
-    comment: comment
+    idqso,
+    comment,
+    idqso_shared
   };
 }
-export function doCommentDeleteResponse(idcomment = null, idqso = null) {
+export function doCommentDeleteResponse(
+  idcomment = null,
+  idqso = null,
+  idqso_shared
+) {
   return {
     type: COMMENT_DELETE,
-    idcomment: idcomment,
-    idqso: idqso
+    idcomment,
+    idqso,
+    idqso_shared
   };
 }
 export function clearQRA() {

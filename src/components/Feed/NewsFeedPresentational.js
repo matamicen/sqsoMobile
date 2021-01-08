@@ -10,12 +10,19 @@ class NewsFeedPresentational extends React.PureComponent {
   state = {
     currentVisibleIndex: null,
     list: this.props.list,
+    feedFetchedDate: null,
     refresh: false
   };
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.list && this.props.list !== prevProps.list) {
       this.setState({ refresh: true, list: this.props.list });
     }
+    if (
+      this.props.feedFetchedDate !== prevProps.feedFetchedDate &&
+      this.flatListRef
+    )
+      this.flatListRef.scrollToOffset({ offset: 0, animated: true });
   }
   constructor(props) {
     super(props);
@@ -49,6 +56,7 @@ class NewsFeedPresentational extends React.PureComponent {
             currentVisibleIndex={this.state.currentVisibleIndex}
             type={item.type}
             source={item.source}
+            scrollToTop={() => this.scrollToTop()}
           />
         </View>
       );
@@ -57,7 +65,7 @@ class NewsFeedPresentational extends React.PureComponent {
     return (
       <View
         style={{
-          height: 1,
+          height: 20,
           width: '100%',
           backgroundColor: '#CED0CE'
           // marginLeft: '14%'
@@ -70,6 +78,9 @@ class NewsFeedPresentational extends React.PureComponent {
       <View style={{ flex: 1, zIndex: 0 }}>
         <MenuProvider skipInstanceCheck backHandler={true} style={{ flex: 1 }}>
           <FlatList
+            ref={(ref) => {
+              this.flatListRef = ref;
+            }}
             // extraData={this.state.refresh}
             onScroll={this.handleScroll}
             data={this.props.list}
@@ -93,6 +104,7 @@ NewsFeedPresentational.propTypes = {
 };
 const mapStateToProps = (state) => {
   return {
+    feedFetchedDate: state.sqso.feed.feedFetchedDate
     // qsos: state.sqso.feed.qsos,
     // FetchingQSOS: state.sqso.feed.FetchingQSOS,
     // qsosFetched: state.sqso.feed.qsosFetched

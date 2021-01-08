@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View, Text } from 'react-native';
 import { Tile } from 'react-native-elements';
 // import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-controls';
@@ -48,16 +48,19 @@ class FeedVideo extends React.PureComponent {
         style={
           // (styles.container,
           {
-            flex: 1,
             justifyContent: 'center',
-            alignItems: 'center',
+            alignSelf: 'center',
             height: videoHeight,
             width
           }
         }>
         {/* <View style={{ width: '100%' }} ref={componentRef}> */}
         {this.state.showVideo && (
-          <View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignSelf: 'center'
+            }}>
             <VideoPlayer
               ref={(ref) => {
                 this.player = ref;
@@ -101,17 +104,15 @@ class FeedVideo extends React.PureComponent {
         {!this.state.showVideo && (
           <View
             style={{
-              // flex: 1,
-              // justifyContent: 'center',
-              // alignItems: 'center',
+              justifyContent: 'center',
+              alignSelf: 'center',
               width,
               height: videoHeight
             }}>
             <Tile
               contentContainerStyle={{
-                flex: 1,
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignSelf: 'center'
               }}
               width={width}
               height={videoHeight}
@@ -129,6 +130,9 @@ class FeedVideo extends React.PureComponent {
         )}
         {/* <source src={props.media.url} type="video/mp4" /> */}
         {/* </View> */}
+        <View style={{ alignItems: 'center' }}>
+          <Text>{this.props.media.description}</Text>
+        </View>
       </View>
     );
   }
