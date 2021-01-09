@@ -246,7 +246,7 @@ class QSOComments extends React.PureComponent {
             }
           }>
           <View style={{flex: 0.1}} >
-            <Text h2>{I18n.t('qso.likeModalHeader')}</Text>
+            <Text h2>{I18n.t('qso.comments')}</Text>
             <View style={styles.iconView}>
               <Icon
                 name="close"
