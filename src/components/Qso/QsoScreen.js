@@ -264,7 +264,7 @@ class QsoScreen extends React.PureComponent {
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
 
-
+    this.props.setPressHome(0);
   
 
     // esto detecta cuando se apreta el TAB  de QSOSCREEN

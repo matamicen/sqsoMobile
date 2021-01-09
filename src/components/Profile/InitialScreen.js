@@ -108,6 +108,7 @@ class InitialScreen extends React.PureComponent {
   async componentDidMount() {
     // console.log('component Did Mount InitalScreen');
 
+    this.props.setPressHome(0);
     // esto detecta cuando se apreta el TAB  de InitialScreen
     this.props.navigation.setParams({
       tapOnTabNavigator: this.tapOnTabNavigator

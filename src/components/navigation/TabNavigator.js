@@ -113,7 +113,7 @@ export const TabNavigator = createBottomTabNavigator(
     // CameraScreen: { screen: CameraScreen, },
     Notifications: { screen: Notifications },
     // Search: { screen: SearchScreen, },
-    UtilScreen: { screen: UtilScreen },
+    // UtilScreen: { screen: UtilScreen },
 
     // QslScanScreen: { screen: QslScanScreen, },
     ProfileScreen: { screen: ProfileScreen }
