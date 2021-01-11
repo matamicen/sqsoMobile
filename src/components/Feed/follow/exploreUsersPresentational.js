@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import I18n from '../../../utils/i18n';
 import { withNavigation } from 'react-navigation';
@@ -19,160 +20,169 @@ const ExploreUsers = ({
   doFollow,
   currentQRA,
   navigation
-}) => (
-  <View style={{ flex: 1 }}>
-    <ScrollView contentContainerStyle={{}}>
-      {/* <Header as="h1" attached="top" textAlign="center">
+}) => {
+  if (!users) {
+    return (
+      <View style={{ flex: 1 }}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>
+    );
+  }
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{}}>
+        {/* <Header as="h1" attached="top" textAlign="center">
         {I18n.t('navBar.exploreUsers')}
       </Header> */}
-      <View
-        style={{
-          // width: null,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          // flexGrow: 1,
-          flexWrap: 'wrap'
-          // alignItems: 'flex-start'
-        }}>
-        {users.map((qra, i) => {
-          if (currentQRA !== qra.qra)
-            return (
-              <View
-                key={qra.qra}
-                style={{
-                  // flex: 1,
-                  // width: 100,
-                  height: 175,
-                  margin: 3
-                }}>
-                <Card
-                  containerStyle={{
-                    height: 175,
-                    borderRadius: 5,
+        <View
+          style={{
+            // width: null,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            // flexGrow: 1,
+            flexWrap: 'wrap'
+            // alignItems: 'flex-start'
+          }}>
+          {users.map((qra, i) => {
+            if (currentQRA !== qra.qra)
+              return (
+                <View
+                  key={qra.qra}
+                  style={{
                     // flex: 1,
-                    // flexWrap: 'wrap',
-                    // width: 390,
-                    padding: 5,
-                    margin: 0
+                    // width: 100,
+                    height: 175,
+                    margin: 3
                   }}>
-                  <View style={styles.card}>
-                    <View style={styles.header}>
-                      <View style={styles.avatar}>
-                        <TouchableOpacity
-                          onPress={() =>
-                            navigation.push('QRAProfile', {
-                              qra: qra.qra,
-                              screen: 'PROFILE'
-                            })
-                          }>
-                          <Avatar
-                            size="medium"
-                            rounded
-                            source={
-                              qra.avatarpic
-                                ? {
-                                    uri: qra.avatarpic
-                                  }
-                                : require('../../../images/emptyprofile.png')
+                  <Card
+                    containerStyle={{
+                      height: 175,
+                      borderRadius: 5,
+                      // flex: 1,
+                      // flexWrap: 'wrap',
+                      // width: 390,
+                      padding: 5,
+                      margin: 0
+                    }}>
+                    <View style={styles.card}>
+                      <View style={styles.header}>
+                        <View style={styles.avatar}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.push('QRAProfile', {
+                                qra: qra.qra,
+                                screen: 'PROFILE'
+                              })
+                            }>
+                            <Avatar
+                              size="medium"
+                              rounded
+                              source={
+                                qra.avatarpic
+                                  ? {
+                                      uri: qra.avatarpic
+                                    }
+                                  : require('../../../images/emptyprofile.png')
+                              }
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.name}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.push('QRAProfile', {
+                                qra: qra.qra,
+                                screen: 'PROFILE'
+                              })
+                            }>
+                            <Text numberOfLines={1} style={{ fontSize: 16 }}>
+                              {qra.qra}
+                            </Text>
+
+                            <Text
+                              numberOfLines={1}
+                              style={{
+                                fontSize: 13
+                              }}>
+                              {qra.firstname ? qra.firstname : ''}
+                            </Text>
+
+                            <Text
+                              numberOfLines={1}
+                              style={{
+                                fontSize: 13
+                              }}>
+                              {qra.lastname ? qra.lastname : ''}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                      {/* <Card.Divider /> */}
+                      <View style={styles.kpi}>
+                        <View>
+                          <Text style={{ fontSize: 13 }}>
+                            <Icon
+                              name="edit"
+                              size={16}
+                              type="font-awesome"
+                              containerStyle={{ width: 20 }}
+                            />
+                            {qra.qsos_counter}{' '}
+                            {I18n.t('exploreUsers.qsosCreated')}
+                          </Text>
+                        </View>
+                        <View>
+                          <Text style={{ fontSize: 13 }}>
+                            <Icon
+                              name="user"
+                              size={16}
+                              type="font-awesome"
+                              containerStyle={{ width: 20 }}
+                            />
+                            {qra.followers_counter} {I18n.t('qra.followers')}
+                          </Text>
+                        </View>
+                      </View>
+                      {/* <Card.Divider style={styles.divider} /> */}
+                      <View style={styles.buttons}>
+                        {following.some((o) => o.qra === qra.qra) ||
+                        followed.some((o) => o === qra.qra) ? (
+                          <Button
+                            fluid
+                            disabled
+                            style={{ paddingLeft: 10, paddingRight: 10 }}
+                            title={I18n.t('qra.following')}
+                          />
+                        ) : (
+                          <Button
+                            fluid
+                            raised
+                            onPress={() => doFollow(qra.qra)}
+                            style={{
+                              // paddingLeft: 10,
+                              // paddingRight: 10,
+                              margin: 0,
+                              padding: 0
+                            }}
+                            title={
+                              followers.some((o) => o.qra === qra.qra)
+                                ? I18n.t('qra.followToo')
+                                : I18n.t('qra.follow')
                             }
                           />
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.name}>
-                        <TouchableOpacity
-                          onPress={() =>
-                            navigation.push('QRAProfile', {
-                              qra: qra.qra,
-                              screen: 'PROFILE'
-                            })
-                          }>
-                          <Text numberOfLines={1} style={{ fontSize: 16 }}>
-                            {qra.qra}
-                          </Text>
-
-                          <Text
-                            numberOfLines={1}
-                            style={{
-                              fontSize: 13
-                            }}>
-                            {qra.firstname ? qra.firstname : ''}
-                          </Text>
-
-                          <Text
-                            numberOfLines={1}
-                            style={{
-                              fontSize: 13
-                            }}>
-                            {qra.lastname ? qra.lastname : ''}
-                          </Text>
-                        </TouchableOpacity>
+                        )}
                       </View>
                     </View>
-                    {/* <Card.Divider /> */}
-                    <View style={styles.kpi}>
-                      <View>
-                        <Text style={{ fontSize: 13 }}>
-                          <Icon
-                            name="edit"
-                            size={16}
-                            type="font-awesome"
-                            containerStyle={{ width: 20 }}
-                          />
-                          {qra.qsos_counter}{' '}
-                          {I18n.t('exploreUsers.qsosCreated')}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ fontSize: 13 }}>
-                          <Icon
-                            name="user"
-                            size={16}
-                            type="font-awesome"
-                            containerStyle={{ width: 20 }}
-                          />
-                          {qra.followers_counter} {I18n.t('qra.followers')}
-                        </Text>
-                      </View>
-                    </View>
-                    {/* <Card.Divider style={styles.divider} /> */}
-                    <View style={styles.buttons}>
-                      {following.some((o) => o.qra === qra.qra) ||
-                      followed.some((o) => o === qra.qra) ? (
-                        <Button
-                          fluid
-                          disabled
-                          style={{ paddingLeft: 10, paddingRight: 10 }}
-                          title={I18n.t('qra.following')}
-                        />
-                      ) : (
-                        <Button
-                          fluid
-                          raised
-                          onPress={() => doFollow(qra.qra)}
-                          style={{
-                            // paddingLeft: 10,
-                            // paddingRight: 10,
-                            margin: 0,
-                            padding: 0
-                          }}
-                          title={
-                            followers.some((o) => o.qra === qra.qra)
-                              ? I18n.t('qra.followToo')
-                              : I18n.t('qra.follow')
-                          }
-                        />
-                      )}
-                    </View>
-                  </View>
-                </Card>
-              </View>
-            );
-          else return null;
-        })}
-      </View>
-    </ScrollView>
-  </View>
-);
+                  </Card>
+                </View>
+              );
+            else return null;
+          })}
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {},

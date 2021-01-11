@@ -147,6 +147,15 @@ export const MainNavigator = createStackNavigator({
       )
     })
   },
+  ExploreUsers: {
+    screen: exploreUsersContainer,
+
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  },
   // FeedHeaderBar: {
   //   screen: FeedHeaderBar,
   //   navigationOptions: {

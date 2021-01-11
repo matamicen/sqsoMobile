@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 // import {Button} from 'react-native-elements';
 // import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
-import FollowCarrousel from '../follow/followCarrousel';
+import FollowCarousel from './follow/followCarousel';
 class FeedItemFollow extends React.PureComponent {
   state = {
     followed: [],
@@ -34,27 +34,17 @@ class FeedItemFollow extends React.PureComponent {
   // };
 
   render() {
-     
     if (this.props.follow)
       return (
-        <View
-          raised
-          secondary
-          style={{
-            padding: 'initial',
-            textAlign: 'center',
-            height: 'max-content'
-          }}>
-          <FollowCarrousel
-            followed={this.state.followed}
-            follow={this.props.follow}
-            following={this.props.following}
-            followers={this.props.followers}
-            doFollow={(e) => this.doFollow(e)}
-            doUnfollow={(e) => this.doUnfollow(e)}
-            currentQRA={this.props.currentQRA}
-          />
-        </View>
+        <FollowCarousel
+          followed={this.state.followed}
+          follow={this.props.follow}
+          following={this.props.following}
+          followers={this.props.followers}
+          doFollow={(e) => this.doFollow(e)}
+          doUnfollow={(e) => this.doUnfollow(e)}
+          currentQRA={this.props.currentQRA}
+        />
       );
     else return null;
   }
@@ -62,11 +52,11 @@ class FeedItemFollow extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
-  followFetched: state.followFetched,
-  followFetching: state.followFetching,
-  follow: state.follow,
-  following: state.userData.following,
-  followers: state.userData.followers,
+  followFetched: state.sqso.feed.followFetched,
+  followFetching: state.sqso.feed.followFetching,
+  follow: state.sqso.feed.follow,
+  following: state.sqso.currentQso.followings,
+  followers: state.sqso.currentQso.followers,
 
   token: state.sqso.jwtToken
 });
