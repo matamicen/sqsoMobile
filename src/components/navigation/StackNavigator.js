@@ -14,6 +14,7 @@ import QslScanResult from '../QslScan/QslScanResult';
 import QsoLink from '../QslScan/QsoLink';
 import CameraScreen from '../Qso/Camera';
 import { TabNavigator } from './TabNavigator';
+import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
 export const AuthNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -203,13 +204,18 @@ const MyPostsRouteConfigs = {
     })
   }
 };
+const ExploreUsersRouteConfigs = {
+  ExploreUsers: {
+    screen: exploreUsersContainer,
+
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
 const FieldDaysRouteConfigs = {
-  // Home: {
-  //   screen: TabNavigator,
-  //   navigationOptions: {
-  //     title: I18n.t('navBar.lastFieldDays')
-  //   }
-  // },
   FieldDaysFeed: {
     screen: FieldDaysFeed,
 
@@ -240,5 +246,9 @@ export const MyPostsStackNavigator = createStackNavigator(
 );
 export const FieldDaysStackNavigator = createStackNavigator(
   FieldDaysRouteConfigs,
+  StackNavigatorConfig
+);
+export const ExploreUsersStackNavigator = createStackNavigator(
+  ExploreUsersRouteConfigs,
   StackNavigatorConfig
 );
