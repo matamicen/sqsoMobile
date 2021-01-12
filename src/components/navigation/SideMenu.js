@@ -38,6 +38,21 @@ class SideMenu extends Component {
             </View>
           </View>
           <View>
+            {/* <Text style={styles.sectionHeadingStyle}>Section 1</Text> */}
+            <View style={styles.navSectionStyle}>
+              <Text
+                style={styles.navItemStyle}
+                onPress={() => {
+                  this.props.actions.doLatestUsersFetch();
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+
+                  this.props.navigation.navigate('ExploreUsers');
+                }}>
+                {I18n.t('navBar.exploreUsers')}
+              </Text>
+            </View>
+          </View>
+          <View>
             {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
             <View style={styles.navSectionStyle}>
               <Text

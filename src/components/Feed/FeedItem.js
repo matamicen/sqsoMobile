@@ -1,7 +1,15 @@
 import React from 'react';
 import FeedItemAd from './FeedItemAd';
+import FeedItemFollow from './FeedItemFollow';
 import FeedItemQSO from './FeedItemQSO';
 import FeedItemRepost from './FeedItemRepost';
+import { withNavigation } from 'react-navigation';
+import { Button } from 'react-native-elements';
+import { View } from 'react-native';
+import I18n from '../../utils/i18n';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 class FeedItem extends React.Component {
   shouldComponentUpdate() {
     return this.props.type ? true : false;
@@ -9,8 +17,6 @@ class FeedItem extends React.Component {
   render() {
     if (this.props.type)
       switch (this.props.type) {
-        case 'AD':
-          return <FeedItemAd />;
         case 'POST':
         case 'QAP':
         case 'FLDDAY':
@@ -34,54 +40,52 @@ class FeedItem extends React.Component {
               key={this.props.idqsos}
               idqsos={this.props.idqsos}
               // qso={this.props.qso}
-              index={this.props.index}
+              index={this.props.currentIndex}
             />
           );
+        case 'AD':
+          if (this.props.currentIndex === 0) {
+            return (
+              <View>
+                <Button
+                  fluid
+                  size="medium"
+                  onPress={() => {
+                    // if (!__DEV__)
+                    // window.gtag('event', 'exploreUsersButton_WEBPRD', {});
+                    this.props.actions.doLatestUsersFetch();
 
-        //   if (props.index === 0) {
-        //     return (
-        //       <Fragment>
-        //         <View style={{ textAlign: '-webkit-center' }}>
-        //           <Button
-        //             style={{ width: '90%' }}
-        //             positive
-        //             fluid
-        //             size="medium"
-        //             onClick={() => {
-        //               if (!__DEV__)
-        //                 window.gtag('event', 'exploreUsersButton_WEBPRD', {});
-        //               props.history.push('/explore');
-        //             }}>
-        //             {this.props.t('exploreUsers.lookWhoInQSO')}
-        //           </Button>
-        //         </View>
-        //       </Fragment>
-        //     );
-        //   } else if (props.index === 4 || props.index % 16 === 0)
-        //     return (
-        //       <FeedItemFollow
-        //         source={this.props.source}
-        //         ad={this.props.ad}
-        //         measure={this.props.measure}
-        //         recalculateRowHeight={this.props.recalculateRowHeight}
-        //         index={this.props.index}
-        //       />
-        //     );
-        //   else {
-        //     return (
-        //       <FeedItemAd
-        //         source={this.props.source}
-        //         ad={this.props.ad}
-        //         measure={this.props.measure}
-        //         recalculateRowHeight={this.props.recalculateRowHeight}
-        //         index={this.props.index}
-        //       />
-        //     );
-        //   }
+                    this.props.navigation.navigate('ExploreUsers');
+                  }}
+                  title={I18n.t('exploreUsers.lookWhoInQSO')}
+                />
+              </View>
+            );
+          } else if (
+            this.props.currentIndex === 4 ||
+            this.props.currentIndex % 16 === 0
+          )
+            return (
+              <FeedItemFollow
+                source={this.props.source}
+                ad={this.props.ad}
+                index={this.props.currentIndex}
+              />
+            );
+          else {
+            return <FeedItemAd />;
+          }
         default:
           return null;
       }
   }
 }
 
-export default FeedItem;
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(FeedItem)
+);

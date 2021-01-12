@@ -1,6 +1,14 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TextInput, View, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native';
 import { Button, Icon, Overlay } from 'react-native-elements';
 import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
@@ -95,10 +103,9 @@ class QSOComments extends React.PureComponent {
     // });
     setTimeout(() => {
       this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
-        animated: true,
+        animated: true
       });
     }, 1500);
-    
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -224,18 +231,17 @@ class QSOComments extends React.PureComponent {
         height="auto"
         borderRadius={8}
         overlayStyle={{
-           position: 'absolute',
+          position: 'absolute',
           flex: 1,
-          top: (Platform.OS==='ios') ? 30 : 5,
+          top: Platform.OS === 'ios' ? 30 : 5,
           bottom: 100,
           width: '95%',
-           height: '100%',
+          height: '100%'
           //  maxHeight: '90%'
         }}>
         {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}> */}
         {/* <ScrollView> */}
-       
-       
+
         <MenuProvider
           skipInstanceCheck
           style={
@@ -245,8 +251,8 @@ class QSOComments extends React.PureComponent {
               // backgroundColor: 'white'
             }
           }>
-          <View style={{flex: 0.1}} >
-            <Text h2>{I18n.t('qso.likeModalHeader')}</Text>
+          <View style={{ flex: 0.1 }}>
+            <Text h2>{I18n.t('qso.comments')}</Text>
             <View style={styles.iconView}>
               <Icon
                 name="close"
@@ -255,314 +261,297 @@ class QSOComments extends React.PureComponent {
               />
             </View>
           </View>
-      { (Platform.OS==='ios') ?
-          <View style={{   
-            // marginRight: 10 ,
-            // marginLeft: 10,
-            // marginTop: 10 ,
-            // height: 100
-            flex: 0.9
- 
-      }}>
-           <View style={{   
-            // marginRight: 10 ,
-            // marginLeft: 10,
-            // marginTop: 10 ,
-            // height: 100
-            flex: 0.65
- 
-      }}>
-          <FlatList
-        
-        ref={(ref) => {
-          this.flatListRef = ref;
-        }}
-            extraData={this.state.comments}
-            // nestedScrollEnabled={true}
-            // keyboardShouldPersistTaps="handled"
-            // pagingEnabled={true}
-            onScroll={this.handleScroll}
-            data={this.state.comments}
-            scrollEnabled={true}
-            // onViewableItemsChanged={this._onViewableItemsChanged}
-            // initialNumToRender={3}
-            removeClippedSubviews={false}
-            // viewabilityConfig={this.viewabilityConfig}
-            // maxToRenderPerBatch={3}
-            keyExtractor={(item, index) => index.toString()}
-            ItemSeparatorComponent={this.renderSeparator}
-            renderItem={this._renderItem}
-            // contentContainerStyle={styles.container}
+          {Platform.OS === 'ios' ? (
+            <View
+              style={{
+                // marginRight: 10 ,
+                // marginLeft: 10,
+                // marginTop: 10 ,
+                // height: 100
+                flex: 0.9
+              }}>
+              <View
+                style={{
+                  // marginRight: 10 ,
+                  // marginLeft: 10,
+                  // marginTop: 10 ,
+                  // height: 100
+                  flex: 0.65
+                }}>
+                <FlatList
+                  ref={(ref) => {
+                    this.flatListRef = ref;
+                  }}
+                  extraData={this.state.comments}
+                  // nestedScrollEnabled={true}
+                  // keyboardShouldPersistTaps="handled"
+                  // pagingEnabled={true}
+                  onScroll={this.handleScroll}
+                  data={this.state.comments}
+                  scrollEnabled={true}
+                  // onViewableItemsChanged={this._onViewableItemsChanged}
+                  // initialNumToRender={3}
+                  removeClippedSubviews={false}
+                  // viewabilityConfig={this.viewabilityConfig}
+                  // maxToRenderPerBatch={3}
+                  keyExtractor={(item, index) => index.toString()}
+                  ItemSeparatorComponent={this.renderSeparator}
+                  renderItem={this._renderItem}
+                  // contentContainerStyle={styles.container}
 
-            // removeClippedSubviews={true} // Unmount components when outside of window
-            // ListFooterComponent={this._ListFooterComponent}
-          />
-          </View>
-         
-          <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}>
-      <View style={{   
-            // marginRight: 10 ,
-            // marginLeft: 10,
-            // marginTop: 10 ,
-            // height: 100
-            flex: 0.35, marginTop: 10
-           
- 
-      }}>
-      <View 
-      style={{   
-            // marginRight: 10 ,
-            // marginLeft: 10,
-            // marginTop: 10 ,
-            // height: 100
-            flex: 1
-      }}
-      >
-    <Formik
-    style={{   
-      // marginRight: 10 ,
-      // marginLeft: 10,
-      // marginTop: 10 ,
-      // height: 100
-      flex: 1,
-      flexDirection: 'row'
-}}
-      initialValues={{ comment: '' }}
-      onSubmit={(values, actions) => {
-        this.handleAddComment(values);
-      }}>
-      {({
-        values,
-        handleChange,
-        errors,
-        setFieldTouched,
-        touched,
-        isValid,
-        handleBlur,
-        handleSubmit
-      }) => (
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 5 ,
+                  // removeClippedSubviews={true} // Unmount components when outside of window
+                  // ListFooterComponent={this._ListFooterComponent}
+                />
+              </View>
 
-            padding: 0
-          }}>
-          {/* <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}> */}
-          <View  style={{   
-             marginRight: 10 ,
-            // marginLeft: 10,
-              marginTop: 2 ,
-            
-            flex: 0.75
-          
-      }}>
-            <TextInput
-          
-              name="comment"
-              placeholder={I18n.t('qso.writeComment')}
-              multiline
-              removeClippedSubviews={false}
-              keyboardDismissMode="none"
-              onBlur={handleBlur('comment')}
-              // style={{ borderWidth: 1, width: 230 }}
-              style={{ borderWidth: 1 }}
-              onChangeText={handleChange('comment')}
-              value={values.comment}
-            />
-          </View>
+              <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}>
+                <View
+                  style={{
+                    // marginRight: 10 ,
+                    // marginLeft: 10,
+                    // marginTop: 10 ,
+                    // height: 100
+                    flex: 0.35,
+                    marginTop: 10
+                  }}>
+                  <View
+                    style={{
+                      // marginRight: 10 ,
+                      // marginLeft: 10,
+                      // marginTop: 10 ,
+                      // height: 100
+                      flex: 1
+                    }}>
+                    <Formik
+                      style={{
+                        // marginRight: 10 ,
+                        // marginLeft: 10,
+                        // marginTop: 10 ,
+                        // height: 100
+                        flex: 1,
+                        flexDirection: 'row'
+                      }}
+                      initialValues={{ comment: '' }}
+                      onSubmit={(values, actions) => {
+                        this.handleAddComment(values);
+                      }}>
+                      {({
+                        values,
+                        handleChange,
+                        errors,
+                        setFieldTouched,
+                        touched,
+                        isValid,
+                        handleBlur,
+                        handleSubmit
+                      }) => (
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: 5,
 
-          <View style={{   
-            // marginRight: 10 ,
-            // marginLeft: 10,
-            // marginTop: 10 ,
-            // height: 100
-            flex: 0.25,
-            alignItems: 'flex-end',
-            
-      }}>
-            <Button
-              buttonStyle={{
-                padding: 1,
-                // margin: 0,
-                width: 90,
-                // height: '100%'
-              }}
-              size="small"
-              title={I18n.t('qso.add')}
-              onPress={handleSubmit}
-            />
-          </View>
-        </View>
-      )}
-    </Formik>
-    </View>
-   
-    </View>
-     </KeyboardAvoidingView>
-    </View>     
-    
-    :
+                            padding: 0
+                          }}>
+                          {/* <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}> */}
+                          <View
+                            style={{
+                              marginRight: 10,
+                              // marginLeft: 10,
+                              marginTop: 2,
 
-            <View style={{   
-              // marginRight: 10 ,
-              // marginLeft: 10,
-              // marginTop: 10 ,
-              // height: 100
-              flex: 0.9
+                              flex: 0.75
+                            }}>
+                            <TextInput
+                              name="comment"
+                              placeholder={I18n.t('qso.writeComment')}
+                              multiline
+                              removeClippedSubviews={false}
+                              keyboardDismissMode="none"
+                              onBlur={handleBlur('comment')}
+                              // style={{ borderWidth: 1, width: 230 }}
+                              style={{ borderWidth: 1 }}
+                              onChangeText={handleChange('comment')}
+                              value={values.comment}
+                            />
+                          </View>
 
-        }}>
-            <View style={{   
-              // marginRight: 10 ,
-              // marginLeft: 10,
-              // marginTop: 10 ,
-              // height: 100
-              flex: 0.75
-
-        }}>
-            <FlatList
-            ref={(ref) => {
-              this.flatListRef = ref;
-            }}
-          
-              extraData={this.state.comments}
-              // nestedScrollEnabled={true}
-              // keyboardShouldPersistTaps="handled"
-              // pagingEnabled={true}
-              onScroll={this.handleScroll}
-              data={this.state.comments}
-              scrollEnabled={true}
-              // onViewableItemsChanged={this._onViewableItemsChanged}
-              // initialNumToRender={3}
-              removeClippedSubviews={false}
-              // viewabilityConfig={this.viewabilityConfig}
-              // maxToRenderPerBatch={3}
-              keyExtractor={(item, index) => index.toString()}
-              ItemSeparatorComponent={this.renderSeparator}
-              renderItem={this._renderItem}
-              // contentContainerStyle={styles.container}
-
-              // removeClippedSubviews={true} // Unmount components when outside of window
-              // ListFooterComponent={this._ListFooterComponent}
-            />
+                          <View
+                            style={{
+                              // marginRight: 10 ,
+                              // marginLeft: 10,
+                              // marginTop: 10 ,
+                              // height: 100
+                              flex: 0.25,
+                              alignItems: 'flex-end'
+                            }}>
+                            <Button
+                              buttonStyle={{
+                                padding: 1,
+                                // margin: 0,
+                                width: 90
+                                // height: '100%'
+                              }}
+                              size="small"
+                              title={I18n.t('qso.add')}
+                              onPress={handleSubmit}
+                            />
+                          </View>
+                        </View>
+                      )}
+                    </Formik>
+                  </View>
+                </View>
+              </KeyboardAvoidingView>
             </View>
-          
-            {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}> */}
-        <View style={{   
-              // marginRight: 10 ,
-              // marginLeft: 10,
-              // marginTop: 10 ,
-              // height: 100
-              flex: 0.25, marginTop: 10
-            
+          ) : (
+            <View
+              style={{
+                // marginRight: 10 ,
+                // marginLeft: 10,
+                // marginTop: 10 ,
+                // height: 100
+                flex: 0.9
+              }}>
+              <View
+                style={{
+                  // marginRight: 10 ,
+                  // marginLeft: 10,
+                  // marginTop: 10 ,
+                  // height: 100
+                  flex: 0.75
+                }}>
+                <FlatList
+                  ref={(ref) => {
+                    this.flatListRef = ref;
+                  }}
+                  extraData={this.state.comments}
+                  // nestedScrollEnabled={true}
+                  // keyboardShouldPersistTaps="handled"
+                  // pagingEnabled={true}
+                  onScroll={this.handleScroll}
+                  data={this.state.comments}
+                  scrollEnabled={true}
+                  // onViewableItemsChanged={this._onViewableItemsChanged}
+                  // initialNumToRender={3}
+                  removeClippedSubviews={false}
+                  // viewabilityConfig={this.viewabilityConfig}
+                  // maxToRenderPerBatch={3}
+                  keyExtractor={(item, index) => index.toString()}
+                  ItemSeparatorComponent={this.renderSeparator}
+                  renderItem={this._renderItem}
+                  // contentContainerStyle={styles.container}
 
-        }}>
-        <View 
-        style={{   
-              // marginRight: 10 ,
-              // marginLeft: 10,
-              // marginTop: 10 ,
-              // height: 100
-              flex: 1
-        }}
-        >
-        <Formik
-        style={{   
-        // marginRight: 10 ,
-        // marginLeft: 10,
-        // marginTop: 10 ,
-        // height: 100
-        flex: 1,
-        flexDirection: 'row'
-        }}
-        initialValues={{ comment: '' }}
-        onSubmit={(values, actions) => {
-          this.handleAddComment(values);
-        }}>
-        {({
-          values,
-          handleChange,
-          errors,
-          setFieldTouched,
-          touched,
-          isValid,
-          handleBlur,
-          handleSubmit
-        }) => (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 5 ,
+                  // removeClippedSubviews={true} // Unmount components when outside of window
+                  // ListFooterComponent={this._ListFooterComponent}
+                />
+              </View>
 
-              padding: 0
-            }}>
-            {/* <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}> */}
-            <View  style={{   
-               marginRight: 5 ,
-              // marginLeft: 10,
-              //  marginTop: 10 ,
-              
-              flex: 0.7,
-              // alignItems: 'flex-start'
-            
-        }}>
-              <TextInput
-            
-                name="comment"
-                placeholder={I18n.t('qso.writeComment')}
-                multiline
-                removeClippedSubviews={false}
-                keyboardDismissMode="none"
-                onBlur={handleBlur('comment')}
-                // style={{ borderWidth: 1, width: 230 }}
-                style={{ borderWidth: 1 }}
-                onChangeText={handleChange('comment')}
-                value={values.comment}
-              />
+              {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}> */}
+              <View
+                style={{
+                  // marginRight: 10 ,
+                  // marginLeft: 10,
+                  // marginTop: 10 ,
+                  // height: 100
+                  flex: 0.25,
+                  marginTop: 10
+                }}>
+                <View
+                  style={{
+                    // marginRight: 10 ,
+                    // marginLeft: 10,
+                    // marginTop: 10 ,
+                    // height: 100
+                    flex: 1
+                  }}>
+                  <Formik
+                    style={{
+                      // marginRight: 10 ,
+                      // marginLeft: 10,
+                      // marginTop: 10 ,
+                      // height: 100
+                      flex: 1,
+                      flexDirection: 'row'
+                    }}
+                    initialValues={{ comment: '' }}
+                    onSubmit={(values, actions) => {
+                      this.handleAddComment(values);
+                    }}>
+                    {({
+                      values,
+                      handleChange,
+                      errors,
+                      setFieldTouched,
+                      touched,
+                      isValid,
+                      handleBlur,
+                      handleSubmit
+                    }) => (
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginTop: 5,
+
+                          padding: 0
+                        }}>
+                        {/* <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}> */}
+                        <View
+                          style={{
+                            marginRight: 5,
+                            // marginLeft: 10,
+                            //  marginTop: 10 ,
+
+                            flex: 0.7
+                            // alignItems: 'flex-start'
+                          }}>
+                          <TextInput
+                            name="comment"
+                            placeholder={I18n.t('qso.writeComment')}
+                            multiline
+                            removeClippedSubviews={false}
+                            keyboardDismissMode="none"
+                            onBlur={handleBlur('comment')}
+                            // style={{ borderWidth: 1, width: 230 }}
+                            style={{ borderWidth: 1 }}
+                            onChangeText={handleChange('comment')}
+                            value={values.comment}
+                          />
+                        </View>
+
+                        <View
+                          style={{
+                            // marginRight: 10 ,
+                            // marginLeft: 10,
+                            // marginTop: 10 ,
+                            // height: 100
+                            flex: 0.3,
+                            alignItems: 'flex-end'
+                          }}>
+                          <Button
+                            buttonStyle={{
+                              padding: 5,
+                              // margin: 0,
+                              width: 90
+                              // height: '100%'
+                            }}
+                            size="small"
+                            title={I18n.t('qso.add')}
+                            onPress={handleSubmit}
+                          />
+                        </View>
+                      </View>
+                    )}
+                  </Formik>
+                </View>
+              </View>
+              {/* </KeyboardAvoidingView> */}
             </View>
-
-            <View style={{   
-              // marginRight: 10 ,
-              // marginLeft: 10,
-              // marginTop: 10 ,
-              // height: 100
-              flex: 0.3,
-              alignItems: 'flex-end',
-              
-        }}>
-              <Button
-                buttonStyle={{
-                  padding: 5,
-                  // margin: 0,
-                  width: 90,
-                  // height: '100%'
-                }}
-                size="small"
-                title={I18n.t('qso.add')}
-                onPress={handleSubmit}
-              />
-            </View>
-          </View>
-        )}
-        </Formik>
-        </View>
-
-        </View>
-        {/* </KeyboardAvoidingView> */}
-        </View>     
-          }
-
-
-
-   
-    
+          )}
         </MenuProvider>
-       
-    
       </Overlay>
     );
   }
