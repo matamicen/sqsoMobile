@@ -2359,7 +2359,7 @@ const qsoReducer = (state = initialState, action) => {
           ...state.feed,
 
           qso: null,
-          FetchingQSO: true,
+          FetchingQSO: false,
           QSOFetched: false
         }
       });

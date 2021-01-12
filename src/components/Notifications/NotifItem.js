@@ -14,6 +14,7 @@ import {
 import { connect } from 'react-redux';
 import {
   manage_notifications,
+  doRequestQSO,
   setPressHome,
   setWebView,
   set_notification_read
@@ -99,7 +100,9 @@ class NotifItem extends React.PureComponent {
           screen: 'PROFILE'
         });
       } else if (post.has(activity_type)) {
-        this.props.navigation.push('QSODetail', {
+        this.props.doRequestQSO();
+
+        this.props.navigation.navigate('QSODetail', {
           QSO_GUID: QSO_GUID
         });
       }
@@ -726,7 +729,9 @@ class NotifItem extends React.PureComponent {
               {/* El 108 109 o 110(marketing) es el de la notificacion que viene por push pero el telefono esta en Foreground entonces la capturo y 
                            y la doy de alta en la bandeja de notificaciones, el 108 es un PROFILE y el 109 es una Publicacion
                             */}
-              {(this.props.activity_type === 108 || this.props.activity_type === 109 || this.props.activity_type === 110) && (
+              {(this.props.activity_type === 108 ||
+                this.props.activity_type === 109 ||
+                this.props.activity_type === 110) && (
                 <Text style={{ fontSize: 15, height: 75 }}>
                   {this.props.message} {'\n'}{' '}
                 </Text>
@@ -828,6 +833,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   set_notification_read,
+  doRequestQSO,
   manage_notifications,
   setWebView,
   setPressHome

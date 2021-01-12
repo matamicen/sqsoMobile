@@ -4250,9 +4250,8 @@ export function doFetchQSO(idqso, token = null) {
 
   return async (dispatch) => {
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-      // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       const apiName = 'superqso';
       const path = '/qso-detail/secured';
       const myInit = {
@@ -4260,7 +4259,7 @@ export function doFetchQSO(idqso, token = null) {
           guid: idqso
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
@@ -4315,6 +4314,8 @@ export function doSaveUserInfo(token, qra) {
       // const token = await currentSession.getIdToken().getJwtToken();
 
       // dispatch(refreshToken(token));
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
       dispatch(doRequestUserInfo());
       dispatch(doReceiveUserDataInfo(qra));
       const apiName = 'superqso';
@@ -4324,7 +4325,7 @@ export function doSaveUserInfo(token, qra) {
           qra
         }, // replace this with attributes you need
         headers: {
-          Authorization: token
+          Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
       API.post(apiName, path, myInit)
