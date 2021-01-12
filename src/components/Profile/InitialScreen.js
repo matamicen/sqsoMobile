@@ -19,7 +19,11 @@ import {
   View
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import Permissions, { PERMISSIONS, request, RESULTS } from 'react-native-permissions';
+import Permissions, {
+  PERMISSIONS,
+  request,
+  RESULTS
+} from 'react-native-permissions';
 import { connect } from 'react-redux';
 import {
   closeModalConfirmPhoto,
@@ -131,7 +135,7 @@ class InitialScreen extends React.PureComponent {
     Linking.canOpenURL(urlnotif)
       .then((supported) => {
         if (!supported) {
-          console.log('Can\'t handle url: ' + urlnotif);
+          console.log("Can't handle url: " + urlnotif);
         } else {
           // if(__DEV__)
           //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
@@ -156,7 +160,7 @@ class InitialScreen extends React.PureComponent {
     if (await hasAPIConnection()) {
       try {
         console.log(
-          'mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem(\'pushtoken\'); + token:' +
+          "mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem('pushtoken'); + token:" +
             this.props.pushtoken +
             'QRA: se envia vacio'
         );

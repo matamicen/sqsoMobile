@@ -5,6 +5,7 @@ import {
   editBioStackNavigator,
   editInfoStackNavigator,
   FieldDaysStackNavigator,
+  ExploreUsersStackNavigator,
   MainNavigator,
   MyPostsStackNavigator
 } from './StackNavigator';
@@ -13,6 +14,12 @@ const DrawerRouteConfigs = {
     screen: MainNavigator,
     navigationOptions: {
       title: I18n.t('HomeTitle')
+    }
+  },
+  ExploreUsers: {
+    screen: ExploreUsersStackNavigator,
+    navigationOptions: {
+      title: I18n.t('navBar.exploreUsers')
     }
   },
   FieldDays: {

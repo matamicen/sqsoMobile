@@ -58,6 +58,7 @@ import {
   RECEIVE_QSO_MEDIA_COUNTER,
   RECEIVE_USERINFO,
   RECEIVE_USER_BIO,
+  LATEST_USERS_RECEIVE,
   RECEIVE_USER_DATA_INFO,
   REFRESH_FOLLOWINGS,
   REPOST_QSO,
@@ -1846,8 +1847,9 @@ const qsoReducer = (state = initialState, action) => {
         ...state,
         feed: {
           ...state.feed,
+          // follow: action.follow,
           follow: action.follow.filter((f) => {
-            return !state.currentQSO.followings.some(
+            return !state.currentQso.followings.some(
               (o) => o.idqra_followed === f.idqras
             );
           }),
@@ -2596,7 +2598,17 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
-
+    case LATEST_USERS_RECEIVE:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          latestUsers: action.follow,
+          followFetched: true,
+          followFetching: false
+        }
+      });
+      return newStore;
     default:
       return state;
   }
