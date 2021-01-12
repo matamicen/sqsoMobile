@@ -251,7 +251,7 @@ class QSOComments extends React.PureComponent {
               // backgroundColor: 'white'
             }
           }>
-          <View style={{ flex: 0.1 }}>
+          <View style={{flex: 0.1}} >
             <Text h2>{I18n.t('qso.comments')}</Text>
             <View style={styles.iconView}>
               <Icon
