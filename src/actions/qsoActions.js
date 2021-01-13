@@ -3900,7 +3900,7 @@ export function doReceiveMediaCounter(data) {
     monthly_audio_play: data
   };
 }
-export function doRepost(idqso, token, qso) {
+export const doRepost = (idqso, token, qso) => {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'repost_WEBPRD', {
@@ -3923,6 +3923,7 @@ export function doRepost(idqso, token, qso) {
           Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
+      
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
