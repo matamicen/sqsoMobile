@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 12
   },
   text: {
-    fontSize: 20
+    fontSize: 17
   },
   view: {
     flex: 1,
