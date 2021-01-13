@@ -90,17 +90,19 @@ class QSOLikeTextModalItem extends React.PureComponent {
               });
               this.props.closeModal();
             }}>
-            <Text style={{ fontSize: 18 }}>{l.qra}</Text>
+            <Text style={{ fontSize: 17 }}>{l.qra}</Text>
 
-            <Text style={{ fontSize: 13 }}>
+            <Text numberOfLines={1} style={{ fontSize: 15 }}>
               {l.firstname + ' ' + l.lastname}
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.follow}>
-          {!this.followed && l.qra !== this.props.currentQRA && (
+
+        {!this.followed && l.qra !== this.props.currentQRA && (
+          <View style={styles.follow}>
             <Button
-              containerStyle={{ padding: 0, margin: 0 }}
+              buttonStyle={{ width: 80 }}
+              containerStyle={{ width: 80 }}
               raised
               onPress={() => this.handleButtonClick(l.qra)}
               title={
@@ -109,8 +111,8 @@ class QSOLikeTextModalItem extends React.PureComponent {
                   : I18n.t('qra.follow')
               }
             />
-          )}
-        </View>
+          </View>
+        )}
       </View>
     );
   }
@@ -121,7 +123,8 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 2
+    marginTop: 2,
+    paddingHorizontal: 0
     // alignSelf: 'flex-start'
     // height: 10
   },
@@ -129,17 +132,23 @@ const styles = StyleSheet.create({
     // flex: 1,
     // flexDirection: 'row',
     marginTop: 5,
-    marginLeft: 10,
-    alignSelf: 'flex-start',
-    flexGrow: 1
+    marginLeft: 8,
+    // alignSelf: 'flex-start',
+    flexGrow: 1,
+    flexShrink: 1
   },
   follow: {
-    // flex: 1
+    // flex: 1,
+    flexGrow: 0,
+    flexBasis: 80,
+    flexShrink: 0
     // flexDirection: 'row'
-    alignSelf: 'flex-end'
   },
   avatarView: {
-    // flex: 1
+    // flex: 1,
+    flexGrow: 0,
+    flexBasis: 45,
+    flexShrink: 0
     // flexDirection: 'row',
     // alignItems: 'flex-start',
     // alignSelf: 'flex-start'

@@ -169,7 +169,7 @@ class QSOLikeText extends React.PureComponent {
                 justifyContent: 'space-between'
               }}>
               <View style={{ width: '80%' }}>
-                <Text style={{ fontSize: 17, textAlign: 'center' }}>
+                <Text style={{ fontSize: 18, textAlign: 'center' }}>
                   {I18n.t('qso.likeModalHeader')}
                 </Text>
               </View>
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginBottom: 150,
     marginLeft: 50,
-    width: '80%',
+    width: '90%',
     height: 50,
     padding: 10,
 

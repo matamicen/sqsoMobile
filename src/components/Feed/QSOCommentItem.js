@@ -143,24 +143,26 @@ class QSOCommentItem extends React.PureComponent {
               <Text style={styles.headerDetailText}>{timestamp}</Text>
             </View>
           </View>
-          <View style={styles.follow}>
-            {!this.followed &&
-              this.props.comment.qra !== this.props.currentQRA && (
-                <Button
-                  raised
-                  buttonStyle={{ width: 80 }}
-                  containerStyle={{ width: 80 }}
-                  onPress={() => this.handleButtonClick(this.props.comment.qra)}
-                  title={
-                    this.props.followers.some(
-                      (o) => o.qra === this.props.comment.qra
-                    )
-                      ? I18n.t('qra.followToo')
-                      : I18n.t('qra.follow')
-                  }
-                />
-              )}
-          </View>
+
+          {!this.followed && this.props.comment.qra !== this.props.currentQRA && (
+            <View style={styles.follow}>
+              {' '}
+              <Button
+                raised
+                buttonStyle={{ width: 80 }}
+                containerStyle={{ width: 80 }}
+                onPress={() => this.handleButtonClick(this.props.comment.qra)}
+                title={
+                  this.props.followers.some(
+                    (o) => o.qra === this.props.comment.qra
+                  )
+                    ? I18n.t('qra.followToo')
+                    : I18n.t('qra.follow')
+                }
+              />{' '}
+            </View>
+          )}
+
           <View style={styles.menu}>
             <FeedOptionsMenu
               comment={this.props.comment}
