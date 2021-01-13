@@ -147,7 +147,9 @@ class QSOCommentItem extends React.PureComponent {
             {!this.followed &&
               this.props.comment.qra !== this.props.currentQRA && (
                 <Button
-                  containerStyle={{ padding: 0, margin: 0 }}
+                  raised
+                  buttonStyle={{ width: 80 }}
+                  containerStyle={{ width: 80 }}
                   onPress={() => this.handleButtonClick(this.props.comment.qra)}
                   title={
                     this.props.followers.some(
@@ -172,7 +174,7 @@ class QSOCommentItem extends React.PureComponent {
           </View>
         </View>
         <View style={styles.message}>
-          <Text style={{ fontSize: 15 }}>
+          <Text style={{ fontSize: 18 }}>
             {/* <ConvertToComp response={message} /> */}
             <Comment
               comment={this.props.comment.comment}
@@ -194,9 +196,9 @@ const styles = StyleSheet.create({
   },
   bold: { fontWeight: 'bold' },
   headerText: {
-    fontSize: 12
+    fontSize: 14
   },
-  headerDetailText: { fontSize: 10 },
+  headerDetailText: { fontSize: 12 },
   headerDetail: {},
   commentHeader: {
     flex: 1,
@@ -215,19 +217,22 @@ const styles = StyleSheet.create({
     // marginTop: Constants.statusBarHeight
   },
   follow: {
-    flex: 1
+    flex: 1,
+    width: 80,
+    flexGrow: 0,
+    flexBasis: 80
     // flexDirection: 'column'
   },
   action: {
     flex: 1,
-    flexDirection: 'column'
-    // flexBasis: 60,
-    // flexGrow: 1,
+    flexDirection: 'column',
+
+    flexGrow: 1
     // flexShrink: 0
   },
   actionHeader: {
     flex: 1,
-    // width: 100,
+    width: 130,
     flexDirection: 'row',
     flexGrow: 0,
     flexShrink: 0

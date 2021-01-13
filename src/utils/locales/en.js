@@ -82,7 +82,7 @@ export default {
     'You have to watch a video reward to create a NewQso.',
   variosModprevideoRewHaveToWatchScanQR:
     'You have to watch a video reward to Scan the QR.',
-  variosModprevideoRewDontWatch: 'Don\'t watch',
+  variosModprevideoRewDontWatch: "Don't watch",
   variosModprevideoRewWatchVideo: 'Watch the video',
   variosModprevideoRewAreYouSureFree: 'Free User',
   variosModprevideoRewAreYouSureLink: 'Are you sure to not link theses Qsos ?',
@@ -91,10 +91,10 @@ export default {
   variosModprevideoRewAreYouSureNewQSO: 'Are you sure to not start a New Qso ?',
   variosModprevideoRewAreYouSureScanQR:
     'Are you sure to not scan the Qr code ?',
-  variosModprevideoRewAreYouSureDontLink: 'Don\'t link these Qsos',
+  variosModprevideoRewAreYouSureDontLink: "Don't link these Qsos",
   variosModprevideoRewAreYouSureDiscardMedia: 'Discard the Media',
-  variosModprevideoRewAreYouSureDontStart: 'Don\'t start',
-  variosModprevideoRewAreYouSureDontScan: 'Don\'t scan',
+  variosModprevideoRewAreYouSureDontStart: "Don't start",
+  variosModprevideoRewAreYouSureDontScan: "Don't scan",
   variosModprevideoRewLinkQsos: 'Links these Qsos.',
   variosModprevideoRewSendMedia: 'Send the media',
   variosModprevideoRewStartPost: 'Start a Post',
@@ -232,16 +232,15 @@ export default {
   QsoTypeSelect: 'Select the Post Type',
   QsoTypeQSOdesc: 'Post a QSO that you are participating',
   QsoTypeSWLdesc: 'Post other hams QSO that you are listening.',
-  QsoTypeANYdescOther: 'Post something generic, a photo of your shack, antenna, friends, etc.',
-  QsoTypeANYdescFieldDay:
-    'Promote an activity, contest, zoom talk.',
-  QsoTypeANYdescQAP:
-    'Post that you are QAP',
+  QsoTypeANYdescOther:
+    'Post something generic, a photo of your shack, antenna, friends, etc.',
+  QsoTypeANYdescFieldDay: 'Promote an activity, contest, zoom talk.',
+  QsoTypeANYdescQAP: 'Post that you are QAP',
   QsoTypePOST: 'Generic',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Activity',
   QsoTypeLISTEN: 'Listen',
-  QsoTypecannotchange1: 'You have media created, so you can\'t change to',
+  QsoTypecannotchange1: "You have media created, so you can't change to",
   QsoTypecannotchange2: 'you should start a new Post and select',
   QsoTypecannotchange3:
     'But, you always could change from QSO to Listen or Listen to QSO',
@@ -303,12 +302,15 @@ export default {
   helpPublishPOSTfield4: '',
   helpPublishPOSTMessage2: 'then you press PUBLISH.',
   helpPublishFLDDAYtitle: '¿How to publish an Activity?',
-  helpPublishFLDDAYMessage1: 'In order to publish an activity you should fill start date, end date and add a image/photo or video with the information and write the activity title in the description.',
+  helpPublishFLDDAYMessage1:
+    'In order to publish an activity you should fill start date, end date and add a image/photo or video with the information and write the activity title in the description.',
   helpPublishFLDDAYMessage2: 'then you press PUBLISH.',
   helpPublishFLDDAYfield1: 'Intersting:',
-  helpPublishFLDDAYfield2: 'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
+  helpPublishFLDDAYfield2:
+    'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
   helpPublishQAPtitle: '¿How to publish a QAP?',
-  helpPublishQAPMessage1: 'In order to publish a QAP you should add an image/photo or video of the rig with the QAP frequency and write the date/time and mode in the description.',
+  helpPublishQAPMessage1:
+    'In order to publish a QAP you should add an image/photo or video of the rig with the QAP frequency and write the date/time and mode in the description.',
   helpPublishQAPMessage2: 'then you press PUBLISH.',
   helpPublishQAPfield1: 'Interesante:',
   helpPublishQAPfield2:
@@ -459,8 +461,10 @@ export default {
   BACKBUTTONANDROIDCANCEL: 'Cancel',
   BACKBUTTONANDROIDEXIT: 'Exit',
   MISSPOSTMEDIA: 'The post needs a photo or an audio to publish.',
-  MISSDATES: 'The end date of the activity must be greater than the starting date.',
-  MISSQRAS: 'Callsign is missing, you must add at least one callsign of the HAM tha you worked/listened to publsih.',
+  MISSDATES:
+    'The end date of the activity must be greater than the starting date.',
+  MISSQRAS:
+    'Callsign is missing, you must add at least one callsign of the HAM tha you worked/listened to publsih.',
   MISSBAND: 'Band is missing, you must enter a Band to publish.',
   MISSMODE: 'Mode is missing, you must enter a Mode to publish.',
   MISSCLOSE: 'Close',
@@ -505,7 +509,7 @@ export default {
   auth: {
     incorrectUserPass: 'Incorrect username or password.',
     userDisabled:
-      'The user is not enabled yet since we didn\'t receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account',
+      "The user is not enabled yet since we didn't receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account",
     userNotConfirmed:
       'The user did not enter the Confirmation Code sent to the email',
     enterMailPassword: 'Please enter Email and Password',
@@ -589,7 +593,7 @@ export default {
     whyRemovePhoto: 'Why do you think we should remove this photo?',
     whyRemoveAudio: 'Why do you think we should remove this audio?',
     whyRemoveContent: 'Why do you think we should remove this content?',
-    helpUnderstandWhatsHappening: 'Help Us Understand What\'s Happening'
+    helpUnderstandWhatsHappening: "Help Us Understand What's Happening"
   },
   global: {
     you: 'You',
@@ -604,7 +608,7 @@ export default {
     imageContainNudity:
       'The image you try to upload contain Nudity or sexual content.',
     userMaxReached:
-      'You\'ve reached the maximum allowed for free users. Upgrade to Premium in our APP'
+      "You've reached the maximum allowed for free users. Upgrade to Premium in our APP"
   },
   notification: {
     congratulations: 'Congratulations!!!',
@@ -668,7 +672,7 @@ export default {
     youLikeThis: ' liked this',
     manyLikeThis: ' liked this',
     startLikePhrase: '',
-    likeModalHeader: 'These Hams likes this Post'
+    likeModalHeader: 'Likes'
   },
   qra: {
     loading: 'Loading Callsign...',

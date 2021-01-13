@@ -69,7 +69,7 @@ class QSOLikeTextModalItem extends React.PureComponent {
               this.props.closeModal();
             }}>
             <Avatar
-              size="small"
+              size="medium"
               rounded
               source={
                 l.avatarpic
@@ -90,9 +90,9 @@ class QSOLikeTextModalItem extends React.PureComponent {
               });
               this.props.closeModal();
             }}>
-            <Text style={{ fontSize: 15 }}>{l.qra}</Text>
+            <Text style={{ fontSize: 18 }}>{l.qra}</Text>
 
-            <Text style={{ fontSize: 10 }}>
+            <Text style={{ fontSize: 13 }}>
               {l.firstname + ' ' + l.lastname}
             </Text>
           </TouchableOpacity>
@@ -120,13 +120,16 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginTop: 2
     // alignSelf: 'flex-start'
     // height: 10
   },
   name: {
     // flex: 1,
     // flexDirection: 'row',
+    marginTop: 5,
+    marginLeft: 10,
     alignSelf: 'flex-start',
     flexGrow: 1
   },
