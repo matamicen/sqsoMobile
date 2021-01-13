@@ -1849,8 +1849,10 @@ const qsoReducer = (state = initialState, action) => {
           ...state.feed,
           // follow: action.follow,
           follow: action.follow.filter((f) => {
-            return !state.currentQso.followings.some(
-              (o) => o.idqra_followed === f.idqras
+            return (
+              !state.currentQso.followings.some(
+                (o) => o.idqra_followed === f.idqras
+              ) && f.qra !== state.qra
             );
           }),
           followFetched: true,
