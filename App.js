@@ -12,6 +12,7 @@ import { armoPushNotifyLocalNotif } from './src/helper';
 //import AppContainer from "./src/containers/AppContainer";
 // agregado nuevo
 import AppReducer from './src/reducers/AppReducer';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 // fin agregado nuevo
 
@@ -123,7 +124,9 @@ export default class App extends React.PureComponent {
     return (
       <SafeAreaView style={styles.safeArea}>
         <Provider store={store}>
+        <RootSiblingParent>
           <AppNavigator />
+      </RootSiblingParent>
         </Provider>
       </SafeAreaView>
     );
