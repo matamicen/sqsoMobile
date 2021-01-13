@@ -1057,6 +1057,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
         pushMessage = I18n.t(loc_key,{comment: locArgs[0]});
         console.log('pushMessage dentroIF: '+pushMessage);
         bandejaNotifLocal = pushTitle + ' | ' + pushMessage;
+        locArgs = locArgs[1] // pasa el GUID
       }
 
 
@@ -1077,6 +1078,8 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
+       // aca cambio el locArgs = locArgs[3]
+       locArgs = locArgs[3] // pasa el GUID
       }
       
       if (title_loc_key==='PUSH_INCLUDEDYOUWORKEDQSO_TITLE')
@@ -1089,6 +1092,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1],utc: locArgs[2]});
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
+        locArgs = locArgs[3] // pasa el GUID
       }
 
 
@@ -1096,6 +1100,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{mode: locArgs[0],band: locArgs[1]});
         bandejaNotifLocal = pushTitle +' ' +pushMessage;
+        locArgs = locArgs[3] // pasa el GUID
       }
 
 
@@ -1129,12 +1134,15 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key);
         bandejaNotifLocal = pushTitle;
+        locArgs = locArgs[1] // pasa el GUID
       }
 
       if (title_loc_key==='PUSH_REPOSTLISTEN_TITLE')
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key);
         bandejaNotifLocal = pushTitle;
+        console.log('le paso este guid: '+ locArgs[1])
+        locArgs = locArgs[1] // pasa el GUID
       }
 
       if (title_loc_key==='PUSH_REPOSTANY_TITLE')
@@ -1165,6 +1173,7 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       {  pushTitle = I18n.t(title_loc_key,{callsign: titleLocArgs[0]});
         pushMessage = I18n.t(loc_key,{comment: locArgs[0]});
         bandejaNotifLocal = pushTitle +' | ' +pushMessage;
+        locArgs = locArgs[1] // pasa el GUID
       }
 
 
@@ -1175,17 +1184,16 @@ export const checkMediaSentOfFreeUser =  (mediafiles,type,maxPerQso) => {
       //  console.log('es undefined')
      
       //  console.log('despues del crash ')
-       
       if (locArgs !== undefined) // si no es undefined porque se envio el parametro QSOGUID
       {
         // si existe QSOGUID es porque es una publicacion
         activityType = 109 // le pongo  activity Type 109 que sea publicacion asi va al QsoDetail en el click de la notificacion
-        qsoguid = locArgs[1]
+        qsoguid = locArgs
       }
       else
       { // si viene vacio el QSOGUID es PROFILE o push de Marketing
         if (title_loc_key==='PUSH_MARKETING_TITLE')
-          activityType = '110' // con 110 cuando hace click en la notificacion o va a ningun lado
+          activityType = 110 // con 110 cuando hace click en la notificacion o va a ningun lado
         else
           activityType = 108 // pongo un activity type 108 que sea de PROFILE asi va al profile del usuario cuando hace click en la notificacion
 
