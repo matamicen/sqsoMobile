@@ -1,12 +1,14 @@
 import { Formik } from 'formik';
 import moment from 'moment';
 import React from 'react';
+import { Platform } from 'react-native';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  KeyboardAvoidingView
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import { Button, Input } from 'react-native-elements';
@@ -86,6 +88,7 @@ class QraProfileInfoEdit extends React.Component {
     });
     return (
       <ScrollView style={{ flex: 1 }}>
+
         <Formik
           initialValues={{
             firstname: this.props.qra.firstname,
@@ -369,6 +372,32 @@ class QraProfileInfoEdit extends React.Component {
             </View>
           )}
         </Formik>
+        {/* deja espacios abajo del scrollview porque ios no levanta el keyboard en los campos de mas abajo.  */}
+        {(Platform.OS==='ios') &&
+        <View>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        </View>
+  }
+        
+        
       </ScrollView>
     );
   }

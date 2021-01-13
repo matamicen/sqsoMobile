@@ -392,6 +392,28 @@ class QRAProfileBioEdit extends React.Component {
             onChange={() => this.handleChange}
             onHeightChange={() => this.handleHeightChange}
           />
+          {/* Esta view se agrega porque ni ios ni android levantan el campo de edicion hacia arriba, entonces el usuario puede scrollear a mano y editar bien */}
+           <View>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        </View>
         </ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
