@@ -146,7 +146,7 @@ class QSOCommentItem extends React.PureComponent {
 
           {!this.followed && this.props.comment.qra !== this.props.currentQRA && (
             <View style={styles.follow}>
-              {' '}
+              {/* {' '} */}
               <Button
                 raised
                 buttonStyle={{ width: 80 }}
@@ -159,7 +159,8 @@ class QSOCommentItem extends React.PureComponent {
                     ? I18n.t('qra.followToo')
                     : I18n.t('qra.follow')
                 }
-              />{' '}
+              />
+              {/* {' '} */}
             </View>
           )}
 
