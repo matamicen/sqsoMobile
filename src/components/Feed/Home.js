@@ -1,6 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
-import { AppState, Image, Platform, Text, View } from 'react-native';
+import {
+  AppState,
+  Image,
+  Platform,
+  Text,
+  View,
+  ActivityIndicator
+} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -47,31 +54,28 @@ class Home extends React.PureComponent {
   };
   componentDidMount() {
     this.props.navigation.setParams({
-      tabBarOnPress: () =>{ 
-
-
+      tabBarOnPress: () => {
         console.log('PRESS HOME!');
         // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
-    
+
         if (this.props.presshome === 1) {
-          console.log('press esta en 1 y refresca')
-          
+          console.log('press esta en 1 y refresca');
+
           // home = global_config.urlWeb + '?embedded=true&date=' + new Date();
           // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
           // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
           // this.time = 50;
           // await this.props.setWebView(this.props.webviewsession, home);
           this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-    
+
           //   this.props.setPressHome(0);
         } else {
-          console.log('press NO esta en 1 y y lo pone en 1')
+          console.log('press NO esta en 1 y y lo pone en 1');
           this.props.actions.setPressHome(1);
         }
 
-// this.props.actions.doFetchPublicFeed(this.props.currentQRA)
+        // this.props.actions.doFetchPublicFeed(this.props.currentQRA)
       }
-        
     });
     // this.props.navigation.setParams({
     //   tapOnTabNavigator: this.tapOnTabNavigator
@@ -117,7 +121,6 @@ class Home extends React.PureComponent {
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
 
     if (this.props.presshome === 1) {
-      
       // home = global_config.urlWeb + '?embedded=true&date=' + new Date();
       // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
       // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
@@ -170,10 +173,14 @@ class Home extends React.PureComponent {
   //   // else if (props.qsos.length === 0) return { active: true };
   // }
   render() {
-    if (this.props.qsos.length > 0) {
-      return <NewsFeed />;
-    }
-    return null;
+    // if (this.props.qsos.length > 0) {
+    return <NewsFeed />;
+    // } else
+    //   return (
+    //     <View style={{ flex: 1 }}>
+    //       <ActivityIndicator size="large" color="#00ff00" />
+    //     </View>
+    //   );
   }
 }
 

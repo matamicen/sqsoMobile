@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -74,29 +74,39 @@ class NewsFeedPresentational extends React.PureComponent {
     );
   };
   render() {
-    return (
-      <View style={{ flex: 1, zIndex: 0 }}>
-        <MenuProvider skipInstanceCheck backHandler={true} style={{ flex: 1 }}>
-          <FlatList
-            ref={(ref) => {
-              this.flatListRef = ref;
-            }}
-            // extraData={this.state.refresh}
-            onScroll={this.handleScroll}
-            data={this.props.list}
-            onViewableItemsChanged={this._onViewableItemsChanged}
-            initialNumToRender={5}
-            viewabilityConfig={this.viewabilityConfig}
-            maxToRenderPerBatch={5}
-            keyExtractor={(item, index) => index.toString()}
-            ItemSeparatorComponent={this.renderSeparator}
-            renderItem={this._renderItem.bind(this)}
-            removeClippedSubviews={true} // Unmount components when outside of window
-            windowSize={5} // Reduce the window size
-          />
-        </MenuProvider>
-      </View>
-    );
+    if (this.props.list.length > 0)
+      return (
+        <View style={{ flex: 1, zIndex: 0 }}>
+          <MenuProvider
+            skipInstanceCheck
+            backHandler={true}
+            style={{ flex: 1 }}>
+            <FlatList
+              ref={(ref) => {
+                this.flatListRef = ref;
+              }}
+              // extraData={this.state.refresh}
+              onScroll={this.handleScroll}
+              data={this.props.list}
+              onViewableItemsChanged={this._onViewableItemsChanged}
+              initialNumToRender={10}
+              viewabilityConfig={this.viewabilityConfig}
+              maxToRenderPerBatch={10}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={this.renderSeparator}
+              renderItem={this._renderItem.bind(this)}
+              removeClippedSubviews={true} // Unmount components when outside of window
+              windowSize={5} // Reduce the window size
+            />
+          </MenuProvider>
+        </View>
+      );
+    else
+      return (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
+      );
   }
 }
 NewsFeedPresentational.propTypes = {

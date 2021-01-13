@@ -37,7 +37,7 @@ class FeedMedia extends React.PureComponent {
     );
 
     return (
-      <View>
+      <View style={{ marginTop: 20, marginBottom: 20 }}>
         {videoList.length > 0 && (
           <View>
             <Divider hidden />

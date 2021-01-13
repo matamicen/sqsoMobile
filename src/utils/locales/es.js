@@ -238,10 +238,8 @@ export default {
   QsoTypeSWLdesc: 'Publica una escucha de un QSO de otros colegas.',
   QsoTypeANYdescOther:
     'Publica algo genérico, una foto de tu estación, proyectos, antenas, amigos, etc.',
-  QsoTypeANYdescFieldDay:
-    'Promocioná una actividad, concurso o charla.',
-  QsoTypeANYdescQAP:
-    'Publica que estas QAP.',
+  QsoTypeANYdescFieldDay: 'Promocioná una actividad, concurso o charla.',
+  QsoTypeANYdescQAP: 'Publica que estas QAP.',
   QsoTypePOST: 'Genérico',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Actividad',
@@ -320,7 +318,8 @@ export default {
   helpPublishFLDDAYfield2:
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
   helpPublishQAPtitle: '¿Como publicar un QAP?',
-  helpPublishQAPMessage1:  'Para poder publicar un QAP debes agregar una imagen/video con la información o una foto del equipo con la frecuencia que vas a estar QAP y escribir La fecha/hora y el modo en la descripción.',
+  helpPublishQAPMessage1:
+    'Para poder publicar un QAP debes agregar una imagen/video con la información o una foto del equipo con la frecuencia que vas a estar QAP y escribir La fecha/hora y el modo en la descripción.',
   helpPublishQAPMessage2:
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
   helpPublishQAPfield1: 'Interesante:',
@@ -416,8 +415,7 @@ export default {
   NOTIF_ACTIVTYPE_12_ANYYOU: '%{callsign} te etiquetó a tí en una publicación.',
   NOTIF_ACTIVTYPE_12_QAP: '%{callsign} etiquetó a %{refqra} en un QAP',
   NOTIF_ACTIVTYPE_12_QAPYOU: '%{callsign} te etiquetó a tí en un QAP',
-  NOTIF_ACTIVTYPE_12_FLDAY:
-    '%{callsign} etiquetó a %{refqra} en una actividad',
+  NOTIF_ACTIVTYPE_12_FLDAY: '%{callsign} etiquetó a %{refqra} en una actividad',
   NOTIF_ACTIVTYPE_12_FLDDAYYOU: '%{callsign} te etiquetó a tí en un actividad',
   NOTIF_ACTIVTYPE_01_YOU: '%{callsign} comenzó a seguirte',
   NOTIF_ACTIVTYPE_01_OTHER: '%{callsign} comenzó a seguir a %{refqra}',
@@ -482,7 +480,8 @@ export default {
   BACKBUTTONANDROIDEXIT: 'Salir',
   MISSPOSTMEDIA: 'Falta una foto o audio para poder publicar.',
   MISSDATES: 'La fecha de fin de activadad debe ser mayor a la de inicio.',
-  MISSQRAS:'Falta agregar al menos una SD(señal distintiva/indicativo/licencia) del corresponsal con quien hizo el QSO/Escucha para poder publicar.',
+  MISSQRAS:
+    'Falta agregar al menos una SD(señal distintiva/indicativo/licencia) del corresponsal con quien hizo el QSO/Escucha para poder publicar.',
   MISSBAND: 'Falta completar la Banda para poder publicar.',
   MISSMODE: 'Falta completar el Modo para poder publicar.',
   MISSCLOSE: 'Cerrar',
@@ -694,7 +693,7 @@ export default {
     youLikeThis: ' te gustó esto',
     manyLikeThis: ' les gustó esto',
     startLikePhrase: 'A ',
-    likeModalHeader: 'A estos colegas les gusta esta Publicación'
+    likeModalHeader: 'Me Gusta'
   },
   qra: {
     loading: 'Cargando SD/Colega...',

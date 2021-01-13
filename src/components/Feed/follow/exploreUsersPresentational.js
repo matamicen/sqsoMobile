@@ -21,13 +21,6 @@ const ExploreUsers = ({
   currentQRA,
   navigation
 }) => {
-  if (!users) {
-    return (
-      <View style={{ flex: 1 }}>
-        <ActivityIndicator size="large" color="#00ff00" />
-      </View>
-    );
-  }
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{}}>

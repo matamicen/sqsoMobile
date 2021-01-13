@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Avatar, Icon, Overlay } from 'react-native-elements';
+import { Avatar, Icon, Overlay, Divider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -162,14 +162,26 @@ class QSOLikeText extends React.PureComponent {
           <KeyboardAvoidingView
             behavior="padding"
             style={{ flex: 1, justifyContent: 'center' }}>
-            <View style={styles.iconView}>
-              <Icon
-                name="close"
-                type="font-awesome"
-                onPress={() => this.setState({ showModal: false })}
-              />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+              }}>
+              <View style={{ width: '80%' }}>
+                <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                  {I18n.t('qso.likeModalHeader')}
+                </Text>
+              </View>
+              <View style={styles.iconView}>
+                <Icon
+                  name="close"
+                  type="font-awesome"
+                  onPress={() => this.setState({ showModal: false })}
+                />
+              </View>
             </View>
-            <Text h3>{I18n.t('qso.likeModalHeader')}</Text>
+            <Divider hidden />
 
             <View style={styles.itemsView}>
               <FlatList
@@ -193,6 +205,7 @@ class QSOLikeText extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   itemsView: {
+    marginTop: 10
     // flex: 1,
     // // flexDirection: 'column',
     // alignItems: 'flex-start',
@@ -200,19 +213,19 @@ const styles = StyleSheet.create({
   },
 
   iconView: {
-    // flex: 1,
-    // height: 20,
+    flex: 1,
+    width: '20%'
     // width: 20,
     // flexDirection: 'row',
     // justifyContent: 'flex-end',
-    alignSelf: 'flex-end'
+    // alignSelf: 'flex-end'
   },
   modal: {
     flex: 1,
     marginTop: 100,
     marginBottom: 150,
     marginLeft: 50,
-    width: '80%',
+    width: '90%',
     height: 50,
     padding: 10,
 
@@ -221,7 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 12
   },
   text: {
-    fontSize: 20
+    fontSize: 17
   },
   view: {
     flex: 1,

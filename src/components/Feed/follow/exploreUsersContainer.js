@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-
+import { ActivityIndicator, View } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
@@ -40,7 +40,12 @@ class exploreUsersContainer extends React.PureComponent {
           />
         </Fragment>
       );
-    else return null;
+    else
+      return (
+        <View style={{ flex: 1 }}>
+          <ActivityIndicator size="large" color="#00ff00" />
+        </View>
+      );
   }
 }
 const mapStateToProps = (state, ownProps) => ({

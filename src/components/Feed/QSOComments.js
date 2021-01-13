@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import { Button, Icon, Overlay } from 'react-native-elements';
+import { Button, Icon, Overlay, Divider } from 'react-native-elements';
 import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
 // import TextareaAutosize from 'react-textarea-autosize';
@@ -251,8 +251,17 @@ class QSOComments extends React.PureComponent {
               // backgroundColor: 'white'
             }
           }>
-          <View style={{flex: 0.1}} >
-            <Text h2>{I18n.t('qso.comments')}</Text>
+          <View
+            style={{
+              flex: 0.1,
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}>
+            <View style={{ width: '80%' }}>
+              <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                {I18n.t('qso.comments')}
+              </Text>
+            </View>
             <View style={styles.iconView}>
               <Icon
                 name="close"
@@ -261,6 +270,7 @@ class QSOComments extends React.PureComponent {
               />
             </View>
           </View>
+
           {Platform.OS === 'ios' ? (
             <View
               style={{
@@ -312,7 +322,7 @@ class QSOComments extends React.PureComponent {
                     // marginTop: 10 ,
                     // height: 100
                     flex: 0.35,
-                    marginTop: 10
+                    marginTop: 5
                   }}>
                   <View
                     style={{
@@ -456,7 +466,7 @@ class QSOComments extends React.PureComponent {
                   // marginTop: 10 ,
                   // height: 100
                   flex: 0.25,
-                  marginTop: 10
+                  marginTop: 5
                 }}>
                 <View
                   style={{
@@ -567,7 +577,8 @@ const styles = StyleSheet.create({
   },
 
   iconView: {
-    alignSelf: 'flex-end'
+    flex: 1,
+    width: '20%'
   },
 
   text: {
