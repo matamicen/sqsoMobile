@@ -1087,7 +1087,7 @@ export const armoPushNotifyLocalNotif = (
   locArgs = loc_args;
 
   console.log('helper titleLocArgs:' + titleLocArgs);
-  console.log('helper titleLocArgs:' + locArgs);
+  console.log('helper locArgs:' + locArgs);
   console.log('helper titleLocKey:' + title_loc_key);
   console.log('helper LocKey:' + loc_key);
 
@@ -1158,6 +1158,7 @@ export const armoPushNotifyLocalNotif = (
     pushTitle = I18n.t(title_loc_key, { callsign: titleLocArgs[0] });
     pushMessage = I18n.t(loc_key);
     bandejaNotifLocal = pushTitle;
+    locArgs = locArgs[0]; // pasa el GUID
   }
 
   if (title_loc_key === 'PUSH_TAGYOUNEWFLDDAY_TITLE') {
@@ -1197,21 +1198,22 @@ export const armoPushNotifyLocalNotif = (
     pushTitle = I18n.t(title_loc_key, { callsign: titleLocArgs[0] });
     pushMessage = I18n.t(loc_key);
     bandejaNotifLocal = pushTitle;
-    locArgs = locArgs[1]; // pasa el GUID
+    console.log('le paso este guid: ' + locArgs[0]);
+    locArgs = locArgs[0]; // pasa el GUID
   }
 
   if (title_loc_key === 'PUSH_REPOSTFLDDAY_TITLE') {
     pushTitle = I18n.t(title_loc_key, { callsign: titleLocArgs[0] });
     pushMessage = I18n.t(loc_key);
     bandejaNotifLocal = pushTitle;
-    locArgs = locArgs[1]; // pasa el GUID
+    locArgs = locArgs[0]; // pasa el GUID
   }
 
   if (title_loc_key === 'PUSH_REPOSTQAP_TITLE') {
     pushTitle = I18n.t(title_loc_key, { callsign: titleLocArgs[0] });
     pushMessage = I18n.t(loc_key);
     bandejaNotifLocal = pushTitle;
-    locArgs = locArgs[1]; // pasa el GUID
+    locArgs = locArgs[0]; // pasa el GUID
   }
 
   if (title_loc_key === 'PUSH_MARKETING_TITLE') {
@@ -1234,6 +1236,7 @@ export const armoPushNotifyLocalNotif = (
   //  console.log('es undefined')
 
   //  console.log('despues del crash ')
+  console.log(locArgs);
   if (locArgs !== undefined) {
     // si no es undefined porque se envio el parametro QSOGUID
     // si existe QSOGUID es porque es una publicacion
