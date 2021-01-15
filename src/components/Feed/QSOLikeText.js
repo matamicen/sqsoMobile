@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
+    paddingTop: 10,
     flexDirection: 'row',
     alignItems: 'center'
   },
