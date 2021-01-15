@@ -143,12 +143,12 @@ class FeedAudio extends React.PureComponent {
             <View style={styles.text}>
               <Text>
                 {this.props.media.description && (
-                  <Text>
+                  <Text style={{ fontSize: 17 }}>
                     {this.props.media.description}
                     {' - '}
                   </Text>
                 )}
-                <Text>
+                <Text style={{ fontSize: 17 }}>
                   {date.toLocaleDateString(I18n.locale, { month: 'short' })}{' '}
                   {date.getUTCHours() +
                     ':' +
@@ -156,7 +156,7 @@ class FeedAudio extends React.PureComponent {
                     date.getMinutes()}
                 </Text>
                 {this.props.media.views_counter > 0 && (
-                  <Text>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('qso.audioPlays', {
                       count: this.props.media.views_counter + 1
                     })}

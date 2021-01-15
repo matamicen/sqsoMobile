@@ -132,7 +132,7 @@ class FeedVideo extends React.PureComponent {
         {/* <source src={props.media.url} type="video/mp4" /> */}
         {/* </View> */}
         <View style={{ alignItems: 'center' }}>
-          <Text>{this.props.media.description}</Text>
+          <Text style={{ fontSize: 17 }}>{this.props.media.description}</Text>
         </View>
       </View>
     );
