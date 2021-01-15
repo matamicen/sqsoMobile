@@ -61,12 +61,14 @@ class FeedItemHeader extends React.PureComponent {
           <View>
             <TouchableOpacity
               // style={styles.button}
-              onPress={() =>
+              onPress={() => {
+                this.props.actions.clearQRA();
+                this.props.actions.doFetchQRA(this.props.qso.qra);
                 this.props.navigation.push('QRAProfile', {
                   qra: this.props.qso.qra,
                   screen: 'PROFILE'
-                })
-              }>
+                });
+              }}>
               <Avatar
                 size="medium"
                 rounded
@@ -88,12 +90,14 @@ class FeedItemHeader extends React.PureComponent {
           <View style={styles.actionHeader}>
             <TouchableOpacity
               // style={styles.button}
-              onPress={() =>
+              onPress={() => {
+                this.props.actions.clearQRA();
+                this.props.actions.doFetchQRA(this.props.qso.qra);
                 this.props.navigation.push('QRAProfile', {
                   qra: this.props.qso.qra,
                   screen: 'PROFILE'
-                })
-              }>
+                });
+              }}>
               <Text style={styles.actionHeaderText}>{this.props.qso.qra}</Text>
             </TouchableOpacity>
             <Text style={styles.actionHeaderText}>{text}</Text>
@@ -291,8 +295,3 @@ const mapDispatchToProps = (dispatch) => ({
 export default withNavigation(
   connect(mapStateToProps, mapDispatchToProps)(FeedItemHeader)
 );
-// export default withNavigation(
-//   connect(mapStateToProps, mapDispatchToProps, null, {
-//     pure: false
-//   })(FeedItemHeader)
-// );

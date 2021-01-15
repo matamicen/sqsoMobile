@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../../actions';
 import {
   FlatList,
   SafeAreaView,
@@ -29,12 +32,14 @@ const QRAProfileFollowing = ({ following, navigation }) => {
               }}>
               <TouchableOpacity
                 // style={styles.button}
-                onPress={() =>
+                onPress={() => {
+                  this.props.actions.clearQRA();
+                  this.props.actions.doFetchQRA(item.qra);
                   navigation.push('QRAProfile', {
                     qra: item.qra,
                     screen: 'PROFILE'
-                  })
-                }>
+                  });
+                }}>
                 <Avatar
                   size="medium"
                   rounded
@@ -73,4 +78,10 @@ const styles = StyleSheet.create({
     // marginTop: Constants.statusBarHeight
   }
 });
-export default withNavigation(QRAProfileFollowing);
+const mapStateToProps = (state, ownProps) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileFollowing)
+);

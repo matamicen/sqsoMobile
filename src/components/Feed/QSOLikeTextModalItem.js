@@ -62,6 +62,8 @@ class QSOLikeTextModalItem extends React.PureComponent {
         <View style={styles.avatarView}>
           <TouchableOpacity
             onPress={() => {
+              this.props.actions.clearQRA();
+              this.props.actions.doFetchQRA(l.qra);
               this.props.navigation.navigate('QRAProfile', {
                 qra: l.qra,
                 screen: 'PROFILE'
@@ -84,6 +86,8 @@ class QSOLikeTextModalItem extends React.PureComponent {
         <View style={styles.name}>
           <TouchableOpacity
             onPress={() => {
+              this.props.actions.clearQRA();
+              this.props.actions.doFetchQRA(l.qra);
               this.props.navigation.navigate('QRAProfile', {
                 qra: l.qra,
                 screen: 'PROFILE'

@@ -16,6 +16,8 @@ import {
   manage_notifications,
   doRequestQSO,
   setPressHome,
+  doFetchQRA,
+  clearQRA,
   setWebView,
   set_notification_read
 } from '../../actions';
@@ -95,6 +97,8 @@ class NotifItem extends React.PureComponent {
       // });
 
       if (profile.has(activity_type)) {
+        this.props.clearQRA();
+        this.props.doFetchQRA(QRA);
         this.props.navigation.push('QRAProfile', {
           qra: QRA,
           screen: 'PROFILE'
@@ -834,6 +838,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   set_notification_read,
   doRequestQSO,
+  clearQRA,
+  doFetchQRA,
   manage_notifications,
   setWebView,
   setPressHome

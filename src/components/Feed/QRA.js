@@ -12,12 +12,14 @@ class QRA extends React.PureComponent {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
+            this.props.actions.clearQRA();
+            this.props.actions.doFetchQRA(this.props.qra, this.props.token);
             this.props.navigation.push('QRAProfile', {
               qra: this.props.qra,
               screen: 'PROFILE'
-            })
-          }>
+            });
+          }}>
           <View style={styles.center}>
             <Avatar
               size="medium"
@@ -60,8 +62,3 @@ const mapDispatchToProps = (dispatch) => ({
 export default withNavigation(
   connect(mapStateToProps, mapDispatchToProps)(QRA)
 );
-// export default withNavigation(
-//   connect(mapStateToProps, mapDispatchToProps, null, {
-//     pure: false
-//   })(QRA)
-// );
