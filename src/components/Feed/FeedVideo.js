@@ -72,6 +72,7 @@ class FeedVideo extends React.PureComponent {
               onPause={() => this.props.actions.doPauseVideo(this.props.idqsos)}
               navigator={this.props.navigator}
               resizeMode="cover"
+              disableFullscreen
               playInBackground={false}
               playWhenInactive={false}
               posterResizeMode="cover"
