@@ -25,7 +25,7 @@ export const FeedImage = (props) => {
       return (
         <View
           style={{
-            height: itemHeight,
+            // height: itemHeight,
             flex: 1,
             flexDirection: 'column',
             alignItems: 'center',
