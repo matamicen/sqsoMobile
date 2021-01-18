@@ -67,6 +67,7 @@ class NotifItem extends React.PureComponent {
   ) => {
     if (await hasAPIConnection()) {
       var profile = new Set([1, 50, 51, 108]); // 108 es porque viene de Push Foreground
+      var marketing = new Set([70,110]); // 70, o 110 es porque viene de Push Foreground
       var post = new Set([
         10,
         60,
@@ -105,6 +106,14 @@ class NotifItem extends React.PureComponent {
         this.props.navigation.navigate('QSODetail', {
           QSO_GUID: QSO_GUID
         });
+      }
+      else if (marketing.has(activity_type)) {
+        console.log('marketing URLnotif:'+urlnotif)
+        this.props.doRequestQSO();
+        if (urlnotif!=='')
+            this.props.navigation.navigate('QSODetail', {
+              QSO_GUID: urlnotif
+            });
       }
     } else this.setState({ nointernet: true });
   };
