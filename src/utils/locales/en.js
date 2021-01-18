@@ -140,6 +140,7 @@ export default {
   QsoScrAreYouSureEndThisPost: 'End this Post',
   QsoScrCantPublish: 'We could not publish your post. Please try again.',
   ShareShare: 'Share',
+  Refreshing: 'Refreshing',
   ShareMessage: 'Please check out this activity',
   ShareTitle: 'Awesome Contents',
   QsoQrasPleaseAdd: 'Please Add a Callsign',

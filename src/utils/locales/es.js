@@ -144,6 +144,7 @@ export default {
   QsoScrCantPublish:
     'No hemos podido publicar su publicación. Por favor intente nuevamente.',
   ShareShare: 'Compartir',
+  Refreshing: 'Refrescando',
   ShareMessage: 'Mirá esta actividad',
   ShareTitle: 'Increible Contenido',
   QsoQrasPleaseAdd: 'Por favor agregue SD (Señal Distintiva)',
