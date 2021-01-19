@@ -6,6 +6,8 @@ import {
   Platform,
   Text,
   View,
+  Alert,
+  BackHandler,
   ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -14,6 +16,8 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import ShareMenu from 'react-native-share-menu';
 import NewsFeed from './NewsFeedContainer';
+import Toast from 'react-native-root-toast';
+import { Auth } from "aws-amplify";
 
 class Home extends React.PureComponent {
   static navigationOptions = {
@@ -44,6 +48,11 @@ class Home extends React.PureComponent {
       );
     }
   };
+
+  
+  constructor(props) {
+    super(props);
+    this.backHandler = null;
   state = {
     adActive: true,
     active: true,
@@ -52,6 +61,7 @@ class Home extends React.PureComponent {
     error: null
     // videoAlreadyDisplayed: false
   };
+}
   componentDidMount() {
     this.props.navigation.setParams({
       tabBarOnPress: () => {
@@ -66,6 +76,7 @@ class Home extends React.PureComponent {
           // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
           // this.time = 50;
           // await this.props.setWebView(this.props.webviewsession, home);
+          this.toast(I18n.t('Refreshing'), 2500);
           this.props.actions.doFetchPublicFeed(this.props.currentQRA);
 
           //   this.props.setPressHome(0);
@@ -110,10 +121,16 @@ class Home extends React.PureComponent {
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.backAction
+    );
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
+    if (this.backHandler) this.backHandler.remove();
+
   }
 
   tapOnTabNavigator = async () => {
@@ -126,6 +143,7 @@ class Home extends React.PureComponent {
       // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
       // this.time = 50;
       // await this.props.setWebView(this.props.webviewsession, home);
+      this.toast(I18n.t('Refreshing'), 2500);
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
 
       //   this.props.setPressHome(0);
@@ -134,6 +152,11 @@ class Home extends React.PureComponent {
 
   _handleAppStateChange = async (nextAppState) => {
     if (nextAppState === 'active') {
+
+       // refresco el feed
+       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+
+       
       ShareMenu.getSharedText((text) => {
         console.log('el text del share 05:' + JSON.stringify(text));
 
@@ -159,7 +182,18 @@ class Home extends React.PureComponent {
         }
       });
 
+
       this.props.actions.apiCheckVersion();
+
+       // actualizo token porque se pudo haber vencido mientras la APP estuvo mucho tiempo en BackGround
+        var session = await Auth.currentSession();
+        console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
+        this.props.actions.setToken(session.idToken.jwtToken);
+       // si viene de background debe traer las ultimas actualizaciones de notificaciones 
+       // puede venir de background porque el usuario volvio manualmente o porque apreto un PUSH
+        this.props.actions.get_notifications(session.idToken.jwtToken);
+        // refresco el feed
+        this.props.actions.doFetchPublicFeed(this.props.currentQRA);
     }
   };
 
@@ -167,6 +201,54 @@ class Home extends React.PureComponent {
     if (props.qsos.length > 0) return { active: false, qsos: props.qsos };
     else if (props.qsos.length === 0) return { active: true };
   }
+
+  backAction = () => {
+    // I18n.t("BACKBUTTONANDROID")
+    // I18n.t("BACKBUTTONANDROIDCANCEL") BACKBUTTONANDROIDEXIT
+
+    Alert.alert(I18n.t('BACKBUTTONANDROIDTITLE'), I18n.t('BACKBUTTONANDROID'), [
+      {
+        text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+        onPress: () => null,
+        style: I18n.t('BACKBUTTONANDROIDCANCEL')
+      },
+      {
+        text: I18n.t('BACKBUTTONANDROIDEXIT'),
+        onPress: () => BackHandler.exitApp()
+      }
+    ]);
+    return true;
+  };
+
+  toast = async (message, timer) => {
+    // Add a Toast on screen.
+    let toast = Toast.show(message, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.CENTER,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      onShow: () => {
+        // calls on toast\`s appear animation start
+      },
+      onShown: () => {
+        // calls on toast\`s appear animation end.
+      },
+      onHide: () => {
+        // calls on toast\`s hide animation start.
+      },
+      onHidden: () => {
+        // calls on toast\`s hide animation end.
+      }
+    });
+  
+    // Toast.hide(toast);
+    // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+    setTimeout(function () {
+      Toast.hide(toast);
+    }, timer);
+  };
   // componentDidUpdate(prevProps, prevState) {
   //   if (this.props.qsos.length > 0)
   //     this.setState({ qsos: this.props.qsos, active: false });

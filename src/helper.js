@@ -1236,8 +1236,7 @@ export const armoPushNotifyLocalNotif = (
   //  console.log('es undefined')
 
   //  console.log('despues del crash ')
-  console.log(locArgs);
-  if (locArgs !== undefined) {
+  if (locArgs !== undefined && title_loc_key !== 'PUSH_MARKETING_TITLE') {
     // si no es undefined porque se envio el parametro QSOGUID
     // si existe QSOGUID es porque es una publicacion
     activityType = 109; // le pongo  activity Type 109 que sea publicacion asi va al QsoDetail en el click de la notificacion
