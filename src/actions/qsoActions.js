@@ -3848,7 +3848,7 @@ export const doReceiveFollowers = (following) => {
     following: following
   };
 };
-export const doQsoMediaPlay = (idMedia, token, idqso) => {
+export const doQsoMediaPlay = (idMedia, idqso) => {
   // if (process.env.REACT_APP_STAGE === 'production')
   //   window.gtag('event', 'qsoMediaPlay_WEBPRD', {
   //     event_category: 'QSO',
@@ -3923,7 +3923,7 @@ export const doRepost = (idqso, token, qso) => {
           Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
-      
+
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
@@ -3959,7 +3959,7 @@ export const doRepost = (idqso, token, qso) => {
       }
     }
   };
-}
+};
 
 export function doLikeQSO(
   idqso,
