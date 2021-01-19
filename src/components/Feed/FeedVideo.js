@@ -50,7 +50,7 @@ class FeedVideo extends React.PureComponent {
           {
             justifyContent: 'center',
             alignSelf: 'center',
-            height: videoHeight,
+            // height: videoHeight,
             width
           }
         }>
@@ -58,6 +58,7 @@ class FeedVideo extends React.PureComponent {
         {this.state.showVideo && (
           <View
             style={{
+              flex: 1,
               justifyContent: 'center',
               alignSelf: 'center'
             }}>
@@ -72,6 +73,7 @@ class FeedVideo extends React.PureComponent {
               onPause={() => this.props.actions.doPauseVideo(this.props.idqsos)}
               navigator={this.props.navigator}
               resizeMode="cover"
+              disableFullscreen
               playInBackground={false}
               playWhenInactive={false}
               posterResizeMode="cover"
@@ -130,8 +132,8 @@ class FeedVideo extends React.PureComponent {
         )}
         {/* <source src={props.media.url} type="video/mp4" /> */}
         {/* </View> */}
-        <View style={{ alignItems: 'center' }}>
-          <Text>{this.props.media.description}</Text>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={{ fontSize: 17 }}>{this.props.media.description}</Text>
         </View>
       </View>
     );

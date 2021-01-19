@@ -25,7 +25,7 @@ export const FeedImage = (props) => {
       return (
         <View
           style={{
-            height: itemHeight,
+            // height: itemHeight,
             flex: 1,
             flexDirection: 'column',
             alignItems: 'center',
@@ -62,7 +62,7 @@ export const FeedImage = (props) => {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-            <Text>{item.description}</Text>
+            <Text style={{ fontSize: 17 }}>{item.description}</Text>
           </View>
         </View>
         // </View>

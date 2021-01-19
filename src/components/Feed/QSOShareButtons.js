@@ -7,7 +7,7 @@ class QSOShareButtons extends React.PureComponent {
   share = () => {
     // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
     // const url = 'http://superqso-dev.us-east-1.elasticbeanstalk.com/qso/'+this.props.sharerluid;
-    const url = global_config.urlWeb + 'qso/' + this.props.idqso;
+    const url = global_config.urlWeb + '/qso/' + this.props.idqso;
     const title = this.props.title;
     const message = I18n.t('ShareMessage');
     const options = {

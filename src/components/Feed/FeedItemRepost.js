@@ -69,7 +69,11 @@ class FeedItemRepost extends React.PureComponent {
           idqsos={this.props.qso.idqsos}
         />
         <Card>
-          <FeedItemHeader feedType="REPOST" idqsos={this.props.qso.idqsos} />
+          <FeedItemHeader
+            feedType={this.props.feedType}
+            original={true}
+            idqsos={this.props.qso.idqsos}
+          />
           <QRAs
             feedType={this.props.feedType}
             avatarpic={this.props.qso.avatarpic}

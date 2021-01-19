@@ -112,7 +112,16 @@ const FeedHeaderSearch = (props) => {
                   this.textInput.clear();
                 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Avatar round source={{ uri: item.avatarpic }} />
+                  <Avatar
+                    round
+                    source={
+                      item.avatarpic
+                        ? {
+                            uri: item.avatarpic
+                          }
+                        : require('../../images/emptyprofile.png')
+                    }
+                  />
                   <Text style={styles.itemText}>{item.name}</Text>
                 </View>
               </TouchableOpacity>

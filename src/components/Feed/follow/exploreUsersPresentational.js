@@ -4,12 +4,14 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  StyleSheet,
-  ActivityIndicator
+  StyleSheet
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
 import { withNavigation } from 'react-navigation';
-import { Image, Button, Avatar, Card, Icon } from 'react-native-elements';
+import { Button, Avatar, Card, Icon } from 'react-native-elements';
 
 const ExploreUsers = ({
   active,
@@ -19,7 +21,8 @@ const ExploreUsers = ({
   following,
   doFollow,
   currentQRA,
-  navigation
+  navigation,
+  actions
 }) => {
   return (
     <View style={{ flex: 1 }}>
@@ -61,12 +64,14 @@ const ExploreUsers = ({
                       <View style={styles.header}>
                         <View style={styles.avatar}>
                           <TouchableOpacity
-                            onPress={() =>
+                            onPress={() => {
+                              actions.clearQRA();
+                              actions.doFetchQRA(qra.qra);
                               navigation.push('QRAProfile', {
                                 qra: qra.qra,
                                 screen: 'PROFILE'
-                              })
-                            }>
+                              });
+                            }}>
                             <Avatar
                               size="medium"
                               rounded
@@ -82,12 +87,14 @@ const ExploreUsers = ({
                         </View>
                         <View style={styles.name}>
                           <TouchableOpacity
-                            onPress={() =>
+                            onPress={() => {
+                              this.props.actions.clearQRA();
+                              this.props.actions.doFetchQRA(qra.qra);
                               navigation.push('QRAProfile', {
                                 qra: qra.qra,
                                 screen: 'PROFILE'
-                              })
-                            }>
+                              });
+                            }}>
                             <Text numberOfLines={1} style={{ fontSize: 16 }}>
                               {qra.qra}
                             </Text>
@@ -218,5 +225,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start'
   }
 });
-
-export default withNavigation(ExploreUsers);
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(Actions, dispatch)
+});
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(ExploreUsers)
+);

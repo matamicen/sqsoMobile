@@ -61,12 +61,14 @@ class FeedItemHeader extends React.PureComponent {
           <View>
             <TouchableOpacity
               // style={styles.button}
-              onPress={() =>
+              onPress={() => {
+                this.props.actions.clearQRA();
+                this.props.actions.doFetchQRA(this.props.qso.qra);
                 this.props.navigation.push('QRAProfile', {
                   qra: this.props.qso.qra,
                   screen: 'PROFILE'
-                })
-              }>
+                });
+              }}>
               <Avatar
                 size="medium"
                 rounded
@@ -88,12 +90,14 @@ class FeedItemHeader extends React.PureComponent {
           <View style={styles.actionHeader}>
             <TouchableOpacity
               // style={styles.button}
-              onPress={() =>
+              onPress={() => {
+                this.props.actions.clearQRA();
+                this.props.actions.doFetchQRA(this.props.qso.qra);
                 this.props.navigation.push('QRAProfile', {
                   qra: this.props.qso.qra,
                   screen: 'PROFILE'
-                })
-              }>
+                });
+              }}>
               <Text style={styles.actionHeaderText}>{this.props.qso.qra}</Text>
             </TouchableOpacity>
             <Text style={styles.actionHeaderText}>{text}</Text>
@@ -265,17 +269,21 @@ const styles = StyleSheet.create({
 });
 
 const selectorFeedType = (state, ownProps) => {
-  if (ownProps.feedType === 'MAIN')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'PROFILE')
-    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'FIELDDAYS')
-    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
-  else if (ownProps.feedType === 'REPOST')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
+  let qso = null;
+  if (ownProps.feedType === 'MAIN' && !ownProps.original)
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'MAIN' && ownProps.original)
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
       .original[0];
-  else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
-  else return null;
+  else if (ownProps.feedType === 'PROFILE')
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'FIELDDAYS')
+    qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'DETAIL' && !ownProps.original)
+    qso = state.sqso.feed.qso;
+  else if (ownProps.feedType === 'DETAIL' && ownProps.original)
+    qso = state.sqso.feed.qso.original[0];
+  return qso;
 };
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
@@ -287,8 +295,3 @@ const mapDispatchToProps = (dispatch) => ({
 export default withNavigation(
   connect(mapStateToProps, mapDispatchToProps)(FeedItemHeader)
 );
-// export default withNavigation(
-//   connect(mapStateToProps, mapDispatchToProps, null, {
-//     pure: false
-//   })(FeedItemHeader)
-// );

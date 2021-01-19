@@ -1,10 +1,7 @@
-import analytics from '@react-native-firebase/analytics';
-import crashlytics from '@react-native-firebase/crashlytics';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Image,
-  Linking,
   Modal,
   StyleSheet,
   Text,
@@ -12,8 +9,14 @@ import {
   View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { followAdd, setWebView, unfollow } from '../../actions';
-import global_config from '../../global_config.json';
+import {
+  followAdd,
+  setWebView,
+  unfollow,
+  doFetchQRA,
+  clearQRA
+} from '../../actions';
+
 import { getDate, getFollowStatus, hasAPIConnection } from '../../helper';
 import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
@@ -107,15 +110,16 @@ class Qra extends React.PureComponent {
   qraProfile = async (qra) => {
     // este se usa con el feed nativo
     if (await hasAPIConnection()) {
-
       setTimeout(() => {
         // this.props.navigation.navigate('Home', {
         //   // url: urlnotif
         // });
+        this.props.clearQRA();
+        this.props.doFetchQRA(this.props.qra);
         this.props.navigation.push('QRAProfile', {
           qra: this.props.qra,
           screen: 'PROFILE'
-        })
+        });
       }, 100);
       this.closeModaldeleteqra();
     } else this.setState({ nointernet: true });
@@ -177,7 +181,6 @@ class Qra extends React.PureComponent {
             onPress={() =>
               this.onPressItem(this.props.imageurl, this.props.qra)
             }>
-        
             <Image
               style={styles.faceImageStyle}
               resizeMethod="resize"
@@ -229,8 +232,7 @@ class Qra extends React.PureComponent {
                   {this.props.imageurl !== null ? (
                     <TouchableOpacity
                       style={{}}
-                      onPress={() => this.qraProfile(this.props.qra) }>
-                        
+                      onPress={() => this.qraProfile(this.props.qra)}>
                       <Image
                         style={styles.faceImageStyle}
                         resizeMethod="resize"
@@ -374,8 +376,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  // QsoQraDelete,
-  // deleteQsoQra,
+  doFetchQRA,
+  clearQRA,
   followAdd,
   unfollow,
   setWebView

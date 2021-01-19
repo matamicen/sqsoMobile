@@ -27,6 +27,8 @@ class Comment extends React.PureComponent {
             key: i,
             onPress: () => {
               this.props.closeModal();
+              this.props.actions.clearQRA();
+              this.props.actions.doFetchQRA(word.substring(1));
               this.props.navigation.navigate('QRAProfile', {
                 screen: 'PROFILE',
                 qra: word.substring(1)
@@ -102,6 +104,8 @@ class QSOCommentItem extends React.PureComponent {
           <View style={styles.avatar}>
             <TouchableOpacity
               onPress={() => {
+                this.props.actions.clearQRA();
+                this.props.actions.doFetchQRA(this.props.comment.qra);
                 this.props.closeModal();
                 this.props.navigation.navigate('QRAProfile', {
                   qra: this.props.comment.qra,
@@ -127,6 +131,11 @@ class QSOCommentItem extends React.PureComponent {
               <TouchableOpacity
                 onPress={() => {
                   this.props.closeModal();
+                  this.props.actions.clearQRA();
+                  this.props.actions.doFetchQRA(
+                    this.props.comment.qra,
+                    this.props.token
+                  );
                   this.props.navigation.navigate('QRAProfile', {
                     qra: this.props.comment.qra,
                     screen: 'PROFILE'
@@ -146,7 +155,6 @@ class QSOCommentItem extends React.PureComponent {
 
           {!this.followed && this.props.comment.qra !== this.props.currentQRA && (
             <View style={styles.follow}>
-              {/* {' '} */}
               <Button
                 raised
                 buttonStyle={{ width: 80 }}
@@ -160,7 +168,6 @@ class QSOCommentItem extends React.PureComponent {
                     : I18n.t('qra.follow')
                 }
               />
-              {/* {' '} */}
             </View>
           )}
 
