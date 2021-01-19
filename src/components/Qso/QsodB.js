@@ -10,7 +10,7 @@ import {Picker} from '@react-native-community/picker';
 
 
 
-class QsodB extends Component {
+class QsodB extends React.PureComponent {
 
     constructor(props) {
         super(props);

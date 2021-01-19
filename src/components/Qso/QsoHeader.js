@@ -10,13 +10,21 @@ import QsoBand from './QsoBand';
 import QsoMode from './QsoMode';
 import QsoRst from './QsoRst';
 import QsodB from './QsodB';
+import QsoDate from './QsoDate';
+import QsoDateBegin from './QsoDateBegin';
+import QsoUtcBegin from './QsoUtcBegin';
+import QsoDateEnd from './QsoDateEnd';
+import QsoUtcEnd from './QsoUtcEnd';
+import QsoUtc from './QsoUtc';
 import QsoEnterQra from './QsoEnterQra';
 import AddCallSigns from './AddCallSigns';
 import I18n from '../../utils/i18n';
 import HelpPublish from './HelpPublish';
 
 
-class QsoHeader extends Component {
+
+
+class QsoHeader extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -79,7 +87,7 @@ class QsoHeader extends Component {
               
         return(  <View style={styles.content} >
                
-           <View style={{flex:0.6}}>
+           <View style={{flex:0.48}}>
                <View style={{flexDirection: 'row', flex:1}}>
                   {/* <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile_avatar.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
                   {/* { this.props.sqsonewqsoactive && */}
@@ -101,10 +109,12 @@ class QsoHeader extends Component {
                    </View>
  
               </View> 
+        
             </View>
               {/* flex: 1 */}
-         <View style={{flex:0.31}}>
-             <View style={{flexDirection: 'row', marginTop: 6, flex:1 }}>
+         <View style={{flex:0.43}}>
+           {this.props.qsotype!=='FLDDAY' ?
+             <View style={{flexDirection: 'row', marginTop: 0, flex:0.5 }}>
                     <View style={{flex: Platform.OS==='ios' ? 0.310 : 0.310,  alignItems: 'center'}}>
                  
               {/* { this.props.sqsonewqsoactive ? */}
@@ -127,6 +137,7 @@ class QsoHeader extends Component {
                  
                     </View>
                    
+         
                     <View style={{flex: Platform.OS==='ios' ? 0.220 : 0.222 , alignItems: 'center'  }}>  
                     { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' ?  
                         <QsoBand />  : null }
@@ -144,8 +155,44 @@ class QsoHeader extends Component {
                         
                         : null }
                     </View>  
+        
 
                </View> 
+               :
+                
+                 <View style={{flexDirection: 'row', marginTop: 0, flex:0.5 }}>
+                    <View style={{flex: Platform.OS==='ios' ? 0.63 : 0.63 , alignItems: 'center'  }}>  
+                       <QsoDateBegin /> 
+                    </View>
+                    <View style={{flex: Platform.OS==='ios' ? 0.37 : 0.37, alignItems: 'center'}}>
+                       <QsoUtcBegin />
+                     </View> 
+                     </View>
+                
+                }
+               
+               {/* QSODate y QsoUTC */}
+               <View style={{flexDirection: 'row', marginTop: 6, flex:0.5 }}>
+               <View style={{flex: Platform.OS==='ios' ? 0.63 : 0.63 , alignItems: 'center'  }}>  
+                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' &&  
+                        <QsoDate />   }
+                   { this.props.sqsonewqsoactive && this.props.qsotype==='FLDDAY' && 
+                        <QsoDateEnd />  }       
+                         </View>
+                  
+                    <View style={{flex: Platform.OS==='ios' ? 0.37 : 0.37, alignItems: 'center'}}>
+                    { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' && this.props.qsotype!=='QAP' && this.props.qsotype!=='FLDDAY' &&    
+                        <QsoUtc />   }
+                     { this.props.sqsonewqsoactive && this.props.qsotype==='FLDDAY' && 
+                        <QsoUtcEnd />  } 
+                    </View>  
+ 
+
+               </View>
+
+
+
+
              </View>  
               {/* color: '#000080' */}
 

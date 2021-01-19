@@ -23,7 +23,7 @@ import I18n from '../../utils/i18n';
 Auth.configure(awsconfig);
 
 
-class ForgotPassword extends Component {
+class ForgotPassword extends React.PureComponent {
 //   static navigationOptions = {
 //       tabBarLabel: 'Profile'
 

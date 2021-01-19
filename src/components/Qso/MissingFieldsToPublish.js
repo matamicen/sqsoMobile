@@ -7,7 +7,7 @@ import I18n from '../../utils/i18n';
 
 // Auth.configure(awsconfig);
 
-class MissingFieldsToPublish extends Component {
+class MissingFieldsToPublish extends React.PureComponent {
 
     constructor(props) {
         super(props);

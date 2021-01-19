@@ -12,7 +12,7 @@ import I18n from '../../utils/i18n';
 
 Auth.configure(awsconfig);
 
-class StartNewPost extends Component {
+class StartNewPost extends React.PureComponent {
 
     constructor(props) {
         super(props);

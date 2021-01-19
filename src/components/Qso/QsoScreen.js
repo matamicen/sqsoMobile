@@ -51,7 +51,8 @@ import {
   uploadMediaToS3,
   welcomeUserFirstTime,
   confirmReceiptiOS, confirmReceiptAndroid, sendActualMedia, setProfileModalStat, setConfirmProfilePhotoModal, openModalConfirmPhoto, setPressHome,
-  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish} from "../../actions";
+  postQsoEdit, postQsoQras, setWebView, setJustPublished, actindicatorPostQsoNewFalse, qsoPublish, updateCommentInMemory, uploadVideoToS3, setVideoUploadProgress,
+  setExternalShreUrl, apiCheckVersion, setQsoUtc, doFetchPublicFeed} from "../../actions";
 import QsoHeader from "./QsoHeader";
 import MediaFiles from "./MediaFiles";
 import RecordAudio2 from "./RecordAudio2";
@@ -60,6 +61,10 @@ import ShareQso from "./ShareQso";
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
+// import ImagePicker2 from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker'
+import Upload from 'react-native-background-upload';
+import ShareMenu from 'react-native-share-menu';
 
 import Muestro from "./Muestro";
 import { NavigationActions, addNavigationHelpers } from "react-navigation";
@@ -68,9 +73,12 @@ import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
-  updateOnProgress, check_firstTime_OnProgress, apiVersionCheck, getDate, missingFieldsToPublish, todaMediaEnviadaAS3 } from "../../helper";
+  updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2 } from "../../helper";
 import VariosModales from "./VariosModales";
-import Permissions from "react-native-permissions";
+import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
+import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
+
 
 import awsconfig from "../../aws-exports";
 import { Auth } from "aws-amplify";
@@ -90,6 +98,9 @@ import Publicar from './Publicar';
 // import StartNewPost from './StartNewPost';
 import MissingFieldsToPublish from './MissingFieldsToPublish';
 import global_config from '../../global_config.json';
+// import { ProcessingManager } from 'react-native-video-processing';
+import RNFetchBlob from 'rn-fetch-blob';
+import ImageResizer from 'react-native-image-resizer';
 
 
 
@@ -105,7 +116,8 @@ import RNIap, {
 
 Auth.configure(awsconfig);
 
-class QsoScreen extends Component {
+
+class QsoScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     TextInput.defaultProps = { allowFontScaling: false };
@@ -126,6 +138,17 @@ class QsoScreen extends Component {
     this.auxMedia = [];
     this.missingMessage = '';
     this.intervalID = 0;
+    this.base64preview = '';
+    this.videoPathBeforeCompress = '';
+    this.dataHeader = {};
+    this.pressPublish = false;
+    this.pressVideo = false;
+    this.imagePreviewPath = '';
+    this.videoSize = 0;
+    this.file10_delete = {}
+    this.videoaux_delete = {}
+   
+
 
     
     this.state = {
@@ -159,11 +182,20 @@ class QsoScreen extends Component {
       deletePost: false,
       // startNewPost: false,
       missingFields: false,
+      videoCompression: 'null',
+      videoPercentage: 0,
+      videoCompressPercentage: 0,
+      videoFromShare: null,
+      readingVideo: false,
+      percentageCompressionInitialTime: '',
+      videoSizeBeforeCompress: 0,
+      externalShareurl: false
   
 
      
     };
   }
+
 
   
 
@@ -211,13 +243,16 @@ class QsoScreen extends Component {
         props.sqsomodalconfirmphotoheight
     );
     // this.setState({
-
+       
+      
 
     return {
       photoConfirm: props.sqsomodalconfirmphoto,
       actindicatorpostQsoNew: props.sqsoactindicatorpostqsonew,
       heightPhotoConfirm: props.sqsomodalconfirmphotoheight,
-      pickerDisplayed: props.sqsomodalrecording
+      pickerDisplayed: props.sqsomodalrecording,
+      videoPercentage: props.videopercentage,
+      
     };
 
     return null;
@@ -228,6 +263,9 @@ class QsoScreen extends Component {
 
   async componentDidMount() {
     console.log("COMPONENT did mount QSO Screen!");
+
+    this.props.setPressHome(0);
+  
 
     // esto detecta cuando se apreta el TAB  de QSOSCREEN
     this.props.navigation.setParams({
@@ -335,6 +373,8 @@ class QsoScreen extends Component {
       , 1500);
 
   }
+
+  
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this._handleAppStateChange);
@@ -494,7 +534,45 @@ class QsoScreen extends Component {
     // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
     console.log("App State:" + nextAppState);
 
+    
+
     if (nextAppState === "active") {
+
+    
+
+      // La captura del Share paso al HOME del FEED por el Navigation LAZY 
+
+    //       ShareMenu.getSharedText((text) => {
+    //   console.log('el text del share 05:'+JSON.stringify(text) )
+      
+    //   // if (text!==null) {
+    //     if (text!==null && (typeof text !== 'undefined')) {
+       
+    //     console.log('el text del share hay data 05: '+ text)
+    //     auxshare1 = JSON.stringify(text);
+    //     auxshare2 = JSON.parse(auxshare1);
+    //     console.log('auxshare: ' + auxshare2.data)
+    //     AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
+    //     AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
+    //     this.props.setExternalShreUrl(true);
+     
+    //           this.props.newqsoactiveFalse();
+    //           this.props.resetQso();
+             
+
+    //          this.props.navigation.navigate("QsoScreen");
+       
+
+      
+    //   }else
+    //   {
+     
+    //   // this.props.setExternalShreUrl(false);
+    
+    //   }
+
+    // })
+  
       // si vino de background por haber mostrado la publicidad, vuelvo a resetear
       // el adShowed a false
       if (this.props.adshowed || this.props.iapshowed===1)
@@ -511,12 +589,13 @@ class QsoScreen extends Component {
         {
 
          // chequeo version minima de APP  
-            apiCall = await apiVersionCheck();
-            console.log('despues de apiVersionCheck: '+apiCall)
+            // apiCall = await apiVersionCheck();
+            this.props.apiCheckVersion();
+            // console.log('despues de apiVersionCheck: '+apiCall)
 
-            if (apiCall.stop)
-              // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
-              this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
+            // if (apiCall.stop)
+            //   // this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: apiCall.message})
+            //   this.setState({stopApp: true, appNeedUpgrade: true, upgradeText: I18n.t("STOPAPP_UPGRADE")}) 
            // fin chequeo de version minima de la APP
 
         var session = await Auth.currentSession();
@@ -587,7 +666,8 @@ class QsoScreen extends Component {
 
       
     }
-  
+
+      
     }
     // }
     // this.setState({appState: nextAppState});
@@ -607,22 +687,30 @@ class QsoScreen extends Component {
   };
 
   checkInternetOpenRecording = async () => {
+   if (addMediaCheck('image',this.props.mediafiles))
+    
     if (await hasAPIConnection()) {
       // analytics().logEvent("Recording", {"QSOTYPE": this.props.qsotype,
       //  "BAND": this.props.band, "MODE": this.props.mode, "RECTIME": "30"});
 
       // console.log("Recording analytics")
-      
-      Permissions.request("microphone").then(response => {
+      if (Platform.OS==='android')
+        REC_PERMISSION = PERMISSIONS.ANDROID.RECORD_AUDIO;
+      else
+        REC_PERMISSION = PERMISSIONS.IOS.MICROPHONE;
+      // Permissions.request("microphone").then(response => {
+        request(REC_PERMISSION).then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         console.log("Microphone Permiso: " + response);
-        if (response === "authorized") {
+        // if (response === "authorized") {
+          if (response === RESULTS.GRANTED){
          
           this.toggleRecModal();
         }
 
-        if (response === "denied" && Platform.OS !== "android") {
+        // if (response === "denied" && Platform.OS !== "android") {
+          if (response === RESULTS.DENIED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_2"),
             I18n.t("TO_AUTHORIZE_2_IOS"),
@@ -637,7 +725,8 @@ class QsoScreen extends Component {
           );
         }
 
-        if (response === "restricted" && Platform.OS === "android") {
+        // if (response === "restricted" && Platform.OS === "android") {
+          if (response === RESULTS.BLOCKED && Platform.OS === "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_2"),
             I18n.t("TO_AUTHORIZE_2_ANDROID"),
@@ -651,7 +740,8 @@ class QsoScreen extends Component {
           );
         }
 
-        if (response === "restricted" && Platform.OS !== "android") {
+        // if (response === "restricted" && Platform.OS !== "android") {
+       if (response === RESULTS.BLOCKED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("ACCESS_TO_MICROPHONE"),
             I18n.t("PARENTAL_CONTROLS"),
@@ -666,6 +756,11 @@ class QsoScreen extends Component {
         }
       });
     } else this.setState({ nointernet: true });
+    else
+    {
+    this.missingMessage =  I18n.t("QsoScrMixMedia");
+    this.setState({ missingFields: true})
+    }
   };
   toggleRecModal = async () => {
     // if (await hasAPIConnection())
@@ -744,6 +839,915 @@ class QsoScreen extends Component {
   tapOnTabNavigator = async () => {
     console.log('PRESS QSOSCREEN!');
     this.props.setPressHome(0);
+  }
+
+  analyzeVideoPath = async (incomingPath) => {
+
+    let pathoculto = false;
+    let auxuri = '';
+    let path = '';
+
+    this.setState({readingVideo: true})
+    console.log('IncomingPath')
+    console.log(incomingPath)
+    realUrl = await this.getVideoPath(incomingPath);
+   // console.log(realUrl.data.path)
+
+
+       await createSQSOfolder();
+
+
+       if (Platform.OS==='ios'){
+       path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
+      //  auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+          auxuri = incomingPath.replace("file:///", 'file://');
+       pathoculto = false;
+       }
+   else
+    
+       path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
+       
+   
+
+       // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+
+       //  console.log(' status: '+realUrl.status);
+
+// uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+// si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+// y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+// AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+// en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+if (Platform.OS==='android')
+if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+{
+console.log('path:')
+console.log(path)
+//  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+ if (result===0)
+ {    
+   
+   // auxurl = "file://"+ realUrl.data.path;
+   //   this.takeFramePreview(auxurl);
+
+     pathoculto = false;
+     console.log('path no oculto');
+  }
+ else
+ {
+
+   pathoculto = true;
+
+
+   console.log('path oculto');
+
+
+
+  }
+
+     });
+
+
+
+   }
+      else
+       pathoculto = true; 
+       // todo este IF es solo si es Anroid
+
+
+
+
+ if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+ { 
+   console.log('path oculto');
+
+
+    // auxuri = this.state.videoFromShare;
+    auxuri = incomingPath;
+
+  RNFetchBlob.fs.readFile(auxuri,'base64')
+  // files will an array contains filenames
+  .then((files) => {
+ 
+  console.log('finalizo lectura base64')
+ //  console.log(files);
+
+   this.saveVideoToDisk(files,'video/mp4');
+ 
+
+  })
+
+
+ }else
+ {
+   
+  
+  if (Platform.OS==='android'){
+
+   auxurl = "file://"+ realUrl.data.path;
+   this.takeFramePreview(auxurl);
+  }
+   else // ios
+   this.takeFramePreview(auxuri);
+
+
+ }
+
+
+
+
+
+
+  }
+
+  videoFromGallery = async (fromShare) => {
+
+if (this.pressVideo===false)
+{// evitar que presione mas una vez Video (porque dumpea)
+  this.pressVideo = true;
+
+
+  if(addMediaCheck('video',this.props.mediafiles))
+  {
+
+    if (await hasAPIConnection()) {
+
+      
+
+       
+      // envio a reducer que se fue a background por usar la GELRIA de FOTOS
+      // luego este dato lo uso para cuando venga de background no actualizar notificaciones, etc si
+      // se fue a background por la galeria y mejorar performance y llamados a APIs  
+  
+      //el picker manda dos veces a Background la APP, entonces necesito tener tres estados y no dos,
+      // 0: el picker no fue usado
+      // 1: el picker envio a background la primera vez
+      // 2: el picker envio a background la segunda vez
+      // Permissions.request('storage').then(res => {
+        // STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+        // request(STORAGE_PERMISSION).then(response => {
+        
+        //  console.log('paso permiso: '+JSON.stringify(response));
+   if (fromShare===false)       
+   {  
+      console.log('tomo video de galeria');
+      this.props.manageLocationPermissions("photofromgallery", 1);
+
+      let storagePermission = true;
+
+           if (Platform.OS==='android') // android debe preguntar permiso de storage por el Write del video al disco
+          {
+            
+                STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+                  response = await request(STORAGE_PERMISSION)
+                    //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+                  //entonces recupero el share del asyncstorage
+                
+                  if (response !== RESULTS.GRANTED)
+                      storagePermission = false;
+          
+          }
+   
+      if (storagePermission) 
+     {   
+
+
+      // ImagePicker.openPicker({
+     
+      //      mediaType: "video",
+      //    }).then(image => {
+      //      console.log(image);
+      //      console.log('nombre del archivo: '+image)
+      //      console.log(JSON.stringify(image));
+      //      res = JSON.stringify(image);
+      //      console.log(res);
+      //       this.pathglobal = res.path;
+      const options = {
+        title: 'Video Picker',
+        takePhotoButtonTitle: 'Take Video...',
+        mediaType: 'video',
+       
+        //  videoQuality: 'medium',
+      };
+      
+      
+       
+      // ImagePicker2.showImagePicker(options, response => {
+        // ImagePicker2.launchImageLibrary(options, response => {
+          launchImageLibrary(options, response => {
+        console.log('Response = ', response);
+  
+        if (response.didCancel) {
+          console.log('User cancelled video picker');
+          this.pressVideo = false;
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+          this.pressVideo = false;
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          //  this.takeFrame3(response)
+        
+       
+
+        // }
+
+          console.log('comprime Video22:');
+     
+     
+          // let bodyJson = JSON.parse(res);
+          // console.log('path del picker1')
+          //  console.log(bodyJson.path);
+          // console.log(this.pathglobal);
+     
+      // console.log('comprime ahora1')
+      // tiempo1 = Date.now();
+     //  ProcessingManager.compress(bodyJson.path, {width:360, height:640, bitrateMultiplier: 9,minimumBitrate: 300000}).then((data) => {
+       // ProcessingManager.compress(bodyJson.path, {bitrateMultiplier: 17,minimumBitrate: 300000}).then((data) => { para 1080 pero mas de 1 minuto en mi android se muere
+       
+
+     
+       this.pressVideo = false;
+       this.analyzeVideoPath(response.uri)
+      //  this.analyzeVideoPath(response.path) android ok
+
+
+
+       
+        // this.takeFramePreview(response.path);
+        // comienzo agregado
+
+             // open the reading video modal
+                      
+
+
+     
+     
+     // fin de agregado
+         
+          
+          }
+     
+        });
+
+      }
+      //    }).catch((err) => {
+      //      console.log("cropImage Error", err.message);
+      //      this.pressVideo = false;
+ 
+           
+      //      crashlytics().setUserId(this.props.qra);
+      //      crashlytics().log('error: ' + JSON.stringify(err)) ;
+      //      if(__DEV__)
+      //      crashlytics().recordError(new Error('openVideoGallery_DEV'));
+      //      else
+      //      crashlytics().recordError(new Error('openVideoGallery_PRD'));
+      //  });
+     
+    // });
+   }
+   else
+   {
+     // el video viene de share
+     this.pressVideo = false;
+     let pathoculto = false;
+     let auxuri = '';
+     let path = '';
+
+     console.log('antes de llamar a takeFrame: ' +this.state.videoFromShare);
+     let storagePermission = true;
+
+           if (Platform.OS==='android') // android debe preguntar permiso de storage por el Write del video al disco
+          {
+            
+                STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+                  response = await request(STORAGE_PERMISSION)
+                    //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+                  //entonces recupero el share del asyncstorage
+                
+                  if (response !== RESULTS.GRANTED)
+                      storagePermission = false;
+          
+          }
+   
+      if (storagePermission) 
+     {   
+
+      this.analyzeVideoPath(this.state.videoFromShare)
+
+  //            // open the reading video modal
+  //            this.setState({readingVideo: true})
+  //            console.log('this.state.videoFromShare')
+  //            console.log(this.state.videoFromShare)
+  //            realUrl = await this.getVideoPath(this.state.videoFromShare);
+  //           // console.log(realUrl.data.path)
+
+    
+  //               await createSQSOfolder();
+
+
+  //               if (Platform.OS==='ios'){
+  //               path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/checkpath.jpg';
+  //               auxuri = this.state.videoFromShare.replace("file:///", 'file://');
+  //               pathoculto = false;
+  //               }
+  //           else
+             
+  //               path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/checkpath.jpg';
+                
+            
+
+  //               // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
+     
+  //               //  console.log(' status: '+realUrl.status);
+       
+  //     // uso esta funcion para chequear si el path lo puede abrir FFmpeg tanto para FramPreview y es lo mimso para comprimir
+  //     // si lo puede abrir quiere no lo mando a leer el BASE64 porque tarda y ademas si el archivo es grande CRASHEA
+  //     // y como lo puedo abrir directamente lo extraigo el preview (no hace falta leerlo en memoria) y tambien se que lo va a poder comprimir
+  //     // AHORA si no lo puede abrir es porque el path esta oculot(generalmente es un SHARE de WSAPP o un archivo de galeria que se hizo Download de WSAPP)
+  //    // en este caso hay que leerlo BASE64 en memoria pero como son archivos de WSAPP no ocupan mas de 20mb y la lectura se banca bien
+  // if (Platform.OS==='android')
+  //   if (realUrl.status)// si bien encontro un path, hay que descartar que sea NO LEIBLE (caso cuando se baja media de WSAPP en la galeria)
+  //   {
+  //     console.log('path:')
+  //     console.log(path)
+  //   //  await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {
+  //     await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ realUrl.data.path +" -vframes 1 -q:v 4 "+path).then(result => {   
+  //   console.log(`FFmpeg take frame1 process exited with rc=${result}.`)
+  //         if (result===0)
+  //         {    
+            
+  //           // auxurl = "file://"+ realUrl.data.path;
+  //           //   this.takeFramePreview(auxurl);
+
+  //             pathoculto = false;
+  //             console.log('path no oculto');
+  //          }
+  //         else
+  //         {
+
+  //           pathoculto = true;
+
+
+  //           console.log('path oculto');
+         
+       
+
+  //          }
+
+  //             });
+    
+ 
+
+  //           }
+  //              else
+  //               pathoculto = true; 
+  //               // todo este IF es solo si es Anroid
+
+       
+
+
+  //         if (pathoculto) // unicamente android puede tener un path oculto o que no se pueda acceder(share de whatsapp o galeria de media bajada de whatsapp)
+  //         { 
+  //           console.log('path oculto');
+         
+      
+  //            auxuri = this.state.videoFromShare;
+       
+  //          RNFetchBlob.fs.readFile(auxuri,'base64')
+  //          // files will an array contains filenames
+  //          .then((files) => {
+          
+  //          console.log('finalizo lectura base64')
+  //         //  console.log(files);
+         
+  //           this.saveVideoToDisk(files,'video/mp4');
+          
+        
+  //          })
+
+
+  //         }else
+  //         {
+            
+           
+  //          if (Platform.OS==='android'){
+
+  //           auxurl = "file://"+ realUrl.data.path;
+  //           this.takeFramePreview(auxurl);
+  //          }
+  //           else // ios
+  //           this.takeFramePreview(auxuri);
+
+
+  //         }
+  
+
+          
+
+
+        } // storagePermission
+
+          
+        
+     
+   }
+
+
+
+
+   }
+        else {
+          this.setState({ nointernet: true });
+          this.pressVideo = false;
+        }
+    }else
+    { // no se puede mezcalr VIDEO con audio o fotos, el VIDEO va solo
+      this.missingMessage =  I18n.t("QsoScrMixMedia")
+      this.pressVideo = false;
+      this.setState({ missingFields: true})
+      
+    }
+
+  }
+
+  }
+
+  saveVideoToDisk = async (file64,mimeType) => {
+    console.log('savetodisk: '+ mimeType)
+
+    await createSQSOfolder();
+
+    
+    if (mimeType==='video/mp4')
+ { 
+  let path = '';
+  if (Platform.OS==='android')
+     path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/videoaux.mp4`;
+   else 
+     path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/videoaux.mp4`;
+  
+  const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
+    console.log(data, 'grabo video aux en disco');
+    this.takeFramePreview(path);
+  } 
+  if (mimeType==='image/jpg')
+  { 
+   
+
+    let path = '';
+    if (Platform.OS==='android')
+    path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+  new Date().getTime()+'.jpg';
+    // path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
+   else 
+     path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/'+ new Date().getTime()+'.jpg';
+  
+
+   const data =  await RNFetchBlob.fs.writeFile(path, file64, 'base64');
+     console.log(data, 'grabo imagen aux en disco');
+    //  this.takeFramePreview(path);
+    // if (Platform.OS==='ios')
+    //     auxpath = path.replace("file:///", 'file://');
+    //     else
+    //     auxpath = path;
+
+    this.send_image_info_to_muestro(path);
+   } 
+
+  }
+
+
+  takeFramePreview = async (videoPath) => {
+    let image = {
+      width: 0,
+      height: 0,
+      duration: 0,
+      size: 0
+    }
+
+    await createSQSOfolder();
+
+    let path = '';
+    // lo vuelvo a null por si sube un proximo video en otra publicacion
+           this.setState({videoFromGallery: null})
+            console.log ('desde takFramePreview')
+            console.log('desde share: '+ videoPath);
+            // console.log('width: '+image.width)
+           // obtengo 1 frame como foto del video
+
+           const maximumSize = { width: 100, height: 200 };
+           // const maximumSize = { width: 400, height: 200 };
+           fileaux =  this.props.qra + '_' + new Date().getTime()+'.mp4'; // le asigno un nombre univoco al video
+
+           if (Platform.OS==='ios')
+                    path = RNFetchBlob.fs.dirs.DocumentDir+'/sqso/'+ new Date().getTime()+'.jpg';
+                else
+                    path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
+                   
+           inicioCom = new Date();
+          //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
+           await RNFFmpeg.execute("-y -ss 00:00:01 -i "+ videoPath +" -vframes 1 -q:v 4 "+path).then(result => {
+             console.log(`FFmpeg take frame process exited with rc=${result}.`)
+              //  console.log(result)
+              finCom = new Date();
+              timepoCom = finCom-inicioCom;
+              console.log('tiempo de takeFrame: '+ timepoCom);
+
+
+                            RNFFprobe.getMediaInformation(videoPath).then(information => {
+                              if (information.getMediaProperties() !== undefined) {
+        
+                                  let streams = information.getStreams();
+                                // console.log(`size video a comprimir: ${information.getAllProperties().format.size}`);
+                                
+                                // console.log(`duration video a comprimir: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+                                // console.log(`Width video a comprimir: ${streams[0].getAllProperties().width}`);
+                                // console.log(`Height video a comprimir: ${streams[0].getAllProperties().height}`);
+
+                                // obtengo la duracion para luego sacar el progress verdadero de compresion y mostrar al usuario
+                                this.videoDurationSeconds = Math.floor(information.getAllProperties().format.duration/1);
+                                this.videoSize = information.getAllProperties().format.size;
+                              }
+                      
+                          });
+
+              }).catch(err=> {
+              
+              });
+
+
+           
+
+        
+              
+
+     
+              this.videoPathBeforeCompress = videoPath;
+
+            
+
+              inicioCom = new Date();
+        
+              
+              image.width = 352; //res2.size.width;
+              image.height =  640;//res2.size.height;
+              image.duration = 0; //res2.duration;
+              image.size = 0; // no trae el size esta api 
+     
+
+                try { 
+
+
+                  console.log('takePreview path: ' +path)
+                  this.imagePreviewPath = 'file:///'+path;
+                  // this.imagePreviewPath = this.compressImagePreview
+
+                  // close the reading video modal
+                  this.closeVariosModales();
+
+
+                } catch (error) {
+                  console.log(error.message);
+         
+                }
+
+         
+
+           
+
+         uri = '';
+          // uri = data;  TRIM
+          
+             //  fileName2 = uri.replace(/^.*[\\\/]/, '');
+             fileName2 = ''; 
+     
+          // envio base64preview y videoLocation para que que Muestro muestre imagen preview del video a enviar y la locacion real del video tomada por el picker
+              console.log('filename2 es: ' + fileName2 + ' this.imagePreviewPath: '+ this.imagePreviewPath);
+              envio = {name: fileName2, url: uri, type: 'video', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true, previewCompressed:this.imagePreviewPath, duration: image.duration  } 
+              
+              // console.log('phototype :'+this.props.phototype)
+              
+            //  vari2 = await 
+              // videocompress
+             vari2 = this.props.sendActualMedia(envio);
+              console.log("Fin de espera larga ANDROID")
+              // this.props.navigation.navigate("ProfileScreen");
+              // this.goBack();
+              
+              if ( Platform.OS === 'ios')
+              timer = 1000;
+                else timer = 500;
+          
+              // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+              // de sacar la foto de profile.
+             
+              this.props.setProfileModalStat('ambos',0);
+          
+              setTimeout(() => {
+                console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+                //  this.props.actindicatorImageDisabled();
+                  // this.props.openModalConfirmPhoto(320);
+                 
+                //  este metodo es para cuando es foto profile
+               
+                // videocompress
+                this.props.openModalConfirmPhoto(490);
+                 
+                 
+                
+              }, timer);
+          
+          
+                // ya tomo la foto del picker entonces el flag vuelve a 0.
+                // this.props.manageLocationPermissions("photofromgallery", 0);
+            
+              console.log('este debe aparecer primero');
+
+            // }
+            
+
+
+  }
+
+ getVideoPath = (uri) => {
+    return new Promise((resolve) => {
+      RNFetchBlob.fs.stat(uri)
+      .then((stats) => { 
+        resolve({
+          status: true,
+          data: stats
+        })
+      })
+      .catch((err) => {
+      resolve({
+        status: false
+      })
+    })
+  })
+  }
+
+
+  photoFromShare = async (shareExternalMedia) => {
+    console.log('getMediaInformation1 ');
+
+
+
+    let storagePermission = true;
+
+    if (Platform.OS==='android') // android debe preguntar permiso de storage por el Write del video al disco
+   {
+     
+         STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+           response = await request(STORAGE_PERMISSION)
+             //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+           //entonces recupero el share del asyncstorage
+         
+           if (response !== RESULTS.GRANTED)
+               storagePermission = false;
+   
+   }
+
+if (storagePermission) 
+{   
+
+    if (Platform.OS==='ios')
+    auxpath = shareExternalMedia.replace("file:///", '/');
+    else
+    auxpath = shareExternalMedia;
+
+   
+    RNFetchBlob.fs.readFile(auxpath,'base64')
+    // files will an array contains filenames
+    .then((files) => {
+   
+    console.log('finalizo lectura base64')
+   //  console.log(files);
+  
+     this.saveVideoToDisk(files,'image/jpg');
+   
+ 
+    })
+
+  }
+  
+  }
+
+  photoFromShare_0 = async (shareExternalMedia) => {
+
+  let fileName2 = '';
+  let uri = '';
+
+    // if (Platform.OS==='android'){
+            
+    //   STORAGE_PERMISSION = PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE;
+
+    //     response = await request(STORAGE_PERMISSION)
+      
+    //     if (response === RESULTS.GRANTED){
+    //    // si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
+    //   // entonces recupero el share del asyncstorage
+    //     console.log('STORAGE_PERMISSION');
+
+
+        // open the reading video modal
+      // this.setState({readingVideo: true})
+
+      //   realUrl = await this.getVideoPath(shareExternalMedia);
+      //   if (!realUrl)
+      //   { console.log('real url: '+ JSON.stringify(realUrl))
+      //   console.log('real url2: '+ realUrl.data.path)
+
+      //   uri = 'file://'+realUrl.data.path;
+
+      //  fileName2 = realUrl.data.filename;
+   
+      //   // this.takeFramePreview(realUrl.data.path);
+      // }else
+      // {
+
+        console.log('getMediaInformation1 ');
+
+
+        //  realUrl = await this.getVideoPath(shareExternalMedia);
+        //  console.log('path imagen: '+realUrl);
+        //  console.log(realUrl);
+
+        RNFetchBlob.fs.readFile(shareExternalMedia,'base64')
+        // files will an array contains filenames
+        .then((files) => {
+       
+        console.log('finalizo lectura base64')
+       //  console.log(files);
+      
+         this.saveVideoToDisk(files,'image/jpg');
+       
+     
+        })
+
+        // RNFFprobe.getMediaInformation(shareExternalMedia).then(information => {
+          // RNFFprobe.getMediaInformation(shareExternalMedia).then(information => {
+          // if (information.getMediaProperties() !== undefined) {
+       
+           
+
+          //     let streams = information.getStreams();
+          //   console.log(`size papa1: ${information.getAllProperties().format.size}`);
+          //   console.log(`duration papa1: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+          //   console.log(`Width papa1: ${streams[0].getAllProperties().width}`);
+          //   console.log(`Height papa1: ${streams[0].getAllProperties().height}`);
+
+
+          // }});
+
+      // el URI del External Share de una imagen viene en formato CONTENT:// pero el ImagePicker lo puede leer y no tarda en leerlo porque es una imagen, y de paso me formatea la imagen,
+      // la logica dentro del ImagePicker Corpper es la misma que cuando se toma una foto de la galeria photoFromGallery
+        console.log('path oculto');
+    
+           ImagePicker.openCropper({
+          //   ImagePicker.openCamera({
+          //  ImagePicker.openPicker({
+              path: shareExternalMedia,
+              //  width: (Platform.OS==='ios') ? 7100 : 1200,
+              //  height: (Platform.OS==='ios') ? 10500 : 1200,
+              // compressImageMaxWidth: true
+              // avoidEmptySpaceAroundImage: false
+
+           }).then(image => {
+             console.log(image);
+             console.log('nombre del archivo: '+image)
+             console.log(JSON.stringify(image));
+       
+             // image/jpeg video/mp4
+             if (image.mime !== 'video/mp4') 
+           {
+      
+             uri = image.path;
+       
+           fileName2 = uri.replace(/^.*[\\\/]/, '');
+           
+       
+           console.log('filename2 es: ' + fileName2);
+           envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true } 
+           
+           // console.log('phototype :'+this.props.phototype)
+           
+         //  vari2 = await 
+         vari2 = this.props.sendActualMedia(envio);
+           console.log("Fin de espera larga ANDROID")
+           // this.props.navigation.navigate("ProfileScreen");
+           // this.goBack();
+           
+           if ( Platform.OS === 'ios')
+           timer = 1000;
+             else timer = 500;
+       
+           // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+           // de sacar la foto de profile.
+          
+           this.props.setProfileModalStat('ambos',0);
+       
+           setTimeout(() => {
+             console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+             //  this.props.actindicatorImageDisabled();
+               // this.props.openModalConfirmPhoto(320);
+              
+             //  este metodo es para cuando es foto profile
+               // this.props.setConfirmProfilePhotoModal(true);
+               this.props.openModalConfirmPhoto(490);
+              
+              
+             
+           }, timer);
+       
+       
+             // ya tomo la foto del picker entonces el flag vuelve a 0.
+             // this.props.manageLocationPermissions("photofromgallery", 0);
+         
+           console.log('este debe aparecer primero');
+          
+         }
+         else{
+           console.log('Por ahora videos no se puede');
+           this.setState({novideomp4: true})
+         }
+       
+       
+       
+       
+       
+           }).catch((err) => {
+             console.log("cropImage Error", err.message);
+       
+            // el usuario cancelo por alguna razon y debe pasar a 2 el flag de photoFromGallery
+             // para que siga funcionando las rutinas de ejecucion cuando vuelvan de background
+             // this.props.manageLocationPermissions("photofromgallery", 2);
+             //  setTimeout(() => {
+             //   this.props.manageLocationPermissions("photofromgallery", 0);
+                
+         
+               
+             // }, 500);
+             
+             crashlytics().setUserId(this.props.qra);
+             crashlytics().log('error: ' + JSON.stringify(err)) ;
+             if(__DEV__)
+             crashlytics().recordError(new Error('openCropShareExt_DEV'));
+             else
+             crashlytics().recordError(new Error('openCropShareExt_PRD'));
+         });
+       
+
+
+
+   
+      
+    //     }
+    // }
+
+
+
+  }
+
+  send_image_info_to_muestro = async (path) => {
+
+    fileName2 = path.replace(/^.*[\\\/]/, '');
+    fileInfo = await Upload.getFileInfo(path);
+    uri = 'file://'+path;
+    // uri = path;
+    console.log('fileInfo imagen share');
+    console.log(fileInfo);
+    console.log('filename2 es: ' + fileName2);
+    // console.log('uri es: ' + uri);
+    // envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: image.size, width: image.width, height: image.height, qra: this.props.qra,  rectime: 0, gallery: true } 
+    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: 0, width: 0, height: 0, qra: this.props.qra,  rectime: 0, gallery: false } 
+
+   vari2 = this.props.sendActualMedia(envio);
+  //   console.log("Fin de espera larga ANDROID")
+ 
+    
+    if ( Platform.OS === 'ios')
+    timer = 1000;
+      else timer = 500;
+
+    // reseteo el modal porque pudo haber quedado en TimeOut si este es el segundo intento
+    // de sacar la foto de profile.
+   
+    this.props.setProfileModalStat('ambos',0);
+
+    setTimeout(() => {
+      console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+  
+        this.props.openModalConfirmPhoto(490);
+       
+       
+      
+    }, timer);
+
   }
 
   photoFromGallery = async () => {
@@ -883,17 +1887,25 @@ class QsoScreen extends Component {
       //   if (!hasPermission) return;
 
     
+      if (Platform.OS==='android')
+        CAMERA_PERMISSION = PERMISSIONS.ANDROID.CAMERA;
+      else
+        CAMERA_PERMISSION = PERMISSIONS.IOS.CAMERA;
 
-      Permissions.request("camera").then(response => {
+      // Permissions.request("camera").then(response => {
+        request(CAMERA_PERMISSION).then(response => {
+
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         console.log("Camera Permiso: " + response);
-        if (response === "authorized") {
+        // if (response === "authorized") {
+          if (response === RESULTS.GRANTED) {
           this.props.closeModalConfirmPhoto("image");
           this.props.navigation.navigate("CameraScreen2");
         }
 
-        if (response === "denied" && Platform.OS !== "android") {
+        // if (response === "denied" && Platform.OS !== "android") {
+          if (response === RESULTS.DENIED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_1"),
             I18n.t("TO_AUTHORIZE_2_IOS"),
@@ -908,7 +1920,7 @@ class QsoScreen extends Component {
           );
         }
 
-        if (response === "restricted" && Platform.OS === "android") {
+        if (response === RESULTS.BLOCKED && Platform.OS === "android") {
           Alert.alert(
             I18n.t("DENIED_ACCESS_1"),
             I18n.t("TO_AUTHORIZE_2_ANDROID"),
@@ -922,7 +1934,7 @@ class QsoScreen extends Component {
           );
         }
 
-        if (response === "restricted" && Platform.OS !== "android") {
+        if (response === RESULTS.BLOCKED && Platform.OS !== "android") {
           Alert.alert(
             I18n.t("ACCESS_TO_CAMERA"),
             I18n.t("PARENTAL_CONTROLS"),
@@ -962,8 +1974,13 @@ class QsoScreen extends Component {
 
   newQso = async (qsotype) => {
     if (await hasAPIConnection()) {
+
       this.videorewardmustbeshown = false;
       this.intersitialmustbeshown = false;
+      this.pressPublish = false;
+      this.pressVideo = false;
+      this.props.setVideoUploadProgress(0);
+      this.setState({videoPercentage: 0,videoCompressPercentage: 0,  videoCompression: 'null'})
 
       if (showVideoReward(this.props.userinfo,'newqso','')) {
         this.videorewardmustbeshown = true;
@@ -1017,6 +2034,30 @@ class QsoScreen extends Component {
       this.setState({showVideoReward:false});
       this.props.newqsoactiveTrue();
       this.props.resetQso(qsotype);
+      // if (this.state.videoFromShare!==null)
+      //  { // la app fue llamada desde un share externo
+      //    this.videoFromGallery(true);
+      //  }
+      if (this.state.externalShareurl)//(this.props.externalshareurl)
+       { // la app fue llamada desde un share externo
+        shareExternalMedia = await AsyncStorage.getItem('shareExternalMedia');
+        mimeType = await AsyncStorage.getItem('shareExternalMediaMimeType');     
+              this.setState({videoFromShare: shareExternalMedia});
+
+  
+
+        if(mimeType.indexOf("image") !== -1)
+          this.photoFromShare(shareExternalMedia);
+        
+        if(mimeType.indexOf("video") !== -1)
+        // (notification.data['pinpoint.notification.title'].indexOf("included you") !== -1) 
+        this.videoFromGallery(true)
+      
+         
+
+        this.props.setExternalShreUrl(false);
+        this.setState({externalShareurl: false})
+       }
     } else {
       if (Platform.OS === "android") {
         Alert.alert(
@@ -1236,7 +2277,7 @@ class QsoScreen extends Component {
 
   closeVariosModales = (param) => {
   //  this.setState({ nointernet: false, prevideorewarded: false });
-    this.setState({ nointernet: false, novideomp4: false});
+    this.setState({ nointernet: false, novideomp4: false, readingVideo: false});
     this.props.welcomeUserFirstTime(false);
     // if (param==='yes')
     // setTimeout(() => {
@@ -1297,7 +2338,12 @@ class QsoScreen extends Component {
 
   }
 
+
+
   subo_s3 = async () => {
+
+    let datasource = '';
+    let compress = '';
 
     this.setState({showIntersitial:false});
     this.setState({showVideoReward:false});
@@ -1310,12 +2356,12 @@ class QsoScreen extends Component {
     // para que le agregue el item a enviar al media que estaba en el store ya que este tiene uno vacio a proposito por el TouchWithoutFeedback
     // y para que luego updateOnProgress haga bien el caclulo.
     this.auxMedia = [...this.props.mediafiles];  
-    this.auxMedia.push(env);  
+    this.auxMedia.push(this.envio);  
 
-    this.props.addMedia(env);
+    this.props.addMedia(this.envio);
     // creo mediafilelocal porque trada en actualizar REDUX entonces si es el caso
     // donde debe crear el QSO le envio del mediafileLocal, ver mas abajo.
-    mediafileLocal = [ env ];
+    mediafileLocal = [ this.envio ];
     
     
 
@@ -1325,14 +2371,14 @@ class QsoScreen extends Component {
 
 //this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height,this.props.rdsurls3,this.props.jwtToken);
 
-        if (env.status==='inprogress')    // los envia si ya tienen SqlRdsId sino los deja en waiting
-        this.props.uploadMediaToS3(env.name, env.url, fileauxProfileAvatar, env.sqlrdsid, env.description,env.size, env.type, env.rdsUrlS3 ,env.urlNSFW, env.urlAvatar, env.date, env.width, env.height,this.props.rdsurls3,this.props.qra,env.rectime,this.props.jwtToken);
+        if (env.status==='inprogress' & this.envio.type!=='video')    // los envia si ya tienen SqlRdsId sino los deja en waiting, cheque !== de video porque puede ser que haya subido primero una foto y luego la haya borrado, entonces quedo el SQLRDSID creado pero el video debe ser comprimido antes de ser enviado
+        this.props.uploadMediaToS3(this.envio.name, this.envio.url, fileauxProfileAvatar, this.envio.sqlrdsid, this.envio.description,this.envio.size, this.envio.type, this.envio.rdsUrlS3 ,this.envio.urlNSFW, this.envio.urlAvatar, this.envio.date, this.envio.width, this.envio.height,this.props.rdsurls3,this.props.qra,this.envio.rectime,this.props.jwtToken);
         else{
           // puede ser que ya este ingresado BAND, MODE y QRA y el ultimo paso que hizo fue agregar MEDIA
           // entonces hay que chequear si esta listo para crear el QSO y enviar todo junto
           console.log('mediafile Local:'+mediafileLocal);
           console.log(mediafileLocal);
-          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia))
+          if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.auxMedia,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend))
               await this.props.onprogressTrue();
             else
               this.props.onprogressFalse();
@@ -1349,8 +2395,16 @@ class QsoScreen extends Component {
               //       this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
                     
               // }else console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-              fechaqso = getDate();
-       data = {
+   
+
+
+    // se chequea esto porque puede ser que el usuario haya subido una foto/audio y luego borrado, etnocnes ya queda el SQLRDSID de la publicacion creada
+    // entonces no hace falta crerla de nuevo
+    if(this.props.sqsosqlrdsid==='')
+    {
+
+      fechaqso = getDate();
+     this.dataHeader = {
         "band" : '',
         "mode" : '',
         "rst" : '',
@@ -1362,16 +2416,203 @@ class QsoScreen extends Component {
         "qra_owner": this.props.qra,
         "draft" : 1
       };
-              this.props.postQsoNew(data,this.props.qsoqras,mediafileLocal,this.props.jwtToken);
+              videoCompress = false;
+  
+               this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,this.props.jwtToken);
               // #PUBLISH
+       } 
+
+              if (this.envio.type==='video')
+
+             
+                {
+                 
+              
+                  totalDimension = this.envio.width + this.envio.height;
+                  needTrim = false;
+                 
+                  let destination_path = '';
+
+                    this.setState({videoCompression: 'inprogress', percentageCompressionInitialTime: new Date(), videoSizeBeforeCompress: this.envio.size})
+
+
+                  console.log('this.videoPathBeforeCompress: '+this.videoPathBeforeCompress)
+                  // mpeg4
+                  inicioCom = new Date();
+                
+                  await createSQSOfolder();
+
+                    if (Platform.OS==='ios')
+                      destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/file10.mp4`;
+                    else
+                      destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/file10.mp4`;
+
+                      console.log('videoDurationSeconds:'+this.videoDurationSeconds + ' videoSize: '+this.videoSize)
+
+                      // hago tiempo por si apreto my rapido CONTINUAR y luego PUBLICAR y aun GetVideoInfo no trajo la informacion, 
+                      //por ahi en Videos largos puede pasar que esto sirva.
+                      while(this.videoSize===0)
+                      {
+
+                      }
+
+                      // el algortimo de trim hay qu emejorarlo, por ahora esta muy light
+                      if (this.videoSize > 270000000 && this.videoDurationSeconds>120)
+                        {
+                          needTrim = true;
+                          this.videoDurationSeconds = 120; // se lo seteo para que el progress del compress lo haga contra el tiempo correcto del video en 120 segundos.
+                        }
+                      else
+                        needTrim = false;
+
+             if (needTrim)
+                    setTimeout(() => {
+                      // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                          // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                       
+                          // este de abajo es el que anda nomral
+                          // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 "+destination_path, completedExecution => {   
+              
+                           
+                            if (Platform.OS==='ios') // ios comprime mucho mas entonces hay que darle mas definicion para que no aruine los videos
+                            compress=' -vf scale=-2:400 ';
+                           else
+                            compress=' -vf scale=-2:320 ';
+
+                            RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00"+compress+destination_path, completedExecution => {    
+                            //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
+                              // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
+                            // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                          if (completedExecution.returnCode === 0) {
+                              console.log("FFmpeg process completed successfully");
+                              console.log(completedExecution)
+                          // console.log(result)
+                          finCom = new Date();
+                          timepoCom = finCom-inicioCom;
+                          console.log('tiempo de compresion: '+ timepoCom);
+                          // datasource = '/storage/emulated/0/DCIM/file10.mp4';
+                          // datasource = destination_path;
+                         
+                  
+                      console.log('getMediaInformation ');
+                      RNFFprobe.getMediaInformation(destination_path).then(information => {
+                        if (information.getMediaProperties() !== undefined) {
+                     
+                         
+
+                            let streams = information.getStreams();
+                          console.log(`size papa: ${information.getAllProperties().format.size}`);
+                          console.log(`duration papa: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+                          console.log(`Width papa: ${streams[0].getAllProperties().width}`);
+                          console.log(`Height papa: ${streams[0].getAllProperties().height}`);
+
+
+                          this.envio.rectime = Math.floor(information.getAllProperties().format.duration/1); // duration;
+                          this.envio.size = information.getAllProperties().format.size; //Math.floor(env.size/bitMultiplier);
+                          this.envio.url = destination_path; 
+                          update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url, width: streams[0].getAllProperties().width, height: streams[0].getAllProperties().height}
+                          this.props.updateCommentInMemory(this.envio.name,update);
+                          this.setState({videoCompression: 'finished'});
+
+                    
+                        }
+                       
+                    });
+
+
+                            } else {
+                              console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
+                            
+                            }
+                          }).then(executionId => console.log(`Async FFmpeg process started with executionId ${executionId}.`));
+                      
+                        
+                       }
+                      , 2000);
+                    
+                
+                else
+                setTimeout(() => {
+                  // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -crf 23 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                      // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:320 /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                   
+                       
+                       if (Platform.OS==='ios') // ios comprime mucho mas entonces hay que darle mas definicion para que no aruine los videos
+                        compress=' -vf scale=-2:400 ';
+                         else
+                          compress=' -vf scale=-2:320 ';
+                      // este de abajo es el que anda nomral
+                   
+                      RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +compress+destination_path, completedExecution => {   
+
+                        // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" -vf scale=-2:480 "+destination_path, completedExecution => { 
+                      //   RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" "+destination_path, completedExecution => {   
+                        //  RNFFmpeg.executeAsync("-y -ss 00:00:00 -i "+ this.videoPathBeforeCompress +" -to 00:02:00 -vf scale=-2:320 "+destination_path, completedExecution => {    
+                          // -ss 00:01:00 -i input.mp4 -to 00:02:00 -c copy output.mp4
+                        // RNFFmpeg.executeAsync("-y -i "+ this.videoPathBeforeCompress +" /storage/emulated/0/DCIM/file10.mp4", completedExecution => {
+                      if (completedExecution.returnCode === 0) {
+                          console.log("FFmpeg process completed successfully");
+                          console.log(completedExecution)
+                      // console.log(result)
+                      finCom = new Date();
+                      timepoCom = finCom-inicioCom;
+                      console.log('tiempo de compresion: '+ timepoCom);
+                      // datasource = '/storage/emulated/0/DCIM/file10.mp4';
+                      // datasource = destination_path;
+                     
+              
+                  console.log('getMediaInformation ');
+                  RNFFprobe.getMediaInformation(destination_path).then(information => {
+                    if (information.getMediaProperties() !== undefined) {
+                 
+                     
+
+                        let streams = information.getStreams();
+                      console.log(`size papa: ${information.getAllProperties().format.size}`);
+                      console.log(`duration papa: ${Math.floor(information.getAllProperties().format.duration/1)}`);
+                      console.log(`Width papa: ${streams[0].getAllProperties().width}`);
+                      console.log(`Height papa: ${streams[0].getAllProperties().height}`);
+
+
+                      this.envio.rectime = Math.floor(information.getAllProperties().format.duration/1); // duration;
+                      this.envio.size = information.getAllProperties().format.size; //Math.floor(env.size/bitMultiplier);
+                      this.envio.url = destination_path; 
+                      update = { rectime: this.envio.rectime ,size: this.envio.size, url: this.envio.url, width: streams[0].getAllProperties().width, height: streams[0].getAllProperties().height}
+                      this.props.updateCommentInMemory(this.envio.name,update);
+                      this.setState({videoCompression: 'finished'});
+
+                
+                    }
+                   
+                });
+
+
+                        } else {
+                          console.log(`FFmpeg process failed with rc=${completedExecution.returnCode}.`);
+                        }
+                      }).then(executionId => console.log(`Async FFmpeg process started with executionId ${executionId}.`));
+                  
+                    
+                   }
+                  , 2000);
+
+
+
+                } // if (video)
+                
           }
 
   }
 
   publicar_chequeos = async () => {
 
-    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles))
-    await this.props.onprogressTrue();
+if (this.pressPublish===false)
+{// para evitar presionar mas de una vez Publish
+  this.pressPublish = true;
+
+  // comento para poder pribar el upload mas rapido
+    if (ONPROGRESS=updateOnProgress(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend))
+   await this.props.onprogressTrue();
   else this.props.onprogressFalse();
 
    console.log('onprogress '+ONPROGRESS) // #PUBLISH 
@@ -1389,6 +2630,110 @@ class QsoScreen extends Component {
           // { 
           // }
           this.props.actindicatorPostQsoNewTrue();
+         
+
+
+          if (this.envio.type==='video')
+          { // Esta es la logica solo para VIDEO
+            // Solo se puede envia run video con lo cual si el type es VIDEO es porque es video, ya que no se puede 
+            //enviar VIDEO si se envio una foto o un AUDIO
+            // if (this.state.videoCompression==='inprogress')
+
+            contsqlrdsid = 0;
+            while (this.props.sqsosqlrdsid==='' && contsqlrdsid < 25) {
+            // hago tiempo por si el usuario clickeo PUBLICAR inmediatamente luego de darle CONTINUAR al VIDEO
+            // y se este llamando a postQsoNew y aun no tenga el sqlrdsid, si luego de este tiempo no tiene sqlrdsid es 
+            // porque fallo y se debe llamar a postqsonew nuevamente
+
+              contsqlrdsid++;  
+              console.log('entro delay sqlrdsid: '+contsqlrdsid)  
+          
+              await this.delay2(300);
+  
+            }
+
+            if (this.props.sqsosqlrdsid==='')
+            {
+           
+              mediafileLocal = [ this.envio ];
+              videoCompress = false;
+              console.log('no se habia generado sqlrdsid para video')
+              await this.props.postQsoNew(this.dataHeader,this.props.qsoqras,mediafileLocal,videoCompress,session.idToken.jwtToken);
+              console.log('despues de await postQsoNew, el awaiy de postQsoNew es clave para que no se tave con el delay de 1 segundo de abajo')
+              await this.delay2(1000); // hago tiempo para asegurar que la API traiga el sqlrdsid y actualice en redux 
+              console.log('despues de await delay2')
+              // y que este presente al momento de subir a S3, ya que si el video es cortito el progress ya lo pudo haber terminado la compresion 
+              // y lo enviaria rapidamente a S3 y este necesita el SQLRDSID
+            }
+              
+
+
+
+            contcompress=0;
+            // t1 = new Date();
+            // factor = 12 / 15000000; // tarda aprox 20 seg. los 15mb
+            // totCompressSecThisVideo = factor * this.state.videoSizeBeforeCompress;
+            // console.log('video sin comprimir pesa: '+ this.state.videoSizeBeforeCompress)
+          while (this.state.videoCompression==='inprogress')
+          {
+            contcompress++; 
+
+              // aux = percentageCalculator(this.state.percentageCompressionInitialTime,totCompressSecThisVideo);
+
+              //  if ((aux > 2) && (aux < 97))
+              //      this.setState({videoCompressPercentage: aux})
+              //  if (aux > 96 )
+              //      this.setState({videoCompressPercentage: 96})
+              //  if (aux < 3 )
+              //      this.setState({videoCompressPercentage: 2})
+
+            await this.delay2(1000);
+            console.log('delay compress '+ contcompress);
+            RNFFmpegConfig.getLastReceivedStatistics().then(statistics => {
+              timeCodeProcesado = Math.floor(statistics.time/1000); // convierto de milisegundos a segundos sin coma.
+              percentage = Math.floor(((timeCodeProcesado/this.videoDurationSeconds)*100)/1);
+              this.setState({videoCompressPercentage: percentage})
+            });
+            
+          }
+
+            console.log('upload video')
+            console.log('sqlrdsid: '+this.props.sqsosqlrdsid)
+            media = this.props.mediafiles[0];
+     //         this.props.uploadMediaToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,this.props.jwtToken);
+              this.props.uploadVideoToS3(media.name, media.url, this.imagePreviewPath,this.props.sqsosqlrdsid, media.description,media.size, media.type, media.rdsUrlS3 ,media.urlNSFW, media.urlAvatar, media.date, media.width, media.height,this.props.rdsurls3,this.props.qra,media.rectime,session.idToken.jwtToken);
+            //  contEnvio = 0;
+            //  t1 = new Date();
+            //  factor = 110 / 9000000; // tarda aprox 100 segundo 9mb (
+            //  totUploadSecThisVideo = factor * this.envio.size;
+            //  console.log('video comprimido pesa: '+ this.envio.size)
+
+             while (todaMediaEnviadaAS3(this.props.mediafiles)===false) {
+               /* code to wait on goes here (sync or async) */
+              //  contEnvio++;  
+              // //  console.log('entro delay envio video'+contEnvio)  
+               console.log('entro delay envio video post uploads3') 
+
+              // aux = percentageCalculator(t1,totUploadSecThisVideo);
+              //  if ((aux > 2) && (aux < 97))
+              //      this.setState({videoPercentage: aux})
+              //  if (aux > 96 )
+              //      this.setState({videoPercentage: 96})
+              //  if (aux < 3 )
+              //      this.setState({videoPercentage: 2})
+
+                await this.delay2(100);
+ 
+               
+             }
+
+             this.publicar(session.idToken.jwtToken);
+
+          }
+            else
+          { 
+
+          // este bloque del ELSE es para AUDIO y FOTOS
 
           // este proceso es por si no se genero sqlrdsid por alguna razon (usuario subio foto y publico rapido, o en la publicacion fallo el la llamada a la API de postqsonew,
           // entonces espera por si la API se demoro y si sale por tiempo es porque hay que llamar a postqsonew de nuevo para generar el sqlrdsid para luego subir media y publicar)
@@ -1415,20 +2760,21 @@ class QsoScreen extends Component {
                   // session = await Auth.currentSession();
                   // this.props.setToken(session.idToken.jwtToken);
 
-            fechaqso = getDate();
-            data = {
-             "band" : '',
-             "mode" : '',
-             "rst" : '',
-             "db": '',
-             "type" : this.props.qsotype,
-             "longitude" : this.props.longitude,
-             "latitude": this.props.latitude,
-             "datetime": fechaqso,
-             "qra_owner": this.props.qra,
-             "draft" : 1
-           };
-                   this.props.postQsoNew(data,this.props.qsoqras,this.props.mediafiles,session.idToken.jwtToken);
+          //   fechaqso = getDate();
+          //   data = {
+          //    "band" : '',
+          //    "mode" : '',
+          //    "rst" : '',
+          //    "db": '',
+          //    "type" : this.props.qsotype,
+          //    "longitude" : this.props.longitude,
+          //    "latitude": this.props.latitude,
+          //    "datetime": fechaqso,
+          //    "qra_owner": this.props.qra,
+          //    "draft" : 1
+          //  };
+                   videoCompress = false;
+                   this.props.postQsoNew(this.dataHeader,this.props.qsoqras,this.props.mediafiles,videoCompress,session.idToken.jwtToken);
 
           }
 
@@ -1438,7 +2784,7 @@ class QsoScreen extends Component {
 
          
             contEnvio = 0;
-            while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+            while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 30) {
               /* code to wait on goes here (sync or async) */
               contEnvio++;  
               console.log('entro delay '+contEnvio)  
@@ -1461,7 +2807,7 @@ class QsoScreen extends Component {
               
               // comienza el segundo chequeo de envio idem al anterior
               contEnvio = 0;
-              while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 16) {
+              while (todaMediaEnviadaAS3(this.props.mediafiles)===false && contEnvio < 40) {
                 /* code to wait on goes here (sync or async) */
                 contEnvio++;  
                 console.log('entro delay2 '+contEnvio)  
@@ -1477,7 +2823,7 @@ class QsoScreen extends Component {
                 console.log('fallo el segundo intento de publicar')
                 this.props.actindicatorPostQsoNewFalse();
                 // uso componente missingFields para informar que no hemos podido publicar
-
+                this.pressPublish = false;
                 this.missingMessage =  I18n.t("QsoScrCantPublish")
                 this.setState({ missingFields: true})
               
@@ -1503,43 +2849,98 @@ class QsoScreen extends Component {
              this.publicar(session.idToken.jwtToken);
           }
 
+
+        } // Fin de Video o AUDIO/FOTO
+
       
-        } else this.setState({ nointernet: true });
+        } else {
+          this.setState({ nointernet: true });
+          this.pressPublish = false;
+        }
 
 
         }
         else
 {
   console.log("Todavia no esta OnProgreSSS como para llamar a PostNewQso");
-
-  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles));
-  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles);
+  this.pressPublish = false;
+  console.log(missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend));
+  missMessage = missingFieldsToPublish(this.props.qsotype,this.props.band,this.props.mode,this.props.qsoqras,this.props.mediafiles,this.props.activitydatebegin,this.props.activitydateend,this.props.activityutcbegin,this.props.activityutcend);
   this.missingMessage =  missMessage.message;
   this.setState({ missingFields: true})
 } 
 
 
-   
+} // pressPublish
     
 
   }
 
  // #PUBLISH
   publicar = async (jwtToken) => {
+    let realdate_aux2 = new Date();
+    let realdate_aux = new Date();
+    let realtime_aux = new Date();
+    let activityBegin_aux = new Date();
+    let activityEnd_aux = new Date();
+    let activityBeginUtc_aux = new Date();
+    let activityEndUtc_aux = new Date();
+    let beginDate = ''
+    let endDate = ''
 
               if (this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY')
           {
+          
+             if (this.props.qsotype==='FLDDAY')
+             {
+              console.log('finales0: '+this.props.activityutcbegin + '  '+ this.props.activityutcend)
+              activityBegin_aux = this.props.activitydatebegin;
+              activityEnd_aux = this.props.activitydateend;
+              activityBeginUtc_aux = this.props.activityutcbegin;
+              activityEndUtc_aux = this.props.activityutcend;
+              activityBegin_aux.setHours(activityBeginUtc_aux.getHours());
+              activityBegin_aux.setMinutes(activityBeginUtc_aux.getMinutes());
+              activityBegin_aux.setSeconds(0);
+              activityEnd_aux.setHours(activityEndUtc_aux.getHours());
+              activityEnd_aux.setMinutes(activityEndUtc_aux.getMinutes());
+              activityEnd_aux.setSeconds(0);
+              beginDate = getDate2(activityBegin_aux);
+              endDate = getDate2(activityEnd_aux);
+              console.log('finales1: '+beginDate + '  '+ endDate)
+             }
+
             bandAux = '';
             modeAux = '';
             rstAux = '';
             dbAux = '';
+            realDateTime = '';
+         
           }
           else
           {
+            console.log('this.props.qsoutc:' + this.props.qsoutc)
+             realdate_aux = this.props.qsodate;
+             realtime_aux = this.props.qsoutc;
+             console.log('parse: '+realdate_aux.getFullYear() + ' '+realdate_aux.getMonth()+' '+ realdate_aux.getDay()+ ' '+realtime_aux.getHours()+ ' '+realtime_aux.getMinutes())
+             console.log('realdate_aux: ' +realdate_aux)
+              console.log('realtime_aux: ' +realtime_aux)
+            // de realdate saco la fecha y de realtime saco la hora seteada por el usuario.
+            // realdate_aux2.setDate(realdate_aux.getFullYear(),realdate_aux.getMonth(),realdate_aux.getDay(),realtime_aux.getHours(),realtime_aux.getMinutes(), 0 )
+           realdate_aux.setHours(realtime_aux.getHours());
+           realdate_aux.setMinutes(realtime_aux.getMinutes());
+           realdate_aux.setSeconds(0);
+            console.log('realdate_aux_afterProcess: ' +realdate_aux)
+            // formateo la fecha y hora en formato mysql
+            realDateTime = getDate2(realdate_aux);
+            console.log('realDateTime: ' +realDateTime)
+              
             bandAux = this.props.band;
             modeAux = this.props.mode;
             rstAux = this.props.rst;
             dbAux = this.props.db;
+            // realDateTime = '';
+            // qsodate = this.props.qsodate;
+            // qsoutc = this.props.qsoutc;
 
           }
   
@@ -1550,9 +2951,16 @@ class QsoScreen extends Component {
                               "qra": this.props.qra,
                               "rst" : rstAux,
                               "db" : dbAux,
+                              "realDateTime" : realDateTime,
+                              "activityBegin" : beginDate,
+                              "activityEnd" : endDate,
                               "draft": 0
                            }
               console.log("antes de enviar a API qdoHeader:"+ JSON.stringify(qsoHeader))
+
+
+                this.deleteQSOfolder();
+
 
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
               home = global_config.urlWeb + '?' + new Date();
@@ -1569,6 +2977,8 @@ class QsoScreen extends Component {
                     
                       // Se unifico el publicar, se envia Header y qsoqras para todo tipo de Publicacion
                       this.props.qsoPublish(qsoHeader,this.props.qsoqras,jwtToken);
+                      this.pressPublish = false;
+                     
                         
             
    
@@ -1581,6 +2991,7 @@ class QsoScreen extends Component {
   }
 
    goToHomeAfterPublish = async () => {
+    this.props.doFetchPublicFeed(this.props.qra) // para que actualice el feed con la publicacion recien publicada
     this.props.navigation.navigate('Home')
     this.props.setJustPublished(false);
     this.props.setPressHome(1);
@@ -1590,21 +3001,108 @@ class QsoScreen extends Component {
 
    descartar_publicacion = () => {
     this.setState({deletePost: true})
+ 
    }
+
+   deleteQSOfolder = () => {
+
+    // este cancel de RNFFmpeg hace crashear al 4to discard consecutivo de una publicacion
+    //  RNFFmpeg.cancel();
+ 
+
+   // el borrado es con timeout para que termine bien el cancel de ffmpeg
+    setTimeout(() => {
+    
+// proceso de borrar carpeta sqso
+console.log('delete folder: ');
+if (Platform.OS==='android') 
+  theqsopath = 'file://'+RNFetchBlob.fs.dirs.DCIMDir+'/sqso'
+  else
+  theqsopath = RNFetchBlob.fs.dirs.DocumentDir+'/sqso' 
+
+RNFetchBlob.fs.unlink(theqsopath).then(() => 
+{ console.log("Succeeded") 
+
+if (Platform.OS==='android') // el scanFile funciona solo en android
+{
+  RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
+
+.then(() => {
+        console.log("scan file success")
+      })
+      .catch((err) => {
+        console.log("scan file error")
+      })
+   }
+
+
+
+}).catch((err) =>
+ { console.log("err unlink",err) })
+//fin proceso de borrar carpeta sqso
+
+
+        
+}
+, 3000);
+
+      }
+    
+
+  
+    
 
    componentDidUpdate(prevProps, prevState) {
     // if (prevState.justpublished) {
-     console.log('didUpdate:')
-      console.log('prevState.justpublished.: '+prevState.justpublished)
-      console.log('prevProps.justpublished.: '+prevProps.justpublished)
+    //  console.log('didUpdate:')
+    //  console.log('prevProps.justpublished.: '+prevProps.justpublished)
+    //   console.log('prevState.justpublished.: '+prevState.justpublished)
+      console.log('prevProps.videopercentage: '+prevProps.externalshareurl)
+      console.log('prevState.videopercentage: '+prevState.externalshareurl)
       // if (prevProps.justpublished && !this.justpublished)
+      if (prevProps.videopercentage===-1)
+         {
+           this.pressPublish=false
+          
+         }
+        
       if (prevProps.justpublished)  
       {
        
           console.log('llamo afterPublish')
           this.goToHomeAfterPublish();
         }
+        if (prevProps.externalshareurl && !this.state.externalShareurl)  
+        {
+          console.log('DidUpdate Share')
+          this.setState({externalShareurl: true})
+        }
+
+        if (prevProps.mustupgradeapp)
+        {
+          this.setState({ 
+             stopApp: true,
+             appNeedUpgrade: true,
+             upgradeText: I18n.t('STOPAPP_UPGRADE')
+        })
+      }
+        
     // }
+  }
+
+  cameraPress = () => {
+    if (addMediaCheck('image',this.props.mediafiles))
+            this.setState({camaraSelect: true})
+        else{
+          this.missingMessage =  I18n.t("QsoScrMixMedia")
+          this.setState({ missingFields: true})
+        }
+  }
+
+close_upload_failed = () => {
+   this.props.setVideoUploadProgress(0);
+   this.props.actindicatorPostQsoNewFalse();
+
   }
       
 
@@ -1637,7 +3135,7 @@ class QsoScreen extends Component {
        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
          Esto estaba porque el teclado aparecia cuando se ingresaban los callsign sin el modal, ahora no tiene sentido porque no hay mas teclado en qsoScreen directo, los teclados estan en los modales. */}
    
-        <View style={{ flex: 0.3 }}>
+        <View style={{ flex: 0.37 }}>
           <QsoHeader />
           
          
@@ -1657,12 +3155,12 @@ class QsoScreen extends Component {
                 margin: 15,
                 backgroundColor: 'rgba(36,54,101,0.93)',
                 marginTop: 210,
-                left: 95,
+                left: this.state.videoCompression==='null' ? 75:50,
                 //  right: 15,
                 // alignItems: 'center',
                 // alignContent: 'center',
-                width: 150,
-                height: 45,
+                width: this.state.videoCompression==='null' ? 200:225,
+                height: this.state.videoCompression==='null' ? 45:130,
                 paddingVertical: 5,
                 //   position: 'absolute',
 
@@ -1674,13 +3172,52 @@ class QsoScreen extends Component {
                 style={{
                   color: "white",
                   fontWeight: "bold",
-                  fontSize: 15,
+                  fontSize: 16,
                   marginLeft: 20,
                   marginTop: 5
                 }}
               >
                 {I18n.t("QsoScrPublishingPost")}
               </Text>
+              {(this.state.videoCompression==='inprogress'  && this.props.mediafiles[0].type==='video') &&
+              <Text
+                style={{
+                  color: "yellow",
+                  // fontWeight: "bold",
+                  fontSize: 15,
+                  marginLeft: 20,
+                  marginTop: 5
+                }}
+              >
+                {I18n.t("QsoScrCompressingVideo")} {this.state.videoCompressPercentage}%
+              </Text>
+             }
+             {(this.state.videoCompression==='finished' && this.props.mediafiles[0].type==='video' && this.state.videoPercentage!==-1) &&
+              <Text
+                style={{
+                  color: "yellow",
+                  // fontWeight: "bold",
+                  fontSize: 15,
+                  marginLeft: 20,
+                  marginTop: 5
+                }}
+              >
+                {I18n.t("QsoScrUploadingVideo")} {this.state.videoPercentage}%
+              </Text>
+             }
+             {/* <TouchableOpacity style={{width: 130,height:30 }} */}
+{(this.state.videoPercentage===-1) &&
+<View>
+<Text style={{ fontSize: 14, color: "yellow" }}>{"\n"} {this.props.videouploaderror}</Text>
+<TouchableOpacity 
+                onPress={() =>  this.close_upload_failed()} >
+        
+                <Text style={{ fontSize: 15, color: "white" }}>{"\n"}              Cerrar</Text>
+              </TouchableOpacity>
+  
+  </View>
+  }
+
             </View>
             {/* </KeyboardAvoidingView > */}
           </Modal>
@@ -1803,7 +3340,7 @@ class QsoScreen extends Component {
         </View>
         {/* </TouchableWithoutFeedback>  */}
        
-        <View style={{ flex: 0.52 }}>
+        <View style={{ flex: 0.45 }}>
        
            
           <MediaFiles />
@@ -1823,6 +3360,17 @@ class QsoScreen extends Component {
               </TouchableOpacity>
               
             } */}
+
+              {/* <TouchableOpacity style={{width: 65,height:63 }}
+                onPress={() => this.videoFromGallery(false)}
+              >
+                <Image
+                  source={require("../../images/mic.png")}
+                  style={{ width: 26, height: 26, marginLeft: 22, marginTop: 2 }}
+                  resizeMode="contain"
+                />
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
+              </TouchableOpacity> */}
           
         
           </View>
@@ -1850,6 +3398,23 @@ class QsoScreen extends Component {
           {/* ) : null} */}
 
           {/* { (this.props.sqsosqlrdsid !== '') ? */}
+
+          {this.props.sqsonewqsoactive ? (
+            <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
+                 <TouchableOpacity style={{width: 65,height:63 }}
+                onPress={() => this.videoFromGallery(false)}
+              >
+                <Image
+                  source={require("../../images/camara-de-video.png")}
+                  style={{ width: 27, height: 27, marginLeft: 22, marginTop: 0 }}
+                  resizeMode="contain"
+                />
+                <Text style={{ fontSize: 13, color: "black",  marginLeft: I18n.locale.substring(0, 2)==='es' ? 18:16 }}>Video</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
+
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.16, alignItems: "flex-end", marginTop: 11 }}>
               <TouchableOpacity style={{width: 65,height:63 }}
@@ -1872,7 +3437,7 @@ class QsoScreen extends Component {
           {this.props.sqsonewqsoactive ? (
             <View style={{ flex: 0.16, alignItems: "center", marginTop: 11 }}>
               {/* <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.gotoCameraScreen()}> */}
-            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.setState({camaraSelect: true})}>     
+            <TouchableOpacity style={{ width: 65,height:63 }} onPress={() => this.cameraPress()}>     
                 <Image
                   source={require("../../images/camera.png")}
                   style={{ width: 26, height: 26, marginLeft: 15, marginTop: 2 }}
@@ -1893,6 +3458,14 @@ class QsoScreen extends Component {
             closeInternetModal={this.closeVariosModales.bind()}
           />
        }
+
+{(this.state.readingVideo) && 
+          <VariosModales
+            show={this.state.readingVideo}
+            modalType="readingvideo"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />}
+
           {/* {(this.props.welcomeuserfirsttime) && 
             <VariosModales
             show={true}
@@ -1910,7 +3483,7 @@ class QsoScreen extends Component {
       }
 
      {(this.state.deletePost) &&
-              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()}/>
+              <DeletePost sqlrdsid={this.props.sqsosqlrdsid} closeDeletePost={this.CloseDeletePost.bind()} deleteqsofolder={this.deleteQSOfolder.bind()}/>
             }
             
     
@@ -2006,11 +3579,11 @@ class QsoScreen extends Component {
 
 
                          {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/activacion.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/actividad09.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/fieldday10.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/activity10.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
 
@@ -2034,7 +3607,7 @@ class QsoScreen extends Component {
                 
                        <Image source={require('../../images/qap10.png')} style={{width: 50, height: 50, flex: 0.3} } 
                        resizeMode="contain" />
-                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 8, height:85, marginTop:3 }}>{I18n.t("QsoTypeANYdescQAP")}
+                       <Text style={{ color: '#243665', fontWeight: 'bold', fontSize: 16, flex: 0.7,  marginLeft: 8, marginRight: 8, height:85, marginTop:35 }}>{I18n.t("QsoTypeANYdescQAP")}
                        </Text>
                      </View>
             </TouchableOpacity>              
@@ -2209,7 +3782,17 @@ const mapStateToProps = state => {
     qra: state.sqso.qra,
     justpublished: state.sqso.justPublished,
     webviewsession: state.sqso.webviewSession,
-    mediafiles: state.sqso.currentQso.mediafiles
+    mediafiles: state.sqso.currentQso.mediafiles,
+    videopercentage: state.sqso.currentQso.videoPercentage,
+    videouploaderror: state.sqso.currentQso.videoUploadError,
+    externalshareurl: state.sqso.externalShareUrl,
+    mustupgradeapp: state.sqso.mustUpgradeApp,
+    qsodate: state.sqso.currentQso.qsodate,
+    qsoutc: state.sqso.currentQso.qsoutc,
+    activitydatebegin: state.sqso.currentQso.activityDateBegin,
+    activitydateend: state.sqso.currentQso.activityDateEnd,
+    activityutcbegin: state.sqso.currentQso.activityUtcBegin,
+    activityutcend: state.sqso.currentQso.activityUtcEnd,
 
   };
 };
@@ -2252,7 +3835,14 @@ const mapDispatchToProps = {
   setWebView,
   setJustPublished,
   actindicatorPostQsoNewFalse,
-  qsoPublish
+  qsoPublish,
+  updateCommentInMemory,
+  uploadVideoToS3,
+  setVideoUploadProgress,
+  setExternalShreUrl,
+  apiCheckVersion,
+  setQsoUtc,
+  doFetchPublicFeed
 };
 
 export default connect(

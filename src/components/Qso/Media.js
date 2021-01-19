@@ -11,8 +11,10 @@ import DeleteMedia from './DeleteMedia';
 import I18n from '../../utils/i18n';
 import { hasAPIConnection } from '../../helper';
 import VariosModales from './VariosModales';
+import {  RNFFmpeg } from 'react-native-ffmpeg';
 
-class Media extends Component {
+
+class Media extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -55,7 +57,14 @@ class Media extends Component {
   };
   CloseDeleteMedia = () => {
     this.setState({ deleteMedia: false });
+    
   };
+
+  stopFFmpegCompression = () => {
+
+    RNFFmpeg.cancel();
+ 
+      }
 
   closeVariosModales = () => {
     this.setState({ nointernet: false });
@@ -149,21 +158,37 @@ class Media extends Component {
           }}
         >
           <View style={{ flex: 0.25 }}>
-            {this.props.type === "image" || this.props.type === "profile" ? (
+            {(this.props.type === "image" || this.props.type === "profile") && 
               <Image
                 style={styles.mediaStyle}
                 resizeMethod="resize"
-                source={{ uri: this.props.imageurl }}
+                 source={{ uri: this.props.imageurl }}
+                
+                
               />
-            ) : (
-              <PlayMediaAudioPost url={this.props.imageurl} />
-            )
-
-            // <Image
-            // style={styles.mediaStyle}
-            // source={require('../../images/audio.png')}
-            //     />
+            
             }
+            {(this.props.type === "audio") && 
+              <PlayMediaAudioPost url={this.props.imageurl} />
+            
+            }
+            {(this.props.type === "video") &&  
+                  <View>
+                  <Image
+                   style={styles.mediaStyle}
+                   resizeMethod="resize"
+                   source={{ uri: this.props.videoimagepreview }}
+                   
+                 />
+                    <Image style={styles.videoImageStyle}
+                     source={require('../../images/video1.png')}
+                         />
+                 </View>
+            
+  }
+            
+            
+   
           </View>
           <View style={{ flex: 0.7, width: this.restaWidth }}>
           <View style={{ flex: 0.20, alignItems: "flex-start" }}>
@@ -285,8 +310,10 @@ class Media extends Component {
             sqlrdsid={this.props.sqlrdsid}
             idmedia={this.props.idmedia}
             name={this.props.name}
+            type={this.props.type}
             mediafiles={this.props.mediafiles}
             closeDelete={this.CloseDeleteMedia.bind()}
+            stopffmpegcompression={this.stopFFmpegCompression.bind()}
             desc={this.props.type === "audio" ? "audio" : "photo"}
           />
         )}
@@ -325,6 +352,14 @@ const styles = StyleSheet.create({
         borderRadius: 30,
        // marginTop: 10
          },
+         videoImageStyle:
+         {
+          width: 40,
+          height: 40,
+          marginLeft: 9
+         // borderRadius: 30,
+         // marginTop: 10
+           },
     name:{
         fontSize: 12,
         marginLeft: 5,

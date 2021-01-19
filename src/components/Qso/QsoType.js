@@ -9,7 +9,7 @@ import I18n from '../../utils/i18n';
 
 
 
-class QsoType extends Component {
+class QsoType extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -224,7 +224,7 @@ class QsoType extends Component {
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/fieldday12.png')} style={{width: 50, height: 50}} 
+                            <Image source={require('../../images/activacion12.png')} style={{width: 50, height: 50}} 
                             resizeMode="contain" />
                           }
                      </TouchableOpacity> 

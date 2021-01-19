@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
 import I18n from '../../utils/i18n';
 
-class QsoDateLink extends Component {
+class QsoDateLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

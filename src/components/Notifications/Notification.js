@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 //Amplify.configure(awsconfig);
 
-class Notification extends Component {
+class Notification extends React.PureComponent {
   static navigationOptions = {
       tabBarLabel: ' ',  
         
@@ -79,6 +79,7 @@ class Notification extends Component {
   onScreenFocus = async () => {
     // Screen was focused, our on focus logic goes here
     console.log('NOTIF en FOCUS!')
+    this.props.setPressHome(0);
     // var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
     // formateo = new Date(ultimaFechaDeIngreso);
     // console.log('utlimafecha:'+ ultimaFechaDeIngreso);

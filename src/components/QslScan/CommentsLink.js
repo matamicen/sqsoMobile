@@ -7,7 +7,7 @@ import { getDateQslScan } from '../../helper';
 //import PropTypes from 'prop-types';
 import I18n from '../../utils/i18n';
 
-class CommentsLink extends Component {
+class CommentsLink extends React.PureComponent {
 
     constructor(props) {
         super(props);

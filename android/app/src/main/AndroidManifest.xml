@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <!-- Empieza agregado de librearia react-native-push-notification -->
 
@@ -36,7 +37,8 @@
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher"
       android:allowBackup="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true">
 
       <activity
         android:name=".MainActivity"
@@ -44,11 +46,21 @@
         android:label="@string/app_name" android:screenOrientation="portrait"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
-          android:windowSoftInputMode="adjustPan">
+          android:windowSoftInputMode="adjustPan"
+          android:documentLaunchMode="never">
+
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+          <intent-filter>
+              <action android:name="android.intent.action.SEND" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <data android:mimeType="text/plain" />
+              <data android:mimeType="image/*" />
+              <data android:mimeType="video/*" />
+              <!-- Any other mime types you want to support -->
+          </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 

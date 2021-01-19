@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withNavigation } from "react-navigation";
 import { BackHandler } from "react-native";
-class HandleBack extends Component {
+class HandleBack extends React.PureComponent {
   constructor(props) {
     super(props);
     this.didFocus = props.navigation.addListener("didFocus", payload =>

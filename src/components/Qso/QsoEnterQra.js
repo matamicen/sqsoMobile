@@ -11,7 +11,7 @@
 // import VariosModales from './VariosModales';
 
 
-// class QsoEnterQra extends Component {
+// class QsoEnterQra extends React.PureComponent {
 
 //     constructor(props) {
 //         super(props);

@@ -12,7 +12,7 @@ import I18n from '../../utils/i18n';
 
 Auth.configure(awsconfig);
 
-class DeletePost extends Component {
+class DeletePost extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -161,6 +161,7 @@ class DeletePost extends Component {
             deletePost2 = async  () => {
               this.props.newqsoactiveFalse();
               this.props.resetQso();
+              this.props.deleteqsofolder();
               this.props.closeDeletePost();
 
             }

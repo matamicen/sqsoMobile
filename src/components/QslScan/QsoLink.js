@@ -26,7 +26,7 @@ import {
 import I18n from '../../utils/i18n';
 
 
-class QsoLink extends Component {
+class QsoLink extends React.PureComponent {
   static navigationOptions = {
       tabBarLabel: 'Qso Link',
 

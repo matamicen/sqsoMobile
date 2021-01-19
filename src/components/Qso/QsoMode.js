@@ -7,7 +7,7 @@ import { updateOnProgress, check_firstTime_OnProgress, hasAPIConnection} from '.
 import VariosModales from './VariosModales';
 import I18n from '../../utils/i18n';
 
-class QsoMode extends Component {
+class QsoMode extends React.PureComponent {
 
     constructor(props) {
         super(props);

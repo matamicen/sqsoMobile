@@ -12,7 +12,7 @@ import I18n from '../../utils/i18n';
 
 Auth.configure(awsconfig);
 
-class DeleteMedia extends Component {
+class DeleteMedia extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -114,9 +114,19 @@ class DeleteMedia extends Component {
             //     this.props.closeDelete()
             //   }
 
+      
+
+            if (this.props.type==='video') // si es video por mas que se haya creado sqlrdsid debe borrarlo de memoria
+                                           //  porque la API de bacjkend se llama luego de hacer el upload del video y en video el upload se hace cuando se apreta PUBLICAR
+               this.props.deleteMediaInMemory(this.props.name);
+       
+            else
             // si fue enviado al backend entonces borro el media de la publicacion y BD siempre, no importa si no quedan medias en la publicacion, la validacion esa la hace el boton 
             // de publicar 
                 this.props.deleteMedia(this.props.idmedia,this.props.name,this.props.desc,this.props.jwtToken);
+
+
+                this.props.stopffmpegcompression()
                 this.props.closeDelete()
                //#PUBLSIH 
 
@@ -195,7 +205,7 @@ class DeleteMedia extends Component {
                         resizeMethod="resize"
                         source={require('../../images/delete3.png')}
                           />
-                      <Text style={{ color: 'white', fontSize: 16, alignItems: "center"}}>{(this.props.desc==='photo') ? I18n.t("DeleteMediaAreYouSurePhoto") : I18n.t("DeleteMediaAreYouSureAudio")  } {(this.props.desc==='photo') ? I18n.t("DeleteMediaPhoto") : I18n.t("DeleteMediaAudio")}?</Text>
+                      <Text style={{ color: 'white', fontSize: 16, alignItems: "center"}}>{(this.props.type==='image') && I18n.t("DeleteMediaAreYouSurePhoto")}{(this.props.type==='audio') && I18n.t("DeleteMediaAreYouSureAudio")}{(this.props.type==='video') && I18n.t("DeleteMediaAreYouSureVideo")} {(this.props.type==='image') &&  I18n.t("DeleteMediaPhoto")}{(this.props.type==='audio') &&  I18n.t("DeleteMediaAudio")}{(this.props.type==='video') &&  I18n.t("DeleteMediaVideo")}?</Text>
                       </View> }
                 {/* :
                   <View style={{ flex:0.8, justifyContent: "center", alignItems: "center" }}>

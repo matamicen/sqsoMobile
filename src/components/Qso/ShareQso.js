@@ -9,7 +9,7 @@ import global_config from '../../global_config.json';
   
 
 
-class ShareQso extends Component {
+class ShareQso extends React.PureComponent {
 
 
   constructor(props) {

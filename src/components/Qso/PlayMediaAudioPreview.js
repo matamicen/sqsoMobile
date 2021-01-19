@@ -18,7 +18,7 @@ import {
 import Video from 'react-native-video';
 import I18n from '../../utils/i18n';
 
- class PlayMediaAudioPreview extends Component {
+ class PlayMediaAudioPreview extends React.PureComponent {
   
     constructor(props) {
         super(props);

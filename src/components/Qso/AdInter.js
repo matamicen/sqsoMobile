@@ -14,7 +14,7 @@ import {
   import crashlytics from '@react-native-firebase/crashlytics';
 
 
-class AdInter extends Component {
+class AdInter extends React.PureComponent {
 
 
   constructor(props) {
