@@ -656,8 +656,11 @@ export default {
   },
   qso: {
     comments: 'Comentarios',
-    audioPlays: ' - {{count}} Reproducción',
-    audioPlays_plural: ' - {{count}} Reproducciones',
+    audioPlays: {
+      one: '%{count} Reproducción',
+      other: '%{count} Reproducciones'
+    },
+
     callsignTagged: 'SD/Colegas etiquetadas',
     repost: 'republicar',
     share: 'compartir',

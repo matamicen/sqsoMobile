@@ -143,7 +143,8 @@ class FeedVideo extends React.PureComponent {
         <View style={{ flex: 1, alignItems: 'center' }}>
           {this.props.media.views_counter > 0 && (
             <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
-              {this.props.media.description}{' '}
+              {this.props.media.description}
+              {' - '}
               {I18n.t('qso.audioPlays', {
                 count: this.props.media.views_counter + 1
               })}
