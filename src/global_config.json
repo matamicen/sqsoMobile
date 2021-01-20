@@ -1,11 +1,11 @@
 {
-    "s3Cloudfront": "https://d1dwfud4bi54v7.cloudfront.net/1/",
-    "apiEndpoint": "https://api.zxcvbnmasd.com",
-    "urlWeb": "https://www.superqso.com",
+    "s3Cloudfront_prd": "https://d1dwfud4bi54v7.cloudfront.net/1/",
+    "apiEndpoint_prd": "https://api.zxcvbnmasd.com",
+    "urlWeb_prd": "https://www.superqso.com",
     "urlWeb_test2": "https://react-select.com/home",
-    "s3Cloudfront_dev": "https://d30o7j00smmz5f.cloudfront.net/1/",
-    "apiEndpoint_dev": "https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod",
-    "urlWeb_dev": "https://test.dd39wvlkuxk5j.amplifyapp.com",
+    "s3Cloudfront": "https://d30o7j00smmz5f.cloudfront.net/1/",
+    "apiEndpoint": "https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod",
+    "urlWebn": "https://test.dd39wvlkuxk5j.amplifyapp.com",
     "urlWeb_matiasLocal": "http://192.168.0.12:3000",
     "urlWeb_lis": "http://10.0.75.1:3000"
 }
