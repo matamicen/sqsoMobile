@@ -4,10 +4,11 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  View
+  View,
+  Modal
 } from 'react-native';
-
-import { Image } from 'react-native-elements';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import { Image, Overlay, Icon } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,9 +19,10 @@ const slideWidth = Dimensions.get('window').width;
 const sliderWidth = Dimensions.get('window').width;
 let itemWidth = Dimensions.get('window').width;
 const itemHeight = 380;
-export const FeedImage = (props) => {
-  itemWidth = props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
-  const _renderItem = ({ item, index }) => {
+class FeedImage extends React.PureComponent {
+  state = { showModal: false };
+  itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
+  _renderItem = ({ item, index }) => {
     if (item.type === 'image')
       return (
         <View
@@ -54,6 +56,7 @@ export const FeedImage = (props) => {
               resizeMode="contain"
               transition
               PlaceholderContent={<ActivityIndicator />}
+              onPress={() => this.setState({ showModal: true })}
             />
           </View>
           <View
@@ -70,21 +73,70 @@ export const FeedImage = (props) => {
         // </View>
       );
   };
+  showFooter(currentIndex) {
+    return (
+      <View
+        style={
+          {
+            // flex: 1,
+            // justifyContent: 'center',
+            // alignItems: 'center'
+          }
+        }>
+        <Text style={{ fontSize: 17, color: 'white', paddingHorizontal: 5 }}>
+          {this.props.img[currentIndex].description}
+        </Text>
+      </View>
+    );
+  }
+  showHeader() {
+    return (
+      <View
+        style={{
+          alignSelf: 'flex-end'
+        }}>
+        <Icon
+          name="close"
+          type="font-awesome"
+          size={40}
+          color={'white'}
+          onPress={() => this.setState({ showModal: false })}
+        />
+      </View>
+    );
+  }
+  render() {
+    return (
+      <View>
+        <Carousel
+          ref={(c) => {
+            this._carousel = c;
+          }}
+          data={this.props.img}
+          renderItem={this._renderItem}
+          sliderWidth={sliderWidth}
+          itemWidth={sliderWidth}
+          removeClippedSubviews={false}
+        />
 
-  return (
-    <Carousel
-      ref={(c) => {
-        this._carousel = c;
-      }}
-      data={props.img}
-      renderItem={_renderItem}
-      sliderWidth={sliderWidth}
-      itemWidth={sliderWidth}
-      removeClippedSubviews={false}
-      // initialNumToRender={0}
-    />
-  );
-};
+        <Modal
+          visible={this.state.showModal}
+          // transparent={true}
+          onRequestClose={() => this.setState({ showModal: false })}>
+          <ImageViewer
+            imageUrls={this.props.img}
+            renderHeader={this.showHeader.bind(this)}
+            renderFooter={(currentIndex) => this.showFooter(currentIndex)}
+            // visible={this.props.showModal}
+            // transparent={true}
+            //   onRequestClose={() => this.setState({ showModal: false })
+            // }
+          />
+        </Modal>
+      </View>
+    );
+  }
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
