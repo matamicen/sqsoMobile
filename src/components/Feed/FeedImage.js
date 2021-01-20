@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal
+  Modal,
+  Platform
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Image, Icon } from 'react-native-elements';
@@ -158,8 +159,14 @@ class FeedImage extends React.PureComponent {
         <Modal
           visible={this.state.showModal}
           // transparent={true}
-          onRequestClose={() => this.setState({ showModal: false })}>
+          onRequestClose={() => this.setState({ showModal: false })}
+          
+            >
+
+
+<View style={{flex: 1, width: '100%', marginTop: Platform.OS === 'ios' ? 32: 0}}>
           <ImageViewer
+          
             imageUrls={this.props.img}
             renderHeader={this.showHeader.bind(this)}
             footerContainerStyle={{ width: '100%' }}
@@ -169,6 +176,8 @@ class FeedImage extends React.PureComponent {
             //   onRequestClose={() => this.setState({ showModal: false })
             // }
           />
+          </View>
+          {/* </View> */}
         </Modal>
       </View>
     );
