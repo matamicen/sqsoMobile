@@ -62,7 +62,9 @@ export const FeedImage = (props) => {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-            <Text style={{ fontSize: 17 }}>{item.description}</Text>
+            <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
+              {item.description}
+            </Text>
           </View>
         </View>
         // </View>

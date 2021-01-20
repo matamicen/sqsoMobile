@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, ScrollView } from 'react-native';
 // import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import QRA from './QRA';
 // import './style.js';
@@ -13,19 +13,21 @@ export default class QRAs extends React.PureComponent {
       <View style={styles.container}>
         {this.props.qras.length > 0 && (
           <View style={styles.qras}>
-            <FlatList
-              horizontal
-              pagingEnabled={true}
-              onScroll={this.handleScroll}
-              data={this.props.qras}
-              onViewableItemsChanged={this._onViewableItemsChanged}
-              initialNumToRender={3}
-              viewabilityConfig={this.viewabilityConfig}
-              maxToRenderPerBatch={3}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={this._renderItem}
-              contentContainerStyle={styles.container}
-            />
+            <ScrollView horizontal contentContainerStyle={styles.qras}>
+              <FlatList
+                horizontal
+                pagingEnabled={true}
+                onScroll={this.handleScroll}
+                data={this.props.qras}
+                onViewableItemsChanged={this._onViewableItemsChanged}
+                initialNumToRender={3}
+                viewabilityConfig={this.viewabilityConfig}
+                maxToRenderPerBatch={3}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={this._renderItem}
+                contentContainerStyle={styles.container}
+              />
+            </ScrollView>
           </View>
         )}
       </View>

@@ -2408,6 +2408,7 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case RECEIVE_QSO_MEDIA_COUNTER:
+      console.log(action);
       newStore = Object.assign({}, state, {
         ...state,
         feed: {

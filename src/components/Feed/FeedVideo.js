@@ -5,6 +5,7 @@ import { Tile } from 'react-native-elements';
 import VideoPlayer from 'react-native-video-controls';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import I18n from '../../utils/i18n';
 import * as Actions from '../../actions';
 // import './style.js';
 
@@ -51,7 +52,7 @@ class FeedVideo extends React.PureComponent {
             justifyContent: 'center',
             alignSelf: 'center',
             // height: videoHeight,
-            width
+            width: Dimensions.get('window').width
           }
         }>
         {/* <View style={{ width: '100%' }} ref={componentRef}> */}
@@ -125,7 +126,14 @@ class FeedVideo extends React.PureComponent {
               //   PlaceholderContent={<ActivityIndicator />}
               // }
               icon={{ size: 70, name: 'play-circle', type: 'font-awesome' }}
-              onPress={() => this.setState({ showVideo: true, paused: false })}
+              onPress={() => {
+                this.props.actions.doQsoMediaPlay(
+                  this.props.media.idqsos_media,
+
+                  this.props.media.idqso
+                );
+                this.setState({ showVideo: true, paused: false });
+              }}
               featured
             />
           </View>
@@ -133,7 +141,19 @@ class FeedVideo extends React.PureComponent {
         {/* <source src={props.media.url} type="video/mp4" /> */}
         {/* </View> */}
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={{ fontSize: 17 }}>{this.props.media.description}</Text>
+          {this.props.media.views_counter > 0 && (
+            <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
+              {this.props.media.description}{' '}
+              {I18n.t('qso.audioPlays', {
+                count: this.props.media.views_counter + 1
+              })}
+            </Text>
+          )}
+          {this.props.media.views_counter === 0 && (
+            <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
+              {this.props.media.description}{' '}
+            </Text>
+          )}
         </View>
       </View>
     );
