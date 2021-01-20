@@ -8,8 +8,8 @@ import {
   Modal
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { Image, Overlay, Icon } from 'react-native-elements';
-import Carousel from 'react-native-snap-carousel';
+import { Image, Icon } from 'react-native-elements';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -20,7 +20,7 @@ const sliderWidth = Dimensions.get('window').width;
 let itemWidth = Dimensions.get('window').width;
 const itemHeight = 380;
 class FeedImage extends React.PureComponent {
-  state = { showModal: false };
+  state = { showModal: false, activeSlide: 0 };
   itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
   _renderItem = ({ item, index }) => {
     if (item.type === 'image')
@@ -98,6 +98,30 @@ class FeedImage extends React.PureComponent {
       </View>
     );
   }
+  pagination() {
+    const { entries, activeSlide } = this.state;
+    return (
+      <Pagination
+        dotsLength={this.props.img.length}
+        activeDotIndex={activeSlide}
+        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          marginHorizontal: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.92)'
+        }}
+        inactiveDotStyle={
+          {
+            // Define styles for inactive dots here
+          }
+        }
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    );
+  }
   render() {
     return (
       <View>
@@ -110,8 +134,27 @@ class FeedImage extends React.PureComponent {
           sliderWidth={sliderWidth}
           itemWidth={sliderWidth}
           removeClippedSubviews={false}
+          onSnapToItem={(index) => this.setState({ activeSlide: index })}
         />
-
+        <Pagination
+          dotsLength={this.props.img.length}
+          activeDotIndex={this.state.activeSlide}
+          containerStyle={{ backgroundColor: 'white' }}
+          dotStyle={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 8,
+            backgroundColor: 'black'
+          }}
+          inactiveDotStyle={
+            {
+              // Define styles for inactive dots here
+            }
+          }
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
         <Modal
           visible={this.state.showModal}
           // transparent={true}
