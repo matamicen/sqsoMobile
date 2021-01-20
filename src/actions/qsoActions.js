@@ -864,6 +864,7 @@ export const qsoPublish = (qsoHeader, qsoqras, jwtToken) => {
         setTimeout(() => {
           dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
           dispatch(resetQso()); // resetea la publicacion
+          this.toast(I18n.t('Refreshing'), 3000);
         }, 150);
 
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
