@@ -75,15 +75,8 @@ class FeedImage extends React.PureComponent {
   };
   showFooter(currentIndex) {
     return (
-      <View
-        style={
-          {
-            // flex: 1,
-            // justifyContent: 'center',
-            // alignItems: 'center'
-          }
-        }>
-        <Text style={{ fontSize: 17, color: 'white', paddingHorizontal: 5 }}>
+      <View style={{ height: 100, backgroundColor: 'black' }}>
+        <Text style={{ fontSize: 17, color: 'white', textAlign: 'center' }}>
           {this.props.img[currentIndex].description}
         </Text>
       </View>
@@ -126,6 +119,7 @@ class FeedImage extends React.PureComponent {
           <ImageViewer
             imageUrls={this.props.img}
             renderHeader={this.showHeader.bind(this)}
+            footerContainerStyle={{ width: '100%' }}
             renderFooter={(currentIndex) => this.showFooter(currentIndex)}
             // visible={this.props.showModal}
             // transparent={true}
