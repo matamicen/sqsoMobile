@@ -18,11 +18,17 @@ import * as Actions from '../../actions';
 const slideWidth = Dimensions.get('window').width;
 
 const sliderWidth = Dimensions.get('window').width;
-let itemWidth = Dimensions.get('window').width;
+
 const itemHeight = 380;
 class FeedImage extends React.PureComponent {
+  itemWidth = Dimensions.get('window').width;
   state = { showModal: false, activeSlide: 0 };
-  itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
+  componentDidMount() {
+    this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
+  }
+  componentDidUpdate() {
+    this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
+  }
   _renderItem = ({ item, index }) => {
     if (item.type === 'image')
       return (
@@ -45,12 +51,13 @@ class FeedImage extends React.PureComponent {
             <Image
               style={{
                 flex: 1,
-                height: itemWidth > 270 ? Dimensions.get('window').height : 280,
+                height:
+                  this.itemWidth > 270 ? Dimensions.get('window').height : 280,
                 maxHeight: 370,
                 // alignSelf: 'center',
                 padding: 0,
                 margin: 0,
-                width: itemWidth
+                width: this.itemWidth
               }}
               source={{ uri: item.url }}
               resizeMethod="scale"
@@ -64,9 +71,15 @@ class FeedImage extends React.PureComponent {
             style={{
               flex: 0.1,
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
+              width: this.itemWidth - 10
             }}>
-            <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
+            <Text
+              style={{
+                fontSize: 17,
+                paddingHorizontal: 5,
+                width: this.itemWidth - 10
+              }}>
               {item.description}
             </Text>
           </View>
@@ -159,23 +172,23 @@ class FeedImage extends React.PureComponent {
         <Modal
           visible={this.state.showModal}
           // transparent={true}
-          onRequestClose={() => this.setState({ showModal: false })}
-          
-            >
-
-
-<View style={{flex: 1, width: '100%', marginTop: Platform.OS === 'ios' ? 32: 0}}>
-          <ImageViewer
-          
-            imageUrls={this.props.img}
-            renderHeader={this.showHeader.bind(this)}
-            footerContainerStyle={{ width: '100%' }}
-            renderFooter={(currentIndex) => this.showFooter(currentIndex)}
-            // visible={this.props.showModal}
-            // transparent={true}
-            //   onRequestClose={() => this.setState({ showModal: false })
-            // }
-          />
+          onRequestClose={() => this.setState({ showModal: false })}>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              marginTop: Platform.OS === 'ios' ? 32 : 0
+            }}>
+            <ImageViewer
+              imageUrls={this.props.img}
+              renderHeader={this.showHeader.bind(this)}
+              footerContainerStyle={{ width: '100%' }}
+              renderFooter={(currentIndex) => this.showFooter(currentIndex)}
+              // visible={this.props.showModal}
+              // transparent={true}
+              //   onRequestClose={() => this.setState({ showModal: false })
+              // }
+            />
           </View>
           {/* </View> */}
         </Modal>
