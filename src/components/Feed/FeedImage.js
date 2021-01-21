@@ -72,13 +72,16 @@ class FeedImage extends React.PureComponent {
               flex: 0.1,
               justifyContent: 'center',
               alignItems: 'center',
-              width: this.itemWidth - 10
+              width:
+                this.props.type === 'SHARE'
+                  ? this.itemWidth - 15
+                  : this.itemWidth - 15
             }}>
             <Text
               style={{
                 fontSize: 17,
                 paddingHorizontal: 5,
-                width: this.itemWidth - 10
+                textAlign: 'center'
               }}>
               {item.description}
             </Text>
