@@ -538,9 +538,12 @@ closeDatePicker = () => {
       this.setState({ indicator: 0 });
 
       if (this.errorSignin === 'User is disabled.') {
+        console.log('paso por User is disabled');
         this.props.welcomeUserFirstTime(true);
         console.log('error signin:' + this.errorSignin);
-        this.props.navigation.navigate('Root');
+        // this.props.navigation.navigate('Root');
+        this.props.navigation.navigate('Login')
+        
       }
     }
   };
