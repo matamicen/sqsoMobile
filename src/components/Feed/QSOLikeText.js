@@ -152,19 +152,20 @@ class QSOLikeText extends React.PureComponent {
           height="auto"
           borderRadius={8}
           overlayStyle={{
-            position: 'absolute',
+            // position: 'absolute',
             flex: 1,
             top: 50,
             // bottom: 50,
             width: '80%'
             // maxHeight: '80%'
           }}>
-          <KeyboardAvoidingView
+          <View style={{ flex: 1, width: '100%' }}>
+            {/* <KeyboardAvoidingView
             behavior="padding"
-            style={{ flex: 1, justifyContent: 'center' }}>
+            style={{ flex: 1, justifyContent: 'center' }}> */}
             <View
               style={{
-                flex: 1,
+                flex: 0.05,
                 flexDirection: 'row',
                 justifyContent: 'space-between'
               }}>
@@ -183,21 +184,22 @@ class QSOLikeText extends React.PureComponent {
             </View>
             <Divider hidden />
 
-            <View style={styles.itemsView}>
+            <View style={{ flex: 0.85 }}>
               <FlatList
-                pagingEnabled={true}
+                // pagingEnabled={true}
                 onScroll={this.handleScroll}
                 data={likes}
                 onViewableItemsChanged={this._onViewableItemsChanged}
-                initialNumToRender={3}
-                viewabilityConfig={this.viewabilityConfig}
-                maxToRenderPerBatch={3}
+                // initialNumToRender={3}
+                // viewabilityConfig={this.viewabilityConfig}
+                // maxToRenderPerBatch={3}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={this._renderItem}
                 contentContainerStyle={styles.container}
               />
             </View>
-          </KeyboardAvoidingView>
+            {/* </KeyboardAvoidingView> */}
+          </View>
         </Overlay>
       </View>
     );
@@ -205,8 +207,8 @@ class QSOLikeText extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   itemsView: {
-    marginTop: 10
-    // flex: 1,
+    marginTop: 10,
+    flex: 1
     // // flexDirection: 'column',
     // alignItems: 'flex-start',
     // justifyContent: 'flex-start'
