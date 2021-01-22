@@ -2963,8 +2963,8 @@ if (this.pressPublish===false)
 
 
               // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
-              home = global_config.urlWeb + '?' + new Date();
-              await this.props.setWebView(this.props.webviewsession,home);
+              // home = global_config.urlWeb + '?' + new Date();
+              // await this.props.setWebView(this.props.webviewsession,home);
           
               conta = 0;
 
@@ -3022,8 +3022,8 @@ if (Platform.OS==='android')
 
 RNFetchBlob.fs.unlink(theqsopath).then(() => 
 { console.log("Succeeded") 
-
-if (Platform.OS==='android') // el scanFile funciona solo en android
+console.log('platform version: '+ Platform.Version)
+if (Platform.OS==='android' && Platform.Version < 30) // el scanFile funciona solo en android
 {
   RNFetchBlob.fs.scanFile([ this.file10_delete, this.videoaux_delete ])
 

@@ -134,14 +134,17 @@ class EditMedia extends React.PureComponent {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              {this.props.type === 'image' || this.props.type === 'profile' ? (
+              {(this.props.type === 'image' || this.props.type === 'profile') && 
                 <Image
                   style={styles.faceImageStyle}
                   source={{ uri: this.props.url }}
                   resizeMethod="resize"
                   resizeMode="contain"
                 />
-              ) : (
+              
+          }
+                
+           {this.props.type === 'audio'  && 
                 // <Image style={styles.faceImageStyleAudio}
                 //             source={require('../../images/audio.png')}
                 //                 /> }
@@ -153,7 +156,13 @@ class EditMedia extends React.PureComponent {
                     <PlayMediaAudioPreview url={this.props.url} />
                   </View>
                 </View>
-              )}
+              }
+             {(this.props.type === 'video')  && 
+                    <Image style={styles.videoImageStyle}
+                     source={require('../../images/video1.png')}
+                         />
+                        }
+
             </View>
 
             <View style={{ flex: 0.5 }}>
@@ -283,7 +292,15 @@ const styles = StyleSheet.create({
     fontSize: 16.5,
     paddingHorizontal: 5
     //   width: 100
-  }
+  },
+  videoImageStyle:
+  {
+   width: 60,
+   height: 60,
+   //marginLeft: 9
+  // borderRadius: 30,
+  // marginTop: 10
+    },
 });
 
 const mapStateToProps = (state) => {

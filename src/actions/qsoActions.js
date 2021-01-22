@@ -864,6 +864,7 @@ export const qsoPublish = (qsoHeader, qsoqras, jwtToken) => {
         setTimeout(() => {
           dispatch(newqsoactiveFalse()); // cierra la publicacion para que el usuario pueda elegir una nueva
           dispatch(resetQso()); // resetea la publicacion
+          this.toast(I18n.t('Refreshing'), 3000);
         }, 150);
 
         // actualizo el status de todos los QRAs del QSO como SENT ya que fue enviado a AWS
@@ -3848,7 +3849,7 @@ export const doReceiveFollowers = (following) => {
     following: following
   };
 };
-export const doQsoMediaPlay = (idMedia, token, idqso) => {
+export const doQsoMediaPlay = (idMedia, idqso) => {
   // if (process.env.REACT_APP_STAGE === 'production')
   //   window.gtag('event', 'qsoMediaPlay_WEBPRD', {
   //     event_category: 'QSO',
@@ -3923,7 +3924,7 @@ export const doRepost = (idqso, token, qso) => {
           Authorization: session.idToken.jwtToken
         } // OPTIONAL
       };
-      
+
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
@@ -3959,7 +3960,7 @@ export const doRepost = (idqso, token, qso) => {
       }
     }
   };
-}
+};
 
 export function doLikeQSO(
   idqso,
