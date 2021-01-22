@@ -635,8 +635,11 @@ export default {
   },
   qso: {
     comments: 'Comments',
-    audioPlays: ' - {{count}} Play',
-    audioPlays_plural: ' - {{count}} Plays',
+    audioPlays: {
+      one: '%{count} Play',
+      other: '%{count} Plays'
+    },
+
     callsignTagged: 'Callsigns tagged',
     repost: 'repost',
     share: 'share',

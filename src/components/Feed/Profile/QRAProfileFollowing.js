@@ -14,7 +14,7 @@ import {
 // import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import { Avatar } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
-const QRAProfileFollowing = ({ following, navigation }) => {
+const QRAProfileFollowing = ({ following, navigation, actions }) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -33,8 +33,8 @@ const QRAProfileFollowing = ({ following, navigation }) => {
               <TouchableOpacity
                 // style={styles.button}
                 onPress={() => {
-                  this.props.actions.clearQRA();
-                  this.props.actions.doFetchQRA(item.qra);
+                  actions.clearQRA();
+                  actions.doFetchQRA(item.qra);
                   navigation.push('QRAProfile', {
                     qra: item.qra,
                     screen: 'PROFILE'
