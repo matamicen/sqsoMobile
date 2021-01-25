@@ -6,6 +6,9 @@ export default {
   password: 'password',
   loading: 'Loading ...',
   currentSession: 'Loading ...',
+  USER_NOT_VALIDATED: 'User not validated',
+  USER_NOT_VALIDATED_TEXT: 'You can not perform this action until your user is validated, Please send us a copy of your callsign license issued by your association to info@superqso.com. This approval could take us 24 hs.',
+  USER_NOT_VALIDATED_CLOSE: 'Close',
   loginerrorMessUserNotFound: 'Login error, user/password not found, try again',
   loginerrorUserDisabled:
     'The user is not enabled yet, remember to send us a copy of your issued ham license to info@superqso.com',

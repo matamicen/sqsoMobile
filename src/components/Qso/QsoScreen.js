@@ -74,7 +74,7 @@ import {
   showVideoReward,
   showIntersitial,
   updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
-   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2 } from "../../helper";
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2, userNotEnableAlert } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
@@ -1973,6 +1973,12 @@ if (storagePermission)
   };
 
   newQso = async (qsotype) => {
+    console.log('userInfo:')
+    console.log(this.props.userinfo)
+    if (true)
+       userNotEnableAlert();
+   else
+ {
     if (await hasAPIConnection()) {
 
       this.videorewardmustbeshown = false;
@@ -2010,6 +2016,8 @@ if (storagePermission)
         this.newqso_after_ad(qsotype);
 
     } else this.setState({ nointernet: true });
+
+ }
   };
 
   newqso_after_ad = async (qsotype) => {

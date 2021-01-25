@@ -6,6 +6,9 @@ export default {
   password: 'contraseña',
   loading: 'Cargando ...',
   currentSession: 'Cargando ...',
+  USER_NOT_VALIDATED: 'Usuario no validado',
+  USER_NOT_VALIDATED_TEXT: 'No se puede realizar esta acción ya que su usuario todavía no fue validado. Por favor envie su carnet/resolución de licencia a info@superqso.com. Este tramite puede demorar 24hs',
+  USER_NOT_VALIDATED_CLOSE: 'Cerrar',
   loginerrorMessUserNotFound:
     'Error de inicio de sesión, usuario/contraseña incorrecto, intente nuevamente',
   loginerrorUserDisabled:

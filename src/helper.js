@@ -2,7 +2,7 @@ import { APP_VERSION } from './appVersion';
 import awsconfig from './aws-exports';
 import Analytics from '@aws-amplify/analytics';
 import { AWSKinesisProvider } from 'aws-amplify';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import global_config from './global_config.json';
 // import firebase from '@react-native-firebase/app';
@@ -1330,3 +1330,26 @@ export async function createSQSOfolder() {
     })();
   });
 }
+
+
+export const userNotEnableAlert = () => {
+
+  Alert.alert(
+    I18n.t("USER_NOT_VALIDATED"),
+    I18n.t("USER_NOT_VALIDATED_TEXT"),
+    // 'Usuario no validado',
+    // 'No se puede realizar esta acción ya que su usuario todavía no fue validado. Por favor envie una constancia de la licencia a  info@superqso.com. Este tramite puede demorar 24hs',
+    [
+      {
+        text: I18n.t("USER_NOT_VALIDATED_CLOSE"),
+        onPress: () => console.log('ok'),
+        style: 'cancel',
+      }
+      
+    ],
+   )
+
+
+ 
+  return true;
+};

@@ -456,6 +456,8 @@ closeDatePicker = () => {
         this.props.resetQso('QSO'); // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
         this.props.newqsoactiveFalse();
 
+       
+
         // this.props.followersAlreadyCalled(false);
 
         console.log('la credencial RES:' + res);
@@ -498,7 +500,7 @@ closeDatePicker = () => {
         // kinesis_catch('#024',error,this.state.qra.toUpperCase());
         // Error saving data
       }
-
+      
       //envio nuevo QRA y pushToken para que se asocie en el backend
       try {
         //  await AsyncStorage.setItem('pushtoken', this.props.pushtoken);
@@ -509,7 +511,7 @@ closeDatePicker = () => {
           pushtoken,
           this.qra,
           Platform.OS,
-          session.idToken.jwtToken
+          this.jwtToken
         );
 
         console.log(
@@ -533,7 +535,8 @@ closeDatePicker = () => {
 
       this.props.welcomeUserFirstTime(true);
       this.setState({ indicator: 0 });
-      this.props.navigation.navigate('AppNavigator2');
+      // this.props.navigation.navigate('AppNavigator2');
+      this.props.navigation.navigate('Home');
     } else {
       this.setState({ indicator: 0 });
 
