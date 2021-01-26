@@ -6,6 +6,7 @@ import {
   ADD_CALLSIGN,
   ADD_MEDIA,
   ADD_QRA,
+  USER_VALIDATED,
   AUDIO_RECORDING_PERMISSION_FALSE,
   AUDIO_RECORDING_PERMISSION_TRUE,
   CAMERA_PERMISSION_FALSE,
@@ -2592,7 +2593,7 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
 
-    case SET_FEEDTOUCHABLE:
+    case SET_FEEDTOUCHABLE: {
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2601,7 +2602,8 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
-    case LATEST_USERS_RECEIVE:
+    }
+    case LATEST_USERS_RECEIVE: {
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2612,6 +2614,20 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
+    }
+    case USER_VALIDATED: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qra: {
+            ...state.feed.qra,
+            qra: { ...state.feed.qra.qra, pendingVerification: null }
+          }
+        }
+      });
+      return newStore;
+    }
     default:
       return state;
   }

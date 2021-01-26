@@ -7,7 +7,8 @@ export default {
   loading: 'Loading ...',
   currentSession: 'Loading ...',
   USER_NOT_VALIDATED: 'User not validated',
-  USER_NOT_VALIDATED_TEXT: 'You can not perform this action until your user is validated, Please send us a copy of your callsign license issued by your association to info@superqso.com. This approval could take us 24 hs.',
+  USER_NOT_VALIDATED_TEXT:
+    'You can not perform this action until your user is validated, Please send us a copy of your callsign license issued by your association to info@superqso.com. This approval could take us 24 hs.',
   USER_NOT_VALIDATED_CLOSE: 'Close',
   loginerrorMessUserNotFound: 'Login error, user/password not found, try again',
   loginerrorUserDisabled:
@@ -682,6 +683,9 @@ export default {
     likeModalHeader: 'Likes'
   },
   qra: {
+    userValidated: 'User Validated',
+    approveUser: 'Approve User',
+    optionsMenu: 'Profile Menu',
     loading: 'Loading Callsign...',
     views: 'Views',
     follow: 'Follow',
@@ -750,7 +754,7 @@ export default {
     workedQSO: 'Worked a QSO with '
   },
   exploreUsers: {
-    lookWhoInQSO: 'Look who is on SuperQSO',
+    lookWhoInQSO: 'Explore new Users',
     qsosCreated: 'Posts',
     callsignsYouTagged: 'Callsigns that you have already tagged',
     callsignsTaggedYou: 'Callsigns that already tagged you',

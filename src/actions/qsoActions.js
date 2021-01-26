@@ -33,6 +33,7 @@ import {
   CLEAR_QRA,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
+  USER_VALIDATED,
   COMMENT_ADD,
   COMMENT_ADD_UPDATE,
   COMMENT_DELETE,
@@ -4596,10 +4597,66 @@ export function doLatestUsersFetch() {
     }
   };
 }
+
 export function doLatestUsersReceive(follow) {
   return {
     type: LATEST_USERS_RECEIVE,
     follow: follow
+  };
+}
+export function doValidateUser(qra) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'qsoDelete_WEBPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'delete'
+    //   });
+    try {
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+
+      const apiName = 'superqso';
+      const path = '/admin-users/approve';
+      const myInit = {
+        body: {
+          qra
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: session.idToken.jwtToken
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            dispatch(doValidateUserResponse(qra));
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          console.log(error);
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__) {
+            console.log(error.message);
+            crashlytics().recordError(new Error('doValidateUser_WEBDEV'));
+          } else crashlytics().recordError(new Error('doValidateUser_WEBPRD'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      console.log(error);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) {
+        console.log(error.message);
+        crashlytics().recordError(new Error('doValidateUser_WEBDEV'));
+      } else crashlytics().recordError(new Error('doValidateUser_WEBPRD'));
+    }
+  };
+}
+
+export function doValidateUserResponse(qra) {
+  this.toast(I18n.t('qra.userValidated'), 2500);
+  return {
+    type: USER_VALIDATED,
+    qra
   };
 }
 // END NATIVE FEED

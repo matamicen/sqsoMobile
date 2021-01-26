@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
+
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
+
 import QRAProfile from './QRAProfilePresentational';
+
 class QRAProfileContainer extends React.PureComponent {
   constructor() {
     super();
@@ -15,7 +19,8 @@ class QRAProfileContainer extends React.PureComponent {
       tab: null,
       followed: null,
       qra: null,
-      qraError: null
+      qraError: null,
+      openMenu: true
     };
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
@@ -25,39 +30,12 @@ class QRAProfileContainer extends React.PureComponent {
     if (this.props.qra) this.setState({ qra: this.props.qra });
     if (__DEV__) this.setState({ adActive: false });
 
-    //Following
-    // if (
-
-    //   this.props.userFetched &&
-    //   !this.props.fetchingQRA &&
-    //   this.props.QRAFetched
-    // ) {
-    //   this.followed = this.props.following.some(
-    //     o => o.qra === this.props.qraInfo.qra
-    //   );
-    //   this.setState({ followed: this.followed });
-    // }
-
-    //Comentado Adsense
-    // window.googletag.cmd.push(function () {
-    //   window.googletag.destroySlots();
-    //   window.googletag
-    //     .defineSlot(
-    //       '/22031658057/qraDetail/qraDetail_left',
-    //       [160, 600],
-    //       'div-ads-instance-qraDetail-left'
-    //     )
-    //     .addService(window.googletag.pubads());
-    //   window.googletag
-    //     .defineSlot(
-    //       '/22031658057/qraDetail/qraDetail_right',
-    //       [160, 600],
-    //       'div-ads-instance-qraDetail-right'
-    //     )
-    //     .addService(window.googletag.pubads());
-    //   window.googletag.pubads().enableSingleRequest();
-    //   window.googletag.enableServices();
-    // });
+    this.props.navigation.setParams({
+      openMenu: () => {
+        console.log('menu');
+        return <View />;
+      }
+    });
 
     const { navigation } = this.props;
     let qraInMemory = navigation.getParam('qra', this.props.currentQRA);
@@ -270,7 +248,19 @@ class QRAProfileContainer extends React.PureComponent {
     );
   }
 }
-
+const styles = StyleSheet.create({
+  trigger: {
+    padding: 5,
+    margin: 5
+  },
+  text: {
+    fontSize: 30,
+    backgroundColor: 'gray'
+  },
+  slideInOption: {
+    padding: 5
+  }
+});
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
 
@@ -289,7 +279,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(QRAProfileContainer);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QRAProfileContainer)
+);

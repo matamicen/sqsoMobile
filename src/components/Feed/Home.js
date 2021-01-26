@@ -17,7 +17,7 @@ import I18n from '../../utils/i18n';
 import ShareMenu from 'react-native-share-menu';
 import NewsFeed from './NewsFeedContainer';
 import Toast from 'react-native-root-toast';
-import { Auth } from "aws-amplify";
+import { Auth } from 'aws-amplify';
 
 class Home extends React.PureComponent {
   static navigationOptions = {
@@ -49,19 +49,18 @@ class Home extends React.PureComponent {
     }
   };
 
-  
   constructor(props) {
     super(props);
+    this.state = {
+      adActive: true,
+      active: true,
+      modalOpen: null,
+      qsos: [],
+      error: null
+      // videoAlreadyDisplayed: false
+    };
     this.backHandler = null;
-  state = {
-    adActive: true,
-    active: true,
-    modalOpen: null,
-    qsos: [],
-    error: null
-    // videoAlreadyDisplayed: false
-  };
-}
+  }
   componentDidMount() {
     this.props.navigation.setParams({
       tabBarOnPress: () => {
@@ -130,7 +129,6 @@ class Home extends React.PureComponent {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
     if (this.backHandler) this.backHandler.remove();
-
   }
 
   tapOnTabNavigator = async () => {
@@ -152,11 +150,9 @@ class Home extends React.PureComponent {
 
   _handleAppStateChange = async (nextAppState) => {
     if (nextAppState === 'active') {
+      // refresco el feed
+      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
 
-       // refresco el feed
-       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-
-       
       ShareMenu.getSharedText((text) => {
         console.log('el text del share 05:' + JSON.stringify(text));
 
@@ -182,18 +178,17 @@ class Home extends React.PureComponent {
         }
       });
 
-
       this.props.actions.apiCheckVersion();
 
-       // actualizo token porque se pudo haber vencido mientras la APP estuvo mucho tiempo en BackGround
-        var session = await Auth.currentSession();
-        console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
-        this.props.actions.setToken(session.idToken.jwtToken);
-       // si viene de background debe traer las ultimas actualizaciones de notificaciones 
-       // puede venir de background porque el usuario volvio manualmente o porque apreto un PUSH
-        this.props.actions.get_notifications(session.idToken.jwtToken);
-        // refresco el feed
-        this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      // actualizo token porque se pudo haber vencido mientras la APP estuvo mucho tiempo en BackGround
+      var session = await Auth.currentSession();
+      console.log('PASO POR SIGNIN token: ' + session.idToken.jwtToken);
+      this.props.actions.setToken(session.idToken.jwtToken);
+      // si viene de background debe traer las ultimas actualizaciones de notificaciones
+      // puede venir de background porque el usuario volvio manualmente o porque apreto un PUSH
+      this.props.actions.get_notifications(session.idToken.jwtToken);
+      // refresco el feed
+      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
     }
   };
 
@@ -242,7 +237,7 @@ class Home extends React.PureComponent {
         // calls on toast\`s hide animation end.
       }
     });
-  
+
     // Toast.hide(toast);
     // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
     setTimeout(function () {
