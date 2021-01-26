@@ -1332,7 +1332,7 @@ export async function createSQSOfolder() {
 }
 
 
-export const userNotEnableAlert = () => {
+export const userNotValidated = () => {
 
   Alert.alert(
     I18n.t("USER_NOT_VALIDATED"),
