@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { userNotValidated } from '../../helper';
 // import {Button} from 'react-native-elements';
 // import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
 import * as Actions from '../../actions';
@@ -23,8 +24,11 @@ class FeedItemFollow extends React.PureComponent {
     //     event_category: 'User',
     //     event_label: 'follow'
     //   });
-    this.setState({ followed: [...this.state.followed, param] });
-    this.props.actions.doFollowQRA(this.props.token, param);
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      this.setState({ followed: [...this.state.followed, param] });
+      this.props.actions.doFollowQRA(this.props.token, param);
+    }
   };
   // doUnfollow = param => {
 
@@ -57,7 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
   follow: state.sqso.feed.follow,
   following: state.sqso.currentQso.followings,
   followers: state.sqso.currentQso.followers,
-
+  userinfo: state.sqso.userInfo,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

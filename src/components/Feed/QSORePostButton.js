@@ -4,6 +4,7 @@ import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import { userNotValidated } from '../../helper';
 import I18n from '../../utils/i18n';
 class QSORePostButton extends React.PureComponent {
   constructor() {
@@ -14,14 +15,17 @@ class QSORePostButton extends React.PureComponent {
   }
 
   doRePost() {
-    this.setState({ showConfirmationRequest: false });
-    this.props.actions.doRepost(
-      this.props.qso.type === 'SHARE'
-        ? this.props.qso.idqso_shared
-        : this.props.qso.idqsos,
-      this.props.token,
-      this.props.qso
-    );
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      this.setState({ showConfirmationRequest: false });
+      this.props.actions.doRepost(
+        this.props.qso.type === 'SHARE'
+          ? this.props.qso.idqso_shared
+          : this.props.qso.idqsos,
+        this.props.token,
+        this.props.qso
+      );
+    }
   }
 
   // openConfirmationRequest() {
@@ -73,6 +77,7 @@ const selectorFeedType = (state, ownProps) => {
 };
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
+  userinfo: state.sqso.userInfo,
   qso: selectorFeedType(state, ownProps)
 });
 const mapDispatchToProps = (dispatch) => ({

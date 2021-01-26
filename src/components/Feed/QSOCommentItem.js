@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
+import { userNotValidated } from '../../helper';
 
 class Comment extends React.PureComponent {
   render() {
@@ -56,19 +57,22 @@ class QSOCommentItem extends React.PureComponent {
     };
   }
   handleButtonClick(idqra) {
-    if (!this.followed) {
-      // if (!__DEV__)
-      //   window.gtag('event', 'qraFollowComment_WEBPRD', {
-      //     event_category: 'User',
-      //     event_label: 'follow'
-      //   });
-      this.props.actions.doFollowQRA(this.props.token, idqra);
-      this.followed = true;
-      this.setState({ followed: this.followed });
-    } else {
-      this.props.actions.doUnfollowQRA(this.props.token, idqra);
-      this.followed = false;
-      this.setState({ followed: this.followed });
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      if (!this.followed) {
+        // if (!__DEV__)
+        //   window.gtag('event', 'qraFollowComment_WEBPRD', {
+        //     event_category: 'User',
+        //     event_label: 'follow'
+        //   });
+        this.props.actions.doFollowQRA(this.props.token, idqra);
+        this.followed = true;
+        this.setState({ followed: this.followed });
+      } else {
+        this.props.actions.doUnfollowQRA(this.props.token, idqra);
+        this.followed = false;
+        this.setState({ followed: this.followed });
+      }
     }
   }
   componentDidUpdate = (prevProps, prevState) => {
@@ -287,7 +291,7 @@ const selectorFeedType = (state, ownProps) => {
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
   currentQRA: state.sqso.qra,
-
+  userinfo: state.sqso.userInfo,
   qso: selectorFeedType(state, ownProps),
   followers: state.sqso.currentQso.followers,
   followings: state.sqso.currentQso.followings

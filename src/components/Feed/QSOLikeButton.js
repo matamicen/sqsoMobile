@@ -7,7 +7,7 @@ import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
-
+import { userNotValidated } from '../../helper';
 class QSOLikeButton extends React.PureComponent {
   constructor() {
     super();
@@ -189,44 +189,47 @@ class QSOLikeButton extends React.PureComponent {
   }
 
   handleOnLike() {
-    if (!this.liked) {
-      this.likeCounter++;
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      if (!this.liked) {
+        this.likeCounter++;
 
-      this.liked = true;
-      this.icon = 'thumbs-up';
+        this.liked = true;
+        this.icon = 'thumbs-up';
 
-      this.setState({
-        likeCounter: this.likeCounter,
-        icon: 'thumbs-up',
-        liked: true
-      });
-      // doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic)
-      this.props.actions.doLikeQSO(
-        this.props.idqsos,
-        this.props.userInfo.idqras,
-        this.props.currentQRA,
-        this.props.userInfo.firstname,
-        this.props.userInfo.lastname,
-        this.props.userInfo.avatarpic,
-        this.props.qso.idqso_shared
-      );
-      this.doLike();
-    } else {
-      this.likeCounter--;
+        this.setState({
+          likeCounter: this.likeCounter,
+          icon: 'thumbs-up',
+          liked: true
+        });
+        // doLikeQSO(idqso, idqra, qra, firstname, lastname, avatarpic)
+        this.props.actions.doLikeQSO(
+          this.props.idqsos,
+          this.props.userInfo.idqras,
+          this.props.currentQRA,
+          this.props.userInfo.firstname,
+          this.props.userInfo.lastname,
+          this.props.userInfo.avatarpic,
+          this.props.qso.idqso_shared
+        );
+        this.doLike();
+      } else {
+        this.likeCounter--;
 
-      this.liked = false;
-      this.icon = 'thumbs-o-up';
-      this.setState({
-        likeCounter: this.likeCounter,
-        liked: false,
-        icon: 'thumbs-o-up'
-      });
-      this.props.actions.doUnlikeQSO(
-        this.props.qso.idqsos,
-        this.props.userInfo.idqras,
-        this.props.qso.idqso_shared
-      );
-      this.doUnLike();
+        this.liked = false;
+        this.icon = 'thumbs-o-up';
+        this.setState({
+          likeCounter: this.likeCounter,
+          liked: false,
+          icon: 'thumbs-o-up'
+        });
+        this.props.actions.doUnlikeQSO(
+          this.props.qso.idqsos,
+          this.props.userInfo.idqras,
+          this.props.qso.idqso_shared
+        );
+        this.doUnLike();
+      }
     }
   }
 
@@ -284,6 +287,7 @@ const mapStateToProps = (state, ownProps) => ({
   userInfo: state.sqso.userInfo,
   qso: selectorFeedType(state, ownProps),
   likes: selectorFeedTypeLikes(state, ownProps),
+  userinfo: state.sqso.userInfo,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({

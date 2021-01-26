@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
+import { userNotValidated } from '../../../helper';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
@@ -156,25 +157,31 @@ class QRAProfileContainer extends React.PureComponent {
   }
   handleButtonClick() {
     if (!this.props.token) return null;
-    if (
-      // !this.props.following.some(o => o.qra === this.props.match.params.qra)
-      !this.followed
-    ) {
-      // if (!__DEV__)
-      // window.gtag('event', 'qraFollowProfile_WEBPRD', {
-      //   event_category: 'User',
-      //   event_label: 'follow'
-      // });
-      this.props.actions.doFollowQRA(this.props.token, this.props.qra.qra.qra);
-      this.followed = true;
-      this.setState({ followed: this.followed });
-    } else {
-      this.props.actions.doUnfollowQRA(
-        this.props.token,
-        this.props.qra.qra.qra
-      );
-      this.followed = false;
-      this.setState({ followed: this.followed });
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      if (
+        // !this.props.following.some(o => o.qra === this.props.match.params.qra)
+        !this.followed
+      ) {
+        // if (!__DEV__)
+        // window.gtag('event', 'qraFollowProfile_WEBPRD', {
+        //   event_category: 'User',
+        //   event_label: 'follow'
+        // });
+        this.props.actions.doFollowQRA(
+          this.props.token,
+          this.props.qra.qra.qra
+        );
+        this.followed = true;
+        this.setState({ followed: this.followed });
+      } else {
+        this.props.actions.doUnfollowQRA(
+          this.props.token,
+          this.props.qra.qra.qra
+        );
+        this.followed = false;
+        this.setState({ followed: this.followed });
+      }
     }
     // this.setState(prevState => {
     //   return {
@@ -263,7 +270,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
-
+  userinfo: state.sqso.userInfo,
   followers: state.sqso.currentQso.followers,
   following: state.sqso.currentQso.followings,
   token: state.sqso.jwtToken,

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
-
+import { userNotValidated } from '../../helper';
 class QSOLikeTextModalItem extends React.PureComponent {
   constructor() {
     super();
@@ -28,20 +28,22 @@ class QSOLikeTextModalItem extends React.PureComponent {
   // }
   handleButtonClick(idqra) {
     if (!this.props.token) return null;
-
-    if (!this.followed) {
-      // if (!__DEV__)
-      //   window.gtag('event', 'qraFollowLike_WEBPRD', {
-      //     event_category: 'User',
-      //     event_label: 'follow'
-      //   });
-      this.props.actions.doFollowQRA(this.props.token, idqra);
-      this.followed = true;
-      this.setState({ followed: this.followed });
-    } else {
-      this.props.actions.doUnfollowQRA(this.props.token, idqra);
-      this.followed = false;
-      this.setState({ followed: this.followed });
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      if (!this.followed) {
+        // if (!__DEV__)
+        //   window.gtag('event', 'qraFollowLike_WEBPRD', {
+        //     event_category: 'User',
+        //     event_label: 'follow'
+        //   });
+        this.props.actions.doFollowQRA(this.props.token, idqra);
+        this.followed = true;
+        this.setState({ followed: this.followed });
+      } else {
+        this.props.actions.doUnfollowQRA(this.props.token, idqra);
+        this.followed = false;
+        this.setState({ followed: this.followed });
+      }
     }
   }
   render() {
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   currentQRA: state.sqso.qra,
-
+  userinfo: state.sqso.userInfo,
   followers: state.sqso.currentQso.followers,
   followings: state.sqso.currentQso.followings,
 
