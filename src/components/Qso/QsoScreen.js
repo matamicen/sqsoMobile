@@ -74,7 +74,7 @@ import {
   showVideoReward,
   showIntersitial,
   updateOnProgress, check_firstTime_OnProgress, getDate, missingFieldsToPublish,
-   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2, userNotEnableAlert } from "../../helper";
+   todaMediaEnviadaAS3, percentageCalculator, addMediaCheck, createSQSOfolder, getDate2, userNotValidated } from "../../helper";
 import VariosModales from "./VariosModales";
 import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
 import { LogLevel, RNFFmpeg,  RNFFprobe, RNFFmpegConfig } from 'react-native-ffmpeg';
@@ -1976,7 +1976,7 @@ if (storagePermission)
     console.log('userInfo:')
     console.log(this.props.userinfo)
     if (true)
-       userNotEnableAlert();
+      userNotValidated();
    else
  {
     if (await hasAPIConnection()) {
