@@ -704,6 +704,7 @@ export default {
     likeModalHeader: 'Me Gusta'
   },
   qra: {
+    phone: 'Telefono',
     userValidated: 'Usuario Validado',
     approveUser: 'Aprobar Usuario',
     optionsMenu: 'Menu de Perfil',

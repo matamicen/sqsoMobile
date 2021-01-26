@@ -73,7 +73,8 @@ class QRAProfileInfo extends React.PureComponent {
       gridlocator,
       iotadesignator,
       licenseclass,
-      qslinfo
+      qslinfo,
+      phone
       // eqsl,
       // lotw,
       // mailqsl
@@ -101,6 +102,13 @@ class QRAProfileInfo extends React.PureComponent {
         )}
 
         <View>
+          {(this.props.currentQRA === 'LU2ACH' ||
+            this.props.currentQRA === 'LU7ACH' ||
+            this.props.env === 'QA') && (
+            <Text style={styles.text}>
+              {I18n.t('qra.phone') + ': ' + phone}
+            </Text>
+          )}
           <Text style={styles.text}>
             {I18n.t('qra.firstName') + ': ' + firstname}
           </Text>
@@ -156,6 +164,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => ({
   qraInfo: state.sqso.feed.qra.qra,
   currentQRA: state.sqso.qra,
+  env: state.sqso.env,
   qra: state.sqso.feed.qra,
   token: state.sqso.jwtToken
 });
