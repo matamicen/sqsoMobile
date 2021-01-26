@@ -41,5 +41,7 @@
 "PUSH_REPOSTQAP_MESSAGE" =  "See more details here";
 "PUSH_MARKETING_TITLE" = "%@";
 "PUSH_MARKETING_MESSAGE" =  "%@";
+"PUSH_APPROVE_USER_TITLE" = "Your user has been validated and approved. You can start using SuperQSO ! :)";
+"PUSH_APPROVE_USER_MESSAGE" =  "%@";
 "PUSH_MENTION_TITLE" = "%@ mentioned you in a comment";
 "PUSH_MENTION_MESSAGE" =  "%@";

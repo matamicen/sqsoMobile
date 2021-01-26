@@ -69,7 +69,7 @@ class NotifItem extends React.PureComponent {
   ) => {
     if (await hasAPIConnection()) {
       var profile = new Set([1, 50, 51, 108]); // 108 es porque viene de Push Foreground
-      var marketing = new Set([70,110]); // 70, o 110 es porque viene de Push Foreground
+      var marketing = new Set([70, 110]); // 70, o 110 es porque viene de Push Foreground
       var post = new Set([
         10,
         60,
@@ -110,14 +110,13 @@ class NotifItem extends React.PureComponent {
         this.props.navigation.navigate('QSODetail', {
           QSO_GUID: QSO_GUID
         });
-      }
-      else if (marketing.has(activity_type)) {
-        console.log('marketing URLnotif:'+urlnotif)
+      } else if (marketing.has(activity_type)) {
+        console.log('marketing URLnotif:' + urlnotif);
         this.props.doRequestQSO();
-        if (urlnotif!=='')
-            this.props.navigation.navigate('QSODetail', {
-              QSO_GUID: urlnotif
-            });
+        if (urlnotif !== '')
+          this.props.navigation.navigate('QSODetail', {
+            QSO_GUID: urlnotif
+          });
       }
     } else this.setState({ nointernet: true });
   };
@@ -732,6 +731,16 @@ class NotifItem extends React.PureComponent {
                       {this.props.comment && this.props.comment.substr(0, 57)}
                       ...{' '}
                     </Text>{' '}
+                    <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
+                      <MomentAgo date={this.props.datetimecomment} />
+                    </Text>
+                  </Text>
+                </View>
+              )}
+              {this.props.activity_type === 72 && (
+                <View>
+                  <Text style={{ fontSize: 15 }}>
+                    {I18n.t('PUSH_APPROVE_USER_TITLE')}{' '}
                     <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
                       <MomentAgo date={this.props.datetimecomment} />
                     </Text>

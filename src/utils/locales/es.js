@@ -399,6 +399,9 @@ export default {
   PUSH_MARKETING_MESSAGE: '%{line2}',
   PUSH_MENTION_TITLE: '%{callsign} te mencionó a tí en un comentario',
   PUSH_MENTION_MESSAGE: '%{comment}',
+  PUSH_APPROVE_USER_TITLE:
+    'Su usuario fue validado y aprobado. Ya puedes comenzar a utilizar SuperQSO :)',
+  PUSH_APPROVE_USER_MESSAGE: '%{line2}',
   SOMEONE_INCLUDED_YOU: 'Alguien te incluyo a tí en una publicación!',
   SEEMOREDETAILSON_NOTIFICATIONS: 'Mirá los detalles en Notificaciones',
   SOMEONE_CLOSE: 'Cerrar',

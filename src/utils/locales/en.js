@@ -384,6 +384,9 @@ export default {
   PUSH_REPOSTQAP_MESSAGE: 'See more details here',
   PUSH_MARKETING_TITLE: '%{line1}',
   PUSH_MARKETING_MESSAGE: '%{line2}',
+  PUSH_APPROVE_USER_TITLE:
+    'Your user has been validated and approved. You can start using SuperQSO ! :)',
+  PUSH_APPROVE_USER_MESSAGE: '%{line2}',
   PUSH_MENTION_TITLE: '%{callsign} mentioned you in a comment',
   PUSH_MENTION_MESSAGE: '%{comment}',
   SOMEONE_INCLUDED_YOU: 'Someone included you in a Post!',

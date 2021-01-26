@@ -1228,7 +1228,11 @@ export const armoPushNotifyLocalNotif = (
     bandejaNotifLocal = pushTitle + ' | ' + pushMessage;
     locArgs = locArgs[1]; // pasa el GUID
   }
-
+  if (title_loc_key === 'PUSH_APPROVE_USER_TITLE') {
+    pushTitle = I18n.t(title_loc_key, { line1: titleLocArgs[0] });
+    pushMessage = I18n.t(loc_key, { line2: locArgs[0] });
+    bandejaNotifLocal = pushTitle + ' ' + pushMessage;
+  }
   // console.log('antes del crash ')
   // if (locArgs !== undefined)
   //  console.log('no es undefined')
@@ -1331,25 +1335,20 @@ export async function createSQSOfolder() {
   });
 }
 
-
 export const userNotValidated = () => {
-
   Alert.alert(
-    I18n.t("USER_NOT_VALIDATED"),
-    I18n.t("USER_NOT_VALIDATED_TEXT"),
+    I18n.t('USER_NOT_VALIDATED'),
+    I18n.t('USER_NOT_VALIDATED_TEXT'),
     // 'Usuario no validado',
     // 'No se puede realizar esta acción ya que su usuario todavía no fue validado. Por favor envie una constancia de la licencia a  info@superqso.com. Este tramite puede demorar 24hs',
     [
       {
-        text: I18n.t("USER_NOT_VALIDATED_CLOSE"),
+        text: I18n.t('USER_NOT_VALIDATED_CLOSE'),
         onPress: () => console.log('ok'),
-        style: 'cancel',
+        style: 'cancel'
       }
-      
-    ],
-   )
+    ]
+  );
 
-
- 
   return true;
 };
