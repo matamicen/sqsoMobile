@@ -1973,9 +1973,9 @@ if (storagePermission)
   };
 
   newQso = async (qsotype) => {
-    console.log('userInfo:')
+    console.log('userInfo: '+this.props.userinfo.pendingVerification)
     console.log(this.props.userinfo)
-    if (true)
+    if (this.props.userinfo.pendingVerification!==0)
       userNotValidated();
    else
  {
