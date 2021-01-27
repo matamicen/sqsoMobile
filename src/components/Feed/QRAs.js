@@ -25,7 +25,11 @@ export default class QRAs extends React.PureComponent {
               // maxToRenderPerBatch={3}
               keyExtractor={(item, index) => index.toString()}
               renderItem={this._renderItem}
-              // contentContainerStyle={styles.container}
+              // contentContainerStyle={{
+              //   flex: 1,
+              //   justifyContent: 'center',
+              //   alignItems: 'flex-start'
+              // }}
             />
             {/* </ScrollView> */}
           </View>
@@ -49,12 +53,12 @@ const styles = StyleSheet.create({
   },
 
   qras: {
-    alignItems: 'center',
+    // alignItems: 'center',
     paddingTop: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    // flexDirection: 'row',
+    // justifyContent: 'center',
 
-    // width: '80%',
+    width: 'auto',
     // overflowX: 'auto',
 
     maxWidth: '80%',
