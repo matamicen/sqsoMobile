@@ -13,21 +13,21 @@ export default class QRAs extends React.PureComponent {
       <View style={styles.container}>
         {this.props.qras.length > 0 && (
           <View style={styles.qras}>
-            <ScrollView horizontal contentContainerStyle={styles.qras}>
-              <FlatList
-                horizontal
-                pagingEnabled={true}
-                onScroll={this.handleScroll}
-                data={this.props.qras}
-                onViewableItemsChanged={this._onViewableItemsChanged}
-                initialNumToRender={3}
-                viewabilityConfig={this.viewabilityConfig}
-                maxToRenderPerBatch={3}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={this._renderItem}
-                contentContainerStyle={styles.container}
-              />
-            </ScrollView>
+            {/* <ScrollView horizontal contentContainerStyle={styles.qras}> */}
+            <FlatList
+              horizontal
+              pagingEnabled={true}
+              onScroll={this.handleScroll}
+              data={this.props.qras}
+              onViewableItemsChanged={this._onViewableItemsChanged}
+              // initialNumToRender={3}
+              // viewabilityConfig={this.viewabilityConfig}
+              // maxToRenderPerBatch={3}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={this._renderItem}
+              // contentContainerStyle={styles.container}
+            />
+            {/* </ScrollView> */}
           </View>
         )}
       </View>
