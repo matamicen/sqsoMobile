@@ -111,25 +111,25 @@ class FeedItemHeader extends React.PureComponent {
               {this.props.qso.mode && (
                 <Fragment>
                   <Text style={styles.bold}>{I18n.t('qso.mode')}:</Text>
-                  <Text>{this.props.qso.mode}</Text>
+                  <Text>{this.props.qso.mode} </Text>
                 </Fragment>
               )}
               {this.props.qso.band && (
                 <Fragment>
                   <Text style={styles.bold}>{I18n.t('qso.band')}:</Text>
-                  <Text>{this.props.qso.band}</Text>
+                  <Text>{this.props.qso.band} </Text>
                 </Fragment>
               )}
               {this.props.qso.db && (
                 <Fragment>
                   <Text style={styles.bold}>dB:</Text>
-                  <Text>{this.props.qso.db}</Text>
+                  <Text>{this.props.qso.db} </Text>
                 </Fragment>
               )}
               {this.props.qso.rst && (
                 <Fragment>
                   <Text style={styles.bold}>RST:</Text>
-                  <Text>{this.props.qso.rst}</Text>
+                  <Text>{this.props.qso.rst} </Text>
                 </Fragment>
               )}
               <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
