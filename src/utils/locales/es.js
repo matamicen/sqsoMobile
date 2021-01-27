@@ -200,7 +200,7 @@ export default {
   UserUnFollow: 'Dejar de Seguir',
   ProfileQraFollow: 'Seguir',
   ProfileQraUnFollow: 'Dejar de Seguir',
-  ProfileQraCancel: 'Cancelar',
+  ProfileQraCancel: 'Cerrar',
   ProfileQraViewProfile: 'Ver Perfil',
   variosModContactUsTitle: 'Contáctanos',
   variosModContactUsMessage: 'Mensaje',
@@ -357,6 +357,8 @@ export default {
   QsoDateEnd: 'Fecha Fin:',
   QsoDateCancel: 'cancelar',
   QsoDateSelect: 'seleccionar',
+  // PUSH_APPROVE_USER_TITLE: 'Su usuario fue validado y aprobado. Ya puedes comenzar a utilizar SuperQSO :)',
+  // PUSH_APPROVE_USER_MESSAGE: 'Su usuario fue validado y aprobado. Ya puedes comenzar a utilizar SuperQSO :)',
   PUSH_FOLLOWSYOU_TITLE: '%{callsign} comenzó a seguirte',
   PUSH_FOLLOWSYOU_MESSAGE: 'Mirá su perfil aquí',
   PUSH_COMMENTEDPARTICPATING_TITLE:

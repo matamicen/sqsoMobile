@@ -45,7 +45,7 @@ import {
   setSendingProfilePhotoModal
 } from '../../actions';
 import awsconfig from '../../aws-exports';
-import { hasAPIConnection } from '../../helper';
+import { hasAPIConnection, userNotValidated } from '../../helper';
 import I18n from '../../utils/i18n';
 import CamaraSelect from '../Qso/CamaraSelect';
 import VariosModales from '../Qso/VariosModales';
@@ -447,6 +447,14 @@ class InitialScreen extends React.PureComponent {
     } else this.setState({ nointernet: true });
   };
 
+  edit = () => {
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+  else 
+    this.setState({ camaraSelect: true })
+  
+  };
+  
+
   render() {
     console.log('InitialScreen Screen');
     // console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
@@ -488,7 +496,7 @@ class InitialScreen extends React.PureComponent {
 
             <TouchableOpacity
               style={{ marginLeft: 18, marginTop: 13 }}
-              onPress={() => this.setState({ camaraSelect: true })}>
+              onPress={() => this.edit()}>
               <Image
                 source={require('../../images/camera.png')}
                 style={{
@@ -840,7 +848,8 @@ const mapStateToProps = (state) => {
     sendingprofilemodal: state.sqso.sendingProfileModal,
     confirmprofilemodal: state.sqso.confirmProfileModal,
     sendingprofilemodal_stat: state.sqso.sendingProfileModal_stat,
-    cancelbutton_stat: state.sqso.cancelButton_stat
+    cancelbutton_stat: state.sqso.cancelButton_stat,
+    userinfo: state.sqso.userInfo
   };
 };
 

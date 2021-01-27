@@ -196,7 +196,7 @@ export default {
   UserUnFollow: 'UnFollow',
   ProfileQraFollow: 'Follow',
   ProfileQraUnFollow: 'UnFollow',
-  ProfileQraCancel: 'Cancel',
+  ProfileQraCancel: 'Close',
   ProfileQraViewProfile: 'View Profile',
   variosModContactUsTitle: 'Contact us',
   variosModContactUsMessage: 'Message',
@@ -347,6 +347,8 @@ export default {
   helpPublishTagRePublicar: 'Please RePost',
   helpPublishTagMessage4:
     'If the callsign tagged RePosts your post, all his followers will be notified about your post. In this way, more hams are notified about your expedition!',
+  // PUSH_APPROVE_USER_TITLE: 'Your user was validated, You can start using SuperQSO! :)',
+  // PUSH_APPROVE_USER_MESSAGE: 'Your user was validated, You can start using SuperQSO! :)',
   PUSH_FOLLOWSYOU_TITLE: '%{callsign} now follows you',
   PUSH_FOLLOWSYOU_MESSAGE: 'See his profile here',
   PUSH_COMMENTEDPARTICPATING_TITLE:

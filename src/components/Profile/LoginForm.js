@@ -1047,7 +1047,7 @@ class LoginForm extends React.PureComponent {
         .then(() => {
           console.log('Resend Ok!');
           this.setState({
-            errormessage2: 'Your confirmation code has been sent!',
+            errormessage2: I18n.t('signupValConfirmCode'),
             color: 'blue',
             heightindicator: 0,
             indicator: 0,
@@ -1100,10 +1100,15 @@ class LoginForm extends React.PureComponent {
             indicator: 0,
             buttonsEnabled: false
           });
-          setTimeout(() => {
-            // se hace tiempo porque ios necesita bajar el modal anterior antes
-            this.props.welcomeUserFirstTime(true);
-          }, 200);
+
+          this.props.welcomeUserFirstTime(true);
+          this.props.navigation.navigate('Home');
+
+
+          // setTimeout(() => {
+          //   // se hace tiempo porque ios necesita bajar el modal anterior antes
+          //   this.props.welcomeUserFirstTime(true);
+          // }, 200);
 
           //  this.signIn(); no hago el SignIn porque el user esta deshabilitado hasta el envio de la licencia
           //    this.signInAfterConfirmed();
@@ -1249,13 +1254,13 @@ class LoginForm extends React.PureComponent {
                 closeInternetModal={this.closeVariosModales.bind()}
               />
             )}
-            {this.props.welcomeuserfirsttime && (
+            {/* {this.props.welcomeuserfirsttime && (
               <VariosModales
                 show={true}
                 modalType="welcomefirsttime"
                 closeInternetModal={this.closeWelcom.bind()}
               />
-            )}
+            )} */}
           </View>
         ) : (
           <View style={styles.container}>
