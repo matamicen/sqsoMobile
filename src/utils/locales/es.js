@@ -692,6 +692,8 @@ export default {
     createdFLDDAY: ' promocionó una actividad',
     listenedQSO: ' escuchó un QSO',
     repostedQSO: ' republicó un QSO',
+    start: 'Comienzo',
+    end: 'Fin',
     date: 'Fecha',
     band: 'Banda',
     mode: 'Modo',

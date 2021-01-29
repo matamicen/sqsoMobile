@@ -125,7 +125,12 @@ class FeedVideo extends React.PureComponent {
               // imageProps={
               //   PlaceholderContent={<ActivityIndicator />}
               // }
-              icon={{ size: 70, name: 'play-circle', type: 'font-awesome' }}
+              icon={{
+                size: 70,
+                name: 'play-circle',
+                type: 'font-awesome',
+                color: 'white'
+              }}
               onPress={() => {
                 this.props.actions.doQsoMediaPlay(
                   this.props.media.idqsos_media,
