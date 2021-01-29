@@ -20,15 +20,16 @@ import { userNotValidated } from '../../helper';
 
 class Link extends React.PureComponent {
   openUrl(url) {
-    console.log('openUrl');
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = url.toUpperCase();
+
+    if (!url.startsWith('HTTP://') && !url.startsWith('HTTPS://')) {
       url = 'http://' + url;
     }
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       console.log(supported);
       if (!supported) {
-        Alert.alert('Can\'t handle url: ' + url);
+        Alert.alert("Can't handle url: " + url);
       } else {
         Linking.openURL(url);
       }
@@ -59,7 +60,7 @@ class Comment extends React.PureComponent {
     let element = [];
 
     var expression =
-      'https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,}';
+      '/https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,}/i';
 
     // Check if nested content is a plain string
     if (typeof this.props.comment === 'string') {
@@ -72,7 +73,7 @@ class Comment extends React.PureComponent {
         var separator = i < words.length - 1 ? ' ' : '';
 
         // The word is a URL, return the URL wrapped in a custom <Link> component
-        if (word.match(expression)) {
+        if (word.match(/(^http[s]?:\/{2})|(^www)|(^\/{1,2})/gim)) {
           return (
             <Link key={i} url={word}>
               {word}
