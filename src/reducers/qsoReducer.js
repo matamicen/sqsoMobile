@@ -106,7 +106,8 @@ import {
   UPDATE_QSL_SCAN,
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
-  SET_FEEDTOUCHABLE
+  SET_FEEDTOUCHABLE,
+  SET_USER_PENDINGVERIFICATION
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -1147,6 +1148,20 @@ const qsoReducer = (state = initialState, action) => {
         mustUpgradeApp: action.mustupgradeapp
       });
 
+      return newStore;
+
+
+    case SET_USER_PENDINGVERIFICATION:
+
+      auxUserInfo = {
+        ...state.userInfo,
+        pendingVerification: action.status
+        //  monthly_links: action.userinfo.monthly_links
+      };
+      newStore = Object.assign({}, state, {
+        ...state,
+        userInfo: auxUserInfo
+      });
       return newStore;
 
     case SET_USER_INFO:

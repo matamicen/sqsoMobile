@@ -121,7 +121,8 @@ import {
   UPDATE_QSL_SCAN_RESULT,
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
-  SET_FEEDTOUCHABLE
+  SET_FEEDTOUCHABLE,
+  SET_USER_PENDINGVERIFICATION
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -3618,6 +3619,13 @@ export const setSubscriptionInfo = (productid, localizedprice) => {
     type: SET_SUBSCRIPTION_INFO,
     productid: productid,
     localizedprice: localizedprice
+  };
+};
+
+export const setPendingVerification = (status) => {
+  return {
+    type: SET_USER_PENDINGVERIFICATION,
+    status: status
   };
 };
 

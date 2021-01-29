@@ -113,7 +113,7 @@ class NotifItem extends React.PureComponent {
       } else if (marketing.has(activity_type)) {
         console.log('marketing URLnotif:' + urlnotif);
         this.props.doRequestQSO();
-        if (urlnotif !== '')
+        if (urlnotif !== '' && urlnotif !== undefined)
           this.props.navigation.navigate('QSODetail', {
             QSO_GUID: urlnotif
           });
