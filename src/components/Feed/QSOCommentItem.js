@@ -1,49 +1,119 @@
 //import i18n from 'i18next';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Linking,
+  Alert
+} from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 import { userNotValidated } from '../../helper';
 
+class Link extends React.PureComponent {
+  openUrl(url) {
+    console.log('openUrl');
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'http://' + url;
+    }
+    Linking.openURL(url);
+    Linking.canOpenURL(url, (supported) => {
+      console.log(supported);
+      if (!supported) {
+        Alert.alert('Can\'t handle url: ' + url);
+      } else {
+        Linking.openURL(url);
+      }
+    });
+  }
+  render() {
+    return (
+      <Text
+        style={{ color: 'blue' }}
+        onPress={() => this.openUrl(this.props.url)}>
+        {this.props.children}
+      </Text>
+    );
+  }
+}
+
 class Comment extends React.PureComponent {
+  onPress(w) {
+    this.props.closeModal();
+    this.props.actions.clearQRA();
+    this.props.actions.doFetchQRA(w.substring(1));
+    this.props.navigation.navigate('QRAProfile', {
+      screen: 'PROFILE',
+      qra: w.substring(1)
+    });
+  }
   render() {
     let element = [];
 
-    let message = this.props.comment;
-    // let message = 'Hola <MENTION>@MM</MENTION>info@mm.com';
-    // console.log(message);
-    let commentSplit = message.split(/<MENTION>([^<.*>;]*)<\/MENTION>/gim);
-    // console.log(commentSplit);
-    element = commentSplit.map((word, i) => {
-      if (word[0] === '@' && word.match(/@([a-zA-Z0-9]+)/)) {
-        return React.createElement(
-          TouchableOpacity,
-          {
-            key: i,
-            onPress: () => {
-              this.props.closeModal();
-              this.props.actions.clearQRA();
-              this.props.actions.doFetchQRA(word.substring(1));
-              this.props.navigation.navigate('QRAProfile', {
-                screen: 'PROFILE',
-                qra: word.substring(1)
-              });
-            }
-          },
-          [React.createElement(Text, { key: i }, [word])]
-        );
-      } else {
-        return React.createElement(Text, { key: i }, [word]);
-      }
-    });
+    var expression =
+      'https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,}';
 
-    return element;
+    // Check if nested content is a plain string
+    if (typeof this.props.comment === 'string') {
+      // Split the content on space characters
+      var words = this.props.comment.split(/\s/);
+
+      // Loop through the words
+      var contents = words.map(function (word, i) {
+        // Space if the word isn't the very last in the set, thus not requiring a space after it
+        var separator = i < words.length - 1 ? ' ' : '';
+
+        // The word is a URL, return the URL wrapped in a custom <Link> component
+        if (word.match(expression)) {
+          return (
+            <Link key={i} url={word}>
+              {word}
+              {separator}
+            </Link>
+          );
+        } else {
+          let commentSplit = word.split(/<MENTION>([^<.*>;]*)<\/MENTION>/gim);
+
+          return commentSplit.map((w, i) => {
+            if (w[0] === '@' && w.match(/@([a-zA-Z0-9]+)/)) {
+              return (
+                <TouchableOpacity key={i} onPress={() => this.onPress(w)}>
+                  <Text style={{ fontSize: 18 }}>
+                    {w},{separator}
+                  </Text>
+                </TouchableOpacity>
+              );
+            } else {
+              return (
+                <Text>
+                  {w}
+                  {separator}
+                </Text>
+              );
+            }
+          }, this);
+        }
+      }, this);
+      // The nested content was something else than a plain string
+      // Return the original content wrapped in a <Text> component
+    } else {
+      console.log(
+        'Attempted to use <HyperText> with nested components. ' +
+          'This component only supports plain text children.'
+      );
+      return <Text>{this.props.children}</Text>;
+    }
+
+    // Return the modified content wrapped in a <Text> component
+    return <Text>{contents}</Text>;
   }
 }
 class QSOCommentItem extends React.PureComponent {
