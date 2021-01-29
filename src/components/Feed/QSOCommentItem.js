@@ -193,6 +193,7 @@ class QSOCommentItem extends React.PureComponent {
             <Comment
               comment={this.props.comment.comment}
               navigation={this.props.navigation}
+              actions={this.props.actions}
               closeModal={() => {
                 this.props.closeModal();
               }}
