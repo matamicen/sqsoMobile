@@ -1107,6 +1107,7 @@ class LoginForm extends React.PureComponent {
     }
   };
 
+  
   confirmSignup = async (confirmationCode) => {
     Keyboard.dismiss();
 
@@ -1129,8 +1130,11 @@ class LoginForm extends React.PureComponent {
             buttonsEnabled: false
           });
 
+          // this.signInAfterConfirmed();
           this.props.welcomeUserFirstTime(true);
-          this.props.navigation.navigate('Home');
+          this.signIn();
+          // this.props.welcomeUserFirstTime(true);
+          // this.props.navigation.navigate('Home');
 
 
           // setTimeout(() => {
