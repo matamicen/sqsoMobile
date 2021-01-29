@@ -58,7 +58,8 @@ class FeedItemHeader extends React.PureComponent {
         ? this.props.qso.realDateTime
         : this.props.qso.datetime
     );
-
+    var startDate = new Date(this.props.qso.activityBegin);
+    var endDate = new Date(this.props.qso.activityEnd);
     return (
       <View style={styles.header}>
         <View style={styles.avatar}>
@@ -107,46 +108,88 @@ class FeedItemHeader extends React.PureComponent {
             <Text style={styles.actionHeaderText}>{text}</Text>
           </View>
           <View style={styles.actionDetail}>
-            <Text style={styles.actionDetailText}>
-              {this.props.qso.mode && (
-                <Fragment>
-                  <Text style={styles.bold}>{I18n.t('qso.mode')}:</Text>
-                  <Text>{this.props.qso.mode} </Text>
-                </Fragment>
-              )}
-              {this.props.qso.band && (
-                <Fragment>
-                  <Text style={styles.bold}>{I18n.t('qso.band')}:</Text>
-                  <Text>{this.props.qso.band} </Text>
-                </Fragment>
-              )}
-              {this.props.qso.db && (
-                <Fragment>
-                  <Text style={styles.bold}>dB:</Text>
-                  <Text>{this.props.qso.db} </Text>
-                </Fragment>
-              )}
-              {this.props.qso.rst && (
-                <Fragment>
-                  <Text style={styles.bold}>RST:</Text>
-                  <Text>{this.props.qso.rst} </Text>
-                </Fragment>
-              )}
-              <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
-              <Text>
-                {date.toLocaleDateString(I18n.locale.substring(0, 2), {
-                  month: 'short'
-                })}
-              </Text>
+            {/* Header for others than FLDDAY */}
+            {this.props.qso.type !== 'FLDDAY' && (
+              <Text style={styles.actionDetailText}>
+                {this.props.qso.mode && (
+                  <Fragment>
+                    <Text style={styles.bold}>{I18n.t('qso.mode')}:</Text>
+                    <Text>{this.props.qso.mode} </Text>
+                  </Fragment>
+                )}
+                {this.props.qso.band && (
+                  <Fragment>
+                    <Text style={styles.bold}>{I18n.t('qso.band')}:</Text>
+                    <Text>{this.props.qso.band} </Text>
+                  </Fragment>
+                )}
+                {this.props.qso.db && (
+                  <Fragment>
+                    <Text style={styles.bold}>dB:</Text>
+                    <Text>{this.props.qso.db} </Text>
+                  </Fragment>
+                )}
+                {this.props.qso.type !== 'SHARE' && this.props.qso.rst && (
+                  <Fragment>
+                    <Text style={styles.bold}>RST:</Text>
+                    <Text>{this.props.qso.rst} </Text>
+                  </Fragment>
+                )}
+                <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
+                <Text>
+                  {date.toLocaleDateString(I18n.locale.substring(0, 2), {
+                    month: 'short'
+                  })}
+                </Text>
 
-              <Text style={styles.bold}> UTC:</Text>
-              <Text>
-                {date.getUTCHours() +
-                  ':' +
-                  (date.getMinutes() < 10 ? '0' : '') +
-                  date.getMinutes()}
+                <Text style={styles.bold}> UTC:</Text>
+                <Text>
+                  {date.getUTCHours() +
+                    ':' +
+                    (date.getMinutes() < 10 ? '0' : '') +
+                    date.getMinutes()}
+                </Text>
               </Text>
-            </Text>
+            )}
+            {/* Header for fieldDay */}
+            {this.props.qso.type === 'FLDDAY' && (
+              <View style={{ textAlign: 'left', margin: 0, padding: 0 }}>
+                <Text style={{ textAlign: 'left', margin: 0, padding: 0 }}>
+                  <Text style={styles.bold}>{I18n.t('qso.start')}:</Text>
+                  <Text>
+                    {startDate.toLocaleDateString(I18n.locale.substring(0, 2), {
+                      month: 'short'
+                    })}{' '}
+                  </Text>
+
+                  <Text>
+                    {startDate.getUTCHours() +
+                      ':' +
+                      (date.getMinutes() < 10 ? '0' : '') +
+                      date.getMinutes()}
+                  </Text>
+                </Text>
+                <Text
+                  style={{
+                    textAlign: 'left',
+                    margin: 0,
+                    padding: 0
+                  }}>
+                  <Text style={styles.bold}> {I18n.t('qso.end')}:</Text>
+                  <Text>
+                    {endDate.toLocaleDateString(I18n.locale.substring(0, 2), {
+                      month: 'short'
+                    })}{' '}
+                  </Text>
+                  <Text>
+                    {endDate.getUTCHours() +
+                      ':' +
+                      (date.getMinutes() < 10 ? '0' : '') +
+                      date.getMinutes()}
+                  </Text>
+                </Text>
+              </View>
+            )}
           </View>
         </View>
         {this.props.feedType !== 'REPOST' && (
