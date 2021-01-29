@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedHeaderBar from './FeedHeaderBar';
 import NewsFeedPresentational from './NewsFeedPresentational';
+import VariosModales from '../Qso/VariosModales';
 
 class NewsFeedContainer extends React.PureComponent {
   state = { qsos: this.props.qsos };
@@ -13,6 +14,11 @@ class NewsFeedContainer extends React.PureComponent {
       this.setState({ qsos: this.props.qsos });
     }
   }
+
+  closeWelcom = () => {
+    this.props.actions.welcomeUserFirstTime(false);
+  };
+
   render() {
     let qsos = [];
     // if (this.props.qsos && this.props.qsos.length > 0) {
@@ -42,6 +48,13 @@ class NewsFeedContainer extends React.PureComponent {
               qsosFetched={this.props.qsosFetched}
             />
           </View>
+          {this.props.welcomeuserfirsttime && (
+              <VariosModales
+                show={true}
+                modalType="welcomefirsttime"
+                closeInternetModal={this.closeWelcom.bind()}
+              />
+            )}
         </View>
       );
     } else return null;
@@ -53,7 +66,8 @@ const mapStateToProps = (state) => {
     qsos: state.sqso.feed.qsos,
     FetchingQSOS: state.sqso.feed.FetchingQSOS,
     qsosFetched: state.sqso.feed.qsosFetched,
-    feedtouchable: state.sqso.feed.FeedTouchable
+    feedtouchable: state.sqso.feed.FeedTouchable,
+    welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
     // authenticating: state.sqso.feed.userData.authenticating,
 
     // token: state.sqso.feed.userData.token

@@ -3,7 +3,7 @@ import { ActivityIndicator, View } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
-
+import { userNotValidated } from '../../../helper';
 import * as Actions from '../../../actions';
 import ExploreUsers from './exploreUsersPresentational';
 class exploreUsersContainer extends React.PureComponent {
@@ -18,8 +18,11 @@ class exploreUsersContainer extends React.PureComponent {
     //     event_category: 'User',
     //     event_label: 'follow'
     //   });
-    this.setState({ followed: [...this.state.followed, param] });
-    this.props.actions.doFollowQRA(this.props.token, param);
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      this.setState({ followed: [...this.state.followed, param] });
+      this.props.actions.doFollowQRA(this.props.token, param);
+    }
   };
   // doUnfollow = param => {
 
@@ -54,6 +57,7 @@ const mapStateToProps = (state, ownProps) => ({
   latestUsers: state.sqso.feed.latestUsers,
   followers: state.sqso.currentQso.followers,
   followings: state.sqso.currentQso.followings,
+  userinfo: state.sqso.userInfo,
   currentQRA: state.sqso.qra
 });
 const mapDispatchToProps = (dispatch) => ({

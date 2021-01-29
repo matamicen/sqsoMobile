@@ -14,6 +14,25 @@ import QslScanResult from '../QslScan/QslScanResult';
 import QsoLink from '../QslScan/QsoLink';
 import CameraScreen from '../Qso/Camera';
 import { TabNavigator } from './TabNavigator';
+import ProfileMenu from '../Feed/Profile/ProfileMenu';
+import {
+  View,
+  StyleSheet,
+  Text,
+  findNodeHandle,
+  NativeModules
+} from 'react-native';
+import { Icon } from 'react-native-elements';
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+  MenuProvider,
+  renderers
+} from 'react-native-popup-menu';
+const { SlideInMenu } = renderers;
+const UIManager = NativeModules.UIManager;
 import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
 export const AuthNavigator = createStackNavigator({
   Login: {
@@ -117,6 +136,11 @@ export const MainNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      ),
+      headerRight: (
+        <View style={{ padding: 15 }}>
+          <ProfileMenu />
+        </View>
       )
     })
   },
@@ -136,6 +160,16 @@ export const MainNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      ),
+      headerRight: (
+        <View style={{ padding: 15 }}>
+          <Icon
+            size={30}
+            name="ellipsis-v"
+            type="font-awesome"
+            onPress={() => navigation.state.params.openMenu()}
+          />
+        </View>
       )
     })
   },
@@ -191,7 +225,19 @@ const MyPostsRouteConfigs = {
     screen: QRAProfile,
     params: { screen: 'MYPOSTS' },
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <HeaderBackButton onPress={(_) => navigation.push('Home')} />
+      headerLeft: (
+        <HeaderBackButton onPress={() => navigation.navigate('Home')} />
+      ),
+      headerRight: (
+        <View style={{ padding: 15 }}>
+          <Icon
+            size={30}
+            name="ellipsis-v"
+            type="font-awesome"
+            onPress={() => navigation.state.params.openMenu()}
+          />
+        </View>
+      )
     })
   },
   qraInfoEdit: {
@@ -261,3 +307,16 @@ export const ExploreUsersStackNavigator = createStackNavigator(
   ExploreUsersRouteConfigs,
   StackNavigatorConfig
 );
+const styles = StyleSheet.create({
+  trigger: {
+    padding: 5,
+    margin: 5
+  },
+  text: {
+    fontSize: 30,
+    backgroundColor: 'gray'
+  },
+  slideInOption: {
+    padding: 5
+  }
+});

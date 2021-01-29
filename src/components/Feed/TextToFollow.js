@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
+import { userNotValidated } from '../../helper';
 // import '../styles/style.css';
 
 class PopupToFollow extends React.PureComponent {
@@ -13,11 +14,17 @@ class PopupToFollow extends React.PureComponent {
   };
 
   follow = () => {
-    this.props.actions.doFollowQRA(this.props.token, this.props.qra);
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      this.props.actions.doFollowQRA(this.props.token, this.props.qra);
+    }
   };
   unfollow = () => {
-    this.setState({ isFollowing: false });
-    this.props.actions.doUnfollowQRA(this.props.token, this.props.qra);
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      this.setState({ isFollowing: false });
+      this.props.actions.doUnfollowQRA(this.props.token, this.props.qra);
+    }
   };
   static getDerivedStateFromProps(props, state) {
     if (props.following !== state.following)
@@ -52,7 +59,7 @@ class PopupToFollow extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   //state: state,
   currentQRA: state.sqso.qra,
-
+  userinfo: state.sqso.userInfo,
   following: state.sqso.currentQso.followings,
   token: state.sqso.jwtToken
 });

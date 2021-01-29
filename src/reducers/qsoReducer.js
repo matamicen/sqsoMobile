@@ -6,6 +6,7 @@ import {
   ADD_CALLSIGN,
   ADD_MEDIA,
   ADD_QRA,
+  USER_VALIDATED,
   AUDIO_RECORDING_PERMISSION_FALSE,
   AUDIO_RECORDING_PERMISSION_TRUE,
   CAMERA_PERMISSION_FALSE,
@@ -105,7 +106,8 @@ import {
   UPDATE_QSL_SCAN,
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
-  SET_FEEDTOUCHABLE
+  SET_FEEDTOUCHABLE,
+  SET_USER_PENDINGVERIFICATION
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -1146,6 +1148,20 @@ const qsoReducer = (state = initialState, action) => {
         mustUpgradeApp: action.mustupgradeapp
       });
 
+      return newStore;
+
+
+    case SET_USER_PENDINGVERIFICATION:
+
+      auxUserInfo = {
+        ...state.userInfo,
+        pendingVerification: action.status
+        //  monthly_links: action.userinfo.monthly_links
+      };
+      newStore = Object.assign({}, state, {
+        ...state,
+        userInfo: auxUserInfo
+      });
       return newStore;
 
     case SET_USER_INFO:
@@ -2592,7 +2608,7 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
 
-    case SET_FEEDTOUCHABLE:
+    case SET_FEEDTOUCHABLE: {
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2601,7 +2617,8 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
-    case LATEST_USERS_RECEIVE:
+    }
+    case LATEST_USERS_RECEIVE: {
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2612,6 +2629,20 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
+    }
+    case USER_VALIDATED: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qra: {
+            ...state.feed.qra,
+            qra: { ...state.feed.qra.qra, pendingVerification: null }
+          }
+        }
+      });
+      return newStore;
+    }
     default:
       return state;
   }

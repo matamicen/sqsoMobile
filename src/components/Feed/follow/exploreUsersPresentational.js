@@ -88,8 +88,8 @@ const ExploreUsers = ({
                         <View style={styles.name}>
                           <TouchableOpacity
                             onPress={() => {
-                              this.props.actions.clearQRA();
-                              this.props.actions.doFetchQRA(qra.qra);
+                              actions.clearQRA();
+                              actions.doFetchQRA(qra.qra);
                               navigation.push('QRAProfile', {
                                 qra: qra.qra,
                                 screen: 'PROFILE'

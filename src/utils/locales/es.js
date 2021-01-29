@@ -6,6 +6,10 @@ export default {
   password: 'contraseña',
   loading: 'Cargando ...',
   currentSession: 'Cargando ...',
+  USER_NOT_VALIDATED: 'Usuario no validado',
+  USER_NOT_VALIDATED_TEXT:
+    'No se puede realizar esta acción ya que su usuario todavía no fue validado. Por favor envie su carnet/resolución de licencia a info@superqso.com. Este tramite puede demorar 24hs',
+  USER_NOT_VALIDATED_CLOSE: 'Cerrar',
   loginerrorMessUserNotFound:
     'Error de inicio de sesión, usuario/contraseña incorrecto, intente nuevamente',
   loginerrorUserDisabled:
@@ -196,7 +200,7 @@ export default {
   UserUnFollow: 'Dejar de Seguir',
   ProfileQraFollow: 'Seguir',
   ProfileQraUnFollow: 'Dejar de Seguir',
-  ProfileQraCancel: 'Cancelar',
+  ProfileQraCancel: 'Cerrar',
   ProfileQraViewProfile: 'Ver Perfil',
   variosModContactUsTitle: 'Contáctanos',
   variosModContactUsMessage: 'Mensaje',
@@ -353,6 +357,8 @@ export default {
   QsoDateEnd: 'Fecha Fin:',
   QsoDateCancel: 'cancelar',
   QsoDateSelect: 'seleccionar',
+  // PUSH_APPROVE_USER_TITLE: 'Su usuario fue validado y aprobado. Ya puedes comenzar a utilizar SuperQSO :)',
+  // PUSH_APPROVE_USER_MESSAGE: 'Su usuario fue validado y aprobado. Ya puedes comenzar a utilizar SuperQSO :)',
   PUSH_FOLLOWSYOU_TITLE: '%{callsign} comenzó a seguirte',
   PUSH_FOLLOWSYOU_MESSAGE: 'Mirá su perfil aquí',
   PUSH_COMMENTEDPARTICPATING_TITLE:
@@ -395,6 +401,8 @@ export default {
   PUSH_MARKETING_MESSAGE: '%{line2}',
   PUSH_MENTION_TITLE: '%{callsign} te mencionó a tí en un comentario',
   PUSH_MENTION_MESSAGE: '%{comment}',
+  PUSH_APPROVE_USER_TITLE: 'Su usuario fue validado y aprobado. ',
+  PUSH_APPROVE_USER_MESSAGE: 'Ya puedes comenzar a utilizar SuperQSO :)',
   SOMEONE_INCLUDED_YOU: 'Alguien te incluyo a tí en una publicación!',
   SEEMOREDETAILSON_NOTIFICATIONS: 'Mirá los detalles en Notificaciones',
   SOMEONE_CLOSE: 'Cerrar',
@@ -684,6 +692,8 @@ export default {
     createdFLDDAY: ' promocionó una actividad',
     listenedQSO: ' escuchó un QSO',
     repostedQSO: ' republicó un QSO',
+    start: 'Comienzo',
+    end: 'Fin',
     date: 'Fecha',
     band: 'Banda',
     mode: 'Modo',
@@ -700,6 +710,10 @@ export default {
     likeModalHeader: 'Me Gusta'
   },
   qra: {
+    phone: 'Telefono',
+    userValidated: 'Usuario Validado',
+    approveUser: 'Aprobar Usuario',
+    optionsMenu: 'Menu de Perfil',
     loading: 'Cargando SD/Colega...',
     views: 'Vistas',
     follow: 'Seguir',

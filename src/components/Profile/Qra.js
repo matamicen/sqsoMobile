@@ -17,7 +17,7 @@ import {
   clearQRA
 } from '../../actions';
 
-import { getDate, getFollowStatus, hasAPIConnection } from '../../helper';
+import { getDate, getFollowStatus, hasAPIConnection, userNotValidated } from '../../helper';
 import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
 
@@ -62,7 +62,9 @@ class Qra extends React.PureComponent {
 
   follow = async (qra, qra_avatar) => {
     //  if(!this.props.isfetching){
-
+ if (this.props.userinfo.pendingVerification) userNotValidated();
+ else
+ {
     if (await hasAPIConnection()) {
       date = getDate();
       if (this.state.followstatus === 'false') {
@@ -88,6 +90,7 @@ class Qra extends React.PureComponent {
     } else {
       this.setState({ modaldeleteqra: false, nointernet: true });
     }
+  }
 
     //      this.props.getUserInfo();
     //     }else console.log('intento llamar dos veces follow')
@@ -370,7 +373,8 @@ const mapStateToProps = (state) => {
     followings: state.sqso.currentQso.followings,
     jwtToken: state.sqso.jwtToken,
     userqra: state.sqso.qra,
-    webviewsession: state.sqso.webviewSession
+    webviewsession: state.sqso.webviewSession,
+    userinfo: state.sqso.userInfo
   };
   //   isfetching: state.sqso.isFetching };
 };
