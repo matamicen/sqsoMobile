@@ -456,6 +456,8 @@ closeDatePicker = () => {
         this.props.resetQso('QSO'); // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
         this.props.newqsoactiveFalse();
 
+       
+
         // this.props.followersAlreadyCalled(false);
 
         console.log('la credencial RES:' + res);
@@ -470,7 +472,7 @@ closeDatePicker = () => {
         // kinesis_catch('#023',e,this.state.qra.toUpperCase());
         // Handle exceptions
       }
-      //    var session = await Auth.currentSession();
+        //  var session = await Auth.currentSession();
       //    console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
 
       await this.props.setToken(this.jwtToken);
@@ -489,6 +491,11 @@ closeDatePicker = () => {
       try {
         await AsyncStorage.setItem('username', this.qra);
         await AsyncStorage.setItem('identity', res);
+        // ese setItem de userLogin luego debe ser elimando, se usaba para la webview, pero LoginForm
+        // chequea si existe este campo para autologin o mandarlo a la pnatalla de Login
+        await AsyncStorage.setItem('userlogin',
+          this.state.email.toLowerCase()
+        );
       } catch (error) {
         console.log('caught error', error);
         crashlytics().setUserId(this.state.qra.toUpperCase());
@@ -498,7 +505,7 @@ closeDatePicker = () => {
         // kinesis_catch('#024',error,this.state.qra.toUpperCase());
         // Error saving data
       }
-
+      
       //envio nuevo QRA y pushToken para que se asocie en el backend
       try {
         //  await AsyncStorage.setItem('pushtoken', this.props.pushtoken);
@@ -509,7 +516,7 @@ closeDatePicker = () => {
           pushtoken,
           this.qra,
           Platform.OS,
-          session.idToken.jwtToken
+          this.jwtToken
         );
 
         console.log(
@@ -533,7 +540,8 @@ closeDatePicker = () => {
 
       this.props.welcomeUserFirstTime(true);
       this.setState({ indicator: 0 });
-      this.props.navigation.navigate('AppNavigator2');
+      // this.props.navigation.navigate('AppNavigator2');
+      this.props.navigation.navigate('Home');
     } else {
       this.setState({ indicator: 0 });
 

@@ -6,6 +6,10 @@ export default {
   password: 'password',
   loading: 'Loading ...',
   currentSession: 'Loading ...',
+  USER_NOT_VALIDATED: 'User not validated',
+  USER_NOT_VALIDATED_TEXT:
+    'You can not perform this action until your user is validated, Please send us a copy of your callsign license issued by your association to info@superqso.com. This approval could take us 24 hs.',
+  USER_NOT_VALIDATED_CLOSE: 'Close',
   loginerrorMessUserNotFound: 'Login error, user/password not found, try again',
   loginerrorUserDisabled:
     'The user is not enabled yet, remember to send us a copy of your issued ham license to info@superqso.com',
@@ -192,7 +196,7 @@ export default {
   UserUnFollow: 'UnFollow',
   ProfileQraFollow: 'Follow',
   ProfileQraUnFollow: 'UnFollow',
-  ProfileQraCancel: 'Cancel',
+  ProfileQraCancel: 'Close',
   ProfileQraViewProfile: 'View Profile',
   variosModContactUsTitle: 'Contact us',
   variosModContactUsMessage: 'Message',
@@ -343,6 +347,8 @@ export default {
   helpPublishTagRePublicar: 'Please RePost',
   helpPublishTagMessage4:
     'If the callsign tagged RePosts your post, all his followers will be notified about your post. In this way, more hams are notified about your expedition!',
+  // PUSH_APPROVE_USER_TITLE: 'Your user was validated, You can start using SuperQSO! :)',
+  // PUSH_APPROVE_USER_MESSAGE: 'Your user was validated, You can start using SuperQSO! :)',
   PUSH_FOLLOWSYOU_TITLE: '%{callsign} now follows you',
   PUSH_FOLLOWSYOU_MESSAGE: 'See his profile here',
   PUSH_COMMENTEDPARTICPATING_TITLE:
@@ -380,6 +386,8 @@ export default {
   PUSH_REPOSTQAP_MESSAGE: 'See more details here',
   PUSH_MARKETING_TITLE: '%{line1}',
   PUSH_MARKETING_MESSAGE: '%{line2}',
+  PUSH_APPROVE_USER_TITLE: 'Your user has been validated and approved. ',
+  PUSH_APPROVE_USER_MESSAGE: 'You can start using SuperQSO ! :)',
   PUSH_MENTION_TITLE: '%{callsign} mentioned you in a comment',
   PUSH_MENTION_MESSAGE: '%{comment}',
   SOMEONE_INCLUDED_YOU: 'Someone included you in a Post!',
@@ -663,6 +671,8 @@ export default {
     createdFLDDAY: ' promoted an Activity',
     listenedQSO: ' listened a QSO',
     repostedQSO: ' reposted a QSO',
+    start: 'Start Date',
+    end: 'End Date',
     date: 'Date',
     band: 'Band',
     mode: 'Mode',
@@ -679,6 +689,10 @@ export default {
     likeModalHeader: 'Likes'
   },
   qra: {
+    phone: 'Phone',
+    userValidated: 'User Validated',
+    approveUser: 'Approve User',
+    optionsMenu: 'Profile Menu',
     loading: 'Loading Callsign...',
     views: 'Views',
     follow: 'Follow',
@@ -747,7 +761,7 @@ export default {
     workedQSO: 'Worked a QSO with '
   },
   exploreUsers: {
-    lookWhoInQSO: 'Look who is on SuperQSO',
+    lookWhoInQSO: 'Explore new Users',
     qsosCreated: 'Posts',
     callsignsYouTagged: 'Callsigns that you have already tagged',
     callsignsTaggedYou: 'Callsigns that already tagged you',

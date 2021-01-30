@@ -13,21 +13,25 @@ export default class QRAs extends React.PureComponent {
       <View style={styles.container}>
         {this.props.qras.length > 0 && (
           <View style={styles.qras}>
-            <ScrollView horizontal contentContainerStyle={styles.qras}>
-              <FlatList
-                horizontal
-                pagingEnabled={true}
-                onScroll={this.handleScroll}
-                data={this.props.qras}
-                onViewableItemsChanged={this._onViewableItemsChanged}
-                initialNumToRender={3}
-                viewabilityConfig={this.viewabilityConfig}
-                maxToRenderPerBatch={3}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={this._renderItem}
-                contentContainerStyle={styles.container}
-              />
-            </ScrollView>
+            {/* <ScrollView horizontal contentContainerStyle={styles.qras}> */}
+            <FlatList
+              horizontal
+              pagingEnabled={true}
+              onScroll={this.handleScroll}
+              data={this.props.qras}
+              onViewableItemsChanged={this._onViewableItemsChanged}
+              // initialNumToRender={3}
+              // viewabilityConfig={this.viewabilityConfig}
+              // maxToRenderPerBatch={3}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={this._renderItem}
+              // contentContainerStyle={{
+              //   flex: 1,
+              //   justifyContent: 'center',
+              //   alignItems: 'flex-start'
+              // }}
+            />
+            {/* </ScrollView> */}
           </View>
         )}
       </View>
@@ -49,12 +53,12 @@ const styles = StyleSheet.create({
   },
 
   qras: {
-    alignItems: 'center',
+    // alignItems: 'center',
     paddingTop: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    // flexDirection: 'row',
+    // justifyContent: 'center',
 
-    // width: '80%',
+    width: 'auto',
     // overflowX: 'auto',
 
     maxWidth: '80%',

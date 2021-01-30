@@ -47,7 +47,8 @@ import {
   setUrlRdsS3,
   setWebView,
   welcomeUserFirstTime,
-  apiCheckVersion
+  apiCheckVersion,
+  setPendingVerification
 } from '../../actions';
 import { APP_VERSION } from '../../appVersion';
 import AmplifyAuthStorage from '../../AsyncStorage';
@@ -221,6 +222,8 @@ class LoginForm extends React.PureComponent {
                 // mensajes =  armoPushNotifyLocalNotif(notification.data.message['title-loc-key'],notification.data.message['loc-key'],notification.data.message['title-loc-args'],notification.data.message['loc-args']);
 
                 var today = new Date();
+                let timeStamp = Date.now();
+                console.log('timseStamp:'+ timeStamp)
 
                 // si el push es de MARKETING viene sin QRA ni IDACTIVITY
                 // if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
@@ -234,7 +237,8 @@ class LoginForm extends React.PureComponent {
                 envioNotif = {
                   idqra_notifications: 9999,
                   idqra: 442,
-                  idqra_activity: bodyJson.IDACTIVITY,
+                  // idqra_activity: bodyJson.IDACTIVITY,
+                  idqra_activity: timeStamp,
                   read: 'unread',
                   DATETIME: today.toString(),
                   message: mensajes.bandejaNotifLocal,
@@ -251,6 +255,18 @@ class LoginForm extends React.PureComponent {
                 // }
 
                 this.props.manage_notifications('ADDONE', envioNotif, '');
+               
+                // si el push es de Aprobacion de usuario actualizo GetUserInfo 
+                // asi ya lo deja publicar, dar like y comentar.
+                if (parseo['title-loc-key']==='PUSH_APPROVE_USER_TITLE')
+                  {
+                    console.log('actualizo getUserInfo Usuario Aprobado')
+                  // actualizo en userInfo en redux que el usuario esta validado
+                  this.props.setPendingVerification(0);
+               
+                  }
+
+
 
                 if (
                   notification.userInteraction === false &&
@@ -352,6 +368,8 @@ class LoginForm extends React.PureComponent {
                 notification.alert['loc-args']
               );
               today = new Date();
+              let timeStamp = Date.now();
+              console.log('timseStamp:'+ timeStamp)
 
               // si el push es de MARKETING viene sin QRA ni IDACTIVITY
               // if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
@@ -366,7 +384,8 @@ class LoginForm extends React.PureComponent {
               envioNotif = {
                 idqra_notifications: 9999,
                 idqra: 442,
-                idqra_activity: bodyJson.IDACTIVITY,
+                // idqra_activity: bodyJson.IDACTIVITY,
+                idqra_activity: timeStamp,
                 read: 'unread',
                 DATETIME: today.toString(),
                 message: mensajes.bandejaNotifLocal,
@@ -425,6 +444,15 @@ class LoginForm extends React.PureComponent {
               }
 
               this.props.manage_notifications('ADDONE', envioNotif, '');
+                // si el push es de Aprobacion de usuario actualizo GetUserInfo 
+                // asi ya lo deja publicar, dar like y comentar.
+                if (notification.alert['title-loc-key']==='PUSH_APPROVE_USER_TITLE')
+                  {
+                    console.log('actualizo getUserInfo Usuario Aprobado')
+                   // actualizo en userInfo en redux que el usuario esta validado
+                   this.props.setPendingVerification(0);
+               
+                  }
 
               // si viene de background lo lleva directo al notification tray
               // pero si esta foreground no le cambia la screen para respetar lo que el usuario
@@ -1047,7 +1075,7 @@ class LoginForm extends React.PureComponent {
         .then(() => {
           console.log('Resend Ok!');
           this.setState({
-            errormessage2: 'Your confirmation code has been sent!',
+            errormessage2: I18n.t('signupValConfirmCode'),
             color: 'blue',
             heightindicator: 0,
             indicator: 0,
@@ -1079,6 +1107,7 @@ class LoginForm extends React.PureComponent {
     }
   };
 
+  
   confirmSignup = async (confirmationCode) => {
     Keyboard.dismiss();
 
@@ -1100,10 +1129,18 @@ class LoginForm extends React.PureComponent {
             indicator: 0,
             buttonsEnabled: false
           });
-          setTimeout(() => {
-            // se hace tiempo porque ios necesita bajar el modal anterior antes
-            this.props.welcomeUserFirstTime(true);
-          }, 200);
+
+          // this.signInAfterConfirmed();
+          this.props.welcomeUserFirstTime(true);
+          this.signIn();
+          // this.props.welcomeUserFirstTime(true);
+          // this.props.navigation.navigate('Home');
+
+
+          // setTimeout(() => {
+          //   // se hace tiempo porque ios necesita bajar el modal anterior antes
+          //   this.props.welcomeUserFirstTime(true);
+          // }, 200);
 
           //  this.signIn(); no hago el SignIn porque el user esta deshabilitado hasta el envio de la licencia
           //    this.signInAfterConfirmed();
@@ -1249,13 +1286,13 @@ class LoginForm extends React.PureComponent {
                 closeInternetModal={this.closeVariosModales.bind()}
               />
             )}
-            {this.props.welcomeuserfirsttime && (
+            {/* {this.props.welcomeuserfirsttime && (
               <VariosModales
                 show={true}
                 modalType="welcomefirsttime"
                 closeInternetModal={this.closeWelcom.bind()}
               />
-            )}
+            )} */}
           </View>
         ) : (
           <View style={styles.container}>
@@ -1415,7 +1452,8 @@ const mapDispatchToProps = {
   manageLocationPermissions,
   welcomeUserFirstTime,
   setWebView,
-  apiCheckVersion
+  apiCheckVersion,
+  setPendingVerification
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -261,7 +261,7 @@ constructor(props) {
 
     closePasswordChanged = () => {
         this.setState({passwordChanged:false});
-        this.props.navigation.navigate("Root");
+        this.props.navigation.navigate("Login");
 
 
     }
@@ -320,7 +320,7 @@ constructor(props) {
                     <Text style={styles.buttonText}>{I18n.t("forgotPasswordSubmit")}</Text>
                  </TouchableOpacity>
 
-                <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
+                <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Login")} >
                     <Text style={styles.buttonText2} >{I18n.t("forgotPasswordBackLogin")}</Text>
                  </TouchableOpacity>
 
@@ -377,7 +377,7 @@ constructor(props) {
                     <Text style={styles.buttonText}>{I18n.t("forgotPasswordSubmit")}</Text>
                  </TouchableOpacity>
 
-                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
+                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Login")} >
                     <Text style={styles.buttonText2} >{I18n.t("forgotPasswordBackLogin")}</Text>
                  </TouchableOpacity>
             </View>

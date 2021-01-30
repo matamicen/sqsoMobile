@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { userNotValidated } from '../../helper';
 import {
   FlatList,
   StyleSheet,
@@ -42,70 +43,73 @@ class QSOComments extends React.PureComponent {
   }
 
   handleAddComment = (values) => {
-    // e.preventDefault();
-    if (values.comment === '') return;
+    if (this.props.userinfo.pendingVerification) userNotValidated();
+    else {
+      // e.preventDefault();
+      if (values.comment === '') return;
 
-    let datetime = new Date();
-    let comment = {
-      qra: this.props.currentQRA.toUpperCase(),
-      comment: values.comment,
-      datetime: datetime
-    };
-    let m;
-    const regex = /(?:^|[ ])@([a-zA-Z0-9]+)/;
+      let datetime = new Date();
+      let comment = {
+        qra: this.props.currentQRA.toUpperCase(),
+        comment: values.comment,
+        datetime: datetime
+      };
+      let m;
+      const regex = /(?:^|[ ])@([a-zA-Z0-9]+)/;
 
-    let message = values.comment;
+      let message = values.comment;
 
-    do {
-      m = regex.exec(values.comment);
+      do {
+        m = regex.exec(values.comment);
 
-      if (m) {
-        var oldWord = '@' + m[1];
+        if (m) {
+          var oldWord = '@' + m[1];
 
-        values.comment = values.comment.replace(
-          new RegExp(oldWord, 'g'),
-          '<MENTION>' + '@' + m[1] + '</MENTION>'
-        );
-      }
-    } while (m);
+          values.comment = values.comment.replace(
+            new RegExp(oldWord, 'g'),
+            '<MENTION>' + '@' + m[1] + '</MENTION>'
+          );
+        }
+      } while (m);
 
-    let comment2 = {
-      qra: this.props.currentQRA.toUpperCase(),
-      comment: values.comment,
-      datetime: datetime
-    };
-    this.setState({ comment: comment2 });
-    this.setState({
-      comments: this.state.comments.concat(comment2)
-    });
-    // e.target.comment.value = null;
-    this.setState({ comment: '' });
-    values.comment = '';
-    // this.props.recalculateRowHeight();
-
-    comment.firstname = this.props.firstname;
-    comment.lastname = this.props.lastname;
-    comment.avatarpic = this.props.avatarpic;
-    comment.idqsos_comments = datetime;
-    comment.idqso = this.props.qso.idqso_shared
-      ? this.props.qso.idqso_shared
-      : this.props.idqsos;
-
-    this.props.actions.doCommentAdd(
-      this.props.idqsos,
-      comment,
-      this.props.token,
-      this.props.qso.idqso_shared
-    );
-
-    // this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
-    //   animated: true,
-    // });
-    setTimeout(() => {
-      this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
-        animated: true
+      let comment2 = {
+        qra: this.props.currentQRA.toUpperCase(),
+        comment: values.comment,
+        datetime: datetime
+      };
+      this.setState({ comment: comment2 });
+      this.setState({
+        comments: this.state.comments.concat(comment2)
       });
-    }, 1500);
+      // e.target.comment.value = null;
+      this.setState({ comment: '' });
+      values.comment = '';
+      // this.props.recalculateRowHeight();
+
+      comment.firstname = this.props.firstname;
+      comment.lastname = this.props.lastname;
+      comment.avatarpic = this.props.avatarpic;
+      comment.idqsos_comments = datetime;
+      comment.idqso = this.props.qso.idqso_shared
+        ? this.props.qso.idqso_shared
+        : this.props.idqsos;
+
+      this.props.actions.doCommentAdd(
+        this.props.idqsos,
+        comment,
+        this.props.token,
+        this.props.qso.idqso_shared
+      );
+
+      // this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
+      //   animated: true,
+      // });
+      setTimeout(() => {
+        this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
+          animated: true
+        });
+      }, 1500);
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -612,6 +616,7 @@ const mapStateToProps = (state, ownProps) => ({
   qso: selectorFeedType(state, ownProps),
   comments: selectorFeedType(state, ownProps).comments,
   token: state.sqso.jwtToken,
+  userinfo: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
   firstname: state.sqso.userInfo.firstname,
   lastname: state.sqso.userInfo.lastname,
