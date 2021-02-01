@@ -73,7 +73,12 @@ class FeedItem extends React.Component {
               />
             );
           else {
-            return <FeedItemAd />;
+            return (
+              <FeedItemAd
+                feedType={this.props.feedType}
+                country={this.props.country}
+              />
+            );
           }
         default:
           return null;
@@ -81,7 +86,7 @@ class FeedItem extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({ country: state.sqso.userInfo.country });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
