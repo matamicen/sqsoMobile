@@ -11,7 +11,7 @@ import {
 import { Avatar, Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-
+import analytics from '@react-native-firebase/analytics';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
@@ -132,10 +132,11 @@ class QSOCommentItem extends React.PureComponent {
     else {
       if (!this.followed) {
         // if (!__DEV__)
-        //   window.gtag('event', 'qraFollowComment_WEBPRD', {
+        //   window.gtag('event', 'qraFollowComment_APPPRD', {
         //     event_category: 'User',
         //     event_label: 'follow'
         //   });
+        if (!__DEV__) analytics().logEvent('qraFollowComment_APPPRD');
         this.props.actions.doFollowQRA(this.props.token, idqra);
         this.followed = true;
         this.setState({ followed: this.followed });

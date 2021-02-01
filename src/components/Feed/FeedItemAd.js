@@ -22,14 +22,14 @@ export default function FeedItemAdd(props) {
         <Image
           style={{
             flex: 1,
-            height: 230,
+            height: 250,
             //   this.itemWidth > 270 ? Dimensions.get('window').height : 280,
             // maxHeight: 370,
             // alignSelf: 'center',
 
             padding: 0,
             margin: 0,
-            width: 280
+            width: 250
           }}
           onPress={() => {
             Linking.canOpenURL('https://logdeargentina.com.ar/')

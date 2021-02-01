@@ -77,7 +77,7 @@ class Home extends React.PureComponent {
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
           this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-
+          this.props.actions.doLatestUsersFetch();
           //   this.props.setPressHome(0);
         } else {
           console.log('press NO esta en 1 y y lo pone en 1');
@@ -117,6 +117,7 @@ class Home extends React.PureComponent {
       //   this.props.currentQRA
       // );
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doLatestUsersFetch();
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -143,6 +144,7 @@ class Home extends React.PureComponent {
       // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doLatestUsersFetch();
 
       //   this.props.setPressHome(0);
     } else this.props.actions.setPressHome(1);
@@ -152,6 +154,7 @@ class Home extends React.PureComponent {
     if (nextAppState === 'active') {
       // refresco el feed
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doLatestUsersFetch();
 
       ShareMenu.getSharedText((text) => {
         console.log('el text del share 05:' + JSON.stringify(text));
@@ -189,6 +192,7 @@ class Home extends React.PureComponent {
       this.props.actions.get_notifications(session.idToken.jwtToken);
       // refresco el feed
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doLatestUsersFetch();
     }
   };
 

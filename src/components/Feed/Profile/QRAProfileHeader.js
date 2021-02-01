@@ -3,14 +3,16 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import I18n from '../../../utils/i18n';
 import { MY_COUNTRIES_DATA } from './countries.js';
-
+import analytics from '@react-native-firebase/analytics';
 class QRAProfileHeader extends React.PureComponent {
   state = { showModal: false };
   close = () => this.setState({ showModal: false });
   open = () => {
     if (this.props.qraInfo && this.props.qraInfo.profilepic) {
-      // if (!__DEV__) window.gtag('event', 'profilePicModalOpen_WEBPRD', {});
+      if (!__DEV__) analytics().logEvent('profilepicOpenModal_APPPRD');
+
       this.setState({ showModal: true });
+      l;
     }
   };
   country2emoji(country_code) {

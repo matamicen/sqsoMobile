@@ -3628,19 +3628,20 @@ export const doFetchPublicFeed = (qra = null) => {
   // });
   // if (!qra) {
   //   if (!__DEV__)
-  //     window.gtag('event', 'getPublicFeed_WEBPRD', {
+  //     window.gtag('event', 'getPublicFeed_APPPRD', {
   //       event_category: 'User',
   //       event_label: 'getPublicFeed',
   //       userQRA: qra
   //     });
   // } else {
   //   if (!__DEV__)
-  //     window.gtag('event', 'getUserFeed_WEBPRD', {
+  //     window.gtag('event', 'getUserFeed_APPPRD', {
   //       event_category: 'User',
   //       event_label: 'getUserFeed',
   //       userQRA: qra
   //     });
   // }
+  if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchPublicFeed'));
 
@@ -3667,7 +3668,7 @@ export const doFetchPublicFeed = (qra = null) => {
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('getPublicFeed_WEBDEV'));
-          else crashlytics().recordError(new Error('getPublicFeed_WEBPRD'));
+          else crashlytics().recordError(new Error('getPublicFeed_APPPRD'));
           // Sentry.configureScope(function (scope) {
           //   scope.setExtra('ENV', process.env.REACT_APP_STAGE);
           // });
@@ -3727,7 +3728,7 @@ export const doFollowFetch = () => {
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('doFollowFetch_WEBDEV'));
-          else crashlytics().recordError(new Error('doFollowFetch_WEBPRD'));
+          else crashlytics().recordError(new Error('doFollowFetch_APPPRD'));
         });
       //   }
       // );
@@ -3738,7 +3739,7 @@ export const doFollowFetch = () => {
         crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__)
           crashlytics().recordError(new Error('doFollowFetch_WEBDEV'));
-        else crashlytics().recordError(new Error('doFollowFetch_WEBPRD'));
+        else crashlytics().recordError(new Error('doFollowFetch_APPPRD'));
       }
 
       // dispatch(doLogout());
@@ -3788,7 +3789,7 @@ export const doFollowQRA = (token, follower) => {
       } else {
         crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__) crashlytics().recordError(new Error('doFollowQRA_WEBDEV'));
-        else crashlytics().recordError(new Error('doFollowQRA_WEBPRD'));
+        else crashlytics().recordError(new Error('doFollowQRA_APPPRD'));
       }
 
       // dispatch(doLogout());
@@ -3798,10 +3799,11 @@ export const doFollowQRA = (token, follower) => {
 
 export const doUnfollowQRA = (token, follower) => {
   // if (!__DEV__)
-  //   window.gtag('event', 'qraUnfollow_WEBPRD', {
+  //   window.gtag('event', 'qraUnfollow_APPPRD', {
   //     event_category: 'User',
   //     event_label: 'unfollow'
   //   });
+  if (!__DEV__) analytics().logEvent('qraUnfollow_APPPRD');
 
   return async (dispatch) => {
     try {
@@ -3837,7 +3839,7 @@ export const doUnfollowQRA = (token, follower) => {
         crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__)
           crashlytics().recordError(new Error('doUnfollowQRA_WEBDEV'));
-        else crashlytics().recordError(new Error('doUnfollowQRA_WEBPRD'));
+        else crashlytics().recordError(new Error('doUnfollowQRA_APPPRD'));
       }
 
       // dispatch(doLogout());
@@ -3852,10 +3854,11 @@ export const doReceiveFollowers = (following) => {
 };
 export const doQsoMediaPlay = (idMedia, idqso) => {
   // if (process.env.REACT_APP_STAGE === 'production')
-  //   window.gtag('event', 'qsoMediaPlay_WEBPRD', {
+  //   window.gtag('event', 'qsoMediaPlay_APPPRD', {
   //     event_category: 'QSO',
   //     event_label: 'mediaPlay'
   //   });
+  if (!__DEV__) analytics().logEvent('qsoMediaPlay_APPPRD');
   return async (dispatch) => {
     try {
       let session = await Auth.currentSession();
@@ -3880,7 +3883,7 @@ export const doQsoMediaPlay = (idMedia, idqso) => {
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('doQsoMediaPlay_WEBDEV'));
-          else crashlytics().recordError(new Error('doQsoMediaPlay_WEBPRD'));
+          else crashlytics().recordError(new Error('doQsoMediaPlay_APPPRD'));
         });
       //   }
       // );
@@ -3891,7 +3894,7 @@ export const doQsoMediaPlay = (idMedia, idqso) => {
         crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__)
           crashlytics().recordError(new Error('doQsoMediaPlay_WEBDEV'));
-        else crashlytics().recordError(new Error('doQsoMediaPlay_WEBPRD'));
+        else crashlytics().recordError(new Error('doQsoMediaPlay_APPPRD'));
       }
     }
   };
@@ -3905,10 +3908,12 @@ export function doReceiveMediaCounter(data) {
 export const doRepost = (idqso, token, qso) => {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'repost_WEBPRD', {
+    //   window.gtag('event', 'repost_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'repost'
     //   });
+    if (!__DEV__) analytics().logEvent('repost_APPPRD');
+
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -3994,10 +3999,11 @@ export function doUnlikeQSO(idqso, idqra, idqso_shared) {
 export function doCommentDelete(idcomment, idqso, token, idqso_shared) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'qsoCommentDel_WEBPRD', {
+    //   window.gtag('event', 'qsoCommentDel_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'commentDel'
     //   });
+    if (!__DEV__) analytics().logEvent('qsoCommentDel_APPPRD');
     dispatch(doCommentDeleteResponse(idcomment, idqso, idqso_shared));
     try {
       let session = await Auth.currentSession();
@@ -4041,10 +4047,11 @@ export function doCommentDelete(idcomment, idqso, token, idqso_shared) {
 export function doCommentAdd(idqso, comment, token, idqso_shared) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'qsoCommentAdd_WEBPRD', {
+    //   window.gtag('event', 'qsoCommentAdd_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'commentAdd'
     //   });
+    if (!__DEV__) analytics().logEvent('qsoCommentAdd_APPPRD');
     let m;
     const regex = /(?:^|[ ])@([a-zA-Z0-9]+)/;
 
@@ -4156,12 +4163,12 @@ export function doFetchQRA(qra, token = null) {
   // });
 
   // if (process.env.REACT_APP_STAGE === 'production')
-  //   window.gtag('event', 'qraGetDetail_WEBPRD', {
+  //   window.gtag('event', 'qraGetDetail_APPPRD', {
   //     event_category: 'QRA',
   //     event_label: 'getDetail',
   //     qra: qra
   //   });
-
+  if (!__DEV__) analytics().logEvent('qraGetDetail_APPPRD');
   return async (dispatch) => {
     try {
       let session = await Auth.currentSession();
@@ -4245,12 +4252,12 @@ export function doFetchQSO(idqso, token = null) {
   // });
 
   // if (process.env.REACT_APP_STAGE === 'production')
-  //   window.gtag('event', 'qsoGetDetail_WEBPRD', {
+  //   window.gtag('event', 'qsoGetDetail_APPPRD', {
   //     event_category: 'QSO',
   //     event_label: 'getDetail',
   //     qso: idqso
   //   });
-
+  if (!__DEV__) analytics().logEvent('qsoGetDetail_APPPRD');
   return async (dispatch) => {
     try {
       let session = await Auth.currentSession();
@@ -4308,15 +4315,12 @@ export function doReceiveQSO(data, error) {
 export function doSaveUserInfo(token, qra) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'UserInfoUpdate_WEBPRD', {
+    //   window.gtag('event', 'UserInfoUpdate_APPPRD', {
     //     event_category: 'User',
     //     event_label: 'UserInfoUpdate'
     //   });
+    if (!__DEV__) analytics().logEvent('userInfoUpdate_APPPRD');
     try {
-      // const currentSession = await Auth.currentSession();
-      // const token = await currentSession.getIdToken().getJwtToken();
-
-      // dispatch(refreshToken(token));
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
       dispatch(doRequestUserInfo());
@@ -4392,10 +4396,12 @@ export function doReceiveUserDataInfo(qra) {
 export function doSaveUserBio(token, bio, identityId) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'UserBioUpdate_WEBPRD', {
+    //   window.gtag('event', 'UserBioUpdate_APPPRD', {
     //     event_category: 'User',
     //     event_label: 'UserBioUpdate'
     //   });
+    if (!__DEV__) analytics().logEvent('userBioUpdate_APPPRD');
+
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4423,7 +4429,7 @@ export function doSaveUserBio(token, bio, identityId) {
           if (__DEV__) {
             console.log(error.message);
             crashlytics().recordError(new Error('doSaveUserBio_WEBDEV'));
-          } else crashlytics().recordError(new Error('doSaveUserBio_WEBPRD'));
+          } else crashlytics().recordError(new Error('doSaveUserBio_APPPRD'));
         });
       //   }
       // );
@@ -4433,7 +4439,7 @@ export function doSaveUserBio(token, bio, identityId) {
       if (__DEV__) {
         console.log(error.message);
         crashlytics().recordError(new Error('doSaveUserBio_WEBDEV'));
-      } else crashlytics().recordError(new Error('doSaveUserBio_WEBPRD'));
+      } else crashlytics().recordError(new Error('doSaveUserBio_APPPRD'));
     }
   };
 }
@@ -4456,11 +4462,12 @@ export function doFetchFieldDaysFeed(qra = null) {
   // });
 
   // if (process.env.REACT_APP_STAGE === 'production')
-  //   window.gtag('event', 'getFieldDaysFeed_WEBPRD', {
+  //   window.gtag('event', 'getFieldDaysFeed_APPPRD', {
   //     event_category: 'User',
   //     event_label: 'getFieldDaysFeed',
   //     userQRA: qra
   //   });
+  if (!__DEV__) analytics().logEvent('getFieldDaysFeed_APPPRD');
 
   return async (dispatch) => {
     dispatch(doRequestFieldDay());
@@ -4484,17 +4491,18 @@ export function doFetchFieldDaysFeed(qra = null) {
           console.log(error.message);
           crashlytics().recordError(new Error('doFetchFieldDaysFeed_WEBDEV'));
         } else
-          crashlytics().recordError(new Error('doFetchFieldDaysFeed_WEBPRD'));
+          crashlytics().recordError(new Error('doFetchFieldDaysFeed_APPPRD'));
       });
   };
 }
 export function doDeleteQso(idqso, token) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'qsoDelete_WEBPRD', {
+    //   window.gtag('event', 'qsoDelete_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'delete'
     //   });
+    if (!__DEV__) analytics().logEvent('qsoDelete_APPPRD');
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4522,7 +4530,7 @@ export function doDeleteQso(idqso, token) {
           if (__DEV__) {
             console.log(error.message);
             crashlytics().recordError(new Error('doDeleteQSO_WEBDEV'));
-          } else crashlytics().recordError(new Error('doDeleteQSO_WEBPRD'));
+          } else crashlytics().recordError(new Error('doDeleteQSO_APPPRD'));
         });
       //   }
       // );
@@ -4532,7 +4540,7 @@ export function doDeleteQso(idqso, token) {
       if (__DEV__) {
         console.log(error.message);
         crashlytics().recordError(new Error('doDeleteQSO_WEBDEV'));
-      } else crashlytics().recordError(new Error('doDeleteQSO_WEBPRD'));
+      } else crashlytics().recordError(new Error('doDeleteQSO_APPPRD'));
     }
   };
 }
@@ -4553,10 +4561,11 @@ export const setFeedTouchable = (status) => {
 export function doLatestUsersFetch() {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'getLatestUsers_WEBPRD', {
+    //   window.gtag('event', 'getLatestUsers_APPPRD', {
     //     event_category: 'User',
     //     event_label: 'getLatestUsers'
     //   });
+    if (!__DEV__) analytics().logEvent('getLatestUsers_APPPRD');
     try {
       // const currentSession = await Auth.currentSession();
       // const token = await currentSession.getIdToken().getJwtToken();
@@ -4583,7 +4592,7 @@ export function doLatestUsersFetch() {
             console.log(error.message);
             crashlytics().recordError(new Error('doLatestUsersFetch_WEBDEV'));
           } else
-            crashlytics().recordError(new Error('doLatestUsersFetch_WEBPRD'));
+            crashlytics().recordError(new Error('doLatestUsersFetch_APPPRD'));
         });
       //   }
       // );
@@ -4593,7 +4602,7 @@ export function doLatestUsersFetch() {
       if (__DEV__) {
         console.log(error.message);
         crashlytics().recordError(new Error('doLatestUsersFetch_WEBDEV'));
-      } else crashlytics().recordError(new Error('doLatestUsersFetch_WEBPRD'));
+      } else crashlytics().recordError(new Error('doLatestUsersFetch_APPPRD'));
     }
   };
 }
@@ -4607,10 +4616,11 @@ export function doLatestUsersReceive(follow) {
 export function doValidateUser(qra) {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'qsoDelete_WEBPRD', {
+    //   window.gtag('event', 'qsoDelete_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'delete'
     //   });
+    if (!__DEV__) analytics().logEvent('qsoDelete_APPPRD');
     try {
       let session = await Auth.currentSession();
       dispatch(setToken(session.idToken.jwtToken));
@@ -4637,7 +4647,7 @@ export function doValidateUser(qra) {
           if (__DEV__) {
             console.log(error.message);
             crashlytics().recordError(new Error('doValidateUser_WEBDEV'));
-          } else crashlytics().recordError(new Error('doValidateUser_WEBPRD'));
+          } else crashlytics().recordError(new Error('doValidateUser_APPPRD'));
         });
       //   }
       // );
@@ -4647,7 +4657,7 @@ export function doValidateUser(qra) {
       if (__DEV__) {
         console.log(error.message);
         crashlytics().recordError(new Error('doValidateUser_WEBDEV'));
-      } else crashlytics().recordError(new Error('doValidateUser_WEBPRD'));
+      } else crashlytics().recordError(new Error('doValidateUser_APPPRD'));
     }
   };
 }
