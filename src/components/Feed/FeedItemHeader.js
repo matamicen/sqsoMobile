@@ -149,18 +149,21 @@ class FeedItemHeader extends React.PureComponent {
                 <Text style={{ textAlign: 'left', margin: 0, padding: 0 }}>
                   <Text style={styles.bold}>{I18n.t('qso.start')}:</Text>
                   <Text>
-                    {startDate.toLocaleDateString(I18n.locale.substring(0, 2), {
+                    {' '}
+                    {moment(new Date(startDate)).utc().format('lll')}
+                    {' UTC'}
+                    {/* {startDate.toLocaleDateString(I18n.locale.substring(0, 2), {
                       month: 'short'
-                    })}{' '}
+                    })}{' '} */}
                   </Text>
 
-                  <Text>
+                  {/* <Text>
                     {startDate.getUTCHours() +
                       ':' +
                       (startDate.getMinutes() < 10 ? '0' : '') +
                       startDate.getMinutes() +
                       ' UTC'}
-                  </Text>
+                  </Text> */}
                 </Text>
                 <Text
                   style={{
@@ -170,17 +173,20 @@ class FeedItemHeader extends React.PureComponent {
                   }}>
                   <Text style={styles.bold}> {I18n.t('qso.end')}:</Text>
                   <Text>
-                    {endDate.toLocaleDateString(I18n.locale.substring(0, 2), {
+                    {' '}
+                    {moment(new Date(endDate)).utc().format('lll')}
+                    {' UTC'}
+                    {/* {endDate.toLocaleDateString(I18n.locale.substring(0, 2), {
                       month: 'short'
-                    })}{' '}
+                    })}{' '} */}
                   </Text>
-                  <Text>
+                  {/* <Text>
                     {endDate.getUTCHours() +
                       ':' +
                       (endDate.getMinutes() < 10 ? '0' : '') +
                       endDate.getMinutes() +
                       ' UTC'}
-                  </Text>
+                  </Text> */}
                 </Text>
               </View>
             )}
