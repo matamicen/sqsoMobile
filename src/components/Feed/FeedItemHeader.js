@@ -9,7 +9,7 @@ import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 // import './style.js';
 import TextToFollow from './TextToFollow';
-
+import moment from 'moment';
 class FeedItemHeader extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -137,17 +137,8 @@ class FeedItemHeader extends React.PureComponent {
                 )}
                 <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
                 <Text>
-                  {date.toLocaleDateString(I18n.locale.substring(0, 2), {
-                    month: 'short'
-                  })}
-                </Text>
-
-                <Text style={styles.bold}> UTC:</Text>
-                <Text>
-                  {date.getUTCHours() +
-                    ':' +
-                    (date.getMinutes() < 10 ? '0' : '') +
-                    date.getMinutes()}
+                  {moment(new Date(date)).utc().format('llll')}
+                  {' UTC'}{' '}
                 </Text>
               </Text>
             )}
