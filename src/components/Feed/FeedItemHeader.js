@@ -137,8 +137,9 @@ class FeedItemHeader extends React.PureComponent {
                 )}
                 <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
                 <Text>
-                  {moment(new Date(date)).utc().format('llll')}
-                  {' UTC'}{' '}
+                  {' '}
+                  {moment(new Date(date)).utc().format('lll')}
+                  {' UTC'}
                 </Text>
               </Text>
             )}
