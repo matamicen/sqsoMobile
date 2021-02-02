@@ -121,7 +121,8 @@ import {
   UPDATE_QSL_SCAN_RESULT,
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
-  SET_FEEDTOUCHABLE
+  SET_FEEDTOUCHABLE,
+  SET_USER_PENDINGVERIFICATION
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -1654,7 +1655,9 @@ export const uploadVideoToS3 = (
     //  dispatch(fetchingApiRequest());
     // let nombre = 'pepe_'+Date.now()+'.mp4';
 
-    console.log('ejecuta UPLOAD VIDEO a S3 desde ACTION');
+    const identityID = await AsyncStorage.getItem('identity');
+
+    console.log('ejecuta UPLOAD VIDEO a S3 desde ACTION: '+identityID);
     try {
       // llama API pre signed
       let apiName = 'superqso';
@@ -1666,12 +1669,13 @@ export const uploadVideoToS3 = (
           'Content-Type': 'application/json'
         },
         body: {
-          name: fileName2
+          name: fileName2,
+          identityId: identityID
         }
       };
-
+      console.log('antes del crash: '+fileName2)
       respuesta = await API.post(apiName, path, myInit);
-
+      console.log('despues del crash')
       console.log(respuesta);
 
       if (respuesta.body.error === false) {
@@ -1711,7 +1715,7 @@ export const uploadVideoToS3 = (
           useUtf8Charset: true
         };
 
-        const identityID = await AsyncStorage.getItem('identity');
+        // const identityID = await AsyncStorage.getItem('identity');
 
         Upload.startUpload(options)
           .then((uploadId) => {
@@ -3618,6 +3622,13 @@ export const setSubscriptionInfo = (productid, localizedprice) => {
     type: SET_SUBSCRIPTION_INFO,
     productid: productid,
     localizedprice: localizedprice
+  };
+};
+
+export const setPendingVerification = (status) => {
+  return {
+    type: SET_USER_PENDINGVERIFICATION,
+    status: status
   };
 };
 

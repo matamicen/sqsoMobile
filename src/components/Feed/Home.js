@@ -152,10 +152,6 @@ class Home extends React.PureComponent {
 
   _handleAppStateChange = async (nextAppState) => {
     if (nextAppState === 'active') {
-      // refresco el feed
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-      this.props.actions.doLatestUsersFetch();
-
       ShareMenu.getSharedText((text) => {
         console.log('el text del share 05:' + JSON.stringify(text));
 
@@ -190,9 +186,16 @@ class Home extends React.PureComponent {
       // si viene de background debe traer las ultimas actualizaciones de notificaciones
       // puede venir de background porque el usuario volvio manualmente o porque apreto un PUSH
       this.props.actions.get_notifications(session.idToken.jwtToken);
+
+      // llamo a getuserInfo solo si el usuario no esa validado
+      console.log(
+        'pendingValidation:' + this.props.userinfo.pendingVerification
+      );
+      if (this.props.userinfo.pendingVerification)
+        this.props.actions.getUserInfo(session.idToken.jwtToken);
+
       // refresco el feed
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-      this.props.actions.doLatestUsersFetch();
     }
   };
 
@@ -270,6 +273,7 @@ const mapStateToProps = (state) => ({
   qsosFetched: state.sqso.feed.qsosFetched,
   //   authenticating: state.sqso.feeduserData.authenticating,
   currentQRA: state.sqso.qra,
+  userinfo: state.sqso.userInfo,
 
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos,
