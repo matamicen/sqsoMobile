@@ -12,7 +12,6 @@ class QRAProfileHeader extends React.PureComponent {
       if (!__DEV__) analytics().logEvent('profilepicOpenModal_APPPRD');
 
       this.setState({ showModal: true });
-      l;
     }
   };
   country2emoji(country_code) {
