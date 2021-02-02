@@ -165,8 +165,9 @@ class FeedItemHeader extends React.PureComponent {
                   <Text>
                     {startDate.getUTCHours() +
                       ':' +
-                      (date.getMinutes() < 10 ? '0' : '') +
-                      date.getMinutes()}
+                      (startDate.getMinutes() < 10 ? '0' : '') +
+                      startDate.getMinutes() +
+                      ' UTC'}
                   </Text>
                 </Text>
                 <Text
@@ -184,8 +185,9 @@ class FeedItemHeader extends React.PureComponent {
                   <Text>
                     {endDate.getUTCHours() +
                       ':' +
-                      (date.getMinutes() < 10 ? '0' : '') +
-                      date.getMinutes()}
+                      (endDate.getMinutes() < 10 ? '0' : '') +
+                      endDate.getMinutes() +
+                      ' UTC'}
                   </Text>
                 </Text>
               </View>
