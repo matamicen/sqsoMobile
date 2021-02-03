@@ -26,7 +26,6 @@ class Link extends React.PureComponent {
     }
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
-      console.log(supported);
       if (!supported) {
         Alert.alert('Can\'t handle url: ' + url);
       } else {
@@ -56,7 +55,7 @@ class Description extends React.PureComponent {
       var contents = words.map(function (word, i) {
         // Space if the word isn't the very last in the set, thus not requiring a space after it
         var separator = i < words.length - 1 ? ' ' : '';
-        console.log(word);
+
         // The word is a URL, return the URL wrapped in a custom <Link> component
         if (word.match(/(^http[s]?:\/{2})|(^www)|(^\/{1,2})/gim)) {
           return (

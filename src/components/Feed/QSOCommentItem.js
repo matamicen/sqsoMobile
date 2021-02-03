@@ -27,7 +27,6 @@ class Link extends React.PureComponent {
     }
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
-      console.log(supported);
       if (!supported) {
         Alert.alert('Can\'t handle url: ' + url);
       } else {
