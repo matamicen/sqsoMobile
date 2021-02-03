@@ -150,7 +150,8 @@ class FeedItemHeader extends React.PureComponent {
                   <Text style={styles.bold}>{I18n.t('qso.start')}:</Text>
                   <Text>
                     {startDate.toLocaleDateString(I18n.locale.substring(0, 2), {
-                      month: 'short'
+                      month: 'short',
+                      day: 'numeric'
                     })}{' '}
                   </Text>
 
@@ -171,7 +172,8 @@ class FeedItemHeader extends React.PureComponent {
                   <Text style={styles.bold}> {I18n.t('qso.end')}:</Text>
                   <Text>
                     {endDate.toLocaleDateString(I18n.locale.substring(0, 2), {
-                      month: 'short'
+                      month: 'short',
+                      day: 'numeric'
                     })}{' '}
                   </Text>
                   <Text>

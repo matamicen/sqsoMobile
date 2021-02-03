@@ -138,7 +138,7 @@ export const MainNavigator = createStackNavigator({
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       ),
       headerRight: (
-        <View style={{ padding: 15 }}>
+        <View style={{ padding: 9 }}>
           <ProfileMenu />
         </View>
       )
