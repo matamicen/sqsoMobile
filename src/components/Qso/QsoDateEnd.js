@@ -177,7 +177,7 @@ class QsoDateEnd extends React.PureComponent {
       )}
 
 
-     {(this.state.show && Platform.OS === 'ios' && Platform.Version < '13') && (
+     {(this.state.show && Platform.OS === 'ios' && Platform.Version < '14') && (
                 <Modal
                 visible={true}
                 animationType={"slide"}
@@ -228,7 +228,7 @@ class QsoDateEnd extends React.PureComponent {
       )}
             
             
-              {(this.state.show && Platform.OS === 'ios' && Platform.Version >= '13') && (
+              {(this.state.show && Platform.OS === 'ios' && Platform.Version >= '14') && (
                 <Modal
                 visible={true}
                 animationType={"slide"}
