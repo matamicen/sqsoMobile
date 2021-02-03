@@ -208,18 +208,21 @@ class Home extends React.PureComponent {
     // I18n.t("BACKBUTTONANDROID")
     // I18n.t("BACKBUTTONANDROIDCANCEL") BACKBUTTONANDROIDEXIT
 
-    Alert.alert(I18n.t('BACKBUTTONANDROIDTITLE'), I18n.t('BACKBUTTONANDROID'), [
-      {
-        text: I18n.t('BACKBUTTONANDROIDCANCEL'),
-        onPress: () => null,
-        style: I18n.t('BACKBUTTONANDROIDCANCEL')
-      },
-      {
-        text: I18n.t('BACKBUTTONANDROIDEXIT'),
-        onPress: () => BackHandler.exitApp()
-      }
-    ]);
-    return true;
+    console.log('press back android')
+    // Se comento este codigo para que no salga mas el PopUp cuando hace en android flecha fisica BACK
+    
+    // Alert.alert(I18n.t('BACKBUTTONANDROIDTITLE'), I18n.t('BACKBUTTONANDROID'), [
+    //   {
+    //     text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+    //     onPress: () => null,
+    //     style: I18n.t('BACKBUTTONANDROIDCANCEL')
+    //   },
+    //   {
+    //     text: I18n.t('BACKBUTTONANDROIDEXIT'),
+    //     onPress: () => BackHandler.exitApp()
+    //   }
+    // ]);
+    // return true;
   };
 
   toast = async (message, timer) => {
