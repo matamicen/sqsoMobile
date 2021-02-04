@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import { userNotValidated } from '../../helper';
+import analytics from '@react-native-firebase/analytics';
 class QSOLikeButton extends React.PureComponent {
   constructor() {
     super();
@@ -84,11 +85,13 @@ class QSOLikeButton extends React.PureComponent {
   }
   async doLike(token = null) {
     // if (!__DEV__) {
-    //   window.gtag('event', 'qsoLiked_WEBPRD', {
+    //   window.gtag('event', 'qsoLiked_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'liked'
     //   });
     // }
+    if (!__DEV__) analytics().logEvent('qsoLiked_APPPRD');
+
     try {
       // const currentSession = await Auth.currentSession();
       // token = currentSession.getIdToken().getJwtToken();
@@ -138,11 +141,12 @@ class QSOLikeButton extends React.PureComponent {
 
   async doUnLike(token = null) {
     if (!__DEV__) {
-      // window.gtag('event', 'qsoUnliked_WEBPRD', {
+      // window.gtag('event', 'qsoUnliked_APPPRD', {
       //   event_category: 'QSO',
       //   event_label: 'unliked'
       // });
     }
+    if (!__DEV__) analytics().logEvent('qsoUnLiked_APPPRD');
     try {
       let session = await Auth.currentSession();
       this.props.actions.setToken(session.idToken.jwtToken);

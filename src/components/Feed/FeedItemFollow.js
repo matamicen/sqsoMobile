@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { userNotValidated } from '../../helper';
@@ -20,10 +21,11 @@ class FeedItemFollow extends React.PureComponent {
   }
   doFollow = (param) => {
     // if (!__DEV__)
-    //   window.gtag('event', 'qraFollowRecommended_WEBPRD', {
+    //   window.gtag('event', 'qraFollowRecommended_APPPRD', {
     //     event_category: 'User',
     //     event_label: 'follow'
     //   });
+    if (!__DEV__) analytics().logEvent('qraFollowRecommended_APPPRD');
     if (this.props.userinfo.pendingVerification) userNotValidated();
     else {
       this.setState({ followed: [...this.state.followed, param] });

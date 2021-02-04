@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import { userNotValidated } from '../../helper';
+import analytics from '@react-native-firebase/analytics';
 class QSOLikeTextModalItem extends React.PureComponent {
   constructor() {
     super();
@@ -15,11 +16,12 @@ class QSOLikeTextModalItem extends React.PureComponent {
   }
   componentDidMount() {
     // if (!__DEV__)
-    //   window.gtag('event', 'qsoLikeModalOpen_WEBPRD', {
+    //   window.gtag('event', 'qsoLikeModalOpen_APPPRD', {
     //     event_category: 'qso',
     //     event_label: 'qsoLikeModalOpen'
     //   });
     // this.setState({ likes: this.props.qso ? this.props.qso.likes : [] });
+    if (!__DEV__) analytics().logEvent('qsoLikeModalOpen_APPPRD');
   }
   // static getDerivedStateFromProps(props, prevState) {
   //   if (props.qso.likes && props.qso.likes.length !== prevState.likes.length)
@@ -32,10 +34,11 @@ class QSOLikeTextModalItem extends React.PureComponent {
     else {
       if (!this.followed) {
         // if (!__DEV__)
-        //   window.gtag('event', 'qraFollowLike_WEBPRD', {
+        //   window.gtag('event', 'qraFollowLike_APPPRD', {
         //     event_category: 'User',
         //     event_label: 'follow'
         //   });
+        if (!__DEV__) analytics().logEvent('qraFollowLike_APPPRD');
         this.props.actions.doFollowQRA(this.props.token, idqra);
         this.followed = true;
         this.setState({ followed: this.followed });

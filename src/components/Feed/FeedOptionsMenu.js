@@ -1,6 +1,7 @@
 import API from '@aws-amplify/api';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Formik } from 'formik';
+import analytics from '@react-native-firebase/analytics';
 import React, { Fragment } from 'react';
 import {
   KeyboardAvoidingView,
@@ -164,10 +165,11 @@ class FeedOptionsMenu extends React.PureComponent {
   }
   handleOnSubmitReportComment(values) {
     // if (!__DEV__)
-    //   window.gtag('event', 'reportContent_WEBPRD', {
+    //   window.gtag('event', 'reportContent_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'reportComment'
     //   });
+    if (!__DEV__) analytics().logEvent('reportContent_APPPRD');
     var datetime = new Date();
     // e.preventDefault();
     if (
@@ -218,10 +220,11 @@ class FeedOptionsMenu extends React.PureComponent {
     // e.preventDefault();
 
     // if (!__DEV__)
-    // window.gtag('event', 'reportContent_WEBPRD', {
+    // window.gtag('event', 'reportContent_APPPRD', {
     //   event_category: 'QSO',
     //   event_label: 'reportQSO'
     // });
+    if (!__DEV__) analytics().logEvent('reportContent_APPPRD');
     var datetime = new Date();
 
     if (
@@ -267,10 +270,11 @@ class FeedOptionsMenu extends React.PureComponent {
   }
   handleOnSubmitReportMedia(e) {
     // if (!__DEV__)
-    //   window.gtag('event', 'reportMedia_WEBPRD', {
+    //   window.gtag('event', 'reportMedia_APPPRD', {
     //     event_category: 'QSO',
     //     event_label: 'reportMedia'
     //   });
+    if (!__DEV__) analytics().logEvent('reportContent_APPPRD');
     var datetime = new Date();
     // e.preventDefault();
     if (

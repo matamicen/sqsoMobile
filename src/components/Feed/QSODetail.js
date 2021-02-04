@@ -160,7 +160,7 @@ class QSODetail extends React.PureComponent {
       Alert.alert(
         null,
         error,
-        [{ text: 'OK', onPress: () => this.props.navigate.push('Home') }],
+        [{ text: 'OK', onPress: () => this.props.navigation.push('Home') }],
         { cancelable: false }
       );
     }

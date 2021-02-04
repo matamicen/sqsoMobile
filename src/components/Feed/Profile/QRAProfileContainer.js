@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../../actions';
-
+import analytics from '@react-native-firebase/analytics';
 import QRAProfile from './QRAProfilePresentational';
 
 class QRAProfileContainer extends React.PureComponent {
@@ -164,10 +164,11 @@ class QRAProfileContainer extends React.PureComponent {
         !this.followed
       ) {
         // if (!__DEV__)
-        // window.gtag('event', 'qraFollowProfile_WEBPRD', {
+        // window.gtag('event', 'qraFollowProfile_APPPRD', {
         //   event_category: 'User',
         //   event_label: 'follow'
         // });
+        if (!__DEV__) analytics().logEvent('qraFollowProfile_APPPRD');
         this.props.actions.doFollowQRA(
           this.props.token,
           this.props.qra.qra.qra
@@ -175,6 +176,7 @@ class QRAProfileContainer extends React.PureComponent {
         this.followed = true;
         this.setState({ followed: this.followed });
       } else {
+        if (!__DEV__) analytics().logEvent('qraUnFollowProfile_APPPRD');
         this.props.actions.doUnfollowQRA(
           this.props.token,
           this.props.qra.qra.qra

@@ -29,6 +29,7 @@ import {
   closeModalConfirmPhoto,
   confirmedPurchaseFlag,
   doFetchPublicFeed,
+  doLatestUsersFetch,
   doFollowFetch,
   followingsSelected,
   getUserInfo,
@@ -449,11 +450,8 @@ class InitialScreen extends React.PureComponent {
 
   edit = () => {
     if (this.props.userinfo.pendingVerification) userNotValidated();
-  else 
-    this.setState({ camaraSelect: true })
-  
+    else this.setState({ camaraSelect: true });
   };
-  
 
   render() {
     console.log('InitialScreen Screen');
@@ -614,6 +612,7 @@ class InitialScreen extends React.PureComponent {
               onPress={() => {
                 this.props.doFetchPublicFeed();
                 this.props.doFollowFetch();
+                this.props.doLatestUsersFetch();
                 this.props.getUserInfo(this.props.jwtToken);
               }}>
               <Image
@@ -867,6 +866,7 @@ const mapDispatchToProps = {
   setProfileModalStat,
   getUserInfo,
   doFetchPublicFeed,
+  doLatestUsersFetch,
   doFollowFetch,
   sendActualMedia,
   manageLocationPermissions,

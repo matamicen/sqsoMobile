@@ -11,13 +11,13 @@ import {
 import { Avatar, Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-
+import analytics from '@react-native-firebase/analytics';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 import { userNotValidated } from '../../helper';
-
+import moment from 'moment';
 class Link extends React.PureComponent {
   openUrl(url) {
     url = url.toUpperCase();
@@ -27,9 +27,8 @@ class Link extends React.PureComponent {
     }
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
-      console.log(supported);
       if (!supported) {
-        Alert.alert("Can't handle url: " + url);
+        Alert.alert('Can\'t handle url: ' + url);
       } else {
         Linking.openURL(url);
       }
@@ -132,10 +131,11 @@ class QSOCommentItem extends React.PureComponent {
     else {
       if (!this.followed) {
         // if (!__DEV__)
-        //   window.gtag('event', 'qraFollowComment_WEBPRD', {
+        //   window.gtag('event', 'qraFollowComment_APPPRD', {
         //     event_category: 'User',
         //     event_label: 'follow'
         //   });
+        if (!__DEV__) analytics().logEvent('qraFollowComment_APPPRD');
         this.props.actions.doFollowQRA(this.props.token, idqra);
         this.followed = true;
         this.setState({ followed: this.followed });
@@ -165,7 +165,7 @@ class QSOCommentItem extends React.PureComponent {
     // }
     if (this.props.comment.datetime) {
       timestamp =
-        date.toLocaleDateString(I18n.locale, { month: 'short' }) +
+        moment(new Date(date)).utc().format('ll') +
         I18n.t('global.at') +
         date.getUTCHours() +
         ':' +
