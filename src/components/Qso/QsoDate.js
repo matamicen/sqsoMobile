@@ -40,6 +40,8 @@ class QsoDate extends React.PureComponent {
         console.log('I18n.locale.substring(0, 2):'+I18n.locale.substring(0, 2))
         dateNow = getQsoDateTimeZoneIncluded();
         console.log('moment: '+ moment(dateNow).format("MMM D YYYY") )
+        console.log('moment UTC: '+ moment(new Date()).utc().format("YYYY-MM-DD HH:mm:ss") )
+        aux3 = moment(new Date()).utc().format("YYYY-MM-DD HH:mm:ss")
         if (I18n.locale.substring(0, 2) === 'es'){
           
           showD = moment(dateNow).format("D MMM YYYY")
@@ -52,7 +54,7 @@ class QsoDate extends React.PureComponent {
         // showD = moment(dateNow)
         this.setState({date: dateNow, showDate: showD})
         console.log('date recalculadoQSODate:' + dateNow)
-        this.props.setQsoDate(dateNow,'QsoDate')
+        this.props.setQsoDate(aux3,'QsoDate')
        
   
        }
