@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { userNotValidated } from '../../../helper';
 import * as Actions from '../../../actions';
 import ExploreUsers from './exploreUsersPresentational';
+import analytics from '@react-native-firebase/analytics';
 class exploreUsersContainer extends React.PureComponent {
   constructor() {
     super();
@@ -14,10 +15,11 @@ class exploreUsersContainer extends React.PureComponent {
 
   doFollow = (param) => {
     // if (process.env.REACT_APP_STAGE === 'production')
-    //   window.gtag('event', 'qraFollowRecommended_WEBPRD', {
+    //   window.gtag('event', 'qraFollowRecommended_APPPRD', {
     //     event_category: 'User',
     //     event_label: 'follow'
     //   });
+    if (!__DEV__) analytics().logEvent('qraFollowRecommended_APPPRD');
     if (this.props.userinfo.pendingVerification) userNotValidated();
     else {
       this.setState({ followed: [...this.state.followed, param] });

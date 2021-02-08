@@ -10,6 +10,7 @@ import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import analytics from '@react-native-firebase/analytics';
 class FeedItem extends React.Component {
   shouldComponentUpdate() {
     return this.props.type ? true : false;
@@ -52,8 +53,9 @@ class FeedItem extends React.Component {
                   size="medium"
                   onPress={() => {
                     // if (!__DEV__)
-                    // window.gtag('event', 'exploreUsersButton_WEBPRD', {});
-                    // this.props.actions.doLatestUsersFetch();
+                    // window.gtag('event', 'exploreUsersButton_APPPRD', {});
+                    if (!__DEV__)
+                      analytics().logEvent('exploreUsersButton_APPPRD');
 
                     this.props.navigation.navigate('ExploreUsers');
                   }}
@@ -73,7 +75,12 @@ class FeedItem extends React.Component {
               />
             );
           else {
-            return <FeedItemAd />;
+            return (
+              <FeedItemAd
+                feedType={this.props.feedType}
+                country={this.props.country}
+              />
+            );
           }
         default:
           return null;
@@ -81,7 +88,7 @@ class FeedItem extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({ country: state.sqso.userInfo.country });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });

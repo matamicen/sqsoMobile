@@ -8,6 +8,7 @@ import {  getQsoDateTimeZoneIncluded} from '../../helper';
 import VariosModales from './VariosModales';
 import I18n from '../../utils/i18n';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 class QsoUtcEnd extends React.PureComponent {
 
@@ -142,7 +143,57 @@ class QsoUtcEnd extends React.PureComponent {
       )}
 
 
-      {(this.state.show && Platform.OS === 'ios') && (
+
+     {(this.state.show && Platform.OS === 'ios' && Platform.Version < '14') && (
+                <Modal
+                visible={true}
+                animationType={"slide"}
+                transparent={true}
+                onRequestClose={() => console.log("Close was requested")}
+              >
+                <View
+                  style={{
+                    margin: 10,
+                    padding: 10,
+                    // backgroundColor: "rgba(255,255,255,0.98)",
+                    backgroundColor: "grey",
+                    marginTop: 120,
+                    //  bottom: 150,
+                    left: 10,
+                    right: 10,
+                    height: 340,
+                    position: "absolute",
+                    alignItems: "center",
+                    borderRadius: 12
+                  }}>
+        <RNDateTimePicker mode="time" 
+                  value={this.state.date}
+                  style={{width:'100%', marginLeft: 5,marginTop:20}}
+                    display="default"
+                    is24Hour={true}
+                   onChange={this.onChange}
+                  
+                  />
+        <View style={{flexDirection: "row", flex: 1, marginTop:50}} >
+        <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >cancel</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.5}} >
+          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
+               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >select</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+
+        </View>
+        </Modal>
+        
+      )}
+
+
+      {(this.state.show && Platform.OS === 'ios' && Platform.Version >= '14') && (
                 <Modal
                 visible={true}
                 animationType={"slide"}

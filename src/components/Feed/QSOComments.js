@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import { Button, Icon, Overlay, Divider } from 'react-native-elements';
 import { MenuProvider } from 'react-native-popup-menu';
 import { connect } from 'react-redux';
@@ -34,10 +35,12 @@ class QSOComments extends React.PureComponent {
   componentDidMount() {
     // if (!__DEV__)
     if (this.props.comments) {
-      // window.gtag('event', 'qsoCommentModalOpen_WEBPRD', {
+      // window.gtag('event', 'qsoCommentModalOpen_APPPRD', {
       //   event_category: 'qso',
       //   event_label: 'commentModalOpen'
       // });
+      if (!__DEV__) analytics().logEvent('qsoCommentModalOpen_APPPRD');
+
       this.setState({ comments: this.props.comments });
     }
   }

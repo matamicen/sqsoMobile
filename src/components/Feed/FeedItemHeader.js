@@ -9,7 +9,7 @@ import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 // import './style.js';
 import TextToFollow from './TextToFollow';
-
+import moment from 'moment';
 class FeedItemHeader extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -137,17 +137,9 @@ class FeedItemHeader extends React.PureComponent {
                 )}
                 <Text style={styles.bold}>{I18n.t('qso.date')}:</Text>
                 <Text>
-                  {date.toLocaleDateString(I18n.locale.substring(0, 2), {
-                    month: 'short'
-                  })}
-                </Text>
-
-                <Text style={styles.bold}> UTC:</Text>
-                <Text>
-                  {date.getUTCHours() +
-                    ':' +
-                    (date.getMinutes() < 10 ? '0' : '') +
-                    date.getMinutes()}
+                  {' '}
+                  {moment(new Date(date)).utc().format('lll')}
+                  {' UTC'}
                 </Text>
               </Text>
             )}
@@ -157,17 +149,21 @@ class FeedItemHeader extends React.PureComponent {
                 <Text style={{ textAlign: 'left', margin: 0, padding: 0 }}>
                   <Text style={styles.bold}>{I18n.t('qso.start')}:</Text>
                   <Text>
-                    {startDate.toLocaleDateString(I18n.locale.substring(0, 2), {
+                    {' '}
+                    {moment(new Date(startDate)).utc().format('lll')}
+                    {' UTC'}
+                    {/* {startDate.toLocaleDateString(I18n.locale.substring(0, 2), {
                       month: 'short'
-                    })}{' '}
+                    })}{' '} */}
                   </Text>
 
-                  <Text>
+                  {/* <Text>
                     {startDate.getUTCHours() +
                       ':' +
-                      (date.getMinutes() < 10 ? '0' : '') +
-                      date.getMinutes()}
-                  </Text>
+                      (startDate.getMinutes() < 10 ? '0' : '') +
+                      startDate.getMinutes() +
+                      ' UTC'}
+                  </Text> */}
                 </Text>
                 <Text
                   style={{
@@ -177,16 +173,20 @@ class FeedItemHeader extends React.PureComponent {
                   }}>
                   <Text style={styles.bold}> {I18n.t('qso.end')}:</Text>
                   <Text>
-                    {endDate.toLocaleDateString(I18n.locale.substring(0, 2), {
+                    {' '}
+                    {moment(new Date(endDate)).utc().format('lll')}
+                    {' UTC'}
+                    {/* {endDate.toLocaleDateString(I18n.locale.substring(0, 2), {
                       month: 'short'
-                    })}{' '}
+                    })}{' '} */}
                   </Text>
-                  <Text>
+                  {/* <Text>
                     {endDate.getUTCHours() +
                       ':' +
-                      (date.getMinutes() < 10 ? '0' : '') +
-                      date.getMinutes()}
-                  </Text>
+                      (endDate.getMinutes() < 10 ? '0' : '') +
+                      endDate.getMinutes() +
+                      ' UTC'}
+                  </Text> */}
                 </Text>
               </View>
             )}

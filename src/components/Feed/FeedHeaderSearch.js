@@ -8,7 +8,8 @@ import {
   TextInput,
   Keyboard
 } from 'react-native';
-// Import Autocomplete component
+import analytics from '@react-native-firebase/analytics';
+
 import Autocomplete from 'react-native-autocomplete-input';
 import { Avatar } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -105,11 +106,13 @@ const FeedHeaderSearch = (props) => {
             <View key={item.qra}>
               <TouchableOpacity
                 onPress={() => {
+                  if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
                   props.actions.setFeedTouchable(true);
                   setFilteredUsers([]);
                   Keyboard.dismiss();
-                  props.navigate(item.qra);
+
                   this.textInput.clear();
+                  props.navigate(item.qra);
                 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Avatar

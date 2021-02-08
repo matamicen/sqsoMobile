@@ -21,6 +21,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { connect } from 'react-redux';
 import {
   doFetchPublicFeed,
+  doLatestUsersFetch,
   doFollowFetch,
   doLatestUsersFetch,
   followersAlreadyCalled,
@@ -1651,6 +1652,7 @@ const mapDispatchToProps = {
   postPushToken,
   getUserInfo,
   doFetchPublicFeed,
+  doLatestUsersFetch,
   doFollowFetch,
   doLatestUsersFetch,
   welcomeUserFirstTime
