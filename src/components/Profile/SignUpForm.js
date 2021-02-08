@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import {
   doFetchPublicFeed,
   doFollowFetch,
+  doLatestUsersFetch,
   followersAlreadyCalled,
   getUserInfo,
   newqsoactiveFalse,
@@ -99,7 +100,7 @@ class SignUpForm extends React.PureComponent {
       showFlag: false,
 
       privacy: false,
-      date:new Date(),
+      date: new Date(),
       mode: 'date',
       show: false,
       // showD: I18n.t('signupBirthdate'),
@@ -115,77 +116,67 @@ class SignUpForm extends React.PureComponent {
     console.log('SignUp Did PushToken:' + this.props.pushtoken);
   }
 
+  // nuevo Componente DATE
 
+  onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || this.state.date;
 
+    if (selectedDate !== undefined) {
+      // por si apreta Cancel en fecha
+      if (I18n.locale.substring(0, 2) === 'es') {
+        showD = moment(currentDate).format('D MMM YYYY');
+      } else {
+        showD = moment(currentDate).format('MMM D YYYY');
+      }
+    } else showD = this.state.showDate;
 
-// nuevo Componente DATE
+    this.setState({
+      show: Platform.OS === 'ios',
+      date: currentDate,
+      showDate: showD
+    });
+    console.log('fecha seleccionada: ' + currentDate);
+    console.log('showD: ' + showD);
 
-onChange = (event, selectedDate) => {
-  const currentDate = selectedDate || this.state.date;
- 
-if (selectedDate !== undefined) // por si apreta Cancel en fecha
-{
-if (I18n.locale.substring(0, 2) === 'es'){
-    
-showD = moment(currentDate).format("D MMM YYYY")
-} 
-else
-{
-showD = moment(currentDate).format("MMM D YYYY")
-}
+    console.log(
+      'dia: ' +
+        currentDate.getDate() +
+        ' mes: ' +
+        currentDate.getMonth() +
+        ' año: ' +
+        currentDate.getFullYear()
+    );
+    today = new Date();
+    this.diffyears = today.getFullYear() - currentDate.getFullYear();
+    console.log('diferencia: ' + this.diffyears);
+    this.setState({
+      day: currentDate.getDate(),
+      month: currentDate.getMonth() + 1,
+      year: currentDate.getFullYear()
+    });
+  };
 
-}
-else
-  showD = this.state.showDate
+  showMode = (currentMode) => {
+    this.setState({ show: true, mode: currentMode });
+  };
 
+  showDatepicker = () => {
+    this.showMode('date');
+  };
 
-  this.setState({show: Platform.OS === 'ios', date: currentDate, showDate: showD});
-  console.log('fecha seleccionada: '+currentDate)
-  console.log('showD: '+showD)
+  //  showTimepicker = () => {
+  //   this.showMode('time');
+  // };
 
-  console.log('dia: ' + currentDate.getDate() + ' mes: ' + currentDate.getMonth() + ' año: ' + currentDate.getFullYear());
-  today = new Date();
-  this.diffyears = today.getFullYear() - currentDate.getFullYear();
-  console.log('diferencia: ' + this.diffyears);
-this.setState({ day: currentDate.getDate(), month: currentDate.getMonth() + 1, year: currentDate.getFullYear() });
+  closeDatePicker = () => {
+    this.setState({ show: false });
+  };
 
-  
-
-};
-
- showMode = (currentMode) => {
-
-  this.setState({show: true, mode: currentMode });
-};
-
- showDatepicker = () => {
-   this.showMode('date');
-  
-};
-
-//  showTimepicker = () => {
-//   this.showMode('time');
-// };
-
-closeDatePicker = () => {
-  this.setState({show: false})
-}
-
-
-// Fin nuevo componente DATE
-
-
-
-
-
-
-
-
+  // Fin nuevo componente DATE
 
   close_confirmSignup = () => {
     this.setState({ confirmSignup: false });
   };
-
 
   birthday_convert = () => {
     if (this.state.day < 10) dia = '0' + this.state.day;
@@ -456,8 +447,6 @@ closeDatePicker = () => {
         this.props.resetQso('QSO'); // seteo uno por defecto pero lo uso para que me resetee varias cosas que importan
         this.props.newqsoactiveFalse();
 
-       
-
         // this.props.followersAlreadyCalled(false);
 
         console.log('la credencial RES:' + res);
@@ -472,7 +461,7 @@ closeDatePicker = () => {
         // kinesis_catch('#023',e,this.state.qra.toUpperCase());
         // Handle exceptions
       }
-        //  var session = await Auth.currentSession();
+      //  var session = await Auth.currentSession();
       //    console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
 
       await this.props.setToken(this.jwtToken);
@@ -480,6 +469,7 @@ closeDatePicker = () => {
       this.props.getUserInfo(this.jwtToken);
       this.props.doFetchPublicFeed();
       this.props.doFollowFetch();
+      this.props.doLatestUsersFetch();
       //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
       this.props.followersAlreadyCalled(true);
 
@@ -493,9 +483,7 @@ closeDatePicker = () => {
         await AsyncStorage.setItem('identity', res);
         // ese setItem de userLogin luego debe ser elimando, se usaba para la webview, pero LoginForm
         // chequea si existe este campo para autologin o mandarlo a la pnatalla de Login
-        await AsyncStorage.setItem('userlogin',
-          this.state.email.toLowerCase()
-        );
+        await AsyncStorage.setItem('userlogin', this.state.email.toLowerCase());
       } catch (error) {
         console.log('caught error', error);
         crashlytics().setUserId(this.state.qra.toUpperCase());
@@ -505,7 +493,7 @@ closeDatePicker = () => {
         // kinesis_catch('#024',error,this.state.qra.toUpperCase());
         // Error saving data
       }
-      
+
       //envio nuevo QRA y pushToken para que se asocie en el backend
       try {
         //  await AsyncStorage.setItem('pushtoken', this.props.pushtoken);
@@ -550,8 +538,7 @@ closeDatePicker = () => {
         this.props.welcomeUserFirstTime(true);
         console.log('error signin:' + this.errorSignin);
         // this.props.navigation.navigate('Root');
-        this.props.navigation.navigate('Login')
-        
+        this.props.navigation.navigate('Login');
       }
     }
   };
@@ -689,11 +676,6 @@ closeDatePicker = () => {
       this.setState({ showFlag: true });
     }, 100);
   };
-
-
-
-
-
 
   render() {
     console.log('LoginForm Screen');
@@ -1113,8 +1095,7 @@ closeDatePicker = () => {
                     <TouchableOpacity
                       style={styles.birthdateContainer}
                       // onPress={() => this.date_picker()}>
-                          onPress={() => this.showDatepicker()}>
-                    
+                      onPress={() => this.showDatepicker()}>
                       <Text
                         style={styles.birthdateText}
                         ref={(birthdatedRef) =>
@@ -1349,82 +1330,80 @@ closeDatePicker = () => {
 
           {/* animationType={"slide"} */}
 
-          {(this.state.show && Platform.OS === 'android') && (
-       
-       <DateTimePicker
-        testID="dateTimePicker"
-        style={{width:'100%'}}
-        value={this.state.date}
-        mode={this.state.mode}
-        is24Hour={true}
-        display="spinner"
-        onChange={this.onChange}
-      />
-      
-      
-    )}
-          
-            {(this.state.show && Platform.OS === 'ios') && (
-              <Modal
+          {this.state.show && Platform.OS === 'android' && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              style={{ width: '100%' }}
+              value={this.state.date}
+              mode={this.state.mode}
+              is24Hour={true}
+              display="spinner"
+              onChange={this.onChange}
+            />
+          )}
+
+          {this.state.show && Platform.OS === 'ios' && (
+            <Modal
               visible={true}
-              animationType={"slide"}
+              animationType={'slide'}
               transparent={true}
-              onRequestClose={() => console.log("Close was requested")}
-            >
+              onRequestClose={() => console.log('Close was requested')}>
               <View
                 style={{
-                  margin: 10,    
+                  margin: 10,
                   padding: 10,
-                  backgroundColor: "rgba(255,255,255,0.98)",
+                  backgroundColor: 'rgba(255,255,255,0.98)',
                   marginTop: 120,
                   //  bottom: 150,
                   left: 10,
                   right: 10,
                   height: 150,
-                  position: "absolute",
-                  alignItems: "center",
+                  position: 'absolute',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: 12
                 }}>
-       <DateTimePicker
-        testID="dateTimePicker"
-         style={{width:'100%', marginLeft: 170,marginTop:20}}
-        value={this.state.date}
-        mode={this.state.mode}
-        is24Hour={true}
-        display="default"
-        onChange={this.onChange}
-      />
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  style={{ width: '100%', marginLeft: 170, marginTop: 20 }}
+                  value={this.state.date}
+                  mode={this.state.mode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={this.onChange}
+                />
 
-<View style={{flexDirection: "row", flex: 1, marginTop: 50}} >
-        <View style={{flex: 0.5}} >
-          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
-               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateCancel")}</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={{flex: 0.5}} >
-          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
-               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateSelect")}</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
-
-        </View>
-        </Modal>
-        
-      )}
-
-
-
-
-
-
-
-
-
-
-
-
+                <View style={{ flexDirection: 'row', flex: 1, marginTop: 50 }}>
+                  <View style={{ flex: 0.5 }}>
+                    <TouchableOpacity onPress={() => this.closeDatePicker()}>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          color: '#243665',
+                          textAlign: 'left'
+                        }}
+                        onPress={() => this.closeDatePicker()}>
+                        {I18n.t('QsoDateCancel')}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ flex: 0.5 }}>
+                    <TouchableOpacity onPress={() => this.closeDatePicker()}>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          color: '#243665',
+                          textAlign: 'right'
+                        }}
+                        onPress={() => this.closeDatePicker()}>
+                        {I18n.t('QsoDateSelect')}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          )}
 
           {/* <Modal
             visible={this.state.pickerDateIOS}
@@ -1448,7 +1427,7 @@ closeDatePicker = () => {
                 //  alignItems: 'center'
               }}>
               {/* #f8f8ff */}
-              {/* <DatePickerIOS
+          {/* <DatePickerIOS
                 mode="date"
                 style={{ backgroundColor: 'rgba(139,139,139,1)' }}
                 date={this.state.chosenDate}
@@ -1673,6 +1652,7 @@ const mapDispatchToProps = {
   getUserInfo,
   doFetchPublicFeed,
   doFollowFetch,
+  doLatestUsersFetch,
   welcomeUserFirstTime
 };
 

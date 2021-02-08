@@ -53,7 +53,7 @@ class FeedItem extends React.Component {
                   onPress={() => {
                     // if (!__DEV__)
                     // window.gtag('event', 'exploreUsersButton_WEBPRD', {});
-                    this.props.actions.doLatestUsersFetch();
+                    // this.props.actions.doLatestUsersFetch();
 
                     this.props.navigation.navigate('ExploreUsers');
                   }}

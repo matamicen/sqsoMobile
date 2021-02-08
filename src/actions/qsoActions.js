@@ -1657,7 +1657,7 @@ export const uploadVideoToS3 = (
 
     const identityID = await AsyncStorage.getItem('identity');
 
-    console.log('ejecuta UPLOAD VIDEO a S3 desde ACTION: '+identityID);
+    console.log('ejecuta UPLOAD VIDEO a S3 desde ACTION: ' + identityID);
     try {
       // llama API pre signed
       let apiName = 'superqso';
@@ -1673,9 +1673,9 @@ export const uploadVideoToS3 = (
           identityId: identityID
         }
       };
-      console.log('antes del crash: '+fileName2)
+      console.log('antes del crash: ' + fileName2);
       respuesta = await API.post(apiName, path, myInit);
-      console.log('despues del crash')
+      console.log('despues del crash');
       console.log(respuesta);
 
       if (respuesta.body.error === false) {

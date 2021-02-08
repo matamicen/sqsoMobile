@@ -30,6 +30,7 @@ import {
   confirmedPurchaseFlag,
   doFetchPublicFeed,
   doFollowFetch,
+  doLatestUsersFetch,
   followingsSelected,
   getUserInfo,
   manageLocationPermissions,
@@ -135,7 +136,7 @@ class InitialScreen extends React.PureComponent {
     Linking.canOpenURL(urlnotif)
       .then((supported) => {
         if (!supported) {
-          console.log("Can't handle url: " + urlnotif);
+          console.log('Can\'t handle url: ' + urlnotif);
         } else {
           // if(__DEV__)
           //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
@@ -160,7 +161,7 @@ class InitialScreen extends React.PureComponent {
     if (await hasAPIConnection()) {
       try {
         console.log(
-          "mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem('pushtoken'); + token:" +
+          'mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem(\'pushtoken\'); + token:' +
             this.props.pushtoken +
             'QRA: se envia vacio'
         );
@@ -449,11 +450,8 @@ class InitialScreen extends React.PureComponent {
 
   edit = () => {
     if (this.props.userinfo.pendingVerification) userNotValidated();
-  else 
-    this.setState({ camaraSelect: true })
-  
+    else this.setState({ camaraSelect: true });
   };
-  
 
   render() {
     console.log('InitialScreen Screen');
@@ -614,6 +612,7 @@ class InitialScreen extends React.PureComponent {
               onPress={() => {
                 this.props.doFetchPublicFeed();
                 this.props.doFollowFetch();
+                this.props.doLatestUsersFetch();
                 this.props.getUserInfo(this.props.jwtToken);
               }}>
               <Image
@@ -868,6 +867,7 @@ const mapDispatchToProps = {
   getUserInfo,
   doFetchPublicFeed,
   doFollowFetch,
+  doLatestUsersFetch,
   sendActualMedia,
   manageLocationPermissions,
   setPressHome
