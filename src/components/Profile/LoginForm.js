@@ -24,6 +24,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  BackHandler,
   View
 } from 'react-native';
 import RNIap from 'react-native-iap';
@@ -130,7 +131,8 @@ class LoginForm extends React.PureComponent {
       appNeedUpgrade: false,
       forceChangePassword: false,
       upgradeText: '',
-      loginerrorMessage: ''
+      loginerrorMessage: '',
+      exit: false
     };
   }
 
@@ -162,11 +164,27 @@ class LoginForm extends React.PureComponent {
     return null;
   }
 
+  onScreenFocus = async () => {
+
+    console.log('LOGINFORM en FOCUS!');
+
+  // para salga de la APP cuando en ANDROID vuelven con flecha y que no se quede en la pantala de LOGIN
+  // porque confunde esa pantalla esperando LOGIN
+    if (this.state.exit)
+       BackHandler.exitApp()
+  
+      
+
+   
+  };
+
   async componentDidMount() {
     // PushNotification.onNotification((notification) => {
     //   console.log('llego push che!');
     console.log('esta hermes?');
     console.log(!!global.HermesInternal);
+
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
 
     // });
 
@@ -740,6 +758,8 @@ class LoginForm extends React.PureComponent {
       // console.log('lo siento no hay Internet');
       this.setState({ nointernet: true });
     }
+
+    this.setState({exit: true})
   }
 
   componentWillUnmount() {}

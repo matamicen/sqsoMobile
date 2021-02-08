@@ -10,6 +10,7 @@ import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import analytics from '@react-native-firebase/analytics';
 class SideMenu extends Component {
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
@@ -28,7 +29,9 @@ class SideMenu extends Component {
               <Text
                 style={styles.navItemStyle}
                 onPress={() => {
-                  this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+                  if (!__DEV__)
+                    analytics().logEvent('drawerHomePressed_APPPRD');
+
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
                   this.props.navigation.navigate('Home');
@@ -43,6 +46,8 @@ class SideMenu extends Component {
               <Text
                 style={styles.navItemStyle}
                 onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawerLatestUsersPressed_APPPRD');
                   this.props.actions.doLatestUsersFetch();
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
@@ -58,6 +63,8 @@ class SideMenu extends Component {
               <Text
                 style={styles.navItemStyle}
                 onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawerFieldDaysPressed_APPPRD');
                   this.props.actions.doFetchFieldDaysFeed();
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
@@ -73,6 +80,8 @@ class SideMenu extends Component {
               <Text
                 style={styles.navItemStyle}
                 onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawerMyPostsPressed_APPPRD');
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
                   this.props.navigation.navigate('QRAProfile');
                 }}>
@@ -86,6 +95,8 @@ class SideMenu extends Component {
               <Text
                 style={styles.navItemStyle}
                 onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawerEditBioPressed_APPPRD');
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
                   this.props.navigation.navigate('editBio');
                 }}>
@@ -99,6 +110,8 @@ class SideMenu extends Component {
               <Text
                 style={styles.navItemStyle}
                 onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawerEditInfoPressed_APPPRD');
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
                   this.props.navigation.navigate('editInfo');
                 }}>

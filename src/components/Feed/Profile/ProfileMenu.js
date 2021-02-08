@@ -69,8 +69,6 @@ class ProfileMenu extends React.PureComponent {
                       // fluid
                       size="medium"
                       onPress={() => {
-                        // if (!__DEV__)
-                        // window.gtag('event', 'exploreUsersButton_WEBPRD', {});
                         this.props.actions.doValidateUser(
                           this.props.qraInfo.qra.qra
                         );

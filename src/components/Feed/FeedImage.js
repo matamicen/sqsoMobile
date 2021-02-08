@@ -6,6 +6,8 @@ import {
   Text,
   View,
   Modal,
+  Linking,
+  Alert,
   Platform
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -15,6 +17,76 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 
+class Link extends React.PureComponent {
+  openUrl(url) {
+    url = url.toUpperCase();
+
+    if (!url.startsWith('HTTP://') && !url.startsWith('HTTPS://')) {
+      url = 'http://' + url;
+    }
+    Linking.openURL(url);
+    Linking.canOpenURL(url, (supported) => {
+      if (!supported) {
+        Alert.alert('Can\'t handle url: ' + url);
+      } else {
+        Linking.openURL(url);
+      }
+    });
+  }
+  render() {
+    return (
+      <Text
+        style={{ color: 'blue' }}
+        onPress={() => this.openUrl(this.props.url)}>
+        {this.props.children}
+      </Text>
+    );
+  }
+}
+
+class Description extends React.PureComponent {
+  render() {
+    // Check if nested content is a plain string
+    if (typeof this.props.description === 'string') {
+      // Split the content on space characters
+      var words = this.props.description.split(/\s/);
+
+      // Loop through the words
+      var contents = words.map(function (word, i) {
+        // Space if the word isn't the very last in the set, thus not requiring a space after it
+        var separator = i < words.length - 1 ? ' ' : '';
+
+        // The word is a URL, return the URL wrapped in a custom <Link> component
+        if (word.match(/(^http[s]?:\/{2})|(^www)|(^\/{1,2})/gim)) {
+          return (
+            <Link key={i} url={word}>
+              {word}
+              {separator}
+            </Link>
+          );
+        } else {
+          return (
+            <Text>
+              {word}
+              {separator}
+            </Text>
+          );
+        }
+      }, this);
+      // The nested content was something else than a plain string
+      // Return the original content wrapped in a <Text> component
+    } else {
+      console.log(
+        'Attempted to use <HyperText> with nested components. ' +
+          'This component only supports plain text children.'
+      );
+      return <Text>{this.props.children}</Text>;
+    }
+
+    // Return the modified content wrapped in a <Text> component
+    return <Text>{contents}</Text>;
+  }
+}
 const slideWidth = Dimensions.get('window').width;
 
 const sliderWidth = Dimensions.get('window').width;
@@ -83,7 +155,7 @@ class FeedImage extends React.PureComponent {
                 paddingHorizontal: 5,
                 textAlign: 'center'
               }}>
-              {item.description}
+              <Description description={item.description} />
             </Text>
           </View>
         </View>
@@ -94,7 +166,7 @@ class FeedImage extends React.PureComponent {
     return (
       <View style={{ height: 100, backgroundColor: 'black' }}>
         <Text style={{ fontSize: 17, color: 'white', textAlign: 'center' }}>
-          {this.props.img[currentIndex].description}
+          <Description description={this.props.img[currentIndex].description} />
         </Text>
       </View>
     );

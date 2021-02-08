@@ -16,6 +16,7 @@ import Terms from './Terms';
 import Privacy from './Privacy';
 import I18n from '../../utils/i18n';
 import {APP_VERSION} from '../../appVersion';
+import analytics from '@react-native-firebase/analytics';
 // import Iap from './Iap';
 
 
@@ -145,7 +146,9 @@ class VariosModales extends React.PureComponent {
     );
 
 
-    if (this.props.modalType === "nointernet")
+    if (this.props.modalType === "nointernet"){
+    if (!__DEV__)
+    analytics().logEvent('noInternetModal_PRD');
       return (
         <View>
           <Modal
@@ -194,7 +197,7 @@ class VariosModales extends React.PureComponent {
           </Modal>
         </View>
       );
-
+            }
     if (this.props.modalType === "novideomp4")
       return (
         <View>
@@ -350,7 +353,7 @@ class VariosModales extends React.PureComponent {
       if (this.props.modalType === "prevideorewarded")
       return (
         this.state.watchvideo ? 
-       <View>
+         <View>
           <Modal
             visible={this.state.show}
             transparent={true}
@@ -444,7 +447,7 @@ class VariosModales extends React.PureComponent {
             </View>
           </Modal>
         </View>
-       
+        
       :
       <View>
           <Modal
