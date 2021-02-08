@@ -504,7 +504,7 @@ class LoginForm extends React.PureComponent {
 
     // console.log('COMPONENT did mount LOGINFORM');
 
-    if (await hasAPIConnection()) {
+    // if (await hasAPIConnection2()) {
       // console.log('SI hay internet: ');
 
       console.log('llama ApiCheckVersion')
@@ -754,10 +754,10 @@ class LoginForm extends React.PureComponent {
           this.setState({ showloginForm: true });
         }
       }
-    } else {
-      // console.log('lo siento no hay Internet');
-      this.setState({ nointernet: true });
-    }
+    // } else {
+    //   // console.log('lo siento no hay Internet');
+    //   this.setState({ nointernet: true });
+    // }
 
     this.setState({exit: true})
   }

@@ -3217,7 +3217,24 @@ export const apiCheckVersion = () => {
 
       //  ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
       url = global_config.apiEndpoint + '/globalParamsPublic';
-      ApiCall = await fetch(url);
+
+      // bloque agregado para que salga a los 8 segundos
+      // por timeout hacia el CATCH
+
+      timeout = 8000
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      opt = {
+        timeout: 8000
+      }
+      ApiCall = await fetch(url, {
+        ...opt,
+        signal: controller.signal  
+      });
+      clearTimeout(id);
+   // fin bloque del timeout 
+
+      // ApiCall = await fetch(url);
       const respuesta = await ApiCall.json();
 
       console.log('respuesta apiVersionCheck:');
@@ -3252,6 +3269,9 @@ export const apiCheckVersion = () => {
     } catch (error) {
       console.log('Api apiVersionCheck catch error:', error);
       //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+      
+      // si salio por aca es porque no hay internet
+      this.toast(I18n.t('variosModNointernet'), 3000);
 
       // Decidi no mostrar el mensaje de UPGRADE APP porque este catch sucede cuando no falla el llamado a la API por falta de internet o conectividad o algo por el estilo
       res = {
