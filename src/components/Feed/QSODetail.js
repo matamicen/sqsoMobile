@@ -100,7 +100,7 @@ class QSODetail extends React.PureComponent {
   }
   componentDidMount() {
     const { navigation } = this.props;
-
+    console.log('componentDidMount');
     let qsoInMemory = navigation.getParam('QSO_GUID', 'NO-ID');
     console.log('QSODetail' + qsoInMemory);
 
@@ -112,6 +112,7 @@ class QSODetail extends React.PureComponent {
         this.props.qso &&
         this.props.navigation.getParam('QSO_GUID', 'NO-ID') !== previousGUID)
     ) {
+      this.props.actions.clearQSO();
       this.props.actions.doRequestQSO();
       this.props.actions.doFetchQSO(
         this.props.navigation.getParam('QSO_GUID', 'NO-ID'),

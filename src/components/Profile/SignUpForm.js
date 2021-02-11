@@ -21,8 +21,9 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { connect } from 'react-redux';
 import {
   doFetchPublicFeed,
-  doLatestUsersFetch,
   doFollowFetch,
+  doLatestUsersFetch,
+  doFetchFieldDaysFeed,
   followersAlreadyCalled,
   getUserInfo,
   newqsoactiveFalse,
@@ -468,8 +469,10 @@ class SignUpForm extends React.PureComponent {
 
       this.props.getUserInfo(this.jwtToken);
       this.props.doFetchPublicFeed();
+      this.props.doFetchFieldDaysFeed();
       this.props.doFollowFetch();
       this.props.doLatestUsersFetch();
+
       //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
       this.props.followersAlreadyCalled(true);
 
@@ -1651,8 +1654,9 @@ const mapDispatchToProps = {
   postPushToken,
   getUserInfo,
   doFetchPublicFeed,
-  doLatestUsersFetch,
+  doFetchFieldDaysFeed,
   doFollowFetch,
+  doLatestUsersFetch,
   welcomeUserFirstTime
 };
 

@@ -65,10 +65,13 @@ class NotifItem extends React.PureComponent {
     urlnotif,
     activity_type,
     QRA,
-    QSO_GUID
+    QSO_GUID,
+    refqra,
+    qra
   ) => {
     if (await hasAPIConnection()) {
-      var profile = new Set([1, 50, 51, 108]); // 108 es porque viene de Push Foreground
+      var profile = new Set([50, 51, 108]); // 108 es porque viene de Push Foreground
+      var follow = new Set([1]);
       var marketing = new Set([70, 110]); // 70, o 110 es porque viene de Push Foreground
       var post = new Set([
         10,
@@ -102,6 +105,13 @@ class NotifItem extends React.PureComponent {
         this.props.doFetchQRA(QRA);
         this.props.navigation.push('QRAProfile', {
           qra: QRA,
+          screen: 'PROFILE'
+        });
+      } else if (follow.has(activity_type)) {
+        this.props.clearQRA();
+        this.props.doFetchQRA(refqra === qra ? QRA : refqra);
+        this.props.navigation.push('QRAProfile', {
+          qra: refqra === qra ? QRA : refqra,
           screen: 'PROFILE'
         });
       } else if (post.has(activity_type)) {
@@ -189,13 +199,6 @@ class NotifItem extends React.PureComponent {
   };
 
   render() {
-    // console.log('RENDER NotifItem');
-    //console.log('josesito:')
-    // fec = new Date(this.props.datetimecomment);
-
-    //out = moment(this.props.datetimecomment).fromNow();
-    //    console.log(out);
-
     return (
       <View
         style={{
@@ -211,43 +214,31 @@ class NotifItem extends React.PureComponent {
             borderBottomColor: '#D3D3D3'
           }}>
           <View style={{ flex: 0.23, marginLeft: 6 }}>
-            {this.props.avatar_pic !== null ? (
-              <TouchableOpacity
-                onPress={() =>
-                  this.onPressItem2(
-                    this.props.idqra_activity,
-                    this.props.url,
-                    this.props.activity_type,
-                    this.props.QRA,
-                    this.props.QSO_GUID
-                  )
+            <TouchableOpacity
+              onPress={() =>
+                this.onPressItem2(
+                  this.props.idqra_activity,
+                  this.props.url,
+                  this.props.activity_type,
+                  this.props.QRA,
+                  this.props.QSO_GUID,
+                  this.props.refqra,
+                  this.props.qra
+                )
+              }
+              underlayColor="white">
+              <Image
+                style={styles.faceImageStyle}
+                resizeMethod="resize"
+                source={
+                  this.props.avatar_pic
+                    ? {
+                        uri: this.props.avatar_pic
+                      }
+                    : require('../../images/emptyprofile.png')
                 }
-                underlayColor="white">
-                <Image
-                  style={styles.faceImageStyle}
-                  resizeMethod="resize"
-                  source={{ uri: this.props.avatar_pic }}
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() =>
-                  this.onPressItem2(
-                    this.props.idqra_activity,
-                    this.props.url,
-                    this.props.activity_type,
-                    this.props.QRA,
-                    this.props.QSO_GUID
-                  )
-                }
-                underlayColor="white">
-                <Image
-                  source={require('../../images/emptyprofile.png')}
-                  style={styles.faceImageStyle}
-                  resizeMethod="resize"
-                />
-              </TouchableOpacity>
-            )}
+              />
+            </TouchableOpacity>
 
             <Text
               style={{
@@ -261,8 +252,6 @@ class NotifItem extends React.PureComponent {
             </Text>
           </View>
 
-          {/* {"\n"}{"\n"} */}
-
           <View style={{ flex: 0.6 }}>
             <TouchableOpacity
               onPress={() =>
@@ -271,7 +260,9 @@ class NotifItem extends React.PureComponent {
                   this.props.url,
                   this.props.activity_type,
                   this.props.QRA,
-                  this.props.QSO_GUID
+                  this.props.QSO_GUID,
+                  this.props.refqra,
+                  this.props.qra
                 )
               }
               underlayColor="white">

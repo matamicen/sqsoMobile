@@ -70,6 +70,7 @@ import {
   apiCheckVersion,
   setQsoUtc,
   doLatestUsersFetch,
+  doFetchFieldDaysFeed,
   doFetchPublicFeed
 } from '../../actions';
 import QsoHeader from './QsoHeader';
@@ -2919,6 +2920,7 @@ class QsoScreen extends React.PureComponent {
     this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
     this.props.doLatestUsersFetch();
     this.props.navigation.navigate('Home');
+    this.props.doFetchFieldDaysFeed();
     this.props.setJustPublished(false);
     this.props.setPressHome(1);
   };
@@ -3282,6 +3284,7 @@ class QsoScreen extends React.PureComponent {
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
+                   {(this.props.qsotype !== 'FLDDAY') &&
                 <TouchableOpacity
                   style={{ width: 65, height: 63 }}
                   onPress={() => this.videoFromGallery(false)}>
@@ -3304,12 +3307,14 @@ class QsoScreen extends React.PureComponent {
                     Video
                   </Text>
                 </TouchableOpacity>
+                }
               </View>
             ) : null}
 
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
+               {(this.props.qsotype !== 'FLDDAY') &&
                 <TouchableOpacity
                   style={{ width: 65, height: 63 }}
                   onPress={() => this.checkInternetOpenRecording()}>
@@ -3332,6 +3337,7 @@ class QsoScreen extends React.PureComponent {
                     {I18n.t('QsoScrRecord')}
                   </Text>
                 </TouchableOpacity>
+               }
               </View>
             ) : null}
 
@@ -3881,6 +3887,7 @@ const mapDispatchToProps = {
   apiCheckVersion,
   setQsoUtc,
   doFetchPublicFeed,
+  doFetchFieldDaysFeed,
   doLatestUsersFetch
 };
 

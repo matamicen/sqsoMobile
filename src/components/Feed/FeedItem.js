@@ -3,6 +3,7 @@ import FeedItemAd from './FeedItemAd';
 import FeedItemFollow from './FeedItemFollow';
 import FeedItemQSO from './FeedItemQSO';
 import FeedItemRepost from './FeedItemRepost';
+import ActivitiesCarousel from './activitiesCarousel';
 import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import { View } from 'react-native';
@@ -61,6 +62,7 @@ class FeedItem extends React.Component {
                   }}
                   title={I18n.t('exploreUsers.lookWhoInQSO')}
                 />
+                <ActivitiesCarousel/>
               </View>
             );
           } else if (
