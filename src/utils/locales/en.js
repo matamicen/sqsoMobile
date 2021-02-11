@@ -489,6 +489,7 @@ export default {
   QsoScrUploadingVideo: 'Uploading video',
   QsoScrUploadingVideoError: 'Uploading video error.',
   navBar: {
+    actCarouselTitle: 'Ongoing and Future Activities',
     lastFieldDays: 'Last Activities',
     myPosts: 'My Posts',
     changePassword: 'Change Password',

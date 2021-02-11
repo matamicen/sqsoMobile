@@ -506,6 +506,7 @@ export default {
   QsoScrUploadingVideo: 'Subiendo video',
   QsoScrUploadingVideoError: 'Error al subir el video.',
   navBar: {
+    actCarouselTitle: 'Actividades en curso / por comenzar',
     lastFieldDays: 'Ver Actividades',
     myPosts: 'Mis Publicaciones',
     changePassword: 'Cambiar Contraseña',

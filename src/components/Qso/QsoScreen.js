@@ -70,6 +70,7 @@ import {
   apiCheckVersion,
   setQsoUtc,
   doLatestUsersFetch,
+  doFetchFieldDaysFeed,
   doFetchPublicFeed
 } from '../../actions';
 import QsoHeader from './QsoHeader';
@@ -2919,6 +2920,7 @@ class QsoScreen extends React.PureComponent {
     this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
     this.props.doLatestUsersFetch();
     this.props.navigation.navigate('Home');
+    this.props.doFetchFieldDaysFeed();
     this.props.setJustPublished(false);
     this.props.setPressHome(1);
   };
@@ -3881,6 +3883,7 @@ const mapDispatchToProps = {
   apiCheckVersion,
   setQsoUtc,
   doFetchPublicFeed,
+  doFetchFieldDaysFeed,
   doLatestUsersFetch
 };
 
