@@ -31,6 +31,7 @@ import {
   CAMERA_PERMISSION_TRUE,
   CHANGE_QSO_TYPE,
   CLEAR_QRA,
+  CLEAR_QSO,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
   USER_VALIDATED,
@@ -3221,18 +3222,18 @@ export const apiCheckVersion = () => {
       // bloque agregado para que salga a los 8 segundos
       // por timeout hacia el CATCH
 
-      timeout = 8000
+      timeout = 8000;
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeout);
       opt = {
         timeout: 8000
-      }
+      };
       ApiCall = await fetch(url, {
         ...opt,
-        signal: controller.signal  
+        signal: controller.signal
       });
       clearTimeout(id);
-   // fin bloque del timeout 
+      // fin bloque del timeout
 
       // ApiCall = await fetch(url);
       const respuesta = await ApiCall.json();
@@ -3269,7 +3270,7 @@ export const apiCheckVersion = () => {
     } catch (error) {
       console.log('Api apiVersionCheck catch error:', error);
       //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
-      
+
       // si salio por aca es porque no hay internet
       this.toast(I18n.t('variosModNointernet'), 3000);
 
@@ -4186,6 +4187,11 @@ export function doCommentDeleteResponse(
 export function clearQRA() {
   return {
     type: CLEAR_QRA
+  };
+}
+export function clearQSO() {
+  return {
+    type: CLEAR_QSO
   };
 }
 export function doFetchQRA(qra, token = null) {

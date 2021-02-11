@@ -27,7 +27,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert("Can't handle url: " + url);
+        Alert.alert('Can\'t handle url: ' + url);
       } else {
         Linking.openURL(url);
       }
@@ -146,7 +146,7 @@ class ActivitiesCarousel extends React.PureComponent {
                 })
               }
             />
-            <View
+            {/* <View
               style={{
                 flex: 0.1,
                 justifyContent: 'center',
@@ -164,7 +164,7 @@ class ActivitiesCarousel extends React.PureComponent {
                   description={picList[0].description}
                 />
               </Text>
-            </View>
+            </View> */}
           </View>
           {/* </Card> */}
         </View>
