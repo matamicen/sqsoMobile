@@ -388,7 +388,7 @@ class QSOComments extends React.PureComponent {
                               keyboardDismissMode="none"
                               onBlur={handleBlur('comment')}
                               // style={{ borderWidth: 1, width: 230 }}
-                              style={{ borderWidth: 1 }}
+                              style={{ borderWidth: 1,fontSize: 16 }}
                               onChangeText={handleChange('comment')}
                               value={values.comment}
                             />
@@ -533,7 +533,7 @@ class QSOComments extends React.PureComponent {
                             keyboardDismissMode="none"
                             onBlur={handleBlur('comment')}
                             // style={{ borderWidth: 1, width: 230 }}
-                            style={{ borderWidth: 1 }}
+                            style={{ borderWidth: 1, fontSize: 15 }}
                             onChangeText={handleChange('comment')}
                             value={values.comment}
                           />
