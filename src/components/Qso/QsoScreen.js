@@ -3284,6 +3284,7 @@ class QsoScreen extends React.PureComponent {
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
+                   {(this.props.qsotype !== 'FLDDAY') &&
                 <TouchableOpacity
                   style={{ width: 65, height: 63 }}
                   onPress={() => this.videoFromGallery(false)}>
@@ -3306,12 +3307,14 @@ class QsoScreen extends React.PureComponent {
                     Video
                   </Text>
                 </TouchableOpacity>
+                }
               </View>
             ) : null}
 
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
+               {(this.props.qsotype !== 'FLDDAY') &&
                 <TouchableOpacity
                   style={{ width: 65, height: 63 }}
                   onPress={() => this.checkInternetOpenRecording()}>
@@ -3334,6 +3337,7 @@ class QsoScreen extends React.PureComponent {
                     {I18n.t('QsoScrRecord')}
                   </Text>
                 </TouchableOpacity>
+               }
               </View>
             ) : null}
 
