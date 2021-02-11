@@ -27,7 +27,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert('Can\'t handle url: ' + url);
+        Alert.alert("Can't handle url: " + url);
       } else {
         Linking.openURL(url);
       }
@@ -98,16 +98,12 @@ class ActivitiesCarousel extends React.PureComponent {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
   }
   _renderItem(props) {
-    console.log(props.item);
-
     let qso = props.item;
     if (qso.type !== 'FLDDAY') return null;
 
-    console.log(qso.GUID_URL);
     let picList = qso.media.filter((media) => media.type === 'image');
 
     if (picList.length > 0) {
-      console.log(picList);
       return (
         <View
           key={picList[0].idqsos_media}
