@@ -483,7 +483,10 @@ class InitialScreen extends React.PureComponent {
           <View style={{ flex: 0.21 }}>
             <TouchableOpacity
               style={{}}
-              onPress={() => this.setState({ camaraSelect: true })}>
+              onPress={() => {
+                if (this.props.userinfo.pendingVerification) userNotValidated();
+                else this.setState({ camaraSelect: true });
+              }}>
               <QraProfile
                 qra={this.props.qra}
                 imageurl={this.props.sqsoprofilepicrefresh}
