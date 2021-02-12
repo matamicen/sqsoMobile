@@ -27,7 +27,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert('Can\'t handle url: ' + url);
+        Alert.alert("Can't handle url: " + url);
       } else {
         Linking.openURL(url);
       }
@@ -66,7 +66,7 @@ class Description extends React.PureComponent {
           );
         } else {
           return (
-            <Text>
+            <Text key={i}>
               {word}
               {separator}
             </Text>
