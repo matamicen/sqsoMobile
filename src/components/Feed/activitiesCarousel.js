@@ -1,6 +1,8 @@
 import React from 'react';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
+import analytics from '@react-native-firebase/analytics';
+
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import {
@@ -14,7 +16,7 @@ import {
 } from 'react-native';
 
 import { withNavigation } from 'react-navigation';
-import { Image, Button, Avatar, Card, Icon } from 'react-native-elements';
+import { Image, Card } from 'react-native-elements';
 
 import Carousel from 'react-native-snap-carousel';
 class Link extends React.PureComponent {
@@ -27,7 +29,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert('Can\'t handle url: ' + url);
+        Alert.alert("Can't handle url: " + url);
       } else {
         Linking.openURL(url);
       }
@@ -113,16 +115,6 @@ class ActivitiesCarousel extends React.PureComponent {
             height: 300,
             margin: 0
           }}>
-          {/* <Card
-            containerStyle={{
-              // height: 300,
-              borderRadius: 5,
-              flex: 1,
-              // flexWrap: 'wrap',
-              width: picList[0].width,
-              padding: 0,
-              margin: 0
-            }}> */}
           <View style={styles.card}>
             <Image
               style={{
@@ -140,11 +132,13 @@ class ActivitiesCarousel extends React.PureComponent {
               resizeMode="contain"
               transition
               PlaceholderContent={<ActivityIndicator />}
-              onPress={() =>
+              onPress={() => {
+                if (!__DEV__)
+                  analytics().logEvent('activitiesCarouselPress_APPPRD');
                 this.props.navigation.navigate('QSODetail', {
                   QSO_GUID: qso.GUID_URL
-                })
-              }
+                });
+              }}
             />
             {/* <View
               style={{
@@ -166,7 +160,6 @@ class ActivitiesCarousel extends React.PureComponent {
               </Text>
             </View> */}
           </View>
-          {/* </Card> */}
         </View>
       );
     } else return null;
