@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
     // width: 100,
     flexDirection: 'row',
     flexGrow: 0,
+    flexWrap: 'wrap',
     flexShrink: 0
     // marginTop: Constants.statusBarHeight
   },
