@@ -224,7 +224,7 @@ class FeedItemHeader extends React.PureComponent {
             )}
           </View>
         </View>
-        {this.props.feedType !== 'REPOST' && (
+        {!this.props.original && (
           <View style={styles.menu}>
             <FeedOptionsMenu
               qso_owner={this.props.qso.qra}
