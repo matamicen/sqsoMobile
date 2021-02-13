@@ -167,10 +167,19 @@ class ActivitiesCarousel extends React.PureComponent {
 
   render() {
     if (this.props.fieldDays.length > 1) {
-      let sliderWidth = Dimensions.get('window').width;
+      let sliderWidth = Dimensions.get('window').width - 20;
 
       return (
-        <Card containerStyle={{ margin: 0, padding: 5 }}>
+        <Card
+          containerStyle={{
+            margin: 10,
+            padding: 0,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 1,
+            shadowRadius: 5,
+            elevation: 20
+          }}>
           <Card.Title>{I18n.t('navBar.actCarouselTitle')}</Card.Title>
           <Card.Divider />
           <Carousel
@@ -178,6 +187,10 @@ class ActivitiesCarousel extends React.PureComponent {
               this._carousel = c;
             }}
             layout="default"
+            onScroll={() => {
+              if (!__DEV__)
+                analytics().logEvent('activitiesCarouselScroll_APPPRD');
+            }}
             data={this.props.fieldDays}
             renderItem={this._renderItem.bind(this)}
             sliderWidth={sliderWidth}
