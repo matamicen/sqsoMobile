@@ -18,7 +18,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import { Image, Card } from 'react-native-elements';
 
-import Carousel from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 class Link extends React.PureComponent {
   openUrl(url) {
     url = url.toUpperCase();
@@ -92,6 +92,7 @@ class Description extends React.PureComponent {
 const slideWidth = Dimensions.get('window').width;
 
 class ActivitiesCarousel extends React.PureComponent {
+  state = { showModal: false, activeSlide: 0 };
   itemWidth = Dimensions.get('window').width;
   componentDidMount() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
@@ -164,22 +165,36 @@ class ActivitiesCarousel extends React.PureComponent {
       );
     } else return null;
   }
-
+  pagination() {
+    const { entries, activeSlide } = this.state;
+    return (
+      <Pagination
+        dotsLength={this.props.fieldDays.length}
+        activeDotIndex={activeSlide}
+        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          marginHorizontal: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.92)'
+        }}
+        inactiveDotStyle={
+          {
+            // Define styles for inactive dots here
+          }
+        }
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    );
+  }
   render() {
     if (this.props.fieldDays.length > 1) {
-      let sliderWidth = Dimensions.get('window').width - 20;
+      let sliderWidth = Dimensions.get('window').width;
 
       return (
-        <Card
-          containerStyle={{
-            margin: 10,
-            padding: 0,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 5 },
-            shadowOpacity: 1,
-            shadowRadius: 5,
-            elevation: 20
-          }}>
+        <Card containerStyle={{ margin: 0, padding: 5 }}>
           <Card.Title>{I18n.t('navBar.actCarouselTitle')}</Card.Title>
           <Card.Divider />
           <Carousel
@@ -195,8 +210,28 @@ class ActivitiesCarousel extends React.PureComponent {
             renderItem={this._renderItem.bind(this)}
             sliderWidth={sliderWidth}
             itemWidth={270}
+            onSnapToItem={(index) => this.setState({ activeSlide: index })}
             // removeClippedSubviews={false}
             // initialNumToRender={0}.bindd
+          />
+          <Pagination
+            dotsLength={this.props.fieldDays.length}
+            activeDotIndex={this.state.activeSlide}
+            containerStyle={{ backgroundColor: 'white' }}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 8,
+              backgroundColor: 'black'
+            }}
+            inactiveDotStyle={
+              {
+                // Define styles for inactive dots here
+              }
+            }
+            inactiveDotOpacity={0.4}
+            inactiveDotScale={0.6}
           />
         </Card>
       );
