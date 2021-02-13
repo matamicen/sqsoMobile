@@ -31,6 +31,7 @@ import {
   CAMERA_PERMISSION_TRUE,
   CHANGE_QSO_TYPE,
   CLEAR_QRA,
+  CLEAR_QSO,
   CLOSE_MODALCONFIRM_PHOTO,
   CLOSE_MODAL_RECORDING,
   USER_VALIDATED,
@@ -1657,7 +1658,7 @@ export const uploadVideoToS3 = (
 
     const identityID = await AsyncStorage.getItem('identity');
 
-    console.log('ejecuta UPLOAD VIDEO a S3 desde ACTION: '+identityID);
+    console.log('ejecuta UPLOAD VIDEO a S3 desde ACTION: ' + identityID);
     try {
       // llama API pre signed
       let apiName = 'superqso';
@@ -1673,9 +1674,9 @@ export const uploadVideoToS3 = (
           identityId: identityID
         }
       };
-      console.log('antes del crash: '+fileName2)
+      console.log('antes del crash: ' + fileName2);
       respuesta = await API.post(apiName, path, myInit);
-      console.log('despues del crash')
+      console.log('despues del crash');
       console.log(respuesta);
 
       if (respuesta.body.error === false) {
@@ -3217,7 +3218,24 @@ export const apiCheckVersion = () => {
 
       //  ApiCall = await fetch('https://api.zxcvbnmasd.com/globalParamsPublic');
       url = global_config.apiEndpoint + '/globalParamsPublic';
-      ApiCall = await fetch(url);
+
+      // bloque agregado para que salga a los 8 segundos
+      // por timeout hacia el CATCH
+
+      timeout = 8000;
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      opt = {
+        timeout: 8000
+      };
+      ApiCall = await fetch(url, {
+        ...opt,
+        signal: controller.signal
+      });
+      clearTimeout(id);
+      // fin bloque del timeout
+
+      // ApiCall = await fetch(url);
       const respuesta = await ApiCall.json();
 
       console.log('respuesta apiVersionCheck:');
@@ -3252,6 +3270,9 @@ export const apiCheckVersion = () => {
     } catch (error) {
       console.log('Api apiVersionCheck catch error:', error);
       //  res = {stop: true, message: 'We have built new features in order to improve the user experience and we need to upgrade the App.<br/><br/>Please go to the Store and Upgrade.<br/><br/>Sorry for the inconvenient.<br/><br/>Thank you & 73!' }
+
+      // si salio por aca es porque no hay internet
+      this.toast(I18n.t('variosModNointernet'), 3000);
 
       // Decidi no mostrar el mensaje de UPGRADE APP porque este catch sucede cuando no falla el llamado a la API por falta de internet o conectividad o algo por el estilo
       res = {
@@ -4166,6 +4187,11 @@ export function doCommentDeleteResponse(
 export function clearQRA() {
   return {
     type: CLEAR_QRA
+  };
+}
+export function clearQSO() {
+  return {
+    type: CLEAR_QSO
   };
 }
 export function doFetchQRA(qra, token = null) {

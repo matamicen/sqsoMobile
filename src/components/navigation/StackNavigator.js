@@ -6,6 +6,7 @@ import QRAProfileBioEdit from '../Feed/Profile/QRAProfileBioEdit';
 import QRAProfileInfoEdit from '../Feed/Profile/QRAProfileInfoEdit';
 import QSODetail from '../Feed/QSODetail';
 import Notifications from '../Notifications/Notification';
+
 import ForgotScreen from '../Profile/ForgotPassword';
 import Login from '../Profile/Login';
 import SignUpScreen from '../Profile/SignUpForm';

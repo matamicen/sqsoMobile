@@ -30,6 +30,7 @@ import {
   confirmedPurchaseFlag,
   doFetchPublicFeed,
   doLatestUsersFetch,
+  doFetchFieldDaysFeed,
   doFollowFetch,
   followingsSelected,
   getUserInfo,
@@ -611,8 +612,10 @@ class InitialScreen extends React.PureComponent {
               style={{}}
               onPress={() => {
                 this.props.doFetchPublicFeed();
+                this.props.doFetchFieldDaysFeed();
                 this.props.doFollowFetch();
                 this.props.doLatestUsersFetch();
+
                 this.props.getUserInfo(this.props.jwtToken);
               }}>
               <Image
@@ -866,8 +869,9 @@ const mapDispatchToProps = {
   setProfileModalStat,
   getUserInfo,
   doFetchPublicFeed,
-  doLatestUsersFetch,
+  doFetchFieldDaysFeed,
   doFollowFetch,
+  doLatestUsersFetch,
   sendActualMedia,
   manageLocationPermissions,
   setPressHome

@@ -77,6 +77,7 @@ class Home extends React.PureComponent {
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
           this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+          this.props.actions.doFetchFieldDaysFeed();
           this.props.actions.doLatestUsersFetch();
           //   this.props.setPressHome(0);
         } else {
@@ -117,6 +118,7 @@ class Home extends React.PureComponent {
       //   this.props.currentQRA
       // );
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
     }
 
@@ -144,6 +146,7 @@ class Home extends React.PureComponent {
       // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
 
       //   this.props.setPressHome(0);
@@ -196,6 +199,7 @@ class Home extends React.PureComponent {
 
       // refresco el feed
       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doFetchFieldDaysFeed();
     }
   };
 
@@ -208,9 +212,9 @@ class Home extends React.PureComponent {
     // I18n.t("BACKBUTTONANDROID")
     // I18n.t("BACKBUTTONANDROIDCANCEL") BACKBUTTONANDROIDEXIT
 
-    console.log('press back android')
+    console.log('press back android');
     // Se comento este codigo para que no salga mas el PopUp cuando hace en android flecha fisica BACK
-    
+
     // Alert.alert(I18n.t('BACKBUTTONANDROIDTITLE'), I18n.t('BACKBUTTONANDROID'), [
     //   {
     //     text: I18n.t('BACKBUTTONANDROIDCANCEL'),

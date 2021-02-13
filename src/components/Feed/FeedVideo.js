@@ -64,7 +64,7 @@ class Description extends React.PureComponent {
           );
         } else {
           return (
-            <Text>
+            <Text key={i}>
               {word}
               {separator}
             </Text>
