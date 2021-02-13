@@ -355,8 +355,11 @@ const selectorFeedType = (state, ownProps) => {
   else if (ownProps.feedType === 'MAIN' && ownProps.original)
     qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
       .original[0];
-  else if (ownProps.feedType === 'PROFILE')
+  else if (ownProps.feedType === 'PROFILE' && !ownProps.original)
     qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'PROFILE' && ownProps.original)
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
+      .original[0];
   else if (ownProps.feedType === 'FIELDDAYS')
     qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'DETAIL' && !ownProps.original)
