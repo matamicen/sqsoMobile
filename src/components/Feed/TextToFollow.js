@@ -43,7 +43,7 @@ class PopupToFollow extends React.PureComponent {
           titleStyle={{
             padding: 0,
             margin: 0,
-            fontSize: 14,
+            fontSize: 13.6,
             fontWeight: 'bold'
           }}
           // type="button"
