@@ -93,6 +93,10 @@ class ActivitiesCarousel extends React.PureComponent {
   itemWidth = Dimensions.get('window').width;
   componentDidMount() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
+    setTimeout(() => {
+      // console.log('bajo el iapmodal con delay 2000');
+      this._carousel.snapToNext();
+    }, 6000);
   }
   componentDidUpdate() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
