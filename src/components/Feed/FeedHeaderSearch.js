@@ -90,10 +90,11 @@ const FeedHeaderSearch = (props) => {
           renderTextInput={renderInput}
           // Data to show in suggestion
           data={filteredUsers}
+          onFocus={() => setSelectedValue('')}
           keyExtractor={(item) => item.qra}
           // Default value if you want to set something in input
           defaultValue={
-            JSON.stringify(selectedValue) === '{}' ? '' : selectedValue.name
+            JSON.stringify(selectedValue) === '{}' ? I18n.t('navBar.searchCallsign') : selectedValue.name
           }
           // Onchange of the text changing the state of the query
           // Which will trigger the findUser method

@@ -46,7 +46,10 @@ class FeedItem extends React.Component {
             />
           );
         case 'AD':
-          if (this.props.currentIndex === 0) {
+          if (
+            this.props.currentIndex === 0 &&
+            this.props.feedType !== 'PROFILE'
+          ) {
             return (
               <View>
                 <Button
@@ -62,7 +65,7 @@ class FeedItem extends React.Component {
                   }}
                   title={I18n.t('exploreUsers.lookWhoInQSO')}
                 />
-                <ActivitiesCarousel/>
+                <ActivitiesCarousel />
               </View>
             );
           } else if (

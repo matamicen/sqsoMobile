@@ -1,6 +1,8 @@
 import React from 'react';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
+import analytics from '@react-native-firebase/analytics';
+
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import {
@@ -14,9 +16,9 @@ import {
 } from 'react-native';
 
 import { withNavigation } from 'react-navigation';
-import { Image, Button, Avatar, Card, Icon } from 'react-native-elements';
+import { Image, Card } from 'react-native-elements';
 
-import Carousel from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 class Link extends React.PureComponent {
   openUrl(url) {
     url = url.toUpperCase();
@@ -27,7 +29,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert('Can\'t handle url: ' + url);
+        Alert.alert("Can't handle url: " + url);
       } else {
         Linking.openURL(url);
       }
@@ -90,6 +92,7 @@ class Description extends React.PureComponent {
 const slideWidth = Dimensions.get('window').width;
 
 class ActivitiesCarousel extends React.PureComponent {
+  state = { showModal: false, activeSlide: 0 };
   itemWidth = Dimensions.get('window').width;
   componentDidMount() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
@@ -113,16 +116,6 @@ class ActivitiesCarousel extends React.PureComponent {
             height: 300,
             margin: 0
           }}>
-          {/* <Card
-            containerStyle={{
-              // height: 300,
-              borderRadius: 5,
-              flex: 1,
-              // flexWrap: 'wrap',
-              width: picList[0].width,
-              padding: 0,
-              margin: 0
-            }}> */}
           <View style={styles.card}>
             <Image
               style={{
@@ -140,11 +133,13 @@ class ActivitiesCarousel extends React.PureComponent {
               resizeMode="contain"
               transition
               PlaceholderContent={<ActivityIndicator />}
-              onPress={() =>
+              onPress={() => {
+                if (!__DEV__)
+                  analytics().logEvent('activitiesCarouselPress_APPPRD');
                 this.props.navigation.navigate('QSODetail', {
                   QSO_GUID: qso.GUID_URL
-                })
-              }
+                });
+              }}
             />
             {/* <View
               style={{
@@ -166,12 +161,34 @@ class ActivitiesCarousel extends React.PureComponent {
               </Text>
             </View> */}
           </View>
-          {/* </Card> */}
         </View>
       );
     } else return null;
   }
-
+  pagination() {
+    const { entries, activeSlide } = this.state;
+    return (
+      <Pagination
+        dotsLength={this.props.fieldDays.length}
+        activeDotIndex={activeSlide}
+        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          marginHorizontal: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.92)'
+        }}
+        inactiveDotStyle={
+          {
+            // Define styles for inactive dots here
+          }
+        }
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    );
+  }
   render() {
     if (this.props.fieldDays.length > 1) {
       let sliderWidth = Dimensions.get('window').width;
@@ -185,12 +202,36 @@ class ActivitiesCarousel extends React.PureComponent {
               this._carousel = c;
             }}
             layout="default"
+            onScroll={() => {
+              if (!__DEV__)
+                analytics().logEvent('activitiesCarouselScroll_APPPRD');
+            }}
             data={this.props.fieldDays}
             renderItem={this._renderItem.bind(this)}
             sliderWidth={sliderWidth}
             itemWidth={270}
+            onSnapToItem={(index) => this.setState({ activeSlide: index })}
             // removeClippedSubviews={false}
             // initialNumToRender={0}.bindd
+          />
+          <Pagination
+            dotsLength={this.props.fieldDays.length}
+            activeDotIndex={this.state.activeSlide}
+            containerStyle={{ backgroundColor: 'white' }}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 8,
+              backgroundColor: 'black'
+            }}
+            inactiveDotStyle={
+              {
+                // Define styles for inactive dots here
+              }
+            }
+            inactiveDotOpacity={0.4}
+            inactiveDotScale={0.6}
           />
         </Card>
       );

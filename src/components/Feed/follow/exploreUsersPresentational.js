@@ -28,6 +28,7 @@ const ExploreUsers = ({
   return (
     <View style={{ flex: 1 }}>
       <FlatList
+        numColumns={2}
         contentContainerStyle={{
           justifyContent: 'center',
           flexDirection: 'row',
@@ -43,12 +44,12 @@ const ExploreUsers = ({
                 style={{
                   // flex: 1,
                   // width: 100,
-                  height: 175,
+                  height: 195,
                   margin: 3
                 }}>
                 <Card
                   containerStyle={{
-                    height: 175,
+                    height: 195,
                     borderRadius: 5,
                     // flex: 1,
                     // flexWrap: 'wrap',
@@ -137,6 +138,15 @@ const ExploreUsers = ({
                           />
                           {qra.followers_counter} {I18n.t('qra.followers')}
                         </Text>
+                        <Text style={{ fontSize: 13 }}>
+                          <Icon
+                            name="user"
+                            size={16}
+                            type="font-awesome"
+                            containerStyle={{ width: 20 }}
+                          />
+                          {qra.following_counter} {I18n.t('qra.following')}
+                        </Text>
                       </View>
                     </View>
                     {/* <Card.Divider style={styles.divider} /> */}
@@ -211,7 +221,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 0,
     padding: 0,
-    flexBasis: 50,
+    flexBasis: 70,
     flexDirection: 'column',
     alignItems: 'flex-start'
   },
