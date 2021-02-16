@@ -699,7 +699,7 @@ export default {
     approveUser: 'Approve User',
     optionsMenu: 'Profile Menu',
     loading: 'Loading Callsign...',
-    views: 'Views',
+    views: 'Views {{COUNT}}',
     follow: 'Follow',
     followToo: 'Follow Too',
     unfollow: 'Unfollow',
@@ -726,9 +726,11 @@ export default {
     firstName: 'First name',
     info: 'Info',
     bio: 'Bio',
-    qsos: 'Posts',
-    following: 'Following',
-    followers: 'Followers'
+    qsos: 'Posts {{COUNT}}',
+    qsosTab: 'Posts',
+    following: 'Following {{COUNT}}',
+    followingTabl: 'Following',
+    followers: 'Followers {{COUNT}}'
   },
   forms: {
     formSent: 'Message Sent!',

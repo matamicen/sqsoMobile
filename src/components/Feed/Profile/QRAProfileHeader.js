@@ -103,25 +103,41 @@ class QRAProfileHeader extends React.PureComponent {
 
             <View style={styles.kpi}>
               {this.props.qraInfo.views_counter !== null && (
-                <View>
+                <View style={{ paddingRight: 4 }}>
                   <Text>
-                    {I18n.t('qra.views')}: {this.props.qraInfo.views_counter}
+                    {I18n.t('qra.views', {
+                      COUNT: this.props.qraInfo.views_counter
+                    })}
                   </Text>
                 </View>
               )}
               {this.props.qraInfo.qsos_counter !== null && (
-                <View>
+                <View style={{ paddingLeft: 4 }}>
                   <Text>
-                    {I18n.t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
+                    {I18n.t('qra.qsos', {
+                      COUNT: this.props.qraInfo.qsos_counter
+                    })}
                   </Text>
                 </View>
               )}
               {this.props.qraInfo.followers_counter !== null && (
-                <View>
+                <View style={{ paddingLeft: 4 }}>
                   <Text>
                     <Text>
-                      {I18n.t('qra.followers')}:
-                      {this.props.qraInfo.followers_counter}
+                      {I18n.t('qra.followers', {
+                        COUNT: this.props.qraInfo.followers_counter
+                      })}
+                    </Text>
+                  </Text>
+                </View>
+              )}
+              {this.props.qraInfo.following_counter !== null && (
+                <View style={{ paddingLeft: 4 }}>
+                  <Text>
+                    <Text>
+                      {I18n.t('qra.following', {
+                        COUNT: this.props.qraInfo.following_counter
+                      })}{' '}
                     </Text>
                   </Text>
                 </View>
@@ -167,13 +183,15 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    flexBasis: 100
   },
   follow: {
-    // flex: 1,
+    flex: 1,
     // alignSelf: 'flex-start',
     // justifyContent: 'flex-start',
-    marginTop: 80,
+    // marginTop: 100,
+    flexBasis: 100,
     width: '100%',
     height: 100
   },
@@ -181,14 +199,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 12,
+    flexBasis: 12,
+    height: 14,
+    flexWrap: 'wrap',
     fontSize: 15,
     marginRight: 5
   },
   container: {
     flex: 1,
-    flexDirection: 'row'
-
+    flexDirection: 'row',
+    flexBasis: 100
     // justifyContent: 'center'
     // alignItems: 'center'
     // flexGrow: 1

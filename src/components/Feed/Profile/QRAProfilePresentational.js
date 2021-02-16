@@ -21,10 +21,10 @@ class QRAProfile extends React.PureComponent {
   }
   render() {
     const buttons = [
-      I18n.t('qra.qsos'),
+      I18n.t('qra.qsosTab'),
       I18n.t('qra.bio'),
       I18n.t('qra.info'),
-      I18n.t('qra.following')
+      I18n.t('qra.followingTab')
     ];
     const { selectedIndex } = this.state;
     return (
@@ -62,7 +62,7 @@ class QRAProfile extends React.PureComponent {
                 onPress={this.updateIndex}
                 selectedIndex={selectedIndex}
                 buttons={buttons}
-                containerStyle={styles.buttons}
+                // containerStyle={styles.buttons}
               />
             </View>
             <View style={styles.detail}>
@@ -94,12 +94,13 @@ class QRAProfile extends React.PureComponent {
   }
 }
 const styles = StyleSheet.create({
-  header: { flex: 1, height: 80, flexGrow: 0 },
-  buttons: { height: 30, marginTop: 65 },
-  detail: { flex: 1, height: 110, flexGrow: 1, marginTop: 70 },
+  header: { flex: 1, flexGrow: 0 },
+  buttons: { flex: 1, flexGrow: 0, flexBasis: 150 },
+  detail: { flex: 1, flexGrow: 1 },
   container: {
     flex: 1,
     flexDirection: 'column'
+
     // justifyContent: 'flex-start'
     // alignItems: 'center'
     // flexGrow: 1
