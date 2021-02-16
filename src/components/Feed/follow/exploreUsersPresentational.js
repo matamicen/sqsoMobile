@@ -4,7 +4,6 @@ import {
   FlatList,
   TouchableOpacity,
   Text,
-  ScrollView,
   StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -14,6 +13,30 @@ import I18n from '../../../utils/i18n';
 import { withNavigation } from 'react-navigation';
 import { Button, Avatar, Card, Icon } from 'react-native-elements';
 
+const country2emoji = (country_code) => {
+  var OFFSET = 127397;
+  var cc = country_code.toUpperCase();
+  function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  }
+  return /^[A-Z]{2}$/.test(cc)
+    ? String.fromCodePoint.apply(
+        String,
+        _toConsumableArray(
+          [].concat(_toConsumableArray(cc)).map(function (c) {
+            return c.charCodeAt() + OFFSET;
+          })
+        )
+      )
+    : null;
+};
 const ExploreUsers = ({
   active,
   users,
@@ -37,6 +60,7 @@ const ExploreUsers = ({
         data={users}
         renderItem={({ item, index }) => {
           let qra = item;
+
           if (currentQRA !== qra.qra)
             return (
               <View
@@ -94,6 +118,11 @@ const ExploreUsers = ({
                           }}>
                           <Text numberOfLines={1} style={{ fontSize: 16 }}>
                             {qra.qra}
+                            <Text style={styles.flagText}>
+                              {qra.country !== '' && qra.country !== null && (
+                                <Text>{country2emoji(qra.country)}</Text>
+                              )}
+                            </Text>
                           </Text>
 
                           <Text
@@ -116,7 +145,7 @@ const ExploreUsers = ({
                     </View>
                     {/* <Card.Divider /> */}
                     <View style={styles.kpi}>
-                      <View>
+                      {/* <View>
                         <Text style={{ fontSize: 13 }}>
                           <Icon
                             name="edit"
@@ -127,25 +156,31 @@ const ExploreUsers = ({
                           {qra.qsos_counter}{' '}
                           {I18n.t('exploreUsers.qsosCreated')}
                         </Text>
-                      </View>
+                      </View> */}
                       <View>
                         <Text style={{ fontSize: 13 }}>
                           <Icon
-                            name="user"
+                            name="users"
                             size={16}
                             type="font-awesome"
                             containerStyle={{ width: 20 }}
                           />
-                          {qra.followers_counter} {I18n.t('qra.followers')}
+
+                          {I18n.t('qra.followers', {
+                            COUNT: qra.followers_counter
+                          })}
                         </Text>
                         <Text style={{ fontSize: 13 }}>
                           <Icon
-                            name="user"
+                            name="users"
                             size={16}
                             type="font-awesome"
                             containerStyle={{ width: 20 }}
                           />
-                          {qra.following_counter} {I18n.t('qra.following')}
+
+                          {I18n.t('qra.followingCounter', {
+                            COUNT: qra.following_counter
+                          })}
                         </Text>
                       </View>
                     </View>
@@ -207,6 +242,9 @@ const ExploreUsers = ({
 };
 
 const styles = StyleSheet.create({
+  flagText: {
+    fontSize: 15
+  },
   card: {},
   divider: { height: 1, margin: 0, padding: 0 },
   buttons: {

@@ -747,11 +747,12 @@ export default {
     firstName: 'Nombre',
     info: 'Info',
     bio: 'Biografia',
-    qsos: 'Pubs {{COUNT}}',
+    qsos: 'Pubs %{COUNT}',
     qsosTab: 'Pubs',
-    following: 'Siguiendo {{COUNT}}',
+    following: 'Siguiendo',
+    followingCounter: 'Siguiendo %{COUNT}',
     followingTab: 'Siguiendo',
-    followers: 'Seguidores {{COUNT}}'
+    followers: 'Seguidores %{COUNT}'
   },
   forms: {
     formSent: 'Mensaje Enviado!',
