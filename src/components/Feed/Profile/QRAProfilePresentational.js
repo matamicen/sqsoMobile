@@ -62,7 +62,7 @@ class QRAProfile extends React.PureComponent {
                 onPress={this.updateIndex}
                 selectedIndex={selectedIndex}
                 buttons={buttons}
-                // containerStyle={styles.buttons}
+                containerStyle={styles.buttons}
               />
             </View>
             <View style={styles.detail}>
@@ -94,9 +94,9 @@ class QRAProfile extends React.PureComponent {
   }
 }
 const styles = StyleSheet.create({
-  header: { flex: 1, flexGrow: 0 },
-  buttons: { flex: 1, flexGrow: 0, flexBasis: 150 },
-  detail: { flex: 1, flexGrow: 1 },
+  header: { flex: 1, height: 50, flexGrow: 0 },
+  buttons: { height: 30, marginTop: 40 },
+  detail: { flex: 1, height: 100, flexGrow: 1, marginTop: 50 },
   container: {
     flex: 1,
     flexDirection: 'column'

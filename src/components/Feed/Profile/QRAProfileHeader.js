@@ -111,7 +111,7 @@ class QRAProfileHeader extends React.PureComponent {
                   </Text>
                 </View>
               )}
-              {this.props.qraInfo.qsos_counter !== null && (
+              {/* {this.props.qraInfo.qsos_counter !== null && (
                 <View style={{ paddingLeft: 4 }}>
                   <Text>
                     {I18n.t('qra.qsos', {
@@ -119,7 +119,7 @@ class QRAProfileHeader extends React.PureComponent {
                     })}
                   </Text>
                 </View>
-              )}
+              )} */}
               {this.props.qraInfo.followers_counter !== null && (
                 <View style={{ paddingLeft: 4 }}>
                   <Text>
@@ -135,7 +135,7 @@ class QRAProfileHeader extends React.PureComponent {
                 <View style={{ paddingLeft: 4 }}>
                   <Text>
                     <Text>
-                      {I18n.t('qra.following', {
+                      {I18n.t('qra.followingCounter', {
                         COUNT: this.props.qraInfo.following_counter
                       })}{' '}
                     </Text>
@@ -183,15 +183,13 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    flexDirection: 'column',
-    flexBasis: 100
+    flexDirection: 'column'
   },
   follow: {
     flex: 1,
     // alignSelf: 'flex-start',
     // justifyContent: 'flex-start',
-    // marginTop: 100,
-    flexBasis: 100,
+    marginTop: 80,
     width: '100%',
     height: 100
   },
@@ -199,16 +197,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexBasis: 12,
-    height: 14,
-    flexWrap: 'wrap',
+
+    height: 12,
+
     fontSize: 15,
     marginRight: 5
   },
   container: {
     flex: 1,
-    flexDirection: 'row',
-    flexBasis: 100
+    flexDirection: 'row'
+
     // justifyContent: 'center'
     // alignItems: 'center'
     // flexGrow: 1
