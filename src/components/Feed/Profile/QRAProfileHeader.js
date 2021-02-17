@@ -1,13 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar, Button } from 'react-native-elements';
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
+import { Avatar, Button, Icon } from 'react-native-elements';
 import I18n from '../../../utils/i18n';
 import { MY_COUNTRIES_DATA } from './countries.js';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import analytics from '@react-native-firebase/analytics';
 class QRAProfileHeader extends React.PureComponent {
   state = { showModal: false };
   close = () => this.setState({ showModal: false });
   open = () => {
+    console.log(this.props.qraInfo.profilepic);
     if (this.props.qraInfo && this.props.qraInfo.profilepic) {
       if (!__DEV__) analytics().logEvent('profilepicOpenModal_APPPRD');
 
@@ -38,6 +40,23 @@ class QRAProfileHeader extends React.PureComponent {
         )
       : null;
   }
+  showHeader() {
+    return (
+      <View
+        style={{
+          alignSelf: 'flex-end'
+        }}>
+        <Icon
+          name="close"
+          type="font-awesome"
+          size={40}
+          color={'white'}
+          onPress={() => this.setState({ showModal: false })}
+        />
+      </View>
+    );
+  }
+
   render() {
     let buttonText;
 
@@ -61,21 +80,22 @@ class QRAProfileHeader extends React.PureComponent {
       <View style={styles.header}>
         <View style={styles.container}>
           <View style={styles.avatar}>
-            <TouchableOpacity
-              // style={styles.button}
-              onPress={() => this.open()}>
-              <Avatar
-                size="large"
-                rounded
-                source={
-                  this.props.qraInfo.profilepic
-                    ? {
-                        uri: this.props.qraInfo.profilepic
-                      }
-                    : require('../../../images/emptyprofile.png')
-                }
-              />
-            </TouchableOpacity>
+            {/* <TouchableOpacity
+            // style={styles.button}
+            > */}
+            <Avatar
+              onPress={this.open.bind(this)}
+              size="large"
+              rounded
+              source={
+                this.props.qraInfo.profilepic
+                  ? {
+                      uri: this.props.qraInfo.profilepic
+                    }
+                  : require('../../../images/emptyprofile.png')
+              }
+            />
+            {/* </TouchableOpacity> */}
           </View>
           <View style={styles.detail}>
             <View style={styles.qra}>
@@ -158,6 +178,29 @@ class QRAProfileHeader extends React.PureComponent {
             />
           </View>
         )}
+        <Modal
+          visible={this.state.showModal}
+          // transparent={true}
+          onRequestClose={() => this.setState({ showModal: false })}>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              marginTop: Platform.OS === 'ios' ? 32 : 0
+            }}>
+            <ImageViewer
+              imageUrls={[{ url: this.props.qraInfo.profilepic }]}
+              renderHeader={this.showHeader.bind(this)}
+              // footerContainerStyle={{ width: '100%' }}
+              // renderFooter={(currentIndex) => this.showFooter(currentIndex)}
+              // visible={this.props.showModal}
+              // transparent={true}
+              //   onRequestClose={() => this.setState({ showModal: false })
+              // }
+            />
+          </View>
+          {/* </View> */}
+        </Modal>
       </View>
     );
   }
