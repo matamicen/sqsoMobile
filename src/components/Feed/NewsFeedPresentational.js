@@ -98,9 +98,9 @@ class NewsFeedPresentational extends React.PureComponent {
               renderItem={this._renderItem.bind(this)}
               removeClippedSubviews={true} // Unmount components when outside of window
               windowSize={5} // Reduce the window size
-              onEndReached={() => {
-                if (!__DEV__) analytics().logEvent('FeedEndReached_APPPRD');
-              }}
+              // onEndReached={() => {
+              //   if (!__DEV__) analytics().logEvent('FeedEndReached_APPPRD');
+              // }}
             />
           </MenuProvider>
         </View>

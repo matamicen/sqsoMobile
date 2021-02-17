@@ -69,6 +69,7 @@ import {
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
+  CLEAR_FEED,
   RECEIVE_FIELDDAYS,
   RECEIVE_FOLLOWERS,
   RECEIVE_QRA,
@@ -3655,25 +3656,7 @@ export const setPendingVerification = (status) => {
 
 // BEGIN NATIVE FEED
 export const doFetchPublicFeed = (qra = null) => {
-  // window.gtag('config', 'G-H8G28LYKBY', {
-  //   custom_map: { dimension1: 'userQRA' }
-  // });
-  // if (!qra) {
-  //   if (!__DEV__)
-  //     window.gtag('event', 'getPublicFeed_APPPRD', {
-  //       event_category: 'User',
-  //       event_label: 'getPublicFeed',
-  //       userQRA: qra
-  //     });
-  // } else {
-  //   if (!__DEV__)
-  //     window.gtag('event', 'getUserFeed_APPPRD', {
-  //       event_category: 'User',
-  //       event_label: 'getUserFeed',
-  //       userQRA: qra
-  //     });
-  // }
-  if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
+  // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchPublicFeed'));
 
@@ -3689,32 +3672,82 @@ export const doFetchPublicFeed = (qra = null) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message));
+          dispatch(doReceiveFeed(response.body.message, true));
         } else console.log(response.body.message);
       })
       .catch(async (error) => {
         if (__DEV__) {
           console.log(error.message);
         } else {
-          // crashlytics().setUserId(qra);
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('getPublicFeed_WEBDEV'));
           else crashlytics().recordError(new Error('getPublicFeed_APPPRD'));
-          // Sentry.configureScope(function (scope) {
-          //   scope.setExtra('ENV', process.env.REACT_APP_STAGE);
-          // });
-          // Sentry.captureException(error);
         }
       });
   };
 };
-export const doReceiveFeed = (qsos) => {
+export const doFetchUserFeed = (qra) => {
+  return async (dispatch) => {
+    dispatch(fetchingApiRequest('doFetchUserFeed'));
+
+    dispatch(doRequestFeed());
+    try {
+      let session = await Auth.currentSession();
+      dispatch(setToken(session.idToken.jwtToken));
+
+      dispatch(doRequestFeed());
+      const apiName = 'superqso';
+      const path = '/qso-get-user-feed';
+      const myInit = {
+        body: {}, // replace this with attributes you need
+        headers: {
+          Authorization: session.idToken.jwtToken
+        } // OPTIONAL
+      };
+      API.get(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            if (response.body.message.length > 0)
+              dispatch(doReceiveFeed(response.body.message, false));
+            else {
+              dispatch(doFetchPublicFeed());
+            }
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('getUserFeed_WEBDEV'));
+          else crashlytics().recordError(new Error('getUserFeed_APPPRD'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Unable to refresh Token');
+        console.log(error);
+      } else {
+        Sentry.configureScope(function (scope) {
+          scope.setExtra('ENV', process.env.REACT_APP_STAGE);
+        });
+        Sentry.captureException(error);
+      }
+    }
+  };
+};
+export const doClearFeed = () => {
+  return {
+    type: CLEAR_FEED
+  };
+};
+export const doReceiveFeed = (qsos, publicFeed) => {
   return {
     type: RECEIVE_FEED,
     qsos: qsos,
     FetchingQSOS: false,
-    qsosFetched: true
+    qsosFetched: true,
+    publicFeed
   };
 };
 export const doReceiveFieldDays = (qsos) => {
