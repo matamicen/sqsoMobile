@@ -103,25 +103,41 @@ class QRAProfileHeader extends React.PureComponent {
 
             <View style={styles.kpi}>
               {this.props.qraInfo.views_counter !== null && (
-                <View>
+                <View style={{ paddingRight: 4 }}>
                   <Text>
-                    {I18n.t('qra.views')}: {this.props.qraInfo.views_counter}
+                    {I18n.t('qra.views', {
+                      COUNT: this.props.qraInfo.views_counter
+                    })}
                   </Text>
                 </View>
               )}
-              {this.props.qraInfo.qsos_counter !== null && (
-                <View>
+              {/* {this.props.qraInfo.qsos_counter !== null && (
+                <View style={{ paddingLeft: 4 }}>
                   <Text>
-                    {I18n.t('qra.qsos')}: {this.props.qraInfo.qsos_counter}
+                    {I18n.t('qra.qsos', {
+                      COUNT: this.props.qraInfo.qsos_counter
+                    })}
                   </Text>
                 </View>
-              )}
+              )} */}
               {this.props.qraInfo.followers_counter !== null && (
-                <View>
+                <View style={{ paddingLeft: 4 }}>
                   <Text>
                     <Text>
-                      {I18n.t('qra.followers')}:
-                      {this.props.qraInfo.followers_counter}
+                      {I18n.t('qra.followers', {
+                        COUNT: this.props.qraInfo.followers_counter
+                      })}
+                    </Text>
+                  </Text>
+                </View>
+              )}
+              {this.props.qraInfo.following_counter !== null && (
+                <View style={{ paddingLeft: 4 }}>
+                  <Text>
+                    <Text>
+                      {I18n.t('qra.followingCounter', {
+                        COUNT: this.props.qraInfo.following_counter
+                      })}{' '}
                     </Text>
                   </Text>
                 </View>
@@ -170,7 +186,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   follow: {
-    // flex: 1,
+    flex: 1,
     // alignSelf: 'flex-start',
     // justifyContent: 'flex-start',
     marginTop: 80,
@@ -181,7 +197,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+
     height: 12,
+
     fontSize: 15,
     marginRight: 5
   },

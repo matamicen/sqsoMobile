@@ -65,13 +65,18 @@ class FeedItem extends React.Component {
                   }}
                   title={I18n.t('exploreUsers.lookWhoInQSO')}
                 />
-                <ActivitiesCarousel />
               </View>
             );
           } else if (
-            this.props.currentIndex === 4 ||
-            this.props.currentIndex % 16 === 0
+            this.props.currentIndex === 4 &&
+            this.props.feedType !== 'PROFILE'
           )
+            return <ActivitiesCarousel />;
+          else if (
+            (this.props.currentIndex === 8 ||
+              this.props.currentIndex % 16 === 0) &&
+            this.props.feedType !== 'PROFILE'
+          ) {
             return (
               <FeedItemFollow
                 source={this.props.source}
@@ -79,13 +84,15 @@ class FeedItem extends React.Component {
                 index={this.props.currentIndex}
               />
             );
-          else {
+          } else if (this.props.currentIndex !== 0) {
             return (
               <FeedItemAd
                 feedType={this.props.feedType}
                 country={this.props.country}
               />
             );
+          } else {
+            return null;
           }
         default:
           return null;

@@ -720,7 +720,7 @@ export default {
     approveUser: 'Aprobar Usuario',
     optionsMenu: 'Menu de Perfil',
     loading: 'Cargando SD/Colega...',
-    views: 'Vistas',
+    views: 'Vistas {{COUNT}}',
     follow: 'Seguir',
     followToo: 'Seguir También',
     unfollow: 'Dejar de Seguir',
@@ -747,9 +747,12 @@ export default {
     firstName: 'Nombre',
     info: 'Info',
     bio: 'Biografia',
-    qsos: 'Pubs',
+    qsos: 'Pubs %{COUNT}',
+    qsosTab: 'Pubs',
     following: 'Siguiendo',
-    followers: 'Seguidores'
+    followingCounter: 'Siguiendo %{COUNT}',
+    followingTab: 'Siguiendo',
+    followers: 'Seguidores %{COUNT}'
   },
   forms: {
     formSent: 'Mensaje Enviado!',

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedItem from './FeedItem';
+import analytics from '@aws-amplify/analytics';
 class NewsFeedPresentational extends React.PureComponent {
   state = {
     currentVisibleIndex: null,
@@ -97,6 +98,9 @@ class NewsFeedPresentational extends React.PureComponent {
               renderItem={this._renderItem.bind(this)}
               removeClippedSubviews={true} // Unmount components when outside of window
               windowSize={5} // Reduce the window size
+              onEndReached={() => {
+                if (!__DEV__) analytics().logEvent('FeedEndReached_APPPRD');
+              }}
             />
           </MenuProvider>
         </View>
