@@ -526,7 +526,7 @@ export default {
     whoToFollow: 'A Quien Seguir',
     searchCallsign: 'BUSCAR SD (Ej: LU2ACH)',
     allUsersFeed: 'Ver Publicaciones de todos los usuarios',
-    onlyFollowFeed: 'Ver Publicaciones de la gente que sigo',
+    onlyFollowFeed: 'Ver Publicaciones de usuarios que sigo',
     noFollowingMessage: 'Todavía no seguis a nadie...'
   },
   whatIsSuperQSO: {

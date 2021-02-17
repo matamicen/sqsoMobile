@@ -1355,7 +1355,7 @@ const qsoReducer = (state = initialState, action) => {
       newStore = Object.assign({}, state, {
         ...state,
         userInfo: {
-          ...userInfo,
+          ...state.userInfo,
           following_counter: auxcurrentQso.followings.length
         },
         currentQso: auxcurrentQso
@@ -1902,7 +1902,7 @@ const qsoReducer = (state = initialState, action) => {
           ...state.currentQso,
           followings: action.following
         },
-        userInfo: { ...userInfo, following_counter: action.following.length },
+        userInfo: { ...state.userInfo, following_counter: action.following.length },
 
         feed: {
           ...state.feed,
