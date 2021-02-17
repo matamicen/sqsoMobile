@@ -197,7 +197,7 @@ class ActivitiesCarousel extends React.PureComponent {
         <Card containerStyle={{ margin: 0, padding: 5 }}>
           <Card.Title
             style={{
-              backgroundColor: 'green',
+              backgroundColor: 'blue',
               color: 'white',
               fontSize: 17,
               paddingVertical: 5

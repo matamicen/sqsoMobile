@@ -74,7 +74,8 @@ class FeedHeaderBar extends React.Component {
             />
           </View>
         </View>
-        <View style={{ paddingBottom: 10 }}>
+        <View style={{ paddingBottom: 10,  zIndex: 1 }}
+         pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
           {this.props.publicFeed && (
             <Button
               fluid
@@ -150,6 +151,7 @@ const mapStateToProps = (state) => ({
   following_counter: state.sqso.userInfo.following_counter,
   //   authenticating: state.sqso.feeduserData.authenticating,
   currentQRA: state.sqso.qra,
+  feedtouchable: state.sqso.feed.FeedTouchable,
 
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos
