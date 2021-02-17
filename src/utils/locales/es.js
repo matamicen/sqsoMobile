@@ -524,7 +524,10 @@ export default {
     tutorial: 'Ver Tutoriales',
     exploreUsers: 'Explorar Usuarios',
     whoToFollow: 'A Quien Seguir',
-    searchCallsign: 'BUSCAR SD (Ej: LU2ACH)'
+    searchCallsign: 'BUSCAR SD (Ej: LU2ACH)',
+    allUsersFeed: 'Ver Publicaciones de todos los usuarios',
+    onlyFollowFeed: 'Ver Publicaciones de la gente que sigo',
+    noFollowingMessage: 'Todavía no seguis a nadie...'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: '¿Qué es SuperQSO?',

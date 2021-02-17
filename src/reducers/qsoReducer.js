@@ -50,6 +50,7 @@ import {
   QSO_SCREEN_DIDMOUNT,
   QSO_SENT_UPDATES_AND_SQLRDSID,
   RECEIVE_FEED,
+  CLEAR_FEED,
   RECEIVE_FIELDDAYS,
   RECEIVE_FOLLOWERS,
   RECEIVE_QRA,
@@ -244,6 +245,7 @@ const initialState = {
     FetchingQSOS: false,
     qsosFetched: false,
     feedFetchedDate: null,
+    publicFeed: true,
     fieldDays: [],
     FetchingFieldDays: false,
     fieldDaysFetched: false,
@@ -1150,9 +1152,7 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
 
-
     case SET_USER_PENDINGVERIFICATION:
-
       auxUserInfo = {
         ...state.userInfo,
         pendingVerification: action.status
@@ -1354,6 +1354,10 @@ const qsoReducer = (state = initialState, action) => {
 
       newStore = Object.assign({}, state, {
         ...state,
+        userInfo: {
+          ...userInfo,
+          following_counter: auxcurrentQso.followings.length
+        },
         currentQso: auxcurrentQso
       });
       return newStore;
@@ -1846,6 +1850,19 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
+    case CLEAR_FEED:
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          qsos: [],
+          FetchingQSOS: false,
+          qsosFetched: false,
+          feedFetchedDate: new Date(),
+          publicFeed: action.publicFeed
+        }
+      });
+      return newStore;
     case RECEIVE_FEED:
       newStore = Object.assign({}, state, {
         ...state,
@@ -1854,7 +1871,8 @@ const qsoReducer = (state = initialState, action) => {
           qsos: action.qsos,
           FetchingQSOS: false,
           qsosFetched: true,
-          feedFetchedDate: new Date()
+          feedFetchedDate: new Date(),
+          publicFeed: action.publicFeed
         }
       });
       return newStore;
@@ -1884,6 +1902,8 @@ const qsoReducer = (state = initialState, action) => {
           ...state.currentQso,
           followings: action.following
         },
+        userInfo: { ...userInfo, following_counter: action.following.length },
+
         feed: {
           ...state.feed,
           qra: state.feed.qra
