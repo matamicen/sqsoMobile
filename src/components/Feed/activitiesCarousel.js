@@ -195,8 +195,16 @@ class ActivitiesCarousel extends React.PureComponent {
 
       return (
         <Card containerStyle={{ margin: 0, padding: 5 }}>
-          <Card.Title>{I18n.t('navBar.actCarouselTitle')}</Card.Title>
-          <Card.Divider />
+          <Card.Title
+            style={{
+              backgroundColor: 'green',
+              color: 'white',
+              fontSize: 17,
+              paddingVertical: 5
+            }}>
+            {I18n.t('navBar.actCarouselTitle')}
+          </Card.Title>
+          {/* <Card.Divider /> */}
           <Carousel
             ref={(c) => {
               this._carousel = c;
