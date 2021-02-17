@@ -140,7 +140,9 @@ class QSOLikeText extends React.PureComponent {
                 }}
               />
             )}
-            <Text style={styles.text}>{outputText}</Text>
+            <View style={{ flex: 1, flexWrap: 'wrap', flexDirection: 'row' }}>
+              <Text style={styles.text}>{outputText}</Text>
+            </View>
           </View>
         </TouchableOpacity>
         <Overlay
@@ -236,12 +238,15 @@ const styles = StyleSheet.create({
     borderRadius: 12
   },
   text: {
-    fontSize: 17
+    fontSize: 17,
+
+    paddingHorizontal: 5
   },
   view: {
     flex: 1,
     paddingTop: 10,
     flexDirection: 'row',
+
     alignItems: 'center'
   },
   center: {
