@@ -3223,11 +3223,11 @@ export const apiCheckVersion = () => {
       // bloque agregado para que salga a los 8 segundos
       // por timeout hacia el CATCH
 
-      timeout = 8000;
+      timeout = 18000;
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeout);
       opt = {
-        timeout: 8000
+        timeout: 18000
       };
       ApiCall = await fetch(url, {
         ...opt,
