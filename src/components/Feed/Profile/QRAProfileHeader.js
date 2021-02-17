@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   follow: {
-    flex: 1,
+    // flex: 1,
     // alignSelf: 'flex-start',
     // justifyContent: 'flex-start',
     marginTop: 80,
