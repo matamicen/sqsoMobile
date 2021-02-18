@@ -3700,7 +3700,7 @@ export const doFetchUserFeed = (qra) => {
       const apiName = 'superqso';
       const path = '/qso-get-user-feed';
       const myInit = {
-        body: {}, // replace this with attributes you need
+        // body: {}, // replace this with attributes you need
         headers: {
           Authorization: session.idToken.jwtToken
         } // OPTIONAL
