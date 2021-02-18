@@ -29,7 +29,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert("Can't handle url: " + url);
+        Alert.alert('Can\'t handle url: ' + url);
       } else {
         Linking.openURL(url);
       }
@@ -195,13 +195,21 @@ class ActivitiesCarousel extends React.PureComponent {
 
       return (
         <Card containerStyle={{ margin: 0, padding: 5 }}>
-          <Card.Title>{I18n.t('navBar.actCarouselTitle')}</Card.Title>
-          <Card.Divider />
+          <Card.Title
+            style={{
+              backgroundColor: 'blue',
+              color: 'white',
+              fontSize: 17,
+              paddingVertical: 5
+            }}>
+            {I18n.t('navBar.actCarouselTitle')}
+          </Card.Title>
+          {/* <Card.Divider /> */}
           <Carousel
             ref={(c) => {
               this._carousel = c;
             }}
-            layout="default"
+            // layout="default"
             onScroll={() => {
               if (!__DEV__)
                 analytics().logEvent('activitiesCarouselScroll_APPPRD');
