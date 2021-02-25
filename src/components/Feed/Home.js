@@ -208,15 +208,15 @@ class Home extends React.PureComponent {
       // refresh feed ? it depends the seconds in background
       console.log('timeGoesBackGround: '+ this.timeGoesBackGround)
         
-      console.log('dif: '+ moment().diff(this.timeGoesBackGround, 'seconds'));
-      dif = moment().diff(this.timeGoesBackGround, 'seconds')
-      if (dif>3600)
+      console.log('dif: '+ moment().diff(this.timeGoesBackGround, 'minutes'));
+      dif = moment().diff(this.timeGoesBackGround, 'minutes')
+      if (dif>59)
        { console.log('more than an hour it refreshs')
        this.props.actions.doFetchPublicFeed(this.props.currentQRA);
        this.props.actions.doFetchFieldDaysFeed();
       }
        else
-       console.log('les than an hour')
+       console.log('less than an hour')
 
      
     }
