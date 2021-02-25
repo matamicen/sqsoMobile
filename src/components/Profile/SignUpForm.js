@@ -42,11 +42,14 @@ import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import { getBrand } from "react-native-device-info";
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
 
 const NORTH_AMERICA = ['CA', 'MX', 'US'];
+const brandsNeedingWorkaround = ["redmi", "xiaomi", "poco", "pocophone"]
+const needsXiaomiWorkaround = Platform.OS !== "ios" ? brandsNeedingWorkaround.includes(getBrand().toLowerCase()) : false
 
 class SignUpForm extends React.PureComponent {
   //   static navigationOptions = {
@@ -1034,7 +1037,7 @@ class SignUpForm extends React.PureComponent {
                     </TouchableOpacity>
                   </View>
                   <View style={{ flexDirection: 'row' }}>
-                    <TextInput
+                    <TextInput    
                       ref={(lastname) => (this.lastname = lastname)}
                       placeholder={I18n.t('signupLastName')}
                       underlineColorAndroid="transparent"
@@ -1054,6 +1057,7 @@ class SignUpForm extends React.PureComponent {
                   <View style={{ flexDirection: 'row' }}>
                     <TextInput
                       ref={(emailRef) => (this.emailRef = emailRef)}
+                      caretHidden = {needsXiaomiWorkaround}
                       placeholder={I18n.t('signupEmail')}
                       underlineColorAndroid="transparent"
                       placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1075,6 +1079,7 @@ class SignUpForm extends React.PureComponent {
                       ref={(emailRefverification) =>
                         (this.emailRefverification = emailRefverification)
                       }
+                      caretHidden = {needsXiaomiWorkaround}
                       placeholder={I18n.t('signupEmailConfirm')}
                       underlineColorAndroid="transparent"
                       placeholderTextColor="rgba(255,255,255,0.7)"
