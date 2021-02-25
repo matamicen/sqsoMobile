@@ -18,6 +18,7 @@ import ShareMenu from 'react-native-share-menu';
 import NewsFeed from './NewsFeedContainer';
 import Toast from 'react-native-root-toast';
 import { Auth } from 'aws-amplify';
+import moment from 'moment';
 
 class Home extends React.PureComponent {
   static navigationOptions = {
@@ -154,10 +155,15 @@ class Home extends React.PureComponent {
   };
 
   _handleAppStateChange = async (nextAppState) => {
+    console.log('nextState: ' + nextAppState)
+    
+    if (nextAppState === 'background') {
+      this.timeGoesBackGround = new Date()
+    }
+
     if (nextAppState === 'active') {
       ShareMenu.getSharedText((text) => {
         console.log('el text del share 05:' + JSON.stringify(text));
-
         // if (text!==null) {
         if (text !== null && typeof text !== 'undefined') {
           console.log('el text del share hay data 05: ' + text);
@@ -197,9 +203,22 @@ class Home extends React.PureComponent {
       if (this.props.userinfo.pendingVerification)
         this.props.actions.getUserInfo(session.idToken.jwtToken);
 
-      // refresco el feed
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-      this.props.actions.doFetchFieldDaysFeed();
+
+        
+      // refresh feed ? it depends the seconds in background
+      console.log('timeGoesBackGround: '+ this.timeGoesBackGround)
+        
+      console.log('dif: '+ moment().diff(this.timeGoesBackGround, 'minutes'));
+      dif = moment().diff(this.timeGoesBackGround, 'minutes')
+      if (dif>59)
+       { console.log('more than an hour it refreshs')
+       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+       this.props.actions.doFetchFieldDaysFeed();
+      }
+       else
+       console.log('less than an hour')
+
+     
     }
   };
 
