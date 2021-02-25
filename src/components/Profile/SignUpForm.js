@@ -86,7 +86,7 @@ class SignUpForm extends React.PureComponent {
       month: 0,
       year: 0,
       confirmSignup: false,
-      confirmationcode: '',
+      // confirmationcode: '',
       confirmationcodeError: 0,
       color: 'red',
       heightindicator: 0,
@@ -546,7 +546,7 @@ class SignUpForm extends React.PureComponent {
     }
   };
 
-  confirmSignup = async (confirmationCode) => {
+  confirmSignup = async () => {
     Keyboard.dismiss();
 
     if (await hasAPIConnection()) {
@@ -558,7 +558,8 @@ class SignUpForm extends React.PureComponent {
       });
 
       //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
-      Auth.confirmSignUp(this.state.email.toLowerCase(), confirmationCode)
+      Auth.signIn(this.state.email.toLowerCase(), this.state.password)
+        // Auth.confirmSignUp(this.state.email.toLowerCase(), confirmationCode)
         .then(() => {
           console.log('SignUp confirmed ok!: ');
           this.close_confirmSignup();

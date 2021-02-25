@@ -53,11 +53,11 @@ export default {
   signupValConfirmationFailed:
     'Confirmation failed! Please enter the code again',
   confirmSignUpWeHaveSent:
-    'We have sent the confirmation code to your email. Please enter the code to activate the account.',
+    'We have sent you a confirmation email. Please click on the link to activate the account. Then press "Done"',
   confirmSignUpConfirmationCode: 'confirmation code',
   confirmSignUpCancelButton: 'Cancel',
-  confirmSignUpResendCodeButton: 'Resend Code',
-  confirmSignUpConfirmButton: 'CONFIRM',
+  confirmSignUpResendCodeButton: 'Resend Email',
+  confirmSignUpConfirmButton: 'Done',
   variosModWelcWelcome: 'Welcome to SuperQSO!',
   variosModWelcSendLicense1:
     'Please send us your ham license issued by your country to',
