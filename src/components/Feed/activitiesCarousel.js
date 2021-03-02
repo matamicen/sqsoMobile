@@ -21,15 +21,17 @@ import { Image, Card } from 'react-native-elements';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 class Link extends React.PureComponent {
   openUrl(url) {
-    url = url.toUpperCase();
-
-    if (!url.startsWith('HTTP://') && !url.startsWith('HTTPS://')) {
+    // url = url.toUpperCase();
+    if (
+      !url.toUpperCase().startsWith('HTTP://') &&
+      !url.toUpperCase().startsWith('HTTPS://')
+    ) {
       url = 'http://' + url;
     }
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert('Can\'t handle url: ' + url);
+        Alert.alert("Can't handle url: " + url);
       } else {
         Linking.openURL(url);
       }
