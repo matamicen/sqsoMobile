@@ -10,6 +10,30 @@ import FeedOptionsMenu from './FeedOptionsMenu';
 // import './style.js';
 import TextToFollow from './TextToFollow';
 import moment from 'moment';
+const country2emoji = (country_code) => {
+  var OFFSET = 127397;
+  var cc = country_code.toUpperCase();
+  function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  }
+  return /^[A-Z]{2}$/.test(cc)
+    ? String.fromCodePoint.apply(
+        String,
+        _toConsumableArray(
+          [].concat(_toConsumableArray(cc)).map(function (c) {
+            return c.charCodeAt() + OFFSET;
+          })
+        )
+      )
+    : null;
+};
 class FeedItemHeader extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -29,13 +53,13 @@ class FeedItemHeader extends React.PureComponent {
     switch (this.props.qso.type) {
       case 'QSO':
         text = I18n.t('qso.workedAQSO', {
-          QRA: this.props.qso.qra
+          // QRA: this.props.qso.qra
         });
         shareText = I18n.t('qso.checkOutQSO');
         break;
       case 'LISTEN':
         text = I18n.t('qso.listenedQSO', {
-          QRA: this.props.qso.qra
+          // QRA: this.props.qso.qra
         });
         shareText = I18n.t('qso.checkOutQSO');
         break;
@@ -43,41 +67,41 @@ class FeedItemHeader extends React.PureComponent {
         switch (this.props.qso.original[0].type) {
           case 'QSO':
             text = I18n.t('qso.repostedQSO', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             shareText = I18n.t('qso.checkOutQSO');
             break;
           case 'LISTEN':
             text = I18n.t('qso.repostedLISTEN', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             shareText = I18n.t('qso.checkOutQSO');
             break;
           case 'SHARE':
             text = I18n.t('qso.repostedQSO', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             shareText = I18n.t('qso.checkOutPost', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             break;
           case 'POST':
             text = I18n.t('qso.repostedPOST', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             shareText = I18n.t('qso.checkOutPost', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             break;
           case 'QAP':
             text = I18n.t('qso.repostedQAP', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             // shareText = t('qso.checkOutQAP');
             break;
           case 'FLDDAY':
             text = I18n.t('qso.repostedFLDDAY', {
-              QRA: this.props.qso.qra
+              // QRA: this.props.qso.qra
             });
             // shareText = t('qso.checkOutFLDDAY');
             break;
@@ -88,19 +112,19 @@ class FeedItemHeader extends React.PureComponent {
         break;
       case 'POST':
         text = I18n.t('qso.createdPost', {
-          QRA: this.props.qso.qra
+          // QRA: this.props.qso.qra
         });
         shareText = I18n.t('qso.checkOutPost');
         break;
       case 'QAP':
         text = I18n.t('qso.createdQAP', {
-          QRA: this.props.qso.qra
+          // QRA: this.props.qso.qra
         });
         // shareText = t('qso.checkOutQAP');
         break;
       case 'FLDDAY':
         text = I18n.t('qso.createdFLDDAY', {
-          QRA: this.props.qso.qra
+          // QRA: this.props.qso.qra
         });
         // shareText = t('qso.checkOutFLDDAY');
         break;
@@ -156,7 +180,16 @@ class FeedItemHeader extends React.PureComponent {
                   screen: 'PROFILE'
                 });
               }}>
-              <Text style={styles.actionHeaderText}>{text}</Text>
+              <Text style={styles.actionHeaderText}>
+                {this.props.qso.qra}
+                <Text style={{ fontSize: 13 }}>
+                  {this.props.qso.country !== '' &&
+                    this.props.qso.country !== null && (
+                      <Text>{country2emoji(this.props.qso.country)}</Text>
+                    )}
+                </Text>
+                {text}
+              </Text>
             </TouchableOpacity>
             {/* <Text style={styles.actionHeaderText}>{text}</Text> */}
           </View>

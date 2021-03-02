@@ -18,6 +18,30 @@ import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 import { userNotValidated } from '../../helper';
 import moment from 'moment';
+const country2emoji = (country_code) => {
+  var OFFSET = 127397;
+  var cc = country_code.toUpperCase();
+  function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  }
+  return /^[A-Z]{2}$/.test(cc)
+    ? String.fromCodePoint.apply(
+        String,
+        _toConsumableArray(
+          [].concat(_toConsumableArray(cc)).map(function (c) {
+            return c.charCodeAt() + OFFSET;
+          })
+        )
+      )
+    : null;
+};
 class Link extends React.PureComponent {
   openUrl(url) {
     url = url.toUpperCase();
@@ -217,9 +241,23 @@ class QSOCommentItem extends React.PureComponent {
                   });
                 }}>
                 <Text style={styles.headerText}>
-                  <Text> {this.props.comment.qra.toUpperCase()} </Text>
+                  {/* <Text numberOfLines={1} style={{ fontSize: 16 }}> */}
+                  <Text style={{ fontSize: 17 }}>
+                    {this.props.comment.qra.toUpperCase()}
+                  </Text>
+
+                  <Text style={{ fontSize: 13 }}>
+                    {this.props.comment.country !== '' &&
+                      this.props.comment.country !== null && (
+                        <Text>{country2emoji(this.props.comment.country)}</Text>
+                      )}
+                  </Text>
                   <Text>{this.props.comment.firstname}</Text>
                   <Text> {this.props.comment.lastname} </Text>
+                  {/* </Text> */}
+                  {/* <Text> {this.props.comment.qra.toUpperCase()} </Text>
+                  <Text>{this.props.comment.firstname}</Text>
+                  <Text> {this.props.comment.lastname} </Text> */}
                 </Text>
               </TouchableOpacity>
             </View>

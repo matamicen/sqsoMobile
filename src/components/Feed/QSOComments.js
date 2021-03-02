@@ -91,6 +91,7 @@ class QSOComments extends React.PureComponent {
 
       comment.firstname = this.props.firstname;
       comment.lastname = this.props.lastname;
+      comment.country = this.props.country;
       comment.avatarpic = this.props.avatarpic;
       comment.idqsos_comments = datetime;
       comment.idqso = this.props.qso.idqso_shared
@@ -633,6 +634,7 @@ const mapStateToProps = (state, ownProps) => ({
   userinfo: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
   firstname: state.sqso.userInfo.firstname,
+  country: state.sqso.userInfo.country,
   lastname: state.sqso.userInfo.lastname,
   avatarpic: state.sqso.userInfo.avatarpic
 });
