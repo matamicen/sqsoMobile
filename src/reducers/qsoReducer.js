@@ -97,7 +97,7 @@ import {
   SET_URL_RDS_S3,
   SET_USER_INFO,
   SET_VIDEO_UPLOAD_PROGRESS,
-  SET_WEBVIEW,
+  // SET_WEBVIEW,
   SET_WELCOME_USER_FIRST_TIME,
   UPDATE_COMMENT_MEMORY,
   UPDATE_LINK_QSO,
@@ -151,8 +151,8 @@ const initialState = {
   confirmProfileModal: false,
   sendingProfileModal_stat: 0,
   cancelButton_stat: 0,
-  webviewSession: '',
-  webviewUrl: global_config.urlWeb,
+  // webviewSession: '',
+  // webviewUrl: global_config.urlWeb,
   pressHome: 1,
   justPublished: false,
   externalShareUrl: false,
@@ -1130,18 +1130,18 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
 
-    case SET_WEBVIEW:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      // console.log("Reducer jwtToken:"+action.jwttoken);
+    // case SET_WEBVIEW:
+    //   // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    //   // console.log("Reducer jwtToken:"+action.jwttoken);
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        // jwtToken: action.jwttoken,
-        webviewSession: action.webviewsession,
-        webviewUrl: action.webviewurl
-      });
+    //   newStore = Object.assign({}, state, {
+    //     ...state,
+    //     // jwtToken: action.jwttoken,
+    //     webviewSession: action.webviewsession,
+    //     webviewUrl: action.webviewurl
+    //   });
 
-      return newStore;
+    //   return newStore;
 
     case SET_MUSTUPGRADEAPP:
       newStore = Object.assign({}, state, {
@@ -1902,7 +1902,10 @@ const qsoReducer = (state = initialState, action) => {
           ...state.currentQso,
           followings: action.following
         },
-        userInfo: { ...state.userInfo, following_counter: action.following.length },
+        userInfo: {
+          ...state.userInfo,
+          following_counter: action.following.length
+        },
 
         feed: {
           ...state.feed,

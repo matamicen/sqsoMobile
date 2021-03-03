@@ -46,7 +46,7 @@ import {
   setSubscriptionInfo,
   setToken,
   setUrlRdsS3,
-  setWebView,
+  // setWebView,
   welcomeUserFirstTime,
   apiCheckVersion,
   setPendingVerification
@@ -83,7 +83,7 @@ const itemSubs = Platform.select({
   ]
 });
 
-const actualAppVersion = '1.0.0';
+// const actualAppVersion = '1.0.0';
 
 // let purchaseUpdateSubscription;
 // let purchaseErrorSubscription;
@@ -335,11 +335,11 @@ class LoginForm extends React.PureComponent {
                 //  this.props.manage_notifications('ADDONE',envioNotif);
                 //  this.props.navigation.navigate("Notifications");
                 console.log(notification.userInfo.url);
-                var urlAux =
-                  notification.userInfo.url +
-                  '?embedded=true&date=' +
-                  new Date();
-                this.props.setWebView(webViewUserSession, urlAux);
+                // var urlAux =
+                //   notification.userInfo.url +
+                //   '?embedded=true&date=' +
+                //   new Date();
+                // this.props.setWebView(webViewUserSession, urlAux);
                 // esto estaba
                 this.props.navigation.navigate('Home', {});
               }
@@ -497,11 +497,11 @@ class LoginForm extends React.PureComponent {
     console.log('llama ApiCheckVersion');
     this.props.apiCheckVersion();
 
-    var userLogin0 = await AsyncStorage.getItem('userlogin');
-    if (userLogin0 === null) {
-      this.debeHacerUpgrade = true; // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
-      this.userYpassnull = true;
-    }
+    // var userLogin0 = await AsyncStorage.getItem('userlogin');
+    // if (userLogin0 === null) {
+    //   this.debeHacerUpgrade = true; // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
+    //   this.userYpassnull = true;
+    // }
 
     //    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
 
@@ -592,22 +592,22 @@ class LoginForm extends React.PureComponent {
         // console.log('currentUserCredentials:'+JSON.stringify(session2));
         // await this.props.setWebView(JSON.stringify(session),'http://192.168.0.9:3000')
 
-        var userLogin = await AsyncStorage.getItem('userlogin');
+        // var userLogin = await AsyncStorage.getItem('userlogin');
         // console.log('userlogin:' + userLogin);
-        var userPwd = await AsyncStorage.getItem('userpwd');
+        // var userPwd = await AsyncStorage.getItem('userpwd');
         // console.log('userpass:' + userPwd);
 
-        if (userLogin === null || userPwd === null) {
-          // mando a crashlutics q hay un usuario que le dio null el user/pass
-          const value = await AsyncStorage.getItem('username');
-          crashlytics().setUserId(value);
-          crashlytics().log('error: userlogin o userpwd da null');
-          if (__DEV__)
-            crashlytics().recordError(new Error('userlogin_null_DEV'));
-          else crashlytics().recordError(new Error('userlogin_null_PRD'));
-        }
+        // if (userLogin === null || userPwd === null) {
+        //   // mando a crashlutics q hay un usuario que le dio null el user/pass
+        //   const value = await AsyncStorage.getItem('username');
+        //   crashlytics().setUserId(value);
+        //   crashlytics().log('error: userlogin o userpwd da null');
+        //   if (__DEV__)
+        //     crashlytics().recordError(new Error('userlogin_null_DEV'));
+        //   else crashlytics().recordError(new Error('userlogin_null_PRD'));
+        // }
 
-        webViewUserSession = { userlogin: userLogin, userpwd: userPwd };
+        // webViewUserSession = { userlogin: userLogin, userpwd: userPwd };
         // console.log('killedURL:'+ this.webviewurlfromKilledPush)
         // if (this.webviewurlfromKilledPush!==''){
         //    await this.props.setWebView(webViewUserSession,this.webviewurlfromKilledPush)
@@ -615,10 +615,10 @@ class LoginForm extends React.PureComponent {
         //    }   else
 
         // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-        await this.props.setWebView(
-          webViewUserSession,
-          global_config.urlWeb + '?embedded=true'
-        );
+        // await this.props.setWebView(
+        //   webViewUserSession,
+        //   global_config.urlWeb + '?embedded=true'
+        // );
 
         // console.log('Antes d Auth.currentCredentials() ');
         // const { identityId } = await Auth.currentCredentials();
@@ -709,7 +709,7 @@ class LoginForm extends React.PureComponent {
         this.setState({ showloginForm: true });
         //   kinesis_catch('#009',e,value);
         var pushtoken = await AsyncStorage.getItem('pushtoken');
-        var qraTokenVerif = await AsyncStorage.getItem('qratoken');
+        // var qraTokenVerif = await AsyncStorage.getItem('qratoken');
 
         if (pushtoken === null) {
           // console.log('no tiene credenciales y nunca obtuvo pushtoken');
@@ -728,15 +728,15 @@ class LoginForm extends React.PureComponent {
         // Handle exceptions
       }
     } // if de debeHacerUpgrade o fuerzo signout porque necesito que haga login para tener user y pas para webview
-    else {
-      if (this.userYpassnull) {
-        // console.log(
-        //   'Fuerzo a q se loguee para que pueda pasar los datos a webview'
-        // );
-        this.userYpassnull = false;
-        this.setState({ showloginForm: true });
-      }
-    }
+    // else {
+    //   // if (this.userYpassnull) {
+    //   //   // console.log(
+    //   //   //   'Fuerzo a q se loguee para que pueda pasar los datos a webview'
+    //   //   // );
+    //   //   this.userYpassnull = false;
+    //   //   this.setState({ showloginForm: true });
+    //   // }
+    // }
     // } else {
     //   // console.log('lo siento no hay Internet');
     //   this.setState({ nointernet: true });
@@ -797,14 +797,14 @@ class LoginForm extends React.PureComponent {
               this.setState({ forceChangePassword: true, stopApp: true });
             // si no se necesita que cambie la pass entonces guardo user y pass para que se pueda
             // enviar luego a la webview
-            else {
-              // await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
-              // await AsyncStorage.setItem('userpwd', this.state.password);
-              // // userLogin = await AsyncStorage.getItem('userlogin');
-              // // userPwd = await AsyncStorage.getItem('userpwd');
-              // webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
-              // await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
-            }
+            // else {
+            // await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
+            // await AsyncStorage.setItem('userpwd', this.state.password);
+            // // userLogin = await AsyncStorage.getItem('userlogin');
+            // // userPwd = await AsyncStorage.getItem('userpwd');
+            // webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
+            // await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+            // }
             console.log(
               result.signInUserSession.idToken.payload['custom:callsign']
             );
@@ -882,21 +882,21 @@ class LoginForm extends React.PureComponent {
         //  console.log('currentUserCredentials:'+JSON.stringify(session));
         //  await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')  http://192.168.0.9:3000
 
-        await AsyncStorage.setItem(
-          'userlogin',
-          this.state.username.toLowerCase()
-        );
-        await AsyncStorage.setItem('userpwd', this.state.password);
+        // await AsyncStorage.setItem(
+        //   'userlogin',
+        //   this.state.username.toLowerCase()
+        // );
+        // await AsyncStorage.setItem('userpwd', this.state.password);
 
-        webViewUserSession = {
-          userlogin: this.state.username.toLowerCase(),
-          userpwd: this.state.password
-        };
-        // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-        await this.props.setWebView(
-          webViewUserSession,
-          global_config.urlWeb + '?embedded=true'
-        );
+        // webViewUserSession = {
+        //   userlogin: this.state.username.toLowerCase(),
+        //   userpwd: this.state.password
+        // };
+        // // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+        // await this.props.setWebView(
+        //   webViewUserSession,
+        //   global_config.urlWeb + '?embedded=true'
+        // );
 
         // userLogin = await AsyncStorage.getItem('userlogin');
         // userPwd = await AsyncStorage.getItem('userpwd');
@@ -1453,7 +1453,7 @@ const mapDispatchToProps = {
   setSubscriptionInfo,
   manageLocationPermissions,
   welcomeUserFirstTime,
-  setWebView,
+  // setWebView,
   apiCheckVersion,
   setPendingVerification
 };

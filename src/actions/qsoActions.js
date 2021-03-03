@@ -112,7 +112,7 @@ import {
   SET_URL_RDS_S3,
   SET_USER_INFO,
   SET_VIDEO_UPLOAD_PROGRESS,
-  SET_WEBVIEW,
+  // SET_WEBVIEW,
   SET_WELCOME_USER_FIRST_TIME,
   UPDATE_COMMENT_MEMORY,
   UPDATE_LINK_QSO,
@@ -226,13 +226,13 @@ export const setExternalShreUrl = (status) => {
   };
 };
 
-export const setWebView = (websession, weburl) => {
-  return {
-    type: SET_WEBVIEW,
-    webviewsession: websession,
-    webviewurl: weburl
-  };
-};
+// export const setWebView = (websession, weburl) => {
+//   return {
+//     type: SET_WEBVIEW,
+//     webviewsession: websession,
+//     webviewurl: weburl
+//   };
+// };
 
 export const setUpgradeApp = (status) => {
   return {

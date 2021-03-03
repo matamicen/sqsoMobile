@@ -59,7 +59,7 @@ import {
   setPressHome,
   postQsoEdit,
   postQsoQras,
-  setWebView,
+  // setWebView,
   setJustPublished,
   actindicatorPostQsoNewFalse,
   qsoPublish,
@@ -3284,60 +3284,62 @@ class QsoScreen extends React.PureComponent {
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
-                   {(this.props.qsotype !== 'FLDDAY') &&
-                <TouchableOpacity
-                  style={{ width: 65, height: 63 }}
-                  onPress={() => this.videoFromGallery(false)}>
-                  <Image
-                    source={require('../../images/camara-de-video.png')}
-                    style={{
-                      width: 27,
-                      height: 27,
-                      marginLeft: 22,
-                      marginTop: 0
-                    }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: 'black',
-                      marginLeft: I18n.locale.substring(0, 2) === 'es' ? 18 : 16
-                    }}>
-                    Video
-                  </Text>
-                </TouchableOpacity>
-                }
+                {this.props.qsotype !== 'FLDDAY' && (
+                  <TouchableOpacity
+                    style={{ width: 65, height: 63 }}
+                    onPress={() => this.videoFromGallery(false)}>
+                    <Image
+                      source={require('../../images/camara-de-video.png')}
+                      style={{
+                        width: 27,
+                        height: 27,
+                        marginLeft: 22,
+                        marginTop: 0
+                      }}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: 'black',
+                        marginLeft:
+                          I18n.locale.substring(0, 2) === 'es' ? 18 : 16
+                      }}>
+                      Video
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             ) : null}
 
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
-               {(this.props.qsotype !== 'FLDDAY') &&
-                <TouchableOpacity
-                  style={{ width: 65, height: 63 }}
-                  onPress={() => this.checkInternetOpenRecording()}>
-                  <Image
-                    source={require('../../images/mic.png')}
-                    style={{
-                      width: 26,
-                      height: 26,
-                      marginLeft: 22,
-                      marginTop: 2
-                    }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: 'black',
-                      marginLeft: I18n.locale.substring(0, 2) === 'es' ? 18 : 16
-                    }}>
-                    {I18n.t('QsoScrRecord')}
-                  </Text>
-                </TouchableOpacity>
-               }
+                {this.props.qsotype !== 'FLDDAY' && (
+                  <TouchableOpacity
+                    style={{ width: 65, height: 63 }}
+                    onPress={() => this.checkInternetOpenRecording()}>
+                    <Image
+                      source={require('../../images/mic.png')}
+                      style={{
+                        width: 26,
+                        height: 26,
+                        marginLeft: 22,
+                        marginTop: 2
+                      }}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: 'black',
+                        marginLeft:
+                          I18n.locale.substring(0, 2) === 'es' ? 18 : 16
+                      }}>
+                      {I18n.t('QsoScrRecord')}
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             ) : null}
 
@@ -3876,7 +3878,7 @@ const mapDispatchToProps = {
   setPressHome,
   postQsoEdit,
   postQsoQras,
-  setWebView,
+  // setWebView,
   setJustPublished,
   actindicatorPostQsoNewFalse,
   qsoPublish,
