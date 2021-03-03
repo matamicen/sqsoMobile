@@ -77,7 +77,10 @@ class Home extends React.PureComponent {
           // this.time = 50;
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
-          this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+          this.props.actions.doClearFeed();
+          if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+          else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
           this.props.actions.doFetchFieldDaysFeed();
           this.props.actions.doLatestUsersFetch();
           //   this.props.setPressHome(0);
@@ -118,7 +121,10 @@ class Home extends React.PureComponent {
       //   this.props.token,
       //   this.props.currentQRA
       // );
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doClearFeed();
+      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
     }
@@ -146,7 +152,10 @@ class Home extends React.PureComponent {
       // this.time = 50;
       // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doClearFeed();
+      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
 
@@ -155,10 +164,10 @@ class Home extends React.PureComponent {
   };
 
   _handleAppStateChange = async (nextAppState) => {
-    console.log('nextState: ' + nextAppState)
-    
+    console.log('nextState: ' + nextAppState);
+
     if (nextAppState === 'background') {
-      this.timeGoesBackGround = new Date()
+      this.timeGoesBackGround = new Date();
     }
 
     if (nextAppState === 'active') {
@@ -203,22 +212,20 @@ class Home extends React.PureComponent {
       if (this.props.userinfo.pendingVerification)
         this.props.actions.getUserInfo(session.idToken.jwtToken);
 
-
-        
       // refresh feed ? it depends the seconds in background
-      console.log('timeGoesBackGround: '+ this.timeGoesBackGround)
-        
-      console.log('dif: '+ moment().diff(this.timeGoesBackGround, 'minutes'));
-      dif = moment().diff(this.timeGoesBackGround, 'minutes')
-      if (dif>59)
-       { console.log('more than an hour it refreshs')
-       this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-       this.props.actions.doFetchFieldDaysFeed();
-      }
-       else
-       console.log('less than an hour')
+      console.log('timeGoesBackGround: ' + this.timeGoesBackGround);
 
-     
+      console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
+      dif = moment().diff(this.timeGoesBackGround, 'minutes');
+      if (dif > 59) {
+        console.log('more than an hour it refreshs');
+        this.props.actions.doClearFeed();
+        if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+        else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
+        this.props.actions.doFetchFieldDaysFeed();
+        this.props.actions.doLatestUsersFetch();
+      } else console.log('less than an hour');
     }
   };
 
@@ -298,9 +305,10 @@ const mapStateToProps = (state) => ({
   FetchingQSOS: state.sqso.feed.FetchingQSOS,
   qsosFetched: state.sqso.feed.qsosFetched,
   //   authenticating: state.sqso.feeduserData.authenticating,
-  currentQRA: state.sqso.qra,
-  userinfo: state.sqso.userInfo,
 
+  userinfo: state.sqso.userInfo,
+  currentQRA: state.sqso.qra,
+  publicFeed: state.sqso.feed.publicFeed,
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos,
   presshome: state.sqso.pressHome

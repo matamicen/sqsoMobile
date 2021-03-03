@@ -29,6 +29,8 @@ import {
   closeModalConfirmPhoto,
   confirmedPurchaseFlag,
   doFetchPublicFeed,
+  doFetchUserFeed,
+  doClearFeed,
   doLatestUsersFetch,
   doFetchFieldDaysFeed,
   doFollowFetch,
@@ -137,7 +139,7 @@ class InitialScreen extends React.PureComponent {
     Linking.canOpenURL(urlnotif)
       .then((supported) => {
         if (!supported) {
-          console.log("Can't handle url: " + urlnotif);
+          console.log('Can\'t handle url: ' + urlnotif);
         } else {
           // if(__DEV__)
           //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
@@ -162,7 +164,7 @@ class InitialScreen extends React.PureComponent {
     if (await hasAPIConnection()) {
       try {
         console.log(
-          "mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem('pushtoken'); + token:" +
+          'mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem(\'pushtoken\'); + token:' +
             this.props.pushtoken +
             'QRA: se envia vacio'
         );
@@ -614,7 +616,9 @@ class InitialScreen extends React.PureComponent {
             <TouchableOpacity
               style={{}}
               onPress={() => {
-                this.props.doFetchPublicFeed();
+                this.props.doClearFeed();
+                if (this.props.publicFeed) this.props.doFetchPublicFeed();
+                else this.props.doFetchUserFeed(this.props.currentQRA);
                 this.props.doFetchFieldDaysFeed();
                 this.props.doFollowFetch();
                 this.props.doLatestUsersFetch();
@@ -845,6 +849,8 @@ const mapStateToProps = (state) => {
     followers: state.sqso.currentQso.followers,
     followings: state.sqso.currentQso.followings,
     followingsselected: state.sqso.currentQso.followingsSelected,
+    currentQRA: state.sqso.qra,
+    publicFeed: state.sqso.feed.publicFeed,
     rdsurl: state.sqso.urlRdsS3,
     sqsoprofilepicrefresh: state.sqso.profilePicRefresh,
     pushtoken: state.sqso.pushToken,
@@ -872,6 +878,8 @@ const mapDispatchToProps = {
   setProfileModalStat,
   getUserInfo,
   doFetchPublicFeed,
+  doFetchUserFeed,
+  doClearFeed,
   doFetchFieldDaysFeed,
   doFollowFetch,
   doLatestUsersFetch,
