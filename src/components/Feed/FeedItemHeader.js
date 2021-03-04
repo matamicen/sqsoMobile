@@ -232,6 +232,19 @@ class FeedItemHeader extends React.PureComponent {
             {/* Header for fieldDay */}
             {this.props.qso.type === 'FLDDAY' && (
               <View style={{ textAlign: 'left', margin: 0, padding: 0 }}>
+                <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+                  {moment(this.props.qso.activityBegin).isSameOrBefore(
+                    Date.now()
+                  ) &&
+                    I18n.t('qso.startedAt', {
+                      text: moment(this.props.qso.activityBegin).fromNow(true)
+                    })}
+
+                  {moment(this.props.qso.activityBegin).isAfter(Date.now()) &&
+                    I18n.t('qso.willStart', {
+                      text: moment(this.props.qso.activityBegin).toNow(true)
+                    })}
+                </Text>
                 <Text style={{ textAlign: 'left', margin: 0, padding: 0 }}>
                   <Text style={styles.bold}>{I18n.t('qso.start')}:</Text>
                   <Text>

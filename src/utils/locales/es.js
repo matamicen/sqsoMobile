@@ -676,6 +676,8 @@ export default {
     sharedPOST: '{{QRA}} republicó una publicación'
   },
   qso: {
+    startedAt: 'Comenzó hace %{text}',
+    willStart: 'Comenzará en %{text}',
     comments: 'Comentarios',
     audioPlays: {
       one: '%{count} Reproducción',
