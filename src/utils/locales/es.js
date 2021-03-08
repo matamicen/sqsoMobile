@@ -137,6 +137,7 @@ export default {
   forgotPasswordInvalidCodeProvided:
     'Código inválido, por favor solicite el código nuevamente.',
   HomeTitle: 'INICIO',
+  ActivitiesTitle: 'ACTIVIDADES',
   HomeLatestPosts1: 'Ver últimas',
   HomeLatestPosts2: 'publicaciones',
   HomeMyPosts1: 'Ver mis',
@@ -211,6 +212,7 @@ export default {
   ProfileQraUnFollow: 'Dejar de Seguir',
   ProfileQraCancel: 'Cerrar',
   ProfileQraViewProfile: 'Ver Perfil',
+  viewPost: 'Ver Publicación',
   variosModContactUsTitle: 'Contáctanos',
   variosModContactUsMessage: 'Mensaje',
   variosModContactUsCancel: 'Cancelar',

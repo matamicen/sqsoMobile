@@ -4,42 +4,34 @@ import FieldDaysFeed from '../Feed/FieldDaysFeed';
 import QRAProfile from '../Feed/Profile';
 import QRAProfileBioEdit from '../Feed/Profile/QRAProfileBioEdit';
 import QRAProfileInfoEdit from '../Feed/Profile/QRAProfileInfoEdit';
-import QSODetail from '../Feed/QSODetail';
-import Notifications from '../Notifications/Notification';
-
-import ForgotScreen from '../Profile/ForgotPassword';
+import I18n from '../../utils/i18n';
 import Login from '../Profile/Login';
 import SignUpScreen from '../Profile/SignUpForm';
-import QslScanQR from '../QslScan/QslScanQR';
-import QslScanResult from '../QslScan/QslScanResult';
-import QsoLink from '../QslScan/QsoLink';
-import CameraScreen from '../Qso/Camera';
+import ForgotScreen from '../Profile/ForgotPassword';
+
 import { TabNavigator } from './TabNavigator';
-import ProfileMenu from '../Feed/Profile/ProfileMenu';
-import {
-  View,
-  StyleSheet,
-  Text,
-  findNodeHandle,
-  NativeModules
-} from 'react-native';
+
+import { View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-  MenuProvider,
-  renderers
-} from 'react-native-popup-menu';
-const { SlideInMenu } = renderers;
-const UIManager = NativeModules.UIManager;
+
 import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
 export const AuthNavigator = createStackNavigator({
   Login: {
     screen: Login,
     navigationOptions: {
       header: null
+    },
+    SignUpScreen: {
+      screen: SignUpScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ForgotScreen: {
+      screen: ForgotScreen,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   Home: {
@@ -49,156 +41,7 @@ export const AuthNavigator = createStackNavigator({
     }
   }
 });
-export const MainNavigator = createStackNavigator({
-  Home: {
-    screen: TabNavigator,
-    navigationOptions: {
-      header: null
-    }
-  },
 
-  CameraScreen2: {
-    screen: CameraScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  // Login: {
-  //   screen: Login,
-  //   navigationOptions: {
-  //     header: null
-
-  //   },
-
-  //  },
-
-  QslScanQR: {
-    screen: QslScanQR,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  QsoLink: {
-    screen: QsoLink,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  QslScanResult: {
-    screen: QslScanResult,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  // BePremium: {
-  //   screen: BePremium,
-  //   navigationOptions: {
-  //     header: null
-
-  //   },
-
-  //   },
-
-  Notifications: {
-    screen: Notifications,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  SignUpScreen: {
-    screen: SignUpScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-
-  //        SignUpScreen: {
-  // screen: SignUpScreen,
-  // navigationOptions: {
-  //   header: null
-
-  // },
-
-  // },
-
-  ForgotScreen: {
-    screen: ForgotScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-  QRAProfile: {
-    screen: QRAProfile,
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
-      ),
-      headerRight: (
-        <View style={{ padding: 9 }}>
-          <ProfileMenu />
-        </View>
-      )
-    })
-  },
-  QSODetail: {
-    screen: QSODetail,
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
-      )
-    })
-    // navigationOptions: {
-    //   header: null
-    // }
-  },
-  QRAProfileBioEdit: {
-    screen: QRAProfileBioEdit,
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
-      ),
-      headerRight: (
-        <View style={{ padding: 15 }}>
-          <Icon
-            size={30}
-            name="ellipsis-v"
-            type="font-awesome"
-            onPress={() => navigation.state.params.openMenu()}
-          />
-        </View>
-      )
-    })
-  },
-  QRAProfileInfoEdit: {
-    screen: QRAProfileInfoEdit,
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
-      )
-    })
-  },
-  ExploreUsers: {
-    screen: exploreUsersContainer,
-
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: (
-        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
-      )
-    })
-  },
-  // FeedHeaderBar: {
-  //   screen: FeedHeaderBar,
-  //   navigationOptions: {
-  //     header: null
-  //   }
-  // },
-  initialRouteName: 'Home'
-});
 const editBioRouteConfigs = {
   qraBioEdit: {
     screen: QRAProfileBioEdit,
@@ -226,6 +69,7 @@ const MyPostsRouteConfigs = {
     screen: QRAProfile,
     params: { screen: 'MYPOSTS' },
     navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.myPosts'),
       headerLeft: (
         <HeaderBackButton onPress={() => navigation.navigate('Home')} />
       ),
@@ -245,6 +89,7 @@ const MyPostsRouteConfigs = {
     screen: QRAProfileInfoEdit,
     params: { screen: 'qraInfoEdit' },
     navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.editProfile'),
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       )
@@ -254,6 +99,7 @@ const MyPostsRouteConfigs = {
     screen: QRAProfileBioEdit,
     params: { screen: 'qraBioEdit' },
     navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.editBio'),
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       )
@@ -265,6 +111,7 @@ const ExploreUsersRouteConfigs = {
     screen: exploreUsersContainer,
 
     navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.exploreUsers'),
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       )
@@ -276,6 +123,7 @@ const FieldDaysRouteConfigs = {
     screen: FieldDaysFeed,
 
     navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.actCarouselTitle'),
       headerLeft: (
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       )
@@ -308,16 +156,3 @@ export const ExploreUsersStackNavigator = createStackNavigator(
   ExploreUsersRouteConfigs,
   StackNavigatorConfig
 );
-const styles = StyleSheet.create({
-  trigger: {
-    padding: 5,
-    margin: 5
-  },
-  text: {
-    fontSize: 30,
-    backgroundColor: 'gray'
-  },
-  slideInOption: {
-    padding: 5
-  }
-});

@@ -6,12 +6,12 @@ import {
   editInfoStackNavigator,
   FieldDaysStackNavigator,
   ExploreUsersStackNavigator,
-  MainNavigator,
   MyPostsStackNavigator
 } from './StackNavigator';
+import { TabNavigator } from './TabNavigator';
 const DrawerRouteConfigs = {
   Home: {
-    screen: MainNavigator,
+    screen: TabNavigator,
     navigationOptions: {
       title: I18n.t('HomeTitle')
     }

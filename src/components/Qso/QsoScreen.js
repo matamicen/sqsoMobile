@@ -221,42 +221,6 @@ class QsoScreen extends React.PureComponent {
     };
   }
 
-  static navigationOptions = {
-    tabBarLabel: ' ',
-    //  13
-
-    tabBarIcon: ({ tintColor }) => {
-      return (
-        // <View
-        //   style={{
-        //     width: 44,
-        //     height: 20,
-        //     marginTop: Platform.OS === "ios" ? 3 : 3, backgroundColor:'green'
-        //   }}
-        // >   marginTop: Platform.OS === "ios" ? 9 : 26
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            style={{
-              width: 31,
-              height: 31,
-              marginLeft: I18n.locale.substring(0, 2) === 'es' ? 0 : 0,
-              marginTop: Platform.OS === 'ios' ? 22 : 26
-            }}
-            // style={{  width: 31, height: 31, marginLeft: I18n.locale.substring(0, 2)==='es' ? 8:0}}
-            //   source={require("../../images/qsoicon3.png")}
-            source={require('../../images/MicrofonoGris.png')}
-            resizeMode="contain"
-          />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 0 }}>
-            {I18n.t('QsoScrTitle')}
-          </Text>
-          {/* <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 4 }}>{I18n.t("QsoScrTitle")}</Text> */}
-        </View>
-      );
-    }
-  };
-
   static getDerivedStateFromProps(props, state) {
     console.log(
       'El valor de confirmPhotoModal: ' + props.sqsomodalconfirmphoto
