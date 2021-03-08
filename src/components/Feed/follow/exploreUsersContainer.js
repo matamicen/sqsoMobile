@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+
 import { bindActionCreators } from 'redux';
 import { userNotValidated } from '../../../helper';
 import * as Actions from '../../../actions';
@@ -66,6 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(exploreUsersContainer)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(exploreUsersContainer);
