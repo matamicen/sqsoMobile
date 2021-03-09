@@ -1922,24 +1922,24 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
-    case DELETE_QSO:
-      newStore = Object.assign({}, state, {
-        ...state,
-        feed: {
-          ...state.feed,
-          qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
-          qra: state.feed.qra
-            ? {
-                ...state.feed.qra,
-                qsos: state.feed.qra.qsos.filter((qso) => {
-                  return qso.idqsos !== action.idqso;
-                })
-              }
-            : state.feed.qra
-        }
-      });
+    // case DELETE_QSO:
+    //   newStore = Object.assign({}, state, {
+    //     ...state,
+    //     feed: {
+    //       ...state.feed,
+    //       qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+    //       qra: state.feed.qra
+    //         ? {
+    //             ...state.feed.qra,
+    //             qsos: state.feed.qra.qsos.filter((qso) => {
+    //               return qso.idqsos !== action.idqso;
+    //             })
+    //           }
+    //         : state.feed.qra
+    //     }
+    //   });
 
-      return newStore;
+    //   return newStore;
     case REPOST_QSO:
       newStore = Object.assign({}, state, {
         ...state,
@@ -2607,6 +2607,21 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
     case DELETE_QSO: {
+      //   newStore = Object.assign({}, state, {
+      //     ...state,
+      //     feed: {
+      //       ...state.feed,
+      //       qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+      //       qra: state.feed.qra
+      //         ? {
+      //             ...state.feed.qra,
+      //             qsos: state.feed.qra.qsos.filter((qso) => {
+      //               return qso.idqsos !== action.idqso;
+      //             })
+      //           }
+      //         : state.feed.qra
+      //     }
+      //   });
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2615,16 +2630,16 @@ const qsoReducer = (state = initialState, action) => {
             state.feed.qsos &&
             state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
           fieldDays:
-            state.fieldDays.qsos &&
-            state.fieldDays.qsos.filter((qso) => qso.idqsos !== action.idqso),
-          qra: state.qra
+            state.feed.fieldDays &&
+            state.feed.fieldDays.filter((qso) => qso.idqsos !== action.idqso),
+          qra: state.feed.qra
             ? {
-                ...state.qra,
-                qsos: state.qra.qsos.filter((qso) => {
+                ...state.feed.qra,
+                qsos: state.feed.qra.qsos.filter((qso) => {
                   return qso.idqsos !== action.idqso;
                 })
               }
-            : state.qra
+            : state.feed.qra
         }
       });
 
