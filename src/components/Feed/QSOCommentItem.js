@@ -113,14 +113,14 @@ class Comment extends React.PureComponent {
             if (w[0] === '@' && w.match(/@([a-zA-Z0-9]+)/)) {
               return (
                 <TouchableOpacity key={i} onPress={() => this.onPress(w)}>
-                  <Text style={{ fontSize: 18 }}>
+                  <Text key={i} style={{ fontSize: 18 }}>
                     {w},{separator}
                   </Text>
                 </TouchableOpacity>
               );
             } else {
               return (
-                <Text>
+                <Text key={i}>
                   {w}
                   {separator}
                 </Text>
