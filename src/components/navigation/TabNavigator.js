@@ -57,20 +57,39 @@ export function isIphoneXorAbove() {
 //     return params;
 //   }
 // };
-export const PostStackNavigator = createStackNavigator({
-  QsoScreen: {
-    screen: QsoScreen,
-    navigationOptions: {
-      header: null
+export const PostStackNavigator = createStackNavigator(
+  {
+    QsoScreen: {
+      screen: QsoScreen,
+      navigationOptions: {
+        header: null
+      }
+    },
+    CameraScreen2: {
+      screen: CameraScreen,
+      navigationOptions: {
+        header: null
+      }
     }
   },
-  CameraScreen2: {
-    screen: CameraScreen,
-    navigationOptions: {
-      header: null
+  {
+    navigationOptions: ({ navigation }) => {
+      // get the name of the route
+      let tabBarVisible;
+      const { routeName } = navigation.state.routes[navigation.state.index];
+
+      if (routeName === 'QsoScreen') {
+        tabBarVisible = true;
+      } else {
+        tabBarVisible = false;
+      }
+      return {
+        tabBarVisible // this now varies based on screen
+        // tabBarLabel: 'Search' // this is the same for all screens
+      };
     }
   }
-});
+);
 export const NotificationStackNavigator = createStackNavigator({
   Notifications: {
     screen: Notifications,
@@ -106,8 +125,7 @@ export const HomeStackNavigator = createStackNavigator(
     QRAProfile: {
       screen: QRAProfile,
       navigationOptions: ({ navigation }) => ({
-        tabBarVisible: false,
-        title: I18n.t('ProfileQraViewProfile'),
+        title: I18n.t('navBar.viewProfile'),
         headerLeft: (
           <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
         ),
@@ -133,6 +151,7 @@ export const HomeStackNavigator = createStackNavigator(
     QRAProfileBioEdit: {
       screen: QRAProfileBioEdit,
       navigationOptions: ({ navigation }) => ({
+        title: I18n.t('navBar.editBio'),
         headerLeft: (
           <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
         ),
@@ -151,6 +170,7 @@ export const HomeStackNavigator = createStackNavigator(
     QRAProfileInfoEdit: {
       screen: QRAProfileInfoEdit,
       navigationOptions: ({ navigation }) => ({
+        title: I18n.t('navBar.editProfile'),
         headerLeft: (
           <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
         )
