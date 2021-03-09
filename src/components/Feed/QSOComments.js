@@ -78,6 +78,7 @@ class QSOComments extends React.PureComponent {
       let comment2 = {
         qra: this.props.currentQRA.toUpperCase(),
         comment: values.comment,
+        country: this.props.country,
         datetime: datetime
       };
       this.setState({ comment: comment2 });
