@@ -55,7 +55,7 @@ class Link extends React.PureComponent {
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert("Can't handle url: " + url);
+        Alert.alert('Can\'t handle url: ' + url);
       } else {
         Linking.openURL(url);
       }
@@ -109,18 +109,18 @@ class Comment extends React.PureComponent {
         } else {
           let commentSplit = word.split(/<MENTION>([^<.*>;]*)<\/MENTION>/gim);
 
-          return commentSplit.map((w, i) => {
+          return commentSplit.map((w, j) => {
             if (w[0] === '@' && w.match(/@([a-zA-Z0-9]+)/)) {
               return (
-                <TouchableOpacity key={i} onPress={() => this.onPress(w)}>
-                  <Text key={i} style={{ fontSize: 18 }}>
+                <TouchableOpacity key={j} onPress={() => this.onPress(w)}>
+                  <Text key={j} style={{ fontSize: 18 }}>
                     {w},{separator}
                   </Text>
                 </TouchableOpacity>
               );
             } else {
               return (
-                <Text key={i}>
+                <Text key={j}>
                   {w}
                   {separator}
                 </Text>
