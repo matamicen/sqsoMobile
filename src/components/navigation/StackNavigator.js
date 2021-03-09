@@ -20,18 +20,18 @@ export const AuthNavigator = createStackNavigator({
     screen: Login,
     navigationOptions: {
       header: null
-    },
-    SignUpScreen: {
-      screen: SignUpScreen,
-      navigationOptions: {
-        header: null
-      }
-    },
-    ForgotScreen: {
-      screen: ForgotScreen,
-      navigationOptions: {
-        header: null
-      }
+    }
+  },
+  SignUpScreen: {
+    screen: SignUpScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ForgotScreen: {
+    screen: ForgotScreen,
+    navigationOptions: {
+      header: null
     }
   },
   Home: {
