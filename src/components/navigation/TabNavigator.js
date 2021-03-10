@@ -41,19 +41,19 @@ export function isIphoneXorAbove() {
   );
 }
 
-// const getScreenRegisteredFunctions = (navState) => {
-//   // When we use stack navigators.
-//   // Also needed for react-navigation@2
-//   const { routes, index, params } = navState;
+const getScreenRegisteredFunctions = (navState) => {
+  // When we use stack navigators.
+  // Also needed for react-navigation@2
+  const { routes, index, params } = navState;
 
-//   if (navState.hasOwnProperty('index')) {
-//     return getScreenRegisteredFunctions(routes[index]);
-//   }
-//   // When we have the final screen params
-//   else {
-//     return params;
-//   }
-// };
+  if (navState.hasOwnProperty('index')) {
+    return getScreenRegisteredFunctions(routes[index]);
+  }
+  // When we have the final screen params
+  else {
+    return params;
+  }
+};
 export const PostStackNavigator = createStackNavigator(
   {
     QsoScreen: {
@@ -206,12 +206,12 @@ export const TabNavigator = createBottomTabNavigator(
     tabBarPosition: 'bottom',
     swipeEnabled: true, // fixes a bug in react navigation
     lazy: true, // fixes a bug in react navigation
+    // navigationOptions: {
+    //   tabBarOnPress: ({ navigation, defaultHandler }) => {
+    //     // Called when tab is press
+    //     console.log('click');
+    //   }
 
-    navigationOptions: ({ navigation }) => {
-      const { routeName } = navigation.state.routes[navigation.state.index];
-
-      if (routeName === 'X') return { headerTitle: 'Test' };
-    },
     tabBarOptions: {
       style: {
         backgroundColor: 'white',
@@ -359,8 +359,28 @@ export const TabNavigator = createBottomTabNavigator(
               </View>
             );
         }
-      }
+      },
+      tabBarOnPress: ({ defaultHandler }) => {
+        if (navigation && navigation.isFocused()) {
+          if (navigation.state.key === 'Home') {
+            // console.log(navigation.state.params);
+            // navigation.state.params.tapOnTabNavigator();
+          }
+          const screenFunctions = getScreenRegisteredFunctions(
+            navigation.state
+          );
 
+          if (
+            screenFunctions &&
+            typeof screenFunctions.tapOnTabNavigator === 'function'
+          ) {
+            screenFunctions.tapOnTabNavigator();
+          }
+        }
+
+        // Always call defaultHandler()
+        defaultHandler();
+      }
       // tabBarOnPress: ({ defaultHandler }) => {
       //   if (navigation) {
       //     if (navigation.state.key === 'Home') {

@@ -10,6 +10,7 @@ import {
   BackHandler,
   ActivityIndicator
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -92,9 +93,9 @@ class Home extends React.PureComponent {
         // this.props.actions.doFetchPublicFeed(this.props.currentQRA)
       }
     });
-    // this.props.navigation.setParams({
-    //   tapOnTabNavigator: this.tapOnTabNavigator
-    // });
+    this.props.navigation.setParams({
+      tapOnTabNavigator: this.tapOnTabNavigator
+    });
 
     ShareMenu.getSharedText((text) => {
       console.log('el text del share 09:' + JSON.stringify(text));
@@ -321,4 +322,6 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(Home)
+);
