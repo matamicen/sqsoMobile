@@ -211,20 +211,21 @@ class Home extends React.PureComponent {
       if (this.props.userinfo.pendingVerification)
         this.props.actions.getUserInfo(session.idToken.jwtToken);
 
-      // refresh feed ? it depends the seconds in background
-      console.log('timeGoesBackGround: ' + this.timeGoesBackGround);
+      // // refresh feed ? it depends the seconds in background
+      // console.log('timeGoesBackGround: ' + this.timeGoesBackGround);
 
-      console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
-      dif = moment().diff(this.timeGoesBackGround, 'minutes');
-      if (dif > 59) {
-        console.log('more than an hour it refreshs');
-        this.props.actions.doClearFeed();
-        if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-        else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      // console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
+      // dif = moment().diff(this.timeGoesBackGround, 'minutes');
+      // if (dif > 59) {
+      //   console.log('more than an hour it refreshs');
+      //   this.props.actions.doClearFeed();
+      //   if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      //   else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
-        this.props.actions.doFetchFieldDaysFeed();
-        this.props.actions.doLatestUsersFetch();
-      } else console.log('less than an hour');
+      //   this.props.actions.doFetchFieldDaysFeed();
+      //   this.props.actions.doLatestUsersFetch();
+      // } else console.log('less than an hour');
+      
     }
   };
 

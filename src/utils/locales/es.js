@@ -254,7 +254,7 @@ export default {
   QsoTypeSWLdesc: 'Publica una escucha de un QSO de otros colegas.',
   QsoTypeANYdescOther:
     'Publica algo genérico, una foto de tu estación, proyectos, antenas, amigos, etc.',
-  QsoTypeANYdescFieldDay: 'Promocioná una actividad, concurso o charla.',
+  QsoTypeANYdescFieldDay: 'Promocioná una activación, concurso o charla.',
   QsoTypeANYdescQAP: 'Publica que estas QAP.',
   QsoTypePOST: 'Genérico',
   QsoTypeQAP: 'QAP',

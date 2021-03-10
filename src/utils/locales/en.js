@@ -242,7 +242,7 @@ export default {
   QsoTypeSWLdesc: 'Post other hams QSO that you are listening.',
   QsoTypeANYdescOther:
     'Post something generic, a photo of your shack, antenna, friends, etc.',
-  QsoTypeANYdescFieldDay: 'Promote an activity, contest, zoom talk.',
+  QsoTypeANYdescFieldDay: 'Promote an activation, contest, zoom talk.',
   QsoTypeANYdescQAP: 'Post that you are QAP',
   QsoTypePOST: 'Generic',
   QsoTypeQAP: 'QAP',
