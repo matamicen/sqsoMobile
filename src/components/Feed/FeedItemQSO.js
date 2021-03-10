@@ -94,16 +94,16 @@ class FeedItemQSO extends React.PureComponent {
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start'
-    // flexGrow: 1
-    // marginTop: Constants.statusBarHeight
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'flex-start'
+//     // flexGrow: 1
+//     // marginTop: Constants.statusBarHeight
+//   }
+// });
 const selectorFeedType = (state, ownProps) => {
   if (ownProps.feedType === 'MAIN')
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);

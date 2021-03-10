@@ -79,24 +79,23 @@ import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
 import RecordAudio2 from './RecordAudio2';
 import Iap from './Iap';
-import ShareQso from './ShareQso';
+// import ShareQso from './ShareQso';
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
 // import ImagePicker2 from 'react-native-image-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Upload from 'react-native-background-upload';
-import ShareMenu from 'react-native-share-menu';
+// import ShareMenu from 'react-native-share-menu';
 
 import Muestro from './Muestro';
-import { NavigationActions, addNavigationHelpers } from 'react-navigation';
+
 //import {  Permissions } from 'expo';
 import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
   updateOnProgress,
-  check_firstTime_OnProgress,
   getDate,
   missingFieldsToPublish,
   todaMediaEnviadaAS3,
@@ -241,8 +240,6 @@ class QsoScreen extends React.PureComponent {
       pickerDisplayed: props.sqsomodalrecording,
       videoPercentage: props.videopercentage
     };
-
-    return null;
   }
 
   async componentDidMount() {
@@ -1722,26 +1719,26 @@ class QsoScreen extends React.PureComponent {
     } else this.setState({ nointernet: true });
   };
 
-  navigateRoot = () => {
-    const navigateToScreen2 = NavigationActions.navigate({
-      routeName: 'Root'
-    });
+  // navigateRoot = () => {
+  //   // const navigateToScreen2 = NavigationActions.navigate({
+  //   //   routeName: 'Root'
+  //   // });
 
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Root', params: {} })]
-    });
+  //   const resetAction = NavigationActions.reset({
+  //     index: 0,
+  //     actions: [NavigationActions.navigate({ routeName: 'Root', params: {} })]
+  //   });
 
-    // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
-    this.props.navigation.dispatch(resetAction);
-  };
-  navigateReset = () => {
-    // const navigation = addNavigationHelpers({
-    //   dispatch: this.navigationStore.dispatch,
-    //   state: this.navigationStore.state,
-    // });
-    this.props.navigation.dispatch(NavigationActions.init());
-  };
+  //   // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
+  //   this.props.navigation.dispatch(resetAction);
+  // };
+  // navigateReset = () => {
+  //   // const navigation = addNavigationHelpers({
+  //   //   dispatch: this.navigationStore.dispatch,
+  //   //   state: this.navigationStore.state,
+  //   // });
+  //   this.props.navigation.dispatch(NavigationActions.init());
+  // };
 
   newQso = async (qsotype) => {
     console.log('userInfo: ' + this.props.userinfo.pendingVerification);

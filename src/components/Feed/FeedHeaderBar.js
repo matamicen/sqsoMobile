@@ -1,7 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Avatar, Icon, Button } from 'react-native-elements';
-import { DrawerActions, withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
+import { DrawerActions } from 'react-navigation-drawer';
 import { connect } from 'react-redux';
 import analytics from '@react-native-firebase/analytics';
 import { bindActionCreators } from 'redux';
@@ -74,8 +76,9 @@ class FeedHeaderBar extends React.Component {
             />
           </View>
         </View>
-        <View style={{ paddingBottom: 10,  zIndex: 1 }}
-         pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
+        <View
+          style={{ paddingBottom: 10, zIndex: 1 }}
+          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
           {this.props.publicFeed && (
             <Button
               fluid
@@ -116,34 +119,6 @@ class FeedHeaderBar extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F5FCFF',
-    flex: 1,
-    zIndex: 999
-    // padding: 16,
-    // marginTop: 40
-  },
-  autocompleteContainer: {
-    backgroundColor: '#ffffff',
-    borderWidth: 0,
-    zIndex: 999
-  },
-  descriptionContainer: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  itemText: {
-    fontSize: 15,
-    paddingTop: 5,
-    paddingBottom: 5,
-    margin: 2
-  },
-  infoText: {
-    textAlign: 'center',
-    fontSize: 16
-  }
-});
 const mapStateToProps = (state) => ({
   FetchingQSOS: state.sqso.feed.FetchingQSOS,
   publicFeed: state.sqso.feed.publicFeed,

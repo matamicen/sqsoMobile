@@ -1,20 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
-    Image,
-
-
-
-
-
-
-
-
-    Keyboard, KeyboardAvoidingView, StyleSheet,
-
-
-
-
-    TouchableWithoutFeedback, View
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
 import { connect } from 'react-redux';
 import LoginForm from './LoginForm';
@@ -74,8 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    flex: 0.3,
-    justifyContent: 'center'
+    flex: 0.3
   },
   title: {
     fontSize: 18,

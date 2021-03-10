@@ -1,12 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Dimensions, Platform, View, Text, Image } from 'react-native';
 import CameraScreen from '../Qso/Camera';
-import {
-  createBottomTabNavigator,
-  createStackNavigator,
-  HeaderBackButton
-} from 'react-navigation';
-import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+// import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
 import I18n from '../../utils/i18n';
 import ProfileMenu from '../Feed/Profile/ProfileMenu';
 // import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';

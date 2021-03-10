@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { createStackNavigator, HeaderBackButton } from 'react-navigation';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 import FieldDaysFeed from '../Feed/FieldDaysFeed';
 import QRAProfile from '../Feed/Profile';
 import QRAProfileBioEdit from '../Feed/Profile/QRAProfileBioEdit';
@@ -16,8 +17,15 @@ import { Icon } from 'react-native-elements';
 
 import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
 export const AuthNavigator = createStackNavigator({
+ 
   Login: {
     screen: Login,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Home: {
+    screen: TabNavigator,
     navigationOptions: {
       header: null
     }
@@ -30,12 +38,6 @@ export const AuthNavigator = createStackNavigator({
   },
   ForgotScreen: {
     screen: ForgotScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-  Home: {
-    screen: TabNavigator,
     navigationOptions: {
       header: null
     }

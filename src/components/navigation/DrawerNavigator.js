@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import I18n from '../../utils/i18n';
 import SideMenu from './SideMenu';
 import {

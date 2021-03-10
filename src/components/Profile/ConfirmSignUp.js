@@ -1,15 +1,8 @@
-import React, { Component } from 'react';
-import {
-  Text,
-  TextInput,
-  Image,
-  View,
-  Modal,
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import { Text, View, Modal, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import I18n from '../../utils/i18n';
 
 class ConfirmSignUp extends React.PureComponent {
@@ -24,7 +17,7 @@ class ConfirmSignUp extends React.PureComponent {
   componentDidMount() {}
 
   confirm = () => {
-    auxCode = this.state.confirmationcode.trim();
+    var auxCode = this.state.confirmationcode.trim();
     console.log('sin trim Length: ' + this.state.confirmationcode.length);
     console.log('sin trim: ' + this.state.confirmationcode);
     //auxCode.trim()
@@ -170,43 +163,12 @@ class ConfirmSignUp extends React.PureComponent {
   }
 }
 
-const styles = StyleSheet.create({
-  faceImageStyle: {
-    width: 65,
-    height: 65,
-    borderRadius: 30
-  },
-  inputConfirmation: {
-    height: 40,
-    width: 250,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    marginBottom: 5,
-    color: 'white',
-    // fontWeight: 'bold',
-    fontSize: 16,
-    borderRadius: 22,
-    paddingHorizontal: 10
-  },
-  name: {
-    fontSize: 12,
-    marginLeft: 5,
-    padding: 2,
-    fontWeight: 'bold',
-    color: 'orange'
-  },
-  name2: {
-    fontSize: 12,
-    //   marginLeft: 3,
-    // padding: 2,
-    fontWeight: 'bold',
-    color: 'orange'
-  }
-});
-
 const mapStateToProps = (state) => {
   return {};
 };
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmSignUp);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(ConfirmSignUp)
+);

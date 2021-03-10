@@ -1,39 +1,56 @@
-import React, { Component } from 'react';
-import { Text, Image, View, Button, StyleSheet, Platform, TouchableOpacity, Dimensions, TextInput, FlatList } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
+import {
+  Text,
+  Image,
+  View,
+  Platform,
+  TouchableOpacity,
+  Alert,
+  Permissions
+} from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+
 // import Permissions from 'react-native-permissions'
-import {request, PERMISSIONS, RESULTS, check} from "react-native-permissions";
-import {  setPressHome } from '../../actions';
-import { hasAPIConnection} from '../../helper';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { setPressHome } from '../../actions';
+import { hasAPIConnection } from '../../helper';
 import VariosModales from '../Qso/VariosModales';
 // import User from './User';
 import I18n from '../../utils/i18n';
 
-
-
-
-
 class Util extends React.PureComponent {
   static navigationOptions = {
-      tabBarLabel: ' ',  
+    tabBarLabel: ' ',
 
-      tabBarIcon: ({ tintColor }) => {
-        // return (<View style={{width: 55, height: 20,marginTop: (Platform.OS==='ios') ? 5 : 5,marginLeft:15, backgroundColor:'green'}}>
-    return (<View style={{ flex: 1,width: 60, justifyContent: 'center', alignItems: 'center' }}>
-        <Image
+    tabBarIcon: ({ tintColor }) => {
+      // return (<View style={{width: 55, height: 20,marginTop: (Platform.OS==='ios') ? 5 : 5,marginLeft:15, backgroundColor:'green'}}>
+      return (
+        <View
+          style={{
+            flex: 1,
+            width: 60,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+          <Image
             // style={{ width: 28, height: 28, marginLeft: 13 }}
-            style={{ width: 28, height: 28, marginLeft: 10, marginTop: (Platform.OS==='ios') ? 23 : 26 }}
-            source={require('../../images/qrcodescan.png')}/>
-             <Text style={{fontSize:8, marginTop: 3, marginLeft: 5}}>{I18n.t("UtilTitle")}</Text>
-            {/* <Text style={{fontSize:9, marginTop: 3.5, marginLeft: 9}}>{I18n.t("SearchTitle")}</Text> */}
-            </View>
-            
-            );}
-
-
-
-  }
+            style={{
+              width: 28,
+              height: 28,
+              marginLeft: 10,
+              marginTop: Platform.OS === 'ios' ? 23 : 26
+            }}
+            source={require('../../images/qrcodescan.png')}
+          />
+          <Text style={{ fontSize: 8, marginTop: 3, marginLeft: 5 }}>
+            {I18n.t('UtilTitle')}
+          </Text>
+          {/* <Text style={{fontSize:9, marginTop: 3.5, marginLeft: 9}}>{I18n.t("SearchTitle")}</Text> */}
+        </View>
+      );
+    }
+  };
 
   constructor(props) {
     super(props);
@@ -42,344 +59,276 @@ class Util extends React.PureComponent {
     //   this.height = Dimensions.get('window').height; //full height
     this.micPermission = false;
     this.camPermission = false;
-      
-      this.state = {
-   
-       qra: '',
-      
-       nointernet: false,
-      
-      };
-      
-   
+
+    this.state = {
+      qra: '',
+
+      nointernet: false
+    };
   }
 
-
-
-
   async componentDidMount() {
-    console.log("component Did Mount Util");
+    console.log('component Did Mount Util');
 
-        // esto detecta cuando se apreta el TAB  de UTIL
-        this.props.navigation.setParams({
-          tapOnTabNavigator: this.tapOnTabNavigator
-        })
-
-
-
+    // esto detecta cuando se apreta el TAB  de UTIL
+    this.props.navigation.setParams({
+      tapOnTabNavigator: this.tapOnTabNavigator
+    });
   }
 
   tapOnTabNavigator = async () => {
     console.log('PRESS UTIL!');
     this.props.setPressHome(0);
-  }
+  };
 
   onChange = async (text) => {
-   
-    this.setState({qra: text});
-   if (await hasAPIConnection())
-   { 
-     // this.countLenght = this.countLenght + 1;
-       long = text.length.toString();
-       long2 = text.length;
-       if (long2===0)  this.apretoSearch = false;
-      console.log('escribe:'+long);
-      if (long2===4 && !this.entro) {
+    this.setState({ qra: text });
+    if (await hasAPIConnection()) {
+      // this.countLenght = this.countLenght + 1;
+      long = text.length.toString();
+      long2 = text.length;
+      if (long2 === 0) this.apretoSearch = false;
+      console.log('escribe:' + long);
+      if (long2 === 4 && !this.entro) {
         // this.setState({actindicatorfecthQras: true})
-        console.log("es igual a 4, llama api search");
+        console.log('es igual a 4, llama api search');
         this.entro = true;
-        this.props.getQrasFromSearch(this.props.qra,text.toUpperCase(),this.props.jwtToken);
-        console.log("NO DA BOLA AWAIT");
-        this.setState({searching: true});
-        setTimeout(() => {      
-          this.setState({searching: false});
-         }
-        , 2000);
+        this.props.getQrasFromSearch(
+          this.props.qra,
+          text.toUpperCase(),
+          this.props.jwtToken
+        );
+        console.log('NO DA BOLA AWAIT');
+        this.setState({ searching: true });
+        setTimeout(() => {
+          this.setState({ searching: false });
+        }, 2000);
 
         // this.setState({actindicatorfecthQras: false})
-      }else this.props.searchQrasLocal(text.toUpperCase(),long2);
+      } else this.props.searchQrasLocal(text.toUpperCase(), long2);
 
-      if (long2>4) {
-        this.setState({searching: true});
-        setTimeout(() => {      
-          this.setState({searching: false});
-         }
-        , 500);
+      if (long2 > 4) {
+        this.setState({ searching: true });
+        setTimeout(() => {
+          this.setState({ searching: false });
+        }, 500);
 
-        this.props.searchQrasLocal(text.toUpperCase(),long2);
+        this.props.searchQrasLocal(text.toUpperCase(), long2);
       }
-       
 
-      if (long2<4) { 
+      if (long2 < 4) {
         this.entro = false;
         // this.props.searchQrasLocal('',long2);
-
       }
-    }else 
-    {
-      this.setState({addfollowersModal: false});
-      this.setState({nointernet: true}); 
-     // this.props.openVariosModales();
-      
+    } else {
+      this.setState({ addfollowersModal: false });
+      this.setState({ nointernet: true });
+      // this.props.openVariosModales();
     }
-         
-    
-    }
+  };
 
-    closeVariosModales = () => {
-      this.setState({nointernet: false}); 
-     
-    }
+  closeVariosModales = () => {
+    this.setState({ nointernet: false });
+  };
 
-    checkInternetScanQR = async (param) => {
-        console.log('entro a PEDIR PERMISOS');
-        if (await hasAPIConnection())
-        {
+  checkInternetScanQR = async (param) => {
+    console.log('entro a PEDIR PERMISOS');
+    if (await hasAPIConnection()) {
+      if (Platform.OS === 'android')
+        var REC_PERMISSION = PERMISSIONS.ANDROID.RECORD_AUDIO;
+      else REC_PERMISSION = PERMISSIONS.IOS.MICROPHONE;
 
-          if (Platform.OS==='android')
-          REC_PERMISSION = PERMISSIONS.ANDROID.RECORD_AUDIO;
-        else
-          REC_PERMISSION = PERMISSIONS.IOS.MICROPHONE;
+      // Permissions.request('microphone').then(response => {
+      request(REC_PERMISSION).then((response) => {
+        // Returns once the user has chosen to 'allow' or to 'not allow' access
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        console.log('Microphone Permiso: ' + response);
+        // if (response==='authorized')
+        if (response === RESULTS.GRANTED) {
+          console.log('entro a PEDIR PERMISOS esta AUTORIZADO!!!');
+          this.micPermission = true;
+          // this.props.navigation.navigate("QslScanQR");
+        }
 
-          // Permissions.request('microphone').then(response => {
-            request(REC_PERMISSION).then(response => {
-            // Returns once the user has chosen to 'allow' or to 'not allow' access
-            // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-            console.log('Microphone Permiso: '+response);
-          // if (response==='authorized')
-          if (response === RESULTS.GRANTED)
+        // if (response==='denied' &&  Platform.OS !== 'android')
+        if (response === RESULTS.DENIED && Platform.OS !== 'android') {
+          Alert.alert(I18n.t('DENIED_ACCESS_2'), I18n.t('TO_AUTHORIZE_2_IOS'), [
             {
-              console.log('entro a PEDIR PERMISOS esta AUTORIZADO!!!');
-              this.micPermission = true;
-              // this.props.navigation.navigate("QslScanQR");
-             }
-      
-            // if (response==='denied' &&  Platform.OS !== 'android')
-            if (response === RESULTS.DENIED && Platform.OS !== "android")
-            {
-             Alert.alert(
-              I18n.t("DENIED_ACCESS_2"),
-              I18n.t("TO_AUTHORIZE_2_IOS"),
-              [
-                {
-                  text: 'No, thanks',
-                  onPress: () => console.log('Permission denied'),
-                  style: 'cancel',
-                },
-                { text: 'Open Settings',
-                   onPress: Permissions.openSettings },
-                
-              ],
-             )
-            }
-      
-            // if (response==='restricted' &&  Platform.OS === 'android')
-            if (response === RESULTS.BLOCKED && Platform.OS === "android")
-            {
-             Alert.alert(
-              I18n.t("DENIED_ACCESS_2"),
-              I18n.t("TO_AUTHORIZE_2_ANDROID"),
-              [
-                {
-                  text: 'Ok',
-                  onPress: () => console.log('ok'),
-                  style: 'cancel',
-                },
-                
-              ],
-             )
-            }
-            
-         
-      
-          // if (response==='restricted' &&  Platform.OS !== 'android')
-          if (response === RESULTS.BLOCKED && Platform.OS !== "android")
-          {
-           Alert.alert(
-            I18n.t("ACCESS_TO_MICROPHONE"),
-            I18n.t("PARENTAL_CONTROLS"),
+              text: 'No, thanks',
+              onPress: () => console.log('Permission denied'),
+              style: 'cancel'
+            },
+            { text: 'Open Settings', onPress: Permissions.openSettings }
+          ]);
+        }
+
+        // if (response==='restricted' &&  Platform.OS === 'android')
+        if (response === RESULTS.BLOCKED && Platform.OS === 'android') {
+          Alert.alert(
+            I18n.t('DENIED_ACCESS_2'),
+            I18n.t('TO_AUTHORIZE_2_ANDROID'),
             [
               {
                 text: 'Ok',
                 onPress: () => console.log('ok'),
-                style: 'cancel',
-              },
-              
-            ],
-           )
-          }
-      
-          if (Platform.OS==='android')
-          CAMERA_PERMISSION = PERMISSIONS.ANDROID.CAMERA;
-        else
-          CAMERA_PERMISSION = PERMISSIONS.IOS.CAMERA;
-      
-          // Permissions.request('camera').then(response => {
-            request(CAMERA_PERMISSION).then(response => {
+                style: 'cancel'
+              }
+            ]
+          );
+        }
 
-            // Returns once the user has chosen to 'allow' or to 'not allow' access
-            // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-            console.log('Camera Permiso: '+response);
+        // if (response==='restricted' &&  Platform.OS !== 'android')
+        if (response === RESULTS.BLOCKED && Platform.OS !== 'android') {
+          Alert.alert(
+            I18n.t('ACCESS_TO_MICROPHONE'),
+            I18n.t('PARENTAL_CONTROLS'),
+            [
+              {
+                text: 'Ok',
+                onPress: () => console.log('ok'),
+                style: 'cancel'
+              }
+            ]
+          );
+        }
+
+        if (Platform.OS === 'android')
+          CAMERA_PERMISSION = PERMISSIONS.ANDROID.CAMERA;
+        else CAMERA_PERMISSION = PERMISSIONS.IOS.CAMERA;
+
+        // Permissions.request('camera').then(response => {
+        request(CAMERA_PERMISSION).then((response) => {
+          // Returns once the user has chosen to 'allow' or to 'not allow' access
+          // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+          console.log('Camera Permiso: ' + response);
           // if (response==='authorized')
-          if (response === RESULTS.GRANTED) 
-            {
+          if (response === RESULTS.GRANTED) {
             // this.props.closeModalConfirmPhoto('image');
             // this.props.navigation.navigate("CameraScreen2");
-            this.camPermission = true;  
-            
-             }
-      
-            // if (response==='denied' &&  Platform.OS !== 'android')
-            if (response === RESULTS.DENIED && Platform.OS !== "android") 
-            {
-             Alert.alert(
-              I18n.t("DENIED_ACCESS_1"),
-              I18n.t("TO_AUTHORIZE_2_IOS"),
+            this.camPermission = true;
+          }
+
+          // if (response==='denied' &&  Platform.OS !== 'android')
+          if (response === RESULTS.DENIED && Platform.OS !== 'android') {
+            Alert.alert(
+              I18n.t('DENIED_ACCESS_1'),
+              I18n.t('TO_AUTHORIZE_2_IOS'),
               [
                 {
                   text: 'No, thanks',
                   onPress: () => console.log('Permission denied'),
-                  style: 'cancel',
+                  style: 'cancel'
                 },
-                { text: 'Open Settings',
-                   onPress: Permissions.openSettings },
-                
-              ],
-             )
-            }
-      
-            // if (response==='restricted' &&  Platform.OS === 'android')
-            if (response === RESULTS.BLOCKED && Platform.OS === "android") 
-            {
-             Alert.alert(
-              I18n.t("DENIED_ACCESS_1"),
-              I18n.t("TO_AUTHORIZE_2_ANDROID"),
+                { text: 'Open Settings', onPress: Permissions.openSettings }
+              ]
+            );
+          }
+
+          // if (response==='restricted' &&  Platform.OS === 'android')
+          if (response === RESULTS.BLOCKED && Platform.OS === 'android') {
+            Alert.alert(
+              I18n.t('DENIED_ACCESS_1'),
+              I18n.t('TO_AUTHORIZE_2_ANDROID'),
               [
                 {
                   text: 'Ok',
                   onPress: () => console.log('ok'),
-                  style: 'cancel',
-                },
-                
-              ],
-             )
-            }
-            
-         
-      
+                  style: 'cancel'
+                }
+              ]
+            );
+          }
+
           // if (response==='restricted' &&  Platform.OS !== 'android')
-          if (response === RESULTS.BLOCKED && Platform.OS !== "android") 
-          {
-           Alert.alert(
-            I18n.t("ACCESS_TO_CAMERA"),
-            I18n.t("PARENTAL_CONTROLS"),
-            [
-              {
-                text: 'Ok',
-                onPress: () => console.log('ok'),
-                style: 'cancel',
-              },
-              
-            ],
-           )
+          if (response === RESULTS.BLOCKED && Platform.OS !== 'android') {
+            Alert.alert(
+              I18n.t('ACCESS_TO_CAMERA'),
+              I18n.t('PARENTAL_CONTROLS'),
+              [
+                {
+                  text: 'Ok',
+                  onPress: () => console.log('ok'),
+                  style: 'cancel'
+                }
+              ]
+            );
           }
-      
-      
-        if (this.micPermission && this.camPermission && param==='qslscanScreen')
+
+          if (
+            this.micPermission &&
+            this.camPermission &&
+            param === 'qslscanScreen'
+          )
             // this.props.navigation.navigate("QslScanQR");
-      
-           this.props.navigation.navigate('QslScanQR', {
-            scantype: 'Util'
-            
-          });
-          else{
-            this.props.updateLinkQso('','clear');
-            this.props.navigation.navigate("QsoLink");
+
+            this.props.navigation.navigate('QslScanQR', {
+              scantype: 'Util'
+            });
+          else {
+            this.props.updateLinkQso('', 'clear');
+            this.props.navigation.navigate('QsoLink');
           }
-          
-       
         });
-      
-          
-      
-      
-       
-        });
-      
+      });
+    } else this.setState({ nointernet: true });
+  };
 
-      
-        }
-          else
-            this.setState({nointernet: true});
-      
-       }
+  render() {
+    console.log('RENDER util Screen');
 
- 
-   
-render() { console.log("RENDER util Screen" );
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#fff',
+          alignContent: 'center',
+          alignItems: 'center'
+        }}>
+        <View style={{ flex: 0.5 }} />
 
-return   <View style={{flex: 1,  backgroundColor: '#fff', alignContent: "center", alignItems: "center"}}>
-      
-      <View  style={{flex: 0.5}}>
-    
-  </View>  
-      
-     <View  style={{flex: 0.5}}>
-      <TouchableOpacity  style={{alignItems:"center", alignContent:"center", height:50}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
-        
-        <Image source={require('../../images/qrcodescan.png')}  style={{width: 36, height: 36 } } 
-      resizeMode="contain" />  
-      <Text style={{ fontSize: 16, marginTop: 5, fontWeight: 'bold',color: '#243665'}}>{I18n.t("UTILSCANQSLCARD")}</Text>
-      </TouchableOpacity> 
-      
-  </View>
+        <View style={{ flex: 0.5 }}>
+          <TouchableOpacity
+            style={{ alignItems: 'center', alignContent: 'center', height: 50 }}
+            onPress={() => this.checkInternetScanQR('qslscanScreen')}>
+            <Image
+              source={require('../../images/qrcodescan.png')}
+              style={{ width: 36, height: 36 }}
+              resizeMode="contain"
+            />
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: 5,
+                fontWeight: 'bold',
+                color: '#243665'
+              }}>
+              {I18n.t('UTILSCANQSLCARD')}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-
-   
-       {(this.state.nointernet) && 
-       <VariosModales show={this.state.nointernet} modalType="nointernet" closeInternetModal={this.closeVariosModales.bind()} />
-       }
-      
-       
-
-           </View>
-
-} 
-
+        {this.state.nointernet && (
+          <VariosModales
+            show={this.state.nointernet}
+            modalType="nointernet"
+            closeInternetModal={this.closeVariosModales.bind()}
+          />
+        )}
+      </View>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
- 
-  searchSection: {
-    flex: 0.6,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 22,
-    backgroundColor: Platform.OS==='android' ? '#f5f5f5':'#939393',
-    fontSize: 12
-   // backgroundColor: 'grey',
-},
+const mapStateToProps = (state) => {
+  return {
+    jwtToken: state.sqso.jwtToken,
 
-
-});
-
-
-
- const mapStateToProps = state => {
-    return {  
-  
-      jwtToken: state.sqso.jwtToken,
-    
-      qra: state.sqso.qra
-    };
+    qra: state.sqso.qra
+  };
 };
-
 
 const mapDispatchToProps = {
   setPressHome
-
-
-   }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Util);
