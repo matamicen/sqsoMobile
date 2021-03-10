@@ -86,7 +86,7 @@ export default {
     'You have to watch a video reward to create a NewQso.',
   variosModprevideoRewHaveToWatchScanQR:
     'You have to watch a video reward to Scan the QR.',
-  variosModprevideoRewDontWatch: 'Don\'t watch',
+  variosModprevideoRewDontWatch: "Don't watch",
   variosModprevideoRewWatchVideo: 'Watch the video',
   variosModprevideoRewAreYouSureFree: 'Free User',
   variosModprevideoRewAreYouSureLink: 'Are you sure to not link theses Qsos ?',
@@ -95,10 +95,11 @@ export default {
   variosModprevideoRewAreYouSureNewQSO: 'Are you sure to not start a New Qso ?',
   variosModprevideoRewAreYouSureScanQR:
     'Are you sure to not scan the Qr code ?',
+  // eslint-disable-next-line prettier/prettier
   variosModprevideoRewAreYouSureDontLink: 'Don\'t link these Qsos',
   variosModprevideoRewAreYouSureDiscardMedia: 'Discard the Media',
-  variosModprevideoRewAreYouSureDontStart: 'Don\'t start',
-  variosModprevideoRewAreYouSureDontScan: 'Don\'t scan',
+  variosModprevideoRewAreYouSureDontStart: "Don't start",
+  variosModprevideoRewAreYouSureDontScan: "Don't scan",
   variosModprevideoRewLinkQsos: 'Links these Qsos.',
   variosModprevideoRewSendMedia: 'Send the media',
   variosModprevideoRewStartPost: 'Start a Post',
@@ -247,7 +248,7 @@ export default {
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Activity',
   QsoTypeLISTEN: 'Listen',
-  QsoTypecannotchange1: 'You have media created, so you can\'t change to',
+  QsoTypecannotchange1: "You have media created, so you can't change to",
   QsoTypecannotchange2: 'you should start a new Post and select',
   QsoTypecannotchange3:
     'But, you always could change from QSO to Listen or Listen to QSO',
@@ -467,7 +468,7 @@ export default {
   QSLSCANQR_COMMENTS: 'Comments',
   QSLSCANQR_BACK: 'Back',
   UTILSCANQSLCARD: 'Scan QSL Card',
-  BACKBUTTONANDROIDTITLE: 'Hold on',
+  BACKBUTTONANDROIDTITLE: 'Exit',
   BACKBUTTONANDROID: 'Are you sure to exit from SuperQSO?',
   BACKBUTTONANDROIDCANCEL: 'Cancel',
   BACKBUTTONANDROIDEXIT: 'Exit',
@@ -525,7 +526,7 @@ export default {
   auth: {
     incorrectUserPass: 'Incorrect username or password.',
     userDisabled:
-      'The user is not enabled yet since we didn\'t receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account',
+      "The user is not enabled yet since we didn't receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account",
     userNotConfirmed:
       'The user did not enter the Confirmation Code sent to the email',
     enterMailPassword: 'Please enter Email and Password',
@@ -609,7 +610,7 @@ export default {
     whyRemovePhoto: 'Why do you think we should remove this photo?',
     whyRemoveAudio: 'Why do you think we should remove this audio?',
     whyRemoveContent: 'Why do you think we should remove this content?',
-    helpUnderstandWhatsHappening: 'Help Us Understand What\'s Happening'
+    helpUnderstandWhatsHappening: "Help Us Understand What's Happening"
   },
   global: {
     you: 'You',
@@ -624,7 +625,7 @@ export default {
     imageContainNudity:
       'The image you try to upload contain Nudity or sexual content.',
     userMaxReached:
-      'You\'ve reached the maximum allowed for free users. Upgrade to Premium in our APP'
+      "You've reached the maximum allowed for free users. Upgrade to Premium in our APP"
   },
   notification: {
     congratulations: 'Congratulations!!!',

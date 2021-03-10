@@ -1,5 +1,4 @@
-//import { NavigationActions, addNavigationHelpers } from 'react-navigation';
-//import { NavigationActions } from 'react-navigation';
+/* eslint-disable react-native/no-inline-styles */
 import AsyncStorage from '@react-native-community/async-storage';
 // I18n.locale = 'en-US';
 // nuevo push
@@ -28,7 +27,7 @@ import {
   View
 } from 'react-native';
 import RNIap from 'react-native-iap';
-import { NavigationActions, StackActions } from 'react-navigation';
+// import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import {
   confirmReceiptiOS,
@@ -128,8 +127,8 @@ class LoginForm extends React.PureComponent {
       appNeedUpgrade: false,
       forceChangePassword: false,
       upgradeText: '',
-      loginerrorMessage: '',
-      exit: false
+      loginerrorMessage: ''
+      // exit: false
     };
   }
 
@@ -160,13 +159,13 @@ class LoginForm extends React.PureComponent {
     return null;
   }
 
-  onScreenFocus = async () => {
-    console.log('LOGINFORM en FOCUS!');
+  // onScreenFocus = async () => {
+  //   console.log('LOGINFORM en FOCUS!');
 
-    // para salga de la APP cuando en ANDROID vuelven con flecha y que no se quede en la pantala de LOGIN
-    // porque confunde esa pantalla esperando LOGIN
-    if (this.state.exit) BackHandler.exitApp();
-  };
+  //   // para salga de la APP cuando en ANDROID vuelven con flecha y que no se quede en la pantala de LOGIN
+  //   // porque confunde esa pantalla esperando LOGIN
+  //   if (this.state.exit) BackHandler.exitApp();
+  // };
 
   async componentDidMount() {
     // PushNotification.onNotification((notification) => {
@@ -174,8 +173,8 @@ class LoginForm extends React.PureComponent {
     console.log('esta hermes?');
     console.log(!!global.HermesInternal);
 
-    this.props.navigation.addListener('didFocus', this.onScreenFocus);
-
+    // this.props.navigation.addListener('didFocus', this.onScreenFocus);
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
     // });
 
     PushNotification.configure({
@@ -741,17 +740,42 @@ class LoginForm extends React.PureComponent {
     //   // console.log('lo siento no hay Internet');
     //   this.setState({ nointernet: true });
     // }
-
-    this.setState({ exit: true });
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
+  }
 
   closeVariosModales = () => {
     this.setState({ nointernet: false });
     this.componentDidMount();
   };
-
+  backAction = () => {
+    if (!this.props.navigation.isFocused()) {
+      // The screen is not focused, so don't do anything
+      return false;
+    } else {
+      Alert.alert(
+        I18n.t('BACKBUTTONANDROIDTITLE'),
+        I18n.t('BACKBUTTONANDROID'),
+        [
+          {
+            text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+          {
+            text: I18n.t('BACKBUTTONANDROIDEXIT'),
+            onPress: () => BackHandler.exitApp()
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+      return true;
+    }
+  };
   closeWelcom = () => {
     this.props.welcomeUserFirstTime(false);
   };
@@ -1069,18 +1093,18 @@ class LoginForm extends React.PureComponent {
         this.setState({ indicator: 0 });
         //this.props.navigation.navigate("AppNavigator2");
 
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({
-              routeName: 'Home',
-              params: { foo: 'bar' }
-            })
-          ]
-        });
+        // const resetAction = StackActions.reset({
+        //   index: 0,
+        //   actions: [
+        //     NavigationActions.navigate({
+        //       routeName: 'Home',
+        //       params: { foo: 'bar' }
+        //     })
+        //   ]
+        // });
 
         // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
-        this.props.navigation.dispatch(resetAction);
+        this.props.navigation.push('Home');
       }
       // this.setState({indicator: 0});
       // Keyboard.dismiss();

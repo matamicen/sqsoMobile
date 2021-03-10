@@ -494,7 +494,7 @@ export default {
   QSLSCANQR_COMMENTS: 'Comentarios',
   QSLSCANQR_BACK: 'Volver',
   UTILSCANQSLCARD: 'Escanear tarjeta QSL',
-  BACKBUTTONANDROIDTITLE: 'AVISO',
+  BACKBUTTONANDROIDTITLE: 'Salir',
   BACKBUTTONANDROID: 'Ud. esta seguro que desea salir de SuperQSO?',
   BACKBUTTONANDROIDCANCEL: 'Cancelar',
   BACKBUTTONANDROIDEXIT: 'Salir',

@@ -21,34 +21,34 @@ import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
 class Home extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: ' ',
-    // 50
-    tabBarIcon: ({ tintColor }) => {
-      // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
-      return (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            style={{
-              width: 28,
-              height: 28,
-              marginLeft: 5,
-              marginTop: Platform.OS === 'ios' ? 24 : 28
-            }}
-            //  style={{ width: 28, height: 28, marginLeft: 18 }}
+  // static navigationOptions = {
+  //   tabBarLabel: ' ',
+  //   // 50
+  //   tabBarIcon: ({ tintColor }) => {
+  //     // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
+  //     return (
+  //       <View
+  //         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //         <Image
+  //           style={{
+  //             width: 28,
+  //             height: 28,
+  //             marginLeft: 5,
+  //             marginTop: Platform.OS === 'ios' ? 24 : 28
+  //           }}
+  //           //  style={{ width: 28, height: 28, marginLeft: 18 }}
 
-            source={require('../../images/home4.png')}
-            // />
-          />
-          {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>
-            {I18n.t('HomeTitle')}
-          </Text>
-        </View>
-      );
-    }
-  };
+  //           source={require('../../images/home4.png')}
+  //           // />
+  //         />
+  //         {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
+  //         <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>
+  //           {I18n.t('HomeTitle')}
+  //         </Text>
+  //       </View>
+  //     );
+  //   }
+  // };
 
   constructor(props) {
     super(props);
@@ -130,15 +130,13 @@ class Home extends React.PureComponent {
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    this.backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.backAction
-    );
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
-    if (this.backHandler) this.backHandler.remove();
+
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   tapOnTabNavigator = async () => {
@@ -235,24 +233,30 @@ class Home extends React.PureComponent {
   }
 
   backAction = () => {
-    // I18n.t("BACKBUTTONANDROID")
-    // I18n.t("BACKBUTTONANDROIDCANCEL") BACKBUTTONANDROIDEXIT
-
-    console.log('press back android');
-    // Se comento este codigo para que no salga mas el PopUp cuando hace en android flecha fisica BACK
-
-    // Alert.alert(I18n.t('BACKBUTTONANDROIDTITLE'), I18n.t('BACKBUTTONANDROID'), [
-    //   {
-    //     text: I18n.t('BACKBUTTONANDROIDCANCEL'),
-    //     onPress: () => null,
-    //     style: I18n.t('BACKBUTTONANDROIDCANCEL')
-    //   },
-    //   {
-    //     text: I18n.t('BACKBUTTONANDROIDEXIT'),
-    //     onPress: () => BackHandler.exitApp()
-    //   }
-    // ]);
-    // return true;
+    if (!this.props.navigation.isFocused()) {
+      // The screen is not focused, so don't do anything
+      return false;
+    } else {
+      Alert.alert(
+        I18n.t('BACKBUTTONANDROIDTITLE'),
+        I18n.t('BACKBUTTONANDROID'),
+        [
+          {
+            text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+          {
+            text: I18n.t('BACKBUTTONANDROIDEXIT'),
+            onPress: () => BackHandler.exitApp()
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+      return true;
+    }
   };
 
   toast = async (message, timer) => {
