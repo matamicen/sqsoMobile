@@ -49,7 +49,7 @@ class ConfirmSignUp extends React.PureComponent {
               //         backgroundColor:  '#475788',
               backgroundColor: 'rgba(0,0,0,0.85)',
               // backgroundColor:"rgba(139,216,189,0.96)",
-              top: 90,
+              top: 40,
               left: 5,
               right: 5,
               position: 'absolute',

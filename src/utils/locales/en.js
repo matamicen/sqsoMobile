@@ -47,11 +47,11 @@ export default {
   signupValCountry: 'You must enter your Country',
   signupValDiffYears: 'You must be older than 13 years old use SuperQSO.',
   signupValBirthDate: 'You must enter your Birthdate',
-  signupValConfirmCode: 'Your confirmation code has been sent!',
+  signupValConfirmCode: 'We sent you a verification email!',
   signupValErrorSendingConfCode:
-    'Error sending the confirmation code, try again.',
+    'Error sending the verification email, try again.',
   signupValConfirmationFailed:
-    'Confirmation failed! Please enter the code again',
+    'Confirmation failed! Please verify the email we sent you and open the link',
   confirmSignUpWeHaveSent:
     'We have sent you a confirmation email. Please click on the link to activate the account. Then press "Done"',
   confirmSignUpConfirmationCode: 'confirmation code',
@@ -752,7 +752,7 @@ export default {
     enterMessage: 'Enter Message',
     confirmRecaptcha: 'Confirm Recaptcha',
     verifyEmailInbox:
-      'We have sent the confirmation code to your email. Please enter the recived code to activate the account.',
+      'We have sent you a verification email  to your email account. Please click on the link to activate the account.',
     welcomeToSuperQSO: 'Welcome to SuperQSO!',
     betaPhase:
       'We want to inform you that we are still in Beta phase and you can experience some delay in user activation.',

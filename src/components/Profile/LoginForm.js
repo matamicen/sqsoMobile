@@ -821,6 +821,42 @@ class LoginForm extends React.PureComponent {
 
             if (err.code === 'UserNotConfirmedException') {
               // this.setState({confirmSignup: true})
+              Auth.resendSignUp(this.state.username.toLowerCase())
+                .then(() => {
+                  console.log('Resend Ok!');
+                  this.setState({
+                    errormessage2: I18n.t('signupValConfirmCode'),
+                    color: '#8BD8BD',
+                    heightindicator: 0,
+                    indicator: 0,
+                    confirmationcodeError: 1
+                  });
+                })
+                .catch((err2) => {
+                  console.log(
+                    'Error sending the confirmation code, try again.',
+                    err2
+                  );
+                  this.setState({
+                    errormessage2:
+                      'Error sending the confirmation code, try again.',
+                    color: 'red',
+                    heightindicator: 0,
+                    indicator: 0,
+                    confirmationcodeError: 1
+                  });
+                  // kinesis_catch('#021',err,this.state.username.toUpperCase());
+                  crashlytics().setUserId(this.state.username.toLowerCase());
+                  crashlytics().log('error: ' + JSON.stringify(err));
+                  if (__DEV__)
+                    crashlytics().recordError(
+                      new Error('Auth.resendSignUp_DEV')
+                    );
+                  else
+                    crashlytics().recordError(
+                      new Error('Auth.resendSignUp_PRD')
+                    );
+                });
               this.setState({
                 loginerror: 0,
                 indicator: 0,
@@ -1079,7 +1115,7 @@ class LoginForm extends React.PureComponent {
           console.log('Resend Ok!');
           this.setState({
             errormessage2: I18n.t('signupValConfirmCode'),
-            color: 'blue',
+            color: '#8BD8BD',
             heightindicator: 0,
             indicator: 0,
             confirmationcodeError: 1
