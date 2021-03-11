@@ -66,7 +66,7 @@ class Home extends React.PureComponent {
   componentDidMount() {
     this.props.navigation.setParams({
       tabBarOnPress: () => {
-        console.log('PRESS HOME!');
+        console.log('PRESS HOME! tabBarOnPress');
         // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
 
         if (this.props.presshome === 1) {
@@ -122,7 +122,7 @@ class Home extends React.PureComponent {
       //   this.props.token,
       //   this.props.currentQRA
       // );
-      this.props.actions.doClearFeed();
+      this.props.actions.doClearFeed(this.props.publicFeed);
       if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
       else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
@@ -141,7 +141,7 @@ class Home extends React.PureComponent {
   }
 
   tapOnTabNavigator = async () => {
-    console.log('PRESS HOME!');
+    console.log('PRESS HOME! tapOnTabNavigator');
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
 
     if (this.props.presshome === 1) {
@@ -151,9 +151,13 @@ class Home extends React.PureComponent {
       // this.time = 50;
       // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
-      this.props.actions.doClearFeed();
-      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      console.log('this.props.publicFeed: '+ this.props.publicFeed)
+       this.props.actions.doClearFeed(this.props.publicFeed);
+      if (this.props.publicFeed) 
+        this.props.actions.doFetchPublicFeed();
+      else 
+        this.props.actions.doFetchUserFeed(this.props.currentQRA);
+    
 
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
@@ -216,9 +220,11 @@ class Home extends React.PureComponent {
 
       // console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
       // dif = moment().diff(this.timeGoesBackGround, 'minutes');
-      // if (dif > 59) {
+      // if (dif > 1) {
       //   console.log('more than an hour it refreshs');
-      //   this.props.actions.doClearFeed();
+      //   this.props.actions.doClearFeed(this.props.publicFeed);
+      //   console.log('this.props.publicFeed: '+ this.props.publicFeed)
+
       //   if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
       //   else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 

@@ -3736,9 +3736,10 @@ export const doFetchUserFeed = (qra) => {
     }
   };
 };
-export const doClearFeed = () => {
+export const doClearFeed = (publicFeed) => {
   return {
-    type: CLEAR_FEED
+    type: CLEAR_FEED,
+    publicFeed: publicFeed
   };
 };
 export const doReceiveFeed = (qsos, publicFeed) => {

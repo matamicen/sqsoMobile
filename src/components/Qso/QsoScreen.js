@@ -2880,7 +2880,7 @@ class QsoScreen extends React.PureComponent {
   }
 
   goToHomeAfterPublish = async () => {
-    this.props.doClearFeed();
+    this.props.doClearFeed(this.props.publicFeed);
     if (this.props.publicFeed) this.props.doFetchPublicFeed();
     else this.props.doFetchUserFeed(this.props.qra);
     // this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada

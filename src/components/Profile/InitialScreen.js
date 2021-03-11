@@ -584,7 +584,7 @@ class InitialScreen extends React.PureComponent {
             <TouchableOpacity
               style={{}}
               onPress={() => {
-                this.props.doClearFeed();
+                this.props.doClearFeed(this.props.publicFeed);
                 if (this.props.publicFeed) this.props.doFetchPublicFeed();
                 else this.props.doFetchUserFeed(this.props.currentQRA);
                 this.props.doFetchFieldDaysFeed();

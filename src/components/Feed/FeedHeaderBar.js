@@ -91,7 +91,7 @@ class FeedHeaderBar extends React.Component {
                 if (this.props.following_counter === 0)
                   Alert.alert(I18n.t('navBar.noFollowingMessage'));
                 else {
-                  this.props.actions.doClearFeed();
+                  this.props.actions.doClearFeed(false);
                   this.props.actions.doFetchUserFeed(this.props.currentQRA);
                 }
               }}
@@ -107,7 +107,7 @@ class FeedHeaderBar extends React.Component {
               size="medium"
               onPress={() => {
                 if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
-                this.props.actions.doClearFeed();
+                this.props.actions.doClearFeed(true);
                 this.props.actions.doFetchPublicFeed();
               }}
               title={I18n.t('navBar.allUsersFeed')}
