@@ -8,6 +8,30 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import { userNotValidated } from '../../helper';
 import analytics from '@react-native-firebase/analytics';
+const country2emoji = (country_code) => {
+  var OFFSET = 127397;
+  var cc = country_code.toUpperCase();
+  function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  }
+  return /^[A-Z]{2}$/.test(cc)
+    ? String.fromCodePoint.apply(
+        String,
+        _toConsumableArray(
+          [].concat(_toConsumableArray(cc)).map(function (c) {
+            return c.charCodeAt() + OFFSET;
+          })
+        )
+      )
+    : null;
+};
 class QSOLikeTextModalItem extends React.PureComponent {
   constructor() {
     super();
@@ -99,7 +123,14 @@ class QSOLikeTextModalItem extends React.PureComponent {
               });
               this.props.closeModal();
             }}>
-            <Text style={{ fontSize: 17 }}>{l.qra}</Text>
+            <Text numberOfLines={1} style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 17 }}>{l.qra}</Text>
+              <Text style={{ fontSize: 13 }}>
+                {l.country !== '' && l.country !== null && (
+                  <Text>{country2emoji(l.country)}</Text>
+                )}
+              </Text>
+            </Text>
 
             <Text numberOfLines={1} style={{ fontSize: 15 }}>
               {l.firstname + ' ' + l.lastname}

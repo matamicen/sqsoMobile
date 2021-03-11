@@ -10,10 +10,13 @@ class ProfileMenu extends React.PureComponent {
     showModal: false
   };
   render() {
+    console.log(this.props.env);
+    console.log(this.props.currentQRA);
     if (
       this.props.currentQRA === 'LU2ACH' ||
       this.props.currentQRA === 'LU7ACH' ||
-      this.props.env === 'QA'
+      this.props.currentQRA === 'TSMM' ||
+      this.props.currentQRA === 'TSLL'
     )
       return (
         <View>

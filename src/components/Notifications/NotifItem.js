@@ -18,7 +18,7 @@ import {
   setPressHome,
   doFetchQRA,
   clearQRA,
-  setWebView,
+  // setWebView,
   set_notification_read
 } from '../../actions';
 import { hasAPIConnection } from '../../helper';
@@ -839,8 +839,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     jwtToken: state.sqso.jwtToken,
-    qra: state.sqso.qra,
-    webviewsession: state.sqso.webviewSession
+    qra: state.sqso.qra
+    // webviewsession: state.sqso.webviewSession
   };
 };
 
@@ -850,7 +850,7 @@ const mapDispatchToProps = {
   clearQRA,
   doFetchQRA,
   manage_notifications,
-  setWebView,
+  // setWebView,
   setPressHome
 };
 

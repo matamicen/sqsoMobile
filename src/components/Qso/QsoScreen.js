@@ -59,7 +59,7 @@ import {
   setPressHome,
   postQsoEdit,
   postQsoQras,
-  setWebView,
+  // setWebView,
   setJustPublished,
   actindicatorPostQsoNewFalse,
   qsoPublish,
@@ -71,30 +71,31 @@ import {
   setQsoUtc,
   doLatestUsersFetch,
   doFetchFieldDaysFeed,
+  doFetchUserFeed,
+  doClearFeed,
   doFetchPublicFeed
 } from '../../actions';
 import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
 import RecordAudio2 from './RecordAudio2';
 import Iap from './Iap';
-import ShareQso from './ShareQso';
+// import ShareQso from './ShareQso';
 //import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
 // import ImagePicker2 from 'react-native-image-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Upload from 'react-native-background-upload';
-import ShareMenu from 'react-native-share-menu';
+// import ShareMenu from 'react-native-share-menu';
 
 import Muestro from './Muestro';
-import { NavigationActions, addNavigationHelpers } from 'react-navigation';
+
 //import {  Permissions } from 'expo';
 import {
   hasAPIConnection,
   showVideoReward,
   showIntersitial,
   updateOnProgress,
-  check_firstTime_OnProgress,
   getDate,
   missingFieldsToPublish,
   todaMediaEnviadaAS3,
@@ -219,42 +220,6 @@ class QsoScreen extends React.PureComponent {
     };
   }
 
-  static navigationOptions = {
-    tabBarLabel: ' ',
-    //  13
-
-    tabBarIcon: ({ tintColor }) => {
-      return (
-        // <View
-        //   style={{
-        //     width: 44,
-        //     height: 20,
-        //     marginTop: Platform.OS === "ios" ? 3 : 3, backgroundColor:'green'
-        //   }}
-        // >   marginTop: Platform.OS === "ios" ? 9 : 26
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            style={{
-              width: 31,
-              height: 31,
-              marginLeft: I18n.locale.substring(0, 2) === 'es' ? 0 : 0,
-              marginTop: Platform.OS === 'ios' ? 22 : 26
-            }}
-            // style={{  width: 31, height: 31, marginLeft: I18n.locale.substring(0, 2)==='es' ? 8:0}}
-            //   source={require("../../images/qsoicon3.png")}
-            source={require('../../images/MicrofonoGris.png')}
-            resizeMode="contain"
-          />
-          <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 0 }}>
-            {I18n.t('QsoScrTitle')}
-          </Text>
-          {/* <Text style={{ fontSize: 9, marginTop: 2, marginLeft: 4 }}>{I18n.t("QsoScrTitle")}</Text> */}
-        </View>
-      );
-    }
-  };
-
   static getDerivedStateFromProps(props, state) {
     console.log(
       'El valor de confirmPhotoModal: ' + props.sqsomodalconfirmphoto
@@ -275,8 +240,6 @@ class QsoScreen extends React.PureComponent {
       pickerDisplayed: props.sqsomodalrecording,
       videoPercentage: props.videopercentage
     };
-
-    return null;
   }
 
   async componentDidMount() {
@@ -1756,26 +1719,26 @@ class QsoScreen extends React.PureComponent {
     } else this.setState({ nointernet: true });
   };
 
-  navigateRoot = () => {
-    const navigateToScreen2 = NavigationActions.navigate({
-      routeName: 'Root'
-    });
+  // navigateRoot = () => {
+  //   // const navigateToScreen2 = NavigationActions.navigate({
+  //   //   routeName: 'Root'
+  //   // });
 
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Root', params: {} })]
-    });
+  //   const resetAction = NavigationActions.reset({
+  //     index: 0,
+  //     actions: [NavigationActions.navigate({ routeName: 'Root', params: {} })]
+  //   });
 
-    // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
-    this.props.navigation.dispatch(resetAction);
-  };
-  navigateReset = () => {
-    // const navigation = addNavigationHelpers({
-    //   dispatch: this.navigationStore.dispatch,
-    //   state: this.navigationStore.state,
-    // });
-    this.props.navigation.dispatch(NavigationActions.init());
-  };
+  //   // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
+  //   this.props.navigation.dispatch(resetAction);
+  // };
+  // navigateReset = () => {
+  //   // const navigation = addNavigationHelpers({
+  //   //   dispatch: this.navigationStore.dispatch,
+  //   //   state: this.navigationStore.state,
+  //   // });
+  //   this.props.navigation.dispatch(NavigationActions.init());
+  // };
 
   newQso = async (qsotype) => {
     console.log('userInfo: ' + this.props.userinfo.pendingVerification);
@@ -2917,7 +2880,10 @@ class QsoScreen extends React.PureComponent {
   }
 
   goToHomeAfterPublish = async () => {
-    this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
+    this.props.doClearFeed(this.props.publicFeed);
+    if (this.props.publicFeed) this.props.doFetchPublicFeed();
+    else this.props.doFetchUserFeed(this.props.qra);
+    // this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
     this.props.doLatestUsersFetch();
     this.props.navigation.navigate('Home');
     this.props.doFetchFieldDaysFeed();
@@ -3284,60 +3250,62 @@ class QsoScreen extends React.PureComponent {
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
-                   {(this.props.qsotype !== 'FLDDAY') &&
-                <TouchableOpacity
-                  style={{ width: 65, height: 63 }}
-                  onPress={() => this.videoFromGallery(false)}>
-                  <Image
-                    source={require('../../images/camara-de-video.png')}
-                    style={{
-                      width: 27,
-                      height: 27,
-                      marginLeft: 22,
-                      marginTop: 0
-                    }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: 'black',
-                      marginLeft: I18n.locale.substring(0, 2) === 'es' ? 18 : 16
-                    }}>
-                    Video
-                  </Text>
-                </TouchableOpacity>
-                }
+                {this.props.qsotype !== 'FLDDAY' && (
+                  <TouchableOpacity
+                    style={{ width: 65, height: 63 }}
+                    onPress={() => this.videoFromGallery(false)}>
+                    <Image
+                      source={require('../../images/camara-de-video.png')}
+                      style={{
+                        width: 27,
+                        height: 27,
+                        marginLeft: 22,
+                        marginTop: 0
+                      }}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: 'black',
+                        marginLeft:
+                          I18n.locale.substring(0, 2) === 'es' ? 18 : 16
+                      }}>
+                      Video
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             ) : null}
 
             {this.props.sqsonewqsoactive ? (
               <View
                 style={{ flex: 0.16, alignItems: 'flex-end', marginTop: 11 }}>
-               {(this.props.qsotype !== 'FLDDAY') &&
-                <TouchableOpacity
-                  style={{ width: 65, height: 63 }}
-                  onPress={() => this.checkInternetOpenRecording()}>
-                  <Image
-                    source={require('../../images/mic.png')}
-                    style={{
-                      width: 26,
-                      height: 26,
-                      marginLeft: 22,
-                      marginTop: 2
-                    }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      fontSize: 13,
-                      color: 'black',
-                      marginLeft: I18n.locale.substring(0, 2) === 'es' ? 18 : 16
-                    }}>
-                    {I18n.t('QsoScrRecord')}
-                  </Text>
-                </TouchableOpacity>
-               }
+                {this.props.qsotype !== 'FLDDAY' && (
+                  <TouchableOpacity
+                    style={{ width: 65, height: 63 }}
+                    onPress={() => this.checkInternetOpenRecording()}>
+                    <Image
+                      source={require('../../images/mic.png')}
+                      style={{
+                        width: 26,
+                        height: 26,
+                        marginLeft: 22,
+                        marginTop: 2
+                      }}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: 'black',
+                        marginLeft:
+                          I18n.locale.substring(0, 2) === 'es' ? 18 : 16
+                      }}>
+                      {I18n.t('QsoScrRecord')}
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             ) : null}
 
@@ -3827,7 +3795,9 @@ const mapStateToProps = (state) => {
     qra: state.sqso.qra,
     justpublished: state.sqso.justPublished,
     webviewsession: state.sqso.webviewSession,
-    mediafiles: state.sqso.currentQso.mediafiles,
+    // mediafiles: state.sqso.currentQso.mediafiles,
+    // currentQRA: state.sqso.qra,
+    publicFeed: state.sqso.feed.publicFeed,
     videopercentage: state.sqso.currentQso.videoPercentage,
     videouploaderror: state.sqso.currentQso.videoUploadError,
     externalshareurl: state.sqso.externalShareUrl,
@@ -3876,7 +3846,7 @@ const mapDispatchToProps = {
   setPressHome,
   postQsoEdit,
   postQsoQras,
-  setWebView,
+  // setWebView,
   setJustPublished,
   actindicatorPostQsoNewFalse,
   qsoPublish,
@@ -3887,6 +3857,8 @@ const mapDispatchToProps = {
   apiCheckVersion,
   setQsoUtc,
   doFetchPublicFeed,
+  doFetchUserFeed,
+  doClearFeed,
   doFetchFieldDaysFeed,
   doLatestUsersFetch
 };

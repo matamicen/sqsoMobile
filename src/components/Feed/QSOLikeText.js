@@ -56,7 +56,7 @@ class QSOLikeText extends React.PureComponent {
     let others = 0;
     // let qso = this.props.qsos.find((q) => q.idqsos === this.props.idqsos);
 
-    let likes = this.props.qso.likes ? this.props.qso.likes : [];
+    let likes = this.props.likes;
     // let avatarPic = null;
 
     if (likes.length > maxLikers) {
@@ -270,17 +270,17 @@ const selectorFeedType = (state, ownProps) => {
   else return null;
 };
 const selectorFeedTypeLikes = (state, ownProps) => {
+  var qso = {};
   if (ownProps.feedType === 'MAIN')
-    return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos).likes;
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')
-    return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
-    return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
-    return state.sqso.feed.qso.likes;
-  else return null;
+    qso = state.sqso.feed.qso;
+
+  return qso ? qso.likes : [];
 };
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,

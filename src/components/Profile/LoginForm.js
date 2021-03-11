@@ -1,5 +1,4 @@
-//import { NavigationActions, addNavigationHelpers } from 'react-navigation';
-//import { NavigationActions } from 'react-navigation';
+/* eslint-disable react-native/no-inline-styles */
 import AsyncStorage from '@react-native-community/async-storage';
 // I18n.locale = 'en-US';
 // nuevo push
@@ -28,7 +27,7 @@ import {
   View
 } from 'react-native';
 import RNIap from 'react-native-iap';
-import { NavigationActions, StackActions } from 'react-navigation';
+// import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import {
   confirmReceiptiOS,
@@ -46,7 +45,7 @@ import {
   setSubscriptionInfo,
   setToken,
   setUrlRdsS3,
-  setWebView,
+  // setWebView,
   welcomeUserFirstTime,
   apiCheckVersion,
   setPendingVerification
@@ -56,10 +55,7 @@ import AmplifyAuthStorage from '../../AsyncStorage';
 import awsconfig from '../../aws-exports';
 import global_config from '../../global_config.json';
 //import {  Permissions } from 'expo';
-import {
-  armoPushNotifyLocalNotif,
-  hasAPIConnection
-} from '../../helper';
+import { armoPushNotifyLocalNotif, hasAPIConnection } from '../../helper';
 import I18n from '../../utils/i18n';
 import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
@@ -86,7 +82,7 @@ const itemSubs = Platform.select({
   ]
 });
 
-const actualAppVersion = '1.0.0';
+// const actualAppVersion = '1.0.0';
 
 // let purchaseUpdateSubscription;
 // let purchaseErrorSubscription;
@@ -131,24 +127,23 @@ class LoginForm extends React.PureComponent {
       appNeedUpgrade: false,
       forceChangePassword: false,
       upgradeText: '',
-      loginerrorMessage: '',
-      exit: false
+      loginerrorMessage: ''
+      // exit: false
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     // console.log('afuer de getDerivedStateFromProps: '  + props);
     // console.log(props);
-    console.log('mustupgradeapp: '+ props.mustupgradeapp)
+    console.log('mustupgradeapp: ' + props.mustupgradeapp);
 
-    if (props.mustupgradeapp)
-    {
-      return { 
-         stopApp: true,
-         appNeedUpgrade: true,
-         upgradeText: I18n.t('STOPAPP_UPGRADE')
+    if (props.mustupgradeapp) {
+      return {
+        stopApp: true,
+        appNeedUpgrade: true,
+        upgradeText: I18n.t('STOPAPP_UPGRADE')
+      };
     }
-  }
 
     if (props.userInfoApiSuccesStatus) {
       console.log(
@@ -164,19 +159,13 @@ class LoginForm extends React.PureComponent {
     return null;
   }
 
-  onScreenFocus = async () => {
+  // onScreenFocus = async () => {
+  //   console.log('LOGINFORM en FOCUS!');
 
-    console.log('LOGINFORM en FOCUS!');
-
-  // para salga de la APP cuando en ANDROID vuelven con flecha y que no se quede en la pantala de LOGIN
-  // porque confunde esa pantalla esperando LOGIN
-    if (this.state.exit)
-       BackHandler.exitApp()
-  
-      
-
-   
-  };
+  //   // para salga de la APP cuando en ANDROID vuelven con flecha y que no se quede en la pantala de LOGIN
+  //   // porque confunde esa pantalla esperando LOGIN
+  //   if (this.state.exit) BackHandler.exitApp();
+  // };
 
   async componentDidMount() {
     // PushNotification.onNotification((notification) => {
@@ -184,8 +173,8 @@ class LoginForm extends React.PureComponent {
     console.log('esta hermes?');
     console.log(!!global.HermesInternal);
 
-    this.props.navigation.addListener('didFocus', this.onScreenFocus);
-
+    // this.props.navigation.addListener('didFocus', this.onScreenFocus);
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
     // });
 
     PushNotification.configure({
@@ -241,7 +230,7 @@ class LoginForm extends React.PureComponent {
 
                 var today = new Date();
                 let timeStamp = Date.now();
-                console.log('timseStamp:'+ timeStamp)
+                console.log('timseStamp:' + timeStamp);
 
                 // si el push es de MARKETING viene sin QRA ni IDACTIVITY
                 // if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
@@ -273,18 +262,14 @@ class LoginForm extends React.PureComponent {
                 // }
 
                 this.props.manage_notifications('ADDONE', envioNotif, '');
-               
-                // si el push es de Aprobacion de usuario actualizo GetUserInfo 
+
+                // si el push es de Aprobacion de usuario actualizo GetUserInfo
                 // asi ya lo deja publicar, dar like y comentar.
-                if (parseo['title-loc-key']==='PUSH_APPROVE_USER_TITLE')
-                  {
-                    console.log('actualizo getUserInfo Usuario Aprobado')
+                if (parseo['title-loc-key'] === 'PUSH_APPROVE_USER_TITLE') {
+                  console.log('actualizo getUserInfo Usuario Aprobado');
                   // actualizo en userInfo en redux que el usuario esta validado
                   this.props.setPendingVerification(0);
-               
-                  }
-
-
+                }
 
                 if (
                   notification.userInteraction === false &&
@@ -349,11 +334,11 @@ class LoginForm extends React.PureComponent {
                 //  this.props.manage_notifications('ADDONE',envioNotif);
                 //  this.props.navigation.navigate("Notifications");
                 console.log(notification.userInfo.url);
-                var urlAux =
-                  notification.userInfo.url +
-                  '?embedded=true&date=' +
-                  new Date();
-                this.props.setWebView(webViewUserSession, urlAux);
+                // var urlAux =
+                //   notification.userInfo.url +
+                //   '?embedded=true&date=' +
+                //   new Date();
+                // this.props.setWebView(webViewUserSession, urlAux);
                 // esto estaba
                 this.props.navigation.navigate('Home', {});
               }
@@ -387,7 +372,7 @@ class LoginForm extends React.PureComponent {
               );
               today = new Date();
               let timeStamp = Date.now();
-              console.log('timseStamp:'+ timeStamp)
+              console.log('timseStamp:' + timeStamp);
 
               // si el push es de MARKETING viene sin QRA ni IDACTIVITY
               // if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
@@ -462,15 +447,16 @@ class LoginForm extends React.PureComponent {
               }
 
               this.props.manage_notifications('ADDONE', envioNotif, '');
-                // si el push es de Aprobacion de usuario actualizo GetUserInfo 
-                // asi ya lo deja publicar, dar like y comentar.
-                if (notification.alert['title-loc-key']==='PUSH_APPROVE_USER_TITLE')
-                  {
-                    console.log('actualizo getUserInfo Usuario Aprobado')
-                   // actualizo en userInfo en redux que el usuario esta validado
-                   this.props.setPendingVerification(0);
-               
-                  }
+              // si el push es de Aprobacion de usuario actualizo GetUserInfo
+              // asi ya lo deja publicar, dar like y comentar.
+              if (
+                notification.alert['title-loc-key'] ===
+                'PUSH_APPROVE_USER_TITLE'
+              ) {
+                console.log('actualizo getUserInfo Usuario Aprobado');
+                // actualizo en userInfo en redux que el usuario esta validado
+                this.props.setPendingVerification(0);
+              }
 
               // si viene de background lo lleva directo al notification tray
               // pero si esta foreground no le cambia la screen para respetar lo que el usuario
@@ -505,270 +491,291 @@ class LoginForm extends React.PureComponent {
     // console.log('COMPONENT did mount LOGINFORM');
 
     // if (await hasAPIConnection2()) {
-      // console.log('SI hay internet: ');
+    // console.log('SI hay internet: ');
 
-      console.log('llama ApiCheckVersion')
-      this.props.apiCheckVersion();
-      
-      var userLogin0 = await AsyncStorage.getItem('userlogin');
-      if (userLogin0 === null) {
-        this.debeHacerUpgrade = true; // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
-        this.userYpassnull = true;
-      }
+    console.log('llama ApiCheckVersion');
+    this.props.apiCheckVersion();
 
-      //    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
+    // var userLogin0 = await AsyncStorage.getItem('userlogin');
+    // if (userLogin0 === null) {
+    //   this.debeHacerUpgrade = true; // lo hago salir del proceso de singIn para hacer un signout forzado y pedirle user y pass de nuevo
+    //   this.userYpassnull = true;
+    // }
 
-      //     console.log('purchaseUpdatedListener de LoginForm');
-      //     console.log(purchase);
+    //    purchaseUpdateSubscription = purchaseUpdatedListener(async(purchase) => {
 
-      //     // aca tengo que llamar a la API backend para validar el receipt y una vez validado
-      //     // debo llamar a
+    //     console.log('purchaseUpdatedListener de LoginForm');
+    //     console.log(purchase);
 
-      //     if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
-      //       try {
-      //      //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
-      //         console.log('entro listener de compra por ANDROID');
+    //     // aca tengo que llamar a la API backend para validar el receipt y una vez validado
+    //     // debo llamar a
 
-      //       //  console.log('ackResult', ackResult);
-      //       } catch (ackErr) {
-      //         console.warn('ackErr', ackErr);
-      //       }
-      //     }
-      //     if (Platform.OS==='ios')
-      //     {
+    //     if (purchase.purchaseStateAndroid === 1 && !purchase.isAcknowledgedAndroid) {
+    //       try {
+    //      //   const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+    //         console.log('entro listener de compra por ANDROID');
 
-      //       console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
-      //      // console.log('flag que recien compro: '+this.props.presspurchaseputton);
+    //       //  console.log('ackResult', ackResult);
+    //       } catch (ackErr) {
+    //         console.warn('ackErr', ackErr);
+    //       }
+    //     }
+    //     if (Platform.OS==='ios')
+    //     {
 
-      //       this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'buy');
-      //    //   this.props.confirmReceipt();
-      //     //  RNIap.finishTransactionIOS(purchase.transactionId);
+    //       console.log('IAP: llamo confirmReceipt de LoginForm action: '+purchase.transactionId);
+    //      // console.log('flag que recien compro: '+this.props.presspurchaseputton);
 
-      //     }
-      //  //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-      //   });
+    //       this.props.confirmReceiptiOS(this.props.qra,purchase.originalTransactionIdentifierIOS,purchase.transactionReceipt,purchase.transactionId,this.props.env,'buy');
+    //    //   this.props.confirmReceipt();
+    //     //  RNIap.finishTransactionIOS(purchase.transactionId);
 
-      //   purchaseErrorSubscription = purchaseErrorListener((error) => {
-      //     console.log('purchaseErrorListener LoginForm', error);
-      //    // this.props.manageLocationPermissions("iapshowed",0);
-      //     // Alert.alert('purchase error', JSON.stringify(error));
-      //   });
+    //     }
+    //  //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
+    //   });
 
-      // para capturar eventos de Purchases no confirmadas de AppleStore
+    //   purchaseErrorSubscription = purchaseErrorListener((error) => {
+    //     console.log('purchaseErrorListener LoginForm', error);
+    //    // this.props.manageLocationPermissions("iapshowed",0);
+    //     // Alert.alert('purchase error', JSON.stringify(error));
+    //   });
+
+    // para capturar eventos de Purchases no confirmadas de AppleStore
+    try {
+      const result = await RNIap.initConnection();
+      // busco codigos de subscripcion para iOS para enviarlos a REDUX
+      // yq ue ya esten disponibles
+
+      const products = await RNIap.getSubscriptions(itemSubs);
+      // console.log('loginform GetSubscriptions');
+      // console.log(products);
+
+      var localizedPrice = '';
+      if (Platform.OS === 'android')
+        localizedPrice =
+          products[0].localizedPrice + ' ' + products[0].currency;
+      else localizedPrice = products[0].localizedPrice;
+      // console.log(
+      //   'busco codigos de subscripciones loginform:' +
+      //     products[0].localizedPrice
+      // );
+      this.props.setSubscriptionInfo(products[0].productId, localizedPrice);
+
+      //  este debe estar ultimo porque si no hay compras sale por CATCH y necesito
+      // que se ejecute lo de arriba antes
+      // await RNIap.consumeAllItemsAndroid();
+      // console.log('result', result);
+    } catch (err) {
+      console.log('salio catch initConnection loginform');
+      console.warn(err.code, err.message);
+      crashlytics().setUserId('unknown');
+      crashlytics().log('error: ' + JSON.stringify(err));
+      if (__DEV__) crashlytics().recordError(new Error('RNIap.initConn_DEV'));
+      else crashlytics().recordError(new Error('RNIap.initConn_PRD'));
+    }
+
+    // si debe hacer upgrade no deja entrar aca
+    if (this.debeHacerUpgrade === false) {
+      // if (1===1) {
+      // Compruebo si ya estaba logueado con sus credenciales
       try {
-        const result = await RNIap.initConnection();
-        // busco codigos de subscripcion para iOS para enviarlos a REDUX
-        // yq ue ya esten disponibles
+        // console.log('Antes de Auth.currentSession() ');
+        this.setState({ mess: I18n.t('currentSession') });
+        var session = await Auth.currentSession();
 
-        const products = await RNIap.getSubscriptions(itemSubs);
-        // console.log('loginform GetSubscriptions');
-        // console.log(products);
+        //  session = await Auth.currentAuthenticatedUser();
+        // console.log('Su token DID MOUNT es: ' + session.idToken.jwtToken);
+        await this.props.setToken(session.idToken.jwtToken);
+        //console.log("currentAuthenticatedUser:"+ JSON.stringify(session));
+        // session2 = await Auth.currentUserCredentials();
+        // console.log('currentUserCredentials:'+JSON.stringify(session2));
+        // await this.props.setWebView(JSON.stringify(session),'http://192.168.0.9:3000')
 
-        var localizedPrice = '';
-        if (Platform.OS === 'android')
-          localizedPrice =
-            products[0].localizedPrice + ' ' + products[0].currency;
-        else localizedPrice = products[0].localizedPrice;
-        // console.log(
-        //   'busco codigos de subscripciones loginform:' +
-        //     products[0].localizedPrice
+        // var userLogin = await AsyncStorage.getItem('userlogin');
+        // console.log('userlogin:' + userLogin);
+        // var userPwd = await AsyncStorage.getItem('userpwd');
+        // console.log('userpass:' + userPwd);
+
+        // if (userLogin === null || userPwd === null) {
+        //   // mando a crashlutics q hay un usuario que le dio null el user/pass
+        //   const value = await AsyncStorage.getItem('username');
+        //   crashlytics().setUserId(value);
+        //   crashlytics().log('error: userlogin o userpwd da null');
+        //   if (__DEV__)
+        //     crashlytics().recordError(new Error('userlogin_null_DEV'));
+        //   else crashlytics().recordError(new Error('userlogin_null_PRD'));
+        // }
+
+        // webViewUserSession = { userlogin: userLogin, userpwd: userPwd };
+        // console.log('killedURL:'+ this.webviewurlfromKilledPush)
+        // if (this.webviewurlfromKilledPush!==''){
+        //    await this.props.setWebView(webViewUserSession,this.webviewurlfromKilledPush)
+        //   //  this.webviewurlfromKilledPush = '';
+        //    }   else
+
+        // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+        // await this.props.setWebView(
+        //   webViewUserSession,
+        //   global_config.urlWeb + '?embedded=true'
         // );
-        this.props.setSubscriptionInfo(products[0].productId, localizedPrice);
 
-        //  este debe estar ultimo porque si no hay compras sale por CATCH y necesito
-        // que se ejecute lo de arriba antes
-        // await RNIap.consumeAllItemsAndroid();
-        // console.log('result', result);
-      } catch (err) {
-        console.log('salio catch initConnection loginform');
-        console.warn(err.code, err.message);
-        crashlytics().setUserId('unknown');
-        crashlytics().log('error: ' + JSON.stringify(err));
-        if (__DEV__) crashlytics().recordError(new Error('RNIap.initConn_DEV'));
-        else crashlytics().recordError(new Error('RNIap.initConn_PRD'));
-      }
+        // console.log('Antes d Auth.currentCredentials() ');
+        // const { identityId } = await Auth.currentCredentials();
+        // console.log('la credencial es:' + identityId);
+        // var res = identityId.replace(":", "%3A");
+        // console.log('la credencial RES:' + res);
+        console.log('Antes d Auth.currentCredentials() getItem ');
+        this.setState({ mess: I18n.t('loading') });
+        const res = await AsyncStorage.getItem('identity');
+        console.log('identityID: ' + res);
 
-      // si debe hacer upgrade no deja entrar aca
-      if (this.debeHacerUpgrade === false) {
-        // if (1===1) { 
-        // Compruebo si ya estaba logueado con sus credenciales
+        // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
+        //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
+        //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
+
+        // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
+        this.props.setUrlRdsS3(res, global_config.s3Cloudfront + res + '/');
+
+        // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
+        // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
         try {
-          // console.log('Antes de Auth.currentSession() ');
-          this.setState({ mess: I18n.t('currentSession') });
-          var session = await Auth.currentSession();
-
-          //  session = await Auth.currentAuthenticatedUser();
-          // console.log('Su token DID MOUNT es: ' + session.idToken.jwtToken);
-          await this.props.setToken(session.idToken.jwtToken);
-          //console.log("currentAuthenticatedUser:"+ JSON.stringify(session));
-          // session2 = await Auth.currentUserCredentials();
-          // console.log('currentUserCredentials:'+JSON.stringify(session2));
-          // await this.props.setWebView(JSON.stringify(session),'http://192.168.0.9:3000')
-
-          var userLogin = await AsyncStorage.getItem('userlogin');
-          // console.log('userlogin:' + userLogin);
-          var userPwd = await AsyncStorage.getItem('userpwd');
-          // console.log('userpass:' + userPwd);
-
-          if (userLogin === null || userPwd === null) {
-            // mando a crashlutics q hay un usuario que le dio null el user/pass
-            const value = await AsyncStorage.getItem('username');
-            crashlytics().setUserId(value);
-            crashlytics().log('error: userlogin o userpwd da null');
-            if (__DEV__)
-              crashlytics().recordError(new Error('userlogin_null_DEV'));
-            else crashlytics().recordError(new Error('userlogin_null_PRD'));
-          }
-
-          webViewUserSession = { userlogin: userLogin, userpwd: userPwd };
-          // console.log('killedURL:'+ this.webviewurlfromKilledPush)
-          // if (this.webviewurlfromKilledPush!==''){
-          //    await this.props.setWebView(webViewUserSession,this.webviewurlfromKilledPush)
-          //   //  this.webviewurlfromKilledPush = '';
-          //    }   else
-
-          // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-          await this.props.setWebView(
-            webViewUserSession,
-            global_config.urlWeb + '?embedded=true'
-          );
-
-          // console.log('Antes d Auth.currentCredentials() ');
-          // const { identityId } = await Auth.currentCredentials();
-          // console.log('la credencial es:' + identityId);
-          // var res = identityId.replace(":", "%3A");
-          // console.log('la credencial RES:' + res);
-          console.log('Antes d Auth.currentCredentials() getItem ');
-          this.setState({ mess: I18n.t('loading') });
-          const res = await AsyncStorage.getItem('identity');
-          console.log('identityID: ' + res);
-
-          // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
-          //  this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
-          //   this.props.setUrlRdsS3(res,'https://d1v72vqgluf2qt.cloudfront.net/protected/'+res+'/');
-
-          // this.props.setUrlRdsS3(res,'https://d1dwfud4bi54v7.cloudfront.net/1/'+res+'/');
-          this.props.setUrlRdsS3(res, global_config.s3Cloudfront + res + '/');
-
-          // busco en sotrage local porque la session esta activa pero la sesion no me dice el username
-          // entonces busco el username ultimo logueado del storage local y se lo seteo a QRA del store
-          try {
-            var pushtoken = await AsyncStorage.getItem('pushtoken');
-            console.log('mat2 el pushtoken del asyncStorage es:' + pushtoken);
-            console.log(
-              'mat2 el pushtoken del store es:' + this.props.pushtoken
-            );
-
-            //apologize
-            // if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-            if (1 === 2)
-              this.setState({ stopApp: true, pushTokenNotFound: true });
-            else {
-              console.log('Antes de AsyncStorage.getItem');
-              const value = await AsyncStorage.getItem('username');
-              if (value !== null) {
-                // We have data!!
-                console.log(
-                  'PASO por AUTENTICACION y trajo del LOCAL STORAGE: ' + value
-                );
-                // seteo el usuario logueado en store
-                this.props.setQra(value);
-                //Si ya estaba logueado lo envio a la pantalla inicial
-                console.log(
-                  'Tiene credenciales LoginForm, ya estaba logueado!!'
-                );
-
-                console.log(
-                  'si el resultado de getUserInfo da OK entonces por medio de getDerivedStateFromProps va havia pantalla principal'
-                );
-                console.log(
-                  'esto se maneja asi debido a que si el ancho de banda del usuario es bajo, no deja pasar a la pantalla principal a menos que este userInfo ejecutada'
-                );
-
-                this.props.getUserInfo(session.idToken.jwtToken);
-
-                // this.props.followersAlreadyCalled(true);
-                // this.props.navigation.navigate("AppNavigator2");
-                // this.setState({showloginForm: true});
-              }
-
-              var qratoken = await AsyncStorage.getItem('qratoken');
-              console.log('AsyncStorage qratoken: ' + qratoken);
-
-              // chequeo si el username logueado que esta en value, esta en qratoken del async, si no
-              if (qratoken !== value) {
-                // console.log(
-                //   'envio pushtoken a RDS porque por alguna razon no esta actualizado'
-                // );
-                this.props.postPushToken(
-                  pushtoken,
-                  value,
-                  Platform.OS,
-                  session.idToken.jwtToken
-                );
-              }
-            } //apologize
-          } catch (error) {
-            // console.log('Error AsyncStorage.getItem(username)', error);
-            this.setState({ showloginForm: true });
-
-            crashlytics().setUserId('unknown');
-            crashlytics().log('error: ' + JSON.stringify(error));
-            if (__DEV__)
-              crashlytics().recordError(new Error('AsyncStorage.get_DEV'));
-            else crashlytics().recordError(new Error('AsyncStorage.get_PRD'));
-
-            // kinesis_catch('#008',error,value);
-            // Error retrieving data
-          }
-        } catch (e) {
-          console.log('No tiene credenciales LoginForm', e);
-          this.setState({ showloginForm: true });
-          //   kinesis_catch('#009',e,value);
           var pushtoken = await AsyncStorage.getItem('pushtoken');
-          var qraTokenVerif = await AsyncStorage.getItem('qratoken');
+          console.log('mat2 el pushtoken del asyncStorage es:' + pushtoken);
+          console.log('mat2 el pushtoken del store es:' + this.props.pushtoken);
 
-          if (pushtoken === null) {
-            // console.log('no tiene credenciales y nunca obtuvo pushtoken');
-          } else {
-            // encontro un token y como no hay usuario asignado a ese token, debe ser
-            // blanqueado en RDS por las dudas que no haya sifo blanqueado en el signout
-            // y no siga enviando PUSH a este equipo.
-            // console.log('no tiene credenciales y tiene pushtoken');
-            // console.log(pushtoken);
-            // console.log('qratoken:' + qraTokenVerif);
-            // if (qraTokenVerif !== '')
-            // console.log(
-            //   'el qratoken es distinot de vacio, deberia blanquear el pushtoken del RDS'
-            // );
-          }
-          // Handle exceptions
-        }
-      } // if de debeHacerUpgrade o fuerzo signout porque necesito que haga login para tener user y pas para webview
-      else {
-        if (this.userYpassnull) {
-          // console.log(
-          //   'Fuerzo a q se loguee para que pueda pasar los datos a webview'
-          // );
-          this.userYpassnull = false;
+          //apologize
+          if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
+          // if (1 === 2)
+            this.setState({ stopApp: true, pushTokenNotFound: true });
+          else {
+            console.log('Antes de AsyncStorage.getItem');
+            const value = await AsyncStorage.getItem('username');
+            if (value !== null) {
+              // We have data!!
+              console.log(
+                'PASO por AUTENTICACION y trajo del LOCAL STORAGE: ' + value
+              );
+              // seteo el usuario logueado en store
+              this.props.setQra(value);
+              //Si ya estaba logueado lo envio a la pantalla inicial
+              console.log('Tiene credenciales LoginForm, ya estaba logueado!!');
+
+              console.log(
+                'si el resultado de getUserInfo da OK entonces por medio de getDerivedStateFromProps va havia pantalla principal'
+              );
+              console.log(
+                'esto se maneja asi debido a que si el ancho de banda del usuario es bajo, no deja pasar a la pantalla principal a menos que este userInfo ejecutada'
+              );
+
+              this.props.getUserInfo(session.idToken.jwtToken);
+
+              // this.props.followersAlreadyCalled(true);
+              // this.props.navigation.navigate("AppNavigator2");
+              // this.setState({showloginForm: true});
+            }
+
+            var qratoken = await AsyncStorage.getItem('qratoken');
+            console.log('AsyncStorage qratoken: ' + qratoken);
+
+            // chequeo si el username logueado que esta en value, esta en qratoken del async, si no
+            if (qratoken !== value) {
+              // console.log(
+              //   'envio pushtoken a RDS porque por alguna razon no esta actualizado'
+              // );
+              this.props.postPushToken(
+                pushtoken,
+                value,
+                Platform.OS,
+                session.idToken.jwtToken
+              );
+            }
+          } //apologize
+        } catch (error) {
+          // console.log('Error AsyncStorage.getItem(username)', error);
           this.setState({ showloginForm: true });
+
+          crashlytics().setUserId('unknown');
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('AsyncStorage.get_DEV'));
+          else crashlytics().recordError(new Error('AsyncStorage.get_PRD'));
+
+          // kinesis_catch('#008',error,value);
+          // Error retrieving data
         }
+      } catch (e) {
+        console.log('No tiene credenciales LoginForm', e);
+        this.setState({ showloginForm: true });
+        //   kinesis_catch('#009',e,value);
+        var pushtoken = await AsyncStorage.getItem('pushtoken');
+        // var qraTokenVerif = await AsyncStorage.getItem('qratoken');
+
+        if (pushtoken === null) {
+          // console.log('no tiene credenciales y nunca obtuvo pushtoken');
+        } else {
+          // encontro un token y como no hay usuario asignado a ese token, debe ser
+          // blanqueado en RDS por las dudas que no haya sifo blanqueado en el signout
+          // y no siga enviando PUSH a este equipo.
+          // console.log('no tiene credenciales y tiene pushtoken');
+          // console.log(pushtoken);
+          // console.log('qratoken:' + qraTokenVerif);
+          // if (qraTokenVerif !== '')
+          // console.log(
+          //   'el qratoken es distinot de vacio, deberia blanquear el pushtoken del RDS'
+          // );
+        }
+        // Handle exceptions
       }
+    } // if de debeHacerUpgrade o fuerzo signout porque necesito que haga login para tener user y pas para webview
+    // else {
+    //   // if (this.userYpassnull) {
+    //   //   // console.log(
+    //   //   //   'Fuerzo a q se loguee para que pueda pasar los datos a webview'
+    //   //   // );
+    //   //   this.userYpassnull = false;
+    //   //   this.setState({ showloginForm: true });
+    //   // }
+    // }
     // } else {
     //   // console.log('lo siento no hay Internet');
     //   this.setState({ nointernet: true });
     // }
-
-    this.setState({exit: true})
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
+  }
 
   closeVariosModales = () => {
     this.setState({ nointernet: false });
     this.componentDidMount();
   };
-
+  backAction = () => {
+    if (!this.props.navigation.isFocused()) {
+      // The screen is not focused, so don't do anything
+      return false;
+    } else {
+      Alert.alert(
+        I18n.t('BACKBUTTONANDROIDTITLE'),
+        I18n.t('BACKBUTTONANDROID'),
+        [
+          {
+            text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+          {
+            text: I18n.t('BACKBUTTONANDROIDEXIT'),
+            onPress: () => BackHandler.exitApp()
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+      return true;
+    }
+  };
   closeWelcom = () => {
     this.props.welcomeUserFirstTime(false);
   };
@@ -814,14 +821,14 @@ class LoginForm extends React.PureComponent {
               this.setState({ forceChangePassword: true, stopApp: true });
             // si no se necesita que cambie la pass entonces guardo user y pass para que se pueda
             // enviar luego a la webview
-            else {
-              // await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
-              // await AsyncStorage.setItem('userpwd', this.state.password);
-              // // userLogin = await AsyncStorage.getItem('userlogin');
-              // // userPwd = await AsyncStorage.getItem('userpwd');
-              // webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
-              // await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
-            }
+            // else {
+            // await AsyncStorage.setItem('userlogin', this.state.username.toLowerCase());
+            // await AsyncStorage.setItem('userpwd', this.state.password);
+            // // userLogin = await AsyncStorage.getItem('userlogin');
+            // // userPwd = await AsyncStorage.getItem('userpwd');
+            // webViewUserSession = {"userlogin": this.state.username.toLowerCase(), "userpwd": this.state.password}
+            // await this.props.setWebView(webViewUserSession,'https://test.dd39wvlkuxk5j.amplifyapp.com/')
+            // }
             console.log(
               result.signInUserSession.idToken.payload['custom:callsign']
             );
@@ -838,6 +845,42 @@ class LoginForm extends React.PureComponent {
 
             if (err.code === 'UserNotConfirmedException') {
               // this.setState({confirmSignup: true})
+              Auth.resendSignUp(this.state.username.toLowerCase())
+                .then(() => {
+                  console.log('Resend Ok!');
+                  this.setState({
+                    errormessage2: I18n.t('signupValConfirmCode'),
+                    color: '#8BD8BD',
+                    heightindicator: 0,
+                    indicator: 0,
+                    confirmationcodeError: 1
+                  });
+                })
+                .catch((err2) => {
+                  console.log(
+                    'Error sending the confirmation code, try again.',
+                    err2
+                  );
+                  this.setState({
+                    errormessage2:
+                      'Error sending the confirmation code, try again.',
+                    color: 'red',
+                    heightindicator: 0,
+                    indicator: 0,
+                    confirmationcodeError: 1
+                  });
+                  // kinesis_catch('#021',err,this.state.username.toUpperCase());
+                  crashlytics().setUserId(this.state.username.toLowerCase());
+                  crashlytics().log('error: ' + JSON.stringify(err));
+                  if (__DEV__)
+                    crashlytics().recordError(
+                      new Error('Auth.resendSignUp_DEV')
+                    );
+                  else
+                    crashlytics().recordError(
+                      new Error('Auth.resendSignUp_PRD')
+                    );
+                });
               this.setState({
                 loginerror: 0,
                 indicator: 0,
@@ -899,21 +942,21 @@ class LoginForm extends React.PureComponent {
         //  console.log('currentUserCredentials:'+JSON.stringify(session));
         //  await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')  http://192.168.0.9:3000
 
-        await AsyncStorage.setItem(
-          'userlogin',
-          this.state.username.toLowerCase()
-        );
-        await AsyncStorage.setItem('userpwd', this.state.password);
+        // await AsyncStorage.setItem(
+        //   'userlogin',
+        //   this.state.username.toLowerCase()
+        // );
+        // await AsyncStorage.setItem('userpwd', this.state.password);
 
-        webViewUserSession = {
-          userlogin: this.state.username.toLowerCase(),
-          userpwd: this.state.password
-        };
-        // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-        await this.props.setWebView(
-          webViewUserSession,
-          global_config.urlWeb + '?embedded=true'
-        );
+        // webViewUserSession = {
+        //   userlogin: this.state.username.toLowerCase(),
+        //   userpwd: this.state.password
+        // };
+        // // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
+        // await this.props.setWebView(
+        //   webViewUserSession,
+        //   global_config.urlWeb + '?embedded=true'
+        // );
 
         // userLogin = await AsyncStorage.getItem('userlogin');
         // userPwd = await AsyncStorage.getItem('userpwd');
@@ -1050,18 +1093,18 @@ class LoginForm extends React.PureComponent {
         this.setState({ indicator: 0 });
         //this.props.navigation.navigate("AppNavigator2");
 
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({
-              routeName: 'Home',
-              params: { foo: 'bar' }
-            })
-          ]
-        });
+        // const resetAction = StackActions.reset({
+        //   index: 0,
+        //   actions: [
+        //     NavigationActions.navigate({
+        //       routeName: 'Home',
+        //       params: { foo: 'bar' }
+        //     })
+        //   ]
+        // });
 
         // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
-        this.props.navigation.dispatch(resetAction);
+        this.props.navigation.push('Home');
       }
       // this.setState({indicator: 0});
       // Keyboard.dismiss();
@@ -1096,7 +1139,7 @@ class LoginForm extends React.PureComponent {
           console.log('Resend Ok!');
           this.setState({
             errormessage2: I18n.t('signupValConfirmCode'),
-            color: 'blue',
+            color: '#8BD8BD',
             heightindicator: 0,
             indicator: 0,
             confirmationcodeError: 1
@@ -1127,8 +1170,7 @@ class LoginForm extends React.PureComponent {
     }
   };
 
-  
-  confirmSignup = async (confirmationCode) => {
+  confirmSignup = async () => {
     Keyboard.dismiss();
 
     if (await hasAPIConnection()) {
@@ -1138,9 +1180,9 @@ class LoginForm extends React.PureComponent {
         indicator: 1,
         buttonsEnabled: true
       });
-
-      //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
-      Auth.confirmSignUp(this.state.username.toLowerCase(), confirmationCode)
+      Auth.signIn(this.state.username.toLowerCase(), this.state.password)
+        //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
+        // Auth.confirmSignUp(this.state.username.toLowerCase(), confirmationCode)
         .then(() => {
           console.log('SignUp confirmed ok!: ');
           this.close_confirmSignup();
@@ -1156,7 +1198,6 @@ class LoginForm extends React.PureComponent {
           // this.props.welcomeUserFirstTime(true);
           // this.props.navigation.navigate('Home');
 
-
           // setTimeout(() => {
           //   // se hace tiempo porque ios necesita bajar el modal anterior antes
           //   this.props.welcomeUserFirstTime(true);
@@ -1169,6 +1210,7 @@ class LoginForm extends React.PureComponent {
           // this.props.navigation.navigate("AppNavigator2");
         })
         .catch((err) => {
+          console.log(err);
           console.log('SignUp confirmed error: ', err);
           this.setState({
             errormessage2: I18n.t('signupValConfirmationFailed'),
@@ -1471,7 +1513,7 @@ const mapDispatchToProps = {
   setSubscriptionInfo,
   manageLocationPermissions,
   welcomeUserFirstTime,
-  setWebView,
+  // setWebView,
   apiCheckVersion,
   setPendingVerification
 };

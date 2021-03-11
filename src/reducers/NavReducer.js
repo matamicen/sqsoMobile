@@ -1,6 +1,6 @@
-import { AppNavigator } from '../components/MainNavigator';
+import { HomeStackNavigator } from '../components/navigation/TabNavigator';
 
-const router = AppNavigator.router;
+const router = HomeStackNavigator.router;
 // const mainNavAction = router.getActionForPathAndParams('AppNavigator2');
 // const initialNavState = router.getStateForAction(mainNavAction);
 

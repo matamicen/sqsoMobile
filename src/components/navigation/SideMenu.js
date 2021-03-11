@@ -1,23 +1,20 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import {
-  NavigationActions,
-  withNavigation,
-  DrawerActions
-} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
+import { DrawerActions } from 'react-navigation-drawer';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import analytics from '@react-native-firebase/analytics';
 class SideMenu extends Component {
-  navigateToScreen = (route) => () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: route
-    });
-    this.props.navigation.push(route);
-  };
+  // navigateToScreen = (route) => () => {
+  //   const navigateAction = NavigationActions.navigate({
+  //     routeName: route
+  //   });
+  //   this.props.navigation.push(route);
+  // };
 
   render() {
     return (

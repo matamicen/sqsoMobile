@@ -271,20 +271,17 @@ const selectorFeedType = (state, ownProps) => {
   else return null;
 };
 const selectorFeedTypeLikes = (state, ownProps) => {
-  let likes = [];
+  var qso = {};
   if (ownProps.feedType === 'MAIN')
-    likes = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')
-    likes = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
-    likes = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
-    likes = state.sqso.feed.qso.likes;
+    qso = state.sqso.feed.qso;
 
-  return likes;
+  return qso ? qso.likes : [];
 };
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,

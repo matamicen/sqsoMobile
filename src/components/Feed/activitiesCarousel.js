@@ -2,9 +2,11 @@ import React from 'react';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import analytics from '@react-native-firebase/analytics';
-
+import VideoPlayer from 'react-native-video-controls';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import moment from 'moment';
+import 'moment/locale/es';
 import {
   View,
   Linking,
@@ -16,14 +18,18 @@ import {
 } from 'react-native';
 
 import { withNavigation } from 'react-navigation';
-import { Image, Card } from 'react-native-elements';
+import { Image, Card, Tile } from 'react-native-elements';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+if (I18n.locale.substring(0, 2) === 'es') moment.locale('es');
+if (I18n.locale.substring(0, 2) === 'en') moment.locale('en');
 class Link extends React.PureComponent {
   openUrl(url) {
-    url = url.toUpperCase();
-
-    if (!url.startsWith('HTTP://') && !url.startsWith('HTTPS://')) {
+    // url = url.toUpperCase();
+    if (
+      !url.toUpperCase().startsWith('HTTP://') &&
+      !url.toUpperCase().startsWith('HTTPS://')
+    ) {
       url = 'http://' + url;
     }
     Linking.openURL(url);
@@ -92,7 +98,7 @@ class Description extends React.PureComponent {
 const slideWidth = Dimensions.get('window').width;
 
 class ActivitiesCarousel extends React.PureComponent {
-  state = { showModal: false, activeSlide: 0 };
+  state = { showModal: false, activeSlide: 0, showVideo: false, paused: false };
   itemWidth = Dimensions.get('window').width;
   componentDidMount() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
@@ -102,67 +108,225 @@ class ActivitiesCarousel extends React.PureComponent {
   }
   _renderItem(props) {
     let qso = props.item;
+    var width = Dimensions.get('window').width;
     if (qso.type !== 'FLDDAY') return null;
 
-    let picList = qso.media.filter((media) => media.type === 'image');
+    let mediaList = qso.media.filter(
+      (media) => media.type === 'image' || media.type === 'video'
+    );
 
-    if (picList.length > 0) {
-      return (
-        <View
-          key={picList[0].idqsos_media}
-          style={{
-            // flex: 1,
-            // width: 100,
-            height: 300,
-            margin: 0
-          }}>
-          <View style={styles.card}>
-            <Image
+    if (mediaList.length > 0) {
+      if (mediaList[0].type === 'image')
+        return (
+          <View
+            key={mediaList[0].idqsos_media}
+            style={{
+              alignSelf: 'center',
+              // flex: 0.9,
+              // width: 100,
+              height: 300,
+              margin: 0
+            }}>
+            <View
               style={{
-                // flex: 1,
-                height:
-                  this.itemWidth > 270 ? Dimensions.get('window').height : 280,
-                maxHeight: 300,
-                alignSelf: 'center',
-                padding: 0,
-                // margin: 300,
-                width: picList[0].width > 270 ? 270 : picList[0].width
-              }}
-              source={{ uri: picList[0].url }}
-              resizeMethod="scale"
-              resizeMode="contain"
-              transition
-              PlaceholderContent={<ActivityIndicator />}
-              onPress={() => {
-                if (!__DEV__)
-                  analytics().logEvent('activitiesCarouselPress_APPPRD');
-                this.props.navigation.navigate('QSODetail', {
-                  QSO_GUID: qso.GUID_URL
-                });
-              }}
-            />
-            {/* <View
+                flex: 0.9,
+                // justifyContent: 'center',
+                alignItems: 'center',
+                // width: this.itemWidth
+                maxHeight: 250
+              }}>
+              <Image
+                style={{
+                  // flex: 1,
+                  height:
+                    this.itemWidth > 270
+                      ? Dimensions.get('window').height
+                      : 250,
+                  maxHeight: 250,
+                  // alignSelf: 'center',
+                  padding: 0,
+                  // margin: 300,
+                  width: mediaList[0].width > width ? width : mediaList[0].width
+                }}
+                source={{ uri: mediaList[0].url }}
+                resizeMethod="scale"
+                resizeMode="contain"
+                transition
+                PlaceholderContent={<ActivityIndicator />}
+                onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('activitiesCarouselPress_APPPRD');
+                  this.props.navigation.navigate('QSODetail', {
+                    QSO_GUID: qso.GUID_URL
+                  });
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flex: 0.1,
+                // justifyContent: 'center',
+                alignItems: 'center'
+                // width: this.itemWidth
+              }}>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 17,
+                  paddingHorizontal: 5
+                  // textAlign: 'center'
+                }}>
+                <Description
+                  key={mediaList[0].idqsos_media}
+                  description={mediaList[0].description}
+                />
+              </Text>
+              <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+                {moment(qso.activityBegin).isSameOrBefore(Date.now()) &&
+                  I18n.t('qso.startedAt', {
+                    text: moment(qso.activityBegin).fromNow(true)
+                  })}
+
+                {moment(qso.activityBegin).isAfter(Date.now()) &&
+                  I18n.t('qso.willStart', {
+                    text: moment(qso.activityBegin).toNow(true)
+                  })}
+              </Text>
+            </View>
+          </View>
+        );
+      else if (mediaList[0].type === 'video') {
+        var videoHeight = (mediaList[0].height * width) / mediaList[0].width;
+
+        if (videoHeight > Dimensions.get('window').height - 177) {
+          videoHeight = Dimensions.get('window').height - 177;
+          width = (mediaList[0].width * videoHeight) / mediaList[0].height;
+        }
+        return (
+          <View>
+            {this.state.showVideo && (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignSelf: 'center'
+                }}>
+                <VideoPlayer
+                  ref={(ref) => {
+                    this.player = ref;
+                  }}
+                  // id="my-video"
+                  // className="video-js"
+                  // controls
+                  // fullscreen={true}
+                  onPause={() =>
+                    this.props.actions.doPauseVideo(mediaList[0].idqso)
+                  }
+                  navigator={this.props.navigator}
+                  resizeMode="cover"
+                  disableFullscreen
+                  playInBackground={false}
+                  playWhenInactive={false}
+                  posterResizeMode="cover"
+                  poster={mediaList[0].videoPreview}
+                  // paused={props.paused}
+                  paused={mediaList[0].paused ? true : false}
+                  onLoad={() => {
+                    // this.setState({
+                    //   paused: true
+                    // });
+                  }}
+                  style={
+                    (styles.backgroundVideo,
+                    {
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width,
+                      height: videoHeight
+                    })
+                  }
+                  source={{
+                    uri: mediaList[0].url
+                  }}
+                  // onLayout={this.handleVideoLayout}
+                  // style={styles.backgroundVideo}
+                />
+              </View>
+            )}
+            {!this.state.showVideo && (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  width,
+                  height: videoHeight
+                }}>
+                <Tile
+                  contentContainerStyle={{
+                    justifyContent: 'center',
+                    alignSelf: 'center'
+                  }}
+                  width={width}
+                  height={videoHeight}
+                  imageSrc={{
+                    uri: mediaList[0].videoPreview
+                  }}
+                  // imageProps={
+                  //   PlaceholderContent={<ActivityIndicator />}
+                  // }
+                  icon={{
+                    size: 70,
+                    name: 'play-circle',
+                    type: 'font-awesome',
+                    color: 'white'
+                  }}
+                  onPress={() => {
+                    this.props.actions.doQsoMediaPlay(
+                      mediaList[0].idqsos_media,
+
+                      mediaList[0].idqso
+                    );
+                    this.setState({ showVideo: true, paused: false });
+                  }}
+                  featured
+                />
+              </View>
+            )}
+            <View
               style={{
                 flex: 0.1,
                 justifyContent: 'center',
-                alignItems: 'center',
-                width: this.itemWidth - 15
+                alignItems: 'center'
+                // width: this.itemWidth - 15
               }}>
               <Text
+                numberOfLines={1}
                 style={{
                   fontSize: 17,
                   paddingHorizontal: 5,
                   textAlign: 'center'
                 }}>
                 <Description
-                  key={picList[0].idqsos_media}
-                  description={picList[0].description}
+                  key={mediaList[0].idqsos_media}
+                  description={mediaList[0].description}
                 />
               </Text>
-            </View> */}
+              <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
+                {moment(qso.activityBegin).isSameOrBefore(Date.now()) &&
+                  I18n.t('qso.startedAt', {
+                    text: moment(qso.activityBegin).fromNow(true)
+                  })}
+
+                {moment(qso.activityBegin).isAfter(Date.now()) &&
+                  I18n.t('qso.willStart', {
+                    text: moment(qso.activityBegin).toNow(true)
+                  })}
+              </Text>
+            </View>
           </View>
-        </View>
-      );
+        );
+      }
     } else return null;
   }
   pagination() {
@@ -217,7 +381,7 @@ class ActivitiesCarousel extends React.PureComponent {
             data={this.props.fieldDays}
             renderItem={this._renderItem.bind(this)}
             sliderWidth={sliderWidth}
-            itemWidth={270}
+            itemWidth={sliderWidth}
             onSnapToItem={(index) => this.setState({ activeSlide: index })}
             // removeClippedSubviews={false}
             // initialNumToRender={0}.bindd

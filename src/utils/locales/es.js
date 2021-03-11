@@ -47,17 +47,26 @@ export default {
   signupValCountry: 'Ud. debe ingresar su país',
   signupValDiffYears: 'Ud. debe ser mayor de 13 años para usar SuperQSO.',
   signupValBirthDate: 'Ud. debe ingresar su fecha de nacimiento',
-  signupValConfirmCode: 'Su código de confirmación se ha enviado!',
+  signupValConfirmCode: 'El email de confirmación ha sido enviado!',
   signupValErrorSendingConfCode:
     'Error al envíar el código de confirmación, intente de nuevo.',
   signupValConfirmationFailed:
-    'Fallo la confirmación! Por favor ingrese el código nuevamente',
+    'Fallo la confirmación! Por favor verifique el email que le enviamos y haga click en el link para activar la cuenta',
   confirmSignUpWeHaveSent:
-    'Enviamos el código de confirmación a su correo electrónico. Por favor ingrese el código para activar la cuenta.',
+    'Le enviamos un email de confirmación. Por favor haga click en el link del mismo para activar la cuenta. Luego presione "Listo"',
   confirmSignUpConfirmationCode: 'código de confirmación',
   confirmSignUpCancelButton: 'Cancelar',
-  confirmSignUpResendCodeButton: 'Reenviar Código',
-  confirmSignUpConfirmButton: 'CONFIRMAR',
+  confirmSignUpResendCodeButton: 'Reenviar Email',
+  confirmSignUpConfirmButton: 'Listo',
+  confirmHelp1: '¿No te llego el email de confirmación?',
+  confirmHelp2: 'Si no te llego el email hace lo siguiente.',
+  confirmHelp3:
+    '1. Busca en otras carpetas de tu correo incluso en “Correo no deseado”(SPAM)',
+  confirmHelp4:
+    '2. Si aún no lo encuentras, pincha sobre “Reenviar Email para que te enviemos el correo nuevamente y vuelve al paso 1.',
+  confirmHelp5:
+    '3. Si aún no lo encuentras escríbenos a info@superqso.com e infórmanos tu Señal distintiva/indicativo y en el titulo del correo: “codigo confirmación” que te contactaremos a la brevedad o bien puedes contactarnos al WhatsApp +5491154153542.',
+
   variosModWelcWelcome: 'Bienvenido a SuperQSO!',
   variosModWelcSendLicense1:
     'Para poder habilitar tu cuenta, necesitamos que nos envies una constancia de tu licencia (carnet, resolución, etc) a',
@@ -128,6 +137,7 @@ export default {
   forgotPasswordInvalidCodeProvided:
     'Código inválido, por favor solicite el código nuevamente.',
   HomeTitle: 'INICIO',
+  ActivitiesTitle: 'ACTIVIDADES',
   HomeLatestPosts1: 'Ver últimas',
   HomeLatestPosts2: 'publicaciones',
   HomeMyPosts1: 'Ver mis',
@@ -202,6 +212,7 @@ export default {
   ProfileQraUnFollow: 'Dejar de Seguir',
   ProfileQraCancel: 'Cerrar',
   ProfileQraViewProfile: 'Ver Perfil',
+  viewPost: 'Ver Publicación',
   variosModContactUsTitle: 'Contáctanos',
   variosModContactUsMessage: 'Mensaje',
   variosModContactUsCancel: 'Cancelar',
@@ -243,7 +254,7 @@ export default {
   QsoTypeSWLdesc: 'Publica una escucha de un QSO de otros colegas.',
   QsoTypeANYdescOther:
     'Publica algo genérico, una foto de tu estación, proyectos, antenas, amigos, etc.',
-  QsoTypeANYdescFieldDay: 'Promocioná una actividad, concurso o charla.',
+  QsoTypeANYdescFieldDay: 'Promocioná una activación, concurso o charla.',
   QsoTypeANYdescQAP: 'Publica que estas QAP.',
   QsoTypePOST: 'Genérico',
   QsoTypeQAP: 'QAP',
@@ -483,7 +494,7 @@ export default {
   QSLSCANQR_COMMENTS: 'Comentarios',
   QSLSCANQR_BACK: 'Volver',
   UTILSCANQSLCARD: 'Escanear tarjeta QSL',
-  BACKBUTTONANDROIDTITLE: 'AVISO',
+  BACKBUTTONANDROIDTITLE: 'Salir',
   BACKBUTTONANDROID: 'Ud. esta seguro que desea salir de SuperQSO?',
   BACKBUTTONANDROIDCANCEL: 'Cancelar',
   BACKBUTTONANDROIDEXIT: 'Salir',
@@ -506,6 +517,7 @@ export default {
   QsoScrUploadingVideo: 'Subiendo video',
   QsoScrUploadingVideoError: 'Error al subir el video.',
   navBar: {
+    viewProfile: 'Perfil de Usuario',
     actCarouselTitle: 'Actividades en curso / por comenzar',
     lastFieldDays: 'Ver Actividades',
     myPosts: 'Mis Publicaciones',
@@ -667,6 +679,8 @@ export default {
     sharedPOST: '{{QRA}} republicó una publicación'
   },
   qso: {
+    startedAt: 'Comenzó hace %{text}',
+    willStart: 'Comenzará en %{text}',
     comments: 'Comentarios',
     audioPlays: {
       one: '%{count} Reproducción',
@@ -690,16 +704,16 @@ export default {
     playAudio: 'Reproducir',
     qsoReposted: 'Republicado con éxito!',
     qsoDeleted: 'QSO Eliminado',
-    workedAQSO: '{{QRA}} trabajó un QSO',
-    createdPost: '{{QRA}} creó una publicación',
-    createdQAP: '{{QRA}} publicó que está QAP',
-    createdFLDDAY: '{{QRA}} promocionó una actividad',
-    listenedQSO: '{{QRA}} escuchó un QSO',
-    repostedQSO: '{{QRA}} republicó un QSO',
-    repostedLISTEN: '{{QRA}} republicó una escucha',
-    repostedQAP: '{{QRA}} republicó un QAP',
-    repostedFLDDAY: '{{QRA}} republicó una actividad',
-    repostedPOST: '{{QRA}} republicó una publicación',
+    workedAQSO: ' trabajó un QSO',
+    createdPost: ' creó una publicación',
+    createdQAP: ' publicó que está QAP',
+    createdFLDDAY: ' promocionó una actividad',
+    listenedQSO: ' escuchó un QSO',
+    repostedQSO: ' republicó un QSO',
+    repostedLISTEN: ' republicó una escucha',
+    repostedQAP: ' republicó un QAP',
+    repostedFLDDAY: ' republicó una actividad',
+    repostedPOST: ' republicó una publicación',
     start: 'Comienzo',
     end: 'Fin',
     date: 'Fecha',
@@ -768,7 +782,7 @@ export default {
     enterMessage: 'Ingrese Mensaje',
     confirmRecaptcha: 'Confirmar Recaptcha',
     verifyEmailInbox:
-      'Enviamos el código de confirmación a su correo electrónico. Por favor ingrese el código para activar la cuenta.',
+      'Enviamos un email de verificación su correo electrónico. Por favor haga click en el link para activar la cuenta.',
     welcomeToSuperQSO: 'Bienvenido a SuperQSO!',
     betaPhase:
       'Queremos informarle que todavía somos Beta y puede haber demoras en la activación de los usuarios.',
