@@ -305,7 +305,7 @@ export const TabNavigator = createBottomTabNavigator(
                   }}
                   source={require('../../images/notifications.png')}
                 />
-                <Text style={{ fontSize: 8.5, marginTop: 3, marginLeft: 5 }}>
+                <Text style={{ fontSize: 8, marginTop: 3, marginLeft: 5 }}>
                   {I18n.t('NotificationTitle1')}
                 </Text>
 

@@ -370,6 +370,8 @@ PODS:
     - React
   - react-native-netinfo (5.9.7):
     - React-Core
+  - react-native-safe-area-context (3.2.0):
+    - React-Core
   - react-native-video (4.4.5):
     - React
     - react-native-video/Video (= 4.4.5)
@@ -446,11 +448,15 @@ PODS:
     - React
   - RNCAsyncStorage (1.6.1):
     - React
+  - RNCMaskedView (0.1.10):
+    - React
   - RNCPicker (1.7.1):
     - React
   - RNCPushNotificationIOS (1.0.5):
     - React
   - RNDateTimePicker (3.0.6):
+    - React-Core
+  - RNDeviceInfo (8.0.1):
     - React-Core
   - RNExitApp (1.1.0):
     - React
@@ -476,8 +482,8 @@ PODS:
     - Firebase/RemoteConfig (~> 6.13.0)
     - React
     - RNFBApp
-  - RNGestureHandler (1.8.0):
-    - React
+  - RNGestureHandler (1.10.3):
+    - React-Core
   - RNIap (4.0.7):
     - React
   - RNImageCropPicker (0.34.1):
@@ -493,11 +499,13 @@ PODS:
     - React
   - RNPermissions (2.2.2):
     - React-Core
-  - RNReanimated (1.2.0):
-    - React
+  - RNReanimated (1.13.2):
+    - React-Core
+  - RNScreens (2.18.1):
+    - React-Core
   - RNShare (3.0.0):
     - React
-  - RNShareMenu (5.0.2):
+  - RNShareMenu (5.0.3):
     - React
   - RNVectorIcons (7.1.0):
     - React
@@ -558,6 +566,7 @@ DEPENDENCIES:
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-location (from `../node_modules/react-native-location`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -574,9 +583,11 @@ DEPENDENCIES:
   - RNAudio (from `../node_modules/react-native-audio`)
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - "RNFBAdMob (from `../node_modules/@react-native-firebase/admob`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
@@ -589,6 +600,7 @@ DEPENDENCIES:
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNShareMenu (from `../node_modules/react-native-share-menu`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -694,6 +706,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-location"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -726,12 +740,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/amazon-cognito-identity-js"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-community/masked-view"
   RNCPicker:
     :path: "../node_modules/@react-native-community/picker"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNExitApp:
     :path: "../node_modules/react-native-exit-app"
   RNFBAdMob:
@@ -756,6 +774,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   RNShare:
     :path: "../node_modules/react-native-share"
   RNShareMenu:
@@ -830,6 +850,7 @@ SPEC CHECKSUMS:
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
   react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
+  react-native-safe-area-context: e471852c5ed67eea4b10c5d9d43c1cebae3b231d
   react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
   react-native-webview: e2c0bce9a1a7c7edd4eb30f0c3016fce216245ce
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
@@ -846,23 +867,26 @@ SPEC CHECKSUMS:
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNAWSCognito: 9fb91d3bfaebd85b3d6ee680f8e8d258580dec58
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
+  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPicker: a2bf7bad059f23de52add203c3c5a3bc5b5239d8
   RNCPushNotificationIOS: 30ed75aa2981a4ee00b8a2c46599ff18a9c7fcf6
   RNDateTimePicker: 54bc1830e4e8d99ed00e6b6735b8517e163b2a4a
+  RNDeviceInfo: 54401b60514387f9120ab8265be5ed9103d842b9
   RNExitApp: 7d81855142a4d11eb75f4f06fdebf5a950d7aef2
   RNFBAdMob: 5daad76870e5f696b4c79ce447cc0b6c38d93088
   RNFBAnalytics: 5ec128852c1c2104bcd9b336fed1e9b76299dc48
   RNFBApp: 315b3b4caaf976ded57d5fbfe5bd9e00f6d78124
   RNFBCrashlytics: 9f816d1188c20d9f9dd9b271a03e794342b3d59c
   RNFBRemoteConfig: b9b375a55a208239bce1eccd6c752167f8475c3e
-  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: 39ec170dc53c227ea352b706c76f7960070309a8
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
-  RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
+  RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
-  RNShareMenu: fefca627ce5cbe7999655b7126ba4d07193fd2b9
+  RNShareMenu: 555df30344da0d60947ccc781b0447ee9e5cd48f
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
