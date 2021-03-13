@@ -1658,7 +1658,8 @@ const qsoReducer = (state = initialState, action) => {
         // console.log('cant mess no leidos: ' + cont);
         //   AsyncStorage.setItem('ultimafecha', today);
 
-        auxUnread = cont;
+        // auxUnread = cont;
+        var auxUnread = 0;
         auxcurrentQso = {
           ...state.currentQso,
           // notifications: action.notifications
@@ -1672,6 +1673,7 @@ const qsoReducer = (state = initialState, action) => {
         // Esta rutina la marca como leida, le cambia el color
         updatedItems5 = action.notifications.map((item) => {
           date = new Date(item.DATETIME);
+          console.log('comp item date: '+ date + ' action.date:' +action.date)
           // console.log('dateconvertida: ' + date);
           if (date > action.date) {
             modif = { read: 'unread' };
