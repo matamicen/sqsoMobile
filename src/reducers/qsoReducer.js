@@ -1673,7 +1673,9 @@ const qsoReducer = (state = initialState, action) => {
         // Esta rutina la marca como leida, le cambia el color
         updatedItems5 = action.notifications.map((item) => {
           date = new Date(item.DATETIME);
-          console.log('comp item date: '+ date + ' action.date:' +action.date)
+          console.log(
+            'comp item date: ' + date + ' action.date:' + action.date
+          );
           // console.log('dateconvertida: ' + date);
           if (date > action.date) {
             modif = { read: 'unread' };
@@ -1969,7 +1971,8 @@ const qsoReducer = (state = initialState, action) => {
         qra: action.qra,
         firstname: action.firstname,
         lastname: action.lastname,
-        avatarpic: action.avatarpic
+        avatarpic: action.avatarpic,
+        country: action.country
       };
       newStore = Object.assign({}, state, {
         ...state,

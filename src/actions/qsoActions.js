@@ -4041,7 +4041,8 @@ export function doLikeQSO(
   firstname,
   lastname,
   avatarpic,
-  idqso_shared
+  idqso_shared,
+  country
 ) {
   return {
     type: QSO_LIKE,
@@ -4051,7 +4052,8 @@ export function doLikeQSO(
     firstname,
     lastname,
     avatarpic,
-    idqso_shared
+    idqso_shared,
+    country
   };
 }
 export function doUnlikeQSO(idqso, idqra, idqso_shared) {
