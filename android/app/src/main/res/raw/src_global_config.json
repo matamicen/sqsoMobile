@@ -1,5 +1,5 @@
 {
-    "s3Cloudfront": "https://d1dwfud4bi54v7.cloudfront.net/1/",
+    "s3Cloudfront_prd": "https://d1dwfud4bi54v7.cloudfront.net/1/",
     "apiEndpoint_prd": "https://api.zxcvbnmasd.com",
     "urlWeb_prd": "https://www.superqso.com",
     "urlWeb_test2_prd": "https://react-select.com/home",
