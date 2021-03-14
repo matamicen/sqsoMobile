@@ -38,19 +38,19 @@ class Notification extends React.PureComponent {
   tapOnTabNavigator = async () => {
     console.log('PRESS NOTIF!');
     this.props.setPressHome(0);
-    today = new Date();
-    var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
-    console.log('fecha guardada: ' + ultimaFechaDeIngreso);
-    formateo = new Date(ultimaFechaDeIngreso);
-    // le envio la fecha del storage antes de grabar la nueva fecha justamente para que la primera vez que pulse NOTIFICACIONES
-    // le siga mostrando en GRIS las nuevas notificaciones, ya si apreta la segunda vez se le va el grisado.
-    // este metodo pone en 0 las notificaiones pero le deja grisado aun las nuevas para que las vea comodamente o resalten
-    this.props.manage_notifications(
-      'CALCULOUNREADPRESSNOTIFICATIONS',
-      this.props.notifications,
-      formateo
-    );
-    AsyncStorage.setItem('ultimafecha', today.toString());
+    // today = new Date();
+    // var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+    // console.log('fecha guardada: ' + ultimaFechaDeIngreso);
+    // formateo = new Date(ultimaFechaDeIngreso);
+    // // le envio la fecha del storage antes de grabar la nueva fecha justamente para que la primera vez que pulse NOTIFICACIONES
+    // // le siga mostrando en GRIS las nuevas notificaciones, ya si apreta la segunda vez se le va el grisado.
+    // // este metodo pone en 0 las notificaiones pero le deja grisado aun las nuevas para que las vea comodamente o resalten
+    // this.props.manage_notifications(
+    //   'CALCULOUNREADPRESSNOTIFICATIONS',
+    //   this.props.notifications,
+    //   formateo
+    // );
+    // AsyncStorage.setItem('ultimafecha', today.toString());
   };
 
   onScreenFocus = async () => {
@@ -64,6 +64,20 @@ class Notification extends React.PureComponent {
     // this.props.manage_notifications('CALCULOUNREAD',formateo);
     // today = new Date();
     // AsyncStorage.setItem('ultimafecha', today.toString());
+
+    today = new Date();
+    var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+    console.log('fecha guardada: ' + ultimaFechaDeIngreso);
+    formateo = new Date(ultimaFechaDeIngreso);
+    // le envio la fecha del storage antes de grabar la nueva fecha justamente para que la primera vez que pulse NOTIFICACIONES
+    // le siga mostrando en GRIS las nuevas notificaciones, ya si apreta la segunda vez se le va el grisado.
+    // este metodo pone en 0 las notificaiones pero le deja grisado aun las nuevas para que las vea comodamente o resalten
+    this.props.manage_notifications(
+      'CALCULOUNREADPRESSNOTIFICATIONS',
+      this.props.notifications,
+      formateo
+    );
+    AsyncStorage.setItem('ultimafecha', today.toString());
   };
 
   render() {

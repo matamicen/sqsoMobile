@@ -1658,7 +1658,8 @@ const qsoReducer = (state = initialState, action) => {
         // console.log('cant mess no leidos: ' + cont);
         //   AsyncStorage.setItem('ultimafecha', today);
 
-        auxUnread = cont;
+        // auxUnread = cont;
+        var auxUnread = 0;
         auxcurrentQso = {
           ...state.currentQso,
           // notifications: action.notifications
@@ -1967,7 +1968,8 @@ const qsoReducer = (state = initialState, action) => {
         qra: action.qra,
         firstname: action.firstname,
         lastname: action.lastname,
-        avatarpic: action.avatarpic
+        avatarpic: action.avatarpic,
+        country: action.country
       };
       newStore = Object.assign({}, state, {
         ...state,

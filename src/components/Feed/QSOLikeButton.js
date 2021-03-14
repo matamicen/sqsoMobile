@@ -213,8 +213,10 @@ class QSOLikeButton extends React.PureComponent {
           this.props.currentQRA,
           this.props.userInfo.firstname,
           this.props.userInfo.lastname,
+
           this.props.userInfo.avatarpic,
-          this.props.qso.idqso_shared
+          this.props.qso.idqso_shared,
+          this.props.country
         );
         this.doLike();
       } else {
@@ -287,6 +289,7 @@ const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
   userInfo: state.sqso.userInfo,
   qso: selectorFeedType(state, ownProps),
+  country: state.sqso.userInfo.country,
   likes: selectorFeedTypeLikes(state, ownProps),
   userinfo: state.sqso.userInfo,
   token: state.sqso.jwtToken
