@@ -75,6 +75,7 @@ class NotifItem extends React.PureComponent {
       var marketing = new Set([70, 110]); // 70, o 110 es porque viene de Push Foreground
       var post = new Set([
         10,
+        23,
         60,
         61,
         62,
@@ -420,16 +421,6 @@ class NotifItem extends React.PureComponent {
                   </View>
                 )}
 
-              {/* el 23 es de LIKES que no se esta usando */}
-              {
-                this.props.activity_type === 23 && (
-                  <Text style={{ fontSize: 15, height: 75 }}>
-                    {this.props.message}{' '}
-                  </Text>
-                )
-                // <Text style={{fontSize:15, height: 75}}>{this.props.message} on {this.props.band} {this.props.mode}{"\n"} </Text>
-              }
-
               {this.props.activity_type === 12 && this.props.band !== '' && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text> */}
@@ -549,7 +540,16 @@ class NotifItem extends React.PureComponent {
                   {/* <Text style={{fontSize:14, height: 25,color: 'grey' }}>on {getDateQslScan(this.props.utc).substr(0,19)} UTC</Text> */}
                 </View>
               )}
-
+              {this.props.activity_type === 23 && (
+                <View>
+                  <Text style={{ fontSize: 15 }}>
+                    {I18n.t('NOTIF_ACTIVTYPE_23', { callsign: this.props.QRA })}
+                  </Text>
+                  <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
+                    <MomentAgo date={this.props.datetimecomment} />{' '}
+                  </Text>
+                </View>
+              )}
               {this.props.activity_type === 50 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}

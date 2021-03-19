@@ -179,7 +179,7 @@ export const HomeStackNavigator = createStackNavigator(
       // get the name of the route
       let tabBarVisible;
       const { routeName } = navigation.state.routes[navigation.state.index];
-      console.log(routeName);
+
       if (routeName === 'Home') {
         tabBarVisible = true;
       } else {
