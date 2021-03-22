@@ -206,11 +206,6 @@ export const TabNavigator = createBottomTabNavigator(
     tabBarPosition: 'bottom',
     swipeEnabled: true, // fixes a bug in react navigation
     lazy: true, // fixes a bug in react navigation
-    // navigationOptions: {
-    //   tabBarOnPress: ({ navigation, defaultHandler }) => {
-    //     // Called when tab is press
-    //     console.log('click');
-    //   }
 
     tabBarOptions: {
       style: {
@@ -362,10 +357,6 @@ export const TabNavigator = createBottomTabNavigator(
       },
       tabBarOnPress: ({ defaultHandler }) => {
         if (navigation && navigation.isFocused()) {
-          if (navigation.state.key === 'Home') {
-            // console.log(navigation.state.params);
-            // navigation.state.params.tapOnTabNavigator();
-          }
           const screenFunctions = getScreenRegisteredFunctions(
             navigation.state
           );

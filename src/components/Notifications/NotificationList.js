@@ -18,7 +18,6 @@ class NotificationList extends React.PureComponent {
   }
 
   onRefresh() {
-    console.log('refreshing');
     // this.setState({ isFetching: true });
     this.props.get_notifications(this.props.jwtToken);
   }
@@ -76,9 +75,6 @@ class NotificationList extends React.PureComponent {
   };
 
   render() {
-    //console.log("RENDER Notification List");
-    //console.log(JSON.stringify(this.props.notifications));
-
     return (
       <View style={{ flex: 1 }}>
         {this.props.notifications.length > 0 && (

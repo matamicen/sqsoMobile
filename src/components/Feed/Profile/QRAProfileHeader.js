@@ -9,7 +9,6 @@ class QRAProfileHeader extends React.PureComponent {
   state = { showModal: false };
   close = () => this.setState({ showModal: false });
   open = () => {
-    console.log(this.props.qraInfo.profilepic);
     if (this.props.qraInfo && this.props.qraInfo.profilepic) {
       if (!__DEV__) analytics().logEvent('profilepicOpenModal_APPPRD');
 

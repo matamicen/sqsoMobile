@@ -21,9 +21,6 @@ var PushNotification = require('react-native-push-notification');
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
   onRegister: function (token) {
-    //console.log('nuevo push token!!!');
-    //console.log(token);
-
     try {
       //  await AsyncStorage.setItem('pushtoken', token);
       AsyncStorage.setItem('pushtoken', token.token);
@@ -124,9 +121,9 @@ export default class App extends React.PureComponent {
     return (
       <SafeAreaView style={styles.safeArea}>
         <Provider store={store}>
-        <RootSiblingParent>
-          <AppNavigator />
-      </RootSiblingParent>
+          <RootSiblingParent>
+            <AppNavigator />
+          </RootSiblingParent>
         </Provider>
       </SafeAreaView>
     );

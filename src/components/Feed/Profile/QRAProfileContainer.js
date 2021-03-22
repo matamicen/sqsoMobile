@@ -33,7 +33,6 @@ class QRAProfileContainer extends React.PureComponent {
 
     this.props.navigation.setParams({
       openMenu: () => {
-        console.log('menu');
         return <View />;
       }
     });
@@ -72,7 +71,6 @@ class QRAProfileContainer extends React.PureComponent {
   // handleOpen = () => this.setState({ adActive: true });
   // handleClose = () => this.setState({ adActive: false, adClosed: true });
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
     if (this.props.qra !== prevProps.qra)
       this.setState({ qra: this.props.qra });
     if (this.props.qraError && prevState.loaderActive) {

@@ -27,8 +27,6 @@ class Notification extends React.PureComponent {
   }
 
   async componentDidMount() {
-    console.log('component Did Mount Notifications');
-
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
     this.props.navigation.setParams({
       tapOnTabNavigator: this.tapOnTabNavigator
@@ -36,7 +34,6 @@ class Notification extends React.PureComponent {
   }
 
   tapOnTabNavigator = async () => {
-    console.log('PRESS NOTIF!');
     this.props.setPressHome(0);
     // today = new Date();
     // var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
@@ -59,8 +56,7 @@ class Notification extends React.PureComponent {
     this.props.setPressHome(0);
     // var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
     // formateo = new Date(ultimaFechaDeIngreso);
-    // console.log('utlimafecha:'+ ultimaFechaDeIngreso);
-    // console.log('utlimafechaformateada:'+ ultimaFechaDeIngreso);
+
     // this.props.manage_notifications('CALCULOUNREAD',formateo);
     // today = new Date();
     // AsyncStorage.setItem('ultimafecha', today.toString());
@@ -81,8 +77,6 @@ class Notification extends React.PureComponent {
   };
 
   render() {
-    console.log('RENDER qso Screen');
-
     return (
       <View style={{ flex: 1 }}>
         {/* <View style={{flex: 1, marginTop: 30, marginLeft: 10}}> */}

@@ -82,8 +82,6 @@ class InitialScreen extends React.PureComponent {
   }
 
   async componentDidMount() {
-    // console.log('component Did Mount InitalScreen');
-
     this.props.setPressHome(0);
     // esto detecta cuando se apreta el TAB  de InitialScreen
     this.props.navigation.setParams({
@@ -92,41 +90,38 @@ class InitialScreen extends React.PureComponent {
   }
 
   tapOnTabNavigator = async () => {
-    // console.log('PRESS INITIAL SCREEN!');
     this.props.setPressHome(0);
   };
 
   gotoLoginScreen = () => {
-    // console.log('va camara Login Screen');
-
     this.props.navigation.navigate('Root');
   };
 
-  onPressAvatar = async (qra) => {
-    var urlnotif = 'https://www.superqso.com/' + qra;
-    Linking.canOpenURL(urlnotif)
-      .then((supported) => {
-        if (!supported) {
-          console.log('Can\'t handle url: ' + urlnotif);
-        } else {
-          // if(__DEV__)
-          //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
-          // else
-          if (!__DEV__)
-            analytics().logEvent('OPENWEBPROFILE_PRD', { QRA: this.props.qra });
+  // onPressAvatar = async (qra) => {
+  //   var urlnotif = 'https://www.superqso.com/' + qra;
+  //   Linking.canOpenURL(urlnotif)
+  //     .then((supported) => {
+  //       if (!supported) {
 
-          return Linking.openURL(urlnotif);
-        }
-      })
-      .catch((err) => {
-        console.error('An error occurred', err);
-        crashlytics().setUserId(this.props.qra);
-        crashlytics().log('error: ' + JSON.stringify(err));
-        if (__DEV__)
-          crashlytics().recordError(new Error('Linking.OpenProfile_DEV'));
-        else crashlytics().recordError(new Error('Linking.OpenProfile_PRD'));
-      });
-  };
+  //       } else {
+  //         // if(__DEV__)
+  //         //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
+  //         // else
+  //         if (!__DEV__)
+  //           analytics().logEvent('OPENWEBPROFILE_PRD', { QRA: this.props.qra });
+
+  //         return Linking.openURL(urlnotif);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error('An error occurred', err);
+  //       crashlytics().setUserId(this.props.qra);
+  //       crashlytics().log('error: ' + JSON.stringify(err));
+  //       if (__DEV__)
+  //         crashlytics().recordError(new Error('Linking.OpenProfile_DEV'));
+  //       else crashlytics().recordError(new Error('Linking.OpenProfile_PRD'));
+  //     });
+  // };
 
   signOut = async () => {
     if (await hasAPIConnection()) {
@@ -177,7 +172,7 @@ class InitialScreen extends React.PureComponent {
 
       try {
         var session = await Auth.currentSession();
-        //  console.log('Su token es: ' + session.idToken.jwtToken);
+
         this.setState({ tok: session.idToken.jwtToken });
       } catch (e) {
         console.log('caught error', e);
@@ -214,7 +209,7 @@ class InitialScreen extends React.PureComponent {
       request(CAMERA_PERMISSION).then((response) => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-        console.log('Camera Permiso: ' + response);
+
         if (response === RESULTS.GRANTED && Platform.OS === 'android') {
           // Permissions.request('storage').then(res => {
           request(STORAGE_PERMISSION).then((response) => {
@@ -229,7 +224,7 @@ class InitialScreen extends React.PureComponent {
         //  if (response==='authorized' &&  Platform.OS !== 'android')
         if (response === RESULTS.GRANTED && Platform.OS !== 'android') {
           // if (response === 'authorized' && Platform.OS !== 'android') {
-          console.log('Camera Permiso ok IOS: ' + response);
+
           this.props.closeModalConfirmPhoto('profile');
           this.props.navigation.navigate('CameraScreen2');
         }
@@ -320,7 +315,6 @@ class InitialScreen extends React.PureComponent {
   };
 
   closeModalPhotoConfirmation = () => {
-    // console.log("closeModalPhotoConfirmation");
     // this.props.closeModalConfirmPhoto();
     this.props.setConfirmProfilePhotoModal(false);
   };

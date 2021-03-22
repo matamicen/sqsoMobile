@@ -22,35 +22,6 @@ import { Auth } from 'aws-amplify';
 import moment from 'moment';
 
 class Home extends React.PureComponent {
-  // static navigationOptions = {
-  //   tabBarLabel: ' ',
-  //   // 50
-  //   tabBarIcon: ({ tintColor }) => {
-  //     // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
-  //     return (
-  //       <View
-  //         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //         <Image
-  //           style={{
-  //             width: 28,
-  //             height: 28,
-  //             marginLeft: 5,
-  //             marginTop: Platform.OS === 'ios' ? 24 : 28
-  //           }}
-  //           //  style={{ width: 28, height: 28, marginLeft: 18 }}
-
-  //           source={require('../../images/home4.png')}
-  //           // />
-  //         />
-  //         {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
-  //         <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>
-  //           {I18n.t('HomeTitle')}
-  //         </Text>
-  //       </View>
-  //     );
-  //   }
-  // };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -118,10 +89,6 @@ class Home extends React.PureComponent {
     //   this.setState({ adActive: false });
     this.props.actions.doFollowFetch();
     if (this.props.qsos.length === 0) {
-      // this.props.actions.doFetchUserFeed(
-      //   this.props.token,
-      //   this.props.currentQRA
-      // );
       this.props.actions.doClearFeed(this.props.publicFeed);
       if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
       else this.props.actions.doFetchUserFeed(this.props.currentQRA);
@@ -151,13 +118,10 @@ class Home extends React.PureComponent {
       // this.time = 50;
       // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
-      console.log('this.props.publicFeed: '+ this.props.publicFeed)
-       this.props.actions.doClearFeed(this.props.publicFeed);
-      if (this.props.publicFeed) 
-        this.props.actions.doFetchPublicFeed();
-      else 
-        this.props.actions.doFetchUserFeed(this.props.currentQRA);
-    
+
+      this.props.actions.doClearFeed(this.props.publicFeed);
+      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
@@ -219,19 +183,17 @@ class Home extends React.PureComponent {
       // console.log('timeGoesBackGround: ' + this.timeGoesBackGround);
 
       // console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
-      // dif = moment().diff(this.timeGoesBackGround, 'minutes');
-      // if (dif > 1) {
-      //   console.log('more than an hour it refreshs');
-      //   this.props.actions.doClearFeed(this.props.publicFeed);
-      //   console.log('this.props.publicFeed: '+ this.props.publicFeed)
+      var dif = moment().diff(this.timeGoesBackGround, 'minutes');
+      if (dif > 1) {
+        console.log('more than an hour it refreshs');
 
-      //   if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-      //   else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+        this.props.actions.doClearFeed(this.props.publicFeed);
+        if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+        else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
-      //   this.props.actions.doFetchFieldDaysFeed();
-      //   this.props.actions.doLatestUsersFetch();
-      // } else console.log('less than an hour');
-      
+        this.props.actions.doFetchFieldDaysFeed();
+        this.props.actions.doLatestUsersFetch();
+      }
     }
   };
 
