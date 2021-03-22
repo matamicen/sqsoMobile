@@ -184,8 +184,8 @@ class Home extends React.PureComponent {
 
       // console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
       var dif = moment().diff(this.timeGoesBackGround, 'minutes');
-      if (dif > 1) {
-        console.log('more than an hour it refreshs');
+      if (dif > 15) {
+        console.log('more than 15 minutes it refreshs');
 
         this.props.actions.doClearFeed(this.props.publicFeed);
         if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
