@@ -47,17 +47,17 @@ export default {
   signupValCountry: 'You must enter your Country',
   signupValDiffYears: 'You must be older than 13 years old use SuperQSO.',
   signupValBirthDate: 'You must enter your Birthdate',
-  signupValConfirmCode: 'Your confirmation code has been sent!',
+  signupValConfirmCode: 'We sent you a verification email!',
   signupValErrorSendingConfCode:
-    'Error sending the confirmation code, try again.',
+    'Error sending the verification email, try again.',
   signupValConfirmationFailed:
-    'Confirmation failed! Please enter the code again',
+    'Confirmation failed! Please verify the email we sent you and open the link',
   confirmSignUpWeHaveSent:
-    'We have sent the confirmation code to your email. Please enter the code to activate the account.',
+    'We have sent you a confirmation email. Please click on the link to activate the account. Then press "Done"',
   confirmSignUpConfirmationCode: 'confirmation code',
   confirmSignUpCancelButton: 'Cancel',
-  confirmSignUpResendCodeButton: 'Resend Code',
-  confirmSignUpConfirmButton: 'CONFIRM',
+  confirmSignUpResendCodeButton: 'Resend Email',
+  confirmSignUpConfirmButton: 'Done',
   variosModWelcWelcome: 'Welcome to SuperQSO!',
   variosModWelcSendLicense1:
     'Please send us your ham license issued by your country to',
@@ -95,7 +95,8 @@ export default {
   variosModprevideoRewAreYouSureNewQSO: 'Are you sure to not start a New Qso ?',
   variosModprevideoRewAreYouSureScanQR:
     'Are you sure to not scan the Qr code ?',
-  variosModprevideoRewAreYouSureDontLink: "Don't link these Qsos",
+  // eslint-disable-next-line prettier/prettier
+  variosModprevideoRewAreYouSureDontLink: 'Don\'t link these Qsos',
   variosModprevideoRewAreYouSureDiscardMedia: 'Discard the Media',
   variosModprevideoRewAreYouSureDontStart: "Don't start",
   variosModprevideoRewAreYouSureDontScan: "Don't scan",
@@ -124,6 +125,7 @@ export default {
   forgotPasswordInvalidCodeProvided:
     'Invalid code provided, please request a code again.',
   HomeTitle: 'HOME',
+  ActivitiesTitle: 'ACTIVITIES',
   // HomeLatestPosts: "Latest Posts",
   HomeLatestPosts1: 'Latest Posts',
   HomeLatestPosts2: '',
@@ -198,6 +200,7 @@ export default {
   ProfileQraUnFollow: 'UnFollow',
   ProfileQraCancel: 'Close',
   ProfileQraViewProfile: 'View Profile',
+  viewPost: 'View Post',
   variosModContactUsTitle: 'Contact us',
   variosModContactUsMessage: 'Message',
   variosModContactUsCancel: 'Cancel',
@@ -239,7 +242,7 @@ export default {
   QsoTypeSWLdesc: 'Post other hams QSO that you are listening.',
   QsoTypeANYdescOther:
     'Post something generic, a photo of your shack, antenna, friends, etc.',
-  QsoTypeANYdescFieldDay: 'Promote an activity, contest, zoom talk.',
+  QsoTypeANYdescFieldDay: 'Promote an activation, contest, zoom talk.',
   QsoTypeANYdescQAP: 'Post that you are QAP',
   QsoTypePOST: 'Generic',
   QsoTypeQAP: 'QAP',
@@ -465,7 +468,7 @@ export default {
   QSLSCANQR_COMMENTS: 'Comments',
   QSLSCANQR_BACK: 'Back',
   UTILSCANQSLCARD: 'Scan QSL Card',
-  BACKBUTTONANDROIDTITLE: 'Hold on',
+  BACKBUTTONANDROIDTITLE: 'Exit',
   BACKBUTTONANDROID: 'Are you sure to exit from SuperQSO?',
   BACKBUTTONANDROIDCANCEL: 'Cancel',
   BACKBUTTONANDROIDEXIT: 'Exit',
@@ -489,6 +492,7 @@ export default {
   QsoScrUploadingVideo: 'Uploading video',
   QsoScrUploadingVideoError: 'Uploading video error.',
   navBar: {
+    viewProfile: 'User Profile',
     actCarouselTitle: 'Ongoing and Future Activities',
     lastFieldDays: 'Last Activities',
     myPosts: 'My Posts',
@@ -646,6 +650,8 @@ export default {
     sharedPOST: '{{QRA}} reposted a post'
   },
   qso: {
+    startedAt: 'Started %{text} ago',
+    willStart: 'Will Start in %{text}',
     comments: 'Comments',
     audioPlays: {
       one: '%{count} Play',
@@ -669,16 +675,16 @@ export default {
     playAudio: 'Play Audio',
     qsoReposted: 'Reposted Successfully!',
     qsoDeleted: 'QSO Deleted',
-    workedAQSO: '{{QRA}} worked a QSO',
-    createdPost: '{{QRA}} created a new POST',
-    createdQAP: '{{QRA}} posted that is QAP',
-    createdFLDDAY: '{{QRA}} promoted an Activity',
-    listenedQSO: '{{QRA}} listened a QSO',
-    repostedQSO: '{{QRA}} reposted a QSO',
-    repostedLISTEN: '{{QRA}} reposted a listen',
-    repostedQAP: '{{QRA}} reposted a QAP',
-    repostedFLDDAY: '{{QRA}} reposted an activity',
-    repostedPOST: '{{QRA}} reposted a POST',
+    workedAQSO: ' worked a QSO',
+    createdPost: ' created a new POST',
+    createdQAP: ' posted that is QAP',
+    createdFLDDAY: ' promoted an Activity',
+    listenedQSO: ' listened a QSO',
+    repostedQSO: ' reposted a QSO',
+    repostedLISTEN: ' reposted a listen',
+    repostedQAP: ' reposted a QAP',
+    repostedFLDDAY: ' reposted an activity',
+    repostedPOST: ' reposted a POST',
     start: 'Start Date',
     end: 'End Date',
     date: 'Date',
@@ -747,7 +753,7 @@ export default {
     enterMessage: 'Enter Message',
     confirmRecaptcha: 'Confirm Recaptcha',
     verifyEmailInbox:
-      'We have sent the confirmation code to your email. Please enter the recived code to activate the account.',
+      'We have sent you a verification email  to your email account. Please click on the link to activate the account.',
     welcomeToSuperQSO: 'Welcome to SuperQSO!',
     betaPhase:
       'We want to inform you that we are still in Beta phase and you can experience some delay in user activation.',

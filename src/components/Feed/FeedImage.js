@@ -19,15 +19,19 @@ import * as Actions from '../../actions';
 
 class Link extends React.PureComponent {
   openUrl(url) {
-    url = url.toUpperCase();
+    // url = url.toUpperCase();
 
-    if (!url.startsWith('HTTP://') && !url.startsWith('HTTPS://')) {
+    if (
+      !url.toUpperCase().startsWith('HTTP://') &&
+      !url.toUpperCase().startsWith('HTTPS://')
+    ) {
       url = 'http://' + url;
     }
+
     Linking.openURL(url);
     Linking.canOpenURL(url, (supported) => {
       if (!supported) {
-        Alert.alert("Can't handle url: " + url);
+        Alert.alert('Can\'t handle url: ' + url);
       } else {
         Linking.openURL(url);
       }

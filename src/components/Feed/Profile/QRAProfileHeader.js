@@ -114,7 +114,7 @@ class QRAProfileHeader extends React.PureComponent {
             </View>
 
             <View style={styles.name}>
-              <Text style={styles.nameText}>
+              <Text numberOfLines={1} style={styles.nameText}>
                 {this.props.qraInfo.firstname &&
                   this.props.qraInfo.firstname + ' '}
                 {this.props.qraInfo.lastname && this.props.qraInfo.lastname}

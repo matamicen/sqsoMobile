@@ -112,7 +112,7 @@ import {
   SET_URL_RDS_S3,
   SET_USER_INFO,
   SET_VIDEO_UPLOAD_PROGRESS,
-  SET_WEBVIEW,
+  // SET_WEBVIEW,
   SET_WELCOME_USER_FIRST_TIME,
   UPDATE_COMMENT_MEMORY,
   UPDATE_LINK_QSO,
@@ -226,13 +226,13 @@ export const setExternalShreUrl = (status) => {
   };
 };
 
-export const setWebView = (websession, weburl) => {
-  return {
-    type: SET_WEBVIEW,
-    webviewsession: websession,
-    webviewurl: weburl
-  };
-};
+// export const setWebView = (websession, weburl) => {
+//   return {
+//     type: SET_WEBVIEW,
+//     webviewsession: websession,
+//     webviewurl: weburl
+//   };
+// };
 
 export const setUpgradeApp = (status) => {
   return {
@@ -3736,9 +3736,10 @@ export const doFetchUserFeed = (qra) => {
     }
   };
 };
-export const doClearFeed = () => {
+export const doClearFeed = (publicFeed) => {
   return {
-    type: CLEAR_FEED
+    type: CLEAR_FEED,
+    publicFeed: publicFeed
   };
 };
 export const doReceiveFeed = (qsos, publicFeed) => {
@@ -4040,7 +4041,8 @@ export function doLikeQSO(
   firstname,
   lastname,
   avatarpic,
-  idqso_shared
+  idqso_shared,
+  country
 ) {
   return {
     type: QSO_LIKE,
@@ -4050,7 +4052,8 @@ export function doLikeQSO(
     firstname,
     lastname,
     avatarpic,
-    idqso_shared
+    idqso_shared,
+    country
   };
 }
 export function doUnlikeQSO(idqso, idqra, idqso_shared) {

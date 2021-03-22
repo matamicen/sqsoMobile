@@ -42,11 +42,17 @@ import VariosModales from '../Qso/VariosModales';
 import ConfirmSignUp from './ConfirmSignUp';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import { getBrand } from 'react-native-device-info';
 
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
 
 const NORTH_AMERICA = ['CA', 'MX', 'US'];
+const brandsNeedingWorkaround = ['redmi', 'xiaomi', 'poco', 'pocophone'];
+const needsXiaomiWorkaround =
+  Platform.OS !== 'ios'
+    ? brandsNeedingWorkaround.includes(getBrand().toLowerCase())
+    : false;
 
 class SignUpForm extends React.PureComponent {
   //   static navigationOptions = {
@@ -86,7 +92,7 @@ class SignUpForm extends React.PureComponent {
       month: 0,
       year: 0,
       confirmSignup: false,
-      confirmationcode: '',
+      // confirmationcode: '',
       confirmationcodeError: 0,
       color: 'red',
       heightindicator: 0,
@@ -486,7 +492,7 @@ class SignUpForm extends React.PureComponent {
         await AsyncStorage.setItem('identity', res);
         // ese setItem de userLogin luego debe ser elimando, se usaba para la webview, pero LoginForm
         // chequea si existe este campo para autologin o mandarlo a la pnatalla de Login
-        await AsyncStorage.setItem('userlogin', this.state.email.toLowerCase());
+        // await AsyncStorage.setItem('userlogin', this.state.email.toLowerCase());
       } catch (error) {
         console.log('caught error', error);
         crashlytics().setUserId(this.state.qra.toUpperCase());
@@ -546,7 +552,7 @@ class SignUpForm extends React.PureComponent {
     }
   };
 
-  confirmSignup = async (confirmationCode) => {
+  confirmSignup = async () => {
     Keyboard.dismiss();
 
     if (await hasAPIConnection()) {
@@ -558,7 +564,8 @@ class SignUpForm extends React.PureComponent {
       });
 
       //   Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
-      Auth.confirmSignUp(this.state.email.toLowerCase(), confirmationCode)
+      Auth.signIn(this.state.email.toLowerCase(), this.state.password)
+        // Auth.confirmSignUp(this.state.email.toLowerCase(), confirmationCode)
         .then(() => {
           console.log('SignUp confirmed ok!: ');
           this.close_confirmSignup();
@@ -1054,6 +1061,7 @@ class SignUpForm extends React.PureComponent {
                   <View style={{ flexDirection: 'row' }}>
                     <TextInput
                       ref={(emailRef) => (this.emailRef = emailRef)}
+                      caretHidden={needsXiaomiWorkaround}
                       placeholder={I18n.t('signupEmail')}
                       underlineColorAndroid="transparent"
                       placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1075,6 +1083,7 @@ class SignUpForm extends React.PureComponent {
                       ref={(emailRefverification) =>
                         (this.emailRefverification = emailRefverification)
                       }
+                      caretHidden={needsXiaomiWorkaround}
                       placeholder={I18n.t('signupEmailConfirm')}
                       underlineColorAndroid="transparent"
                       placeholderTextColor="rgba(255,255,255,0.7)"
@@ -1345,107 +1354,133 @@ class SignUpForm extends React.PureComponent {
             />
           )}
 
+          {this.state.show && Platform.OS === 'ios' && Platform.Version < '14' && (
+            <Modal
+              visible={true}
+              animationType={'slide'}
+              transparent={true}
+              onRequestClose={() => console.log('Close was requested')}>
+              <View
+                style={{
+                  margin: 10,
+                  padding: 10,
+                  // backgroundColor: "rgba(255,255,255,0.98)",
+                  backgroundColor: 'grey',
+                  marginTop: 120,
+                  //  bottom: 150,
+                  left: 10,
+                  right: 10,
+                  height: 320,
+                  position: 'absolute',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 12
+                }}>
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  style={{ width: '100%', marginLeft: 5, marginTop: 20 }}
+                  value={this.state.date}
+                  mode={this.state.mode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={this.onChange}
+                />
+                <View style={{ flexDirection: 'row', flex: 1, marginTop: 20 }}>
+                  <View style={{ flex: 0.5 }}>
+                    <TouchableOpacity onPress={() => this.closeDatePicker()}>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          color: '#243665',
+                          textAlign: 'left'
+                        }}
+                        onPress={() => this.closeDatePicker()}>
+                        {I18n.t('QsoDateCancel')}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ flex: 0.5 }}>
+                    <TouchableOpacity onPress={() => this.closeDatePicker()}>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          color: '#243665',
+                          textAlign: 'right'
+                        }}
+                        onPress={() => this.closeDatePicker()}>
+                        {I18n.t('QsoDateSelect')}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          )}
 
-{(this.state.show && Platform.OS === 'ios' && Platform.Version < '14') && (
-                <Modal
+          {this.state.show &&
+            Platform.OS === 'ios' &&
+            Platform.Version >= '14' && (
+              <Modal
                 visible={true}
-                animationType={"slide"}
+                animationType={'slide'}
                 transparent={true}
-                onRequestClose={() => console.log("Close was requested")}
-              >
+                onRequestClose={() => console.log('Close was requested')}>
                 <View
                   style={{
-                    margin: 10,    
+                    margin: 10,
                     padding: 10,
-                    // backgroundColor: "rgba(255,255,255,0.98)",
-                    backgroundColor: "grey",
+                    backgroundColor: 'rgba(255,255,255,0.98)',
                     marginTop: 120,
                     //  bottom: 150,
                     left: 10,
                     right: 10,
-                    height: 320,
-                    position: "absolute",
-                    alignItems: "center",
+                    height: 150,
+                    position: 'absolute',
+                    alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 12
                   }}>
-         <DateTimePicker
-          testID="dateTimePicker"
-           style={{width:'100%', marginLeft: 5,marginTop:20}}
-          value={this.state.date}
-          mode={this.state.mode}
-          is24Hour={true}
-          display="default"
-          onChange={this.onChange}
-        />
-        <View style={{flexDirection: "row", flex: 1, marginTop: 20}} >
-        <View style={{flex: 0.5}} >
-          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
-               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateCancel")}</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={{flex: 0.5}} >
-          <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
-               <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateSelect")}</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
-
-        </View>
-        </Modal>
-        
-      )}
-            
-              {(this.state.show && Platform.OS === 'ios' && Platform.Version >= '14') && (
-                  <Modal
-                  visible={true}
-                  animationType={"slide"}
-                  transparent={true}
-                  onRequestClose={() => console.log("Close was requested")}
-                >
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    style={{ width: '100%', marginLeft: 170, marginTop: 20 }}
+                    value={this.state.date}
+                    mode={this.state.mode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={this.onChange}
+                  />
                   <View
-                    style={{
-                      margin: 10,    
-                      padding: 10,
-                      backgroundColor: "rgba(255,255,255,0.98)",
-                      marginTop: 120,
-                      //  bottom: 150,
-                      left: 10,
-                      right: 10,
-                      height: 150,
-                      position: "absolute",
-                      alignItems: "center",
-                      justifyContent: 'center',
-                      borderRadius: 12
-                    }}>
-           <DateTimePicker
-            testID="dateTimePicker"
-             style={{width:'100%', marginLeft: 170,marginTop:20}}
-            value={this.state.date}
-            mode={this.state.mode}
-            is24Hour={true}
-            display="default"
-            onChange={this.onChange}
-          />
-          <View style={{flexDirection: "row", flex: 1, marginTop: 50}} >
-          <View style={{flex: 0.5}} >
-            <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
-                 <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'left' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateCancel")}</Text>
-            </TouchableOpacity>
-            </View>
-            <View style={{flex: 0.5}} >
-            <TouchableOpacity  onPress={() => this.closeDatePicker()} >                                       
-                 <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'right' }} onPress={() => this.closeDatePicker()} >{I18n.t("QsoDateSelect")}</Text>
-            </TouchableOpacity>
-            </View>
-          </View>
-  
-          </View>
-          </Modal>
-          
-        )}
-
-          
+                    style={{ flexDirection: 'row', flex: 1, marginTop: 50 }}>
+                    <View style={{ flex: 0.5 }}>
+                      <TouchableOpacity onPress={() => this.closeDatePicker()}>
+                        <Text
+                          style={{
+                            fontSize: 19,
+                            color: '#243665',
+                            textAlign: 'left'
+                          }}
+                          onPress={() => this.closeDatePicker()}>
+                          {I18n.t('QsoDateCancel')}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{ flex: 0.5 }}>
+                      <TouchableOpacity onPress={() => this.closeDatePicker()}>
+                        <Text
+                          style={{
+                            fontSize: 19,
+                            color: '#243665',
+                            textAlign: 'right'
+                          }}
+                          onPress={() => this.closeDatePicker()}>
+                          {I18n.t('QsoDateSelect')}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+            )}
 
           {this.state.confirmSignup && (
             <ConfirmSignUp

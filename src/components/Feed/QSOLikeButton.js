@@ -213,8 +213,10 @@ class QSOLikeButton extends React.PureComponent {
           this.props.currentQRA,
           this.props.userInfo.firstname,
           this.props.userInfo.lastname,
+
           this.props.userInfo.avatarpic,
-          this.props.qso.idqso_shared
+          this.props.qso.idqso_shared,
+          this.props.country
         );
         this.doLike();
       } else {
@@ -271,25 +273,23 @@ const selectorFeedType = (state, ownProps) => {
   else return null;
 };
 const selectorFeedTypeLikes = (state, ownProps) => {
-  let likes = [];
+  var qso = {};
   if (ownProps.feedType === 'MAIN')
-    likes = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'PROFILE')
-    likes = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
-    likes = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos)
-      .likes;
+    qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'DETAIL' && state.sqso.feed.qso)
-    likes = state.sqso.feed.qso.likes;
+    qso = state.sqso.feed.qso;
 
-  return likes;
+  return qso ? qso.likes : [];
 };
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
   userInfo: state.sqso.userInfo,
   qso: selectorFeedType(state, ownProps),
+  country: state.sqso.userInfo.country,
   likes: selectorFeedTypeLikes(state, ownProps),
   userinfo: state.sqso.userInfo,
   token: state.sqso.jwtToken

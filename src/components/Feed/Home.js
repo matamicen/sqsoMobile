@@ -10,6 +10,7 @@ import {
   BackHandler,
   ActivityIndicator
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
@@ -18,36 +19,37 @@ import ShareMenu from 'react-native-share-menu';
 import NewsFeed from './NewsFeedContainer';
 import Toast from 'react-native-root-toast';
 import { Auth } from 'aws-amplify';
+import moment from 'moment';
 
 class Home extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: ' ',
-    // 50
-    tabBarIcon: ({ tintColor }) => {
-      // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
-      return (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            style={{
-              width: 28,
-              height: 28,
-              marginLeft: 5,
-              marginTop: Platform.OS === 'ios' ? 24 : 28
-            }}
-            //  style={{ width: 28, height: 28, marginLeft: 18 }}
+  // static navigationOptions = {
+  //   tabBarLabel: ' ',
+  //   // 50
+  //   tabBarIcon: ({ tintColor }) => {
+  //     // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 6 : 7,backgroundColor:'yellow'}}>
+  //     return (
+  //       <View
+  //         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //         <Image
+  //           style={{
+  //             width: 28,
+  //             height: 28,
+  //             marginLeft: 5,
+  //             marginTop: Platform.OS === 'ios' ? 24 : 28
+  //           }}
+  //           //  style={{ width: 28, height: 28, marginLeft: 18 }}
 
-            source={require('../../images/home4.png')}
-            // />
-          />
-          {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>
-            {I18n.t('HomeTitle')}
-          </Text>
-        </View>
-      );
-    }
-  };
+  //           source={require('../../images/home4.png')}
+  //           // />
+  //         />
+  //         {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: 19}}>{I18n.t("HomeTitle")}12345678</Text> */}
+  //         <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 5 }}>
+  //           {I18n.t('HomeTitle')}
+  //         </Text>
+  //       </View>
+  //     );
+  //   }
+  // };
 
   constructor(props) {
     super(props);
@@ -64,7 +66,7 @@ class Home extends React.PureComponent {
   componentDidMount() {
     this.props.navigation.setParams({
       tabBarOnPress: () => {
-        console.log('PRESS HOME!');
+        console.log('PRESS HOME! tabBarOnPress');
         // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
 
         if (this.props.presshome === 1) {
@@ -76,7 +78,10 @@ class Home extends React.PureComponent {
           // this.time = 50;
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
-          this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+          this.props.actions.doClearFeed();
+          if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+          else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
           this.props.actions.doFetchFieldDaysFeed();
           this.props.actions.doLatestUsersFetch();
           //   this.props.setPressHome(0);
@@ -88,9 +93,9 @@ class Home extends React.PureComponent {
         // this.props.actions.doFetchPublicFeed(this.props.currentQRA)
       }
     });
-    // this.props.navigation.setParams({
-    //   tapOnTabNavigator: this.tapOnTabNavigator
-    // });
+    this.props.navigation.setParams({
+      tapOnTabNavigator: this.tapOnTabNavigator
+    });
 
     ShareMenu.getSharedText((text) => {
       console.log('el text del share 09:' + JSON.stringify(text));
@@ -117,25 +122,26 @@ class Home extends React.PureComponent {
       //   this.props.token,
       //   this.props.currentQRA
       // );
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      this.props.actions.doClearFeed(this.props.publicFeed);
+      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
-    this.backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.backAction
-    );
+    BackHandler.addEventListener('hardwareBackPress', this.backAction);
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
-    if (this.backHandler) this.backHandler.remove();
+
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   tapOnTabNavigator = async () => {
-    console.log('PRESS HOME!');
+    console.log('PRESS HOME! tapOnTabNavigator');
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
 
     if (this.props.presshome === 1) {
@@ -145,7 +151,14 @@ class Home extends React.PureComponent {
       // this.time = 50;
       // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
+      console.log('this.props.publicFeed: '+ this.props.publicFeed)
+       this.props.actions.doClearFeed(this.props.publicFeed);
+      if (this.props.publicFeed) 
+        this.props.actions.doFetchPublicFeed();
+      else 
+        this.props.actions.doFetchUserFeed(this.props.currentQRA);
+    
+
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
 
@@ -154,10 +167,15 @@ class Home extends React.PureComponent {
   };
 
   _handleAppStateChange = async (nextAppState) => {
+    console.log('nextState: ' + nextAppState);
+
+    if (nextAppState === 'background') {
+      this.timeGoesBackGround = new Date();
+    }
+
     if (nextAppState === 'active') {
       ShareMenu.getSharedText((text) => {
         console.log('el text del share 05:' + JSON.stringify(text));
-
         // if (text!==null) {
         if (text !== null && typeof text !== 'undefined') {
           console.log('el text del share hay data 05: ' + text);
@@ -197,9 +215,23 @@ class Home extends React.PureComponent {
       if (this.props.userinfo.pendingVerification)
         this.props.actions.getUserInfo(session.idToken.jwtToken);
 
-      // refresco el feed
-      this.props.actions.doFetchPublicFeed(this.props.currentQRA);
-      this.props.actions.doFetchFieldDaysFeed();
+      // // refresh feed ? it depends the seconds in background
+      // console.log('timeGoesBackGround: ' + this.timeGoesBackGround);
+
+      // console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
+      // dif = moment().diff(this.timeGoesBackGround, 'minutes');
+      // if (dif > 1) {
+      //   console.log('more than an hour it refreshs');
+      //   this.props.actions.doClearFeed(this.props.publicFeed);
+      //   console.log('this.props.publicFeed: '+ this.props.publicFeed)
+
+      //   if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      //   else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+
+      //   this.props.actions.doFetchFieldDaysFeed();
+      //   this.props.actions.doLatestUsersFetch();
+      // } else console.log('less than an hour');
+      
     }
   };
 
@@ -209,24 +241,30 @@ class Home extends React.PureComponent {
   }
 
   backAction = () => {
-    // I18n.t("BACKBUTTONANDROID")
-    // I18n.t("BACKBUTTONANDROIDCANCEL") BACKBUTTONANDROIDEXIT
-
-    console.log('press back android');
-    // Se comento este codigo para que no salga mas el PopUp cuando hace en android flecha fisica BACK
-
-    // Alert.alert(I18n.t('BACKBUTTONANDROIDTITLE'), I18n.t('BACKBUTTONANDROID'), [
-    //   {
-    //     text: I18n.t('BACKBUTTONANDROIDCANCEL'),
-    //     onPress: () => null,
-    //     style: I18n.t('BACKBUTTONANDROIDCANCEL')
-    //   },
-    //   {
-    //     text: I18n.t('BACKBUTTONANDROIDEXIT'),
-    //     onPress: () => BackHandler.exitApp()
-    //   }
-    // ]);
-    // return true;
+    if (!this.props.navigation.isFocused()) {
+      // The screen is not focused, so don't do anything
+      return false;
+    } else {
+      Alert.alert(
+        I18n.t('BACKBUTTONANDROIDTITLE'),
+        I18n.t('BACKBUTTONANDROID'),
+        [
+          {
+            text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+          {
+            text: I18n.t('BACKBUTTONANDROIDEXIT'),
+            onPress: () => BackHandler.exitApp()
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+      return true;
+    }
   };
 
   toast = async (message, timer) => {
@@ -279,9 +317,10 @@ const mapStateToProps = (state) => ({
   FetchingQSOS: state.sqso.feed.FetchingQSOS,
   qsosFetched: state.sqso.feed.qsosFetched,
   //   authenticating: state.sqso.feeduserData.authenticating,
-  currentQRA: state.sqso.qra,
-  userinfo: state.sqso.userInfo,
 
+  userinfo: state.sqso.userInfo,
+  currentQRA: state.sqso.qra,
+  publicFeed: state.sqso.feed.publicFeed,
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos,
   presshome: state.sqso.pressHome
@@ -290,4 +329,6 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(Home)
+);

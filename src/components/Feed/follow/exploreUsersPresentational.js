@@ -53,9 +53,11 @@ const ExploreUsers = ({
       <FlatList
         numColumns={2}
         contentContainerStyle={{
-          justifyContent: 'center',
-          flexDirection: 'row',
-          flexWrap: 'wrap'
+          alignItems: 'center',
+
+          justifyContent: 'space-evenly',
+          flexDirection: 'column'
+          // flexWrap: 'wrap'
         }}
         data={users}
         renderItem={({ item, index }) => {
@@ -64,7 +66,7 @@ const ExploreUsers = ({
           if (currentQRA !== qra.qra)
             return (
               <View
-                key={qra.qra}
+                key={index}
                 style={{
                   // flex: 1,
                   // width: 100,

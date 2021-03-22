@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import I18n from '../../utils/i18n';
 import SideMenu from './SideMenu';
 import {
@@ -6,12 +6,12 @@ import {
   editInfoStackNavigator,
   FieldDaysStackNavigator,
   ExploreUsersStackNavigator,
-  MainNavigator,
   MyPostsStackNavigator
 } from './StackNavigator';
+import { TabNavigator } from './TabNavigator';
 const DrawerRouteConfigs = {
   Home: {
-    screen: MainNavigator,
+    screen: TabNavigator,
     navigationOptions: {
       title: I18n.t('HomeTitle')
     }

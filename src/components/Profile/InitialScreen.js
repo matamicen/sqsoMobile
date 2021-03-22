@@ -29,6 +29,8 @@ import {
   closeModalConfirmPhoto,
   confirmedPurchaseFlag,
   doFetchPublicFeed,
+  doFetchUserFeed,
+  doClearFeed,
   doLatestUsersFetch,
   doFetchFieldDaysFeed,
   doFollowFetch,
@@ -63,38 +65,6 @@ import RestoreSubscription from './RestoreSubscription';
 Auth.configure(awsconfig);
 
 class InitialScreen extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: ' ',
-
-    tabBarIcon: ({ tintColor }) => {
-      // return (<View style={{width: 50, height: 20,marginTop: (Platform.OS==='ios') ? 1 : 2, backgroundColor:'yellow'}}>
-      return (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            // style={{ width: 31, height: 31, marginLeft: 9 }}
-            style={{
-              width: 31,
-              height: 31,
-              marginLeft: 0,
-              marginTop: Platform.OS === 'ios' ? 18 : 24
-            }}
-            source={require('../../images/profile1.png')}
-          />
-          <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 0 }}>
-            {I18n.t('InitialScreenProfile')}
-          </Text>
-          {/* <Text style={{fontSize:9, marginTop: 3, marginLeft: I18n.locale.substring(0, 2)==='es' ? 11:7}}>{I18n.t("InitialScreenProfile")}</Text> */}
-        </View>
-      );
-    }
-
-    // tabBarIcon: ({ tintColor }) => {
-    //   return (<Image
-    //       style={{ width: 31, height: 31  }}
-    //       source={require('../../images/profile1.png')}/>);}
-  };
-
   constructor(props) {
     super(props);
     TextInput.defaultProps = { allowFontScaling: false };
@@ -137,7 +107,7 @@ class InitialScreen extends React.PureComponent {
     Linking.canOpenURL(urlnotif)
       .then((supported) => {
         if (!supported) {
-          console.log("Can't handle url: " + urlnotif);
+          console.log('Can\'t handle url: ' + urlnotif);
         } else {
           // if(__DEV__)
           //   analytics().logEvent("OPENWEBPROFILE_DEV", {"QRA": this.props.qra});
@@ -162,7 +132,7 @@ class InitialScreen extends React.PureComponent {
     if (await hasAPIConnection()) {
       try {
         console.log(
-          "mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem('pushtoken'); + token:" +
+          'mat llama API pushToken por fallar var pushtoken = await AsyncStorage.getItem(\'pushtoken\'); + token:' +
             this.props.pushtoken +
             'QRA: se envia vacio'
         );
@@ -614,7 +584,9 @@ class InitialScreen extends React.PureComponent {
             <TouchableOpacity
               style={{}}
               onPress={() => {
-                this.props.doFetchPublicFeed();
+                this.props.doClearFeed(this.props.publicFeed);
+                if (this.props.publicFeed) this.props.doFetchPublicFeed();
+                else this.props.doFetchUserFeed(this.props.currentQRA);
                 this.props.doFetchFieldDaysFeed();
                 this.props.doFollowFetch();
                 this.props.doLatestUsersFetch();
@@ -845,6 +817,8 @@ const mapStateToProps = (state) => {
     followers: state.sqso.currentQso.followers,
     followings: state.sqso.currentQso.followings,
     followingsselected: state.sqso.currentQso.followingsSelected,
+    currentQRA: state.sqso.qra,
+    publicFeed: state.sqso.feed.publicFeed,
     rdsurl: state.sqso.urlRdsS3,
     sqsoprofilepicrefresh: state.sqso.profilePicRefresh,
     pushtoken: state.sqso.pushToken,
@@ -872,6 +846,8 @@ const mapDispatchToProps = {
   setProfileModalStat,
   getUserInfo,
   doFetchPublicFeed,
+  doFetchUserFeed,
+  doClearFeed,
   doFetchFieldDaysFeed,
   doFollowFetch,
   doLatestUsersFetch,

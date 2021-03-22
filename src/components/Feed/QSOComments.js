@@ -78,6 +78,7 @@ class QSOComments extends React.PureComponent {
       let comment2 = {
         qra: this.props.currentQRA.toUpperCase(),
         comment: values.comment,
+        country: this.props.country,
         datetime: datetime
       };
       this.setState({ comment: comment2 });
@@ -91,6 +92,7 @@ class QSOComments extends React.PureComponent {
 
       comment.firstname = this.props.firstname;
       comment.lastname = this.props.lastname;
+      comment.country = this.props.country;
       comment.avatarpic = this.props.avatarpic;
       comment.idqsos_comments = datetime;
       comment.idqso = this.props.qso.idqso_shared
@@ -107,11 +109,11 @@ class QSOComments extends React.PureComponent {
       // this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
       //   animated: true,
       // });
-      setTimeout(() => {
-        this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
-          animated: true
-        });
-      }, 1500);
+      // setTimeout(() => {
+      //   this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
+      //     animated: true
+      //   });
+      // }, 1500);
     }
   };
 
@@ -144,65 +146,6 @@ class QSOComments extends React.PureComponent {
     );
   };
 
-  // _ListFooterComponent = () => (
-  //   <KeyboardAvoidingView behavior="padding" style={{ flex: 1, justifyContent: "center" }}>
-  //     <View>
-  //   <Formik
-  //     initialValues={{ comment: '' }}
-  //     onSubmit={(values, actions) => {
-  //       this.handleAddComment(values);
-  //     }}>
-  //     {({
-  //       values,
-  //       handleChange,
-  //       errors,
-  //       setFieldTouched,
-  //       touched,
-  //       isValid,
-  //       handleBlur,
-  //       handleSubmit
-  //     }) => (
-  //       <View
-  //         style={{
-  //           flex: 1,
-  //           flexDirection: 'row',
-  //           justifyContent: 'space-between',
-
-  //           padding: 0
-  //         }}>
-  //         <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}>
-  //           <TextInput
-  //             name="comment"
-  //             placeholder={I18n.t('qso.writeComment')}
-  //             multiline
-  //             removeClippedSubviews={false}
-  //             keyboardDismissMode="none"
-  //             onBlur={handleBlur('comment')}
-  //             style={{ borderWidth: 1, width: 200 }}
-  //             onChangeText={handleChange('comment')}
-  //             value={values.comment}
-  //           />
-  //         </View>
-
-  //         <View>
-  //           <Button
-  //             buttonStyle={{
-  //               padding: 1,
-  //               // margin: 0,
-  //               width: 100,
-  //               height: '100%'
-  //             }}
-  //             size="small"
-  //             title={I18n.t('qso.add')}
-  //             onPress={handleSubmit}
-  //           />
-  //         </View>
-  //       </View>
-  //     )}
-  //   </Formik>
-  //   </View>
-  //    </KeyboardAvoidingView>
-  // );
   renderSeparator = () => {
     return (
       <View
@@ -633,6 +576,7 @@ const mapStateToProps = (state, ownProps) => ({
   userinfo: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
   firstname: state.sqso.userInfo.firstname,
+  country: state.sqso.userInfo.country,
   lastname: state.sqso.userInfo.lastname,
   avatarpic: state.sqso.userInfo.avatarpic
 });

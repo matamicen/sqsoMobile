@@ -97,7 +97,7 @@ import {
   SET_URL_RDS_S3,
   SET_USER_INFO,
   SET_VIDEO_UPLOAD_PROGRESS,
-  SET_WEBVIEW,
+  // SET_WEBVIEW,
   SET_WELCOME_USER_FIRST_TIME,
   UPDATE_COMMENT_MEMORY,
   UPDATE_LINK_QSO,
@@ -151,8 +151,8 @@ const initialState = {
   confirmProfileModal: false,
   sendingProfileModal_stat: 0,
   cancelButton_stat: 0,
-  webviewSession: '',
-  webviewUrl: global_config.urlWeb,
+  // webviewSession: '',
+  // webviewUrl: global_config.urlWeb,
   pressHome: 1,
   justPublished: false,
   externalShareUrl: false,
@@ -1130,18 +1130,18 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
 
-    case SET_WEBVIEW:
-      // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
-      // console.log("Reducer jwtToken:"+action.jwttoken);
+    // case SET_WEBVIEW:
+    //   // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+    //   // console.log("Reducer jwtToken:"+action.jwttoken);
 
-      newStore = Object.assign({}, state, {
-        ...state,
-        // jwtToken: action.jwttoken,
-        webviewSession: action.webviewsession,
-        webviewUrl: action.webviewurl
-      });
+    //   newStore = Object.assign({}, state, {
+    //     ...state,
+    //     // jwtToken: action.jwttoken,
+    //     webviewSession: action.webviewsession,
+    //     webviewUrl: action.webviewurl
+    //   });
 
-      return newStore;
+    //   return newStore;
 
     case SET_MUSTUPGRADEAPP:
       newStore = Object.assign({}, state, {
@@ -1658,7 +1658,8 @@ const qsoReducer = (state = initialState, action) => {
         // console.log('cant mess no leidos: ' + cont);
         //   AsyncStorage.setItem('ultimafecha', today);
 
-        auxUnread = cont;
+        // auxUnread = cont;
+        var auxUnread = 0;
         auxcurrentQso = {
           ...state.currentQso,
           // notifications: action.notifications
@@ -1902,7 +1903,10 @@ const qsoReducer = (state = initialState, action) => {
           ...state.currentQso,
           followings: action.following
         },
-        userInfo: { ...state.userInfo, following_counter: action.following.length },
+        userInfo: {
+          ...state.userInfo,
+          following_counter: action.following.length
+        },
 
         feed: {
           ...state.feed,
@@ -1919,24 +1923,24 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
-    case DELETE_QSO:
-      newStore = Object.assign({}, state, {
-        ...state,
-        feed: {
-          ...state.feed,
-          qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
-          qra: state.feed.qra
-            ? {
-                ...state.feed.qra,
-                qsos: state.feed.qra.qsos.filter((qso) => {
-                  return qso.idqsos !== action.idqso;
-                })
-              }
-            : state.feed.qra
-        }
-      });
+    // case DELETE_QSO:
+    //   newStore = Object.assign({}, state, {
+    //     ...state,
+    //     feed: {
+    //       ...state.feed,
+    //       qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+    //       qra: state.feed.qra
+    //         ? {
+    //             ...state.feed.qra,
+    //             qsos: state.feed.qra.qsos.filter((qso) => {
+    //               return qso.idqsos !== action.idqso;
+    //             })
+    //           }
+    //         : state.feed.qra
+    //     }
+    //   });
 
-      return newStore;
+    //   return newStore;
     case REPOST_QSO:
       newStore = Object.assign({}, state, {
         ...state,
@@ -1964,7 +1968,8 @@ const qsoReducer = (state = initialState, action) => {
         qra: action.qra,
         firstname: action.firstname,
         lastname: action.lastname,
-        avatarpic: action.avatarpic
+        avatarpic: action.avatarpic,
+        country: action.country
       };
       newStore = Object.assign({}, state, {
         ...state,
@@ -2604,6 +2609,21 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
     case DELETE_QSO: {
+      //   newStore = Object.assign({}, state, {
+      //     ...state,
+      //     feed: {
+      //       ...state.feed,
+      //       qsos: state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
+      //       qra: state.feed.qra
+      //         ? {
+      //             ...state.feed.qra,
+      //             qsos: state.feed.qra.qsos.filter((qso) => {
+      //               return qso.idqsos !== action.idqso;
+      //             })
+      //           }
+      //         : state.feed.qra
+      //     }
+      //   });
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2612,16 +2632,16 @@ const qsoReducer = (state = initialState, action) => {
             state.feed.qsos &&
             state.feed.qsos.filter((qso) => qso.idqsos !== action.idqso),
           fieldDays:
-            state.fieldDays.qsos &&
-            state.fieldDays.qsos.filter((qso) => qso.idqsos !== action.idqso),
-          qra: state.qra
+            state.feed.fieldDays &&
+            state.feed.fieldDays.filter((qso) => qso.idqsos !== action.idqso),
+          qra: state.feed.qra
             ? {
-                ...state.qra,
-                qsos: state.qra.qsos.filter((qso) => {
+                ...state.feed.qra,
+                qsos: state.feed.qra.qsos.filter((qso) => {
                   return qso.idqsos !== action.idqso;
                 })
               }
-            : state.qra
+            : state.feed.qra
         }
       });
 

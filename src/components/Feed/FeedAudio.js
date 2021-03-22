@@ -11,9 +11,12 @@ import moment from 'moment';
 
 class Link extends React.PureComponent {
   openUrl(url) {
-    url = url.toUpperCase();
+    // url = url.toUpperCase();
 
-    if (!url.startsWith('HTTP://') && !url.startsWith('HTTPS://')) {
+    if (
+      !url.toUpperCase().startsWith('HTTP://') &&
+      !url.toUpperCase().startsWith('HTTPS://')
+    ) {
       url = 'http://' + url;
     }
     Linking.openURL(url);
@@ -59,7 +62,7 @@ class Description extends React.PureComponent {
           );
         } else {
           return (
-            <Text>
+            <Text key={i}>
               {word}
               {separator}
             </Text>
