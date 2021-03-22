@@ -1234,6 +1234,12 @@ export const armoPushNotifyLocalNotif = (
     bandejaNotifLocal = pushTitle + ' | ' + pushMessage;
     locArgs = locArgs[1]; // pasa el GUID
   }
+  if (title_loc_key === 'PUSH_LIKE_TITLE') {
+    pushTitle = I18n.t(title_loc_key, { callsign: titleLocArgs[0] });
+    pushMessage = I18n.t(loc_key);
+    bandejaNotifLocal = pushTitle + ' | ' + pushMessage;
+    // locArgs = locArgs[1]; // pasa el GUID
+  }
   if (title_loc_key === 'PUSH_APPROVE_USER_TITLE') {
     pushTitle = I18n.t(title_loc_key, { line1: titleLocArgs[0] });
     pushMessage = I18n.t(loc_key, { line2: locArgs[0] });
@@ -1246,34 +1252,30 @@ export const armoPushNotifyLocalNotif = (
   //  console.log('es undefined')
 
   //  console.log('despues del crash ')
-  if ( title_loc_key === 'PUSH_APPROVE_USER_TITLE')
-  {
+  if (title_loc_key === 'PUSH_APPROVE_USER_TITLE') {
     activityType = 110;
     qsoguid = '';
-    console.log('paso por PUSH_APPROVE_USER_TITLE y es 110')
-  }else
-  {
-  if (locArgs !== undefined && title_loc_key !== 'PUSH_MARKETING_TITLE') {
-    console.log('paso por 109')
-    // si no es undefined porque se envio el parametro QSOGUID
-    // si existe QSOGUID es porque es una publicacion
-    activityType = 109; // le pongo  activity Type 109 que sea publicacion asi va al QsoDetail en el click de la notificacion
-    qsoguid = locArgs;
+    console.log('paso por PUSH_APPROVE_USER_TITLE y es 110');
   } else {
-    // si viene vacio el QSOGUID es PROFILE o push de Marketing
-    if (title_loc_key === 'PUSH_MARKETING_TITLE') {
-      activityType = 110;
-      console.log('paso por 110')
+    if (locArgs !== undefined && title_loc_key !== 'PUSH_MARKETING_TITLE') {
+      console.log('paso por 109');
+      // si no es undefined porque se envio el parametro QSOGUID
+      // si existe QSOGUID es porque es una publicacion
+      activityType = 109; // le pongo  activity Type 109 que sea publicacion asi va al QsoDetail en el click de la notificacion
+      qsoguid = locArgs;
+    } else {
+      // si viene vacio el QSOGUID es PROFILE o push de Marketing
+      if (title_loc_key === 'PUSH_MARKETING_TITLE') {
+        activityType = 110;
+        console.log('paso por 110');
+      }
+      // con 110 cuando hace click en la notificacion o va a ningun lado
+      else {
+        activityType = 108; // pongo un activity type 108 que sea de PROFILE asi va al profile del usuario cuando hace click en la notificacion
+        console.log('paso por 108');
+      }
+      qsoguid = '';
     }
-    // con 110 cuando hace click en la notificacion o va a ningun lado
-    else { activityType = 108; // pongo un activity type 108 que sea de PROFILE asi va al profile del usuario cuando hace click en la notificacion
-      console.log('paso por 108')
-    } 
-    qsoguid = '';
-  }
-
-
-   
   }
 
   console.log('helper bandeja:' + bandejaNotifLocal);

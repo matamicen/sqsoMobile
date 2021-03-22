@@ -45,3 +45,5 @@
 "PUSH_APPROVE_USER_MESSAGE" =  "You can start using SuperQSO ! :)";
 "PUSH_MENTION_TITLE" = "%@ mentioned you in a comment";
 "PUSH_MENTION_MESSAGE" =  "%@";
+"PUSH_LIKE_TITLE" = "%@ liked your post  👍💪";
+"PUSH_LIKE_MESSAGE" =  "Keep on going!! 🚀😃";

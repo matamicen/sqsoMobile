@@ -412,6 +412,8 @@ export default {
   PUSH_MARKETING_MESSAGE: '%{line2}',
   PUSH_MENTION_TITLE: '%{callsign} te mencionó a tí en un comentario',
   PUSH_MENTION_MESSAGE: '%{comment}',
+  PUSH_LIKE_TITLE: 'A %{callsign} le gusta tu publicación  👍💪',
+  PUSH_LIKE_MESSAGE: 'Seguí Así!! 🚀😃',
   PUSH_APPROVE_USER_TITLE: 'Su usuario fue validado y aprobado. ',
   PUSH_APPROVE_USER_MESSAGE: 'Ya puedes comenzar a utilizar SuperQSO :)',
   SOMEONE_INCLUDED_YOU: 'Alguien te incluyo a tí en una publicación!',
@@ -457,6 +459,7 @@ export default {
   NOTIF_ACTIVTYPE_67: '%{callsign} republicó una activación',
   NOTIF_ACTIVTYPE_68: '%{callsign} republicó una publicación',
   NOTIF_ACTIVTYPE_71: '%{callsign} te menciono a tí en un comentario',
+  NOTIF_ACTIVTYPE_23: 'A %{callsign} le gustó tu publicación',
   STOPAPP_SORRY:
     'Lo sentimos, ha ocurrido un problema durante la instalación de la APP.',
   STOPAPP_PLEASE:
