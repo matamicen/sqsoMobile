@@ -69,20 +69,18 @@ class ForgotPassword extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    console.log('COMPONENT did mount SignupForm');
-  }
+  componentDidMount() {}
 
   // signInAfterConfirmed = async () => {
 
   //   await Auth.signIn(this.state.qra.toUpperCase(), this.state.newPassword)
-  //   .then((result) =>  {console.log('entro!')
+  //   .then((result) =>  {
   //   this.qra = result.signInUserSession.idToken.payload['custom:callsign'];
   //   this.jwtToken = result.signInUserSession.idToken.jwtToken;
   //   this.usernotfound = false;
 
   // })
-  //   .catch(err => {console.log('error:', err.code)
+  //   .catch(err => {
   //   this.usernotfound = true;
 
   //   // kinesis_catch('#001',err,this.state.qra.toUpperCase());
@@ -95,14 +93,13 @@ class ForgotPassword extends React.PureComponent {
   // if (!this.usernotfound)
   // {  try {
   //     const { identityId } = await Auth.currentCredentials();
-  //     console.log('PASO POR SIGNIN la credencial es:' + identityId);
+
   //     var res = identityId.replace(":", "%3A");
   //     // this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
   //     this.props.setUrlRdsS3(res,'https://d3gbqmcrekpw4.cloudfront.net/protected/'+res+'/');
-  //     console.log('la credencial RES:' + res);
+
   //   }
   //   catch (e) {
-  //     console.log('caught error', e);
 
   //     crashlytics().setUserId(this.state.qra.toUpperCase());
   //     crashlytics().log('error: ' + e) ;
@@ -112,7 +109,6 @@ class ForgotPassword extends React.PureComponent {
   //     // Handle exceptions
   //   }
   //   session = await Auth.currentSession();
-  //   console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
 
   //   // seteo el usuario logueado en store
   //   this.props.setQra(this.state.qra.toUpperCase());
@@ -289,7 +285,6 @@ class ForgotPassword extends React.PureComponent {
   };
 
   render() {
-    console.log('ForgotPassword Screen');
     console.log(
       'qra: ' +
         ' email:' +

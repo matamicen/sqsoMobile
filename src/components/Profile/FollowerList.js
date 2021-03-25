@@ -36,8 +36,7 @@ class FollowerList extends React.PureComponent {
   };
 
   render() {
-    //console.log('RENDER qso Followings FollowerList');
-    // console.log("Followings FollowerList:" +  JSON.stringify(this.props.followings));
+
 
     return (
       <View style={{ flex: 1, alignItems: 'center' }}>

@@ -86,7 +86,7 @@ export default {
     'You have to watch a video reward to create a NewQso.',
   variosModprevideoRewHaveToWatchScanQR:
     'You have to watch a video reward to Scan the QR.',
-  variosModprevideoRewDontWatch: "Don't watch",
+  variosModprevideoRewDontWatch: 'Don\'t watch',
   variosModprevideoRewWatchVideo: 'Watch the video',
   variosModprevideoRewAreYouSureFree: 'Free User',
   variosModprevideoRewAreYouSureLink: 'Are you sure to not link theses Qsos ?',
@@ -98,8 +98,8 @@ export default {
   // eslint-disable-next-line prettier/prettier
   variosModprevideoRewAreYouSureDontLink: 'Don\'t link these Qsos',
   variosModprevideoRewAreYouSureDiscardMedia: 'Discard the Media',
-  variosModprevideoRewAreYouSureDontStart: "Don't start",
-  variosModprevideoRewAreYouSureDontScan: "Don't scan",
+  variosModprevideoRewAreYouSureDontStart: 'Don\'t start',
+  variosModprevideoRewAreYouSureDontScan: 'Don\'t scan',
   variosModprevideoRewLinkQsos: 'Links these Qsos.',
   variosModprevideoRewSendMedia: 'Send the media',
   variosModprevideoRewStartPost: 'Start a Post',
@@ -248,7 +248,7 @@ export default {
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Activity',
   QsoTypeLISTEN: 'Listen',
-  QsoTypecannotchange1: "You have media created, so you can't change to",
+  QsoTypecannotchange1: 'You have media created, so you can\'t change to',
   QsoTypecannotchange2: 'you should start a new Post and select',
   QsoTypecannotchange3:
     'But, you always could change from QSO to Listen or Listen to QSO',
@@ -381,6 +381,8 @@ export default {
   PUSH_REPOSTQSO_MESSAGE: 'See more details here',
   PUSH_REPOSTLISTEN_TITLE: '%{callsign} repost a listen',
   PUSH_REPOSTLISTEN_MESSAGE: 'See more details here',
+  PUSH_LIKE_TITLE: '%{callsign} like your post',
+  PUSH_LIKE_MESSAGE: '"Keep on going!! 🚀😃"',
   PUSH_REPOSTANY_TITLE: '%{callsign} repost a post',
   PUSH_REPOSTANY_MESSAGE: 'See more details here',
   PUSH_REPOSTFLDDAY_TITLE: '%{callsign} repost an Activity',
@@ -434,6 +436,7 @@ export default {
   NOTIF_ACTIVTYPE_67: '%{callsign} republished an activity',
   NOTIF_ACTIVTYPE_68: '%{callsign} republished a post',
   NOTIF_ACTIVTYPE_71: '%{callsign} mentioned you in a comment',
+  NOTIF_ACTIVTYPE_23: '%{callsign} liked your post',
   STOPAPP_SORRY: 'Sorry, there was a problem during the APP installation.',
   STOPAPP_PLEASE:
     'Please delete the APP and reinstall it from the store again.',
@@ -526,7 +529,7 @@ export default {
   auth: {
     incorrectUserPass: 'Incorrect username or password.',
     userDisabled:
-      "The user is not enabled yet since we didn't receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account",
+      'The user is not enabled yet since we didn\'t receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account',
     userNotConfirmed:
       'The user did not enter the Confirmation Code sent to the email',
     enterMailPassword: 'Please enter Email and Password',
@@ -610,7 +613,7 @@ export default {
     whyRemovePhoto: 'Why do you think we should remove this photo?',
     whyRemoveAudio: 'Why do you think we should remove this audio?',
     whyRemoveContent: 'Why do you think we should remove this content?',
-    helpUnderstandWhatsHappening: "Help Us Understand What's Happening"
+    helpUnderstandWhatsHappening: 'Help Us Understand What\'s Happening'
   },
   global: {
     you: 'You',
@@ -625,7 +628,7 @@ export default {
     imageContainNudity:
       'The image you try to upload contain Nudity or sexual content.',
     userMaxReached:
-      "You've reached the maximum allowed for free users. Upgrade to Premium in our APP"
+      'You\'ve reached the maximum allowed for free users. Upgrade to Premium in our APP'
   },
   notification: {
     congratulations: 'Congratulations!!!',

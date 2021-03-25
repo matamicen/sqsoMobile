@@ -133,8 +133,6 @@ class LoginForm extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    // console.log('afuer de getDerivedStateFromProps: '  + props);
-    // console.log(props);
     console.log('mustupgradeapp: ' + props.mustupgradeapp);
 
     if (props.mustupgradeapp) {
@@ -155,21 +153,13 @@ class LoginForm extends React.PureComponent {
 
       return { showloginForm: true };
     }
-    // if (!props.qsosFetched) return { active: true };
+
     return null;
   }
 
-  // onScreenFocus = async () => {
-  //   console.log('LOGINFORM en FOCUS!');
-
-  //   // para salga de la APP cuando en ANDROID vuelven con flecha y que no se quede en la pantala de LOGIN
-  //   // porque confunde esa pantalla esperando LOGIN
-  //   if (this.state.exit) BackHandler.exitApp();
-  // };
-
   async componentDidMount() {
     // PushNotification.onNotification((notification) => {
-    //   console.log('llego push che!');
+
     console.log('esta hermes?');
     console.log(!!global.HermesInternal);
 
@@ -180,17 +170,13 @@ class LoginForm extends React.PureComponent {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       // onRegister: function(token) {
-      //   console.log('nuevo push token!!!')
-      //   console.log(token)
+
       // },
       // (optional) Called when Token is generated (iOS and Android)
 
       //  PushNotification.onNotification((notification) => {
       //  onNotification: function(notification) {
       onNotification: (notification) => {
-        // console.log('llego notificacion!');
-        // console.log(notification);
-
         // if (notification.userInteraction)
         //  { console.log('pepe che! estaba killed y apreto!')
         //  this.webviewurlfromKilledPush = notification.userInfo.url;
@@ -206,7 +192,6 @@ class LoginForm extends React.PureComponent {
 
           if (Platform.OS === 'android') {
             try {
-              console.log('paso por ANDROID');
               if (notification.userInteraction === false) {
                 let bodyJson = JSON.parse(notification.data.Data);
 
@@ -216,7 +201,7 @@ class LoginForm extends React.PureComponent {
                 console.log('title-loc-key-android');
                 var parseo = JSON.parse(notification.data.message);
                 console.log(parseo);
-                console.log('uno solo');
+
                 // parseo2 =  JSON.parse(notification.data.message);
                 console.log(parseo['loc-key']);
 
@@ -266,7 +251,6 @@ class LoginForm extends React.PureComponent {
                 // si el push es de Aprobacion de usuario actualizo GetUserInfo
                 // asi ya lo deja publicar, dar like y comentar.
                 if (parseo['title-loc-key'] === 'PUSH_APPROVE_USER_TITLE') {
-                  console.log('actualizo getUserInfo Usuario Aprobado');
                   // actualizo en userInfo en redux que el usuario esta validado
                   this.props.setPendingVerification(0);
                 }
@@ -352,11 +336,7 @@ class LoginForm extends React.PureComponent {
 
           if (Platform.OS === 'ios') {
             try {
-              console.log('paso por IOS');
-
               let bodyJson = notification.alert.Data;
-
-              // console.log("antes de armar el json envioNotif")
 
               if (bodyJson.AVATAR) avatar = bodyJson.AVATAR;
               else avatar = null;
@@ -644,8 +624,9 @@ class LoginForm extends React.PureComponent {
           console.log('mat2 el pushtoken del store es:' + this.props.pushtoken);
 
           //apologize
-          if (pushtoken===null) // Si no encuentra pushToken guardado debe reinstalar la APP
-          // if (1 === 2)
+          if (pushtoken === null)
+            // Si no encuentra pushToken guardado debe reinstalar la APP
+            // if (1 === 2)
             this.setState({ stopApp: true, pushTokenNotFound: true });
           else {
             console.log('Antes de AsyncStorage.getItem');

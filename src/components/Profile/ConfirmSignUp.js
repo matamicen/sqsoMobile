@@ -17,18 +17,10 @@ class ConfirmSignUp extends React.PureComponent {
   componentDidMount() {}
 
   confirm = () => {
-    var auxCode = this.state.confirmationcode.trim();
-    console.log('sin trim Length: ' + this.state.confirmationcode.length);
-    console.log('sin trim: ' + this.state.confirmationcode);
-    //auxCode.trim()
-    console.log('con trim: ' + auxCode);
-    console.log('con trim Length: ' + auxCode.length);
-    this.props.confirmSignup(auxCode);
+    this.props.confirmSignup();
   };
 
   render() {
-    console.log('RENDER confirmSignUp');
-
     return (
       <View>
         <Modal

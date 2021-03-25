@@ -22,7 +22,7 @@ class Login extends React.PureComponent {
   };
 
   render() {
-    console.log('Login Screen');
+    
 
     return (
       <View style={{ flex: 1 }}>
