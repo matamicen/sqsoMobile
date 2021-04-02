@@ -270,13 +270,14 @@ class ForgotPassword extends React.PureComponent {
 
   closePasswordChanged = () => {
     this.setState({ passwordChanged: false });
-    this.props.navigation.PushNotification.configure({
-      // ...
-      PushNotification: {
-        appId: 'XXXXXXXXXXabcdefghij1234567890ab'
-      }
-      // ...
-    });
+    this.props.navigation.navigate('Login');
+    // this.props.navigation.PushNotification.configure({
+    //   // ...
+    //   PushNotification: {
+    //     appId: 'XXXXXXXXXXabcdefghij1234567890ab'
+    //   }
+    //   // ...
+    // });
     ('Login');
   };
 
@@ -415,7 +416,7 @@ class ForgotPassword extends React.PureComponent {
                 returnKeyType="next"
                 autoCapitalize="none"
                 autoCorrect={false}
-                //  onSubmitEditing={() => this.emailRef.focus()}
+                keyboardType="numeric"
                 style={styles.input}
                 value={this.state.code}
                 onChangeText={(text) => this.setState({ code: text })}
