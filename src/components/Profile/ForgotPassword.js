@@ -278,7 +278,7 @@ class ForgotPassword extends React.PureComponent {
     //   }
     //   // ...
     // });
-    ('Login');
+    // ('Login');
   };
 
   closeVariosModales = () => {
