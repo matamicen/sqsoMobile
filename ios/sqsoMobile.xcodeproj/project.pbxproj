@@ -1174,7 +1174,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sqsoMobile;
-				PROVISIONING_PROFILE_SPECIFIER = superQso2021;
+				PROVISIONING_PROFILE_SPECIFIER = SuperQSO2021_2;
 				SWIFT_OBJC_BRIDGING_HEADER = "RNVideoProcessing/sqsoMobile-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
