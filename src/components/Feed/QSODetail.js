@@ -100,7 +100,7 @@ class QSODetail extends React.PureComponent {
   }
   componentDidMount() {
     const { navigation } = this.props;
-    
+
     let qsoInMemory = navigation.getParam('QSO_GUID', 'NO-ID');
     console.log('QSODetail' + qsoInMemory);
 

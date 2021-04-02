@@ -7,7 +7,7 @@ import analytics from '@react-native-firebase/analytics';
 const SwitchNavigator = createSwitchNavigator(
   {
     Auth: AuthNavigator,
-    App: DrawerNavigator
+    App: { screen: DrawerNavigator, path: '' }
   },
   {
     initialRouteName: 'Auth'
@@ -15,6 +15,8 @@ const SwitchNavigator = createSwitchNavigator(
 );
 
 const AppContainer = createAppContainer(SwitchNavigator);
+const prefix = 'superqso://';
+const MainApp = () => <AppContainer uriPrefix={prefix} />;
 // gets the current screen from navigation state
 function getActiveRouteName(navigationState) {
   if (!navigationState) {
@@ -31,7 +33,7 @@ export const AppNavigator = ({ dispatch, nav }) => (
   // <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav, addListener })} />
   // <AppNavigator />
   <ErrorBoundary>
-    <AppContainer
+    <MainApp
       onNavigationStateChange={(prevState, currentState, action) => {
         const currentRouteName = getActiveRouteName(currentState);
         const previousRouteName = getActiveRouteName(prevState);

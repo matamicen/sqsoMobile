@@ -2,28 +2,34 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import I18n from '../../utils/i18n';
 import SideMenu from './SideMenu';
 import {
+  NotificationStackNavigator,
   editBioStackNavigator,
   editInfoStackNavigator,
   FieldDaysStackNavigator,
   ExploreUsersStackNavigator,
-  MyPostsStackNavigator
+  MyPostsStackNavigator,
+  ProfileStackNavigator,
+  PostStackNavigator
 } from './StackNavigator';
 import { TabNavigator } from './TabNavigator';
 const DrawerRouteConfigs = {
   Home: {
     screen: TabNavigator,
+    path: '',
     navigationOptions: {
       title: I18n.t('HomeTitle')
     }
   },
   ExploreUsers: {
     screen: ExploreUsersStackNavigator,
+    path: '',
     navigationOptions: {
       title: I18n.t('navBar.exploreUsers')
     }
   },
   FieldDays: {
     screen: FieldDaysStackNavigator,
+    path: '',
     navigationOptions: {
       title: I18n.t('navBar.lastFieldDays')
     }
@@ -45,6 +51,18 @@ const DrawerRouteConfigs = {
     navigationOptions: {
       title: I18n.t('navBar.editProfile')
     }
+  },
+  Notifications: {
+    screen: NotificationStackNavigator,
+    path: ''
+  },
+  Profile: {
+    screen: ProfileStackNavigator,
+    path: ''
+  },
+  Post: {
+    screen: PostStackNavigator,
+    path: ''
   }
 };
 const DrawerNavigatorConfig = {
