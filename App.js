@@ -36,7 +36,7 @@ PushNotification.configure({
     console.log(
       'onNotifications APPS.js esto funciona solo en Android cuando esta KILLED'
     );
-
+    console.log(notification);
     var parseo = JSON.parse(notification.data.message);
     var mensajes = armoPushNotifyLocalNotif(
       parseo['title-loc-key'],

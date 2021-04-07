@@ -181,7 +181,7 @@ class LoginForm extends React.PureComponent {
         //  { console.log('pepe che! estaba killed y apreto!')
         //  this.webviewurlfromKilledPush = notification.userInfo.url;
         // }
-
+        console.log(notification);
         if (this.props.qra != '') {
           // esto es por si fallo el signout entonces, el qra de redux queda vacio el RDS no se entero
           // el usuario no est amas logueado y va a seguir recibienod PUSH con el usuario que quedo en RDS (el ultimo antes de hacer signout)

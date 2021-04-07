@@ -9,7 +9,8 @@ import I18n from '../../utils/i18n';
 import Login from '../Profile/Login';
 import SignUpScreen from '../Profile/SignUpForm';
 import ForgotScreen from '../Profile/ForgotPassword';
-
+import QSODetail from '../Feed/QSODetail';
+import Notifications from '../Notifications/Notification';
 import { TabNavigator } from './TabNavigator';
 
 import { View } from 'react-native';
@@ -17,7 +18,6 @@ import { Icon } from 'react-native-elements';
 
 import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
 export const AuthNavigator = createStackNavigator({
- 
   Login: {
     screen: Login,
     navigationOptions: {
@@ -111,7 +111,7 @@ const MyPostsRouteConfigs = {
 const ExploreUsersRouteConfigs = {
   ExploreUsers: {
     screen: exploreUsersContainer,
-
+    path: 'explore',
     navigationOptions: ({ navigation }) => ({
       title: I18n.t('navBar.exploreUsers'),
       headerLeft: (
@@ -123,7 +123,7 @@ const ExploreUsersRouteConfigs = {
 const FieldDaysRouteConfigs = {
   FieldDaysFeed: {
     screen: FieldDaysFeed,
-
+    path: 'activities',
     navigationOptions: ({ navigation }) => ({
       title: I18n.t('navBar.actCarouselTitle'),
       headerLeft: (
@@ -134,7 +134,7 @@ const FieldDaysRouteConfigs = {
 };
 const StackNavigatorConfig = {
   drawerType: 'slide',
-  unmountInactiveRoutes: true,
+  unmountInactiveRoutes: false,
   headerMode: 'float',
   headerTransitionPreset: 'face-in-place'
 };
@@ -146,6 +146,53 @@ export const editInfoStackNavigator = createStackNavigator(
   editInfoRouteConfigs,
   StackNavigatorConfig
 );
+export const NotificationStackNavigator = createStackNavigator({
+  Notifications: {
+    screen: Notifications,
+    path: 'notifications',
+    navigationOptions: {
+      header: null
+    }
+  }
+});
+export const ProfileStackNavigator = createStackNavigator({
+  QRAProfile: {
+    screen: QRAProfile,
+    path: 'profile/:qra',
+    // params: { screen: 'MYPOSTS' },
+    navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.viewProfile'),
+      headerLeft: (
+        <HeaderBackButton onPress={() => navigation.navigate('Home')} />
+      ),
+      headerRight: (
+        <View style={{ padding: 15 }}>
+          <Icon
+            size={30}
+            name="ellipsis-v"
+            type="font-awesome"
+            onPress={() => navigation.state.params.openMenu()}
+          />
+        </View>
+      )
+    })
+  }
+});
+export const PostStackNavigator = createStackNavigator({
+  QSODetail: {
+    screen: QSODetail,
+    path: 'qso/:QSO_GUID',
+    navigationOptions: ({ navigation }) => ({
+      title: I18n.t('viewPost'),
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+    // navigationOptions: {
+    //   header: null
+    // }
+  }
+});
 export const MyPostsStackNavigator = createStackNavigator(
   MyPostsRouteConfigs,
   StackNavigatorConfig

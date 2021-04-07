@@ -90,6 +90,7 @@ export const PostStackNavigator = createStackNavigator(
 export const NotificationStackNavigator = createStackNavigator({
   Notifications: {
     screen: Notifications,
+    path: 'notifications',
     navigationOptions: {
       header: null
     }
@@ -106,6 +107,7 @@ export const ProfileStackNavigator = createStackNavigator({
 export const FieldDaysStackNavigator = createStackNavigator({
   Activities: {
     screen: FieldDaysFeed,
+    path: 'activities',
     navigationOptions: ({ navigation }) => ({
       title: I18n.t('navBar.actCarouselTitle')
     })
@@ -121,6 +123,7 @@ export const HomeStackNavigator = createStackNavigator(
     },
     QRAProfile: {
       screen: QRAProfile,
+      path: 'qraProfile/:qra',
       navigationOptions: ({ navigation }) => ({
         title: I18n.t('navBar.viewProfile'),
         headerLeft: (
@@ -135,6 +138,7 @@ export const HomeStackNavigator = createStackNavigator(
     },
     QSODetail: {
       screen: QSODetail,
+      path: 'qso/:guid',
       navigationOptions: ({ navigation }) => ({
         title: I18n.t('viewPost'),
         headerLeft: (
@@ -194,10 +198,13 @@ export const HomeStackNavigator = createStackNavigator(
 );
 export const TabNavigator = createBottomTabNavigator(
   {
-    Home: HomeStackNavigator,
+    Home: { screen: HomeStackNavigator, path: 'home' },
     QsoScreen: PostStackNavigator,
-    Activities: FieldDaysStackNavigator,
-    Notifications: NotificationStackNavigator,
+    Activities: { screen: FieldDaysStackNavigator, path: 'activities' },
+    Notifications: {
+      screen: NotificationStackNavigator,
+      path: ''
+    },
     ProfileScreen: ProfileStackNavigator
   },
   {
