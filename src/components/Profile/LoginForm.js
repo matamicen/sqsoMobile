@@ -317,14 +317,38 @@ class LoginForm extends React.PureComponent {
                 console.log('user interaction es true!');
                 //  this.props.manage_notifications('ADDONE',envioNotif);
                 //  this.props.navigation.navigate("Notifications");
-                console.log(notification.userInfo.url);
+                // console.log(notification.userInfo.url);
                 // var urlAux =
                 //   notification.userInfo.url +
                 //   '?embedded=true&date=' +
                 //   new Date();
                 // this.props.setWebView(webViewUserSession, urlAux);
                 // esto estaba
-                this.props.navigation.navigate('Home', {});
+                console.log(notification.userInfo)
+
+                console.log('Route:' + notification.userInfo.url.ROUTE)
+                console.log('Param1:' + notification.userInfo.url.Param1)
+               
+                // on User TAP it navigates to the deeplink
+
+                if (notification.userInfo.url.ROUTE==='QraProfile')
+                {
+                  this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.Param1, screen: 'PROFILE' });
+                }
+                if (notification.userInfo.url.ROUTE==='QsoDetail')
+                {
+                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.Param1 });
+                }
+                if (notification.userInfo.url.ROUTE==='ExploreUsers')
+                {
+                  this.props.navigation.navigate('ExploreUsers');
+                }
+                if (notification.userInfo.url.ROUTE==='Activities')
+                {
+                    this.props.navigation.navigate('FieldDays');
+                }
+
+                // this.props.navigation.navigate('Home', {});
               }
             } catch (error) {
               console.log('error #010');
@@ -441,8 +465,41 @@ class LoginForm extends React.PureComponent {
               // si viene de background lo lleva directo al notification tray
               // pero si esta foreground no le cambia la screen para respetar lo que el usuario
               // este haciendo
-              if (!notification.foreground)
-                this.props.navigation.navigate('Notifications');
+              if (!notification.foreground){
+                // "url": {
+                //   "ROUTE": "ExploreUsers",
+                //   "Param1": "TSOM"
+                // },
+                console.log('iOS TAP:' )
+                console.log(notification)
+
+
+                console.log('Route:' + notification.alert.Url.ROUTE)
+                console.log('Param1:' + notification.alert.Url.Param1)
+
+                 // on User TAP it navigates to the deeplink
+                
+                if (notification.alert.Url.ROUTE==='QraProfile')
+                {
+                  this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.Param1, screen: 'PROFILE' });
+                }
+                if (notification.alert.Url.ROUTE==='QsoDetail')
+                {
+                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.Param1 });
+                }
+                if (notification.alert.Url.ROUTE==='ExploreUsers')
+                {
+                  this.props.navigation.navigate('ExploreUsers');
+                }
+                if (notification.alert.Url.ROUTE==='Activities')
+                {
+                   this.props.navigation.navigate('FieldDays');
+                }
+
+              
+
+               // this.props.navigation.navigate('Notifications');
+              }
             } catch (error) {
               console.log('error #011');
               console.log(error);
@@ -452,6 +509,74 @@ class LoginForm extends React.PureComponent {
 
             notification.finish(PushNotificationIOS.FetchResult.NoData);
           }
+        }
+        else
+        {
+          if (Platform.OS === 'android') {
+
+            // on User TAP when the APP is KILEED it navigates to the deeplink
+
+            if (notification.userInfo.url.ROUTE==='QraProfile')
+            {
+              this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.Param1, screen: 'PROFILE' });
+            }
+            if (notification.userInfo.url.ROUTE==='QsoDetail')
+            {
+              console.log('ios qsodetail killed')
+              setTimeout(() => {
+              this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.Param1 });
+            }, 2000);
+
+            }
+            if (notification.userInfo.url.ROUTE==='ExploreUsers')
+            {
+              setTimeout(() => {
+              this.props.navigation.navigate('ExploreUsers');
+               }, 2000);
+            }
+            if (notification.userInfo.url.ROUTE==='Activities')
+            {
+              setTimeout(() => {
+                this.props.navigation.navigate('FieldDays');
+               }, 2000);
+            }
+
+            
+
+          }else
+          {
+
+                    // on User TAP when the APP is KILEED it navigates to the deeplink
+                
+                   if (notification.alert.Url.ROUTE==='QraProfile')
+                   {
+                     this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.Param1, screen: 'PROFILE' });
+                   }
+                   if (notification.alert.Url.ROUTE==='QsoDetail')
+                   {
+                     console.log('ios qsodetail killed')
+                     setTimeout(() => {
+                      this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.Param1 });
+                    }, 2000);
+                    //  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.Param1 });
+                   }
+                   if (notification.alert.Url.ROUTE==='ExploreUsers')
+                   {
+                    //  this.props.navigation.navigate('ExploreUsers');
+                     setTimeout(() => {
+                      this.props.navigation.navigate('ExploreUsers');
+                    }, 2000);
+                   }
+                   if (notification.alert.Url.ROUTE==='Activities')
+                   {
+                     setTimeout(() => {
+                      this.props.navigation.navigate('FieldDays');
+                    }, 2000);
+                   }
+
+
+          }
+
         }
       }
 
