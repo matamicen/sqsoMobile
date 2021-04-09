@@ -217,6 +217,17 @@ class LoginForm extends React.PureComponent {
                 let timeStamp = Date.now();
                 console.log('timseStamp:' + timeStamp);
 
+                if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
+                  {
+                    route = bodyJson.URL.route
+                    param1 = bodyJson.URL.param1
+                  }
+                  else{
+                      route = ''
+                      param1 = ''
+                }
+
+
                 // si el push es de MARKETING viene sin QRA ni IDACTIVITY
                 // if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
                 // {
@@ -242,7 +253,9 @@ class LoginForm extends React.PureComponent {
                   url: bodyJson.URL,
                   qso_mode: null,
                   qso_band: null,
-                  qso_type: null
+                  qso_type: null,
+                  route: route,
+                  param1: param1
                 };
                 // }
 
@@ -326,12 +339,12 @@ class LoginForm extends React.PureComponent {
                 // esto estaba
                 console.log(notification.userInfo)
 
-                console.log('Route:' + notification.userInfo.url.ROUTE)
+                console.log('route:' + notification.userInfo.url.route)
                 console.log('Param1:' + notification.userInfo.url.param1)
                
                 // on User TAP it navigates to the deeplink
 
-                switch(notification.userInfo.url.ROUTE) {
+                switch(notification.userInfo.url.route) {
                   case 'QRAProfile':
                     this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
                     break;
@@ -378,6 +391,15 @@ class LoginForm extends React.PureComponent {
               let timeStamp = Date.now();
               console.log('timseStamp:' + timeStamp);
 
+              if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
+              {
+                route = bodyJson.URL.route
+                param1 = bodyJson.URL.param1
+              }
+              else{
+                  route = ''
+                  param1 = ''
+            }
               // si el push es de MARKETING viene sin QRA ni IDACTIVITY
               // if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
               // {
@@ -404,7 +426,9 @@ class LoginForm extends React.PureComponent {
                 url: notification.alert.Url,
                 qso_mode: null,
                 qso_band: null,
-                qso_type: null
+                qso_type: null,
+                route: route,
+                param1: param1
               };
               // };
               // }
@@ -467,19 +491,19 @@ class LoginForm extends React.PureComponent {
               // este haciendo
               if (!notification.foreground){
                 // "url": {
-                //   "ROUTE": "ExploreUsers",
+                //   "route": "ExploreUsers",
                 //   "Param1": "TSOM"
                 // },
                 console.log('iOS TAP:' )
                 console.log(notification)
 
 
-                console.log('Route:' + notification.alert.Url.ROUTE)
+                console.log('route:' + notification.alert.Url.route)
                 console.log('Param1:' + notification.alert.Url.param1)
 
                  // on User TAP it navigates to the deeplink
 
-                 switch(notification.alert.Url.ROUTE) {
+                 switch(notification.alert.Url.route) {
                   case 'QRAProfile':
                     this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
                     break;
@@ -515,12 +539,12 @@ class LoginForm extends React.PureComponent {
         {
           if (Platform.OS === 'android') {
 
-            console.log('ROUTE:' +notification.userInfo.url.ROUTE)
+            console.log('route:' +notification.userInfo.url.route)
             console.log('param1:' +notification.userInfo.url.param1)
 
             // on User TAP when the APP is KILEED it navigates to the deeplink
 
-            switch(notification.userInfo.url.ROUTE) {
+            switch(notification.userInfo.url.route) {
               case 'QRAProfile':
                 this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
                 break;
@@ -551,7 +575,7 @@ class LoginForm extends React.PureComponent {
 
                     // on User TAP when the APP is KILEED it navigates to the deeplink
 
-                    switch(notification.alert.Url.ROUTE) {
+                    switch(notification.alert.Url.route) {
                       case 'QRAProfile':
                         this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
                         break;
