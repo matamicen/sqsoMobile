@@ -327,28 +327,28 @@ class LoginForm extends React.PureComponent {
                 console.log(notification.userInfo)
 
                 console.log('Route:' + notification.userInfo.url.ROUTE)
-                console.log('Param1:' + notification.userInfo.url.Param1)
+                console.log('Param1:' + notification.userInfo.url.param1)
                
                 // on User TAP it navigates to the deeplink
 
-                if (notification.userInfo.url.ROUTE==='QraProfile')
-                {
-                  this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.Param1, screen: 'PROFILE' });
-                }
-                if (notification.userInfo.url.ROUTE==='QsoDetail')
-                {
-                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.Param1 });
-                }
-                if (notification.userInfo.url.ROUTE==='ExploreUsers')
-                {
-                  this.props.navigation.navigate('ExploreUsers');
-                }
-                if (notification.userInfo.url.ROUTE==='Activities')
-                {
+                switch(notification.userInfo.url.ROUTE) {
+                  case 'QRAProfile':
+                    this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
+                    break;
+                  case 'QSODetail':
+                    this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.param1 });
+                    break;
+                  case 'ExploreUsers':
+                    this.props.navigation.navigate('ExploreUsers');
+                    break;
+                  case 'Activities':
                     this.props.navigation.navigate('FieldDays');
+                    break;
+                  default:
+                      this.props.navigation.navigate('Notifications');
                 }
 
-                // this.props.navigation.navigate('Home', {});
+     
               }
             } catch (error) {
               console.log('error #010');
@@ -475,26 +475,27 @@ class LoginForm extends React.PureComponent {
 
 
                 console.log('Route:' + notification.alert.Url.ROUTE)
-                console.log('Param1:' + notification.alert.Url.Param1)
+                console.log('Param1:' + notification.alert.Url.param1)
 
                  // on User TAP it navigates to the deeplink
-                
-                if (notification.alert.Url.ROUTE==='QraProfile')
-                {
-                  this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.Param1, screen: 'PROFILE' });
+
+                 switch(notification.alert.Url.ROUTE) {
+                  case 'QRAProfile':
+                    this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
+                    break;
+                  case 'QSODetail':
+                    this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.param1 });
+                    break;
+                  case 'ExploreUsers':
+                    this.props.navigation.navigate('ExploreUsers');
+                    break;
+                  case 'Activities':
+                    this.props.navigation.navigate('FieldDays');
+                    break;
+                  default:
+                      this.props.navigation.navigate('Notifications');
                 }
-                if (notification.alert.Url.ROUTE==='QsoDetail')
-                {
-                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.Param1 });
-                }
-                if (notification.alert.Url.ROUTE==='ExploreUsers')
-                {
-                  this.props.navigation.navigate('ExploreUsers');
-                }
-                if (notification.alert.Url.ROUTE==='Activities')
-                {
-                   this.props.navigation.navigate('FieldDays');
-                }
+
 
               
 
@@ -514,32 +515,34 @@ class LoginForm extends React.PureComponent {
         {
           if (Platform.OS === 'android') {
 
+            console.log('ROUTE:' +notification.userInfo.url.ROUTE)
+            console.log('param1:' +notification.userInfo.url.param1)
+
             // on User TAP when the APP is KILEED it navigates to the deeplink
 
-            if (notification.userInfo.url.ROUTE==='QraProfile')
-            {
-              this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.Param1, screen: 'PROFILE' });
+            switch(notification.userInfo.url.ROUTE) {
+              case 'QRAProfile':
+                this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
+                break;
+              case 'QSODetail':
+                setTimeout(() => {
+                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.param1 });
+                }, 2000);
+                break;
+              case 'ExploreUsers':
+                setTimeout(() => {
+                  this.props.navigation.navigate('ExploreUsers');
+                   }, 2000);
+                break;
+              case 'Activities':
+                setTimeout(() => {
+                  this.props.navigation.navigate('FieldDays');
+                 }, 2000);
+                break;
+              default:
+                  console.log('Nothing')
             }
-            if (notification.userInfo.url.ROUTE==='QsoDetail')
-            {
-              console.log('ios qsodetail killed')
-              setTimeout(() => {
-              this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.Param1 });
-            }, 2000);
 
-            }
-            if (notification.userInfo.url.ROUTE==='ExploreUsers')
-            {
-              setTimeout(() => {
-              this.props.navigation.navigate('ExploreUsers');
-               }, 2000);
-            }
-            if (notification.userInfo.url.ROUTE==='Activities')
-            {
-              setTimeout(() => {
-                this.props.navigation.navigate('FieldDays');
-               }, 2000);
-            }
 
             
 
@@ -547,32 +550,31 @@ class LoginForm extends React.PureComponent {
           {
 
                     // on User TAP when the APP is KILEED it navigates to the deeplink
-                
-                   if (notification.alert.Url.ROUTE==='QraProfile')
-                   {
-                     this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.Param1, screen: 'PROFILE' });
-                   }
-                   if (notification.alert.Url.ROUTE==='QsoDetail')
-                   {
-                     console.log('ios qsodetail killed')
-                     setTimeout(() => {
-                      this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.Param1 });
-                    }, 2000);
-                    //  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.Param1 });
-                   }
-                   if (notification.alert.Url.ROUTE==='ExploreUsers')
-                   {
-                    //  this.props.navigation.navigate('ExploreUsers');
-                     setTimeout(() => {
-                      this.props.navigation.navigate('ExploreUsers');
-                    }, 2000);
-                   }
-                   if (notification.alert.Url.ROUTE==='Activities')
-                   {
-                     setTimeout(() => {
-                      this.props.navigation.navigate('FieldDays');
-                    }, 2000);
-                   }
+
+                    switch(notification.alert.Url.ROUTE) {
+                      case 'QRAProfile':
+                        this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
+                        break;
+                      case 'QSODetail':
+                        setTimeout(() => {
+                          this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.param1 });
+                        }, 2000);
+                        break;
+                      case 'ExploreUsers':
+                        setTimeout(() => {
+                          this.props.navigation.navigate('ExploreUsers');
+                        }, 2000);
+                        break;
+                      case 'Activities':
+                        setTimeout(() => {
+                          this.props.navigation.navigate('FieldDays');
+                        }, 2000);
+                        break;
+                      default:
+                        console.log('Nothing')
+                    }
+
+
 
 
           }
