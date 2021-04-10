@@ -42,7 +42,9 @@ class NotificationList extends React.PureComponent {
       band,
       UTC,
       qso_type,
-      REF_QRA
+      REF_QRA,
+      route,
+      param1
     } = item;
 
     return (
@@ -66,6 +68,8 @@ class NotificationList extends React.PureComponent {
             qsotype={qso_type}
             refqra={REF_QRA}
             navigation={this.props.navigation}
+            route={route}
+            param1={param1}
           />
 
           {/* <Text style={{ color: 'orange', fontSize: 17}}>id notif: {idqra_notifications} </Text> */}

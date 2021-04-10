@@ -217,6 +217,17 @@ class LoginForm extends React.PureComponent {
                 let timeStamp = Date.now();
                 console.log('timseStamp:' + timeStamp);
 
+                if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
+                  {
+                    route = bodyJson.URL.route
+                    param1 = bodyJson.URL.param1
+                  }
+                  else{
+                      route = ''
+                      param1 = ''
+                }
+
+
                 // si el push es de MARKETING viene sin QRA ni IDACTIVITY
                 // if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
                 // {
@@ -242,7 +253,9 @@ class LoginForm extends React.PureComponent {
                   url: bodyJson.URL,
                   qso_mode: null,
                   qso_band: null,
-                  qso_type: null
+                  qso_type: null,
+                  route: route,
+                  param1: param1
                 };
                 // }
 
@@ -317,14 +330,38 @@ class LoginForm extends React.PureComponent {
                 console.log('user interaction es true!');
                 //  this.props.manage_notifications('ADDONE',envioNotif);
                 //  this.props.navigation.navigate("Notifications");
-                console.log(notification.userInfo.url);
+                // console.log(notification.userInfo.url);
                 // var urlAux =
                 //   notification.userInfo.url +
                 //   '?embedded=true&date=' +
                 //   new Date();
                 // this.props.setWebView(webViewUserSession, urlAux);
                 // esto estaba
-                this.props.navigation.navigate('Home', {});
+                console.log(notification.userInfo)
+
+                console.log('route:' + notification.userInfo.url.route)
+                console.log('Param1:' + notification.userInfo.url.param1)
+               
+                // on User TAP it navigates to the deeplink
+
+                switch(notification.userInfo.url.route) {
+                  case 'QRAProfile':
+                    this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
+                    break;
+                  case 'QSODetail':
+                    this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.param1 });
+                    break;
+                  case 'ExploreUsers':
+                    this.props.navigation.navigate('ExploreUsers');
+                    break;
+                  case 'Activities':
+                    this.props.navigation.navigate('FieldDays');
+                    break;
+                  default:
+                      this.props.navigation.navigate('Notifications');
+                }
+
+     
               }
             } catch (error) {
               console.log('error #010');
@@ -354,6 +391,15 @@ class LoginForm extends React.PureComponent {
               let timeStamp = Date.now();
               console.log('timseStamp:' + timeStamp);
 
+              if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
+              {
+                route = bodyJson.URL.route
+                param1 = bodyJson.URL.param1
+              }
+              else{
+                  route = ''
+                  param1 = ''
+            }
               // si el push es de MARKETING viene sin QRA ni IDACTIVITY
               // if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
               // {
@@ -380,7 +426,9 @@ class LoginForm extends React.PureComponent {
                 url: notification.alert.Url,
                 qso_mode: null,
                 qso_band: null,
-                qso_type: null
+                qso_type: null,
+                route: route,
+                param1: param1
               };
               // };
               // }
@@ -441,8 +489,42 @@ class LoginForm extends React.PureComponent {
               // si viene de background lo lleva directo al notification tray
               // pero si esta foreground no le cambia la screen para respetar lo que el usuario
               // este haciendo
-              if (!notification.foreground)
-                this.props.navigation.navigate('Notifications');
+              if (!notification.foreground){
+                // "url": {
+                //   "route": "ExploreUsers",
+                //   "Param1": "TSOM"
+                // },
+                console.log('iOS TAP:' )
+                console.log(notification)
+
+
+                console.log('route:' + notification.alert.Url.route)
+                console.log('Param1:' + notification.alert.Url.param1)
+
+                 // on User TAP it navigates to the deeplink
+
+                 switch(notification.alert.Url.route) {
+                  case 'QRAProfile':
+                    this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
+                    break;
+                  case 'QSODetail':
+                    this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.param1 });
+                    break;
+                  case 'ExploreUsers':
+                    this.props.navigation.navigate('ExploreUsers');
+                    break;
+                  case 'Activities':
+                    this.props.navigation.navigate('FieldDays');
+                    break;
+                  default:
+                      this.props.navigation.navigate('Notifications');
+                }
+
+
+              
+
+               // this.props.navigation.navigate('Notifications');
+              }
             } catch (error) {
               console.log('error #011');
               console.log(error);
@@ -452,6 +534,75 @@ class LoginForm extends React.PureComponent {
 
             notification.finish(PushNotificationIOS.FetchResult.NoData);
           }
+        }
+        else
+        {
+          if (Platform.OS === 'android') {
+
+            console.log('route:' +notification.userInfo.url.route)
+            console.log('param1:' +notification.userInfo.url.param1)
+
+            // on User TAP when the APP is KILEED it navigates to the deeplink
+
+            switch(notification.userInfo.url.route) {
+              case 'QRAProfile':
+                this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
+                break;
+              case 'QSODetail':
+                setTimeout(() => {
+                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.param1 });
+                }, 2000);
+                break;
+              case 'ExploreUsers':
+                setTimeout(() => {
+                  this.props.navigation.navigate('ExploreUsers');
+                   }, 2000);
+                break;
+              case 'Activities':
+                setTimeout(() => {
+                  this.props.navigation.navigate('FieldDays');
+                 }, 2000);
+                break;
+              default:
+                  console.log('Nothing')
+            }
+
+
+            
+
+          }else
+          {
+
+                    // on User TAP when the APP is KILEED it navigates to the deeplink
+
+                    switch(notification.alert.Url.route) {
+                      case 'QRAProfile':
+                        this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
+                        break;
+                      case 'QSODetail':
+                        setTimeout(() => {
+                          this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.param1 });
+                        }, 2000);
+                        break;
+                      case 'ExploreUsers':
+                        setTimeout(() => {
+                          this.props.navigation.navigate('ExploreUsers');
+                        }, 2000);
+                        break;
+                      case 'Activities':
+                        setTimeout(() => {
+                          this.props.navigation.navigate('FieldDays');
+                        }, 2000);
+                        break;
+                      default:
+                        console.log('Nothing')
+                    }
+
+
+
+
+          }
+
         }
       }
 

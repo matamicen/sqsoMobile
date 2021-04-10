@@ -38,6 +38,7 @@ PushNotification.configure({
     );
     console.log(notification);
     var parseo = JSON.parse(notification.data.message);
+    let bodyJson = JSON.parse(notification.data.Data);
     var mensajes = armoPushNotifyLocalNotif(
       parseo['title-loc-key'],
       parseo['loc-key'],
@@ -50,7 +51,8 @@ PushNotification.configure({
       //     id: notification.id,
       userInfo: {
         id: notification.id,
-        url: 'https://www.superqso.com/qso/7c4ace43-4e19-41d9-a248-5b2b451efd60'
+        url: bodyJson.URL
+        // url: 'https://www.superqso.com/qso/7c4ace43-4e19-41d9-a248-5b2b451efd60'
       },
       // title: notification.data['pinpoint.notification.title'],
       // message: notification.data['pinpoint.notification.body'],

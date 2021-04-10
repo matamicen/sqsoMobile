@@ -67,7 +67,9 @@ class NotifItem extends React.PureComponent {
     QRA,
     QSO_GUID,
     refqra,
-    qra
+    qra,
+    route,
+    param1
   ) => {
     if (await hasAPIConnection()) {
       var profile = new Set([50, 51, 108]); // 108 es porque viene de Push Foreground
@@ -124,10 +126,31 @@ class NotifItem extends React.PureComponent {
       } else if (marketing.has(activity_type)) {
         console.log('marketing URLnotif:' + urlnotif);
         this.props.doRequestQSO();
-        if (urlnotif !== '' && urlnotif !== undefined)
-          this.props.navigation.navigate('QSODetail', {
-            QSO_GUID: urlnotif
-          });
+        if (route!=='')
+        {
+          switch(route) {
+            case 'QRAProfile':
+              this.props.navigation.push('QRAProfile', { qra: param1, screen: 'PROFILE' });
+              break;
+            case 'QSODetail':
+              this.props.navigation.navigate('QSODetail', { QSO_GUID: param1 });
+              break;
+            case 'ExploreUsers':
+              this.props.navigation.navigate('ExploreUsers');
+              break;
+            case 'Activities':
+              this.props.navigation.navigate('FieldDays');
+              break;
+            default:
+                console.log('nothing')
+          }
+
+
+        }
+        // if (urlnotif !== '' && urlnotif !== undefined)
+        //   this.props.navigation.navigate('QSODetail', {
+        //     QSO_GUID: urlnotif
+        //   });
       }
     } else this.setState({ nointernet: true });
   };
@@ -224,7 +247,9 @@ class NotifItem extends React.PureComponent {
                   this.props.QRA,
                   this.props.QSO_GUID,
                   this.props.refqra,
-                  this.props.qra
+                  this.props.qra,
+                  this.props.route,
+                  this.props.param1
                 )
               }
               underlayColor="white">
@@ -263,7 +288,9 @@ class NotifItem extends React.PureComponent {
                   this.props.QRA,
                   this.props.QSO_GUID,
                   this.props.refqra,
-                  this.props.qra
+                  this.props.qra,
+                  this.props.route,
+                  this.props.param1
                 )
               }
               underlayColor="white">
