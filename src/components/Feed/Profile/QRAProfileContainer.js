@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Linking } from 'react-native';
 
 import { userNotValidated } from '../../../helper';
 import { connect } from 'react-redux';
@@ -26,8 +26,19 @@ class QRAProfileContainer extends React.PureComponent {
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
   }
-
+  componentWillUnmount() {
+    // Linking.removeEventListener('url', this.handleDeepLink);
+  }
+  handleDeepLink(e) {
+    const { params } = this.props.navigation.state;
+    console.log('product id: ', params);
+    const route = e.url.replace(/.*?:\/\//g, '');
+    console.log(route);
+    // use route to navigate
+    // ...
+  }
   componentDidMount() {
+    // Linking.addEventListener('url', this.handleDeepLink);
     if (this.props.qra) this.setState({ qra: this.props.qra });
     if (__DEV__) this.setState({ adActive: false });
 
@@ -39,6 +50,7 @@ class QRAProfileContainer extends React.PureComponent {
 
     const { navigation } = this.props;
     let qraInMemory = navigation.getParam('qra', this.props.currentQRA);
+
     let screen = navigation.getParam('screen');
 
     if (screen === 'MYPOSTS') qraInMemory = this.props.currentQRA;
