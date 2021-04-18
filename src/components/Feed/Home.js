@@ -1,15 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import queryString from 'query-string';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import React from 'react';
-import {
-  AppState,
-  Image,
-  Platform,
-  Text,
-  View,
-  Alert,
-  BackHandler,
-  ActivityIndicator
-} from 'react-native';
+import { AppState, Alert, BackHandler, Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -34,7 +27,110 @@ class Home extends React.PureComponent {
     };
     this.backHandler = null;
   }
-  componentDidMount() {
+
+  handleDynamicLink(link) {
+    console.log('handleDynamicLink', link);
+    const parsed = queryString.parseUrl(link.url);
+    console.log('parsed2');
+    console.log(parsed);
+    console.log(Object.keys(parsed.query));
+    switch (Object.keys(parsed.query)[0]) {
+      case 'QRA':
+        this.props.navigation.push('QRAProfile', {
+          qra: parsed.query.QRA,
+          screen: 'PROFILE'
+        });
+        break;
+      case 'QSO':
+        this.props.navigation.navigate('QSODetail', {
+          QSO_GUID: parsed.query.QSO
+        });
+        break;
+      case 'ExploreUsers':
+        this.props.navigation.navigate('ExploreUsers');
+        break;
+      case 'Activities':
+        this.props.navigation.navigate('FieldDays');
+        break;
+      default:
+        this.props.navigation.navigate('Notifications');
+    }
+    // console.log('qra: ', qra);
+    // Handle dynamic link inside your own application
+  }
+  async componentDidMount() {
+    await Linking.addEventListener('url', (e) => {
+      console.log(e.url);
+      if (e.url) {
+        let parsed = queryString.parseUrl(e.url);
+        console.log('Linkingparsed');
+        console.log(parsed.query.link);
+        parsed = queryString.parseUrl(parsed.query.link);
+        console.log('linkParsedAgain');
+        console.log(parsed);
+        // console.log(Object.keys(parsed.query).link);
+        switch (Object.keys(parsed.query)[0]) {
+          case 'QRA':
+            this.props.navigation.push('QRAProfile', {
+              qra: parsed.query.QRA,
+              screen: 'PROFILE'
+            });
+            break;
+          case 'QSO':
+            this.props.navigation.navigate('QSODetail', {
+              QSO_GUID: parsed.query.QSO
+            });
+            break;
+          case 'ExploreUsers':
+            this.props.navigation.navigate('ExploreUsers');
+            break;
+          case 'Activities':
+            this.props.navigation.navigate('FieldDays');
+            break;
+          default:
+            this.props.navigation.navigate('Notifications');
+        }
+      }
+    });
+    let url = await dynamicLinks().getInitialLink();
+    console.log('incoming url', url);
+    // PushNotification.onNotification((notification) => {
+    this.unsubscribe = await dynamicLinks().onLink(
+      (link) => this.handleDynamicLink
+    );
+    await dynamicLinks().onLink((link) => this.handleDynamicLink);
+    await dynamicLinks()
+      .getInitialLink()
+      .then((link) => {
+        console.log('getInitialLink', link);
+        if (link) {
+          const parsed = queryString.parseUrl(link.url);
+          console.log('getInitialLinkparsed');
+          console.log(parsed);
+          console.log(Object.keys(parsed.query)[0]);
+          switch (Object.keys(parsed.query)[0]) {
+            case 'QRA':
+              this.props.navigation.push('QRAProfile', {
+                qra: parsed.query.QRA,
+                screen: 'PROFILE'
+              });
+              break;
+            case 'QSO':
+              this.props.navigation.navigate('QSODetail', {
+                QSO_GUID: parsed.query.QSO
+              });
+              break;
+            case 'ExploreUsers':
+              this.props.navigation.navigate('ExploreUsers');
+              break;
+            case 'Activities':
+              this.props.navigation.navigate('FieldDays');
+              break;
+            default:
+              this.props.navigation.navigate('Notifications');
+          }
+        }
+      });
     this.props.navigation.setParams({
       tabBarOnPress: () => {
         console.log('PRESS HOME! tabBarOnPress');
@@ -73,8 +169,8 @@ class Home extends React.PureComponent {
       if (text !== null && typeof text !== 'undefined') {
         // if (typeof text !== 'undefined') {
         console.log('el text del share 09: ' + text);
-        auxshare1 = JSON.stringify(text);
-        auxshare2 = JSON.parse(auxshare1);
+        let auxshare1 = JSON.stringify(text);
+        let auxshare2 = JSON.parse(auxshare1);
         console.log('auxshare: ' + auxshare2.data);
         AsyncStorage.setItem('shareExternalMedia', auxshare2.data);
         AsyncStorage.setItem('shareExternalMediaMimeType', auxshare2.mimeType);
@@ -105,6 +201,7 @@ class Home extends React.PureComponent {
     AppState.removeEventListener('change', this._handleAppStateChange);
 
     BackHandler.removeEventListener('hardwareBackPress', this.backAction);
+    dynamicLinks().onLink((link) => this.handleDynamicLink);
   }
 
   tapOnTabNavigator = async () => {
@@ -166,7 +263,7 @@ class Home extends React.PureComponent {
 
       // actualizo token porque se pudo haber vencido mientras la APP estuvo mucho tiempo en BackGround
       var session = await Auth.currentSession();
-      console.log('PASO POR SIGNIN token: ' + session.idToken.jwtToken);
+      // console.log('PASO POR SIGNIN token: ' + session.idToken.jwtToken);
       this.props.actions.setToken(session.idToken.jwtToken);
       // si viene de background debe traer las ultimas actualizaciones de notificaciones
       // puede venir de background porque el usuario volvio manualmente o porque apreto un PUSH
