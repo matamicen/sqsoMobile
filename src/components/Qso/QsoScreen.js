@@ -564,7 +564,7 @@ class QsoScreen extends React.PureComponent {
             // fin chequeo de version minima de la APP
 
             var session = await Auth.currentSession();
-            console.log('PASO POR SIGNIN token: ' + session.idToken.jwtToken);
+            // console.log('PASO POR SIGNIN token: ' + session.idToken.jwtToken);
             this.props.setToken(session.idToken.jwtToken);
             // si viene de background porque esta yendo a los QSO de las notificaciones
             // no chequeo de nuevo en backend las notificaciones

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "750953848595-apco0mffctlk4kesrgf1slfmdfoe5tg0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sqsomobile",
+            "certificate_hash": "26c1a2ec6fa35c0a34b71aa47227dcbfc779535d"
+          }
+        },
+        {
           "client_id": "750953848595-o29ofs3tas6mv7jcbdnorn47j9mf7dr1.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +38,14 @@
             {
               "client_id": "750953848595-o29ofs3tas6mv7jcbdnorn47j9mf7dr1.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "750953848595-qkelcm476045s5asppb2q4nfp945q1aq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.sqsoMobile",
+                "app_store_id": "1478967853"
+              }
             }
           ]
         }
