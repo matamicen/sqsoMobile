@@ -13,9 +13,9 @@
 "PUSH_NEWPOSTANY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_TAGYOUNEWPOSTANY_TITLE" = "%@ te etiquetó en su nueva publicación";
 "PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "Mira los detalles aquí";
-"PUSH_WORKEDQSO_TITLE" = "%@ trabajó un QSO";
+"PUSH_WORKEDQSO_TITLE" = "%@ realizó un QSO";
 "PUSH_WORKEDQSO_MESSAGE" =  "Modo: %@ Banda: %@ UTC: %@";
-"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ te trabajó a tí en su QSO";
+"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ realizó un QSO contigo";
 "PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE" =  "Modo: %@ Banda: %@";
 "PUSH_LISTENEDQSO_TITLE" = "%@ escuchó un QSO";
 "PUSH_LISTENEDQSO_MESSAGE" = "Modo: %@ Banda: %@ UTC: %@";
