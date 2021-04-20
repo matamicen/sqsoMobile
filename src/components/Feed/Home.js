@@ -60,7 +60,9 @@ class Home extends React.PureComponent {
   }
   async componentDidMount() {
     await Linking.addEventListener('url', (e) => {
-      console.log(e.url);
+      try {
+
+        console.log(e.url);
       if (e.url) {
         let parsed = queryString.parseUrl(e.url);
         console.log('Linkingparsed');
@@ -91,7 +93,55 @@ class Home extends React.PureComponent {
             this.props.navigation.navigate('Notifications');
         }
       }
+        
+      } catch (error) {
+        console.log(error)
+        
+      }
+      
     });
+
+    // Dynamic Link for ios in killed mode
+ if (Platform.OS === 'ios') {
+    Linking.getInitialURL()
+    .then(res => {
+      console.log('LINKING IOS')
+      console.log(res)
+
+      let parsed = queryString.parseUrl(res);
+      console.log('Linkingparsed');
+      // console.log(parsed.query.link);
+      parsed = queryString.parseUrl(parsed.query.link);
+      console.log('linkParsedAgain');
+      // console.log(parsed);
+      // console.log(Object.keys(parsed.query).link);
+      switch (Object.keys(parsed.query)[0]) {
+        case 'QRA':
+          this.props.navigation.push('QRAProfile', {
+            qra: parsed.query.QRA,
+            screen: 'PROFILE'
+          });
+          break;
+        case 'QSO':
+          this.props.navigation.navigate('QSODetail', {
+            QSO_GUID: parsed.query.QSO
+          });
+          break;
+        case 'ExploreUsers':
+          this.props.navigation.navigate('ExploreUsers');
+          break;
+        case 'Activities':
+          this.props.navigation.navigate('FieldDays');
+          break;
+        default:
+          this.props.navigation.navigate('Notifications');
+      }
+  
+    })
+
+  }
+
+
     let url = await dynamicLinks().getInitialLink();
     console.log('incoming url', url);
     // PushNotification.onNotification((notification) => {

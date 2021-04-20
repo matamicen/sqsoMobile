@@ -4,6 +4,8 @@
 //#import <React/RCTPushNotificationManager.h>
 #import <RNCPushNotificationIOS.h>
 #import <RNShareMenu/ShareMenuManager.h>
+#import <React/RCTLinkingManager.h>
+
 
 
 #import <React/RCTBridge.h>
@@ -128,7 +130,28 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
         openURL:(NSURL *)url
         options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  return [ShareMenuManager application:app openURL:url options:options];
+//  return [ShareMenuManager application:app openURL:url options:options];
+  // esto se adapto para que funcione el Share de Fotos/Videos y el DeepLink
+    NSLog(@"Peposo: %@ ", url );
+    NSString *s1 = [url absoluteString];
+    NSString *stringshare = @"ShareMenuModule://";
+   // if ([url isEqualToString:@"ShareMenuModule://"]) //If statement
+   //   if ([[url absoluteString] isEqualToString:[stringshare absoluteString]])
+    NSLog(@"es igual a %d", [s1 isEqualToString:stringshare]);
+    if ([s1 isEqualToString:stringshare])
+      return [ShareMenuManager application:app openURL:url options:options];
+    else
+      return [RCTLinkingManager application:app openURL:url options:options];
+
+   return [RCTLinkingManager application:app openURL:url options:options];
 }
 
+// Only if your app is using [Universal Links](https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html).
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
+}
 @end
