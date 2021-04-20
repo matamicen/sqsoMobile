@@ -13,6 +13,7 @@ import NewsFeed from './NewsFeedContainer';
 import Toast from 'react-native-root-toast';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
+import analytics from '@react-native-firebase/analytics';
 
 class Home extends React.PureComponent {
   constructor(props) {
@@ -70,6 +71,9 @@ class Home extends React.PureComponent {
         parsed = queryString.parseUrl(parsed.query.link);
         console.log('linkParsedAgain');
         console.log(parsed);
+
+        if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
+
         // console.log(Object.keys(parsed.query).link);
         switch (Object.keys(parsed.query)[0]) {
           case 'QRA':
@@ -107,6 +111,8 @@ class Home extends React.PureComponent {
     .then(res => {
       console.log('LINKING IOS')
       console.log(res)
+
+      if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
 
       let parsed = queryString.parseUrl(res);
       console.log('Linkingparsed');
@@ -154,6 +160,9 @@ class Home extends React.PureComponent {
       .then((link) => {
         console.log('getInitialLink', link);
         if (link) {
+
+          if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
+
           const parsed = queryString.parseUrl(link.url);
           console.log('getInitialLinkparsed');
           console.log(parsed);
