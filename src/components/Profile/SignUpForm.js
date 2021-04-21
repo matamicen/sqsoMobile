@@ -3,6 +3,8 @@ import crashlytics from '@react-native-firebase/crashlytics';
 //import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
 import React, { Component } from 'react';
+import analytics from '@react-native-firebase/analytics';
+
 import {
   ActivityIndicator,
   DatePickerAndroid,
@@ -632,6 +634,9 @@ class SignUpForm extends React.PureComponent {
       .then(() => {
         console.log('SignUp ok!: ');
         this.qraAlreadySignUp = this.state.qra;
+
+        if (!__DEV__) analytics().logEvent('signup_APPPRD');
+
         this.setState({
           heightindicator: 0,
           indicator: 0,

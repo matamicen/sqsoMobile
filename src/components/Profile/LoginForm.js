@@ -158,8 +158,6 @@ class LoginForm extends React.PureComponent {
   }
 
   async componentDidMount() {
-    // PushNotification.onNotification((notification) => {
-
     console.log('esta hermes?');
     console.log(!!global.HermesInternal);
 
@@ -217,16 +215,13 @@ class LoginForm extends React.PureComponent {
                 let timeStamp = Date.now();
                 console.log('timseStamp:' + timeStamp);
 
-                if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
-                  {
-                    route = bodyJson.URL.route
-                    param1 = bodyJson.URL.param1
-                  }
-                  else{
-                      route = ''
-                      param1 = ''
+                if (parseo['title-loc-key'] === 'PUSH_MARKETING_TITLE') {
+                  route = bodyJson.URL.route;
+                  param1 = bodyJson.URL.param1;
+                } else {
+                  route = '';
+                  param1 = '';
                 }
-
 
                 // si el push es de MARKETING viene sin QRA ni IDACTIVITY
                 // if (parseo['title-loc-key']==='PUSH_MARKETING_TITLE')
@@ -337,19 +332,24 @@ class LoginForm extends React.PureComponent {
                 //   new Date();
                 // this.props.setWebView(webViewUserSession, urlAux);
                 // esto estaba
-                console.log(notification.userInfo)
+                console.log(notification.userInfo);
 
-                console.log('route:' + notification.userInfo.url.route)
-                console.log('Param1:' + notification.userInfo.url.param1)
-               
+                console.log('route:' + notification.userInfo.url.route);
+                console.log('Param1:' + notification.userInfo.url.param1);
+
                 // on User TAP it navigates to the deeplink
 
-                switch(notification.userInfo.url.route) {
+                switch (notification.userInfo.url.route) {
                   case 'QRAProfile':
-                    this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
+                    this.props.navigation.push('QRAProfile', {
+                      qra: notification.userInfo.url.param1,
+                      screen: 'PROFILE'
+                    });
                     break;
                   case 'QSODetail':
-                    this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.param1 });
+                    this.props.navigation.navigate('QSODetail', {
+                      QSO_GUID: notification.userInfo.url.param1
+                    });
                     break;
                   case 'ExploreUsers':
                     this.props.navigation.navigate('ExploreUsers');
@@ -358,10 +358,8 @@ class LoginForm extends React.PureComponent {
                     this.props.navigation.navigate('FieldDays');
                     break;
                   default:
-                      this.props.navigation.navigate('Notifications');
+                    this.props.navigation.navigate('Notifications');
                 }
-
-     
               }
             } catch (error) {
               console.log('error #010');
@@ -391,15 +389,15 @@ class LoginForm extends React.PureComponent {
               let timeStamp = Date.now();
               console.log('timseStamp:' + timeStamp);
 
-              if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
-              {
-                route = bodyJson.URL.route
-                param1 = bodyJson.URL.param1
+              if (
+                notification.alert['title-loc-key'] === 'PUSH_MARKETING_TITLE'
+              ) {
+                route = bodyJson.URL.route;
+                param1 = bodyJson.URL.param1;
+              } else {
+                route = '';
+                param1 = '';
               }
-              else{
-                  route = ''
-                  param1 = ''
-            }
               // si el push es de MARKETING viene sin QRA ni IDACTIVITY
               // if (notification.alert['title-loc-key']==='PUSH_MARKETING_TITLE')
               // {
@@ -489,26 +487,30 @@ class LoginForm extends React.PureComponent {
               // si viene de background lo lleva directo al notification tray
               // pero si esta foreground no le cambia la screen para respetar lo que el usuario
               // este haciendo
-              if (!notification.foreground){
+              if (!notification.foreground) {
                 // "url": {
                 //   "route": "ExploreUsers",
                 //   "Param1": "TSOM"
                 // },
-                console.log('iOS TAP:' )
-                console.log(notification)
+                console.log('iOS TAP:');
+                console.log(notification);
 
+                console.log('route:' + notification.alert.Url.route);
+                console.log('Param1:' + notification.alert.Url.param1);
 
-                console.log('route:' + notification.alert.Url.route)
-                console.log('Param1:' + notification.alert.Url.param1)
+                // on User TAP it navigates to the deeplink
 
-                 // on User TAP it navigates to the deeplink
-
-                 switch(notification.alert.Url.route) {
+                switch (notification.alert.Url.route) {
                   case 'QRAProfile':
-                    this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
+                    this.props.navigation.push('QRAProfile', {
+                      qra: notification.alert.Url.param1,
+                      screen: 'PROFILE'
+                    });
                     break;
                   case 'QSODetail':
-                    this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.param1 });
+                    this.props.navigation.navigate('QSODetail', {
+                      QSO_GUID: notification.alert.Url.param1
+                    });
                     break;
                   case 'ExploreUsers':
                     this.props.navigation.navigate('ExploreUsers');
@@ -517,13 +519,10 @@ class LoginForm extends React.PureComponent {
                     this.props.navigation.navigate('FieldDays');
                     break;
                   default:
-                      this.props.navigation.navigate('Notifications');
+                    this.props.navigation.navigate('Notifications');
                 }
 
-
-              
-
-               // this.props.navigation.navigate('Notifications');
+                // this.props.navigation.navigate('Notifications');
               }
             } catch (error) {
               console.log('error #011');
@@ -534,75 +533,71 @@ class LoginForm extends React.PureComponent {
 
             notification.finish(PushNotificationIOS.FetchResult.NoData);
           }
-        }
-        else
-        {
+        } else {
           if (Platform.OS === 'android') {
-
-            console.log('route:' +notification.userInfo.url.route)
-            console.log('param1:' +notification.userInfo.url.param1)
+            console.log('route:' + notification.userInfo.url.route);
+            console.log('param1:' + notification.userInfo.url.param1);
 
             // on User TAP when the APP is KILEED it navigates to the deeplink
 
-            switch(notification.userInfo.url.route) {
+            switch (notification.userInfo.url.route) {
               case 'QRAProfile':
-                this.props.navigation.push('QRAProfile', { qra: notification.userInfo.url.param1, screen: 'PROFILE' });
+                this.props.navigation.push('QRAProfile', {
+                  qra: notification.userInfo.url.param1,
+                  screen: 'PROFILE'
+                });
                 break;
               case 'QSODetail':
                 setTimeout(() => {
-                  this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.userInfo.url.param1 });
+                  this.props.navigation.navigate('QSODetail', {
+                    QSO_GUID: notification.userInfo.url.param1
+                  });
                 }, 2000);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                   }, 2000);
+                }, 2000);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                 }, 2000);
+                }, 2000);
                 break;
               default:
-                  console.log('Nothing')
+                console.log('Nothing');
             }
+          } else {
+            // on User TAP when the APP is KILEED it navigates to the deeplink
 
-
-            
-
-          }else
-          {
-
-                    // on User TAP when the APP is KILEED it navigates to the deeplink
-
-                    switch(notification.alert.Url.route) {
-                      case 'QRAProfile':
-                        this.props.navigation.push('QRAProfile', { qra: notification.alert.Url.param1, screen: 'PROFILE' });
-                        break;
-                      case 'QSODetail':
-                        setTimeout(() => {
-                          this.props.navigation.navigate('QSODetail', { QSO_GUID: notification.alert.Url.param1 });
-                        }, 2000);
-                        break;
-                      case 'ExploreUsers':
-                        setTimeout(() => {
-                          this.props.navigation.navigate('ExploreUsers');
-                        }, 2000);
-                        break;
-                      case 'Activities':
-                        setTimeout(() => {
-                          this.props.navigation.navigate('FieldDays');
-                        }, 2000);
-                        break;
-                      default:
-                        console.log('Nothing')
-                    }
-
-
-
-
+            switch (notification.alert.Url.route) {
+              case 'QRAProfile':
+                this.props.navigation.push('QRAProfile', {
+                  qra: notification.alert.Url.param1,
+                  screen: 'PROFILE'
+                });
+                break;
+              case 'QSODetail':
+                setTimeout(() => {
+                  this.props.navigation.navigate('QSODetail', {
+                    QSO_GUID: notification.alert.Url.param1
+                  });
+                }, 2000);
+                break;
+              case 'ExploreUsers':
+                setTimeout(() => {
+                  this.props.navigation.navigate('ExploreUsers');
+                }, 2000);
+                break;
+              case 'Activities':
+                setTimeout(() => {
+                  this.props.navigation.navigate('FieldDays');
+                }, 2000);
+                break;
+              default:
+                console.log('Nothing');
+            }
           }
-
         }
       }
 
@@ -775,9 +770,9 @@ class LoginForm extends React.PureComponent {
           console.log('mat2 el pushtoken del store es:' + this.props.pushtoken);
 
           //apologize
-          if (pushtoken === null)
+          // if (pushtoken === null)
             // Si no encuentra pushToken guardado debe reinstalar la APP
-            // if (1 === 2)
+            if (1 === 2)
             this.setState({ stopApp: true, pushTokenNotFound: true });
           else {
             console.log('Antes de AsyncStorage.getItem');

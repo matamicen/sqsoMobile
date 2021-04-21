@@ -380,10 +380,10 @@ export default {
   PUSH_TAGYOUNEWPOSTANY_TITLE:
     '%{callsign} te etiquetó en su nueva publicación',
   PUSH_TAGYOUNEWPOSTANY_MESSAGE: 'Mirá los detalles aquí',
-  PUSH_WORKEDQSO_TITLE: '%{callsign} trabajó un QSO',
+  PUSH_WORKEDQSO_TITLE: '%{callsign} realizó un QSO',
   PUSH_WORKEDQSO_MESSAGE: 'en Modo: %{mode} Banda: %{band} UTC: %{utc}',
   PUSH_INCLUDEDYOUWORKEDQSO_TITLE:
-    '%{callsign} te trabajó a tí en su nuevo QSO',
+    '%{callsign} realizó un QSO contigo en su nuevo QSO',
   PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE: 'en Modo: %{mode} Banda: %{band}',
   PUSH_LISTENEDQSO_TITLE: '%{callsign} escuchó un QSO',
   PUSH_LISTENEDQSO_MESSAGE: 'en Modo: %{mode} Banda: %{band} UTC: %{utc}',
@@ -420,11 +420,11 @@ export default {
   SEEMOREDETAILSON_NOTIFICATIONS: 'Mirá los detalles en Notificaciones',
   SOMEONE_CLOSE: 'Cerrar',
   NOTIF_ACTIVTYPE_10_QSO:
-    '%{callsign} trabajó un QSO en Banda: %{band} Modo: %{mode}',
+    '%{callsign} realizó un QSO en Banda: %{band} Modo: %{mode}',
   NOTIF_ACTIVTYPE_12_QSOYOU:
-    '%{callsign} te trabajó a tí en un QSO en Banda: %{band} Modo: %{mode}',
+    '%{callsign} realizó un QSO contigo en Banda: %{band} Modo: %{mode}',
   NOTIF_ACTIVTYPE_12_QSO:
-    '%{callsign} trabajó a %{refqra} en la Banda: %{band} Modo: %{mode}',
+    '%{callsign} realizó un QSO con %{refqra} en la Banda: %{band} Modo: %{mode}',
   NOTIF_ACTIVTYPE_10_LISTEN:
     '%{callsign} escuchó un QSO en Banda: %{band} Modo: %{mode}',
   NOTIF_ACTIVTYPE_12_LISTEN:
@@ -670,7 +670,7 @@ export default {
     mentionedComment: '{{QRA}} te mencionó en su comentario',
     updatedBio: '{{QRA}} actualizó su biografía',
     updatedProfilePic: '{{QRA}} actualizó su foto de perfil',
-    workedQSO: '{{QRA}} trabajó un QSO',
+    workedQSO: '{{QRA}} realizó un QSO',
     listenedQSO: '{{QRA}} escuchó un QSO',
     createdQAP: '{{QRA}} publicó que está QAP',
     createdFLDDAY: '{{QRA}} promocionó una actividad',
@@ -707,7 +707,7 @@ export default {
     playAudio: 'Reproducir',
     qsoReposted: 'Republicado con éxito!',
     qsoDeleted: 'QSO Eliminado',
-    workedAQSO: ' trabajó un QSO',
+    workedAQSO: ' realizó un QSO',
     createdPost: ' creó una publicación',
     createdQAP: ' publicó que está QAP',
     createdFLDDAY: ' promocionó una actividad',
@@ -808,7 +808,7 @@ export default {
     createdPost: 'Creó una Publicación',
     createdPostWith: 'Creó una Publicación  con',
     listenedQSO: 'Escuchó un QSO con ',
-    workedQSO: 'Trabajó un QSO con '
+    workedQSO: 'Realizó un QSO con '
   },
   exploreUsers: {
     lookWhoInQSO: 'Mirá quien está en SuperQSO',
