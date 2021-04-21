@@ -732,19 +732,6 @@ class LoginForm extends React.PureComponent {
         //   else crashlytics().recordError(new Error('userlogin_null_PRD'));
         // }
 
-        // webViewUserSession = { userlogin: userLogin, userpwd: userPwd };
-        // console.log('killedURL:'+ this.webviewurlfromKilledPush)
-        // if (this.webviewurlfromKilledPush!==''){
-        //    await this.props.setWebView(webViewUserSession,this.webviewurlfromKilledPush)
-        //   //  this.webviewurlfromKilledPush = '';
-        //    }   else
-
-        // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-        // await this.props.setWebView(
-        //   webViewUserSession,
-        //   global_config.urlWeb + '?embedded=true'
-        // );
-
         // console.log('Antes d Auth.currentCredentials() ');
         // const { identityId } = await Auth.currentCredentials();
         // console.log('la credencial es:' + identityId);
@@ -771,8 +758,8 @@ class LoginForm extends React.PureComponent {
 
           //apologize
           // if (pushtoken === null)
-            // Si no encuentra pushToken guardado debe reinstalar la APP
-            if (1 === 2)
+          // Si no encuentra pushToken guardado debe reinstalar la APP
+          if (1 === 2)
             this.setState({ stopApp: true, pushTokenNotFound: true });
           else {
             console.log('Antes de AsyncStorage.getItem');
@@ -1064,34 +1051,6 @@ class LoginForm extends React.PureComponent {
         //  var session = await Auth.currentSession();
         //  console.log("PASO POR SIGNIN token: " + session.idToken.jwtToken);
         await this.props.setToken(this.jwtToken);
-        // session = await Auth.currentSession();
-        //  session = await Auth.currentUserCredentials();
-        //  console.log('currentUserCredentials:'+JSON.stringify(session));
-        //  await this.props.setWebView(JSON.stringify(session),'https://test.dd39wvlkuxk5j.amplifyapp.com/')  http://192.168.0.9:3000
-
-        // await AsyncStorage.setItem(
-        //   'userlogin',
-        //   this.state.username.toLowerCase()
-        // );
-        // await AsyncStorage.setItem('userpwd', this.state.password);
-
-        // webViewUserSession = {
-        //   userlogin: this.state.username.toLowerCase(),
-        //   userpwd: this.state.password
-        // };
-        // // await this.props.setWebView(webViewUserSession,global_config.urlWeb)
-        // await this.props.setWebView(
-        //   webViewUserSession,
-        //   global_config.urlWeb + '?embedded=true'
-        // );
-
-        // userLogin = await AsyncStorage.getItem('userlogin');
-        // userPwd = await AsyncStorage.getItem('userpwd');
-        // webViewUserSession = {"userlogin": userLogin, "userpwd": userPwd}
-        // await this.props.setWebView(webViewUserSession,'http://192.168.0.9:3000')
-
-        //  session = await Auth.currentAuthenticatedUser();
-        // console.log("PASO POR SIGNIN token: " + session.signInUserSession.idToken.jwtToken);
 
         console.log('antes de getInfo');
         this.props.getUserInfo(this.jwtToken);

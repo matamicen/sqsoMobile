@@ -136,52 +136,6 @@ class Qra extends React.PureComponent {
     } else this.setState({ nointernet: true });
   };
 
-  // qraProfile_este_tampoco_se_usa = async (qra) => {
-  //   if (await hasAPIConnection()) {
-  //     // auxurl = global_config.urlWeb+'/'+qra;
-  //     // await this.props.setWebView(this.props.webviewsession,auxurl)
-  //     auxurl =
-  //       global_config.urlWeb + '/' + qra + '?embedded=true&date=' + new Date();
-  //     await this.props.setWebView(this.props.webviewsession, auxurl);
-
-  //     setTimeout(() => {
-  //       this.props.navigation.navigate('Home', {
-  //         // url: urlnotif
-  //       });
-  //     }, 100);
-  //     this.closeModaldeleteqra();
-  //   } else this.setState({ nointernet: true });
-  // };
-
-  // qraProfile_anterior_estenoseusa = async (qra) => {
-  //   console.log('QRAprofile');
-  //   urlnotif = 'https://www.superqso.com/' + qra;
-  //   Linking.canOpenURL(urlnotif)
-  //     .then((supported) => {
-  //       if (!supported) {
-  //         console.log('Can\'t handle url: ' + urlnotif);
-  //       } else {
-  //         // if(__DEV__)
-  //         //   analytics().logEvent("OPENfollowProf_DEV", {"QRA": this.props.qra});
-  //         // else
-  //         if (!__DEV__)
-  //           analytics().logEvent('OPENfollowProf', { QRA: this.props.qra });
-
-  //         this.closeModaldeleteqra();
-
-  //         return Linking.openURL(urlnotif);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.error('An error occurred', err);
-  //       crashlytics().setUserId(this.props.qra);
-  //       crashlytics().log('error: ' + JSON.stringify(err));
-  //       if (__DEV__)
-  //         crashlytics().recordError(new Error('Link.OPENfollowProf_DEV'));
-  //       else crashlytics().recordError(new Error('Link.OPENfollowProf_PRD'));
-  //     });
-  // };
-
   render() {
     // console.log("RENDER QRA");
 

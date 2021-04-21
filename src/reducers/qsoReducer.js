@@ -151,8 +151,7 @@ const initialState = {
   confirmProfileModal: false,
   sendingProfileModal_stat: 0,
   cancelButton_stat: 0,
-  // webviewSession: '',
-  // webviewUrl: global_config.urlWeb,
+
   pressHome: 1,
   justPublished: false,
   externalShareUrl: false,
