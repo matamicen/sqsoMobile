@@ -791,7 +791,7 @@ class QsoScreen extends React.PureComponent {
       //  auxuri = this.state.videoFromShare.replace("file:///", 'file://');
       auxuri = incomingPath.replace('file:///', 'file://');
       pathoculto = false;
-    } else path = RNFetchBlob.fs.dirs.DCIMDir + '/sqso/checkpath.jpg';
+    } else path = RNFetchBlob.fs.dirs.DCIMDir + '/checkpath.jpg';
 
     // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
 
@@ -1108,7 +1108,7 @@ class QsoScreen extends React.PureComponent {
     if (mimeType === 'video/mp4') {
       let path = '';
       if (Platform.OS === 'android')
-        path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/videoaux.mp4`;
+        path = `${RNFetchBlob.fs.dirs.DCIMDir}/videoaux.mp4`;
       else path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/videoaux.mp4`;
 
       const data = await RNFetchBlob.fs.writeFile(path, file64, 'base64');
@@ -1120,7 +1120,7 @@ class QsoScreen extends React.PureComponent {
       if (Platform.OS === 'android')
         path =
           RNFetchBlob.fs.dirs.DCIMDir +
-          '/sqso/' +
+          '/' +
           new Date().getTime() +
           '.jpg';
       // path = RNFetchBlob.fs.dirs.DCIMDir+'/sqso/'+ new Date().getTime()+'.jpg';
@@ -1173,7 +1173,7 @@ class QsoScreen extends React.PureComponent {
         '.jpg';
     else
       path =
-        RNFetchBlob.fs.dirs.DCIMDir + '/sqso/' + new Date().getTime() + '.jpg';
+        RNFetchBlob.fs.dirs.DCIMDir + '/' + new Date().getTime() + '.jpg';
 
     inicioCom = new Date();
     //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
@@ -2236,7 +2236,7 @@ class QsoScreen extends React.PureComponent {
         if (Platform.OS === 'ios')
           destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/file10.mp4`;
         else
-          destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/file10.mp4`;
+          destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/file10.mp4`;
 
         console.log(
           'videoDurationSeconds:' +
@@ -2904,7 +2904,7 @@ class QsoScreen extends React.PureComponent {
       // proceso de borrar carpeta sqso
       console.log('delete folder: ');
       if (Platform.OS === 'android')
-        theqsopath = 'file://' + RNFetchBlob.fs.dirs.DCIMDir + '/sqso';
+        theqsopath = 'file://' + RNFetchBlob.fs.dirs.DCIMDir + '/';
       else theqsopath = RNFetchBlob.fs.dirs.DocumentDir + '/sqso';
 
       RNFetchBlob.fs
