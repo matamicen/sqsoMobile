@@ -12,6 +12,7 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="com.android.vending.BILLING" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
   <!-- Empieza agregado de librearia react-native-push-notification -->
 
@@ -28,7 +29,12 @@
 
   <!-- Finaliza agregado de librearia react-native-push-notification -->
 
-
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.PICK" />
+      <data android:mimeType="video/*" />
+    </intent>
+  </queries>
 
   <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:allowBackup="false" android:theme="@style/AppTheme" android:requestLegacyExternalStorage="true">
 
@@ -47,6 +53,8 @@
         <!-- Any other mime types you want to support -->
       </intent-filter>
       <!-- this intent filter handles superqso:// scheme -->
+
+
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />

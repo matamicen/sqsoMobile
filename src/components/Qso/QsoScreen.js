@@ -791,7 +791,7 @@ class QsoScreen extends React.PureComponent {
       //  auxuri = this.state.videoFromShare.replace("file:///", 'file://');
       auxuri = incomingPath.replace('file:///', 'file://');
       pathoculto = false;
-    } else path = RNFetchBlob.fs.dirs.DCIMDir + '/sqso/checkpath.jpg';
+    } else path = RNFetchBlob.fs.dirs.DocumentDir + '/sqso/checkpath.jpg';
 
     // console.log('path extraido es true?:'+ realUrl.data.path + ' status: '+realUrl.status)
 
@@ -888,9 +888,11 @@ class QsoScreen extends React.PureComponent {
               response = await request(STORAGE_PERMISSION);
               //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
               //entonces recupero el share del asyncstorage
+              console.log('STORAGE_PERMISSION: '+response)
 
               if (response !== RESULTS.GRANTED) storagePermission = false;
             }
+
 
             if (storagePermission) {
               // ImagePicker.openPicker({
@@ -906,9 +908,10 @@ class QsoScreen extends React.PureComponent {
               const options = {
                 title: 'Video Picker',
                 takePhotoButtonTitle: 'Take Video...',
-                mediaType: 'video'
-
-                //  videoQuality: 'medium',
+                mediaType: 'video',
+                // cameraType: 'back',
+                // durationLimit: 30
+         
               };
 
               // ImagePicker2.showImagePicker(options, response => {
@@ -1108,7 +1111,7 @@ class QsoScreen extends React.PureComponent {
     if (mimeType === 'video/mp4') {
       let path = '';
       if (Platform.OS === 'android')
-        path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/videoaux.mp4`;
+        path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/videoaux.mp4`;
       else path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/videoaux.mp4`;
 
       const data = await RNFetchBlob.fs.writeFile(path, file64, 'base64');
@@ -1119,7 +1122,7 @@ class QsoScreen extends React.PureComponent {
       let path = '';
       if (Platform.OS === 'android')
         path =
-          RNFetchBlob.fs.dirs.DCIMDir +
+          RNFetchBlob.fs.dirs.DocumentDir +
           '/sqso/' +
           new Date().getTime() +
           '.jpg';
@@ -1173,7 +1176,7 @@ class QsoScreen extends React.PureComponent {
         '.jpg';
     else
       path =
-        RNFetchBlob.fs.dirs.DCIMDir + '/sqso/' + new Date().getTime() + '.jpg';
+        RNFetchBlob.fs.dirs.DocumentDir + '/sqso/' + new Date().getTime() + '.jpg';
 
     inicioCom = new Date();
     //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
@@ -2236,7 +2239,7 @@ class QsoScreen extends React.PureComponent {
         if (Platform.OS === 'ios')
           destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/file10.mp4`;
         else
-          destination_path = `${RNFetchBlob.fs.dirs.DCIMDir}/sqso/file10.mp4`;
+          destination_path = `${RNFetchBlob.fs.dirs.DocumentDir}/sqso/file10.mp4`;
 
         console.log(
           'videoDurationSeconds:' +
@@ -2904,7 +2907,7 @@ class QsoScreen extends React.PureComponent {
       // proceso de borrar carpeta sqso
       console.log('delete folder: ');
       if (Platform.OS === 'android')
-        theqsopath = 'file://' + RNFetchBlob.fs.dirs.DCIMDir + '/sqso';
+        theqsopath = 'file://' + RNFetchBlob.fs.dirs.DocumentDir + '/sqso';
       else theqsopath = RNFetchBlob.fs.dirs.DocumentDir + '/sqso';
 
       RNFetchBlob.fs
