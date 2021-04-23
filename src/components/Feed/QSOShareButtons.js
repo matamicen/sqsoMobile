@@ -20,6 +20,9 @@ class QSOShareButtons extends React.PureComponent {
       global_config.dynamic_isi +
       global_config.dynamic_ifl +
       '/qso/' +
+      this.props.idqso +
+      global_config.dynamic_ofl +
+      '/qso/' +
       this.props.idqso;
     const title = this.props.title;
     const message = I18n.t('ShareMessage');

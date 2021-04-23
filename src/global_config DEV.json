@@ -8,6 +8,7 @@
     "dynamic_afl": "&afl=https://test.dd39wvlkuxk5j.amplifyapp.com",
     "dynamic_isi": "&isi=1478967853",
     "dynamic_ifl": "&ifl=https://test.dd39wvlkuxk5j.amplifyapp.com",
+    "dynamic_ofl": "&ofl=https://test.dd39wvlkuxk5j.amplifyapp.com",
     "urlWeb_matiasLocal": "http://192.168.0.12:3000",
     "urlWeb_lis": "http://10.0.75.1:3000",
     "urlWeb_test2": "https://react-select.com/home",

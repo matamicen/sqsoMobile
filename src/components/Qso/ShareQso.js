@@ -70,6 +70,9 @@ class ShareQso extends React.PureComponent {
       global_config.dynamic_isi +
       global_config.dynamic_ifl +
       +'/qso/' +
+      this.props.sharerluid +
+      global_config.dynamic_ofl +
+      +'/qso/' +
       this.props.sharerluid;
     const title = I18n.t('ShareTitle');
     const message = I18n.t('ShareMessage');

@@ -8,6 +8,7 @@
     "dynamic_afl": "&afl=https://www.superqso.com",
     "dynamic_isi": "&isi=1478967853",
     "dynamic_ifl": "&ifl=https://www.superqso.com",
+    "dynamic_ofl": "&ofl=https://www.superqso.com",    
     "urlWeb_test2": "https://react-select.com/home",
     "s3Cloudfront_dev": "https://d30o7j00smmz5f.cloudfront.net/1/",
     "apiEndpoint_dev": "https://hlcyk2ty6c.execute-api.us-east-1.amazonaws.com/Prod",
