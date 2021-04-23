@@ -170,19 +170,19 @@ PODS:
   - OpenSSL-Universal (1.0.2.20):
     - OpenSSL-Universal/Static (= 1.0.2.20)
   - OpenSSL-Universal/Static (1.0.2.20)
-  - Permission-Camera (2.2.2):
+  - Permission-Camera (3.0.2):
     - RNPermissions
-  - Permission-LocationAlways (2.2.2):
+  - Permission-LocationAlways (3.0.2):
     - RNPermissions
-  - Permission-LocationWhenInUse (2.2.2):
+  - Permission-LocationWhenInUse (3.0.2):
     - RNPermissions
-  - Permission-MediaLibrary (2.2.2):
+  - Permission-MediaLibrary (3.0.2):
     - RNPermissions
-  - Permission-Microphone (2.2.2):
+  - Permission-Microphone (3.0.2):
     - RNPermissions
-  - Permission-Notifications (2.2.2):
+  - Permission-Notifications (3.0.2):
     - RNPermissions
-  - Permission-PhotoLibrary (2.2.2):
+  - Permission-PhotoLibrary (3.0.2):
     - RNPermissions
   - PersonalizedAdConsent (1.0.5)
   - PromisesObjC (1.2.11)
@@ -368,8 +368,8 @@ PODS:
     - React
   - react-native-flipper (0.64.0):
     - React
-  - react-native-image-picker (3.0.0-vnext.4):
-    - React
+  - react-native-image-picker (3.3.2):
+    - React-Core
   - react-native-image-resizer (1.0.1):
     - React
   - react-native-location (2.3.2):
@@ -508,7 +508,7 @@ PODS:
     - TOCropViewController
   - RNLocalize (1.4.0):
     - React
-  - RNPermissions (2.2.2):
+  - RNPermissions (3.0.2):
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
@@ -550,13 +550,13 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.41.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
-  - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways.podspec`)
-  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
-  - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary.podspec`)
-  - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone.podspec`)
-  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
-  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
+  - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse`)
+  - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary`)
+  - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone`)
+  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -670,19 +670,19 @@ EXTERNAL SOURCES:
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   Permission-Camera:
-    :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
+    :path: "../node_modules/react-native-permissions/ios/Camera"
   Permission-LocationAlways:
-    :path: "../node_modules/react-native-permissions/ios/LocationAlways.podspec"
+    :path: "../node_modules/react-native-permissions/ios/LocationAlways"
   Permission-LocationWhenInUse:
-    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse"
   Permission-MediaLibrary:
-    :path: "../node_modules/react-native-permissions/ios/MediaLibrary.podspec"
+    :path: "../node_modules/react-native-permissions/ios/MediaLibrary"
   Permission-Microphone:
-    :path: "../node_modules/react-native-permissions/ios/Microphone.podspec"
+    :path: "../node_modules/react-native-permissions/ios/Microphone"
   Permission-Notifications:
-    :path: "../node_modules/react-native-permissions/ios/Notifications.podspec"
+    :path: "../node_modules/react-native-permissions/ios/Notifications"
   Permission-PhotoLibrary:
-    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -838,13 +838,13 @@ SPEC CHECKSUMS:
   mobile-ffmpeg-https-gpl: 3683d680b86aa4671b8d2b3586dfee05c1a3bbad
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
-  Permission-Camera: 375576c57ea625c88137d2cc52ba6dfeb21db036
-  Permission-LocationAlways: 265e9242ca29cce84f537381fe514f986aeabec2
-  Permission-LocationWhenInUse: bed1bcdd4e98aa956e69f1e41281aa608930055e
-  Permission-MediaLibrary: 15d9c454f68f3422f1106fe09694fedac8db16e5
-  Permission-Microphone: b3de743c3ffa4f6de043119c7cbd092c0d1f9b35
-  Permission-Notifications: 1e154e50f5b3bbd0bd2b688621e8f23a7a6cacfd
-  Permission-PhotoLibrary: bb20a7ac8aec0f7459558e5fbe2bd0a6f2744be3
+  Permission-Camera: 4eb4a67be32698c5927cb12313c3c1f23ee5b7b2
+  Permission-LocationAlways: 7c3b406ff8a043ad275b1ce9f1f7816efd34b98c
+  Permission-LocationWhenInUse: 9787b0373a06e50f5b4c5bc07d4809d9d9215d23
+  Permission-MediaLibrary: 21159ed3c2586d4cc049db41b692fa50e0850cc4
+  Permission-Microphone: c86f7464a9a62379cf5668da950302eb2e5115e2
+  Permission-Notifications: 2225ebad5e0073a3935be50e2926facd8b2315de
+  Permission-PhotoLibrary: 5b198e177c0bc5c91c20e66ae7202d0183c78b87
   PersonalizedAdConsent: dbecabb3467df967c16d9cebc2ef4a8890e4bbd8
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
@@ -862,7 +862,7 @@ SPEC CHECKSUMS:
   react-native-camera: 9bf6e0cdce0d7dc059d9836eb381d96f58f83d83
   react-native-ffmpeg: 7c64ba2e41eeb06144ad77f17e62ecbbc29ae3c0
   react-native-flipper: 40d6bbb5a6e5e685fd81868b1950dabed035366d
-  react-native-image-picker: fef69510872f9ea79c0a449e703dba0cd3b06edb
+  react-native-image-picker: 5b2f1ea1f9230b131abbfb8a4aa1eb209aba9ed9
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-location: a08d60573ade1f4207d04f820110a91cde7a2e4d
   react-native-netinfo: e36c1bb6df27ab84aa933679b3f5bbf9d180b18f
@@ -899,7 +899,7 @@ SPEC CHECKSUMS:
   RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: 39ec170dc53c227ea352b706c76f7960070309a8
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
-  RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
+  RNPermissions: 84ffe5ee7d608e037d9ed1db846ffb1d5d4e1dba
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
@@ -909,6 +909,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: c339c76caab38f7734f3ed12327790ff2a0be2bd
+PODFILE CHECKSUM: 3e8fb07cf131aff909bbac5bd6cc377378ee835d
 
 COCOAPODS: 1.10.0
