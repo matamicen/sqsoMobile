@@ -2862,10 +2862,6 @@ class QsoScreen extends React.PureComponent {
 
     this.deleteQSOfolder();
 
-    // envio nueva URL del Home para que refresque la webview y el usuario pueda ver su publicacion nueva recien publicada
-    // home = global_config.urlWeb + '?' + new Date();
-    // await this.props.setWebView(this.props.webviewsession,home);
-
     conta = 0;
 
     // if (this.props.qsoqras.length > 0) // si es > 0 es porque tiene QsoQras asociados a la publicacion luego llama a postQsoEdit desde Actions
