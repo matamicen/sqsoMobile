@@ -1334,7 +1334,7 @@ export async function createSQSOfolder() {
     // este async es para pdoer usar un await dentro de un promise y no usar los .then ...
     (async () => {
       if (Platform.OS === 'android')
-        qsopath = RNFetchBlob.fs.dirs.DCIMDir + '/sqso';
+        qsopath = RNFetchBlob.fs.dirs.DocumentDir + '/sqso';
       else qsopath = RNFetchBlob.fs.dirs.DocumentDir + '/sqso';
       // qsopath = RNFetchBlob.fs.dirs.DownloadDir+'/sqso';
 

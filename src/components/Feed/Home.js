@@ -198,7 +198,6 @@ class Home extends React.PureComponent {
         if (this.props.presshome === 1) {
           console.log('press esta en 1 y refresca');
 
-          // home = global_config.urlWeb + '?embedded=true&date=' + new Date();
           // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
           // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
           // this.time = 50;
@@ -268,11 +267,6 @@ class Home extends React.PureComponent {
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
 
     if (this.props.presshome === 1) {
-      // home = global_config.urlWeb + '?embedded=true&date=' + new Date();
-      // cada vez que apreta el INICIO le bajo a 50 el timeout asi se loguea una vez y no dos veces como la primera vez
-      // la primera vez tiene un tiemout de 3000 porque hay que darle mas tiempo para asegurar el LOGIN.
-      // this.time = 50;
-      // await this.props.setWebView(this.props.webviewsession, home);
       this.toast(I18n.t('Refreshing'), 2500);
 
       this.props.actions.doClearFeed(this.props.publicFeed);
