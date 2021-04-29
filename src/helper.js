@@ -1263,9 +1263,10 @@ export const armoPushNotifyLocalNotif = (
       // si existe QSOGUID es porque es una publicacion
       activityType = 109; // le pongo  activity Type 109 que sea publicacion asi va al QsoDetail en el click de la notificacion
       qsoguid = locArgs;
+      console.log('109 locaargs:'+ locArgs);
     } else {
       // si viene vacio el QSOGUID es PROFILE o push de Marketing
-      if (title_loc_key === 'PUSH_MARKETING_TITLE') {
+      if (title_loc_key === 'PUSH_MARKETING_TITLE' || title_loc_key === 'PUSH_LIKE_TITLE') {
         activityType = 110;
         console.log('paso por 110');
       }

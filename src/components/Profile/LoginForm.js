@@ -215,7 +215,7 @@ class LoginForm extends React.PureComponent {
                 let timeStamp = Date.now();
                 console.log('timseStamp:' + timeStamp);
 
-                if (parseo['title-loc-key'] === 'PUSH_MARKETING_TITLE') {
+                if (parseo['title-loc-key'] === 'PUSH_MARKETING_TITLE' || parseo['title-loc-key'] === 'PUSH_LIKE_TITLE') {
                   route = bodyJson.URL.route;
                   param1 = bodyJson.URL.param1;
                 } else {
@@ -390,7 +390,7 @@ class LoginForm extends React.PureComponent {
               console.log('timseStamp:' + timeStamp);
 
               if (
-                notification.alert['title-loc-key'] === 'PUSH_MARKETING_TITLE'
+                notification.alert['title-loc-key'] === 'PUSH_MARKETING_TITLE' || notification.alert['title-loc-key'] === 'PUSH_LIKE_TITLE'
               ) {
                 route = bodyJson.URL.route;
                 param1 = bodyJson.URL.param1;

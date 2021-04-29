@@ -3172,7 +3172,7 @@ class QsoScreen extends React.PureComponent {
                   padding: 10,
                   //  backgroundColor: "rgba(0,0,0,0.85)",
                   backgroundColor: 'rgba(36,54,101,0.97)',
-                  marginTop: Platform.OS === 'ios' ? 20 : 5,
+                  marginTop: Platform.OS === 'ios' ? 37 : 5,
                   left: 15,
                   right: 35,
                   width: this.width - 35,
