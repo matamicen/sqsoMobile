@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
   KeyboardAvoidingView,
+  ScrollView,
   Platform
 } from 'react-native';
 import analytics from '@react-native-firebase/analytics';
@@ -25,6 +26,8 @@ class QSOComments extends React.PureComponent {
     this.state = {
       comments: [],
       comment: '',
+      commentFlex: 0.25,
+      commentFlexIos: 0.45,
 
       qso: { comments: [] }
     };
@@ -269,14 +272,15 @@ class QSOComments extends React.PureComponent {
                 />
               </View>
 
-              <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}>
+              <KeyboardAvoidingView behavior="padding" style={{ flex: this.state.commentFlexIos }}>
                 <View
                   style={{
                     // marginRight: 10 ,
                     // marginLeft: 10,
                     // marginTop: 10 ,
                     // height: 100
-                    flex: 0.35,
+                    // flex: 0.35,
+                    flex: 0.60,
                     marginTop: 5
                   }}>
                   <View
@@ -313,7 +317,7 @@ class QSOComments extends React.PureComponent {
                         <View
                           style={{
                             flex: 1,
-                            flexDirection: 'row',
+                            flexDirection: 'column',
                             justifyContent: 'space-between',
                             marginTop: 5,
 
@@ -335,14 +339,15 @@ class QSOComments extends React.PureComponent {
                               removeClippedSubviews={false}
                               keyboardDismissMode="none"
                               onBlur={handleBlur('comment')}
+                              onFocus={ () => this.setState({commentFlexIos: 0.85}) }
                               // style={{ borderWidth: 1, width: 230 }}
-                              style={{ borderWidth: 1, fontSize: 16 }}
+                              style={{ borderWidth: 0, fontSize: 17.5, backgroundColor: 'ghostwhite', fontWeight: 'bold' }}
                               onChangeText={handleChange('comment')}
                               value={values.comment}
                             />
-                          </View>
+                          {/* </View> */}
 
-                          <View
+                          {/* <View
                             style={{
                               // marginRight: 10 ,
                               // marginLeft: 10,
@@ -350,7 +355,9 @@ class QSOComments extends React.PureComponent {
                               // height: 100
                               flex: 0.25,
                               alignItems: 'flex-end'
-                            }}>
+                            }}> */}
+                            <View
+                            style={{alignItems: 'flex-end', marginTop: 4}}>
                             <Button
                               buttonStyle={{
                                 padding: 1,
@@ -362,7 +369,9 @@ class QSOComments extends React.PureComponent {
                               title={I18n.t('qso.add')}
                               onPress={handleSubmit}
                             />
-                          </View>
+                            </View>
+                             </View>
+                          {/* </View> */}
                         </View>
                       )}
                     </Formik>
@@ -420,14 +429,23 @@ class QSOComments extends React.PureComponent {
               </View>
 
               {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}> */}
+            
               <View
                 style={{
                   // marginRight: 10 ,
                   // marginLeft: 10,
                   // marginTop: 10 ,
                   // height: 100
-                  flex: 0.25,
+                  flex: this.state.commentFlex,
                   marginTop: 5
+                }}>
+                    <ScrollView style={{
+                  // marginRight: 10 ,
+                  // marginLeft: 10,
+                  // marginTop: 10 ,
+                  // height: 100
+                  flex: 1,
+                  // marginTop: 5
                 }}>
                 <View
                   style={{
@@ -463,9 +481,9 @@ class QSOComments extends React.PureComponent {
                       <View
                         style={{
                           flex: 1,
-                          flexDirection: 'row',
+                          flexDirection: 'column',
                           justifyContent: 'space-between',
-                          marginTop: 5,
+                          marginTop: 1,
 
                           padding: 0
                         }}>
@@ -486,8 +504,9 @@ class QSOComments extends React.PureComponent {
                             removeClippedSubviews={false}
                             keyboardDismissMode="none"
                             onBlur={handleBlur('comment')}
+                            onFocus={ () => this.setState({commentFlex: 0.45}) }
                             // style={{ borderWidth: 1, width: 230 }}
-                            style={{ borderWidth: 1, fontSize: 15 }}
+                            style={{ borderWidth: 0, fontSize: 17, backgroundColor: 'ghostwhite', fontWeight: "bold"}}
                             onChangeText={handleChange('comment')}
                             value={values.comment}
                           />
@@ -497,7 +516,7 @@ class QSOComments extends React.PureComponent {
                           style={{
                             // marginRight: 10 ,
                             // marginLeft: 10,
-                            // marginTop: 10 ,
+                             marginTop: 5 ,
                             // height: 100
                             flex: 0.3,
                             alignItems: 'flex-end'
@@ -506,8 +525,8 @@ class QSOComments extends React.PureComponent {
                             buttonStyle={{
                               padding: 5,
                               // margin: 0,
-                              width: 90
-                              // height: '100%'
+                              width: 90,
+                               height: '90%'
                             }}
                             size="small"
                             title={I18n.t('qso.add')}
@@ -518,7 +537,9 @@ class QSOComments extends React.PureComponent {
                     )}
                   </Formik>
                 </View>
+                </ScrollView>
               </View>
+           
               {/* </KeyboardAvoidingView> */}
             </View>
           )}

@@ -514,9 +514,12 @@ export default {
     tutorial: 'Tutorial',
     exploreUsers: 'Explore Users',
     whoToFollow: 'Who to Follow',
-    searchCallsign: 'Search CALLSIGN',
-    allUsersFeed: 'Watch all users activity',
-    onlyFollowFeed: 'Watch only my followings activity',
+    searchCallsign: 'Search content',
+    // allUsersFeed: 'Watch all users activity',
+    allUsersFeed: 'See posts from all users',
+    // onlyFollowFeed: 'Watch only my followings activity ',
+    onlyFollowFeed: 'See only posts from users I follow',
+   
     noFollowingMessage: 'You don´t follow anyone yet'
   },
   whatIsSuperQSO: {
