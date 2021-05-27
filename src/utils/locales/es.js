@@ -1,5 +1,5 @@
 export default {
-  login: 'INICIAR SESION',
+  login: 'INICIAR SESION!',
   forgot: '¿Olvidó su contraseña?',
   signup: 'Registrarse',
   email: 'correo electrónico',
