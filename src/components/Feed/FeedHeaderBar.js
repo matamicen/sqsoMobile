@@ -36,7 +36,7 @@ class FeedHeaderBar extends React.Component {
             <Avatar
               size="medium"
               rounded
-              source={require('../../images/superqsoIconAzul.png')}
+              source={require('../../images/superqsologo2.png')}
             />
           </View>
 
