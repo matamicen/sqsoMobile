@@ -199,7 +199,7 @@ class QsoHeader extends React.PureComponent {
                <View style={{flex:0.11, flexDirection: 'row'}}>
                <View style={{flex:(this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY') ? 0.5:0.3, alignItems: 'flex-start'}}>
                { this.props.sqsonewqsoactive &&
-               <TouchableOpacity  style={{marginRight: 10 }} onPress={() => this.setState({helpTag: true})} >                                                                            
+               <TouchableOpacity  style={{marginLeft: 1 }} onPress={() => this.setState({helpTag: true})} >                                                                            
                                
                               {/* sa saco etiquetar SD para QAP, POST y FieldDay(activacion) */}
                                      {/* {(this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY') &&

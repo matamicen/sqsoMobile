@@ -315,9 +315,9 @@ export default {
   helpPublishSWLfield4: 'al menos un audio o foto',
   helpPublishSWLMessage2:
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
-  helpPublishPOSTtitle: '¿Como publicar un Otro?',
+  helpPublishPOSTtitle: '¿Como publicar un Generico?',
   helpPublishPOSTMessage1:
-    'Para poder publicar un otro o algo genérico debes agregar una foto/video o un audio y escribir el titulo en la descripción.',
+    'Para poder publicar algo genérico debes agregar una foto/video o un audio y escribir el titulo en la descripción.',
   helpPublishPOSTfield1: 'Interesante:',
   helpPublishPOSTfield2:
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
@@ -359,7 +359,7 @@ export default {
   QsoHeaderHelpQSO: '¿Como publicar un QSO?',
   QsoHeaderSdTag: '¿Que es SD?',
   QsoHeaderHelpSWL: '¿Como publicar un una Escucha?',
-  QsoHeaderHelpPOST: '¿Como publicar Otro?',
+  QsoHeaderHelpPOST: '¿Como publicar Genérico?',
   QsoHeaderHelpQAP: '¿Como publicar un QAP?',
   QsoHeaderHelpFLDDAY: '¿Como publicar una Act.?',
   QsoHeaderHelpTag: '¿Que significa etiquetar?',
