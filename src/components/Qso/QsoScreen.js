@@ -3616,14 +3616,14 @@ class QsoScreen extends React.PureComponent {
               style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
               {I18n.locale.substring(0, 2) === 'es' && (
                 <Image
-                  source={require('../../images/otro10.png')}
+                  source={require('../../images/generico.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
               )}
               {I18n.locale.substring(0, 2) === 'en' && (
                 <Image
-                  source={require('../../images/other10.png')}
+                  source={require('../../images/generic.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />

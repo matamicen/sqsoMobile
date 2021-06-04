@@ -300,7 +300,7 @@ export default {
   helpPublishSWLfield4: 'at least one audio or photo',
   helpPublishSWLMessage2:
     'after filling these fields the SWL will be published automatically, then you can still editing the post and adding more audios & photos, it will be published automatically to the current post.',
-  helpPublishPOSTtitle: 'How to publish an OTHER?',
+  helpPublishPOSTtitle: 'How to publish a GENERIC?',
   helpPublishPOSTMessage1:
     'In order to publish an OTHER or something generic you should add a photo/image/video or an audio and write the title in the description.',
   helpPublishPOSTfield1: 'Interesante:',
@@ -309,14 +309,14 @@ export default {
   helpPublishPOSTfield3: '',
   helpPublishPOSTfield4: '',
   helpPublishPOSTMessage2: 'then you press PUBLISH.',
-  helpPublishFLDDAYtitle: '¿How to publish an Activity?',
+  helpPublishFLDDAYtitle: 'How to publish an Activity?',
   helpPublishFLDDAYMessage1:
     'In order to publish an activity you should fill start date, end date and add a image/photo or video with the information and write the activity title in the description.',
   helpPublishFLDDAYMessage2: 'then you press PUBLISH.',
   helpPublishFLDDAYfield1: 'Intersting:',
   helpPublishFLDDAYfield2:
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
-  helpPublishQAPtitle: '¿How to publish a QAP?',
+  helpPublishQAPtitle: 'How to publish a QAP?',
   helpPublishQAPMessage1:
     'In order to publish a QAP you should add an image/photo or video of the rig with the QAP frequency and write the date/time and mode in the description.',
   helpPublishQAPMessage2: 'then you press PUBLISH.',
@@ -325,21 +325,21 @@ export default {
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
   helpPublishQSOClose: 'Close',
   QsoHeaderHelpQSO: 'How to publish a QSO?',
-  QsoHeaderSdTag: '¿What is callsign?',
+  QsoHeaderSdTag: 'What is callsign?',
   QsoHeaderHelpSWL: 'How to publish a SWL?',
-  QsoHeaderHelpPOST: 'How to publish an Other?',
-  QsoHeaderHelpQAP: '¿How to publish a QAP?',
+  QsoHeaderHelpPOST: 'How to publish a Generic?',
+  QsoHeaderHelpQAP: 'How to publish a QAP?',
   QsoDate: 'Date:',
   QsoDateBegin: 'Start Date:',
   QsoDateEnd: 'End Date:',
   QsoDateCancel: 'cancel',
   QsoDateSelect: 'select',
-  QsoHeaderHelpFLDDAY: '¿How to publish an Activity?',
-  helpPublishSdtitle: '¿What is Callsign?',
+  QsoHeaderHelpFLDDAY: 'How to publish an Activity?',
+  helpPublishSdtitle: 'What is Callsign?',
   helpPublishSdMessage1:
     'A callsign is the Ham Radio License of the colleague, example: LU2ACH, KI6NAZ, F4WBY, etc.',
-  QsoHeaderHelpTag: '¿What is Tag?',
-  helpPublishTagtitle: '¿What is TAG?',
+  QsoHeaderHelpTag: 'What is Tag?',
+  helpPublishTagtitle: 'What is TAG?',
   helpPublishTagMessage1:
     'By tagging a callsign a notification of this post is sent to said callsign. It is used when you want someone, who does not follow you, to be notified about your post. ',
   helpPublishTagExample: 'Example:',
@@ -509,7 +509,7 @@ export default {
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
     contactUs: 'Contact Us',
-    whatIsSuperQSO: '¿What is SuperQSO?',
+    whatIsSuperQSO: 'What is SuperQSO?',
     downloadApp: 'Download App',
     tutorial: 'Tutorial',
     exploreUsers: 'Explore Users',
@@ -523,7 +523,7 @@ export default {
     noFollowingMessage: 'You don´t follow anyone yet'
   },
   whatIsSuperQSO: {
-    whatIsSuperQSO: '¿What is SuperQSO?',
+    whatIsSuperQSO: 'What is SuperQSO?',
     downloadApp: 'Download App',
     tutorial: 'Tutorial',
     skip: 'Skip',

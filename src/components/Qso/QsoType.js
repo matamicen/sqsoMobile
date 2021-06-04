@@ -206,11 +206,11 @@ class QsoType extends React.PureComponent {
                  <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
                
                            {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/otro12.png')} style={{width: 50, height: 50}} 
+                            <Image source={require('../../images/generico.png')} style={{width: 50, height: 50}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/other12.png')} style={{width: 50, height: 50}} 
+                            <Image source={require('../../images/generic.png')} style={{width: 50, height: 50}} 
                             resizeMode="contain" />
                           }
                  </TouchableOpacity> 
@@ -324,11 +324,11 @@ class QsoType extends React.PureComponent {
                       {/* <Image source={require('../../images/any.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" /> */}
                              {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/otro9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generico.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/other9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generic.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                       <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")}
@@ -379,11 +379,11 @@ class QsoType extends React.PureComponent {
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                        {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/otro9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generico.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/other9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generic.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                       <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")}</Text>
@@ -497,11 +497,11 @@ class QsoType extends React.PureComponent {
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                    {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/otro9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generico.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/other9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generic.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                       <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")} </Text>
@@ -561,11 +561,11 @@ class QsoType extends React.PureComponent {
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('POST') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
                    {(I18n.locale.substring(0, 2)==='es') &&
-                            <Image source={require('../../images/otro9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generico.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                            {(I18n.locale.substring(0, 2)==='en') &&
-                            <Image source={require('../../images/other9.png')} style={{width: 50, height: 50, flex: 0.3}} 
+                            <Image source={require('../../images/generic.png')} style={{width: 50, height: 50, flex: 0.3}} 
                             resizeMode="contain" />
                           }
                       <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescOther")} </Text>
