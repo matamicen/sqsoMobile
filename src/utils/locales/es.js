@@ -772,7 +772,10 @@ export default {
     following: 'Siguiendo',
     followingCounter: 'Siguiendo %{COUNT}',
     followingTab: 'Siguiendo',
-    followers: 'Seguidores %{COUNT}'
+    followers: 'Seguidores %{COUNT}',
+    personalData: 'Datos Personales',
+    locationData: 'Ubicación',
+    moreData: 'Más Información'
   },
   forms: {
     formSent: 'Mensaje Enviado!',
