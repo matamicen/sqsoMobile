@@ -746,7 +746,10 @@ export default {
     following: 'Following',
     followingCounter: 'Following %{COUNT}',
     followingTab: 'Following',
-    followers: 'Followers %{COUNT}'
+    followers: 'Followers %{COUNT}',
+    personalData: 'Personal Data',
+    locationData: 'Location',
+    moreData: 'More Info'
   },
   forms: {
     formSent: 'Message Sent!',

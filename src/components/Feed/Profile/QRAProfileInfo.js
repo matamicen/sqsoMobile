@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button,Divider } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -101,65 +101,168 @@ class QRAProfileInfo extends React.PureComponent {
           </View>
         )}
 
-        <View>
+        <View style={{marginLeft: 15}}>
           {(this.props.currentQRA === 'LU2ACH' ||
             this.props.currentQRA === 'LU7ACH' ||
             this.props.env === 'QA') && (
-            <Text style={styles.text}>
-              {I18n.t('qra.phone') + ': ' + phone}
-            </Text>
+              <View>
+                <Text style={styles.text}>
+                  {I18n.t('qra.phone')}
+                </Text>
+                <Text>{phone}</Text>
+              </View>
+            
           )}
+          <Text style={{fontSize:25, fontWeight: 'bold', color: '#777', marginTop: 15}}>{I18n.t('qra.personalData')}</Text>
           <Text style={styles.text}>
-            {I18n.t('qra.firstName') + ': ' + firstname}
+            {I18n.t('qra.firstName')}
+          </Text>
+          <Text style={styles.textDesc}>
+           {firstname}
           </Text>
           <Text style={styles.text}>
-            {I18n.t('qra.lastName') + ': ' + lastname}
+            {I18n.t('qra.lastName')}
           </Text>
-          <Text style={styles.text}>{I18n.t('qra.email') + ': ' + email}</Text>
+          <Text style={styles.textDesc}>
+            {lastname}
+          </Text>
+          <Text style={styles.text}>{I18n.t('qra.email')}</Text>
+          <Text style={styles.textDesc}>{email}</Text>
           <Text style={styles.text}>
-            {I18n.t('qra.birthday') +
-              ': ' +
-              new Date(birthday).toISOString().substring(0, 10)}
+            {I18n.t('qra.birthday')}
           </Text>
+          <Text style={styles.textDesc}>{new Date(birthday).toISOString().substring(0, 10)}</Text>
+
+
+          <Divider style={{ backgroundColor: '#222', marginRight: 15 }} />
+          <Text style={{fontSize:25, fontWeight: 'bold', color: '#777', marginTop: 15}}>{I18n.t('qra.locationData')}</Text>
+
+          {(address != null) && 
+          <View>
+              <Text style={styles.text}>
+              {I18n.t('qra.addressLine1')}
+              </Text>
+              <Text style={styles.textDesc}>{address}</Text>
+          </View>
+          }
+          {(address2 != null) && 
+          <View>
           <Text style={styles.text}>
-            {I18n.t('qra.addressLine1') + ': ' + address}
+            {I18n.t('qra.addressLine2')}
           </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.addressLine2') + ': ' + address2}
-          </Text>
-          <Text style={styles.text}>{I18n.t('qra.city') + ': ' + city}</Text>
-          <Text style={styles.text}>{I18n.t('qra.state') + ': ' + state}</Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.zipCode') + ': ' + zipcode}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.country') + ': ' + country}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.cqZone') + ': ' + cqzone}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.ituZone') + ': ' + ituzone}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.gridLocator') + ': ' + gridlocator}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.licenseClass') + ': ' + licenseclass}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.iotaDesignator') + ': ' + iotadesignator}
-          </Text>
-          <Text style={styles.text}>
-            {I18n.t('qra.qsoInfo') + ': ' + qslinfo}
-          </Text>
+          <Text style={styles.textDesc}>{address2}</Text>
+          </View>
+          }
+          {(city != null) && 
+            <View>
+              <Text style={styles.text}>{I18n.t('qra.city')}</Text>
+              <Text style={styles.textDesc}>{city}</Text>
+            </View>
+          }
+          {(state != null) && 
+          <View>
+            <Text style={styles.text}>{I18n.t('qra.state')}</Text>
+            <Text style={styles.textDesc}>{state}</Text>
+          </View>            
+          }
+          {(zipcode != null) &&
+          <View>
+            <Text style={styles.text}>
+              {I18n.t('qra.zipCode')}
+            </Text>
+            <Text style={styles.textDesc}>
+              {zipcode}
+            </Text>
+          </View>
+          }
+          {(country != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.country')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {country}
+              </Text>
+            </View>
+          }
+
+
+        <Divider style={{ backgroundColor: '#222', marginRight: 15 }} />
+        <Text style={{fontSize:25, fontWeight: 'bold', color: '#777', marginTop: 15}}>{I18n.t('qra.moreData')}</Text>
+
+
+          {(cqzone != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.cqZone')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {cqzone}
+              </Text>
+            </View>
+          }
+          {(ituzone != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.ituZone')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {ituzone}
+              </Text>
+            </View>
+          }
+          {(gridlocator != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.gridLocator')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {gridlocator}
+              </Text>
+            </View>
+          }
+          {(licenseclass != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.licenseClass')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {licenseclass}
+              </Text>
+            </View>
+          }
+          {(iotadesignator != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.iotaDesignator')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {iotadesignator}
+              </Text>
+            </View>
+          }
+          {(qslinfo != null) &&
+            <View>
+              <Text style={styles.text}>
+                {I18n.t('qra.qsoInfo')}
+              </Text>
+              <Text style={styles.textDesc}>
+                {qslinfo}
+              </Text>
+            </View>
+          }
         </View>
       </ScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
-  text: { fontSize: 15, marginBottom: 8, marginLeft: 2 }
+  text: { fontSize: 15, marginLeft: 2, color: '#444', marginTop: 8 },
+  textDesc: {
+    marginLeft: 15,
+    fontSize: 25,
+    marginBottom: 8 
+  }
 });
 const mapStateToProps = (state, ownProps) => ({
   qraInfo: state.sqso.feed.qra.qra,
