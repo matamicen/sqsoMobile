@@ -60,6 +60,7 @@ class Muestro extends React.PureComponent {
           nointernet: false,
           notvideorewarded: false,
           prereward: false,
+          descScreen: false
          // rotateShow: true
         };
       }
@@ -77,7 +78,6 @@ class Muestro extends React.PureComponent {
     
 
       rotateImage = async () => {
-
          const dim = await this.getDimensions(this.props.sqsomedia.url);
          this.rotateCount = this.rotateCount + 1;
 
@@ -693,13 +693,15 @@ class Muestro extends React.PureComponent {
    
               
         return( 
-          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={46}
+          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', }} behavior="padding" enabled   keyboardVerticalOffset={46}
           >
          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
         <View style={{flex:1, marginTop: 35}}>
-            
+            {(!this.state.descScreen) && 
             <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
-            { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') &&
+            
+            
+            { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && !this.state.descScreen) &&
              <Image style={styles.faceImageStyle}
             source={{ uri: this.props.sqsomedia.url }}
             resizeMethod="resize"
@@ -710,7 +712,7 @@ class Muestro extends React.PureComponent {
           {/* // <Image style={styles.faceImageStyleAudio}
           //             source={require('../../images/audio.png')}
           //                 />  */}
-          { (this.props.sqsomedia.type==='audio') &&
+          { (this.props.sqsomedia.type==='audio' && !this.state.descScreen) &&
           <View>
               <View>
                 <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text> 
@@ -721,7 +723,7 @@ class Muestro extends React.PureComponent {
          
          </View> }
 
-         { (this.props.sqsomedia.type==='video') &&
+         { (this.props.sqsomedia.type==='video' && !this.state.descScreen) &&
           <View>
           
 
@@ -747,8 +749,8 @@ class Muestro extends React.PureComponent {
                           {/* && Platform.OS==='android' */}
             {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
        {/* No muestro ROTATE si viene de la galeria porque la libreria de la galeria ya tiene editor de foto y rotacion */}
-          { (this.props.sqsomedia.type==='image' && !this.props.sqsomedia.gallery) &&
-                   <TouchableOpacity  onPress={() => this.rotateImage()} >
+          { (this.props.sqsomedia.type==='image' && !this.props.sqsomedia.gallery && !this.state.descScreen) &&
+                   <TouchableOpacity style={{height:50}}onPress={() => this.rotateImage()} >
                      <View style={{ flexDirection: 'row'}}>
                            <Image style={{ width: 15, height: 15,  marginTop: 3, marginLeft: 3}}
                       source={require('../../images/rotate.png')}
@@ -760,17 +762,17 @@ class Muestro extends React.PureComponent {
             }
 
           </View>
-        
-            <View style={{ flex:this.props.height===490 ? 0.25 : 0.5}}>
+            }
+            <View style={{ flex:this.props.height===490 ? 1 : 1}}>
 {/* width: this.widthScreen-80 */}
-            { (this.props.sqsomedia.type!=='profile') &&
+            { (this.props.sqsomedia.type!=='profile' && this.state.descScreen) &&
   
              <View style={{ flex:0.7 }}>
 
               
               <TextInput 
                   placeholder={I18n.t("MuestroDescription")}
-                  
+                  multiline
                   underlineColorAndroid='transparent'
                  placeholderTextColor="rgba(255,255,255,0.7)"
                   // placeholderTextColor='rgba(36,54,101,0.93)'
@@ -789,32 +791,45 @@ class Muestro extends React.PureComponent {
             }
             
              { (this.props.sqsomedia.type!=='profile') ?
-              <View style={{flex:0.3, flexDirection: 'row'}}>
-                 <View style={{flex:0.5, alignItems:"flex-start"}}>
+              <View style={{flex:0.3, flexDirection: 'row', justifyContent:'flex-end', marginTop: 90}}>
+                 <View style={{flex:0.5}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
-                    <TouchableOpacity style={{ width: 70 }}
-                      onPress={() => this.props.close()}
-                    >
-                      <Text
-                        style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}
-                      >
+                    {(!this.state.descScreen) ?
+                    <TouchableOpacity style={{ width: 70 }} onPress={() => this.props.close()}>
+                      <Text style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}>
                         {I18n.t("MuestroCancel")}
                       </Text>
                     </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={{ width: 70 }} onPress={() => this.setState({descScreen:false})}>
+                      <Text style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 16 }}>
+                        {I18n.t("EditMediaBack")}
+                      </Text>
+                    </TouchableOpacity>
+                    }
                   </View>
-                  <View style={{flex:0.5, alignItems: "flex-end"}}>
+                  {(!this.state.descScreen) ?
+                    <View style={{flex:0.5, alignItems: "flex-end"}}>
+                    <TouchableOpacity  style={{ height: 50, width: 90 }} onPress={() => this.setState({descScreen: true})} >
+                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("EditMediaContinue")}</Text>
+                    </TouchableOpacity>
+                   </View>
+                   :
+                   <View style={{flex:0.5, alignItems: "flex-end"}}>
                     <TouchableOpacity  style={{ height: 50, width: 90 }} onPress={() => this.send_and_check_ad()} >
                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{I18n.t("MuestroSend")}</Text>
                     </TouchableOpacity>
                    </View>
+                  }
+                  
                 </View>  
                 :
                 
-                <View style={{ flex:1 , flexDirection: 'row'}}>
-                  <View style={{ flex:0.5, alignItems: 'flex-start'}}>
+                <View style={{ flex:1 , flexDirection: 'row', justifyContent: 'flex-end', marginTop:100}}>
+                  <View style={{ flex:0.5}}>
                   <TouchableOpacity style={{ width: 85, marginLeft: 10 }} onPress={() => this.props.close()}   >
                           <Text
-                            style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 18 }}   >
+                            style={{ color: "#c0c0c0", fontWeight: "bold", fontSize: 18}}   >
                             {I18n.t("MuestroCancel")}
                           </Text>
                         </TouchableOpacity>
@@ -866,8 +881,8 @@ const styles = StyleSheet.create({
        faceImageStyle: {
       //  width: 150,
       //  height: 150,
-             width: 230,
-       height: 230,
+      width: 175,
+       height: 175
        
     //   borderRadius: 30
        },
@@ -884,18 +899,19 @@ const styles = StyleSheet.create({
         color: 'orange'        
     },
     input: {
-      height: 38,
+      minHeight: 38,
+      height: 'auto',
       borderRadius: 22,  
       // backgroundColor: 'rgba(255,255,255,0.2)',
       // backgroundColor: 'black',
       backgroundColor: 'rgba(36,54,101,0.93)',
       marginBottom: 5,
-      marginTop: 15,
+      marginTop: 0,
       color: '#FFF',
       fontSize: 16.5,
       paddingHorizontal: 5,
    //   width: 100
-            }
+            },
   });
 
   

@@ -224,6 +224,8 @@ export default {
   EditMediaCancel: 'Cancel',
   EditMediaSave: 'Update',
   EditMediaSend: 'Send',
+  EditMediaBack: 'Back',
+  EditMediaContinue: 'Next',
   DeleteMediaWarning: 'WARNING',
   DeleteMediaTheentire1:
     'The entire post will be DELETED if you delete the last',

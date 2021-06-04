@@ -122,13 +122,13 @@ class EditMedia extends React.PureComponent {
   render() {
     return (
       <KeyboardAvoidingView
-        style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}
+        style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}
         behavior="padding"
         enabled
         keyboardVerticalOffset={46}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={{ flex: 1, marginTop: 20 }}>
-            <View
+          <View style={{ flex: 1, marginTop: 20}}>
+            {/* <View
               style={{
                 flex: 0.5,
                 justifyContent: 'center',
@@ -152,7 +152,7 @@ class EditMedia extends React.PureComponent {
                   {/* <View>
                 <Text style={{ color: 'white', fontSize: 14}}>You can play the audio before send it</Text> 
                 </View> */}
-                  <View style={{ marginTop: 12 }}>
+                  {/* <View style={{ marginTop: 12 }}>
                     <PlayMediaAudioPreview url={this.props.url} />
                   </View>
                 </View>
@@ -163,8 +163,7 @@ class EditMedia extends React.PureComponent {
                          />
                         }
 
-            </View>
-
+            </View> */} 
             <View style={{ flex: 0.5 }}>
               {this.props.type !== 'profile' && (
                 <View style={{ flex: 0.7 }}>
@@ -176,7 +175,7 @@ class EditMedia extends React.PureComponent {
                     autoCapitalize="none"
                     autoCorrect={false}
                     multiline={true}
-                    numberOfLines={2}
+                    //numberOfLines={2}
                     // onFocus={() => this.setState({rotateShow: false})}
                     // onBlur={() => this.setState({rotateShow: true})}
                     style={styles.input}
@@ -282,10 +281,9 @@ const styles = StyleSheet.create({
     color: 'orange'
   },
   input: {
-    height: 65,
+    minHeight: 95,
     borderRadius: 22,
-    // backgroundColor: 'rgba(255,255,255,0.2)',
-    backgroundColor: 'black',
+    backgroundColor: 'rgb(36,54,101)',
     marginBottom: 5,
     marginTop: 15,
     color: '#FFF',
