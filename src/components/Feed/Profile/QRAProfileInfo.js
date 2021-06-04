@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
   text: { fontSize: 15, marginLeft: 2, color: '#444', marginTop: 8 },
   textDesc: {
     marginLeft: 15,
+    marginRight: 15,
     fontSize: 25,
     marginBottom: 8 
   }
