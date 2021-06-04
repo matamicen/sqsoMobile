@@ -11,6 +11,15 @@ import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedHeaderSearch from './FeedHeaderSearch';
 class FeedHeaderBar extends React.Component {
+
+
+
+  componentDidMount() {
+  
+    // call this action in order to get focus and then dont fail in the first TAP that user do
+    this.props.navigation.dispatch(DrawerActions.closeDrawer())
+
+  }
   render() {
     return (
       <View style={{ height: 110, zIndex: 999 }}>
