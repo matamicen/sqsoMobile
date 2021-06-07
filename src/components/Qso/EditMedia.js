@@ -127,7 +127,7 @@ class EditMedia extends React.PureComponent {
         enabled
         keyboardVerticalOffset={46}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={{ flex: 1, marginTop: 20}}>
+          <View style={{ flex: 1, marginTop: 15}}>
             {/* <View
               style={{
                 flex: 0.5,
@@ -164,31 +164,8 @@ class EditMedia extends React.PureComponent {
                         }
 
             </View> */} 
-            <View style={{ flex: 0.5 }}>
-              {this.props.type !== 'profile' && (
-                <View style={{ flex: 0.7 }}>
-                  <TextInput
-                    placeholder={I18n.t('EditMediaDescription')}
-                    underlineColorAndroid="transparent"
-                    placeholderTextColor="rgba(255,255,255,0.7)"
-                    returnKeyType="next"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    multiline={true}
-                    //numberOfLines={2}
-                    // onFocus={() => this.setState({rotateShow: false})}
-                    // onBlur={() => this.setState({rotateShow: true})}
-                    style={styles.input}
-                    value={this.state.description}
-                    onChangeText={(text) =>
-                      this.setState({ description: text })
-                    }
-                  />
-                </View>
-              )}
-
-              {this.props.type !== 'profile' ? (
-                <View style={{ flex: 0.3, flexDirection: 'row' }}>
+            {this.props.type !== 'profile' ? (
+                <View style={{ flex: 0.2, flexDirection: 'row' }}>
                   <View style={{ flex: 0.5, alignItems: 'flex-start' }}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
                     <TouchableOpacity
@@ -206,7 +183,7 @@ class EditMedia extends React.PureComponent {
                   </View>
                   <View style={{ flex: 0.5, alignItems: 'flex-end' }}>
                     <TouchableOpacity
-                      style={{ height: 50, width: 90 }}
+                      style={{ width: 90 }}
                       onPress={() => this.savedescription()}>
                       <Text
                         style={{
@@ -251,7 +228,30 @@ class EditMedia extends React.PureComponent {
                   </View>
                 </View>
               )}
-            </View>
+
+              {this.props.type !== 'profile' && (
+                <View style={{ flex: 0.9 }}>
+                  <TextInput
+                    placeholder={I18n.t('EditMediaDescription')}
+                    underlineColorAndroid="transparent"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    multiline={true}
+                    numberOfLines={2}
+                    // onFocus={() => this.setState({rotateShow: false})}
+                    // onBlur={() => this.setState({rotateShow: true})}
+                    style={styles.input}
+                    value={this.state.description}
+                    onChangeText={(text) =>
+                      this.setState({ description: text })
+                    }
+                  />
+                </View>
+              )}
+
+              
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -281,13 +281,12 @@ const styles = StyleSheet.create({
     color: 'orange'
   },
   input: {
-    minHeight: 95,
     borderRadius: 22,
     backgroundColor: 'rgb(36,54,101)',
     marginBottom: 5,
-    marginTop: 15,
+    marginTop: 5,
     color: '#FFF',
-    fontSize: 16.5,
+    fontSize: 19,
     paddingHorizontal: 5
     //   width: 100
   },

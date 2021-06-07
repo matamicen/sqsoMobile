@@ -693,105 +693,12 @@ class Muestro extends React.PureComponent {
    
               
         return( 
-          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', }} behavior="padding" enabled   keyboardVerticalOffset={46}
-          >
+           <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center', }} behavior="padding" enabled   keyboardVerticalOffset={46}
+           >
          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
-        <View style={{flex:1, marginTop: 35}}>
-            {(!this.state.descScreen) && 
-            <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
-            
-            
-            { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && !this.state.descScreen) &&
-             <Image style={styles.faceImageStyle}
-            source={{ uri: this.props.sqsomedia.url }}
-            resizeMethod="resize"
-            resizeMode="contain"
-          />
-        }
-         
-          {/* // <Image style={styles.faceImageStyleAudio}
-          //             source={require('../../images/audio.png')}
-          //                 />  */}
-          { (this.props.sqsomedia.type==='audio' && !this.state.descScreen) &&
-          <View>
-              <View>
-                <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text> 
-                </View>
-             <View style={{ marginTop: 12}}>
-              <PlayMediaAudioPreview url={this.props.sqsomedia.url}  /> 
-            </View>
-         
-         </View> }
-
-         { (this.props.sqsomedia.type==='video' && !this.state.descScreen) &&
-          <View>
-          
-
-            <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
-            {/* <View style={{flex:0.75, justifyContent: 'center', alignItems: 'center'}}>      */}
-                  <Image style={styles.faceImageStyle}
-                  // source={{ uri: `data:image/png;base64,${encodedData}` }}
-                  source={{ uri: this.props.sqsomedia.previewCompressed }}
-                  resizeMethod="resize"
-                  resizeMode="contain"
-                  />
-            </View>
-            <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 55}}>
-                {/* <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text>  */}
-                <Image style={styles.faceImageStyleAudio}
-                     source={require('../../images/video1.png')}
-                         />
-                </View>
-
-            
-         </View> }
-
-                          {/* && Platform.OS==='android' */}
-            {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
-       {/* No muestro ROTATE si viene de la galeria porque la libreria de la galeria ya tiene editor de foto y rotacion */}
-          { (this.props.sqsomedia.type==='image' && !this.props.sqsomedia.gallery && !this.state.descScreen) &&
-                   <TouchableOpacity style={{height:50}}onPress={() => this.rotateImage()} >
-                     <View style={{ flexDirection: 'row'}}>
-                           <Image style={{ width: 15, height: 15,  marginTop: 3, marginLeft: 3}}
-                      source={require('../../images/rotate.png')}
-                          /> 
-
-                         <Text style={{ color: 'orange', fontSize: 11, marginTop: 3}}> {I18n.t("MuestroRotate")}</Text>
-                     </View>     
-                    </TouchableOpacity>
-            }
-
-          </View>
-            }
-            <View style={{ flex:this.props.height===490 ? 1 : 1}}>
-{/* width: this.widthScreen-80 */}
-            { (this.props.sqsomedia.type!=='profile' && this.state.descScreen) &&
-  
-             <View style={{ flex:0.7 }}>
-
-              
-              <TextInput 
-                  placeholder={I18n.t("MuestroDescription")}
-                  multiline
-                  underlineColorAndroid='transparent'
-                 placeholderTextColor="rgba(255,255,255,0.7)"
-                  // placeholderTextColor='rgba(36,54,101,0.93)'
-                  returnKeyType="next"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-               
-                  // onFocus={() => this.setState({rotateShow: false})}
-                  // onBlur={() => this.setState({rotateShow: true})}
-                  style={styles.input}
-                  value={this.state.description}
-                    onChangeText={(text) => this.setState({description: text})} />    
-            
-
-             </View>
-            }
-            
-             { (this.props.sqsomedia.type!=='profile') ?
-              <View style={{flex:0.3, flexDirection: 'row', justifyContent:'flex-end', marginTop: 90}}>
+        <View style={{flex:1, marginTop: 5}}>
+        { (this.props.sqsomedia.type!=='profile') ?
+              <View style={{flex:0.2, flexDirection: 'row', justifyContent:'flex-end'}}>
                  <View style={{flex:0.5}}>
                     {/* <TouchableOpacity  style={{ height: 50 }} onPress={() => this.subo_s3()} > */}
                     {(!this.state.descScreen) ?
@@ -825,7 +732,7 @@ class Muestro extends React.PureComponent {
                 </View>  
                 :
                 
-                <View style={{ flex:1 , flexDirection: 'row', justifyContent: 'flex-end', marginTop:100}}>
+                <View style={{ flex:1 , flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <View style={{ flex:0.5}}>
                   <TouchableOpacity style={{ width: 85, marginLeft: 10 }} onPress={() => this.props.close()}   >
                           <Text
@@ -844,6 +751,100 @@ class Muestro extends React.PureComponent {
                     </View>  
 
             }
+            {(!this.state.descScreen) && 
+                  <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center', marginTop: 35}}>
+            
+                    
+                    { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && !this.state.descScreen) &&
+                    <Image style={styles.faceImageStyle}
+                    source={{ uri: this.props.sqsomedia.url }}
+                    resizeMethod="resize"
+                    resizeMode="contain"
+                  />
+                    }
+                
+                  {/* // <Image style={styles.faceImageStyleAudio}
+                  //             source={require('../../images/audio.png')}
+                  //                 />  */}
+                  { (this.props.sqsomedia.type==='audio' && !this.state.descScreen) &&
+                  <View style={{marginTop: 12}}>
+                      <View>
+                        <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text> 
+                        </View>
+                    <View style={{ marginTop: 12}}>
+                      <PlayMediaAudioPreview url={this.props.sqsomedia.url}  /> 
+                    </View>
+                
+                </View> }
+
+                { (this.props.sqsomedia.type==='video' && !this.state.descScreen) &&
+                  <View style={{marginTop: 35}}>
+          
+
+                    <View style={{flex:this.props.height===490 ? 0.75 : 0.5, justifyContent: 'center', alignItems: 'center'}}>
+                    {/* <View style={{flex:0.75, justifyContent: 'center', alignItems: 'center'}}>      */}
+                          <Image style={styles.faceImageStyle}
+                          // source={{ uri: `data:image/png;base64,${encodedData}` }}
+                          source={{ uri: this.props.sqsomedia.previewCompressed }}
+                          resizeMethod="resize"
+                          resizeMode="contain"
+                          />
+                    </View>
+                    <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 55}}>
+                        {/* <Text style={{ color: 'white', fontSize: 14}}>{I18n.t("MuestroYouCanPlay")}</Text>  */}
+                        <Image style={styles.faceImageStyleAudio}
+                            source={require('../../images/video1.png')}
+                                />
+                        </View>
+
+            
+             </View> }
+
+                                      {/* && Platform.OS==='android' */}
+                        {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
+                  {/* No muestro ROTATE si viene de la galeria porque la libreria de la galeria ya tiene editor de foto y rotacion */}
+                  { (this.props.sqsomedia.type==='image' && !this.props.sqsomedia.gallery && !this.state.descScreen) &&
+                          <TouchableOpacity style={{height:50}}onPress={() => this.rotateImage()} >
+                            <View style={{ flexDirection: 'row'}}>
+                                  <Image style={{ width: 15, height: 15,  marginTop: 3, marginLeft: 3}}
+                              source={require('../../images/rotate.png')}
+                                  /> 
+
+                                <Text style={{ color: 'orange', fontSize: 11, marginTop: 3}}> {I18n.t("MuestroRotate")}</Text>
+                            </View>     
+                            </TouchableOpacity>
+                    }
+
+                  </View>
+            }
+            <View style={{ flex:this.props.height===490 ? 1 : 1}}>
+{/* width: this.widthScreen-80 */}
+            { (this.props.sqsomedia.type!=='profile' && this.state.descScreen) &&
+  
+             <View style={{ flex:1, marginTop: 5 }}>
+
+              
+              <TextInput 
+                  placeholder={I18n.t("MuestroDescription")}
+                  multiline
+                  underlineColorAndroid='transparent'
+                 placeholderTextColor="rgba(255,255,255,0.7)"
+                  // placeholderTextColor='rgba(36,54,101,0.93)'
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  numberOfLines={2}
+                  // onFocus={() => this.setState({rotateShow: false})}
+                  // onBlur={() => this.setState({rotateShow: true})}
+                  style={styles.input}
+                  value={this.state.description}
+                    onChangeText={(text) => this.setState({description: text})} />    
+            
+
+             </View>
+            }
+            
+             
                    
         </View>
 {/* {(this.state.notvideorewarded) && 
@@ -904,11 +905,11 @@ const styles = StyleSheet.create({
       borderRadius: 22,  
       // backgroundColor: 'rgba(255,255,255,0.2)',
       // backgroundColor: 'black',
-      backgroundColor: 'rgba(36,54,101,0.93)',
+      backgroundColor: 'rgba(36,54,101,1)',
       marginBottom: 5,
       marginTop: 0,
       color: '#FFF',
-      fontSize: 16.5,
+      fontSize: 19,
       paddingHorizontal: 5,
    //   width: 100
             },

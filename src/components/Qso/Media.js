@@ -205,6 +205,7 @@ class Media extends React.PureComponent {
                   fontSize: 14,
                   color: "black",
                   fontWeight: "bold",
+                  height: 80,
                   marginLeft: Platform.OS === "ios" ? 1 : 1,
                 }}
               >
