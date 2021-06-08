@@ -497,11 +497,11 @@ export default {
   navBar: {
     viewProfile: 'User Profile',
     actCarouselTitle: 'Ongoing and Future Activities',
-    lastFieldDays: 'Last Activities',
+    lastFieldDays: 'Activities',
     myPosts: 'My Posts',
     changePassword: 'Change Password',
     editBio: 'Edit my Biography',
-    editProfile: 'Edit my Info',
+    editProfile: 'Edit my Personal Info',
     logOut: 'Log Out',
     signUp: 'Signup',
     login: 'Login',
