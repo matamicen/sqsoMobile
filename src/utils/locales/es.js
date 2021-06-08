@@ -526,7 +526,7 @@ export default {
     myPosts: 'Mis Publicaciones',
     changePassword: 'Cambiar Contraseña',
     editBio: 'Editar mi Biografía',
-    editProfile: 'Editar mi Informacion Personal',
+    editProfile: 'Editar mi Información Personal',
     logOut: 'Salir',
     signUp: 'Registrarse',
     login: 'Ingresar',
