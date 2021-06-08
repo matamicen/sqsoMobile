@@ -50,13 +50,15 @@ class QRAProfileBioEdit extends React.Component {
       theme: theme,
       contentStyle,
       emojiVisible: false,
-      disabled: false
+      disabled: false,
+      isLoaded: false
     };
   }
 
   componentDidMount() {
     Appearance.addChangeListener(this.themeChange);
     Keyboard.addListener('keyboardDidShow', this.onKeyBoard);
+    this.setState({isLoaded: true});
   }
 
   componentWillUnmount() {
@@ -375,47 +377,8 @@ class QRAProfileBioEdit extends React.Component {
             onPress={this.save.bind(this)}
           />
         </View>
-        <ScrollView
-          style={[styles.scroll, themeBg]}
-          keyboardDismissMode={'none'}>
-          <RichEditor
-            // initialFocus={true}
-            disabled={disabled}
-            editorStyle={contentStyle} // default light style
-            containerStyle={themeBg}
-            scrollEnabled={false}
-            ref={this.richText}
-            style={[styles.rich, themeBg]}
-            placeholder={'please input content'}
-            initialContentHTML={this.props.qra.bio}
-            editorInitializedCallback={() => this.editorInitializedCallback}
-            onChange={() => this.handleChange}
-            onHeightChange={() => this.handleHeightChange}
-          />
-          {/* Esta view se agrega porque ni ios ni android levantan el campo de edicion hacia arriba, entonces el usuario puede scrollear a mano y editar bien */}
-           <View>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
-        </View>
-        </ScrollView>
-        <KeyboardAvoidingView
+        {(this.state.isLoaded) && 
+          <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <RichToolbar
             allowFileAccess={true}
@@ -459,6 +422,48 @@ class QRAProfileBioEdit extends React.Component {
           />
           {emojiVisible && <EmojiView onSelect={() => this.insertEmoji} />}
         </KeyboardAvoidingView>
+      }
+        <ScrollView
+          style={[styles.scroll, themeBg]}
+          keyboardDismissMode={'none'}>
+          <RichEditor
+            // initialFocus={true}
+            disabled={disabled}
+            editorStyle={contentStyle} // default light style
+            containerStyle={themeBg}
+            scrollEnabled={false}
+            ref={this.richText}
+            style={[styles.rich, themeBg]}
+            placeholder={'please input content'}
+            initialContentHTML={this.props.qra.bio}
+            editorInitializedCallback={() => this.editorInitializedCallback}
+            onChange={() => this.handleChange}
+            onHeightChange={() => this.handleHeightChange}
+          />
+          {/* Esta view se agrega porque ni ios ni android levantan el campo de edicion hacia arriba, entonces el usuario puede scrollear a mano y editar bien */}
+           <View>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        </View>
+        </ScrollView>
+        
       </SafeAreaView>
     );
   }
@@ -476,7 +481,9 @@ const styles = StyleSheet.create({
   },
   rich: {
     minHeight: 300,
-    flex: 1
+    flex: 1,
+    //position: 'absolute',
+    //top: 0
     // justifyContent: 'center',
     // alignItems: 'center'
   },
@@ -485,7 +492,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   scroll: {
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   item: {
     borderBottomWidth: StyleSheet.hairlineWidth,
