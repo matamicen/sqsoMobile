@@ -408,11 +408,11 @@ class QRAProfileBioEdit extends React.Component {
               ),
               [actions.setStrikethrough]: strikethrough,
               [actions.heading1]: ({ tintColor }) => (
-                <Text style={[styles.tib, { color: tintColor }]}>H1</Text>
+                <Text style={[styles.tib, { color: tintColor, fontSize:11 } ]}>{I18n.t('qra.title')}</Text>
               ),
-              [actions.heading4]: ({ tintColor }) => (
-                <Text style={[styles.tib, { color: tintColor }]}>H3</Text>
-              ),
+              // [actions.heading4]: ({ tintColor }) => (
+              //   <Text style={[styles.tib, { color: tintColor }]}>H3</Text>
+              // ),
               insertHTML: htmlIcon
               // insertVideo: videoIcon
             }}
