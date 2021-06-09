@@ -236,6 +236,8 @@ export default {
   EditMediaCancel: 'Cancelar',
   EditMediaSave: 'Actualizar',
   EditMediaSend: 'Enviar',
+  EditMediaBack: 'Volver',
+  EditMediaContinue: 'Continuar',
   DeleteMediaWarning: 'ATENCION',
   DeleteMediaTheentire1:
     'Toda la publicación va a ser borrada si borras este/a último/a',

@@ -205,6 +205,7 @@ class Media extends React.PureComponent {
                   fontSize: 14,
                   color: "black",
                   fontWeight: "bold",
+                  height: 80,
                   marginLeft: Platform.OS === "ios" ? 1 : 1,
                 }}
               >
@@ -277,7 +278,7 @@ class Media extends React.PureComponent {
           <View
             style={{
               padding: 10,
-              backgroundColor: "rgba(0,0,0,0.85)",
+              backgroundColor: "rgba(36,54,101,0.97)",
               marginTop: Platform.OS === "ios" ? 37 : 5,
               left: 15,
               right: 35,
