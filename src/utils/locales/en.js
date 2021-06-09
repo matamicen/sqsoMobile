@@ -751,7 +751,8 @@ export default {
     followers: 'Followers %{COUNT}',
     personalData: 'Personal Data',
     locationData: 'Location',
-    moreData: 'More Info'
+    moreData: 'More Info',
+    title: 'TITLE'
   },
   forms: {
     formSent: 'Message Sent!',

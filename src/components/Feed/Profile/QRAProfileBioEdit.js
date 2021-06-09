@@ -50,13 +50,15 @@ class QRAProfileBioEdit extends React.Component {
       theme: theme,
       contentStyle,
       emojiVisible: false,
-      disabled: false
+      disabled: false,
+      isLoaded: false
     };
   }
 
   componentDidMount() {
     Appearance.addChangeListener(this.themeChange);
     Keyboard.addListener('keyboardDidShow', this.onKeyBoard);
+    this.setState({isLoaded: true});
   }
 
   componentWillUnmount() {
@@ -375,6 +377,52 @@ class QRAProfileBioEdit extends React.Component {
             onPress={this.save.bind(this)}
           />
         </View>
+        {(this.state.isLoaded) && 
+          <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <RichToolbar
+            allowFileAccess={true}
+            style={[styles.richBar, themeBg]}
+            editor={this.richText}
+            disabled={disabled}
+            iconTint={color}
+            selectedIconTint={'#2095F2'}
+            disabledIconTint={'#8b8b8b'}
+            onPressAddImage={this.onPressAddImage.bind(this)}
+            onInsertLink={this.onInsertLink.bind(this)}
+            iconSize={40} // default 50
+            actions={[
+              'insertVideo',
+              ...defaultActions,
+              actions.setStrikethrough,
+              actions.heading1,
+              actions.heading4,
+              actions.removeFormat,
+              'insertEmoji',
+              'insertHTML'
+            ]} // default defaultActions
+            iconMap={{
+              insertEmoji: phizIcon,
+              [actions.removeFormat]: ({ tintColor }) => (
+                <Text style={[styles.tib, { color: tintColor }]}>C</Text>
+              ),
+              [actions.setStrikethrough]: strikethrough,
+              [actions.heading1]: ({ tintColor }) => (
+                <Text style={[styles.tib, { color: tintColor, fontSize:11 } ]}>{I18n.t('qra.title')}</Text>
+              ),
+              // [actions.heading4]: ({ tintColor }) => (
+              //   <Text style={[styles.tib, { color: tintColor }]}>H3</Text>
+              // ),
+              insertHTML: htmlIcon
+              // insertVideo: videoIcon
+            }}
+            insertEmoji={() => this.handleEmoji}
+            insertHTML={() => this.insertHTML}
+            // insertVideo={() => this.insertVideo}
+          />
+          {emojiVisible && <EmojiView onSelect={() => this.insertEmoji} />}
+        </KeyboardAvoidingView>
+      }
         <ScrollView
           style={[styles.scroll, themeBg]}
           keyboardDismissMode={'none'}>
@@ -415,50 +463,7 @@ class QRAProfileBioEdit extends React.Component {
         <Text> </Text>
         </View>
         </ScrollView>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <RichToolbar
-            allowFileAccess={true}
-            style={[styles.richBar, themeBg]}
-            editor={this.richText}
-            disabled={disabled}
-            iconTint={color}
-            selectedIconTint={'#2095F2'}
-            disabledIconTint={'#8b8b8b'}
-            onPressAddImage={this.onPressAddImage.bind(this)}
-            onInsertLink={this.onInsertLink.bind(this)}
-            iconSize={40} // default 50
-            actions={[
-              'insertVideo',
-              ...defaultActions,
-              actions.setStrikethrough,
-              actions.heading1,
-              actions.heading4,
-              actions.removeFormat,
-              'insertEmoji',
-              'insertHTML'
-            ]} // default defaultActions
-            iconMap={{
-              insertEmoji: phizIcon,
-              [actions.removeFormat]: ({ tintColor }) => (
-                <Text style={[styles.tib, { color: tintColor }]}>C</Text>
-              ),
-              [actions.setStrikethrough]: strikethrough,
-              [actions.heading1]: ({ tintColor }) => (
-                <Text style={[styles.tib, { color: tintColor }]}>H1</Text>
-              ),
-              [actions.heading4]: ({ tintColor }) => (
-                <Text style={[styles.tib, { color: tintColor }]}>H3</Text>
-              ),
-              insertHTML: htmlIcon
-              // insertVideo: videoIcon
-            }}
-            insertEmoji={() => this.handleEmoji}
-            insertHTML={() => this.insertHTML}
-            // insertVideo={() => this.insertVideo}
-          />
-          {emojiVisible && <EmojiView onSelect={() => this.insertEmoji} />}
-        </KeyboardAvoidingView>
+        
       </SafeAreaView>
     );
   }
@@ -476,7 +481,9 @@ const styles = StyleSheet.create({
   },
   rich: {
     minHeight: 300,
-    flex: 1
+    flex: 1,
+    //position: 'absolute',
+    //top: 0
     // justifyContent: 'center',
     // alignItems: 'center'
   },
@@ -485,7 +492,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   scroll: {
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   item: {
     borderBottomWidth: StyleSheet.hairlineWidth,
