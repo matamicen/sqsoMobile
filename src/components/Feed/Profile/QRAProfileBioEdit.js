@@ -32,6 +32,7 @@ import global_config from '../../../global_config.json';
 import I18n from '../../../utils/i18n';
 import { EmojiView } from './emoji';
 import { InsertLinkModal } from './insertLink';
+import {XMath} from '@wxik/core';
 
 const phizIcon = require('./phiz.png');
 const htmlIcon = require('./h5.png');
@@ -46,12 +47,14 @@ class QRAProfileBioEdit extends React.Component {
 
     const theme = props.theme || Appearance.getColorScheme();
     const contentStyle = this.createContentStyle(theme);
+    
     this.state = {
       theme: theme,
       contentStyle,
       emojiVisible: false,
       disabled: false,
-      isLoaded: false
+      isLoaded: false,
+      pepe : ''
     };
   }
 
@@ -139,6 +142,13 @@ class QRAProfileBioEdit extends React.Component {
       '<span style="color: blue; padding:0 10px;">HTML</span>'
     );
   }
+  
+  fontSize = () => {
+    // 1=  10px, 2 = 13px, 3 = 16px, 4 = 18px, 5 = 24px, 6 = 32px, 7 = 48px;
+    const size = [1, 2, 3, 4, 5, 6, 7];
+    this.richText.current?.setFontSize(size[XMath.random(size.length - 1)]);
+};
+
   confirmationAlert = () =>
     Alert.alert(
       I18n.t('qso.repost'),
@@ -360,6 +370,8 @@ class QRAProfileBioEdit extends React.Component {
     const { contentStyle, emojiVisible, disabled } = this.state;
     const { backgroundColor, color, placeholderColor } = contentStyle;
     const themeBg = { backgroundColor };
+    console.log('bio:' )
+    console.log(this.props.qra.bio )
     return (
       <SafeAreaView style={[styles.container, themeBg]}>
         {/* <StatusBar barStyle={theme !== 'dark' ? 'dark-content' : 'light-content'} /> */}
@@ -378,8 +390,8 @@ class QRAProfileBioEdit extends React.Component {
           />
         </View>
         {(this.state.isLoaded) && 
-          <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          // <KeyboardAvoidingView
+          // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <RichToolbar
             allowFileAccess={true}
             style={[styles.richBar, themeBg]}
@@ -390,16 +402,22 @@ class QRAProfileBioEdit extends React.Component {
             disabledIconTint={'#8b8b8b'}
             onPressAddImage={this.onPressAddImage.bind(this)}
             onInsertLink={this.onInsertLink.bind(this)}
+            // onfontSize={this.fontSize.bind(this)}
             iconSize={40} // default 50
             actions={[
-              'insertVideo',
+              // 'insertVideo',
+              'insertImage',
               ...defaultActions,
-              actions.setStrikethrough,
+              // actions.setStrikethrough,
               actions.heading1,
-              actions.heading4,
-              actions.removeFormat,
-              'insertEmoji',
-              'insertHTML'
+              'undo',
+              'fontSize',
+         
+             
+              // actions.heading4,
+              // actions.removeFormat,
+              // 'insertEmoji',
+              // 'insertHTML'
             ]} // default defaultActions
             iconMap={{
               insertEmoji: phizIcon,
@@ -413,16 +431,24 @@ class QRAProfileBioEdit extends React.Component {
               // [actions.heading4]: ({ tintColor }) => (
               //   <Text style={[styles.tib, { color: tintColor }]}>H3</Text>
               // ),
-              insertHTML: htmlIcon
-              // insertVideo: videoIcon
+              // insertHTML: htmlIcon,
+              // fontSize:{that.fontSize},
+                insertImage: htmlIcon
+             
+              //  insertVideo: htmlIcon
             }}
             insertEmoji={() => this.handleEmoji}
+            // fontSize={() => this.fontSize}
+            fontSize={this.fontSize}
+            insertImage={this.onPressAddImage.bind(this)}
             insertHTML={() => this.insertHTML}
-            // insertVideo={() => this.insertVideo}
+            //  insertVideo={this.insertVideo}
           />
-          {emojiVisible && <EmojiView onSelect={() => this.insertEmoji} />}
-        </KeyboardAvoidingView>
+       
       }
+         {/* {emojiVisible && <EmojiView onSelect={() => this.insertEmoji} />}
+        </KeyboardAvoidingView> */}
+
         <ScrollView
           style={[styles.scroll, themeBg]}
           keyboardDismissMode={'none'}>
@@ -490,6 +516,7 @@ const styles = StyleSheet.create({
   richBar: {
     height: 50,
     backgroundColor: '#F5FCFF'
+  
   },
   scroll: {
     backgroundColor: '#ffffff',
