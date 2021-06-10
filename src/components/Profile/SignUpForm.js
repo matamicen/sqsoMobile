@@ -1104,12 +1104,12 @@ class SignUpForm extends React.PureComponent {
           {/* height: 42 para android y 60 para ios cuando el usuario existe mensaje largo*/}
           <View
             style={{
-              padding: 3,
+              padding: 2,
               height: this.state.heighterror,
               width: 348,
               opacity: this.state.loginerror
             }}>
-            <Text style={{ color: 'red', textAlign: 'center' }}>
+            <Text style={{ color: 'red', textAlign: 'center', fontSize: 17 }}>
               {' '}
               {this.state.errormessage}
             </Text>
@@ -1129,23 +1129,27 @@ class SignUpForm extends React.PureComponent {
               showsVerticalScrollIndicator={false}
               data={fakedValues}
               renderItem={({ item }) => (
-                <View>
+                <View style={{marginLeft: 35}}>
                   <Text
                     style={{
                       color: '#FFFFFF',
-                      fontSize: 16,
+                      fontSize: 25,
                       marginLeft: 20,
                       marginBottom: 4
                     }}>
                     {I18n.t('signupForm')}
                   </Text>
                   {(this.state.firstScreen) ?
-                  <View>
+                  <View style={{marginTop: 15}}>
                     <View style={{flexDirection:'row'}}>
-                      <CheckBox title={I18n.t('signupRadioHam')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={!this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:15, fontWeight:'400'}} checkedColor='#8BD8BD'/>
-                      <CheckBox title={I18n.t('signupRadioClub')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:15, fontWeight:'400'}} checkedColor='#8BD8BD'/>
+                      <View style={{flex: 0.55}}>
+                        <CheckBox title={I18n.t('signupRadioHam')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={!this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:18, fontWeight:'400', marginLeft: 1}} checkedColor='#8BD8BD'/>
+                      </View>
+                      <View style={{flex:0.45}}>
+                        <CheckBox title={I18n.t('signupRadioClub')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:18, fontWeight:'400', marginLeft: 1}} checkedColor='#8BD8BD'/>
+                      </View>
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', marginTop: 14}}>
                     <TextInput
                       ref={(qraRef) => (this.qraRef = qraRef)}
                       placeholder={I18n.t('signupCallsign')}
@@ -1267,7 +1271,7 @@ class SignUpForm extends React.PureComponent {
                       style={styles.birthdateContainer}
                       onPress={() => this.chooseCountry()}>
                       <Text
-                        style={styles.birthdateText}
+                        style={styles.countryText}
                         ref={(countryRef) => (this.countryRef = countryRef)}>
                         {' '}
                         {this.state.country}
@@ -1306,7 +1310,7 @@ class SignUpForm extends React.PureComponent {
                       </TouchableOpacity>
                     </View>
                     <TouchableOpacity
-                    style={{ marginTop: 5 }}
+                    style={{ marginTop: 15 }}
                     onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={styles.buttonText2}>
                       {I18n.t('signupBackToLogin')}
@@ -1316,7 +1320,7 @@ class SignUpForm extends React.PureComponent {
                   </View>
                   :
                   <View>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', marginTop: 15 }}>
                     <TextInput
                       ref={(emailRef) => (this.emailRef = emailRef)}
                       caretHidden={needsXiaomiWorkaround}
@@ -1470,7 +1474,7 @@ class SignUpForm extends React.PureComponent {
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={{ marginTop: 5 }}
+                      style={{ marginTop: 15 }}
                       onPress={() => this.setState({firstScreen: true})}>
                       <Text style={styles.buttonText2}>
                         {I18n.t('EditMediaBack')}
@@ -1804,7 +1808,7 @@ const styles = StyleSheet.create({
   },
   contentCountry: {
     // height: 330,
-    width: 250,
+    width: 300,
     alignItems: 'center'
   },
 
@@ -1814,34 +1818,34 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   input: {
-    height: 38,
+    height: 43,
     width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 8,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 21,
     borderRadius: 22,
     marginLeft: 15,
     paddingHorizontal: 10
   },
   input2: {
-    height: 38,
+    height: 43,
     width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 5,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 21,
     borderRadius: 22,
     paddingHorizontal: 10,
     marginLeft: 15
   },
   inputConfirmation: {
-    height: 40,
-    width: 250,
+    height: 45,
+    width: 300,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 5,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 21,
     borderRadius: 22,
     paddingHorizontal: 10
   },
@@ -1850,7 +1854,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8BD8BD',
     paddingVertical: 5,
     borderRadius: 22,
-    width: 270,
+    width: 300,
     height: 36,
     marginLeft: 15,
     marginTop: 7
@@ -1858,7 +1862,7 @@ const styles = StyleSheet.create({
   birthdateContainer: {
     backgroundColor: 'rgba(255,255,255,0.2)',
     paddingVertical: 10,
-    height: 37,
+    height: 43,
     width: 270,
     marginBottom: 8,
     marginLeft: 15,
@@ -1867,21 +1871,27 @@ const styles = StyleSheet.create({
   },
   birthdateText: {
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 18,
     opacity: 0.8,
-    height: 37
+    height: 43
+  },
+  countryText: {
+    color: '#FFF',
+    fontSize: 21,
+    opacity: 0.8,
+    height: 43
   },
   buttonText: {
     textAlign: 'center',
     // color: '#FFFFFF',
     color: '#243665',
-    fontSize: 16
+    fontSize: 21
     //  fontWeight: '700'
   },
   buttonText2: {
     //     textAlign: 'center',
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 21,
     //   fontWeight: '700',
     marginLeft: 15
   },
