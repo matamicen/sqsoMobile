@@ -215,6 +215,7 @@ class SignUpForm extends React.PureComponent {
       this.state.email = this.state.email.trim();
       this.state.emailVerification = this.state.emailVerification.trim();
       this.state.qra = this.state.qra.trim();
+      this.error = false;
 
       if (this.state.password !== this.state.passwordConfirm) {
         this.setState({
@@ -317,7 +318,7 @@ class SignUpForm extends React.PureComponent {
         this.error = true;
         // this.firstnameRef.focus();
       }
-      if (this.state.lastname == '') {
+      if (this.state.lastname == '' && !this.state.isClub) {
         this.setState({
           errormessage: I18n.t('signupValLastName'),
           heightindicator: 0,
@@ -341,7 +342,7 @@ class SignUpForm extends React.PureComponent {
         // this.countryRef.focus();
       }
 
-      if (this.diffyears < 13) {
+      if (this.diffyears < 13  && !this.state.isClub) {
         this.setState({
           errormessage: I18n.t('signupValDiffYears'),
           heightindicator: 0,
@@ -353,7 +354,7 @@ class SignUpForm extends React.PureComponent {
         //  this.birthdateRef.focus();
       }
 
-      if (this.state.birthdate == 'birthdate') {
+      if (this.state.hamDate == 'birthdate'  && !this.state.isClub) {
         this.setState({
           errormessage: I18n.t('signupValBirthDate'),
           heightindicator: 0,
@@ -392,6 +393,7 @@ class SignUpForm extends React.PureComponent {
 
   resendCode = async () => {
     Keyboard.dismiss();
+    
     if (await hasAPIConnection()) {
       this.setState({ indicator: 1, confirmationcodeError: 0 });
 
@@ -561,7 +563,7 @@ class SignUpForm extends React.PureComponent {
   };
 
   advanceScreen = () => {
-
+    this.error = false;
     console.log(this.state.birthdate)
     var re = /^[a-zA-Z0-9]+$/;
       if (!re.exec(this.state.qra)) {
@@ -658,8 +660,22 @@ class SignUpForm extends React.PureComponent {
         this.error = true;
         //  this.birthdateRef.focus();
       }
+
+      if (this.state.birthdate == 'birthdate' && this.state.isClub) {
+        this.setState({
+          birthdate: "00-00-0000"
+        });
+        //  this.birthdateRef.focus();
+      }
       
       if(!this.error){
+        this.setState({
+          errormessage: '',
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 0,
+          loginerror: 0
+        });
         this.setState({firstScreen: false})
       }
   }
@@ -727,8 +743,9 @@ class SignUpForm extends React.PureComponent {
     this.setState({ indicator: 1 });
 
     fechanac = this.birthday_convert();
-
-    Auth.signUp({
+    if(this.state.isClub && this.state.year == 0) fechanac = '00/00/0000' 
+    console.log("fecha nac" + this.state.fechanac);
+    var params = {
       username: this.state.email.toLowerCase(),
       password: this.state.password,
       attributes: {
@@ -739,10 +756,13 @@ class SignUpForm extends React.PureComponent {
         'custom:country': this.state.cca2,
         'custom:callsign': this.state.qra.toUpperCase(),
         'custom:phone': this.state.phone,
-        'custom:userType': this.state.isClub ? 1 : 0,
+        'custom:userType': this.state.isClub ? "1" : "0",
         'custom:referralQra' : this.state.referral
       }
-    })
+    }
+    console.log('parametros de signup')
+    console.log(params)
+    Auth.signUp(params)
       .then(() => {
         console.log('SignUp ok!: ');
         this.qraAlreadySignUp = this.state.qra;
@@ -1122,8 +1142,8 @@ class SignUpForm extends React.PureComponent {
                   {(this.state.firstScreen) ?
                   <View>
                     <View style={{flexDirection:'row'}}>
-                      <CheckBox title={I18n.t('signupRadioHam')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={!this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:15, fontWeight:'light'}} checkedColor='#8BD8BD'/>
-                      <CheckBox title={I18n.t('signupRadioClub')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:15, fontWeight:'light'}} checkedColor='#8BD8BD'/>
+                      <CheckBox title={I18n.t('signupRadioHam')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={!this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:15, fontWeight:'400'}} checkedColor='#8BD8BD'/>
+                      <CheckBox title={I18n.t('signupRadioClub')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:15, fontWeight:'400'}} checkedColor='#8BD8BD'/>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                     <TextInput
@@ -1218,7 +1238,7 @@ class SignUpForm extends React.PureComponent {
                               {' '}
                               {/* {this.state.birthdate} */}
                               
-                              {this.state.birthdate}                             
+                              {this.state.clubDate}                             
                                 
                             </Text>
                              : 
@@ -1354,6 +1374,8 @@ class SignUpForm extends React.PureComponent {
                       autoCorrect={false}
                       onSubmitEditing={() => this.passwordConfRef.focus()}
                       secureTextEntry
+                      textContentType={'oneTimeCode'}
+                      //textContentType= {'password'}
                       style={styles.input}
                       value={this.state.password}
                       onChangeText={(text) => this.setState({ password: text })}
@@ -1374,6 +1396,7 @@ class SignUpForm extends React.PureComponent {
                       returnKeyType="go"
                       autoCapitalize="none"
                       autoCorrect={false}
+                      textContentType={'oneTimeCode'}
                       secureTextEntry
                       style={styles.input2}
                       value={this.state.passwordConfirm}
