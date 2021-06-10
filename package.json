@@ -27,6 +27,7 @@
     "aws-amplify": "^3.3.2",
     "formik": "^2.2.0",
     "i18n-js": "^3.7.0",
+    "lodash": "^4.17.21",
     "moment": "^2.25.3",
     "query-string": "^7.0.0",
     "react": "16.13.1",

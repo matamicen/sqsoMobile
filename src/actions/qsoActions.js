@@ -124,6 +124,7 @@ import {
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
   SET_FEEDTOUCHABLE,
+  SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION
 } from './types';
 
@@ -4629,6 +4630,13 @@ export const setFeedTouchable = (status) => {
   return {
     type: SET_FEEDTOUCHABLE,
     status: status
+  };
+};
+export const setSearchedResults = (results) => {
+  console.log('setSearchedResults');
+  return {
+    type: SET_SEARCHED_RESULTS,
+    results
   };
 };
 export function doLatestUsersFetch() {

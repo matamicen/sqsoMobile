@@ -45,6 +45,7 @@ import {
   sendActualMedia,
   setConfirmProfilePhotoModal,
   setPressHome,
+  setSearchedResults,
   setProfileModalStat,
   setSendingProfilePhotoModal
 } from '../../actions';
@@ -82,13 +83,16 @@ class InitialScreen extends React.PureComponent {
   }
 
   async componentDidMount() {
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
     this.props.setPressHome(0);
     // esto detecta cuando se apreta el TAB  de InitialScreen
     this.props.navigation.setParams({
       tapOnTabNavigator: this.tapOnTabNavigator
     });
   }
-
+  onScreenFocus = async () => {
+    this.props.setSearchedResults([]);
+  };
   tapOnTabNavigator = async () => {
     this.props.setPressHome(0);
   };
@@ -847,7 +851,8 @@ const mapDispatchToProps = {
   doLatestUsersFetch,
   sendActualMedia,
   manageLocationPermissions,
-  setPressHome
+  setPressHome,
+  setSearchedResults
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InitialScreen);

@@ -108,6 +108,7 @@ import {
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
   SET_FEEDTOUCHABLE,
+  SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION
 } from '../actions/types';
 import global_config from '../global_config.json';
@@ -262,7 +263,8 @@ const initialState = {
     follow: null,
     latestUsers: null,
     embeddedSession: false,
-    FeedTouchable: true
+    FeedTouchable: true,
+    searchedResults: []
   }
 };
 
@@ -2646,7 +2648,16 @@ const qsoReducer = (state = initialState, action) => {
 
       return newStore;
     }
-
+    case SET_SEARCHED_RESULTS: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          searchedResults: action.results
+        }
+      });
+      return newStore;
+    }
     case SET_FEEDTOUCHABLE: {
       newStore = Object.assign({}, state, {
         ...state,

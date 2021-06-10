@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
@@ -5,13 +6,23 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import FeedHeaderBar from './FeedHeaderBar';
 import NewsFeedPresentational from './NewsFeedPresentational';
+import SearchedResults from './Search/SearchResults';
 import VariosModales from '../Qso/VariosModales';
-
+import { _ } from 'lodash';
 class NewsFeedContainer extends React.PureComponent {
-  state = { qsos: this.props.qsos };
+  state = {
+    qsos: this.props.qsos,
+    searchedResults: this.props.searchedResults
+  };
   componentDidUpdate(prevProps) {
     if (this.props.qsos && this.props.qsos !== prevProps.qsos) {
       this.setState({ qsos: this.props.qsos });
+    }
+    if (
+      this.props.searchedResults &&
+      this.props.searchedResults !== prevProps.searchedResults
+    ) {
+      this.setState({ searchedResults: this.props.searchedResults });
     }
   }
 
@@ -37,24 +48,39 @@ class NewsFeedContainer extends React.PureComponent {
           <View style={{ zIndex: 1 }}>
             <FeedHeaderBar />
           </View>
-          <View
-            style={{ flex: 1, zIndex: 0 }}
-            // pointerEvents={'auto'}
-            pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
-            <NewsFeedPresentational
-              feedType="MAIN"
-              list={qsos}
-              fetchingQSOS={this.props.fetchingQSOS}
-              qsosFetched={this.props.qsosFetched}
-            />
-          </View>
-          {this.props.welcomeuserfirsttime && (
-              <VariosModales
-                show={true}
-                modalType="welcomefirsttime"
-                closeInternetModal={this.closeWelcom.bind()}
+          {_.isEmpty(this.props.searchedResults) && (
+            <View
+              style={{ flex: 1, zIndex: 0 }}
+              // pointerEvents={'auto'}
+              pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
+              <NewsFeedPresentational
+                feedType="MAIN"
+                list={qsos}
+                fetchingQSOS={this.props.fetchingQSOS}
+                qsosFetched={this.props.qsosFetched}
               />
-            )}
+            </View>
+          )}
+          {!_.isEmpty(this.props.searchedResults) && (
+            <View
+              style={{ flex: 1, zIndex: 0 }}
+              // pointerEvents={'auto'}
+              pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
+              <SearchedResults
+                feedType="MAIN"
+                list={qsos}
+                fetchingQSOS={this.props.fetchingQSOS}
+                qsosFetched={this.props.qsosFetched}
+              />
+            </View>
+          )}
+          {this.props.welcomeuserfirsttime && (
+            <VariosModales
+              show={true}
+              modalType="welcomefirsttime"
+              closeInternetModal={this.closeWelcom.bind()}
+            />
+          )}
         </View>
       );
     } else return null;
@@ -68,10 +94,7 @@ const mapStateToProps = (state) => {
     qsosFetched: state.sqso.feed.qsosFetched,
     feedtouchable: state.sqso.feed.FeedTouchable,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
-    // authenticating: state.sqso.feed.userData.authenticating,
-
-    // token: state.sqso.feed.userData.token
-    // public: state.sqso.feed.userData.public
+    searchedResults: state.sqso.feed.searchedResults
   };
 };
 const mapDispatchToProps = (dispatch) => ({

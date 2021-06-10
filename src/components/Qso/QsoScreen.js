@@ -57,6 +57,7 @@ import {
   setConfirmProfilePhotoModal,
   openModalConfirmPhoto,
   setPressHome,
+  setSearchedResults,
   postQsoEdit,
   postQsoQras,
   // setWebView,
@@ -241,12 +242,14 @@ class QsoScreen extends React.PureComponent {
       videoPercentage: props.videopercentage
     };
   }
-
+  onScreenFocus = async () => {
+    this.props.setSearchedResults([]);
+  };
   async componentDidMount() {
     console.log('COMPONENT did mount QSO Screen!');
 
     this.props.setPressHome(0);
-
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
     // esto detecta cuando se apreta el TAB  de QSOSCREEN
     this.props.navigation.setParams({
       tapOnTabNavigator: this.tapOnTabNavigator
@@ -770,6 +773,7 @@ class QsoScreen extends React.PureComponent {
 
   tapOnTabNavigator = async () => {
     console.log('PRESS QSOSCREEN!');
+    this.props.setSearchedResults([]);
     this.props.setPressHome(0);
   };
 
@@ -888,11 +892,10 @@ class QsoScreen extends React.PureComponent {
               response = await request(STORAGE_PERMISSION);
               //si entro por primera vez aca, luego de aceptar vuelve de background de nuevo y pierde el SHARE del usuario
               //entonces recupero el share del asyncstorage
-              console.log('STORAGE_PERMISSION: '+response)
+              console.log('STORAGE_PERMISSION: ' + response);
 
               if (response !== RESULTS.GRANTED) storagePermission = false;
             }
-
 
             if (storagePermission) {
               // ImagePicker.openPicker({
@@ -908,10 +911,9 @@ class QsoScreen extends React.PureComponent {
               const options = {
                 title: 'Video Picker',
                 takePhotoButtonTitle: 'Take Video...',
-                mediaType: 'video',
+                mediaType: 'video'
                 // cameraType: 'back',
                 // durationLimit: 30
-         
               };
 
               // ImagePicker2.showImagePicker(options, response => {
@@ -1176,7 +1178,10 @@ class QsoScreen extends React.PureComponent {
         '.jpg';
     else
       path =
-        RNFetchBlob.fs.dirs.DocumentDir + '/sqso/' + new Date().getTime() + '.jpg';
+        RNFetchBlob.fs.dirs.DocumentDir +
+        '/sqso/' +
+        new Date().getTime() +
+        '.jpg';
 
     inicioCom = new Date();
     //  -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
@@ -3843,6 +3848,7 @@ const mapDispatchToProps = {
   setConfirmProfilePhotoModal,
   openModalConfirmPhoto,
   setPressHome,
+  setSearchedResults,
   postQsoEdit,
   postQsoQras,
   // setWebView,

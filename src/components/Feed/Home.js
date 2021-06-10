@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import queryString from 'query-string';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import React from 'react';
-import { AppState, Alert, BackHandler, Linking } from 'react-native';
+import { AppState, Alert, BackHandler, Linking, Platform } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,7 +14,7 @@ import Toast from 'react-native-root-toast';
 import { Auth } from 'aws-amplify';
 import moment from 'moment';
 import analytics from '@react-native-firebase/analytics';
-
+import { _ } from 'lodash';
 class Home extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -62,18 +62,59 @@ class Home extends React.PureComponent {
   async componentDidMount() {
     await Linking.addEventListener('url', (e) => {
       try {
-
         console.log(e.url);
-      if (e.url) {
-        let parsed = queryString.parseUrl(e.url);
-        console.log('Linkingparsed');
-        console.log(parsed.query.link);
-        parsed = queryString.parseUrl(parsed.query.link);
-        console.log('linkParsedAgain');
-        console.log(parsed);
+        if (e.url) {
+          let parsed = queryString.parseUrl(e.url);
+          console.log('Linkingparsed');
+          console.log(parsed.query.link);
+          parsed = queryString.parseUrl(parsed.query.link);
+          console.log('linkParsedAgain');
+          console.log(parsed);
+
+          if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
+
+          // console.log(Object.keys(parsed.query).link);
+          switch (Object.keys(parsed.query)[0]) {
+            case 'QRA':
+              this.props.navigation.push('QRAProfile', {
+                qra: parsed.query.QRA,
+                screen: 'PROFILE'
+              });
+              break;
+            case 'QSO':
+              this.props.navigation.navigate('QSODetail', {
+                QSO_GUID: parsed.query.QSO
+              });
+              break;
+            case 'ExploreUsers':
+              this.props.navigation.navigate('ExploreUsers');
+              break;
+            case 'Activities':
+              this.props.navigation.navigate('FieldDays');
+              break;
+            default:
+              this.props.navigation.navigate('Notifications');
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // Dynamic Link for ios in killed mode
+    if (Platform.OS === 'ios') {
+      Linking.getInitialURL().then((res) => {
+        console.log('LINKING IOS');
+        console.log(res);
 
         if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
 
+        let parsed = queryString.parseUrl(res);
+        console.log('Linkingparsed');
+        // console.log(parsed.query.link);
+        parsed = queryString.parseUrl(parsed.query.link);
+        console.log('linkParsedAgain');
+        // console.log(parsed);
         // console.log(Object.keys(parsed.query).link);
         switch (Object.keys(parsed.query)[0]) {
           case 'QRA':
@@ -96,57 +137,8 @@ class Home extends React.PureComponent {
           default:
             this.props.navigation.navigate('Notifications');
         }
-      }
-        
-      } catch (error) {
-        console.log(error)
-        
-      }
-      
-    });
-
-    // Dynamic Link for ios in killed mode
- if (Platform.OS === 'ios') {
-    Linking.getInitialURL()
-    .then(res => {
-      console.log('LINKING IOS')
-      console.log(res)
-
-      if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
-
-      let parsed = queryString.parseUrl(res);
-      console.log('Linkingparsed');
-      // console.log(parsed.query.link);
-      parsed = queryString.parseUrl(parsed.query.link);
-      console.log('linkParsedAgain');
-      // console.log(parsed);
-      // console.log(Object.keys(parsed.query).link);
-      switch (Object.keys(parsed.query)[0]) {
-        case 'QRA':
-          this.props.navigation.push('QRAProfile', {
-            qra: parsed.query.QRA,
-            screen: 'PROFILE'
-          });
-          break;
-        case 'QSO':
-          this.props.navigation.navigate('QSODetail', {
-            QSO_GUID: parsed.query.QSO
-          });
-          break;
-        case 'ExploreUsers':
-          this.props.navigation.navigate('ExploreUsers');
-          break;
-        case 'Activities':
-          this.props.navigation.navigate('FieldDays');
-          break;
-        default:
-          this.props.navigation.navigate('Notifications');
-      }
-  
-    })
-
-  }
-
+      });
+    }
 
     let url = await dynamicLinks().getInitialLink();
     console.log('incoming url', url);
@@ -160,7 +152,6 @@ class Home extends React.PureComponent {
       .then((link) => {
         console.log('getInitialLink', link);
         if (link) {
-
           if (!__DEV__) analytics().logEvent('pushpress_APPPRD');
 
           const parsed = queryString.parseUrl(link.url);
@@ -265,7 +256,7 @@ class Home extends React.PureComponent {
   tapOnTabNavigator = async () => {
     console.log('PRESS HOME! tapOnTabNavigator');
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
-
+    this.props.actions.setSearchedResults([]);
     if (this.props.presshome === 1) {
       this.toast(I18n.t('Refreshing'), 2500);
 
@@ -277,7 +268,9 @@ class Home extends React.PureComponent {
       this.props.actions.doLatestUsersFetch();
 
       //   this.props.setPressHome(0);
-    } else this.props.actions.setPressHome(1);
+    } else {
+      this.props.actions.setPressHome(1);
+    }
   };
 
   _handleAppStateChange = async (nextAppState) => {
@@ -357,25 +350,32 @@ class Home extends React.PureComponent {
       // The screen is not focused, so don't do anything
       return false;
     } else {
-      Alert.alert(
-        I18n.t('BACKBUTTONANDROIDTITLE'),
-        I18n.t('BACKBUTTONANDROID'),
-        [
+      console.log(this.props.searchedResults);
+      if (!_.isEmpty(this.props.searchedResults)) {
+        console.log('search is not empty -> clear search');
+        this.props.actions.setSearchedResults([]);
+        return false;
+      } else {
+        Alert.alert(
+          I18n.t('BACKBUTTONANDROIDTITLE'),
+          I18n.t('BACKBUTTONANDROID'),
+          [
+            {
+              text: I18n.t('BACKBUTTONANDROIDCANCEL'),
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel'
+            },
+            {
+              text: I18n.t('BACKBUTTONANDROIDEXIT'),
+              onPress: () => BackHandler.exitApp()
+            }
+          ],
           {
-            text: I18n.t('BACKBUTTONANDROIDCANCEL'),
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel'
-          },
-          {
-            text: I18n.t('BACKBUTTONANDROIDEXIT'),
-            onPress: () => BackHandler.exitApp()
+            cancelable: false
           }
-        ],
-        {
-          cancelable: false
-        }
-      );
-      return true;
+        );
+        return true;
+      }
     }
   };
 
@@ -435,7 +435,8 @@ const mapStateToProps = (state) => ({
   publicFeed: state.sqso.feed.publicFeed,
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos,
-  presshome: state.sqso.pressHome
+  presshome: state.sqso.pressHome,
+  searchedResults: state.sqso.feed.searchedResults
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

@@ -1,18 +1,8 @@
 import { API } from 'aws-amplify';
 import { default as React, useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Keyboard
-} from 'react-native';
-import analytics from '@react-native-firebase/analytics';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 
-import Autocomplete from 'react-native-autocomplete-input';
-import { Avatar } from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SearchBar } from 'react-native-elements';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -22,20 +12,26 @@ const FeedHeaderSearch = (props) => {
   // For Main Data
   // const [films, setFilms] = useState([]);
   // For Filtered Data
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchValue, setSearchValue] = useState([]);
   // For Selected Data
-  const [selectedValue, setSelectedValue] = useState({});
+  const [users, setFilteredUsers] = useState({});
 
-  const renderInput = (props) => (
-    <TextInput
-      {...props}
-      ref={(input) => {
-        this.textInput = input;
-      }}
-    />
-  );
+  const [searching, isSearching] = useState(false);
+
+  const [error, setError] = useState({});
+
+  // const renderInput = (props) => (
+  //   <TextInput
+  //     {...props}
+  //     ref={(input) => {
+  //       this.textInput = input;
+  //     }}
+  //   />
+  // );
 
   const findUser = (query) => {
+    isSearching(true);
+    setSearchValue(query);
     // Method called every time when we change the value of the input
     // if (query) {
     let apiName = 'superqso';
@@ -56,17 +52,22 @@ const FeedHeaderSearch = (props) => {
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error > 0) {
-            this.setState({ isLoading: false, error: response.body.message });
+            isSearching(false);
+            setError(response.body.message);
+            // this.setState({ isLoading: false, error: response.body.message });
             props.actions.setFeedTouchable(true);
           } else {
             // this.setState({ data: response.body.message, isLoading: false });
+            isSearching(false);
             setFilteredUsers(response.body.message);
             props.actions.setFeedTouchable(false);
+            props.actions.setSearchedResults(response.body.message);
           }
         })
         .catch((error) => {
           console.log(error);
-          this.setState({ isLoading: false, error });
+          isSearching(false);
+          setError(error);
           props.actions.setFeedTouchable(true);
         });
     // Making a case insensitive regular expression
@@ -76,61 +77,31 @@ const FeedHeaderSearch = (props) => {
     // }
     else {
       // If the query is null then return blank
-      setFilteredUsers([]);
+      // setFilteredUsers([]);
     }
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Autocomplete
-          autoCapitalize="none"
-          autoCorrect={false}
-          containerStyle={styles.autocompleteContainer}
-          renderTextInput={renderInput}
-          // Data to show in suggestion
-          data={filteredUsers}
-          onFocus={() => setSelectedValue('')}
-          keyExtractor={(item) => item.qra}
-          // Default value if you want to set something in input
-          defaultValue={
-            JSON.stringify(selectedValue) === '{}' ? I18n.t('navBar.searchCallsign') : selectedValue.name
-          }
-          // Onchange of the text changing the state of the query
-          // Which will trigger the findUser method
-          // To show the suggestions
-          onChangeText={(text) => findUser(text)}
+      <View style={{ flex: 1 }}>
+        <SearchBar
+          lightTheme
+          clearIcon
+          showLoading
+          loadingProps={{
+            animating: searching,
+            color: 'black'
+          }}
+          round
+          inputContainerStyle={{ height: 40 }}
+          containerStyle={{ backgroundColor: 'white' }}
           placeholder={I18n.t('navBar.searchCallsign')}
-          renderItem={({ item }) => (
-            // For the suggestion view
-
-            <View key={item.qra}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
-                  props.actions.setFeedTouchable(true);
-                  setFilteredUsers([]);
-                  Keyboard.dismiss();
-
-                  this.textInput.clear();
-                  props.navigate(item.qra);
-                }}>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Avatar
-                    round
-                    source={
-                      item.avatarpic
-                        ? {
-                            uri: item.avatarpic
-                          }
-                        : require('../../images/emptyprofile.png')
-                    }
-                  />
-                  <Text style={styles.itemText}>{item.name}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
+          onCancel={() => {
+            isSearching(false);
+            props.actions.setSearchedResults([]);
+          }}
+          onChangeText={(text) => findUser(text)}
+          value={searchValue}
         />
       </View>
     </SafeAreaView>
@@ -139,14 +110,14 @@ const FeedHeaderSearch = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#F5FCFF',
     flex: 1,
     left: 0,
-    position: 'absolute',
+    // position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: 1,
-    paddingTop: 10,
+    // zIndex: 1,
+    // paddingTop: 10,
     marginBottom: 0
     // marginTop: 40
   },
