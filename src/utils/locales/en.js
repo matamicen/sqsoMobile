@@ -15,7 +15,7 @@ export default {
     'The user is not enabled yet, remember to send us a copy of your issued ham license to info@superqso.com',
   loginerrorMessUserEmpty: 'The email is empty',
   signupForm: 'Signup Form',
-  signupRadioClub: 'Radioclub',
+  signupRadioClub: 'Radio club',
   signupRadioHam: 'Ham',
   signupCallsign: 'callsign',
   signupFirstName: 'first name',
