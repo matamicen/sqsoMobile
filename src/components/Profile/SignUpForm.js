@@ -1221,7 +1221,7 @@ class SignUpForm extends React.PureComponent {
                         returnKeyType="next"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onSubmitEditing={() => this.emailRef.focus()}
+                        // onSubmitEditing={() => this.birthdatedRef.focus()}
                         style={styles.input}
                         value={this.state.lastname}
                         onChangeText={(text) => this.setState({ lastname: text })}
@@ -1296,7 +1296,7 @@ class SignUpForm extends React.PureComponent {
                       returnKeyType="go"
                       autoCapitalize="none"
                       autoCorrect={false}
-                      onSubmitEditing={() => this.passwordRef.focus()}
+                      // onSubmitEditing={() => this.passwordRef.focus()}
                       style={styles.input}
                       value={this.state.phone}
                       onChangeText={(text) => this.setState({ phone: text })}
@@ -1357,7 +1357,7 @@ class SignUpForm extends React.PureComponent {
                       returnKeyType="next"
                       autoCapitalize="none"
                       autoCorrect={false}
-                      // onSubmitEditing={() => this.birthdatedRef.focus()}
+                      onSubmitEditing={() => this.passwordRef.focus()}
                       style={styles.email}
                       value={this.state.emailVerification}
                       onChangeText={(text) =>
@@ -1407,6 +1407,7 @@ class SignUpForm extends React.PureComponent {
                       autoCorrect={false}
                       textContentType={'oneTimeCode'}
                       secureTextEntry
+                      onSubmitEditing={() => this.referral.focus()}
                       style={styles.input2}
                       value={this.state.passwordConfirm}
                       onChangeText={(text) =>
@@ -1417,7 +1418,15 @@ class SignUpForm extends React.PureComponent {
                       <Text> </Text>
                     </TouchableOpacity>
                   </View>
-                  {/* <View style={{ flexDirection: 'row' }}>
+                  <Text
+                    style={{
+                      color: '#FFFFFF',
+                      fontSize: 16,
+                      marginLeft: 20,
+                      marginBottom: 5,
+                      marginTop: 15
+                    }}>{I18n.t('signupReferralDesc')}</Text>
+                  <View style={{ flexDirection: 'row' }}>
                       <TextInput
                         ref={(referral) => (this.referral = referral)}
                         placeholder={I18n.t('signupReferral')}
@@ -1426,14 +1435,14 @@ class SignUpForm extends React.PureComponent {
                         returnKeyType="next"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        style={styles.input}
+                        style={styles.referral}
                         value={this.state.referral}
                         onChangeText={(value) => this.setState({ referral: value })}
                       />
                       <TouchableOpacity style={{ height: 40, width: 60 }}>
                         <Text> </Text>
                       </TouchableOpacity>
-                    </View> */}
+                    </View>
 
                   {/* <View  style={{flex:1, flexDirection: "row"}}> */}
                   <Text
@@ -1878,7 +1887,7 @@ const styles = StyleSheet.create({
   },
   birthdateText: {
     color: '#FFF',
-    fontSize: 18,
+    fontSize: 19,
     opacity: 0.8,
     height: 43
   },
@@ -1914,6 +1923,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     color: '#FFF',
     fontSize: 19,
+    borderRadius: 22,
+    marginLeft: 15,
+    paddingHorizontal: 10
+  },
+  referral: {
+    height: 43,
+    width: 300,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 8,
+    color: '#FFF',
+    fontSize: 18,
     borderRadius: 22,
     marginLeft: 15,
     paddingHorizontal: 10

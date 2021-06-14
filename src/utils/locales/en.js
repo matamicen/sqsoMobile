@@ -31,7 +31,8 @@ export default {
   signupPhone: 'phone (optional)',
   signupPassword: 'password',
   signupPasswordConfirm: 'password confirm',
-  signupReferral: 'Referral code',
+  signupReferralDesc: 'Who referred SuperQSO? (optional)',
+  signupReferral: 'callsign of referral',
   signupAccept1:
     'By clicking Sign Up and accept, you confirm that you have read, understand and agree the',
   signupAccept12: 'have read, understand and agree the',
