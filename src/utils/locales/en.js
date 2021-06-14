@@ -15,7 +15,7 @@ export default {
     'The user is not enabled yet, remember to send us a copy of your issued ham license to info@superqso.com',
   loginerrorMessUserEmpty: 'The email is empty',
   signupForm: 'Signup Form',
-  signupRadioClub: 'Radioclub',
+  signupRadioClub: 'Radio club',
   signupRadioHam: 'Ham',
   signupCallsign: 'callsign',
   signupFirstName: 'first name',
@@ -31,7 +31,8 @@ export default {
   signupPhone: 'phone (optional)',
   signupPassword: 'password',
   signupPasswordConfirm: 'password confirm',
-  signupReferral: 'Referral code',
+  signupReferralDesc: 'Who referred SuperQSO? (optional)',
+  signupReferral: 'callsign of referral',
   signupAccept1:
     'By clicking Sign Up and accept, you confirm that you have read, understand and agree the',
   signupAccept12: 'have read, understand and agree the',
@@ -65,7 +66,7 @@ export default {
   confirmSignUpConfirmButton: 'Done',
   variosModWelcWelcome: 'Welcome to SuperQSO!',
   variosModWelcSendLicense1:
-    'Please send us your ham license issued by your country to',
+    'To facilitate the validation of your account, please send us a proof of your ham license (Id card, or similar) to',
   variosModWelcSendLicense2:
     'in order to start using SuperQSO with your callsign.',
   variosModWelcEnableYou:
