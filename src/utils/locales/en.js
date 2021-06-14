@@ -65,7 +65,7 @@ export default {
   confirmSignUpConfirmButton: 'Done',
   variosModWelcWelcome: 'Welcome to SuperQSO!',
   variosModWelcSendLicense1:
-    'Please send us your ham license issued by your country to',
+    'To facilitate the validation of your account, please send us a proof of your ham license (Id card, or similar) to',
   variosModWelcSendLicense2:
     'in order to start using SuperQSO with your callsign.',
   variosModWelcEnableYou:

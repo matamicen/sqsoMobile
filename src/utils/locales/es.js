@@ -74,7 +74,7 @@ export default {
 
   variosModWelcWelcome: 'Bienvenido a SuperQSO!',
   variosModWelcSendLicense1:
-    'Para poder habilitar tu cuenta, necesitamos que nos envies una constancia de tu licencia (carnet, resolución, etc) a',
+    'Para agilizar la habilitación de tu cuenta, envíanos una constancia de tu licencia (carnet, resolución, etc) a',
   variosModWelcSendLicense2: 'para habilitar tu cuenta.',
   variosModWelcEnableYou:
     'Te vamos a habilitar lo antes posible una vez recibida la licencia.',
