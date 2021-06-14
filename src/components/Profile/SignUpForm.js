@@ -45,7 +45,7 @@ import ConfirmSignUp from './ConfirmSignUp';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { getBrand } from 'react-native-device-info';
-
+import {CheckBox} from 'react-native-elements';
 //Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
 
@@ -112,11 +112,15 @@ class SignUpForm extends React.PureComponent {
       date: new Date(),
       mode: 'date',
       show: false,
+      firstScreen: true,
+      isClub: false,
       // showD: I18n.t('signupBirthdate'),
       // showDate: new Date().toLocaleDateString(I18n.locale.substring(0, 2), {
       //   month: 'short'
       // }),
-      showDate: I18n.t('signupBirthdate')
+      clubDate: I18n.t('signupFoundingDate'),
+      hamDate: I18n.t('signupBirthdate'),
+      referral: ''
     };
   }
 
@@ -129,7 +133,7 @@ class SignUpForm extends React.PureComponent {
 
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate || this.state.date;
-
+    console.log('state.birthdate' + this.state.birthdate)
     if (selectedDate !== undefined) {
       // por si apreta Cancel en fecha
       if (I18n.locale.substring(0, 2) === 'es') {
@@ -163,6 +167,8 @@ class SignUpForm extends React.PureComponent {
       month: currentDate.getMonth() + 1,
       year: currentDate.getFullYear()
     });
+    this.setState({clubDate : currentDate.getDate() + '/' + (currentDate.getMonth()+1)  + '/'+ currentDate.getFullYear()});
+    this.setState({hamDate : currentDate.getDate() + '/' + (currentDate.getMonth()+1)  + '/'+ currentDate.getFullYear()})
   };
 
   showMode = (currentMode) => {
@@ -209,6 +215,7 @@ class SignUpForm extends React.PureComponent {
       this.state.email = this.state.email.trim();
       this.state.emailVerification = this.state.emailVerification.trim();
       this.state.qra = this.state.qra.trim();
+      this.error = false;
 
       if (this.state.password !== this.state.passwordConfirm) {
         this.setState({
@@ -311,7 +318,7 @@ class SignUpForm extends React.PureComponent {
         this.error = true;
         // this.firstnameRef.focus();
       }
-      if (this.state.lastname == '') {
+      if (this.state.lastname == '' && !this.state.isClub) {
         this.setState({
           errormessage: I18n.t('signupValLastName'),
           heightindicator: 0,
@@ -335,7 +342,7 @@ class SignUpForm extends React.PureComponent {
         // this.countryRef.focus();
       }
 
-      if (this.diffyears < 13) {
+      if (this.diffyears < 13  && !this.state.isClub) {
         this.setState({
           errormessage: I18n.t('signupValDiffYears'),
           heightindicator: 0,
@@ -347,7 +354,7 @@ class SignUpForm extends React.PureComponent {
         //  this.birthdateRef.focus();
       }
 
-      if (this.state.birthdate == 'birthdate') {
+      if (this.state.hamDate == 'birthdate'  && !this.state.isClub) {
         this.setState({
           errormessage: I18n.t('signupValBirthDate'),
           heightindicator: 0,
@@ -386,6 +393,7 @@ class SignUpForm extends React.PureComponent {
 
   resendCode = async () => {
     Keyboard.dismiss();
+    
     if (await hasAPIConnection()) {
       this.setState({ indicator: 1, confirmationcodeError: 0 });
 
@@ -554,6 +562,124 @@ class SignUpForm extends React.PureComponent {
     }
   };
 
+  advanceScreen = () => {
+    this.error = false;
+    console.log(this.state.birthdate)
+    var re = /^[a-zA-Z0-9]+$/;
+      if (!re.exec(this.state.qra)) {
+        this.setState({
+          errormessage: I18n.t('signupValInvalidCharact'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        // this.qraRef.focus();
+      }
+
+      if (this.state.qra == '') {
+        this.setState({
+          errormessage: I18n.t('signupValcallsignEmpty'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        // this.qraRef.focus();
+      }
+
+      if (this.state.qra.length > 10) {
+        this.setState({
+          errormessage: I18n.t('signupValcallsignLong'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        // this.qraRef.focus();
+      }
+
+      if (this.state.firstname == '') {
+        this.setState({
+          errormessage: I18n.t('signupValFirstName'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        // this.firstnameRef.focus();
+      }
+      if (this.state.lastname == '' && !this.state.isClub) {
+        this.setState({
+          errormessage: I18n.t('signupValLastName'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        // this.lastnameRef.focus();
+      }
+      console.log(this.state.country)
+      if (this.state.country == I18n.t('signupCountry')) {
+        this.setState({
+          errormessage: I18n.t('signupValCountry'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        // this.countryRef.focus();
+      }
+
+      if (this.diffyears < 13 && !this.state.isClub) {
+        this.setState({
+          errormessage: I18n.t('signupValDiffYears'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        //  this.birthdateRef.focus();
+      }
+
+      if (this.state.birthdate == 'birthdate' && !this.state.isClub) {
+        this.setState({
+          errormessage: I18n.t('signupValBirthDate'),
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 25,
+          loginerror: 1
+        });
+        this.error = true;
+        //  this.birthdateRef.focus();
+      }
+
+      if (this.state.birthdate == 'birthdate' && this.state.isClub) {
+        this.setState({
+          birthdate: "00-00-0000"
+        });
+        //  this.birthdateRef.focus();
+      }
+      
+      if(!this.error){
+        this.setState({
+          errormessage: '',
+          heightindicator: 0,
+          indicator: 0,
+          heighterror: 0,
+          loginerror: 0
+        });
+        this.setState({firstScreen: false})
+      }
+  }
+
   confirmSignup = async () => {
     Keyboard.dismiss();
 
@@ -617,8 +743,9 @@ class SignUpForm extends React.PureComponent {
     this.setState({ indicator: 1 });
 
     fechanac = this.birthday_convert();
-
-    Auth.signUp({
+    if(this.state.isClub && this.state.year == 0) fechanac = '00/00/0000' 
+    console.log("fecha nac" + this.state.fechanac);
+    var params = {
       username: this.state.email.toLowerCase(),
       password: this.state.password,
       attributes: {
@@ -628,9 +755,14 @@ class SignUpForm extends React.PureComponent {
         'custom:lastName': this.state.lastname,
         'custom:country': this.state.cca2,
         'custom:callsign': this.state.qra.toUpperCase(),
-        'custom:phone': this.state.phone
+        'custom:phone': this.state.phone,
+        'custom:userType': this.state.isClub ? "1" : "0",
+        'custom:referralQra' : this.state.referral
       }
-    })
+    }
+    console.log('parametros de signup')
+    console.log(params)
+    Auth.signUp(params)
       .then(() => {
         console.log('SignUp ok!: ');
         this.qraAlreadySignUp = this.state.qra;
@@ -972,12 +1104,12 @@ class SignUpForm extends React.PureComponent {
           {/* height: 42 para android y 60 para ios cuando el usuario existe mensaje largo*/}
           <View
             style={{
-              padding: 3,
+              padding: 2,
               height: this.state.heighterror,
               width: 348,
               opacity: this.state.loginerror
             }}>
-            <Text style={{ color: 'red', textAlign: 'center' }}>
+            <Text style={{ color: 'red', textAlign: 'center', fontSize: 17 }}>
               {' '}
               {this.state.errormessage}
             </Text>
@@ -997,17 +1129,27 @@ class SignUpForm extends React.PureComponent {
               showsVerticalScrollIndicator={false}
               data={fakedValues}
               renderItem={({ item }) => (
-                <View>
+                <View style={{marginLeft: 35}}>
                   <Text
                     style={{
                       color: '#FFFFFF',
-                      fontSize: 16,
+                      fontSize: 25,
                       marginLeft: 20,
                       marginBottom: 4
                     }}>
                     {I18n.t('signupForm')}
                   </Text>
-                  <View style={{ flexDirection: 'row' }}>
+                  {(this.state.firstScreen) ?
+                  <View style={{marginTop: 15}}>
+                    <View style={{flexDirection:'row'}}>
+                      <View style={{flex: 0.55}}>
+                        <CheckBox title={I18n.t('signupRadioHam')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={!this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:18, fontWeight:'400', marginLeft: 1}} checkedColor='#8BD8BD'/>
+                      </View>
+                      <View style={{flex:0.45}}>
+                        <CheckBox title={I18n.t('signupRadioClub')} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' checked={this.state.isClub} onPress={()=>this.setState({isClub: !this.state.isClub})} containerStyle={{backgroundColor:'#243665', borderWidth:0}} textStyle={{color:'#FFF', fontSize:18, fontWeight:'400', marginLeft: 1}} checkedColor='#8BD8BD'/>
+                      </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', marginTop: 14}}>
                     <TextInput
                       ref={(qraRef) => (this.qraRef = qraRef)}
                       placeholder={I18n.t('signupCallsign')}
@@ -1026,7 +1168,24 @@ class SignUpForm extends React.PureComponent {
                     </TouchableOpacity>
                   </View>
                   <View style={{ flexDirection: 'row' }}>
-                    <TextInput
+                    {(this.state.isClub) ? 
+                        <TextInput
+                        ref={(firstname) => (this.firstname = firstname)}
+                        placeholder={I18n.t('signupClubName')}
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onSubmitEditing={() => this.lastname.focus()}
+                        style={styles.input}
+                        value={this.state.firstname}
+                        onChangeText={(text) =>
+                          this.setState({ firstname: text })
+                        }
+                        />
+                      :
+                      <TextInput
                       ref={(firstname) => (this.firstname = firstname)}
                       placeholder={I18n.t('signupFirstName')}
                       underlineColorAndroid="transparent"
@@ -1040,30 +1199,128 @@ class SignUpForm extends React.PureComponent {
                       onChangeText={(text) =>
                         this.setState({ firstname: text })
                       }
-                    />
+                      />
+                    }
+                    
+                    <TouchableOpacity style={{ height: 40, width: 60 }}>
+                      <Text> </Text>
+                    </TouchableOpacity>
+                    </View>
+                    {(!this.state.isClub) && 
+                      <View style={{ flexDirection: 'row' }}>
+                      <TextInput
+                        ref={(lastname) => (this.lastname = lastname)}
+                        placeholder={I18n.t('signupLastName')}
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        onSubmitEditing={() => this.emailRef.focus()}
+                        style={styles.input}
+                        value={this.state.lastname}
+                        onChangeText={(text) => this.setState({ lastname: text })}
+                      />
+                      <TouchableOpacity style={{ height: 40, width: 60 }}>
+                        <Text> </Text>
+                      </TouchableOpacity>
+                    </View>
+                    }
+                  
+                    
+                    <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={styles.birthdateContainer}
+                      // onPress={() => this.date_picker()}>
+                      onPress={() => this.showDatepicker()}>
+                        {(this.state.isClub) ? 
+                            <Text
+                              style={styles.birthdateText}
+                              ref={(birthdatedRef) =>
+                                (this.birthdatedRef = birthdatedRef)
+                              }>
+                              {' '}
+                              {/* {this.state.birthdate} */}
+                              
+                              {this.state.clubDate}                             
+                                
+                            </Text>
+                             : 
+                             <Text
+                             style={styles.birthdateText}
+                             ref={(birthdatedRef) =>
+                               (this.birthdatedRef = birthdatedRef)
+                             }>
+                             {' '}
+                             {/* {this.state.birthdate} */}
+                             
+                               {this.state.hamDate}
+                             
+                               
+                              </Text>
+                        }
+                    </TouchableOpacity>
                     <TouchableOpacity style={{ height: 40, width: 60 }}>
                       <Text> </Text>
                     </TouchableOpacity>
                   </View>
+
+                  {/* this.toggleCountryPicker() */}
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={styles.birthdateContainer}
+                      onPress={() => this.chooseCountry()}>
+                      <Text
+                        style={styles.countryText}
+                        ref={(countryRef) => (this.countryRef = countryRef)}>
+                        {' '}
+                        {this.state.country}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ height: 40, width: 60 }}>
+                      <Text> </Text>
+                    </TouchableOpacity>
+                  </View>
+
                   <View style={{ flexDirection: 'row' }}>
                     <TextInput
-                      ref={(lastname) => (this.lastname = lastname)}
-                      placeholder={I18n.t('signupLastName')}
+                      ref={(phoneRef) => (this.phoneRef = phoneRef)}
+                      placeholder={I18n.t('signupPhone')}
                       underlineColorAndroid="transparent"
                       placeholderTextColor="rgba(255,255,255,0.7)"
-                      returnKeyType="next"
+                      returnKeyType="go"
                       autoCapitalize="none"
                       autoCorrect={false}
-                      onSubmitEditing={() => this.emailRef.focus()}
+                      onSubmitEditing={() => this.passwordRef.focus()}
                       style={styles.input}
-                      value={this.state.lastname}
-                      onChangeText={(text) => this.setState({ lastname: text })}
+                      value={this.state.phone}
+                      onChangeText={(text) => this.setState({ phone: text })}
                     />
                     <TouchableOpacity style={{ height: 40, width: 60 }}>
                       <Text> </Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={{ flexDirection: 'row' }}>
+                    <View>
+                      <TouchableOpacity
+                        style={styles.buttonContainer}
+                        onPress={() => this.advanceScreen()}>
+                        <Text style={styles.buttonText}>
+                          {I18n.t('EditMediaContinue')}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                    style={{ marginTop: 15 }}
+                    onPress={() => this.props.navigation.navigate('Login')}>
+                    <Text style={styles.buttonText2}>
+                      {I18n.t('signupBackToLogin')}
+                    </Text>
+                  </TouchableOpacity>
+
+                  </View>
+                  :
+                  <View>
+                    <View style={{ flexDirection: 'row', marginTop: 15 }}>
                     <TextInput
                       ref={(emailRef) => (this.emailRef = emailRef)}
                       caretHidden={needsXiaomiWorkaround}
@@ -1108,61 +1365,7 @@ class SignUpForm extends React.PureComponent {
                     </TouchableOpacity>
                   </View>
 
-                  <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                      style={styles.birthdateContainer}
-                      // onPress={() => this.date_picker()}>
-                      onPress={() => this.showDatepicker()}>
-                      <Text
-                        style={styles.birthdateText}
-                        ref={(birthdatedRef) =>
-                          (this.birthdatedRef = birthdatedRef)
-                        }>
-                        {' '}
-                        {/* {this.state.birthdate} */}
-                        {this.state.showDate}
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 40, width: 60 }}>
-                      <Text> </Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  {/* this.toggleCountryPicker() */}
-                  <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                      style={styles.birthdateContainer}
-                      onPress={() => this.chooseCountry()}>
-                      <Text
-                        style={styles.birthdateText}
-                        ref={(countryRef) => (this.countryRef = countryRef)}>
-                        {' '}
-                        {this.state.country}
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 40, width: 60 }}>
-                      <Text> </Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  <View style={{ flexDirection: 'row' }}>
-                    <TextInput
-                      ref={(phoneRef) => (this.phoneRef = phoneRef)}
-                      placeholder={I18n.t('signupPhone')}
-                      underlineColorAndroid="transparent"
-                      placeholderTextColor="rgba(255,255,255,0.7)"
-                      returnKeyType="go"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      onSubmitEditing={() => this.passwordRef.focus()}
-                      style={styles.input}
-                      value={this.state.phone}
-                      onChangeText={(text) => this.setState({ phone: text })}
-                    />
-                    <TouchableOpacity style={{ height: 40, width: 60 }}>
-                      <Text> </Text>
-                    </TouchableOpacity>
-                  </View>
+                  
 
                   <View style={{ flexDirection: 'row' }}>
                     <TextInput
@@ -1175,6 +1378,8 @@ class SignUpForm extends React.PureComponent {
                       autoCorrect={false}
                       onSubmitEditing={() => this.passwordConfRef.focus()}
                       secureTextEntry
+                      textContentType={'oneTimeCode'}
+                      //textContentType= {'password'}
                       style={styles.input}
                       value={this.state.password}
                       onChangeText={(text) => this.setState({ password: text })}
@@ -1195,6 +1400,7 @@ class SignUpForm extends React.PureComponent {
                       returnKeyType="go"
                       autoCapitalize="none"
                       autoCorrect={false}
+                      textContentType={'oneTimeCode'}
                       secureTextEntry
                       style={styles.input2}
                       value={this.state.passwordConfirm}
@@ -1206,7 +1412,23 @@ class SignUpForm extends React.PureComponent {
                       <Text> </Text>
                     </TouchableOpacity>
                   </View>
-
+                  <View style={{ flexDirection: 'row' }}>
+                      <TextInput
+                        ref={(referral) => (this.referral = referral)}
+                        placeholder={I18n.t('signupReferral')}
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        style={styles.input}
+                        value={this.state.referral}
+                        onChangeText={(value) => this.setState({ referral: value })}
+                      />
+                      <TouchableOpacity style={{ height: 40, width: 60 }}>
+                        <Text> </Text>
+                      </TouchableOpacity>
+                    </View>
                   {/* <View  style={{flex:1, flexDirection: "row"}}> */}
                   <Text
                     style={{ fontSize: 11, color: '#8BD8BD', marginLeft: 15 }}>
@@ -1244,21 +1466,24 @@ class SignUpForm extends React.PureComponent {
                   </View>
 
                   {/* </View> */}
-                  <TouchableOpacity
-                    style={styles.buttonContainer}
-                    onPress={() => this.signUp()}>
-                    <Text style={styles.buttonText}>
-                      {I18n.t('signupAcceptButton')}{' '}
-                    </Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.buttonContainer}
+                      onPress={() => this.signUp()}>
+                      <Text style={styles.buttonText}>
+                        {I18n.t('signupAcceptButton')}{' '}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{ marginTop: 15 }}
+                      onPress={() => this.setState({firstScreen: true})}>
+                      <Text style={styles.buttonText2}>
+                        {I18n.t('EditMediaBack')}
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={{ marginTop: 5 }}
-                    onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text style={styles.buttonText2}>
-                      {I18n.t('signupBackToLogin')}
-                    </Text>
-                  </TouchableOpacity>
+                  </View>
+                  }
+                  
 
                   <Text style={styles.buttonText2}> </Text>
                   <Text style={styles.buttonText2}> </Text>
@@ -1583,7 +1808,7 @@ const styles = StyleSheet.create({
   },
   contentCountry: {
     // height: 330,
-    width: 250,
+    width: 300,
     alignItems: 'center'
   },
 
@@ -1593,34 +1818,34 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   input: {
-    height: 38,
+    height: 43,
     width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 8,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 21,
     borderRadius: 22,
     marginLeft: 15,
     paddingHorizontal: 10
   },
   input2: {
-    height: 38,
+    height: 43,
     width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 5,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 21,
     borderRadius: 22,
     paddingHorizontal: 10,
     marginLeft: 15
   },
   inputConfirmation: {
-    height: 40,
-    width: 250,
+    height: 45,
+    width: 300,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 5,
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 21,
     borderRadius: 22,
     paddingHorizontal: 10
   },
@@ -1629,7 +1854,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8BD8BD',
     paddingVertical: 5,
     borderRadius: 22,
-    width: 270,
+    width: 300,
     height: 36,
     marginLeft: 15,
     marginTop: 7
@@ -1637,7 +1862,7 @@ const styles = StyleSheet.create({
   birthdateContainer: {
     backgroundColor: 'rgba(255,255,255,0.2)',
     paddingVertical: 10,
-    height: 37,
+    height: 43,
     width: 270,
     marginBottom: 8,
     marginLeft: 15,
@@ -1646,21 +1871,27 @@ const styles = StyleSheet.create({
   },
   birthdateText: {
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 18,
     opacity: 0.8,
-    height: 37
+    height: 43
+  },
+  countryText: {
+    color: '#FFF',
+    fontSize: 21,
+    opacity: 0.8,
+    height: 43
   },
   buttonText: {
     textAlign: 'center',
     // color: '#FFFFFF',
     color: '#243665',
-    fontSize: 16
+    fontSize: 21
     //  fontWeight: '700'
   },
   buttonText2: {
     //     textAlign: 'center',
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 21,
     //   fontWeight: '700',
     marginLeft: 15
   },
