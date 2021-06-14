@@ -9,22 +9,29 @@ import * as Actions from '../../../actions';
 class searchedResults extends React.Component {
   render() {
     let qsos = [];
-    // if (this.props.qsos && this.props.qsos.length > 0) {
-    for (let i = 0; i < this.props.searchedResults.length; i++) {
-      qsos.push({
-        qso: this.props.searchedResults[i],
-        type: this.props.searchedResults[i].type,
-        source: this.props.searchedResults[i].source
-          ? this.props.searchedResults[i].source
-          : null
-      });
+    if (this.props.searchedResults.length > 0) {
+      for (let i = 0; i < this.props.searchedResults.length; i++) {
+        qsos.push({
+          qso: this.props.searchedResults[i],
+          type: this.props.searchedResults[i].type,
+          source: this.props.searchedResults[i].source
+            ? this.props.searchedResults[i].source
+            : null,
+          ad: this.props.searchedResults[i].ad
+            ? this.props.searchedResults[i].ad
+            : null
+        });
+      }
+      return (
+        <NewsFeedPresentational
+          feedType="SEARCH"
+          list={qsos}
+          // QRAFetched={this.props.QRAFetched}
+          // FetchingQRA={this.props.FetchingQRA}
+        />
+      );
     }
-
-    return (
-      <View>
-        <NewsFeedPresentational feedType="SEARCH" list={qsos} />
-      </View>
-    );
+    return null;
   }
 }
 const mapStateToProps = (state) => {
