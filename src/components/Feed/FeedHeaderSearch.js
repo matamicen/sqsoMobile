@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import { default as React, useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-
+import { Auth } from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
@@ -29,22 +29,22 @@ const FeedHeaderSearch = (props) => {
   //   />
   // );
 
-  const findUser = (query) => {
+  const findUser = async (query) => {
     isSearching(true);
     setSearchValue(query);
     // Method called every time when we change the value of the input
     // if (query) {
+    let session = await Auth.currentSession();
+    props.actions.setToken(session.idToken.jwtToken);
     let apiName = 'superqso';
-    let path = '/qra-list?qra=' + query;
+    let path = '/contentSearch';
     let myInit = {
-      body: {}, // replace this with attributes you need
+      body: { searchValue: query }, // replace this with attributes you need
       headers: {
-        // "Authorization": this.props.token
-      } // OPTIONAL
+        Authorization: session.idToken.jwtToken
+      }
     };
 
-    console.log('query:' + query);
-    console.log('length:' + query.length);
     if (query.length < 3) props.actions.setFeedTouchable(true);
 
     // comienza a buscar a partir de 3 letras
@@ -64,10 +64,10 @@ const FeedHeaderSearch = (props) => {
             props.actions.setSearchedResults(response.body.message);
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
           isSearching(false);
-          setError(error);
+          setError(err);
           props.actions.setFeedTouchable(true);
         });
     // Making a case insensitive regular expression

@@ -269,6 +269,10 @@ const selectorFeedType = (state, ownProps) => {
     qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'SEARCH')
+    return state.sqso.feed.searchedResults.find(
+      (q) => q.idqsos === ownProps.idqsos
+    );
   else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
   else return null;
 
