@@ -35,6 +35,59 @@ const FeedHeaderSearch = (props) => {
     />
   );
 
+  const findUser2 = (query) => {
+    // Method called every time when we change the value of the input
+    // if (query) {
+
+    // let apiName = 'superqso';
+    // let path = '/qra-list?qra=' + query;
+    // let myInit = {
+    //   body: {}, // replace this with attributes you need
+    //   headers: {
+    //     // "Authorization": this.props.token
+    //   } // OPTIONAL
+    // };
+
+    console.log('query:' + query);
+    console.log('length:' + query.length);
+
+    if (query.length > 2){
+      console.log('llamo API search');
+            props.actions.doClearFeed(false);
+            // props.actions.doFetchUserFeed(props.currentQRA);
+            props.actions.doFetchPublicFeed();
+    }
+    // if (query.length < 3) props.actions.setFeedTouchable(true);
+
+    // comienza a buscar a partir de 3 letras
+    // if (query.length > 2)
+    //   API.post(apiName, path, myInit)
+    //     .then((response) => {
+    //       if (response.body.error > 0) {
+    //         this.setState({ isLoading: false, error: response.body.message });
+    //         props.actions.setFeedTouchable(true);
+    //       } else {
+    //         // this.setState({ data: response.body.message, isLoading: false });
+    //         setFilteredUsers(response.body.message);
+    //         props.actions.setFeedTouchable(false);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       this.setState({ isLoading: false, error });
+    //       props.actions.setFeedTouchable(true);
+    //     });
+    // // Making a case insensitive regular expression
+    // // const regex = new RegExp(`${query.trim()}`, 'i');
+    // // Setting the filtered film array according the query
+    // // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
+    // // }
+    // else {
+    //   // If the query is null then return blank
+    //   setFilteredUsers([]);
+    // }
+  };
+
   const findUser = (query) => {
     // Method called every time when we change the value of the input
     // if (query) {
@@ -80,6 +133,7 @@ const FeedHeaderSearch = (props) => {
     }
   };
 
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -99,7 +153,7 @@ const FeedHeaderSearch = (props) => {
           // Onchange of the text changing the state of the query
           // Which will trigger the findUser method
           // To show the suggestions
-          onChangeText={(text) => findUser(text)}
+          onChangeText={(text) => findUser2(text)}
           placeholder={I18n.t('navBar.searchCallsign')}
           renderItem={({ item }) => (
             // For the suggestion view
@@ -170,7 +224,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+
+  currentQRA: state.sqso.qra
+});
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
