@@ -256,7 +256,7 @@ class Home extends React.PureComponent {
   tapOnTabNavigator = async () => {
     console.log('PRESS HOME! tapOnTabNavigator');
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
-    this.props.actions.setSearchedResults([]);
+    // this.props.actions.setSearchedResults([]);
     if (this.props.presshome === 1) {
       this.toast(I18n.t('Refreshing'), 2500);
 
@@ -353,7 +353,7 @@ class Home extends React.PureComponent {
       console.log(this.props.searchedResults);
       if (!_.isEmpty(this.props.searchedResults)) {
         console.log('search is not empty -> clear search');
-        this.props.actions.setSearchedResults([]);
+        // this.props.actions.setSearchedResults([]);
         return false;
       } else {
         Alert.alert(

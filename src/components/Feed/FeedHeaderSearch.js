@@ -7,6 +7,7 @@ import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import Autocomplete from 'react-native-autocomplete-input';
 
 const FeedHeaderSearch = (props) => {
   // For Main Data
@@ -51,6 +52,8 @@ const FeedHeaderSearch = (props) => {
     if (query.length > 2)
       API.post(apiName, path, myInit)
         .then((response) => {
+          console.log('devuelve API search:')
+          console.log(response.body.message)
           if (response.body.error > 0) {
             isSearching(false);
             setError(response.body.message);
@@ -58,10 +61,21 @@ const FeedHeaderSearch = (props) => {
             props.actions.setFeedTouchable(true);
           } else {
             // this.setState({ data: response.body.message, isLoading: false });
-            isSearching(false);
-            setFilteredUsers(response.body.message);
-            props.actions.setFeedTouchable(false);
-            props.actions.setSearchedResults(response.body.message);
+
+            // isSearching(false);
+            // setFilteredUsers(response.body.message);
+            // props.actions.setFeedTouchable(false);
+            // props.actions.setSearchedResults(response.body.message);
+
+            props.actions.doClearFeed(false);
+            props.actions.doFetchUserFeed(props.currentQRA);
+            props.actions.setSearchedResults([]);
+           
+           
+           
+            // props.actions.doClearFeed(false);
+            // // props.actions.doFetchUserFeed(props.currentQRA);
+            // props.actions.doFetchPublicFeed();
           }
         })
         .catch((err) => {
@@ -84,7 +98,7 @@ const FeedHeaderSearch = (props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        <SearchBar
+        {/* <SearchBar
           lightTheme
           clearIcon
           showLoading
@@ -102,6 +116,55 @@ const FeedHeaderSearch = (props) => {
           }}
           onChangeText={(text) => findUser(text)}
           value={searchValue}
+        /> */}
+        <Autocomplete
+          autoCapitalize="none"
+          autoCorrect={false}
+          containerStyle={styles.autocompleteContainer}
+          // renderTextInput={renderInput}
+          // Data to show in suggestion
+          // data={users}
+          // onFocus={() => setSelectedValue('')}
+          // keyExtractor={(item) => item.qra}
+          // Default value if you want to set something in input
+          // defaultValue={
+          //   JSON.stringify(selectedValue) === '{}' ? I18n.t('navBar.searchCallsign') : selectedValue.name
+          // }
+          // Onchange of the text changing the state of the query
+          // Which will trigger the findUser method
+          // To show the suggestions
+          onChangeText={(text) => findUser(text)}
+          placeholder={I18n.t('navBar.searchCallsign')}
+          // renderItem={({ item }) => (
+          //   // For the suggestion view
+
+          //   <View key={item.qra}>
+          //     <TouchableOpacity
+          //       onPress={() => {
+          //         if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
+          //         props.actions.setFeedTouchable(true);
+          //         setFilteredUsers([]);
+          //         Keyboard.dismiss();
+
+          //         this.textInput.clear();
+          //         props.navigate(item.qra);
+          //       }}>
+          //       <View style={{ flex: 1, flexDirection: 'row' }}>
+          //         <Avatar
+          //           round
+          //           source={
+          //             item.avatarpic
+          //               ? {
+          //                   uri: item.avatarpic
+          //                 }
+          //               : require('../../images/emptyprofile.png')
+          //           }
+          //         />
+          //         <Text style={styles.itemText}>{item.name}</Text>
+          //       </View>
+          //     </TouchableOpacity>
+          //   </View>
+          // )}
         />
       </View>
     </SafeAreaView>
@@ -141,7 +204,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+
+  currentQRA: state.sqso.qra
+});
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });

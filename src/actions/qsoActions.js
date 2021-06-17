@@ -3664,6 +3664,7 @@ export const doFetchPublicFeed = (qra = null) => {
     dispatch(doRequestFeed());
     const apiName = 'superqso';
     const path = '/qso-public-list';
+    console.log('llamo api /qso-public-list')
     // const myInit = {
     //   body: {}, // replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
@@ -3674,6 +3675,7 @@ export const doFetchPublicFeed = (qra = null) => {
         // console.log(response);
         if (response.body.error === 0) {
           dispatch(doReceiveFeed(response.body.message, true));
+          dispatch(setSearchedResults(response.body.message));
         } else console.log(response.body.message);
       })
       .catch(async (error) => {
@@ -4633,10 +4635,9 @@ export const setFeedTouchable = (status) => {
   };
 };
 export const setSearchedResults = (results) => {
-  console.log('setSearchedResults');
   return {
     type: SET_SEARCHED_RESULTS,
-    results
+    results: results
   };
 };
 export function doLatestUsersFetch() {

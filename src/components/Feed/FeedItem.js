@@ -67,18 +67,14 @@ class FeedItem extends React.Component {
                 />
               </View>
             );
-          } else if (
-            this.props.currentIndex === 4 &&
-            this.props.feedType !== 'PROFILE' &&
-            this.props.feedType !== 'SEARCH'
-          )
+          } else if (this.props.currentIndex === 4 && this.props.feedType !== 'PROFILE'
+             && this.props.feedType !== 'SEARCH')
+          
             return <ActivitiesCarousel />;
           else if (
-            (this.props.currentIndex === 8 ||
-              this.props.currentIndex % 16 === 0) &&
-            this.props.feedType !== 'PROFILE' &&
-            this.props.feedType !== 'SEARCH'
-          ) {
+            (this.props.currentIndex === 8 || this.props.currentIndex % 16 === 0) && this.props.feedType !== 'PROFILE'
+              && this.props.feedType !== 'SEARCH')
+           {
             return (
               <FeedItemFollow
                 source={this.props.source}

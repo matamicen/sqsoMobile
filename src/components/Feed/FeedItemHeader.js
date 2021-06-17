@@ -413,13 +413,11 @@ const selectorFeedType = (state, ownProps) => {
   else if (ownProps.feedType === 'DETAIL' && ownProps.original)
     qso = state.sqso.feed.qso.original[0];
   else if (ownProps.feedType === 'SEARCH' && !ownProps.original)
-    qso = state.sqso.feed.searchedResults.find(
-      (q) => q.idqsos === ownProps.idqsos
-    );
+    qso =  state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos);
+  
   else if (ownProps.feedType === 'SEARCH' && ownProps.original)
-    qso = state.sqso.feed.searchedResults.find(
-      (q) => q.idqsos === ownProps.idqsos
-    ).original[0];
+  qso = state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos).original[0];
+  
   return qso;
 };
 const mapStateToProps = (state, ownProps) => ({

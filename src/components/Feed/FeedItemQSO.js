@@ -73,7 +73,7 @@ class FeedItemQSO extends React.PureComponent {
             qso_owner={this.props.qso.qra}
             qras={this.props.qso.qras}
           />
-        )}
+        )} 
         <FeedMedia
           // qso={this.props.qso}
           feedType={this.props.feedType}
@@ -82,7 +82,7 @@ class FeedItemQSO extends React.PureComponent {
           idqsos={this.props.idqsos}
           qso_owner={this.props.qso.qra}
         />
-        {this.props.feedType !== 'SEARCH' && (
+        {this.props.feedType !== 'SEARCH' && ( 
           <FeedSocialButtons
             feedType={this.props.feedType}
             comments={this.props.qso.comments}
@@ -91,7 +91,7 @@ class FeedItemQSO extends React.PureComponent {
             qso_owner={this.props.qso.qra}
             shareText={shareText}
           />
-        )}
+       )}  
       </Card>
     );
   }
@@ -107,16 +107,16 @@ class FeedItemQSO extends React.PureComponent {
 //   }
 // });
 const selectorFeedType = (state, ownProps) => {
-  if (ownProps.feedType === 'MAIN')
+  if (ownProps.feedType === 'MAIN'){ 
     return state.sqso.feed.qsos.find((q) => q.idqsos === ownProps.idqsos);
+  }
   else if (ownProps.feedType === 'PROFILE')
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'SEARCH')
-    return state.sqso.feed.searchedResults.find(
-      (q) => q.idqsos === ownProps.idqsos
-    );
+    return state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos);
+  
   else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };

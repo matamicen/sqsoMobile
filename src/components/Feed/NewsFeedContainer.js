@@ -40,6 +40,16 @@ class NewsFeedContainer extends React.PureComponent {
         source: this.state.qsos[i].source ? this.state.qsos[i].source : null
       });
     }
+
+    let searchr = [];
+    // if (this.props.qsos && this.props.qsos.length > 0) {
+    for (let i = 0; i < this.state.searchedResults.length; i++) {
+      searchr.push({
+        qso: this.state.searchedResults[i],
+        type: this.state.searchedResults[i].type,
+        source: this.state.searchedResults[i].source ? this.state.searchedResults[i].source : null
+      });
+    }
     // }
 
     if (this.state.qsos) {
@@ -61,7 +71,20 @@ class NewsFeedContainer extends React.PureComponent {
               />
             </View>
           )}
-          {!_.isEmpty(this.props.searchedResults) && (
+            {!_.isEmpty(this.props.searchedResults) && (
+            <View
+              style={{ flex: 1, zIndex: 0 }}
+              // pointerEvents={'auto'}
+              pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
+              <NewsFeedPresentational
+                feedType="SEARCH"
+                list={searchr}
+                fetchingQSOS={this.props.fetchingQSOS}
+                qsosFetched={this.props.qsosFetched}
+              />
+            </View>
+          )}
+          {/* {!_.isEmpty(this.props.searchedResults) && (
             <View
               style={{ flex: 1, zIndex: 0 }}
               // pointerEvents={'auto'}
@@ -73,7 +96,7 @@ class NewsFeedContainer extends React.PureComponent {
                 qsosFetched={this.props.qsosFetched}
               />
             </View>
-          )}
+          )} */}
           {this.props.welcomeuserfirsttime && (
             <VariosModales
               show={true}

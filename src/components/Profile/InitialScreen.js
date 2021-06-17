@@ -91,7 +91,7 @@ class InitialScreen extends React.PureComponent {
     });
   }
   onScreenFocus = async () => {
-    this.props.setSearchedResults([]);
+    // this.props.setSearchedResults([]);
   };
   tapOnTabNavigator = async () => {
     this.props.setPressHome(0);

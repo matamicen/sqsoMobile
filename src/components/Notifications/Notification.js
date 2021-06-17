@@ -52,7 +52,7 @@ class Notification extends React.PureComponent {
   };
 
   onScreenFocus = async () => {
-    this.props.setSearchedResults([]);
+    // this.props.setSearchedResults([]);
     // Screen was focused, our on focus logic goes here
     console.log('NOTIF en FOCUS!');
     this.props.setPressHome(0);

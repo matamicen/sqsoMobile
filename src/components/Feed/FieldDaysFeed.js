@@ -15,7 +15,7 @@ class FieldDaysFeed extends React.PureComponent {
     // videoAlreadyDisplayed: false
   };
   onScreenFocus = async () => {
-    this.props.setSearchedResults([]);
+    // this.props.setSearchedResults([]);
   };
   componentDidMount() {
     // if (process.env.NODE_ENV !== 'production')

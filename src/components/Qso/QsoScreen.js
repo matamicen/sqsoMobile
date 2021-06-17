@@ -243,7 +243,7 @@ class QsoScreen extends React.PureComponent {
     };
   }
   onScreenFocus = async () => {
-    this.props.setSearchedResults([]);
+    // this.props.setSearchedResults([]);
   };
   async componentDidMount() {
     console.log('COMPONENT did mount QSO Screen!');
@@ -773,7 +773,7 @@ class QsoScreen extends React.PureComponent {
 
   tapOnTabNavigator = async () => {
     console.log('PRESS QSOSCREEN!');
-    this.props.setSearchedResults([]);
+    // this.props.setSearchedResults([]);
     this.props.setPressHome(0);
   };
 
