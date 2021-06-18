@@ -3675,7 +3675,11 @@ export const doFetchPublicFeed = (qra = null) => {
         // console.log(response);
         if (response.body.error === 0) {
           dispatch(doReceiveFeed(response.body.message, true));
-          dispatch(setSearchedResults(response.body.message));
+         
+            dispatch(setSearchedResults([]));
+
+          
+          // dispatch(setSearchedResults(response.body.message));
         } else console.log(response.body.message);
       })
       .catch(async (error) => {
@@ -3716,6 +3720,10 @@ export const doFetchUserFeed = (qra) => {
             else {
               dispatch(doFetchPublicFeed());
             }
+            // dispatch(setSearchedResults([]));
+         
+              dispatch(setSearchedResults([]));
+            
           } else console.log(response.body.message);
         })
         .catch(async (error) => {

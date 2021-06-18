@@ -66,14 +66,14 @@ class FeedItemQSO extends React.PureComponent {
           feedType={this.props.feedType}
           idqsos={this.props.qso.idqsos}
         />
-        {this.props.feedType !== 'SEARCH' && (
+        {/* {this.props.feedType !== 'SEARCH' && ( */}
           <QRAs
             feedType={this.props.feedType}
             avatarpic={this.props.qso.avatarpic}
             qso_owner={this.props.qso.qra}
             qras={this.props.qso.qras}
           />
-        )} 
+        {/* )}  */}
         <FeedMedia
           // qso={this.props.qso}
           feedType={this.props.feedType}
@@ -82,7 +82,7 @@ class FeedItemQSO extends React.PureComponent {
           idqsos={this.props.idqsos}
           qso_owner={this.props.qso.qra}
         />
-        {this.props.feedType !== 'SEARCH' && ( 
+        {/* {this.props.feedType !== 'SEARCH' && (  */}
           <FeedSocialButtons
             feedType={this.props.feedType}
             comments={this.props.qso.comments}
@@ -91,7 +91,7 @@ class FeedItemQSO extends React.PureComponent {
             qso_owner={this.props.qso.qra}
             shareText={shareText}
           />
-       )}  
+       {/* )}   */}
       </Card>
     );
   }

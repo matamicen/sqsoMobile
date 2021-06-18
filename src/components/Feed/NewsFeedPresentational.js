@@ -75,7 +75,8 @@ class NewsFeedPresentational extends React.PureComponent {
     );
   };
   render() {
-    if (this.props.list.length > 0)
+    // if (this.props.list.length > 0)
+    if (!this.props.fetchingQSOS)
       return (
         <View style={{ flex: 1, zIndex: 0 }}>
           <MenuProvider

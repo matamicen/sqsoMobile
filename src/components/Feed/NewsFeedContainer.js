@@ -113,7 +113,7 @@ class NewsFeedContainer extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     qsos: state.sqso.feed.qsos,
-    FetchingQSOS: state.sqso.feed.FetchingQSOS,
+    fetchingQSOS: state.sqso.feed.FetchingQSOS,
     qsosFetched: state.sqso.feed.qsosFetched,
     feedtouchable: state.sqso.feed.FeedTouchable,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,

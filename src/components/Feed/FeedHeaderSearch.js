@@ -65,11 +65,11 @@ const FeedHeaderSearch = (props) => {
             // isSearching(false);
             // setFilteredUsers(response.body.message);
             // props.actions.setFeedTouchable(false);
-            // props.actions.setSearchedResults(response.body.message);
+            props.actions.setSearchedResults(response.body.message);
 
-            props.actions.doClearFeed(false);
-            props.actions.doFetchUserFeed(props.currentQRA);
-            props.actions.setSearchedResults([]);
+            // props.actions.doClearFeed(false);
+            // props.actions.doFetchUserFeed(props.currentQRA);
+            // props.actions.setSearchedResults([]);
            
            
            
