@@ -77,7 +77,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>We use the Calendar to improve the UX.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow access to your camera to take and upload photos.</string>
+	<string>Allow access to your camera to take and upload photos to change your profile picture and upload media to the QSOs.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We use the Contacts to improve the UX.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -87,15 +87,15 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Turning on the location servivces allows us show the distance of your QSOs.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We use the microphone to record the audio of the QSO.</string>
+	<string>We use the microphone to record the audio of the QSO that you are working on.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We use the motion to improve the UX.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Allow access to your photos to upload from your library.</string>
+	<string>Allow access to your photos to upload from your library to change your profile picture and upload media to the QSOs.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow access to your photos to upload from your library.</string>
+	<string>Allow access to your photos to upload from your library to change your profile picture and upload media to the QSOs.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>We use the photo library to improve the UX.</string>
+	<string>Allow access to your photos to upload from your library to change your profile picture and upload media to the QSOs.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
