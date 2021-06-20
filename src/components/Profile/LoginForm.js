@@ -541,28 +541,31 @@ class LoginForm extends React.PureComponent {
             // on User TAP when the APP is KILEED it navigates to the deeplink
 
             switch (notification.userInfo.url.route) {
+              
               case 'QRAProfile':
+                setTimeout(() => {
                 this.props.navigation.push('QRAProfile', {
                   qra: notification.userInfo.url.param1,
                   screen: 'PROFILE'
                 });
+                }, 3500);
                 break;
               case 'QSODetail':
                 setTimeout(() => {
                   this.props.navigation.navigate('QSODetail', {
                     QSO_GUID: notification.userInfo.url.param1
                   });
-                }, 2000);
+                }, 3500);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                }, 2000);
+                }, 3500);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                }, 2000);
+                }, 3500);
                 break;
               default:
                 console.log('Nothing');
@@ -572,27 +575,29 @@ class LoginForm extends React.PureComponent {
 
             switch (notification.alert.Url.route) {
               case 'QRAProfile':
+                setTimeout(() => {
                 this.props.navigation.push('QRAProfile', {
                   qra: notification.alert.Url.param1,
                   screen: 'PROFILE'
                 });
+                }, 3500);
                 break;
               case 'QSODetail':
                 setTimeout(() => {
                   this.props.navigation.navigate('QSODetail', {
                     QSO_GUID: notification.alert.Url.param1
                   });
-                }, 2000);
+                }, 3500);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                }, 2000);
+                }, 3500);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                }, 2000);
+                }, 3500);
                 break;
               default:
                 console.log('Nothing');
