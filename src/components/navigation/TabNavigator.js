@@ -355,7 +355,7 @@ export const TabNavigator = createBottomTabNavigator(
                   }}
                   source={require('../../images/profile1.png')}
                 />
-                <Text style={{ fontSize: 9, marginTop: 3, marginLeft: 0 }}>
+                <Text style={{ fontSize: 8, marginTop: 3, marginLeft: 0 }}>
                   {I18n.t('InitialScreenProfile')}
                 </Text>
               </View>

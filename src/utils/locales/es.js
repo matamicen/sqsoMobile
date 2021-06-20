@@ -16,18 +16,24 @@ export default {
     'El usuario aún no esta hablitado, recuerde de envíar su carnet/resolución de licencia a info@superqso.com',
   loginerrorMessUserEmpty: 'El correo electrónico esta vacío',
   signupForm: 'Formulario de Registración',
-  signupCallsign: 'señal distintiva',
+  signupRadioClub: 'Radio club',
+  signupRadioHam: 'Radio aficionado',
+  signupCallsign: 'señal distintiva/indicativo',
   signupFirstName: 'nombre',
+  signupClubName: 'nombre del club',
   signupLastName: 'apellido',
   signupEmail: 'correo electrónico',
   signupEmailConfirm: 'correo electrónico confirm.',
-  signupBirthdate: 'Fecha de nacimiento',
+  signupBirthdate: 'fecha de nacimiento',
+  signupFoundingDate: 'fecha de fundación (opcional)',
   signupCountry: 'país',
   callsignTaken:
     'La SD ya esta registrada. Por favor envíanos una copia de tu licencia emitida por tu país a info@superqso.com',
   signupPhone: 'teléfono (opcional)',
   signupPassword: 'contraseña',
   signupPasswordConfirm: 'contraseña confirm.',
+  signupReferralDesc: '¿Quién te recomendo SuperQSO? (opcional)',
+  signupReferral: 'Señal distintiva/Indicativo',
   signupAccept1: 'Haciendo click en Registrarme y acepto, ud. confirma que',
   signupAccept12: 'ha leído, entendido y esta de acuerdo con la',
   signupAccept2: 'política de privacidad',
@@ -69,7 +75,7 @@ export default {
 
   variosModWelcWelcome: 'Bienvenido a SuperQSO!',
   variosModWelcSendLicense1:
-    'Para poder habilitar tu cuenta, necesitamos que nos envies una constancia de tu licencia (carnet, resolución, etc) a',
+    'Para agilizar la habilitación de tu cuenta, envíanos una constancia de tu licencia (carnet, resolución, etc) a',
   variosModWelcSendLicense2: 'para habilitar tu cuenta.',
   variosModWelcEnableYou:
     'Te vamos a habilitar lo antes posible una vez recibida la licencia.',
@@ -236,6 +242,8 @@ export default {
   EditMediaCancel: 'Cancelar',
   EditMediaSave: 'Actualizar',
   EditMediaSend: 'Enviar',
+  EditMediaBack: 'Volver',
+  EditMediaContinue: 'Continuar',
   DeleteMediaWarning: 'ATENCION',
   DeleteMediaTheentire1:
     'Toda la publicación va a ser borrada si borras este/a último/a',
@@ -315,9 +323,9 @@ export default {
   helpPublishSWLfield4: 'al menos un audio o foto',
   helpPublishSWLMessage2:
     'Luego presionas PUBLICAR en la esquina superior derecha y listo!',
-  helpPublishPOSTtitle: '¿Como publicar un Otro?',
+  helpPublishPOSTtitle: '¿Como publicar un Generico?',
   helpPublishPOSTMessage1:
-    'Para poder publicar un otro o algo genérico debes agregar una foto/video o un audio y escribir el titulo en la descripción.',
+    'Para poder publicar algo genérico debes agregar una foto/video o un audio y escribir el titulo en la descripción.',
   helpPublishPOSTfield1: 'Interesante:',
   helpPublishPOSTfield2:
     'La publicación le llegara a todos tus seguidores y cada uno de ellos que la RePublica hace que le llegue a sus respectivos seguidores, asi tu publicación se propaga.',
@@ -359,7 +367,7 @@ export default {
   QsoHeaderHelpQSO: '¿Como publicar un QSO?',
   QsoHeaderSdTag: '¿Que es SD?',
   QsoHeaderHelpSWL: '¿Como publicar un una Escucha?',
-  QsoHeaderHelpPOST: '¿Como publicar Otro?',
+  QsoHeaderHelpPOST: '¿Como publicar Genérico?',
   QsoHeaderHelpQAP: '¿Como publicar un QAP?',
   QsoHeaderHelpFLDDAY: '¿Como publicar una Act.?',
   QsoHeaderHelpTag: '¿Que significa etiquetar?',
@@ -526,7 +534,7 @@ export default {
     myPosts: 'Mis Publicaciones',
     changePassword: 'Cambiar Contraseña',
     editBio: 'Editar mi Biografía',
-    editProfile: 'Editar mi Info',
+    editProfile: 'Editar mi Información Personal',
     logOut: 'Salir',
     signUp: 'Registrarse',
     login: 'Ingresar',
@@ -772,7 +780,11 @@ export default {
     following: 'Siguiendo',
     followingCounter: 'Siguiendo %{COUNT}',
     followingTab: 'Siguiendo',
-    followers: 'Seguidores %{COUNT}'
+    followers: 'Seguidores %{COUNT}',
+    personalData: 'Datos Personales',
+    locationData: 'Ubicación',
+    moreData: 'Más Información',
+    title: 'TITULO'
   },
   forms: {
     formSent: 'Mensaje Enviado!',
