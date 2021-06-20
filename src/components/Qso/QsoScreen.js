@@ -329,7 +329,9 @@ class QsoScreen extends React.PureComponent {
 
     // location persmissions ask/check
 
-    this._location_permissions('didmount');
+    // saco el guardado/pedido de location para no molestar con tantos popUps 
+    // al momento de entrar a PUBLICAR
+    // this._location_permissions('didmount');
 
     console.log('this.intesitial en didimount' + this.intersitialLoaded);
     console.log('this.videorewardLoaded en didimount' + this.videorewardLoaded);
