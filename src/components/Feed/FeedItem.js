@@ -49,6 +49,7 @@ class FeedItem extends React.Component {
           if (
             this.props.currentIndex === 0 &&
             this.props.feedType !== 'PROFILE'
+            && this.props.feedType !== 'SEARCH'
           ) {
             return (
               <View>

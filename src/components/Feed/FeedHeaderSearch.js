@@ -46,6 +46,8 @@ const FeedHeaderSearch = (props) => {
 
     props.actions.setSearchedResults([]);
     setSearchInput(false);
+    props.cancelsearch();
+ 
     
   }
 
@@ -60,11 +62,9 @@ const FeedHeaderSearch = (props) => {
     setTimeout(() => {
       this.nameOrId.focus()
     }, 250);
+    props.searchicon()
     
   
-   
-    
-
   }
 
   
@@ -175,6 +175,8 @@ const FeedHeaderSearch = (props) => {
             // setFilteredUsers(response.body.message);
             // props.actions.setFeedTouchable(false);
             props.actions.setSearchedResults(response.body.message);
+            props.searching();
+   
             
 
             // props.actions.doClearFeed(false);
