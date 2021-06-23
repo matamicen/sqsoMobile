@@ -1,6 +1,6 @@
 import { API } from 'aws-amplify';
 import { default as React, useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity, Text, TextInput, Image } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
 import I18n from '../../utils/i18n';
@@ -30,7 +30,14 @@ const FeedHeaderSearch = (props) => {
   //   />
   // );
 
+  const inputSearch = async (query) =>{
+    // isSearching(true);
+     setSearchValue(query);
+  }
+
+  
   const findUser = async (query) => {
+ 
     isSearching(true);
     setSearchValue(query);
     // Method called every time when we change the value of the input
@@ -95,9 +102,70 @@ const FeedHeaderSearch = (props) => {
     }
   };
 
+  const search = async () => {
+    console.log('buscar: '+searchValue)
+    // props.actions.setSearchedResults([]);
+
+
+    isSearching(true);
+    // setSearchValue(query);
+
+    // Method called every time when we change the value of the input
+    // if (query) {
+    let session = await Auth.currentSession();
+    props.actions.setToken(session.idToken.jwtToken);
+    let apiName = 'superqso';
+    let path = '/contentSearch';
+    let myInit = {
+      body: { searchValue: searchValue }, // replace this with attributes you need
+      headers: {
+        Authorization: session.idToken.jwtToken
+      }
+    };
+
+    API.post(apiName, path, myInit)
+        .then((response) => {
+          console.log('devuelve API search:')
+          console.log(response.body.message)
+          if (response.body.error > 0) {
+            isSearching(false);
+            setError(response.body.message);
+            // this.setState({ isLoading: false, error: response.body.message });
+            // props.actions.setFeedTouchable(true);
+          } else {
+            // this.setState({ data: response.body.message, isLoading: false });
+
+            // isSearching(false);
+            // setFilteredUsers(response.body.message);
+            // props.actions.setFeedTouchable(false);
+            props.actions.setSearchedResults(response.body.message);
+
+            // props.actions.doClearFeed(false);
+            // props.actions.doFetchUserFeed(props.currentQRA);
+            // props.actions.setSearchedResults([]);
+           
+           
+           
+            // props.actions.doClearFeed(false);
+            // // props.actions.doFetchUserFeed(props.currentQRA);
+            // props.actions.doFetchPublicFeed();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          isSearching(false);
+          setError(err);
+          // props.actions.setFeedTouchable(true);
+        });
+
+
+  }
+
+
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, flexDirection: 'row' }}>
+      {/* <View style={{ flex: 1 }}> */}
         {/* <SearchBar
           lightTheme
           clearIcon
@@ -116,7 +184,7 @@ const FeedHeaderSearch = (props) => {
           }}
           onChangeText={(text) => findUser(text)}
           value={searchValue}
-        /> */}
+        /> 
         <Autocomplete
           autoCapitalize="none"
           autoCorrect={false}
@@ -133,8 +201,13 @@ const FeedHeaderSearch = (props) => {
           // Onchange of the text changing the state of the query
           // Which will trigger the findUser method
           // To show the suggestions
-          onChangeText={(text) => findUser(text)}
+          onChangeText={(text) => inputSearch(text)}
           placeholder={I18n.t('navBar.searchCallsign')}
+          // returnKeyType={'search'}
+          returnKeyType='search'
+          onSubmitEditing={() => { search() }}
+
+
           // renderItem={({ item }) => (
           //   // For the suggestion view
 
@@ -165,8 +238,55 @@ const FeedHeaderSearch = (props) => {
           //     </TouchableOpacity>
           //   </View>
           // )}
-        />
-      </View>
+
+
+        // />
+
+        */}
+        {/* <View  style={{ flex: 1 }}> */}
+        <View style={styles.searchSection}>
+            <Image
+              source={require('../../images/search.png')}
+              style={{ width: 18, height: 18, marginLeft: 6 }}
+              resizeMode="contain"
+            />
+
+           <TextInput
+                  // placeholder={I18n.t('email')}
+                  // onFocus={() => this.setState({ loginerror: 0 })}
+                  //  underlineColorAndroid="transparent"
+                  // underlineColorAndroid='rgba(0,0,0,0)' 
+                  // inputContainerStyle={{borderBottomWidth:0}}
+                  //  underlineColorAndroid='lightgray'
+                  // placeholderTextColor="rgba(255,255,255,0.7)"
+                  placeholderTextColor="dimgray" 
+                  // returnKeyType='search'
+                  autoCapitalize="none"
+                  keyboardType={
+                    Platform.OS === 'android' ? 'visible-password' : 'default'
+                  }
+                  autoCorrect={false}
+                  // onSubmitEditing={() => this.passwordRef.focus()}
+                  style={styles.input2}
+                  // value={this.state.username}
+                  // onChangeText={(text) => this.setState({ username: text })}
+
+
+                  onChangeText={(text) => inputSearch(text)}
+          placeholder={I18n.t('navBar.searchCallsign')}
+          // returnKeyType={'search'}
+          returnKeyType='search'
+          onSubmitEditing={() => { search() }}
+                />
+          </View>
+
+
+        {/* <View style={{ flex: 0.02 }}>
+         <TouchableOpacity onPress={() => search()} >
+                            <Text style={{ color: 'red', fontSize: 16}}>SEARCH</Text>
+                              </TouchableOpacity>
+                              </View> */}
+      {/* </View> */}
     </SafeAreaView>
   );
 };
@@ -201,7 +321,49 @@ const styles = StyleSheet.create({
   infoText: {
     textAlign: 'center',
     fontSize: 16
-  }
+  },
+  input: {
+    height: 40,
+    // backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'lightgray',
+    // borderWidth: 1,
+    borderRadius: 22,
+    marginBottom: 18,
+    width: 240,
+    // color: '#FFF',
+    color: 'black',
+    fontSize: 18,
+    paddingHorizontal: 4,
+    // textAlign: 'center'
+  },
+  input2: {
+    flex: 1,
+    paddingTop: 5,
+    paddingRight: 10,
+    paddingBottom: 5,
+    borderRadius: 22,
+    paddingLeft: 5,
+    // backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#939393',
+    backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#f5f5f5',
+    //backgroundColor: 'grey',
+    marginRight: 10,
+    marginTop: 2,
+    marginBottom: 3,
+    fontSize: 16,
+
+    color: '#424242'
+  },
+  searchSection: {
+    flex: 0.8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 22,
+    // backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#939393',
+    backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#f5f5f5',
+    fontSize: 12
+    // backgroundColor: 'grey',
+  },
 });
 
 const mapStateToProps = (state) => ({

@@ -546,7 +546,7 @@ export default {
     tutorial: 'Ver Tutoriales',
     exploreUsers: 'Explorar Usuarios',
     whoToFollow: 'A Quien Seguir',
-    searchCallsign: 'BUSCAR SD (Ej: LU2ACH)',
+    searchCallsign: 'Buscar en SuperQSO',
     allUsersFeed: 'Ver Publicaciones de todos los usuarios',
     onlyFollowFeed: 'Ver Publicaciones de usuarios que sigo',
     noFollowingMessage: 'Todavía no seguis a nadie...'
