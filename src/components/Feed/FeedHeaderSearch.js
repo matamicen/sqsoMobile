@@ -6,6 +6,7 @@ import { SearchBar } from 'react-native-elements';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Avatar, Icon, Button } from 'react-native-elements';
 import * as Actions from '../../actions';
 import Autocomplete from 'react-native-autocomplete-input';
 
@@ -20,6 +21,9 @@ const FeedHeaderSearch = (props) => {
   const [searching, isSearching] = useState(false);
 
   const [error, setError] = useState({});
+  const [searchInput, setSearchInput] = useState(false);
+
+
 
   // const renderInput = (props) => (
   //   <TextInput
@@ -33,6 +37,12 @@ const FeedHeaderSearch = (props) => {
   const inputSearch = async (query) =>{
     // isSearching(true);
      setSearchValue(query);
+  }
+
+  const cancelSearch = async () => {
+    props.actions.setSearchedResults([]);
+    setSearchInput(false);
+
   }
 
   
@@ -163,102 +173,24 @@ const FeedHeaderSearch = (props) => {
 
 
 
+  // (true) && 
   return (
-    <SafeAreaView style={{ flex: 1, flexDirection: 'row' }}>
-      {/* <View style={{ flex: 1 }}> */}
-        {/* <SearchBar
-          lightTheme
-          clearIcon
-          showLoading
-          loadingProps={{
-            animating: searching,
-            color: 'black'
-          }}
-          round
-          inputContainerStyle={{ height: 40 }}
-          containerStyle={{ backgroundColor: 'white' }}
-          placeholder={I18n.t('navBar.searchCallsign')}
-          onCancel={() => {
-            isSearching(false);
-            props.actions.setSearchedResults([]);
-          }}
-          onChangeText={(text) => findUser(text)}
-          value={searchValue}
-        /> 
-        <Autocomplete
-          autoCapitalize="none"
-          autoCorrect={false}
-          containerStyle={styles.autocompleteContainer}
-          // renderTextInput={renderInput}
-          // Data to show in suggestion
-          // data={users}
-          // onFocus={() => setSelectedValue('')}
-          // keyExtractor={(item) => item.qra}
-          // Default value if you want to set something in input
-          // defaultValue={
-          //   JSON.stringify(selectedValue) === '{}' ? I18n.t('navBar.searchCallsign') : selectedValue.name
-          // }
-          // Onchange of the text changing the state of the query
-          // Which will trigger the findUser method
-          // To show the suggestions
-          onChangeText={(text) => inputSearch(text)}
-          placeholder={I18n.t('navBar.searchCallsign')}
-          // returnKeyType={'search'}
-          returnKeyType='search'
-          onSubmitEditing={() => { search() }}
 
-
-          // renderItem={({ item }) => (
-          //   // For the suggestion view
-
-          //   <View key={item.qra}>
-          //     <TouchableOpacity
-          //       onPress={() => {
-          //         if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
-          //         props.actions.setFeedTouchable(true);
-          //         setFilteredUsers([]);
-          //         Keyboard.dismiss();
-
-          //         this.textInput.clear();
-          //         props.navigate(item.qra);
-          //       }}>
-          //       <View style={{ flex: 1, flexDirection: 'row' }}>
-          //         <Avatar
-          //           round
-          //           source={
-          //             item.avatarpic
-          //               ? {
-          //                   uri: item.avatarpic
-          //                 }
-          //               : require('../../images/emptyprofile.png')
-          //           }
-          //         />
-          //         <Text style={styles.itemText}>{item.name}</Text>
-          //       </View>
-          //     </TouchableOpacity>
-          //   </View>
-          // )}
-
-
-        // />
-
-        */}
-        {/* <View  style={{ flex: 1 }}> */}
+    searchInput ?
+    <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginTop:7, marginBottom: 7 }}>
+      
         <View style={styles.searchSection}>
+        <TouchableOpacity onPress={() => search()} >
             <Image
               source={require('../../images/search.png')}
               style={{ width: 18, height: 18, marginLeft: 6 }}
               resizeMode="contain"
+             
             />
+             </TouchableOpacity>
 
            <TextInput
-                  // placeholder={I18n.t('email')}
-                  // onFocus={() => this.setState({ loginerror: 0 })}
-                  //  underlineColorAndroid="transparent"
-                  // underlineColorAndroid='rgba(0,0,0,0)' 
-                  // inputContainerStyle={{borderBottomWidth:0}}
-                  //  underlineColorAndroid='lightgray'
-                  // placeholderTextColor="rgba(255,255,255,0.7)"
+              
                   placeholderTextColor="dimgray" 
                   // returnKeyType='search'
                   autoCapitalize="none"
@@ -266,29 +198,80 @@ const FeedHeaderSearch = (props) => {
                     Platform.OS === 'android' ? 'visible-password' : 'default'
                   }
                   autoCorrect={false}
-                  // onSubmitEditing={() => this.passwordRef.focus()}
+                
                   style={styles.input2}
-                  // value={this.state.username}
-                  // onChangeText={(text) => this.setState({ username: text })}
+            
 
 
                   onChangeText={(text) => inputSearch(text)}
           placeholder={I18n.t('navBar.searchCallsign')}
-          // returnKeyType={'search'}
+        
           returnKeyType='search'
           onSubmitEditing={() => { search() }}
                 />
           </View>
 
 
-        {/* <View style={{ flex: 0.02 }}>
-         <TouchableOpacity onPress={() => search()} >
-                            <Text style={{ color: 'red', fontSize: 16}}>SEARCH</Text>
+         <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
+         <TouchableOpacity onPress={() => cancelSearch()} activeOpacity={0.0}>
+                            <Text style={{ color: 'red', fontSize: 16}}>Cancelar</Text>
                               </TouchableOpacity>
-                              </View> */}
-      {/* </View> */}
+                              </View> 
+
     </SafeAreaView>
+    :
+
+    <SafeAreaView style={{ flex: 1, flexDirection: 'row' }}>
+      <View
+            style={{
+              flex: 0.2,
+              // flexBasis: 60,
+              // flexGrow: 0,
+              // flexShrink: 0,
+              marginTop: 5,
+              marginLeft: 5
+            }}>
+            <Avatar
+              size="medium"
+              rounded
+              source={require('../../images/superqsologo2.png')}
+            />
+          </View> 
+          <View
+            style={{
+              flex: 0.8,
+              // flexBasis: 60,
+              // flexGrow: 0,
+              // flexShrink: 0,
+               alignItems: 'flex-end',
+              // justifyContent: 'flex-end',
+              marginTop: 10,
+              marginLeft:12,
+              // backgroundColor: 'green'
+            }}>
+          
+              <Icon
+              name="search"
+             
+      // name="search-circle"
+      // type='ionicon'
+      size={35}
+      color='#243665'
+      onPress={() => setSearchInput(true)} 
+    />
+          </View> 
+
+    </SafeAreaView>
+   
+
+      
+
   );
+                // }
+      
+
+
+                
 };
 
 const styles = StyleSheet.create({
@@ -354,7 +337,7 @@ const styles = StyleSheet.create({
     color: '#424242'
   },
   searchSection: {
-    flex: 0.8,
+    flex: 0.75,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

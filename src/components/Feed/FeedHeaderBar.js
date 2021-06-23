@@ -33,7 +33,7 @@ class FeedHeaderBar extends React.Component {
             alignItems: 'flex-start',
             zIndex: 999
           }}>
-          <View
+          {/* <View
             style={{
               flex: 1,
               flexBasis: 60,
@@ -47,7 +47,7 @@ class FeedHeaderBar extends React.Component {
               rounded
               source={require('../../images/superqsologo2.png')}
             />
-          </View>
+          </View> */}
 
           <View
             style={{
