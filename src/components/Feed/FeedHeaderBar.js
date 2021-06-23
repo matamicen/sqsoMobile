@@ -23,11 +23,11 @@ class FeedHeaderBar extends React.Component {
     super(props);
 
     this.state = {
-        color1: '#243665',
-        color2: 'grey',
+        color1: 'grey',
+        color2: '#243665',
         color3: 'grey',
-        border1: 3,
-        border2: 0,
+        border1: 0,
+        border2: 3,
         border3: 0,
         afterSearchTabs: false,
         followAllButtons: true,
@@ -204,20 +204,20 @@ class FeedHeaderBar extends React.Component {
           opacity={this.state.opacity}
           pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}> 
          
-          
+{/*           
             <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
            
              <Text onPress={() => this.all()} style={{ color: this.state.color1, fontSize: 18}} >Todo</Text>
           
-            </View>
+            </View> */}
 
-            <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+            <View style={{ flex: 0.5, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
            
             <Text onPress={() => this.posts()} style={{ color: this.state.color2, fontSize: 18}} >Publicaciones</Text>
         
            </View>
 
-          <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+          <View style={{ flex: 0.5, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
            
            <Text onPress={() => this.hams()} style={{ color: this.state.color3, fontSize: 18}} >Colegas</Text>
         
