@@ -548,24 +548,24 @@ class LoginForm extends React.PureComponent {
                   qra: notification.userInfo.url.param1,
                   screen: 'PROFILE'
                 });
-                }, 3500);
+                }, 3800);
                 break;
               case 'QSODetail':
                 setTimeout(() => {
                   this.props.navigation.navigate('QSODetail', {
                     QSO_GUID: notification.userInfo.url.param1
                   });
-                }, 3500);
+                }, 3800);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                }, 3500);
+                }, 3800);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                }, 3500);
+                }, 3800);
                 break;
               default:
                 console.log('Nothing');
@@ -580,24 +580,24 @@ class LoginForm extends React.PureComponent {
                   qra: notification.alert.Url.param1,
                   screen: 'PROFILE'
                 });
-                }, 3500);
+                }, 3800);
                 break;
               case 'QSODetail':
                 setTimeout(() => {
                   this.props.navigation.navigate('QSODetail', {
                     QSO_GUID: notification.alert.Url.param1
                   });
-                }, 3500);
+                }, 3800);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                }, 3500);
+                }, 3800);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                }, 3500);
+                }, 3800);
                 break;
               default:
                 console.log('Nothing');

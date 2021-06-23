@@ -133,8 +133,8 @@ android {
         applicationId "com.sqsomobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 90
-        versionName "1.8.14"
+        versionCode 92
+        versionName "1.8.16"
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
