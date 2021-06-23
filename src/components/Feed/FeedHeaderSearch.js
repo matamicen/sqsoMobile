@@ -1,6 +1,6 @@
 import { API } from 'aws-amplify';
 import { default as React, useState } from 'react';
-import { SafeAreaView, StyleSheet, View, TouchableOpacity, Text, TextInput, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity, Text, TextInput, Image, Keyboard,TouchableHighlight } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
 import I18n from '../../utils/i18n';
@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import { Avatar, Icon, Button } from 'react-native-elements';
 import * as Actions from '../../actions';
 import Autocomplete from 'react-native-autocomplete-input';
+import { setToken } from '../../actions';
 
 const FeedHeaderSearch = (props) => {
   // For Main Data
@@ -22,6 +23,8 @@ const FeedHeaderSearch = (props) => {
 
   const [error, setError] = useState({});
   const [searchInput, setSearchInput] = useState(false);
+  
+
 
 
 
@@ -40,8 +43,27 @@ const FeedHeaderSearch = (props) => {
   }
 
   const cancelSearch = async () => {
+
     props.actions.setSearchedResults([]);
     setSearchInput(false);
+    
+  }
+
+  const searchIconPress = async () => {
+    setSearchInput(true)
+    someFeed = {
+      type: "AD2",
+      source: "FEED",
+    }
+    props.actions.setSearchedResults([someFeed]);
+    
+    setTimeout(() => {
+      this.nameOrId.focus()
+    }, 250);
+    
+  
+   
+    
 
   }
 
@@ -115,6 +137,10 @@ const FeedHeaderSearch = (props) => {
   const search = async () => {
     console.log('buscar: '+searchValue)
     // props.actions.setSearchedResults([]);
+     Keyboard.dismiss();
+     
+    
+    
 
 
     isSearching(true);
@@ -149,6 +175,7 @@ const FeedHeaderSearch = (props) => {
             // setFilteredUsers(response.body.message);
             // props.actions.setFeedTouchable(false);
             props.actions.setSearchedResults(response.body.message);
+            
 
             // props.actions.doClearFeed(false);
             // props.actions.doFetchUserFeed(props.currentQRA);
@@ -180,17 +207,21 @@ const FeedHeaderSearch = (props) => {
     <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginTop:7, marginBottom: 7 }}>
       
         <View style={styles.searchSection}>
+
         <TouchableOpacity onPress={() => search()} >
             <Image
               source={require('../../images/search.png')}
               style={{ width: 18, height: 18, marginLeft: 6 }}
               resizeMode="contain"
-             
+
             />
              </TouchableOpacity>
+            
 
            <TextInput
-              
+            ref={input => {
+              this.nameOrId = input;
+            }}
                   placeholderTextColor="dimgray" 
                   // returnKeyType='search'
                   autoCapitalize="none"
@@ -200,21 +231,25 @@ const FeedHeaderSearch = (props) => {
                   autoCorrect={false}
                 
                   style={styles.input2}
-            
+                  // autoFocus={true}
+               
+                 
 
 
                   onChangeText={(text) => inputSearch(text)}
           placeholder={I18n.t('navBar.searchCallsign')}
         
           returnKeyType='search'
-          onSubmitEditing={() => { search() }}
+          onSubmitEditing={() => {
+             search() }}
                 />
           </View>
 
 
          <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
-         <TouchableOpacity onPress={() => cancelSearch()} activeOpacity={0.0}>
-                            <Text style={{ color: 'red', fontSize: 16}}>Cancelar</Text>
+    
+         <TouchableOpacity onPress={() => cancelSearch()} >
+                            <Text style={{ color: '#243665', fontSize: 16}}>Cancelar</Text>
                               </TouchableOpacity>
                               </View> 
 
@@ -257,7 +292,7 @@ const FeedHeaderSearch = (props) => {
       // type='ionicon'
       size={35}
       color='#243665'
-      onPress={() => setSearchInput(true)} 
+      onPress={() => searchIconPress()} 
     />
           </View> 
 
@@ -342,6 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 22,
+    marginLeft: 5,
     // backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#939393',
     backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#f5f5f5',
     fontSize: 12

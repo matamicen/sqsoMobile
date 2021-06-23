@@ -93,7 +93,7 @@ class FeedHeaderBar extends React.Component {
               fluid
               raised
               titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: 'green' }}
+              buttonStyle={{ backgroundColor: '#243665' }}
               size="medium"
               onPress={() => {
                 if (!__DEV__) analytics().logEvent('swichToUserFeed_APPPRD');
@@ -112,7 +112,7 @@ class FeedHeaderBar extends React.Component {
               fluid
               raised
               titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: 'green' }}
+              buttonStyle={{ backgroundColor: '#243665' }}
               size="medium"
               onPress={() => {
                 if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
