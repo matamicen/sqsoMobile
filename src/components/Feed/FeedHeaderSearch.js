@@ -10,6 +10,7 @@ import { Avatar, Icon, Button } from 'react-native-elements';
 import * as Actions from '../../actions';
 import Autocomplete from 'react-native-autocomplete-input';
 import { setToken } from '../../actions';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 const FeedHeaderSearch = (props) => {
   // For Main Data
@@ -176,6 +177,8 @@ const FeedHeaderSearch = (props) => {
             // isSearching(false);
             // setFilteredUsers(response.body.message);
             // props.actions.setFeedTouchable(false);
+            console.log('SEARCHMM:')
+            console.log(response.body.message)
             props.actions.setSearchedResults(response.body.message);
             props.searching();
    

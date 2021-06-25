@@ -3,10 +3,11 @@ import FeedItemAd from './FeedItemAd';
 import FeedItemFollow from './FeedItemFollow';
 import FeedItemQSO from './FeedItemQSO';
 import FeedItemRepost from './FeedItemRepost';
+import FeedItemSearchQra from './FeedItemSearchQra'
 import ActivitiesCarousel from './activitiesCarousel';
 import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -93,9 +94,13 @@ class FeedItem extends React.Component {
           } else {
             return null;
           }
-        case 'AD':
-          console.log('QRA');
-          break;
+        case 'QRA':
+          return (
+         
+            <FeedItemSearchQra qra={this.props.qso}/>
+          );
+          // console.log('QRA');
+          // break;
         default:
           return null;
       }

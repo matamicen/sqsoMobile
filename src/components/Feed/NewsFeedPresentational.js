@@ -57,6 +57,7 @@ class NewsFeedPresentational extends React.PureComponent {
             currentVisibleIndex={this.state.currentVisibleIndex}
             type={item.type}
             source={item.source}
+            qso={item.qso}
             scrollToTop={() => this.scrollToTop()}
           />
         </View>
