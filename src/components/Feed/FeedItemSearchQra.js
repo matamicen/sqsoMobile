@@ -3,6 +3,7 @@ import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import { userNotValidated } from '../../helper';
 import {
   View,
   TouchableOpacity,
@@ -14,7 +15,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import { Button, Avatar, Card, Icon } from 'react-native-elements';
 
-import Carousel from 'react-native-snap-carousel';
+// import Carousel from 'react-native-snap-carousel';
 
 const country2emoji = (country_code) => {
   var OFFSET = 127397;
@@ -41,6 +42,27 @@ const country2emoji = (country_code) => {
     : null;
 };
 class FeedItemSearchQra extends React.PureComponent {
+
+    state = {
+        followed: []
+     
+      };
+
+
+
+      doFollow = (param) => {
+        // if (!__DEV__)
+        //   window.gtag('event', 'qraFollowRecommended_APPPRD', {
+        //     event_category: 'User',
+        //     event_label: 'follow'
+        //   });
+        if (!__DEV__) analytics().logEvent('qraFollowRecommended_APPPRD');
+        if (this.props.userinfo.pendingVerification) userNotValidated();
+        else {
+          this.setState({ followed: [...this.state.followed, param] });
+          this.props.actions.doFollowQRA(this.props.token, param);
+        }
+      };
 //   _renderItem(props) {
 //     let qra = props.item;
 //     return (
@@ -322,9 +344,9 @@ class FeedItemSearchQra extends React.PureComponent {
             </View>
             {/* <Card.Divider style={styles.divider} /> */}
             {/* de aca para abajo va */}
-            {/* <View style={styles.buttons}>
-              {this.props.following.some((o) => o.qra === qra.qra) ||
-              this.props.followed.some((o) => o === qra.qra) ? (
+            <View style={styles.buttons}>
+              {this.props.following.some((o) => o.qra === this.props.qra.qra) ||
+              this.state.followed.some((o) => o === this.props.qra.qra) ? (
                 <Button
                   fluid
                   disabled
@@ -335,7 +357,8 @@ class FeedItemSearchQra extends React.PureComponent {
                 <Button
                   fluid
                   raised
-                  onPress={() => this.props.doFollow(qra.qra)}
+                  onPress={() => this.doFollow(this.props.qra.qra)}
+                // onPress={() => console.log('pepe')}
                   style={{
                     // paddingLeft: 10,
                     // paddingRight: 10,
@@ -343,13 +366,13 @@ class FeedItemSearchQra extends React.PureComponent {
                     // padding: 0
                   }}
                   title={
-                    this.props.followers.some((o) => o.qra === qra.qra)
+                    this.props.followers.some((o) => o.qra === this.props.qra.qra)
                       ? I18n.t('qra.followToo')
                       : I18n.t('qra.follow')
                   }
                 />
               )}
-            </View> */}
+            </View>
           </View>
         </Card>
       </View>
@@ -412,6 +435,8 @@ const mapStateToProps = (state) => ({
     // follow: state.sqso.feed.follow,
     following: state.sqso.currentQso.followings,
     followers: state.sqso.currentQso.followers,
+    userinfo: state.sqso.userInfo,
+    token: state.sqso.jwtToken
 
 
 });
