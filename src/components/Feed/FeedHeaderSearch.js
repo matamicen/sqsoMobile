@@ -15,7 +15,7 @@ const FeedHeaderSearch = (props) => {
   // For Main Data
   // const [films, setFilms] = useState([]);
   // For Filtered Data
-  const [searchValue, setSearchValue] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   // For Selected Data
   const [users, setFilteredUsers] = useState({});
 
@@ -59,6 +59,7 @@ const FeedHeaderSearch = (props) => {
     }
     props.actions.setSearchedResults([someFeed]);
     
+    // esto es para que apenas se vea el search le abra el softkey para que tipe la busqueda.
     setTimeout(() => {
       this.nameOrId.focus()
     }, 250);
@@ -135,8 +136,9 @@ const FeedHeaderSearch = (props) => {
   };
 
   const search = async () => {
-    console.log('buscar: '+searchValue)
-    // props.actions.setSearchedResults([]);
+    console.log('buscar: '+searchValue.length)
+    if (searchValue.length > 0)
+ {   // props.actions.setSearchedResults([]);
      Keyboard.dismiss();
      
     
@@ -197,6 +199,11 @@ const FeedHeaderSearch = (props) => {
           // props.actions.setFeedTouchable(true);
         });
 
+      }
+      else
+        setSearchValue('')
+
+
 
   }
 
@@ -227,6 +234,7 @@ const FeedHeaderSearch = (props) => {
                   placeholderTextColor="dimgray" 
                   // returnKeyType='search'
                   autoCapitalize="none"
+                  underlineColorAndroid="transparent"
                   keyboardType={
                     Platform.OS === 'android' ? 'visible-password' : 'default'
                   }

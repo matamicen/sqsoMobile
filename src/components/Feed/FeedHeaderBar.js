@@ -30,8 +30,8 @@ class FeedHeaderBar extends React.Component {
         border2: 3,
         border3: 0,
         afterSearchTabs: false,
-        followAllButtons: true,
-        opacity: 0.01
+        followAllButtonsAndDrawer: true,
+        opacity: 0.001
 
 
 
@@ -68,16 +68,16 @@ class FeedHeaderBar extends React.Component {
   }
 
   searchIcon() {
-    this.setState({followAllButtons: false,  afterSearchTabs: true, opacity:0.01})
+    this.setState({followAllButtonsAndDrawer: false,  afterSearchTabs: true, opacity:0.01})
 
   }
   searching() {
-    this.setState({followAllButtons: false, afterSearchTabs: true, opacity:1 })
+    this.setState({followAllButtonsAndDrawer: false, afterSearchTabs: true, opacity:1 })
 
   }
 
   cancelSearch() {
-    this.setState({followAllButtons: true, afterSearchTabs: false })
+    this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false })
 
   }
  
@@ -138,6 +138,7 @@ class FeedHeaderBar extends React.Component {
               cancelsearch={this.cancelSearch.bind()}
             />
           </View>
+          {(this.state.followAllButtonsAndDrawer) && 
           <View
             style={{
               flex: 1,
@@ -156,9 +157,10 @@ class FeedHeaderBar extends React.Component {
               }}
             />
           </View>
+         }
         </View>
 
-        {(this.state.followAllButtons) && 
+        {(this.state.followAllButtonsAndDrawer) && 
         <View
           style={{ paddingBottom: 10, zIndex: 1 }}
           pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
