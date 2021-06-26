@@ -196,6 +196,7 @@ const FeedHeaderSearch = (props) => {
             // // props.actions.doFetchUserFeed(props.currentQRA);
             // props.actions.doFetchPublicFeed();
           }
+          if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
         })
         .catch((err) => {
           console.log(err);
