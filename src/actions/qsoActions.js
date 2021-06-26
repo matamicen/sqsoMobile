@@ -4643,10 +4643,11 @@ export const setFeedTouchable = (status) => {
     status: status
   };
 };
-export const setSearchedResults = (results) => {
+export const setSearchedResults = (results,searchfeedStatus) => {
   return {
     type: SET_SEARCHED_RESULTS,
-    results: results
+    results: results,
+    searchfeed: searchfeedStatus
   };
 };
 

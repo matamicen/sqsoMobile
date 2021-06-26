@@ -45,7 +45,7 @@ const FeedHeaderSearch = (props) => {
 
   const cancelSearch = async () => {
 
-    props.actions.setSearchedResults([]);
+    props.actions.setSearchedResults([],false);
     setSearchInput(false);
     props.cancelsearch();
  
@@ -54,11 +54,12 @@ const FeedHeaderSearch = (props) => {
 
   const searchIconPress = async () => {
     setSearchInput(true)
-    someFeed = {
-      type: "AD2",
-      source: "FEED",
-    }
-    props.actions.setSearchedResults([someFeed]);
+    props.actions.setSearchedResults([],true);
+    // someFeed = {
+    //   type: "AD2",
+    //   source: "FEED",
+    // }
+    // props.actions.setSearchedResults([someFeed]);
     
     // esto es para que apenas se vea el search le abra el softkey para que tipe la busqueda.
     setTimeout(() => {
@@ -70,78 +71,83 @@ const FeedHeaderSearch = (props) => {
   }
 
   
-  const findUser = async (query) => {
+  // const findUser = async (query) => {
  
-    isSearching(true);
-    setSearchValue(query);
-    // Method called every time when we change the value of the input
-    // if (query) {
-    let session = await Auth.currentSession();
-    props.actions.setToken(session.idToken.jwtToken);
-    let apiName = 'superqso';
-    let path = '/contentSearch';
-    let myInit = {
-      body: { searchValue: query }, // replace this with attributes you need
-      headers: {
-        Authorization: session.idToken.jwtToken
-      }
-    };
+  //   isSearching(true);
+  //   setSearchValue(query);
+  //   // Method called every time when we change the value of the input
+  //   // if (query) {
+  //   let session = await Auth.currentSession();
+  //   props.actions.setToken(session.idToken.jwtToken);
+  //   let apiName = 'superqso';
+  //   let path = '/contentSearch';
+  //   let myInit = {
+  //     body: { searchValue: query }, // replace this with attributes you need
+  //     headers: {
+  //       Authorization: session.idToken.jwtToken
+  //     }
+  //   };
 
-    if (query.length < 3) props.actions.setFeedTouchable(true);
+  //   if (query.length < 3) props.actions.setFeedTouchable(true);
 
-    // comienza a buscar a partir de 3 letras
-    if (query.length > 2)
-      API.post(apiName, path, myInit)
-        .then((response) => {
-          console.log('devuelve API search:')
-          console.log(response.body.message)
-          if (response.body.error > 0) {
-            isSearching(false);
-            setError(response.body.message);
-            // this.setState({ isLoading: false, error: response.body.message });
-            props.actions.setFeedTouchable(true);
-          } else {
-            // this.setState({ data: response.body.message, isLoading: false });
+  //   // comienza a buscar a partir de 3 letras
+  //   if (query.length > 2)
+  //     API.post(apiName, path, myInit)
+  //       .then((response) => {
+  //         console.log('devuelve API search:')
+  //         console.log(response.body.message)
+  //         if (response.body.error > 0) {
+  //           isSearching(false);
+  //           setError(response.body.message);
+  //           // this.setState({ isLoading: false, error: response.body.message });
+  //           props.actions.setFeedTouchable(true);
+  //         } else {
+  //           // this.setState({ data: response.body.message, isLoading: false });
 
-            // isSearching(false);
-            // setFilteredUsers(response.body.message);
-            // props.actions.setFeedTouchable(false);
-            props.actions.setSearchedResults(response.body.message);
+  //           // isSearching(false);
+  //           // setFilteredUsers(response.body.message);
+  //           // props.actions.setFeedTouchable(false);
+  //           props.actions.setSearchedResults(response.body.message);
 
-            // props.actions.doClearFeed(false);
-            // props.actions.doFetchUserFeed(props.currentQRA);
-            // props.actions.setSearchedResults([]);
+  //           // props.actions.doClearFeed(false);
+  //           // props.actions.doFetchUserFeed(props.currentQRA);
+  //           // props.actions.setSearchedResults([]);
            
            
            
-            // props.actions.doClearFeed(false);
-            // // props.actions.doFetchUserFeed(props.currentQRA);
-            // props.actions.doFetchPublicFeed();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          isSearching(false);
-          setError(err);
-          props.actions.setFeedTouchable(true);
-        });
-    // Making a case insensitive regular expression
-    // const regex = new RegExp(`${query.trim()}`, 'i');
-    // Setting the filtered film array according the query
-    // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
-    // }
-    else {
-      // If the query is null then return blank
-      // setFilteredUsers([]);
-    }
-  };
+  //           // props.actions.doClearFeed(false);
+  //           // // props.actions.doFetchUserFeed(props.currentQRA);
+  //           // props.actions.doFetchPublicFeed();
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         isSearching(false);
+  //         setError(err);
+  //         props.actions.setFeedTouchable(true);
+  //       });
+  //   // Making a case insensitive regular expression
+  //   // const regex = new RegExp(`${query.trim()}`, 'i');
+  //   // Setting the filtered film array according the query
+  //   // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
+  //   // }
+  //   else {
+  //     // If the query is null then return blank
+  //     // setFilteredUsers([]);
+  //   }
+  // };
 
   const search = async () => {
     console.log('buscar: '+searchValue.length)
     if (searchValue.length > 0)
- {   // props.actions.setSearchedResults([]);
+ {   
+  // borro el resultado de la busqueda anterior 
+  props.actions.setSearchedResults([],true);
      Keyboard.dismiss();
-     props.actions.setSearchedResultsFilter('ALL'); // new search by default filter by POSTs
+   setTimeout(() => {
+    props.actions.setSearchedResultsFilter('ALL'); // new search by default filter by POSTs
+   }, 300);
+     
     
     
 
@@ -181,7 +187,7 @@ const FeedHeaderSearch = (props) => {
             // console.log('SEARCHMM:')
             // console.log(response.body.message)
             props.searching();
-            props.actions.setSearchedResults(response.body.message);
+            props.actions.setSearchedResults(response.body.message,true);
           
    
             
@@ -265,7 +271,7 @@ const FeedHeaderSearch = (props) => {
          <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
     
          <TouchableOpacity onPress={() => cancelSearch()} >
-                            <Text style={{ color: '#243665', fontSize: 16}}>Cancelar</Text>
+                            <Text style={{ color: '#243665', fontSize: 16}}>{I18n.t('search.cancel')}</Text>
                               </TouchableOpacity>
                               </View> 
 

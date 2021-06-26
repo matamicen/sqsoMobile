@@ -216,19 +216,19 @@ class FeedHeaderBar extends React.Component {
           
             <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
            
-             <Text onPress={() => this.all()} style={{ color: this.state.color1, fontSize: 18}} >Todo</Text>
+             <Text onPress={() => this.all()} style={{ color: this.state.color1, fontSize: 18}} >{I18n.t('search.all')}</Text>
           
             </View>
 
             <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
            
-            <Text onPress={() => this.posts()} style={{ color: this.state.color2, fontSize: 18}} >Publicaciones</Text>
+            <Text onPress={() => this.posts()} style={{ color: this.state.color2, fontSize: 18}} >{I18n.t('search.posts')}</Text>
         
            </View>
 
           <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
            
-           <Text onPress={() => this.hams()} style={{ color: this.state.color3, fontSize: 18}} >Colegas</Text>
+           <Text onPress={() => this.hams()} style={{ color: this.state.color3, fontSize: 18}} >{I18n.t('search.hams')}</Text>
         
           </View>
          

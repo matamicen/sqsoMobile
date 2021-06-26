@@ -266,7 +266,8 @@ const initialState = {
     embeddedSession: false,
     FeedTouchable: true,
     searchedResults: [], // this list contains the whole list of search from DB
-    searchedResultsType: 'ALL' // this flag will filter the searchedResults
+    searchedResultsType: 'ALL', // this flag will filter the searchedResults
+    searchfeed: false 
   }
 };
 
@@ -2655,7 +2656,8 @@ const qsoReducer = (state = initialState, action) => {
         ...state,
         feed: {
           ...state.feed,
-          searchedResults: action.results
+          searchedResults: action.results,
+          searchfeed: action.searchfeed
         }
       });
       return newStore;

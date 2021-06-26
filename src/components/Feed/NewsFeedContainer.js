@@ -81,7 +81,8 @@ class NewsFeedContainer extends React.PureComponent {
           <View style={{ zIndex: 1 }}>
             <FeedHeaderBar />
           </View>
-          {_.isEmpty(this.props.searchedResults) && (
+          {/* {_.isEmpty(this.props.searchedResults) && ( */}
+            {!this.props.searchfeed && (
             <View
               style={{ flex: 1, zIndex: 0 }}
               // pointerEvents={'auto'}
@@ -94,7 +95,8 @@ class NewsFeedContainer extends React.PureComponent {
               />
             </View>
           )}
-            {!_.isEmpty(this.props.searchedResults) && (
+            {/* {!_.isEmpty(this.props.searchedResults) && ( */}
+              {this.props.searchfeed && (
             <View
               style={{ flex: 1, zIndex: 0 }}
               // pointerEvents={'auto'}
@@ -141,7 +143,8 @@ const mapStateToProps = (state) => {
     feedtouchable: state.sqso.feed.FeedTouchable,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
     searchedResults: state.sqso.feed.searchedResults,
-    searchedresultstype: state.sqso.feed.searchedResultsType
+    searchedresultstype: state.sqso.feed.searchedResultsType,
+    searchfeed: state.sqso.feed.searchfeed
   };
 };
 const mapDispatchToProps = (dispatch) => ({

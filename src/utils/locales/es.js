@@ -828,5 +828,11 @@ export default {
     callsignsTaggedYou: 'Señales Distintivas que te han mencionado',
     callsignsFollowYou: 'Señales Distintivas que te siguen',
     callsignsMostFollowed: 'Señales Distintivas más seguidos'
+  },
+  search: {
+    all: 'Todo',
+    posts: 'Publicaciones',
+    hams: 'Colegas',
+    cancel: 'Cancelar',
   }
 };

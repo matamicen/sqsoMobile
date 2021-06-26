@@ -801,5 +801,11 @@ export default {
     callsignsTaggedYou: 'Callsigns that already tagged you',
     callsignsFollowYou: 'Callsigns that follow you',
     callsignsMostFollowed: 'Callsigns most followed'
+  },
+  search: {
+    all: 'All',
+    posts: 'Posts',
+    hams: 'Hams',
+    cancel: 'Cancel',
   }
 };
