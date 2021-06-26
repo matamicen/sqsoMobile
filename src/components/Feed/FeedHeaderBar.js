@@ -23,11 +23,11 @@ class FeedHeaderBar extends React.Component {
     super(props);
 
     this.state = {
-        color1: 'grey',
-        color2: '#243665',
+        color1: '#243665',
+        color2: 'grey',
         color3: 'grey',
-        border1: 0,
-        border2: 3,
+        border1: 3,
+        border2: 0,
         border3: 0,
         afterSearchTabs: false,
         followAllButtonsAndDrawer: true,
@@ -45,6 +45,7 @@ class FeedHeaderBar extends React.Component {
  
   all() {
     console.log('all')
+    this.props.actions.setSearchedResultsFilter('ALL');
     this.setState({color1: '#243665', border1: 3,
     color2: 'grey',color3: 'grey', border2: 0,
     border3: 0,
@@ -53,6 +54,7 @@ class FeedHeaderBar extends React.Component {
 
   posts() {
     console.log('post')
+    this.props.actions.setSearchedResultsFilter('PUBS');
     this.setState({color1: 'grey', border1: 0,
     color2: '#243665',color3: 'grey', border2: 3,
     border3: 0,
@@ -61,6 +63,7 @@ class FeedHeaderBar extends React.Component {
 
   hams() {
     console.log('hams')
+    this.props.actions.setSearchedResultsFilter('HAMS');
     this.setState({color1: 'grey', border1: 0,
     color2: 'grey',color3: '#243665', border2: 0,
     border3: 3,
@@ -72,7 +75,11 @@ class FeedHeaderBar extends React.Component {
 
   }
   searching() {
-    this.setState({followAllButtonsAndDrawer: false, afterSearchTabs: true, opacity:1 })
+    // set de default TAB ALL, every new search is ALL by default
+    this.setState({followAllButtonsAndDrawer: false, afterSearchTabs: true, opacity:1,
+      color1: '#243665', border1: 3,
+      color2: 'grey',color3: 'grey', border2: 0,
+      border3: 0 })
 
   }
 
@@ -206,20 +213,20 @@ class FeedHeaderBar extends React.Component {
           opacity={this.state.opacity}
           pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}> 
          
-{/*           
+          
             <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
            
              <Text onPress={() => this.all()} style={{ color: this.state.color1, fontSize: 18}} >Todo</Text>
           
-            </View> */}
+            </View>
 
-            <View style={{ flex: 0.5, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
            
             <Text onPress={() => this.posts()} style={{ color: this.state.color2, fontSize: 18}} >Publicaciones</Text>
         
            </View>
 
-          <View style={{ flex: 0.5, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+          <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
            
            <Text onPress={() => this.hams()} style={{ color: this.state.color3, fontSize: 18}} >Colegas</Text>
         

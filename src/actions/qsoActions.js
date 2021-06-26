@@ -125,7 +125,8 @@ import {
   UPDATE_QSO_HEADER_STATUS,
   SET_FEEDTOUCHABLE,
   SET_SEARCHED_RESULTS,
-  SET_USER_PENDINGVERIFICATION
+  SET_USER_PENDINGVERIFICATION,
+  SET_SEARCHED_RESULTS_FILTER
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -4648,6 +4649,14 @@ export const setSearchedResults = (results) => {
     results: results
   };
 };
+
+export const setSearchedResultsFilter = (filtertype) => {
+  return {
+    type: SET_SEARCHED_RESULTS_FILTER,
+    filter: filtertype
+  };
+};
+
 export function doLatestUsersFetch() {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')

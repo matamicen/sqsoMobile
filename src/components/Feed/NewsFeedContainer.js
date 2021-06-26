@@ -33,7 +33,7 @@ class NewsFeedContainer extends React.PureComponent {
   render() {
     let qsos = [];
     // if (this.props.qsos && this.props.qsos.length > 0) {
-    for (let i = 0; i < this.state.qsos.length; i++) {
+    for (let i = 0; i < this.state.qsos.length; i++) {     
       qsos.push({
         qso: this.state.qsos[i],
         type: this.state.qsos[i].type,
@@ -44,11 +44,34 @@ class NewsFeedContainer extends React.PureComponent {
     let searchr = [];
     // if (this.props.qsos && this.props.qsos.length > 0) {
     for (let i = 0; i < this.state.searchedResults.length; i++) {
-      searchr.push({
-        qso: this.state.searchedResults[i],
-        type: this.state.searchedResults[i].type,
-        source: this.state.searchedResults[i].source ? this.state.searchedResults[i].source : null
-      });
+       if (this.props.searchedresultstype==='HAMS'){ // filter by HAMS
+         if (this.state.searchedResults[i].type==='QRA')
+          searchr.push({
+            qso: this.state.searchedResults[i],
+            type: this.state.searchedResults[i].type,
+            source: this.state.searchedResults[i].source ? this.state.searchedResults[i].source : null
+          });
+        }
+
+        if (this.props.searchedresultstype==='PUBS') // filter by posts (QSO, FLDDAY, POST, QAP,etc)
+         {
+          if (this.state.searchedResults[i].type!=='QRA')
+          searchr.push({
+            qso: this.state.searchedResults[i],
+            type: this.state.searchedResults[i].type,
+            source: this.state.searchedResults[i].source ? this.state.searchedResults[i].source : null
+          });
+
+        }
+
+         if (this.props.searchedresultstype==='ALL') // No filter bring them all
+         searchr.push({
+          qso: this.state.searchedResults[i],
+          type: this.state.searchedResults[i].type,
+          source: this.state.searchedResults[i].source ? this.state.searchedResults[i].source : null
+        });
+     
+       
     }
     // }
 
@@ -117,7 +140,8 @@ const mapStateToProps = (state) => {
     qsosFetched: state.sqso.feed.qsosFetched,
     feedtouchable: state.sqso.feed.FeedTouchable,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
-    searchedResults: state.sqso.feed.searchedResults
+    searchedResults: state.sqso.feed.searchedResults,
+    searchedresultstype: state.sqso.feed.searchedResultsType
   };
 };
 const mapDispatchToProps = (dispatch) => ({

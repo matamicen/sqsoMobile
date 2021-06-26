@@ -109,7 +109,8 @@ import {
   UPDATE_QSO_HEADER_STATUS,
   SET_FEEDTOUCHABLE,
   SET_SEARCHED_RESULTS,
-  SET_USER_PENDINGVERIFICATION
+  SET_USER_PENDINGVERIFICATION,
+  SET_SEARCHED_RESULTS_FILTER
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -264,7 +265,8 @@ const initialState = {
     latestUsers: null,
     embeddedSession: false,
     FeedTouchable: true,
-    searchedResults: []
+    searchedResults: [], // this list contains the whole list of search from DB
+    searchedResultsType: 'ALL' // this flag will filter the searchedResults
   }
 };
 
@@ -2654,6 +2656,16 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           searchedResults: action.results
+        }
+      });
+      return newStore;
+    }
+    case SET_SEARCHED_RESULTS_FILTER: {
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          searchedResultsType: action.filter
         }
       });
       return newStore;

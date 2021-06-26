@@ -141,7 +141,7 @@ const FeedHeaderSearch = (props) => {
     if (searchValue.length > 0)
  {   // props.actions.setSearchedResults([]);
      Keyboard.dismiss();
-     
+     props.actions.setSearchedResultsFilter('ALL'); // new search by default filter by POSTs
     
     
 
@@ -177,10 +177,12 @@ const FeedHeaderSearch = (props) => {
             // isSearching(false);
             // setFilteredUsers(response.body.message);
             // props.actions.setFeedTouchable(false);
-            console.log('SEARCHMM:')
-            console.log(response.body.message)
-            props.actions.setSearchedResults(response.body.message);
+
+            // console.log('SEARCHMM:')
+            // console.log(response.body.message)
             props.searching();
+            props.actions.setSearchedResults(response.body.message);
+          
    
             
 
