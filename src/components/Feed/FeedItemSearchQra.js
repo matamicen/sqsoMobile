@@ -229,12 +229,12 @@ class FeedItemSearchQra extends React.PureComponent {
         style={{
           // flex: 1,
           // width: 100,
-          height: 175,
+          height: 190,
           margin: 3
         }}>
         <Card
           containerStyle={{
-            height: 175,
+            height: 190,
             borderRadius: 5,
             // flex: 1,
             // flexWrap: 'wrap',
@@ -277,7 +277,7 @@ class FeedItemSearchQra extends React.PureComponent {
                       screen: 'PROFILE'
                     });
                   }}>
-                  <Text numberOfLines={1} style={{ fontSize: 16 }}>
+                  <Text numberOfLines={1} style={{ fontSize: 21 }}>
                     {this.props.qra.qra}
                     <Text style={styles.flagText}>
                       {this.props.qra.country !== '' && this.props.qra.country !== null && (
@@ -289,7 +289,7 @@ class FeedItemSearchQra extends React.PureComponent {
                   <Text
                     numberOfLines={1}
                     style={{
-                      fontSize: 13
+                      fontSize: 19
                     }}>
                     {this.props.qra.firstname ? this.props.qra.firstname : ''}
                   </Text>
@@ -297,7 +297,7 @@ class FeedItemSearchQra extends React.PureComponent {
                   <Text
                     numberOfLines={1}
                     style={{
-                      fontSize: 13
+                      fontSize: 19
                     }}>
                     {this.props.qra.lastname ? this.props.qra.lastname : ''}
                   </Text>
@@ -318,7 +318,7 @@ class FeedItemSearchQra extends React.PureComponent {
                 </Text>
               </View> */}
               <View>
-                <Text style={{ fontSize: 13 }}>
+                <Text style={{ fontSize: 16 }}>
                   <Icon
                     name="users"
                     size={16}
@@ -329,7 +329,7 @@ class FeedItemSearchQra extends React.PureComponent {
                 </Text>
               </View>
               <View>
-                <Text style={{ fontSize: 13 }}>
+                <Text style={{ fontSize: 16 }}>
                   <Icon
                     name="users"
                     size={16}
@@ -399,7 +399,8 @@ const styles = StyleSheet.create({
     padding: 0,
     flexBasis: 50,
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginTop: 15
   },
   avatar: {
     flex: 1,
@@ -409,12 +410,12 @@ const styles = StyleSheet.create({
     flexShrink: 0
   },
   flagText: {
-    fontSize: 15
+    fontSize: 22
   },
   name: {
     flex: 1,
 
-    flexBasis: 90,
+    flexBasis: 200,
     flexGrow: 0,
     flexShrink: 0
   },
@@ -422,7 +423,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexBasis: 70,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'flex-start'
   }
 });
