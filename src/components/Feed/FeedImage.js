@@ -155,7 +155,7 @@ class FeedImage extends React.PureComponent {
             }}>
             <Text
               style={{
-                fontSize: 17,
+                fontSize: 18.5,
                 paddingHorizontal: 5,
                 textAlign: 'center'
               }}>
@@ -169,7 +169,7 @@ class FeedImage extends React.PureComponent {
   showFooter(currentIndex) {
     return (
       <View style={{ height: 100, backgroundColor: 'black' }}>
-        <Text style={{ fontSize: 17, color: 'white', textAlign: 'center' }}>
+        <Text style={{ fontSize: 18.5, color: 'white', textAlign: 'center' }}>
           <Description description={this.props.img[currentIndex].description} />
         </Text>
       </View>

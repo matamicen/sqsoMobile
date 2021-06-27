@@ -3038,7 +3038,7 @@ class QsoScreen extends React.PureComponent {
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                    fontSize: 16,
+                    fontSize: 18,
                     marginLeft: 20,
                     marginTop: 5
                   }}>
@@ -3455,7 +3455,7 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 16,
+                  fontSize: 17.5,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 10
@@ -3502,7 +3502,7 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 16,
+                  fontSize: 17.5,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 10
@@ -3550,7 +3550,7 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 16,
+                  fontSize: 17.5,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 18
@@ -3588,7 +3588,7 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 16,
+                  fontSize: 17.5,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 8,
@@ -3637,7 +3637,7 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 16,
+                  fontSize: 16.5,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 18
