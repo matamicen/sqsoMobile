@@ -268,8 +268,8 @@ class NotifItem extends React.PureComponent {
 
             <Text
               style={{
-                fontSize: 11,
-                marginLeft: 5,
+                fontSize: 13,
+                marginLeft: 4,
                 color: '#243665',
                 fontWeight: 'bold'
               }}>
@@ -278,7 +278,7 @@ class NotifItem extends React.PureComponent {
             </Text>
           </View>
 
-          <View style={{ flex: 0.6 }}>
+          <View style={{ flex: 0.75 }}>
             <TouchableOpacity
               onPress={() =>
                 this.onPressItem2(
@@ -300,7 +300,7 @@ class NotifItem extends React.PureComponent {
                          */}
 
               {this.props.activity_type === 18 && this.props.band !== '' && (
-                <Text style={{ fontSize: 15 }}>
+                <Text style={{ fontSize: 17 }}>
                   {I18n.t('NOTIF_ACTIVTYPE_18_01', {
                     mode: this.props.mode,
                     band: this.props.band,
@@ -310,7 +310,7 @@ class NotifItem extends React.PureComponent {
                   |
                   <Text
                     style={{
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: 'bold',
                       color: 'black'
                     }}>
@@ -349,7 +349,7 @@ class NotifItem extends React.PureComponent {
 
               {this.props.activity_type === 18 && this.props.band === '' && (
                 <View>
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_18_05', {
                       callsign: this.props.QRA,
                       refqra: this.props.refqra
@@ -357,7 +357,7 @@ class NotifItem extends React.PureComponent {
                     |
                     <Text
                       style={{
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: 'bold',
                         height: 40,
                         color: 'black'
@@ -376,7 +376,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 10 && this.props.band !== '' && (
                 <View>
                   {this.props.qsotype === 'QSO' && (
-                    <Text style={{ fontSize: 15 }}>
+                    <Text style={{ fontSize: 17 }}>
                       {I18n.t('NOTIF_ACTIVTYPE_10_QSO', {
                         mode: this.props.mode,
                         band: this.props.band,
@@ -385,7 +385,7 @@ class NotifItem extends React.PureComponent {
                     </Text>
                   )}
                   {this.props.qsotype === 'LISTEN' && (
-                    <Text style={{ fontSize: 15 }}>
+                    <Text style={{ fontSize: 17 }}>
                       {I18n.t('NOTIF_ACTIVTYPE_10_LISTEN', {
                         mode: this.props.mode,
                         band: this.props.band,
@@ -404,7 +404,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 10 && this.props.band === '' && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_10_ANY', {
                       callsign: this.props.QRA
                     })}
@@ -420,7 +420,7 @@ class NotifItem extends React.PureComponent {
                 this.props.qra === this.props.refqra && (
                   <View>
                     {/* <Text style={{fontSize:15}}>{this.props.message} </Text> */}
-                    <Text style={{ fontSize: 15 }}>
+                    <Text style={{ fontSize: 17 }}>
                       {I18n.t('NOTIF_ACTIVTYPE_01_YOU', {
                         callsign: this.props.QRA
                       })}
@@ -435,7 +435,7 @@ class NotifItem extends React.PureComponent {
                 this.props.qra !== this.props.refqra && (
                   <View>
                     {/* <Text style={{fontSize:15}}>{this.props.message} </Text> */}
-                    <Text style={{ fontSize: 15 }}>
+                    <Text style={{ fontSize: 17 }}>
                       {I18n.t('NOTIF_ACTIVTYPE_01_OTHER', {
                         callsign: this.props.QRA,
                         refqra: this.props.refqra
@@ -453,7 +453,7 @@ class NotifItem extends React.PureComponent {
                   {/* <Text style={{fontSize:15}}>{this.props.message} on {this.props.band} {this.props.mode} </Text> */}
                   {this.props.qsotype === 'QSO' &&
                     this.props.qra === this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_QSOYOU', {
                           mode: this.props.mode,
                           band: this.props.band,
@@ -463,7 +463,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'QSO' &&
                     this.props.qra !== this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_QSO', {
                           mode: this.props.mode,
                           band: this.props.band,
@@ -474,7 +474,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'LISTEN' &&
                     this.props.qra !== this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_LISTEN', {
                           mode: this.props.mode,
                           band: this.props.band,
@@ -485,7 +485,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'LISTEN' &&
                     this.props.qra === this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_LISTENYOU', {
                           mode: this.props.mode,
                           band: this.props.band,
@@ -509,7 +509,7 @@ class NotifItem extends React.PureComponent {
                   {/* <Text style={{fontSize:15}}>{I18n.t("NOTIF_ACTIVTYPE_12_ANY",{callsign: this.props.QRA})}</Text> */}
                   {this.props.qsotype === 'POST' &&
                     this.props.qra !== this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_ANY', {
                           callsign: this.props.QRA,
                           refqra: this.props.refqra
@@ -518,7 +518,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'POST' &&
                     this.props.qra === this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_ANYYOU', {
                           callsign: this.props.QRA,
                           refqra: this.props.refqra
@@ -527,7 +527,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'QAP' &&
                     this.props.qra !== this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_QAP', {
                           callsign: this.props.QRA,
                           refqra: this.props.refqra
@@ -536,7 +536,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'QAP' &&
                     this.props.qra === this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_QAPYOU', {
                           callsign: this.props.QRA,
                           refqra: this.props.refqra
@@ -545,7 +545,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'FLDDAY' &&
                     this.props.qra !== this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_FLDAY', {
                           callsign: this.props.QRA,
                           refqra: this.props.refqra
@@ -554,7 +554,7 @@ class NotifItem extends React.PureComponent {
                     )}
                   {this.props.qsotype === 'FLDDAY' &&
                     this.props.qra === this.props.refqra && (
-                      <Text style={{ fontSize: 15 }}>
+                      <Text style={{ fontSize: 17 }}>
                         {I18n.t('NOTIF_ACTIVTYPE_12_FLDDAYYOU', {
                           callsign: this.props.QRA,
                           refqra: this.props.refqra
@@ -569,7 +569,7 @@ class NotifItem extends React.PureComponent {
               )}
               {this.props.activity_type === 23 && (
                 <View>
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_23', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -580,7 +580,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 50 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_50', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -593,7 +593,7 @@ class NotifItem extends React.PureComponent {
               {/* 60 - CREATE LISTEN */}
               {this.props.activity_type === 60 && (
                 <View>
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_60', {
                       mode: this.props.mode,
                       band: this.props.band,
@@ -610,7 +610,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 61 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_61', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -623,7 +623,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 62 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_62', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -636,7 +636,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 63 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_63', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -649,7 +649,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 64 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_64', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -662,7 +662,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 65 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_65', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -675,7 +675,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 66 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_66', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -689,7 +689,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 67 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_67', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -703,7 +703,7 @@ class NotifItem extends React.PureComponent {
               {this.props.activity_type === 68 && (
                 <View>
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_68', { callsign: this.props.QRA })}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -718,13 +718,13 @@ class NotifItem extends React.PureComponent {
                   {/* <Text style={{fontSize:15}}>{this.props.message}</Text> */}
                   <Text
                     style={{
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: 'bold',
                       color: 'black'
                     }}>
                     {this.props.comment}
                   </Text>
-                  <Text style={{ fontSize: 15, color: 'black' }}>
+                  <Text style={{ fontSize: 17, color: 'black' }}>
                     {this.props.message}
                   </Text>
                   <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
@@ -735,12 +735,12 @@ class NotifItem extends React.PureComponent {
 
               {this.props.activity_type === 71 && (
                 <View>
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('NOTIF_ACTIVTYPE_71', { callsign: this.props.QRA })}{' '}
                     |
                     <Text
                       style={{
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: 'bold',
                         height: 40,
                         color: 'black'
@@ -757,7 +757,7 @@ class NotifItem extends React.PureComponent {
               )}
               {this.props.activity_type === 72 && (
                 <View>
-                  <Text style={{ fontSize: 15 }}>
+                  <Text style={{ fontSize: 17 }}>
                     {I18n.t('PUSH_APPROVE_USER_TITLE')}{' '}
                     <Text style={{ fontSize: 14, height: 40, color: 'grey' }}>
                       <MomentAgo date={this.props.datetimecomment} />
@@ -772,21 +772,21 @@ class NotifItem extends React.PureComponent {
               {(this.props.activity_type === 108 ||
                 this.props.activity_type === 109 ||
                 this.props.activity_type === 110) && (
-                <Text style={{ fontSize: 15, height: 75 }}>
+                <Text style={{ fontSize: 17, height: 75 }}>
                   {this.props.message} {'\n'}{' '}
                 </Text>
               )}
             </TouchableOpacity>
           </View>
 
-          <View
+          {/* <View
             style={{
               flex: 0.15,
               marginRight: 7,
               justifyContent: 'center',
               alignContent: 'center',
               alignItems: 'center'
-            }}>
+            }}> */}
             {/* Se decide sacar el tacho de basura porque las notificaciones se resetean solas y creemos que los usuarios se van a calmar
                       con el tema de borrar porque van a ver que el contador se resetea solo */}
             {/* 
@@ -812,7 +812,7 @@ class NotifItem extends React.PureComponent {
 
               
                     } */}
-          </View>
+          {/* </View> */}
         </View>
 
         {this.state.nointernet && (
