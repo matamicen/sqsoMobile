@@ -296,7 +296,7 @@ const FeedHeaderSearch = (props) => {
           </View> 
           <View
             style={{
-              flex: 0.8,
+              flex: 0.65,
               // flexBasis: 60,
               // flexGrow: 0,
               // flexShrink: 0,
@@ -316,7 +316,33 @@ const FeedHeaderSearch = (props) => {
       color='#243665'
       onPress={() => searchIconPress()} 
     />
+
+
           </View> 
+          <View
+            style={{
+              flex: 0.15,
+              // flexBasis: 60,
+              // flexGrow: 0,
+              // flexShrink: 0,
+                alignItems: 'flex-end',
+              // justifyContent: 'flex-end',
+              marginTop: 10,
+              marginLeft:12,
+              // backgroundColor: 'green'
+            }}>
+              <Icon
+              name="help"
+                      
+                // name="search-circle"
+                // type='ionicon'
+                size={35}
+                color='#243665'
+                onPress={() => props.startscreenhelp()}
+              />
+
+
+              </View>
 
     </SafeAreaView>
    

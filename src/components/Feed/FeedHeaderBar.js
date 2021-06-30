@@ -40,6 +40,7 @@ class FeedHeaderBar extends React.Component {
           this.searchIcon = this.searchIcon.bind(this); 
           this.searching = this.searching.bind(this);
           this.cancelSearch = this.cancelSearch.bind(this);
+          this.startScreenHelp = this.startScreenHelp.bind(this)
 
   }
  
@@ -88,6 +89,10 @@ class FeedHeaderBar extends React.Component {
 
   }
  
+  startScreenHelp(){
+    this.props.navigation.dispatch(DrawerActions.openDrawer())
+
+  }
 
   componentDidMount() {
   
@@ -143,6 +148,7 @@ class FeedHeaderBar extends React.Component {
               searchicon={this.searchIcon.bind()}
               searching={this.searching.bind()}
               cancelsearch={this.cancelSearch.bind()}
+              startscreenhelp={this.startScreenHelp.bind()}
             />
           </View>
           {(this.state.followAllButtonsAndDrawer) && 
