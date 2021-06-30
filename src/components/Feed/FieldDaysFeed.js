@@ -14,11 +14,13 @@ class FieldDaysFeed extends React.PureComponent {
     error: null
     // videoAlreadyDisplayed: false
   };
-
+  onScreenFocus = async () => {
+    // this.props.setSearchedResults([]);
+  };
   componentDidMount() {
     // if (process.env.NODE_ENV !== 'production')
     //   this.setState({ adActive: false });
-
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
     this.props.actions.doFetchFieldDaysFeed();
 
     //Comentado Adsense

@@ -124,7 +124,9 @@ import {
   UPDATE_QSOQRA_SENT_STATUS,
   UPDATE_QSO_HEADER_STATUS,
   SET_FEEDTOUCHABLE,
-  SET_USER_PENDINGVERIFICATION
+  SET_SEARCHED_RESULTS,
+  SET_USER_PENDINGVERIFICATION,
+  SET_SEARCHED_RESULTS_FILTER
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -3663,6 +3665,7 @@ export const doFetchPublicFeed = (qra = null) => {
     dispatch(doRequestFeed());
     const apiName = 'superqso';
     const path = '/qso-public-list';
+    console.log('llamo api /qso-public-list')
     // const myInit = {
     //   body: {}, // replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
@@ -3673,6 +3676,11 @@ export const doFetchPublicFeed = (qra = null) => {
         // console.log(response);
         if (response.body.error === 0) {
           dispatch(doReceiveFeed(response.body.message, true));
+         
+            dispatch(setSearchedResults([]));
+
+          
+          // dispatch(setSearchedResults(response.body.message));
         } else console.log(response.body.message);
       })
       .catch(async (error) => {
@@ -3713,6 +3721,10 @@ export const doFetchUserFeed = (qra) => {
             else {
               dispatch(doFetchPublicFeed());
             }
+            // dispatch(setSearchedResults([]));
+         
+              dispatch(setSearchedResults([]));
+            
           } else console.log(response.body.message);
         })
         .catch(async (error) => {
@@ -4631,6 +4643,21 @@ export const setFeedTouchable = (status) => {
     status: status
   };
 };
+export const setSearchedResults = (results,searchfeedStatus) => {
+  return {
+    type: SET_SEARCHED_RESULTS,
+    results: results,
+    searchfeed: searchfeedStatus
+  };
+};
+
+export const setSearchedResultsFilter = (filtertype) => {
+  return {
+    type: SET_SEARCHED_RESULTS_FILTER,
+    filter: filtertype
+  };
+};
+
 export function doLatestUsersFetch() {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')

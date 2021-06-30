@@ -113,14 +113,14 @@ class Comment extends React.PureComponent {
             if (w[0] === '@' && w.match(/@([a-zA-Z0-9]+)/)) {
               return (
                 <TouchableOpacity key={j} onPress={() => this.onPress(w)}>
-                  <Text key={j} style={{ fontSize: 18 }}>
+                  <Text key={j} style={{ fontSize: 19.5 }}>
                     {w},{separator}
                   </Text>
                 </TouchableOpacity>
               );
             } else {
               return (
-                <Text key={j}>
+                <Text key={j} style={{ fontSize: 19.5 }}>
                   {w}
                   {separator}
                 </Text>
@@ -397,6 +397,9 @@ const selectorFeedType = (state, ownProps) => {
     qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'SEARCH')
+    qso = state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos);
+ 
   else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
 
   return qso;
