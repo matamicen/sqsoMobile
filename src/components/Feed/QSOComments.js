@@ -510,6 +510,7 @@ class QSOComments extends React.PureComponent {
                             <TextInput
                               name="comment"
                               placeholder={I18n.t('qso.writeComment')}
+                              underlineColorAndroid="transparent"
                               multiline
                               removeClippedSubviews={false}
                               keyboardDismissMode="none"
