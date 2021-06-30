@@ -269,7 +269,7 @@ class NotifItem extends React.PureComponent {
             <Text
               style={{
                 fontSize: 13,
-                marginLeft: 4,
+                marginLeft: 3,
                 color: '#243665',
                 fontWeight: 'bold'
               }}>
