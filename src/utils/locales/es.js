@@ -547,7 +547,7 @@ export default {
     tutorial: 'Ver Tutoriales',
     exploreUsers: 'Explorar Usuarios',
     whoToFollow: 'A Quien Seguir',
-    searchCallsign: 'BUSCAR SD (Ej: LU2ACH)',
+    searchCallsign: 'Buscar en SuperQSO',
     allUsersFeed: 'Ver Publicaciones de todos los usuarios',
     onlyFollowFeed: 'Ver Publicaciones de usuarios que sigo',
     noFollowingMessage: 'Todavía no seguis a nadie...'
@@ -829,5 +829,11 @@ export default {
     callsignsTaggedYou: 'Señales Distintivas que te han mencionado',
     callsignsFollowYou: 'Señales Distintivas que te siguen',
     callsignsMostFollowed: 'Señales Distintivas más seguidos'
+  },
+  search: {
+    all: 'Todo',
+    posts: 'Publicaciones',
+    hams: 'Colegas',
+    cancel: 'Cancelar',
   }
 };

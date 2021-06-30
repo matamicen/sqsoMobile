@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Alert } from 'react-native';
-import { Avatar, Icon, Button } from 'react-native-elements';
+import { View, Alert, Text } from 'react-native';
+import { Avatar, Icon, Button,TouchableOpacity } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
 import { connect } from 'react-redux';
@@ -10,9 +10,84 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedHeaderSearch from './FeedHeaderSearch';
+
+
+// const all = async () =>{
+//   // isSearching(true);
+//   console.log('press all')
+// }
+
 class FeedHeaderBar extends React.Component {
 
+  constructor(props) {
+    super(props);
 
+    this.state = {
+        color1: '#243665',
+        color2: 'grey',
+        color3: 'grey',
+        border1: 3,
+        border2: 0,
+        border3: 0,
+        afterSearchTabs: false,
+        followAllButtonsAndDrawer: true,
+        opacity: 0.001
+
+
+
+          }
+
+          this.searchIcon = this.searchIcon.bind(this); 
+          this.searching = this.searching.bind(this);
+          this.cancelSearch = this.cancelSearch.bind(this);
+
+  }
+ 
+  all() {
+    console.log('all')
+    this.props.actions.setSearchedResultsFilter('ALL');
+    this.setState({color1: '#243665', border1: 3,
+    color2: 'grey',color3: 'grey', border2: 0,
+    border3: 0,
+     })
+  }
+
+  posts() {
+    console.log('post')
+    this.props.actions.setSearchedResultsFilter('PUBS');
+    this.setState({color1: 'grey', border1: 0,
+    color2: '#243665',color3: 'grey', border2: 3,
+    border3: 0,
+     })
+  }
+
+  hams() {
+    console.log('hams')
+    this.props.actions.setSearchedResultsFilter('HAMS');
+    this.setState({color1: 'grey', border1: 0,
+    color2: 'grey',color3: '#243665', border2: 0,
+    border3: 3,
+     })
+  }
+
+  searchIcon() {
+    this.setState({followAllButtonsAndDrawer: false,  afterSearchTabs: true, opacity:0.01})
+
+  }
+  searching() {
+    // set de default TAB ALL, every new search is ALL by default
+    this.setState({followAllButtonsAndDrawer: false, afterSearchTabs: true, opacity:1,
+      color1: '#243665', border1: 3,
+      color2: 'grey',color3: 'grey', border2: 0,
+      border3: 0 })
+
+  }
+
+  cancelSearch() {
+    this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false })
+
+  }
+ 
 
   componentDidMount() {
   
@@ -33,7 +108,7 @@ class FeedHeaderBar extends React.Component {
             alignItems: 'flex-start',
             zIndex: 999
           }}>
-          <View
+          {/* <View
             style={{
               flex: 1,
               flexBasis: 60,
@@ -47,7 +122,7 @@ class FeedHeaderBar extends React.Component {
               rounded
               source={require('../../images/superqsologo2.png')}
             />
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -63,9 +138,14 @@ class FeedHeaderBar extends React.Component {
                   qra,
                   screen: 'PROFILE'
                 });
+                
               }}
+              searchicon={this.searchIcon.bind()}
+              searching={this.searching.bind()}
+              cancelsearch={this.cancelSearch.bind()}
             />
           </View>
+          {(this.state.followAllButtonsAndDrawer) && 
           <View
             style={{
               flex: 1,
@@ -84,7 +164,10 @@ class FeedHeaderBar extends React.Component {
               }}
             />
           </View>
+         }
         </View>
+
+        {(this.state.followAllButtonsAndDrawer) && 
         <View
           style={{ paddingBottom: 10, zIndex: 1 }}
           pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
@@ -93,7 +176,7 @@ class FeedHeaderBar extends React.Component {
               fluid
               raised
               titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: 'green' }}
+              buttonStyle={{ backgroundColor: '#243665' }}
               size="medium"
               onPress={() => {
                 if (!__DEV__) analytics().logEvent('swichToUserFeed_APPPRD');
@@ -112,7 +195,7 @@ class FeedHeaderBar extends React.Component {
               fluid
               raised
               titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: 'green' }}
+              buttonStyle={{ backgroundColor: '#243665' }}
               size="medium"
               onPress={() => {
                 if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
@@ -123,6 +206,46 @@ class FeedHeaderBar extends React.Component {
             />
           )}
         </View>
+  }
+ {(this.state.afterSearchTabs) && 
+   <View
+          style={{ paddingBottom: 10, zIndex: 1, flexDirection: 'row' }}
+          opacity={this.state.opacity}
+          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}> 
+         
+          
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
+           
+             <Text onPress={() => this.all()} style={{ color: this.state.color1, fontSize: 18}} >{I18n.t('search.all')}</Text>
+          
+            </View>
+
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+           
+            <Text onPress={() => this.posts()} style={{ color: this.state.color2, fontSize: 18}} >{I18n.t('search.posts')}</Text>
+        
+           </View>
+
+          <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+           
+           <Text onPress={() => this.hams()} style={{ color: this.state.color3, fontSize: 18}} >{I18n.t('search.hams')}</Text>
+        
+          </View>
+         
+
+
+ 
+
+
+
+
+            </View>
+  }
+
+
+
+
+
       </View>
     );
   }

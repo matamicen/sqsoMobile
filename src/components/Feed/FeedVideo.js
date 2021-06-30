@@ -229,7 +229,7 @@ class FeedVideo extends React.PureComponent {
           {this.props.media.views_counter > 0 && (
             <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
               {this.props.media.description && (
-                <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
+                <Text style={{ fontSize: 19, paddingHorizontal: 5 }}>
                   <Description description={this.props.media.description} />{' '}
                   {' - '}
                 </Text>
@@ -241,7 +241,7 @@ class FeedVideo extends React.PureComponent {
             </Text>
           )}
           {this.props.media.views_counter === 0 && (
-            <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
+            <Text style={{ fontSize: 19, paddingHorizontal: 5 }}>
               <Description description={this.props.media.description} />
             </Text>
           )}
@@ -269,6 +269,9 @@ const selectorFeedType = (state, ownProps) => {
     qso = state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     qso = state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'SEARCH')
+    qso = state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos);
+  
   else if (ownProps.feedType === 'DETAIL') qso = state.sqso.feed.qso;
   else return null;
 

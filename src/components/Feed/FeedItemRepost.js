@@ -74,12 +74,14 @@ class FeedItemRepost extends React.PureComponent {
             original={true}
             idqsos={this.props.qso.idqsos}
           />
-          <QRAs
-            feedType={this.props.feedType}
-            avatarpic={this.props.qso.avatarpic}
-            qso_owner={this.props.qso.qra}
-            qras={this.props.qso.qras}
-          />
+          {this.props.feedType !== 'SEARCH' && (
+            <QRAs
+              feedType={this.props.feedType}
+              avatarpic={this.props.qso.avatarpic}
+              qso_owner={this.props.qso.qra}
+              qras={this.props.qso.qras}
+            />
+          )}
           <FeedMedia
             // qso={this.props.qso}
             feedType={this.props.feedType}
@@ -87,14 +89,16 @@ class FeedItemRepost extends React.PureComponent {
             qso_owner={this.props.qso.qra}
           />
         </Card>
-        <FeedSocialButtons
-          feedType={this.props.feedType}
-          comments={this.props.qso.comments}
-          idqsos={this.props.idqsos}
-          index={this.props.index}
-          qso_owner={this.props.qso.qra}
-          shareText={shareText}
-        />
+        {this.props.feedType !== 'SEARCH' && (
+          <FeedSocialButtons
+            feedType={this.props.feedType}
+            comments={this.props.qso.comments}
+            idqsos={this.props.idqsos}
+            index={this.props.index}
+            qso_owner={this.props.qso.qra}
+            shareText={shareText}
+          />
+        )}
       </Card>
     );
   }
@@ -107,6 +111,9 @@ const selectorFeedType = (state, ownProps) => {
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'SEARCH')
+  return state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos);
+  
   else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };

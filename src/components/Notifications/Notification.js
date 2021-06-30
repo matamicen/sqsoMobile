@@ -8,7 +8,8 @@ import {
   getUserInfo,
   followersAlreadyCalled,
   manage_notifications,
-  setPressHome
+  setPressHome,
+  setSearchedResults
 } from '../../actions';
 import NotificationList from './NotificationList';
 
@@ -51,6 +52,7 @@ class Notification extends React.PureComponent {
   };
 
   onScreenFocus = async () => {
+    // this.props.setSearchedResults([]);
     // Screen was focused, our on focus logic goes here
     console.log('NOTIF en FOCUS!');
     this.props.setPressHome(0);
@@ -128,6 +130,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getUserInfo,
   followersAlreadyCalled,
+  setSearchedResults,
   manage_notifications,
   setPressHome
 };

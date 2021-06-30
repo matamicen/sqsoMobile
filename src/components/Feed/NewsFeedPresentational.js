@@ -57,6 +57,7 @@ class NewsFeedPresentational extends React.PureComponent {
             currentVisibleIndex={this.state.currentVisibleIndex}
             type={item.type}
             source={item.source}
+            qso={item.qso}
             scrollToTop={() => this.scrollToTop()}
           />
         </View>
@@ -75,7 +76,8 @@ class NewsFeedPresentational extends React.PureComponent {
     );
   };
   render() {
-    if (this.props.list.length > 0)
+    // if (this.props.list.length > 0)
+    if (!this.props.fetchingQSOS)
       return (
         <View style={{ flex: 1, zIndex: 0 }}>
           <MenuProvider

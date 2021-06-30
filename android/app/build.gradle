@@ -133,8 +133,8 @@ android {
         applicationId "com.sqsomobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 92
-        versionName "1.8.16"
+        versionCode 96
+        versionName "1.9.0"
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
@@ -170,12 +170,12 @@ android {
             // Enables code shrinking, obfuscation, and optimization for only
             // your project's release build type.
             // activarlo al momento de genera APK final porque tarda tiempo en build sino
-         //  minifyEnabled true
+          // minifyEnabled true
 
             // Enables resource shrinking, which is performed by the
             // Android Gradle plugin.
             // activarlo al momento de genera APK final porque tarda tiempo en build sino
-          //  shrinkResources true
+           // shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }

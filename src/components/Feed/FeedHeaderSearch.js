@@ -1,152 +1,346 @@
 import { API } from 'aws-amplify';
 import { default as React, useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Keyboard
-} from 'react-native';
-import analytics from '@react-native-firebase/analytics';
-
-import Autocomplete from 'react-native-autocomplete-input';
-import { Avatar } from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity, Text, TextInput, Image, Keyboard,TouchableHighlight } from 'react-native';
+import { Auth } from 'aws-amplify';
+import { SearchBar } from 'react-native-elements';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Avatar, Icon, Button } from 'react-native-elements';
 import * as Actions from '../../actions';
+import Autocomplete from 'react-native-autocomplete-input';
+import { setToken } from '../../actions';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 const FeedHeaderSearch = (props) => {
   // For Main Data
   // const [films, setFilms] = useState([]);
   // For Filtered Data
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   // For Selected Data
-  const [selectedValue, setSelectedValue] = useState({});
+  const [users, setFilteredUsers] = useState({});
 
-  const renderInput = (props) => (
-    <TextInput
-      {...props}
-      ref={(input) => {
-        this.textInput = input;
-      }}
-    />
-  );
+  const [searching, isSearching] = useState(false);
 
-  const findUser = (query) => {
+  const [error, setError] = useState({});
+  const [searchInput, setSearchInput] = useState(false);
+  
+
+
+
+
+  // const renderInput = (props) => (
+  //   <TextInput
+  //     {...props}
+  //     ref={(input) => {
+  //       this.textInput = input;
+  //     }}
+  //   />
+  // );
+
+  const inputSearch = async (query) =>{
+    // isSearching(true);
+     setSearchValue(query);
+  }
+
+  const cancelSearch = async () => {
+
+    props.actions.setSearchedResults([],false);
+    setSearchInput(false);
+    props.cancelsearch();
+ 
+    
+  }
+
+  const searchIconPress = async () => {
+    setSearchInput(true)
+    props.actions.setSearchedResults([],true);
+    // someFeed = {
+    //   type: "AD2",
+    //   source: "FEED",
+    // }
+    // props.actions.setSearchedResults([someFeed]);
+    
+    // esto es para que apenas se vea el search le abra el softkey para que tipe la busqueda.
+    setTimeout(() => {
+      this.nameOrId.focus()
+    }, 250);
+    props.searchicon()
+    
+  
+  }
+
+  
+  // const findUser = async (query) => {
+ 
+  //   isSearching(true);
+  //   setSearchValue(query);
+  //   // Method called every time when we change the value of the input
+  //   // if (query) {
+  //   let session = await Auth.currentSession();
+  //   props.actions.setToken(session.idToken.jwtToken);
+  //   let apiName = 'superqso';
+  //   let path = '/contentSearch';
+  //   let myInit = {
+  //     body: { searchValue: query }, // replace this with attributes you need
+  //     headers: {
+  //       Authorization: session.idToken.jwtToken
+  //     }
+  //   };
+
+  //   if (query.length < 3) props.actions.setFeedTouchable(true);
+
+  //   // comienza a buscar a partir de 3 letras
+  //   if (query.length > 2)
+  //     API.post(apiName, path, myInit)
+  //       .then((response) => {
+  //         console.log('devuelve API search:')
+  //         console.log(response.body.message)
+  //         if (response.body.error > 0) {
+  //           isSearching(false);
+  //           setError(response.body.message);
+  //           // this.setState({ isLoading: false, error: response.body.message });
+  //           props.actions.setFeedTouchable(true);
+  //         } else {
+  //           // this.setState({ data: response.body.message, isLoading: false });
+
+  //           // isSearching(false);
+  //           // setFilteredUsers(response.body.message);
+  //           // props.actions.setFeedTouchable(false);
+  //           props.actions.setSearchedResults(response.body.message);
+
+  //           // props.actions.doClearFeed(false);
+  //           // props.actions.doFetchUserFeed(props.currentQRA);
+  //           // props.actions.setSearchedResults([]);
+           
+           
+           
+  //           // props.actions.doClearFeed(false);
+  //           // // props.actions.doFetchUserFeed(props.currentQRA);
+  //           // props.actions.doFetchPublicFeed();
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         isSearching(false);
+  //         setError(err);
+  //         props.actions.setFeedTouchable(true);
+  //       });
+  //   // Making a case insensitive regular expression
+  //   // const regex = new RegExp(`${query.trim()}`, 'i');
+  //   // Setting the filtered film array according the query
+  //   // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
+  //   // }
+  //   else {
+  //     // If the query is null then return blank
+  //     // setFilteredUsers([]);
+  //   }
+  // };
+
+  const search = async () => {
+    console.log('buscar: '+searchValue.length)
+    if (searchValue.length > 0)
+ {   
+  // borro el resultado de la busqueda anterior 
+  props.actions.setSearchedResults([],true);
+     Keyboard.dismiss();
+   setTimeout(() => {
+    props.actions.setSearchedResultsFilter('ALL'); // new search by default filter by POSTs
+   }, 300);
+     
+    
+    
+
+
+    isSearching(true);
+    // setSearchValue(query);
+
     // Method called every time when we change the value of the input
     // if (query) {
+    let session = await Auth.currentSession();
+    props.actions.setToken(session.idToken.jwtToken);
     let apiName = 'superqso';
-    let path = '/qra-list?qra=' + query;
+    let path = '/contentSearch';
     let myInit = {
-      body: {}, // replace this with attributes you need
+      body: { searchValue: searchValue }, // replace this with attributes you need
       headers: {
-        // "Authorization": this.props.token
-      } // OPTIONAL
+        Authorization: session.idToken.jwtToken
+      }
     };
 
-    console.log('query:' + query);
-    console.log('length:' + query.length);
-    if (query.length < 3) props.actions.setFeedTouchable(true);
-
-    // comienza a buscar a partir de 3 letras
-    if (query.length > 2)
-      API.post(apiName, path, myInit)
+    API.post(apiName, path, myInit)
         .then((response) => {
+          console.log('devuelve API search:')
+          console.log(response.body.message)
           if (response.body.error > 0) {
-            this.setState({ isLoading: false, error: response.body.message });
-            props.actions.setFeedTouchable(true);
+            isSearching(false);
+            setError(response.body.message);
+            // this.setState({ isLoading: false, error: response.body.message });
+            // props.actions.setFeedTouchable(true);
           } else {
             // this.setState({ data: response.body.message, isLoading: false });
-            setFilteredUsers(response.body.message);
-            props.actions.setFeedTouchable(false);
+
+            // isSearching(false);
+            // setFilteredUsers(response.body.message);
+            // props.actions.setFeedTouchable(false);
+
+            // console.log('SEARCHMM:')
+            // console.log(response.body.message)
+            props.searching();
+            props.actions.setSearchedResults(response.body.message,true);
+          
+   
+            
+
+            // props.actions.doClearFeed(false);
+            // props.actions.doFetchUserFeed(props.currentQRA);
+            // props.actions.setSearchedResults([]);
+           
+           
+           
+            // props.actions.doClearFeed(false);
+            // // props.actions.doFetchUserFeed(props.currentQRA);
+            // props.actions.doFetchPublicFeed();
           }
+          if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
         })
-        .catch((error) => {
-          console.log(error);
-          this.setState({ isLoading: false, error });
-          props.actions.setFeedTouchable(true);
+        .catch((err) => {
+          console.log(err);
+          isSearching(false);
+          setError(err);
+          // props.actions.setFeedTouchable(true);
         });
-    // Making a case insensitive regular expression
-    // const regex = new RegExp(`${query.trim()}`, 'i');
-    // Setting the filtered film array according the query
-    // setFilteredUsers(films.filter((film) => film.title.search(regex) >= 0));
-    // }
-    else {
-      // If the query is null then return blank
-      setFilteredUsers([]);
-    }
-  };
 
+      }
+      else
+        setSearchValue('')
+
+
+
+  }
+
+
+
+  // (true) && 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Autocomplete
-          autoCapitalize="none"
-          autoCorrect={false}
-          containerStyle={styles.autocompleteContainer}
-          renderTextInput={renderInput}
-          // Data to show in suggestion
-          data={filteredUsers}
-          onFocus={() => setSelectedValue('')}
-          keyExtractor={(item) => item.qra}
-          // Default value if you want to set something in input
-          defaultValue={
-            JSON.stringify(selectedValue) === '{}' ? I18n.t('navBar.searchCallsign') : selectedValue.name
-          }
-          // Onchange of the text changing the state of the query
-          // Which will trigger the findUser method
-          // To show the suggestions
-          onChangeText={(text) => findUser(text)}
+
+    searchInput ?
+    <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginTop:7, marginBottom: 7 }}>
+      
+        <View style={styles.searchSection}>
+
+        <TouchableOpacity onPress={() => search()} >
+            <Image
+              source={require('../../images/search.png')}
+              style={{ width: 18, height: 18, marginLeft: 6 }}
+              resizeMode="contain"
+
+            />
+             </TouchableOpacity>
+            
+
+           <TextInput
+            ref={input => {
+              this.nameOrId = input;
+            }}
+                  placeholderTextColor="dimgray" 
+                  // returnKeyType='search'
+                  autoCapitalize="none"
+                  underlineColorAndroid="transparent"
+                  keyboardType={
+                    Platform.OS === 'android' ? 'visible-password' : 'default'
+                  }
+                  autoCorrect={false}
+                
+                  style={styles.input2}
+                  // autoFocus={true}
+               
+                 
+
+
+                  onChangeText={(text) => inputSearch(text)}
           placeholder={I18n.t('navBar.searchCallsign')}
-          renderItem={({ item }) => (
-            // For the suggestion view
+        
+          returnKeyType='search'
+          onSubmitEditing={() => {
+             search() }}
+                />
+          </View>
 
-            <View key={item.qra}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
-                  props.actions.setFeedTouchable(true);
-                  setFilteredUsers([]);
-                  Keyboard.dismiss();
 
-                  this.textInput.clear();
-                  props.navigate(item.qra);
-                }}>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Avatar
-                    round
-                    source={
-                      item.avatarpic
-                        ? {
-                            uri: item.avatarpic
-                          }
-                        : require('../../images/emptyprofile.png')
-                    }
-                  />
-                  <Text style={styles.itemText}>{item.name}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-      </View>
+         <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
+    
+         <TouchableOpacity onPress={() => cancelSearch()} >
+                            <Text style={{ color: '#243665', fontSize: 16}}>{I18n.t('search.cancel')}</Text>
+                              </TouchableOpacity>
+                              </View> 
+
     </SafeAreaView>
+    :
+
+    <SafeAreaView style={{ flex: 1, flexDirection: 'row' }}>
+      <View
+            style={{
+              flex: 0.2,
+              // flexBasis: 60,
+              // flexGrow: 0,
+              // flexShrink: 0,
+              marginTop: 5,
+              marginLeft: 5
+            }}>
+            <Avatar
+              size="medium"
+              rounded
+              source={require('../../images/superqsologo2.png')}
+            />
+          </View> 
+          <View
+            style={{
+              flex: 0.8,
+              // flexBasis: 60,
+              // flexGrow: 0,
+              // flexShrink: 0,
+               alignItems: 'flex-end',
+              // justifyContent: 'flex-end',
+              marginTop: 10,
+              marginLeft:12,
+              // backgroundColor: 'green'
+            }}>
+          
+              <Icon
+              name="search"
+             
+      // name="search-circle"
+      // type='ionicon'
+      size={35}
+      color='#243665'
+      onPress={() => searchIconPress()} 
+    />
+          </View> 
+
+    </SafeAreaView>
+   
+
+      
+
   );
+                // }
+      
+
+
+                
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#F5FCFF',
     flex: 1,
     left: 0,
-    position: 'absolute',
+    // position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: 1,
-    paddingTop: 10,
+    // zIndex: 1,
+    // paddingTop: 10,
     marginBottom: 0
     // marginTop: 40
   },
@@ -167,10 +361,56 @@ const styles = StyleSheet.create({
   infoText: {
     textAlign: 'center',
     fontSize: 16
-  }
+  },
+  input: {
+    height: 40,
+    // backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'lightgray',
+    // borderWidth: 1,
+    borderRadius: 22,
+    marginBottom: 18,
+    width: 240,
+    // color: '#FFF',
+    color: 'black',
+    fontSize: 18,
+    paddingHorizontal: 4,
+    // textAlign: 'center'
+  },
+  input2: {
+    flex: 1,
+    paddingTop: 5,
+    paddingRight: 10,
+    paddingBottom: 5,
+    borderRadius: 22,
+    paddingLeft: 5,
+    // backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#939393',
+    backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#f5f5f5',
+    //backgroundColor: 'grey',
+    marginRight: 10,
+    marginTop: 2,
+    marginBottom: 3,
+    fontSize: 16,
+
+    color: '#424242'
+  },
+  searchSection: {
+    flex: 0.75,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 22,
+    marginLeft: 5,
+    // backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#939393',
+    backgroundColor: Platform.OS === 'android' ? '#f5f5f5' : '#f5f5f5',
+    fontSize: 12
+    // backgroundColor: 'grey',
+  },
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+
+  currentQRA: state.sqso.qra
+});
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });

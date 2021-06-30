@@ -268,8 +268,8 @@ class NotifItem extends React.PureComponent {
 
             <Text
               style={{
-                fontSize: 12,
-                marginLeft: 3,
+                fontSize: 13,
+                marginLeft: 4,
                 color: '#243665',
                 fontWeight: 'bold'
               }}>
@@ -278,7 +278,7 @@ class NotifItem extends React.PureComponent {
             </Text>
           </View>
 
-          <View style={{ flex: 0.6 }}>
+          <View style={{ flex: 0.75 }}>
             <TouchableOpacity
               onPress={() =>
                 this.onPressItem2(
@@ -779,14 +779,14 @@ class NotifItem extends React.PureComponent {
             </TouchableOpacity>
           </View>
 
-          <View
+          {/* <View
             style={{
               flex: 0.15,
               marginRight: 7,
               justifyContent: 'center',
               alignContent: 'center',
               alignItems: 'center'
-            }}>
+            }}> */}
             {/* Se decide sacar el tacho de basura porque las notificaciones se resetean solas y creemos que los usuarios se van a calmar
                       con el tema de borrar porque van a ver que el contador se resetea solo */}
             {/* 
@@ -812,7 +812,7 @@ class NotifItem extends React.PureComponent {
 
               
                     } */}
-          </View>
+          {/* </View> */}
         </View>
 
         {this.state.nointernet && (

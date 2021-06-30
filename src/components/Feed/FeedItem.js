@@ -3,10 +3,11 @@ import FeedItemAd from './FeedItemAd';
 import FeedItemFollow from './FeedItemFollow';
 import FeedItemQSO from './FeedItemQSO';
 import FeedItemRepost from './FeedItemRepost';
+import FeedItemSearchQra from './FeedItemSearchQra'
 import ActivitiesCarousel from './activitiesCarousel';
 import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import I18n from '../../utils/i18n';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -49,6 +50,7 @@ class FeedItem extends React.Component {
           if (
             this.props.currentIndex === 0 &&
             this.props.feedType !== 'PROFILE'
+            && this.props.feedType !== 'SEARCH'
           ) {
             return (
               <View>
@@ -67,16 +69,14 @@ class FeedItem extends React.Component {
                 />
               </View>
             );
-          } else if (
-            this.props.currentIndex === 4 &&
-            this.props.feedType !== 'PROFILE'
-          )
+          } else if (this.props.currentIndex === 4 && this.props.feedType !== 'PROFILE'
+             && this.props.feedType !== 'SEARCH')
+          
             return <ActivitiesCarousel />;
           else if (
-            (this.props.currentIndex === 8 ||
-              this.props.currentIndex % 16 === 0) &&
-            this.props.feedType !== 'PROFILE'
-          ) {
+            (this.props.currentIndex === 8 || this.props.currentIndex % 16 === 0) && this.props.feedType !== 'PROFILE'
+              && this.props.feedType !== 'SEARCH')
+           {
             return (
               <FeedItemFollow
                 source={this.props.source}
@@ -94,6 +94,13 @@ class FeedItem extends React.Component {
           } else {
             return null;
           }
+        case 'QRA':
+          return (
+         
+            <FeedItemSearchQra qra={this.props.qso}/>
+          );
+          // console.log('QRA');
+          // break;
         default:
           return null;
       }

@@ -548,24 +548,24 @@ class LoginForm extends React.PureComponent {
                   qra: notification.userInfo.url.param1,
                   screen: 'PROFILE'
                 });
-                }, 4200);
+              }, 4800);
                 break;
               case 'QSODetail':
                 setTimeout(() => {
                   this.props.navigation.navigate('QSODetail', {
                     QSO_GUID: notification.userInfo.url.param1
                   });
-                }, 4200);
+                }, 4800);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                }, 4200);
+                }, 4800);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                }, 4200);
+                }, 4800);
                 break;
               default:
                 console.log('Nothing');
@@ -580,24 +580,24 @@ class LoginForm extends React.PureComponent {
                   qra: notification.alert.Url.param1,
                   screen: 'PROFILE'
                 });
-                }, 4200);
+              }, 4800);
                 break;
               case 'QSODetail':
                 setTimeout(() => {
                   this.props.navigation.navigate('QSODetail', {
                     QSO_GUID: notification.alert.Url.param1
                   });
-                }, 4200);
+                }, 4800);
                 break;
               case 'ExploreUsers':
                 setTimeout(() => {
                   this.props.navigation.navigate('ExploreUsers');
-                }, 4200);
+                }, 4800);
                 break;
               case 'Activities':
                 setTimeout(() => {
                   this.props.navigation.navigate('FieldDays');
-                }, 4200);
+                }, 4800);
                 break;
               default:
                 console.log('Nothing');
@@ -1391,6 +1391,8 @@ class LoginForm extends React.PureComponent {
                   returnKeyType="go"
                   autoCapitalize="none"
                   autoCorrect={false}
+                  onSubmitEditing={() => this.signIn()}
+                  returnKeyType='go'
                   secureTextEntry
                   style={styles.input}
                   value={this.state.password}

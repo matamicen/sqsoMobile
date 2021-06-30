@@ -272,7 +272,9 @@ class QSOComments extends React.PureComponent {
                 />
               </View>
 
-              <KeyboardAvoidingView behavior="padding" style={{ flex: this.state.commentFlexIos }}>
+              <KeyboardAvoidingView
+                behavior="padding"
+                style={{ flex: this.state.commentFlexIos }}>
                 <View
                   style={{
                     // marginRight: 10 ,
@@ -280,7 +282,7 @@ class QSOComments extends React.PureComponent {
                     // marginTop: 10 ,
                     // height: 100
                     // flex: 0.35,
-                    flex: 0.60,
+                    flex: 0.6,
                     marginTop: 5
                   }}>
                   <View
@@ -339,15 +341,22 @@ class QSOComments extends React.PureComponent {
                               removeClippedSubviews={false}
                               keyboardDismissMode="none"
                               onBlur={handleBlur('comment')}
-                              onFocus={ () => this.setState({commentFlexIos: 0.85}) }
+                              onFocus={() =>
+                                this.setState({ commentFlexIos: 0.85 })
+                              }
                               // style={{ borderWidth: 1, width: 230 }}
-                              style={{ borderWidth: 0, fontSize: 17.5, backgroundColor: 'ghostwhite', fontWeight: 'bold' }}
+                              style={{
+                                borderWidth: 0,
+                                fontSize: 17.5,
+                                backgroundColor: 'ghostwhite',
+                                fontWeight: 'bold'
+                              }}
                               onChangeText={handleChange('comment')}
                               value={values.comment}
                             />
-                          {/* </View> */}
+                            {/* </View> */}
 
-                          {/* <View
+                            {/* <View
                             style={{
                               // marginRight: 10 ,
                               // marginLeft: 10,
@@ -357,20 +366,20 @@ class QSOComments extends React.PureComponent {
                               alignItems: 'flex-end'
                             }}> */}
                             <View
-                            style={{alignItems: 'flex-end', marginTop: 4}}>
-                            <Button
-                              buttonStyle={{
-                                padding: 1,
-                                // margin: 0,
-                                width: 90
-                                // height: '100%'
-                              }}
-                              size="small"
-                              title={I18n.t('qso.add')}
-                              onPress={handleSubmit}
-                            />
+                              style={{ alignItems: 'flex-end', marginTop: 4 }}>
+                              <Button
+                                buttonStyle={{
+                                  padding: 1,
+                                  // margin: 0,
+                                  width: 90
+                                  // height: '100%'
+                                }}
+                                size="small"
+                                title={I18n.t('qso.add')}
+                                onPress={handleSubmit}
+                              />
                             </View>
-                             </View>
+                          </View>
                           {/* </View> */}
                         </View>
                       )}
@@ -429,7 +438,7 @@ class QSOComments extends React.PureComponent {
               </View>
 
               {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 0.45 }}> */}
-            
+
               <View
                 style={{
                   // marginRight: 10 ,
@@ -439,107 +448,116 @@ class QSOComments extends React.PureComponent {
                   flex: this.state.commentFlex,
                   marginTop: 5
                 }}>
-                    <ScrollView style={{
-                  // marginRight: 10 ,
-                  // marginLeft: 10,
-                  // marginTop: 10 ,
-                  // height: 100
-                  flex: 1,
-                  // marginTop: 5
-                }}>
-                <View
+                <ScrollView
                   style={{
                     // marginRight: 10 ,
                     // marginLeft: 10,
                     // marginTop: 10 ,
                     // height: 100
                     flex: 1
+                    // marginTop: 5
                   }}>
-                  <Formik
+                  <View
                     style={{
                       // marginRight: 10 ,
                       // marginLeft: 10,
                       // marginTop: 10 ,
                       // height: 100
-                      flex: 1,
-                      flexDirection: 'row'
-                    }}
-                    initialValues={{ comment: '' }}
-                    onSubmit={(values, actions) => {
-                      this.handleAddComment(values);
+                      flex: 1
                     }}>
-                    {({
-                      values,
-                      handleChange,
-                      errors,
-                      setFieldTouched,
-                      touched,
-                      isValid,
-                      handleBlur,
-                      handleSubmit
-                    }) => (
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          marginTop: 1,
-
-                          padding: 0
-                        }}>
-                        {/* <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}> */}
+                    <Formik
+                      style={{
+                        // marginRight: 10 ,
+                        // marginLeft: 10,
+                        // marginTop: 10 ,
+                        // height: 100
+                        flex: 1,
+                        flexDirection: 'row'
+                      }}
+                      initialValues={{ comment: '' }}
+                      onSubmit={(values, actions) => {
+                        this.handleAddComment(values);
+                      }}>
+                      {({
+                        values,
+                        handleChange,
+                        errors,
+                        setFieldTouched,
+                        touched,
+                        isValid,
+                        handleBlur,
+                        handleSubmit
+                      }) => (
                         <View
                           style={{
-                            marginRight: 5,
-                            // marginLeft: 10,
-                            //  marginTop: 10 ,
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            marginTop: 1,
 
-                            flex: 0.7
-                            // alignItems: 'flex-start'
+                            padding: 0
                           }}>
-                          <TextInput
-                            name="comment"
-                            placeholder={I18n.t('qso.writeComment')}
-                            multiline
-                            removeClippedSubviews={false}
-                            keyboardDismissMode="none"
-                            onBlur={handleBlur('comment')}
-                            onFocus={ () => this.setState({commentFlex: 0.45}) }
-                            // style={{ borderWidth: 1, width: 230 }}
-                            style={{ borderWidth: 0, fontSize: 17, backgroundColor: 'ghostwhite', fontWeight: "bold"}}
-                            onChangeText={handleChange('comment')}
-                            value={values.comment}
-                          />
-                        </View>
+                          {/* <View style={{ flex: 1, flexGrow: 0, flexShrink: 1, width: 200 }}> */}
+                          <View
+                            style={{
+                              marginRight: 5,
+                              // marginLeft: 10,
+                              //  marginTop: 10 ,
 
-                        <View
-                          style={{
-                            // marginRight: 10 ,
-                            // marginLeft: 10,
-                             marginTop: 5 ,
-                            // height: 100
-                            flex: 0.3,
-                            alignItems: 'flex-end'
-                          }}>
-                          <Button
-                            buttonStyle={{
-                              padding: 5,
-                              // margin: 0,
-                              width: 90,
-                               height: '90%'
-                            }}
-                            size="small"
-                            title={I18n.t('qso.add')}
-                            onPress={handleSubmit}
-                          />
+                              flex: 0.7
+                              // alignItems: 'flex-start'
+                            }}>
+                            <TextInput
+                              name="comment"
+                              placeholder={I18n.t('qso.writeComment')}
+                              underlineColorAndroid="transparent"
+                              multiline
+                              removeClippedSubviews={false}
+                              keyboardDismissMode="none"
+                              onBlur={handleBlur('comment')}
+                              onFocus={() =>
+                                this.setState({ commentFlex: 0.45 })
+                              }
+                              // style={{ borderWidth: 1, width: 230 }}
+                              style={{
+                                borderWidth: 0,
+                                fontSize: 17,
+                                backgroundColor: 'ghostwhite',
+                                fontWeight: 'bold'
+                              }}
+                              onChangeText={handleChange('comment')}
+                              value={values.comment}
+                            />
+                          </View>
+
+                          <View
+                            style={{
+                              // marginRight: 10 ,
+                              // marginLeft: 10,
+                              marginTop: 5,
+                              // height: 100
+                              flex: 0.3,
+                              alignItems: 'flex-end'
+                            }}>
+                            <Button
+                              buttonStyle={{
+                                padding: 5,
+                                // margin: 0,
+                                width: 90,
+                                height: '90%'
+                              }}
+                              size="small"
+                              title={I18n.t('qso.add')}
+                              onPress={handleSubmit}
+                            />
+                          </View>
                         </View>
-                      </View>
-                    )}
-                  </Formik>
-                </View>
+                      )}
+                    </Formik>
+                  </View>
                 </ScrollView>
               </View>
-           
+
               {/* </KeyboardAvoidingView> */}
             </View>
           )}
@@ -586,6 +604,9 @@ const selectorFeedType = (state, ownProps) => {
     return state.sqso.feed.qra.qsos.find((q) => q.idqsos === ownProps.idqsos);
   else if (ownProps.feedType === 'FIELDDAYS')
     return state.sqso.feed.fieldDays.find((q) => q.idqsos === ownProps.idqsos);
+  else if (ownProps.feedType === 'SEARCH')
+  return state.sqso.feed.searchedResults.find((q) => q.idqsos === ownProps.idqsos);
+ 
   else if (ownProps.feedType === 'DETAIL') return state.sqso.feed.qso;
   else return null;
 };

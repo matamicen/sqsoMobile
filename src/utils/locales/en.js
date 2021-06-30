@@ -196,7 +196,7 @@ export default {
   RestoreSubscriptionPremiumActive: 'Your premium subscription is active.',
   UtilTitle: 'TOOLS',
   SearchTitle: 'SEARCH',
-  SearchSearchCallsign: 'Search CallSign',
+  SearchSearchCallsign: 'Search in SuperQSO',
   SearchWeStartToSearch: 'We start to search automatically',
   SearchAfter4Digit: 'after the 4th digit',
   SearchSearching: 'Searching ...',
@@ -802,5 +802,11 @@ export default {
     callsignsTaggedYou: 'Callsigns that already tagged you',
     callsignsFollowYou: 'Callsigns that follow you',
     callsignsMostFollowed: 'Callsigns most followed'
+  },
+  search: {
+    all: 'All',
+    posts: 'Posts',
+    hams: 'Hams',
+    cancel: 'Cancel',
   }
 };
