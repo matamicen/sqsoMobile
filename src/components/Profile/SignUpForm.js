@@ -676,7 +676,10 @@ class SignUpForm extends React.PureComponent {
           heighterror: 0,
           loginerror: 0
         });
+        // this.flatlist
+         this.flatlist.scrollToOffset({ animated: true, offset: 0 });
         this.setState({firstScreen: false})
+
       }
   }
 
@@ -1107,6 +1110,8 @@ class SignUpForm extends React.PureComponent {
               padding: 2,
               height: this.state.heighterror,
               width: 348,
+              // height: 50,
+              // width: 300,
               opacity: this.state.loginerror
             }}>
             <Text style={{ color: 'red', textAlign: 'center', fontSize: 17 }}>
@@ -1129,7 +1134,7 @@ class SignUpForm extends React.PureComponent {
               showsVerticalScrollIndicator={false}
               data={fakedValues}
               renderItem={({ item }) => (
-                <View style={{marginLeft: 35}}>
+                <View style={{marginLeft: 5}}>
                   <Text
                     style={{
                       color: '#FFFFFF',
@@ -1216,7 +1221,7 @@ class SignUpForm extends React.PureComponent {
                         returnKeyType="next"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onSubmitEditing={() => this.emailRef.focus()}
+                        // onSubmitEditing={() => this.birthdatedRef.focus()}
                         style={styles.input}
                         value={this.state.lastname}
                         onChangeText={(text) => this.setState({ lastname: text })}
@@ -1291,7 +1296,7 @@ class SignUpForm extends React.PureComponent {
                       returnKeyType="go"
                       autoCapitalize="none"
                       autoCorrect={false}
-                      onSubmitEditing={() => this.passwordRef.focus()}
+                      // onSubmitEditing={() => this.passwordRef.focus()}
                       style={styles.input}
                       value={this.state.phone}
                       onChangeText={(text) => this.setState({ phone: text })}
@@ -1331,7 +1336,7 @@ class SignUpForm extends React.PureComponent {
                       autoCapitalize="none"
                       autoCorrect={false}
                       onSubmitEditing={() => this.emailRefverification.focus()}
-                      style={styles.input}
+                      style={styles.email}
                       value={this.state.email}
                       onChangeText={(text) => this.setState({ email: text })}
                     />
@@ -1352,8 +1357,8 @@ class SignUpForm extends React.PureComponent {
                       returnKeyType="next"
                       autoCapitalize="none"
                       autoCorrect={false}
-                      // onSubmitEditing={() => this.birthdatedRef.focus()}
-                      style={styles.input}
+                      onSubmitEditing={() => this.passwordRef.focus()}
+                      style={styles.email}
                       value={this.state.emailVerification}
                       onChangeText={(text) =>
                         this.setState({ emailVerification: text })
@@ -1402,6 +1407,7 @@ class SignUpForm extends React.PureComponent {
                       autoCorrect={false}
                       textContentType={'oneTimeCode'}
                       secureTextEntry
+                      onSubmitEditing={() => this.referral.focus()}
                       style={styles.input2}
                       value={this.state.passwordConfirm}
                       onChangeText={(text) =>
@@ -1412,6 +1418,14 @@ class SignUpForm extends React.PureComponent {
                       <Text> </Text>
                     </TouchableOpacity>
                   </View>
+                  <Text
+                    style={{
+                      color: '#FFFFFF',
+                      fontSize: 16,
+                      marginLeft: 20,
+                      marginBottom: 5,
+                      marginTop: 15
+                    }}>{I18n.t('signupReferralDesc')}</Text>
                   <View style={{ flexDirection: 'row' }}>
                       <TextInput
                         ref={(referral) => (this.referral = referral)}
@@ -1421,7 +1435,7 @@ class SignUpForm extends React.PureComponent {
                         returnKeyType="next"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        style={styles.input}
+                        style={styles.referral}
                         value={this.state.referral}
                         onChangeText={(value) => this.setState({ referral: value })}
                       />
@@ -1429,6 +1443,7 @@ class SignUpForm extends React.PureComponent {
                         <Text> </Text>
                       </TouchableOpacity>
                     </View>
+
                   {/* <View  style={{flex:1, flexDirection: "row"}}> */}
                   <Text
                     style={{ fontSize: 11, color: '#8BD8BD', marginLeft: 15 }}>
@@ -1814,12 +1829,13 @@ const styles = StyleSheet.create({
 
   contentForm: {
     // height: 330,
-    width: 340,
+    // width: 340,
+    width: 360,
     alignItems: 'center'
   },
   input: {
     height: 43,
-    width: 270,
+    width: 300,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 8,
     color: '#FFF',
@@ -1830,7 +1846,7 @@ const styles = StyleSheet.create({
   },
   input2: {
     height: 43,
-    width: 270,
+    width: 300,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 5,
     color: '#FFF',
@@ -1855,7 +1871,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 22,
     width: 300,
-    height: 36,
+    height: 42,
     marginLeft: 15,
     marginTop: 7
   },
@@ -1863,7 +1879,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.2)',
     paddingVertical: 10,
     height: 43,
-    width: 270,
+    width: 300,
     marginBottom: 8,
     marginLeft: 15,
     paddingHorizontal: 8,
@@ -1871,7 +1887,7 @@ const styles = StyleSheet.create({
   },
   birthdateText: {
     color: '#FFF',
-    fontSize: 18,
+    fontSize: 19,
     opacity: 0.8,
     height: 43
   },
@@ -1899,7 +1915,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10
-  }
+  },
+  email: {
+    height: 43,
+    width: 300,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 8,
+    color: '#FFF',
+    fontSize: 19,
+    borderRadius: 22,
+    marginLeft: 15,
+    paddingHorizontal: 10
+  },
+  referral: {
+    height: 43,
+    width: 300,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 8,
+    color: '#FFF',
+    fontSize: 18,
+    borderRadius: 22,
+    marginLeft: 15,
+    paddingHorizontal: 10
+  },
 });
 
 const mapStateToProps = (state) => {

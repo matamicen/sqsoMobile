@@ -165,7 +165,7 @@ android {
             signingConfig signingConfigs.debug
 
             // comentar al momento de genera APK final asi se activa la compresion del APK
-          //  minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled enableProguardInReleaseBuilds
 
             // Enables code shrinking, obfuscation, and optimization for only
             // your project's release build type.

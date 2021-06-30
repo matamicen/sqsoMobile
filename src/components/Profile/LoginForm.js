@@ -541,6 +541,7 @@ class LoginForm extends React.PureComponent {
             // on User TAP when the APP is KILEED it navigates to the deeplink
 
             switch (notification.userInfo.url.route) {
+              
               case 'QRAProfile':
                 setTimeout(() => {
                 this.props.navigation.push('QRAProfile', {
