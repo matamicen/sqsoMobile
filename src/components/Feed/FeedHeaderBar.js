@@ -37,10 +37,33 @@ class FeedHeaderBar extends React.Component {
 
           }
 
-          this.searchIcon = this.searchIcon.bind(this); 
+          // this.searchIcon = this.searchIcon.bind(this); 
           this.searching = this.searching.bind(this);
-          this.cancelSearch = this.cancelSearch.bind(this);
+          // this.cancelSearch = this.cancelSearch.bind(this);
           this.startScreenHelp = this.startScreenHelp.bind(this)
+
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('getDerived headerbar')
+    console.log('searchfeed props: '+props.searchfeed)
+    if (props.searchfeed)
+    // return null
+     return {
+      followAllButtonsAndDrawer: false,  afterSearchTabs: true
+    }
+    else
+    return {
+      followAllButtonsAndDrawer: true, afterSearchTabs: false, opacity:0.01
+    }
+
+   
+  }
+
+  componentDidMount() {
+  
+    // call this action in order to get focus and then dont fail in the first TAP that user do
+    this.props.navigation.dispatch(DrawerActions.closeDrawer())
 
   }
  
@@ -72,7 +95,9 @@ class FeedHeaderBar extends React.Component {
   }
 
   searchIcon() {
-    this.setState({followAllButtonsAndDrawer: false,  afterSearchTabs: true, opacity:0.01})
+    console.log('serachIcon')
+    console.log('states drawer y aftersearchtabs:' + this.state.followAllButtonsAndDrawer + this.state.afterSearchTabs);
+    this.setState({followAllButtonsAndDrawer: false,  afterSearchTabs: true})
 
   }
   searching() {
@@ -85,7 +110,8 @@ class FeedHeaderBar extends React.Component {
   }
 
   cancelSearch() {
-    this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false })
+    this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false,  opacity:0.01 })
+    this.props.actions.setSearchedResults([],false);
 
   }
  
@@ -94,12 +120,15 @@ class FeedHeaderBar extends React.Component {
 
   }
 
-  componentDidMount() {
-  
-    // call this action in order to get focus and then dont fail in the first TAP that user do
-    this.props.navigation.dispatch(DrawerActions.closeDrawer())
+  // componentDidUpdate(prevProps, prevState) {
+  //   // if (this.props.follow !== prevProps.follow)
+  //   //   this.setState({ follow: this.props.follow });
+  //   console.log('didupdate header')
+  //   console.log('searchfeed prevProps: '+prevProps.searchfeed)
+  //   console.log('searchfeed prevState: '+prevState.searchfeed)
 
-  }
+  // }
+
   render() {
     return (
       <View style={{ height: 110, zIndex: 999 }}>
@@ -145,9 +174,9 @@ class FeedHeaderBar extends React.Component {
                 });
                 
               }}
-              searchicon={this.searchIcon.bind()}
+              // searchicon={this.searchIcon.bind()}
               searching={this.searching.bind()}
-              cancelsearch={this.cancelSearch.bind()}
+              // cancelsearch={this.cancelSearch.bind()}
               startscreenhelp={this.startScreenHelp.bind()}
             />
           </View>
@@ -265,6 +294,7 @@ const mapStateToProps = (state) => ({
   //   authenticating: state.sqso.feeduserData.authenticating,
   currentQRA: state.sqso.qra,
   feedtouchable: state.sqso.feed.FeedTouchable,
+  searchfeed: state.sqso.feed.searchfeed,
 
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos

@@ -43,17 +43,19 @@ const FeedHeaderSearch = (props) => {
      setSearchValue(query);
   }
 
-  const cancelSearch = async () => {
+  const cancelSearch2 = async () => {
+  
 
     props.actions.setSearchedResults([],false);
-    setSearchInput(false);
-    props.cancelsearch();
+    // setSearchInput(false);
+    //  props.cancelsearch();
  
     
   }
 
   const searchIconPress = async () => {
-    setSearchInput(true)
+    //  setSearchInput(true)
+    // props.searchicon();
     props.actions.setSearchedResults([],true);
     // someFeed = {
     //   type: "AD2",
@@ -65,7 +67,8 @@ const FeedHeaderSearch = (props) => {
     setTimeout(() => {
       this.nameOrId.focus()
     }, 250);
-    props.searchicon()
+
+    // props.searchicon()
     
   
   }
@@ -224,11 +227,11 @@ const FeedHeaderSearch = (props) => {
   // (true) && 
   return (
 
-    searchInput ?
+    // searchInput ?
+    props.searchfeed ?
     <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginTop:7, marginBottom: 7 }}>
       
         <View style={styles.searchSection}>
-
         <TouchableOpacity onPress={() => search()} >
             <Image
               source={require('../../images/search.png')}
@@ -270,7 +273,7 @@ const FeedHeaderSearch = (props) => {
 
          <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
     
-         <TouchableOpacity onPress={() => cancelSearch()} >
+         <TouchableOpacity onPress={() => cancelSearch2()} >
                             <Text style={{ color: '#243665', fontSize: 16}}>{I18n.t('search.cancel')}</Text>
                               </TouchableOpacity>
                               </View> 
@@ -296,7 +299,7 @@ const FeedHeaderSearch = (props) => {
           </View> 
           <View
             style={{
-              flex: 0.65,
+              flex: 0.80,
               // flexBasis: 60,
               // flexGrow: 0,
               // flexShrink: 0,
@@ -315,11 +318,12 @@ const FeedHeaderSearch = (props) => {
       size={35}
       color='#243665'
       onPress={() => searchIconPress()} 
+   
     />
 
 
           </View> 
-          <View
+          {/* <View
             style={{
               flex: 0.15,
               // flexBasis: 60,
@@ -342,7 +346,7 @@ const FeedHeaderSearch = (props) => {
               />
 
 
-              </View>
+              </View> */}
 
     </SafeAreaView>
    
@@ -435,7 +439,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
 
-  currentQRA: state.sqso.qra
+  currentQRA: state.sqso.qra,
+  searchfeed: state.sqso.feed.searchfeed
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
