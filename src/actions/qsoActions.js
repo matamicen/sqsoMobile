@@ -3677,7 +3677,7 @@ export const doFetchPublicFeed = (qra = null) => {
         if (response.body.error === 0) {
           dispatch(doReceiveFeed(response.body.message, true));
          
-            dispatch(setSearchedResults([]));
+            dispatch(setSearchedResults([],false));
 
           
           // dispatch(setSearchedResults(response.body.message));
@@ -3723,7 +3723,7 @@ export const doFetchUserFeed = (qra) => {
             }
             // dispatch(setSearchedResults([]));
          
-              dispatch(setSearchedResults([]));
+              dispatch(setSearchedResults([],false));
             
           } else console.log(response.body.message);
         })

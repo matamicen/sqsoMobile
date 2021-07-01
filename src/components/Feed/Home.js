@@ -258,6 +258,8 @@ class Home extends React.PureComponent {
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
     // this.props.actions.setSearchedResults([]);
     if (this.props.presshome === 1) {
+      // si estaba en SEARCH y refresca debe salir del modo SEARCH
+      this.props.actions.setSearchedResults([],false);
       this.toast(I18n.t('Refreshing'), 2500);
 
       this.props.actions.doClearFeed(this.props.publicFeed);
