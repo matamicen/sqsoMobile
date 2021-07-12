@@ -126,7 +126,8 @@ import {
   SET_FEEDTOUCHABLE,
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
-  SET_SEARCHED_RESULTS_FILTER
+  SET_SEARCHED_RESULTS_FILTER,
+  SHOW_TUTORIAL,
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -468,7 +469,11 @@ export const onprogressTrue = () => {
     type: ON_PROGRESS_TRUE
   };
 };
-
+export const showTutorial = () => {
+  return {
+    type: SHOW_TUTORIAL
+  }
+}
 export const onprogressFalse = () => {
   return {
     type: ON_PROGRESS_FALSE

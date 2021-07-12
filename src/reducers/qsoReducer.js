@@ -99,6 +99,7 @@ import {
   SET_VIDEO_UPLOAD_PROGRESS,
   // SET_WEBVIEW,
   SET_WELCOME_USER_FIRST_TIME,
+  SHOW_TUTORIAL,
   UPDATE_COMMENT_MEMORY,
   UPDATE_LINK_QSO,
   UPDATE_MEDIA,
@@ -153,7 +154,7 @@ const initialState = {
   confirmProfileModal: false,
   sendingProfileModal_stat: 0,
   cancelButton_stat: 0,
-
+  showTutorial: false,
   pressHome: 1,
   justPublished: false,
   externalShareUrl: false,
@@ -402,7 +403,13 @@ const qsoReducer = (state = initialState, action) => {
         qsoScreenDidMountFirstTime: action.payload
       });
       return newStore;
-
+    case SHOW_TUTORIAL: 
+      console.log('showTutorial reducer');
+      newStore = Object.assign({}, state, {
+        ...state,
+        showTutorial: !state.showTutorial
+      })
+      return newStore;
     case CHANGE_QSO_TYPE:
       auxcurrentQso = {
         ...state.currentQso,

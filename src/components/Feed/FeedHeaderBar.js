@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Alert, Text } from 'react-native';
+import { View, Alert, Text, Animated, Dimensions } from 'react-native';
 import { Avatar, Icon, Button,TouchableOpacity } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
@@ -16,6 +16,7 @@ import FeedHeaderSearch from './FeedHeaderSearch';
 //   // isSearching(true);
 //   console.log('press all')
 // }
+const {width, height} = Dimensions.get('window');
 
 class FeedHeaderBar extends React.Component {
 
@@ -31,7 +32,9 @@ class FeedHeaderBar extends React.Component {
         border3: 0,
         afterSearchTabs: false,
         followAllButtonsAndDrawer: true,
-        opacity: 0.001
+        opacity: 0.001,
+        animatePosition: new Animated.ValueXY({x:height, y:width}),
+        animateBorder: new Animated.Value(0),  
 
 
 
@@ -44,6 +47,10 @@ class FeedHeaderBar extends React.Component {
 
   }
  
+  componentWillMount(){
+    
+  }
+
   all() {
     console.log('all')
     this.props.actions.setSearchedResultsFilter('ALL');
@@ -86,11 +93,26 @@ class FeedHeaderBar extends React.Component {
 
   cancelSearch() {
     this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false })
-
+ 
   }
  
   startScreenHelp(){
-    this.props.navigation.dispatch(DrawerActions.openDrawer())
+    console.log('showtutorial header bar')
+    this.props.actions.showTutorial();
+    // Animated.sequence([
+    //   Animated.timing(this.state.animatePosition,{
+    //     toValue: {x:height-height*2.02, y:width-width*2.045},
+    //     duration:2000
+    //   }),
+    //   Animated.timing(this.state.animateBorder,{
+    //     toValue:750,
+    //     duration:2000
+    //   })
+    
+    // ]).start(() => {
+    //   this.props.navigation.dispatch(DrawerActions.openDrawer()) 
+    // });
+    
 
   }
 
@@ -103,6 +125,19 @@ class FeedHeaderBar extends React.Component {
   render() {
     return (
       <View style={{ height: 110, zIndex: 999 }}>
+        <Animated.View
+          style={{
+            width: 1560,
+            height: 1560,
+            position: 'absolute',
+            borderColor: 'rgba(35,54,101,0.8)',
+            borderRadius: 10000,
+            borderWidth: this.state.animateBorder,
+            top: this.state.animatePosition.x,
+            left: this.state.animatePosition.y,
+            zIndex: 1000
+          }}
+        />
         <View
           style={{
             flex: 1,

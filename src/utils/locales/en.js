@@ -502,6 +502,8 @@ export default {
   QsoScrCompressingVideo: 'Compressing video',
   QsoScrUploadingVideo: 'Uploading video',
   QsoScrUploadingVideoError: 'Uploading video error.',
+  HelpTutorials: 'You can find detailed tutorials about the app here',
+  HelpSearch: 'Here, you can search for other users or posts.',
   navBar: {
     viewProfile: 'User Profile',
     actCarouselTitle: 'Ongoing and Future Activities',

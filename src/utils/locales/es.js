@@ -527,6 +527,8 @@ export default {
   QsoScrCompressingVideo: 'Comprimiendo video',
   QsoScrUploadingVideo: 'Subiendo video',
   QsoScrUploadingVideoError: 'Error al subir el video.',
+  HelpTutorials: 'Aqui puedes encontrar todos los tutoriales de la aplicación.',
+  HelpSearch: 'Aquí puedes buscar usuarios o posteos.',
   navBar: {
     viewProfile: 'Perfil de Usuario',
     actCarouselTitle: 'Actividades en curso / por comenzar',
