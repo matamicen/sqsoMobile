@@ -69,9 +69,9 @@ export default {
   confirmHelp3:
     '1. Busca en otras carpetas de tu correo incluso en “Correo no deseado”(SPAM)',
   confirmHelp4:
-    '2. Si aún no lo encuentras, pincha sobre “Reenviar Email para que te enviemos el correo nuevamente y vuelve al paso 1.',
+    '2. Si aún no lo encuentras, pincha sobre “Reenviar Email“ y vuelve al paso 1.',
   confirmHelp5:
-    '3. Si aún no lo encuentras escríbenos a info@superqso.com e infórmanos tu Señal distintiva/indicativo y en el titulo del correo: “codigo confirmación” que te contactaremos a la brevedad o bien puedes contactarnos al WhatsApp +5491154153542.',
+    '3. Si aún no lo encuentras escríbenos a info@superqso.com e infórmanos tu Señal distintiva/indicativo que te contactaremos a la brevedad o bien puedes contactarnos al WhatsApp +5491154153542.',
 
   variosModWelcWelcome: 'Bienvenido a SuperQSO!',
   variosModWelcSendLicense1:
