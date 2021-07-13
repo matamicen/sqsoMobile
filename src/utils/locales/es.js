@@ -65,7 +65,7 @@ export default {
   confirmSignUpResendCodeButton: 'Reenviar Email',
   confirmSignUpConfirmButton: 'Listo',
   confirmHelp1: '¿No te llego el email de confirmación?',
-  confirmHelp2: 'Si no te llego el email hace lo siguiente.',
+  confirmHelp2: 'Si no te llego el email, hace clic aquí.',
   confirmHelp3:
     '1. Busca en otras carpetas de tu correo incluso en “Correo no deseado”(SPAM)',
   confirmHelp4:
