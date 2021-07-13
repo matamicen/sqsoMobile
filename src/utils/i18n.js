@@ -5,7 +5,11 @@ import en from "./locales/en";
 
 import es from "./locales/es";
 
+import ja from "./locales/ja";
+
 const locales = RNLocalize.getLocales();
+console.log('locales:')
+console.log(locales)
 
 if (Array.isArray(locales)) {
   I18n.locale = locales[0].languageTag;
@@ -15,7 +19,8 @@ if (Array.isArray(locales)) {
 I18n.fallbacks = true;
 I18n.translations = {
   en,
-  es
+  es,
+  ja
 };
 
 export default I18n;
