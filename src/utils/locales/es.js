@@ -156,6 +156,7 @@ export default {
   QsoScrStartNewPost: 'Iniciar nueva Publicación',
   QsoScrRecord: 'Grabar',
   QsoScrPhoto: 'Foto',
+  QsoScrVideo: 'Video',
   QsoScrPublishingPost: 'Publicando ...',
   QsoScrAreYouSureEnd: '¿Esta seguro de finalizar este',
   QsoScrAreYouSureEndPost: 'posteo?',

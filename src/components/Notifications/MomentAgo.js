@@ -1,5 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/es';
+import 'moment/locale/ja';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -9,6 +10,7 @@ import I18n from '../../utils/i18n';
 
 if (I18n.locale.substring(0, 2) === 'es') moment.locale('es');
 if (I18n.locale.substring(0, 2) === 'en') moment.locale('en');
+if (I18n.locale.substring(0, 2) === 'ja') moment.locale('ja');
 //   Anda bien con el protugues, lo comento porque por ahora no implementamos Brasil
 //  if (I18n.locale.substring(0, 2) ==='pt')
 //  moment.locale('pt');
@@ -25,6 +27,7 @@ class MomentAgo extends React.PureComponent {
   componentDidMount() {
     //  this.props.fetchPeople();
     this.timerID = setInterval(() => this.tick(), 60000);
+
   }
   componentWillUnmount() {
     clearInterval(this.timerID);
