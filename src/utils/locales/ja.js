@@ -65,7 +65,7 @@ export default {
   confirmSignUpResendCodeButton: 'Eメール再送',
   confirmSignUpConfirmButton: '認証済み',
   confirmHelp1: '確認メールが届きませんか?',
-  confirmHelp2: 'メールが届かない場合、こちらをお試しください',
+  confirmHelp2: 'メールが届かない場合はこちらをクリックしてください',
   confirmHelp3:
     '1. 他のメールフォルダーを確認して下さい。スパムに入っていないか確認して下さい。 ',
   confirmHelp4:
