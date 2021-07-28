@@ -701,7 +701,7 @@ export default {
     qsoReposted: '再投稿されました',
     qsoDeleted: 'QSOが削除されました',
     workedAQSO: ' QSOを行ないました',
-    createdPost: ' 新しい投稿を作りました',
+    createdPost: '新しい記事を投稿しました',
     createdQAP: ' QAPを投稿しました',
 createdFLDDAY: ' 行事をPRしました',
     listenedQSO: ' QSOをワッチしました',
