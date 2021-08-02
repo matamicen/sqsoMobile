@@ -126,7 +126,8 @@ import {
   SET_FEEDTOUCHABLE,
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
-  SET_SEARCHED_RESULTS_FILTER
+  SET_SEARCHED_RESULTS_FILTER,
+  SET_URL_ROUTE
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -148,6 +149,14 @@ export const welcomeUserFirstTime = (status) => {
   return {
     type: SET_WELCOME_USER_FIRST_TIME,
     payload: status
+  };
+};
+
+export const setUrlRoute = (urlroute,urlparam) => {
+  return {
+    type: SET_URL_ROUTE,
+    urlroute: urlroute,
+    urlparam: urlparam
   };
 };
 

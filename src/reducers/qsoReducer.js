@@ -110,7 +110,8 @@ import {
   SET_FEEDTOUCHABLE,
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
-  SET_SEARCHED_RESULTS_FILTER
+  SET_SEARCHED_RESULTS_FILTER,
+  SET_URL_ROUTE
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -158,6 +159,8 @@ const initialState = {
   justPublished: false,
   externalShareUrl: false,
   mustUpgradeApp: false,
+  urlRoute: '',
+  urlParam: '',
 
   currentQso: {
     sqlrdsId: '',
@@ -558,6 +561,16 @@ const qsoReducer = (state = initialState, action) => {
       });
 
       return newStore;
+
+      case SET_URL_ROUTE:
+        newStore = Object.assign({}, state, {
+          ...state,
+          urlRoute: action.urlroute,
+          urlParam: action.urlparam
+        
+        });
+  
+        return newStore;
 
     // este en teoria se deja de usar, porque los QRA se ingresan en el AddCallSign en un Array Auxiliar
     // y cauando el usuario confirme se agregan al array final de qsoqras
