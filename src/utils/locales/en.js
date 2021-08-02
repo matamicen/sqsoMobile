@@ -65,7 +65,7 @@ export default {
   confirmSignUpResendCodeButton: 'Resend Email',
   confirmSignUpConfirmButton: 'Done',
   confirmHelp1: 'You did not receive the confirmation email?',
-  confirmHelp2: 'If you did not receive the email, do this:',
+  confirmHelp2: 'If you did not receive the email click here',
   confirmHelp3:
     '1. Look up in other email folders, even in SPAM',
   confirmHelp4:
@@ -154,6 +154,7 @@ export default {
   QsoScrStartNewPost: 'Start new Post',
   QsoScrRecord: 'Record',
   QsoScrPhoto: 'Photo',
+  QsoScrVideo: 'Video',
   QsoScrPublishingPost: 'Publishing ...',
   QsoScrAreYouSureEnd: 'Are you sure to END this',
   QsoScrAreYouSureEndPost: 'post?',

@@ -126,8 +126,11 @@ class QsoHeader extends React.PureComponent {
                                   {(this.props.qsotype==='POST' || this.props.qsotype==='QAP' || this.props.qsotype==='FLDDAY') ?
                                   <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderTagCallsign")}</Text>
                                   :
-                                  <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
-                                  }
+                                  (I18n.locale.substring(0, 2) === 'ja') ?
+                                  <Text style={{ fontSize: 14, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderAddCallsign")}</Text>
+                                   :
+                                   <Text style={{ fontSize: 19, color: '#243665',  textAlign: 'center'}}>{I18n.t("QsoHeaderAddCallsign")}</Text>   
+                                }
                                </TouchableOpacity>
           
                                   : null }

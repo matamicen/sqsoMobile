@@ -10,7 +10,8 @@ class ConfirmSignUp extends React.PureComponent {
     super(props);
 
     this.state = {
-      confirmationcode: ''
+      confirmationcode: '',
+      showEmailNotReceived: false
     };
   }
 
@@ -53,18 +54,27 @@ class ConfirmSignUp extends React.PureComponent {
                 <Text style={{ color: 'white', fontSize: 15, padding: 20 }}>
                   {I18n.t('confirmHelp1')}
                 </Text>
-                <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
-                  {I18n.t('confirmHelp2')}
-                </Text>
-                <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
-                  {I18n.t('confirmHelp3')}
-                </Text>
-                <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
-                  {I18n.t('confirmHelp4')}
-                </Text>
-                <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
-                  {I18n.t('confirmHelp5')}
-                </Text>
+                <TouchableOpacity
+                    onPress={() => {
+                      this.setState({showEmailNotReceived: !this.state.showEmailNotReceived});
+                    }}>
+                      <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
+                        {I18n.t('confirmHelp2')}
+                      </Text>
+                </TouchableOpacity>
+                {(this.state.showEmailNotReceived) &&
+                <View>
+                  <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
+                    {I18n.t('confirmHelp3')}
+                  </Text>
+                  <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
+                    {I18n.t('confirmHelp4')}
+                  </Text>
+                  <Text style={{ color: 'white', fontSize: 14, padding: 1 }}>
+                    {I18n.t('confirmHelp5')}
+                  </Text>
+                </View>
+                }
                 {/* <TextInput
                   placeholder={I18n.t('confirmSignUpConfirmationCode')}
                   onFocus={() => this.setState({ confirmationcodeError: 0 })}

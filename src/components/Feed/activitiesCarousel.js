@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import moment from 'moment';
 import 'moment/locale/es';
+import 'moment/locale/ja';
 import {
   View,
   Linking,
@@ -23,6 +24,7 @@ import { Image, Card, Tile } from 'react-native-elements';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 if (I18n.locale.substring(0, 2) === 'es') moment.locale('es');
 if (I18n.locale.substring(0, 2) === 'en') moment.locale('en');
+if (I18n.locale.substring(0, 2) === 'ja') moment.locale('ja');
 class Link extends React.PureComponent {
   openUrl(url) {
     // url = url.toUpperCase();
