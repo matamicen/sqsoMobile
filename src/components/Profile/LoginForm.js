@@ -48,7 +48,8 @@ import {
   // setWebView,
   welcomeUserFirstTime,
   apiCheckVersion,
-  setPendingVerification
+  setPendingVerification,
+  setUrlRoute
 } from '../../actions';
 import { APP_VERSION } from '../../appVersion';
 import AmplifyAuthStorage from '../../AsyncStorage';
@@ -534,70 +535,82 @@ class LoginForm extends React.PureComponent {
             notification.finish(PushNotificationIOS.FetchResult.NoData);
           }
         } else {
+
+          // se envia a redux el push recibido para que el HOME lo tome y navegue, no se navega desde aca porque
+          // a veces al venir de KILLED la app tarda en cargar y no toma la ruta desde aca.
           if (Platform.OS === 'android') {
             console.log('route:' + notification.userInfo.url.route);
             console.log('param1:' + notification.userInfo.url.param1);
+            console.log('killed android');
 
             // on User TAP when the APP is KILEED it navigates to the deeplink
 
             switch (notification.userInfo.url.route) {
               
               case 'QRAProfile':
-                setTimeout(() => {
-                this.props.navigation.push('QRAProfile', {
-                  qra: notification.userInfo.url.param1,
-                  screen: 'PROFILE'
-                });
-              }, 4800);
+              //   setTimeout(() => {
+              //   this.props.navigation.push('QRAProfile', {
+              //     qra: notification.userInfo.url.param1,
+              //     screen: 'PROFILE'
+              //   });
+              // }, 4800);
+              this.props.setUrlRoute('QRAProfile',notification.userInfo.url.param1)
                 break;
               case 'QSODetail':
-                setTimeout(() => {
-                  this.props.navigation.navigate('QSODetail', {
-                    QSO_GUID: notification.userInfo.url.param1
-                  });
-                }, 4800);
+                // setTimeout(() => {
+                //   this.props.navigation.navigate('QSODetail', {
+                //     QSO_GUID: notification.userInfo.url.param1
+                //   });
+                // }, 4800);
+                this.props.setUrlRoute('QSODetail',notification.userInfo.url.param1)
                 break;
               case 'ExploreUsers':
-                setTimeout(() => {
-                  this.props.navigation.navigate('ExploreUsers');
-                }, 4800);
+                // setTimeout(() => {
+                //   this.props.navigation.navigate('ExploreUsers');
+                // }, 4800);
+                this.props.setUrlRoute('ExploreUsers','')
                 break;
               case 'Activities':
-                setTimeout(() => {
-                  this.props.navigation.navigate('FieldDays');
-                }, 4800);
+                // setTimeout(() => {
+                //   this.props.navigation.navigate('FieldDays');
+                // }, 4800);
+                this.props.setUrlRoute('Activities','')
                 break;
               default:
                 console.log('Nothing');
             }
           } else {
             // on User TAP when the APP is KILEED it navigates to the deeplink
-
+            console.log('killed iphone');
             switch (notification.alert.Url.route) {
               case 'QRAProfile':
-                setTimeout(() => {
-                this.props.navigation.push('QRAProfile', {
-                  qra: notification.alert.Url.param1,
-                  screen: 'PROFILE'
-                });
-              }, 4800);
+              //   setTimeout(() => {
+              //   this.props.navigation.push('QRAProfile', {
+              //     qra: notification.alert.Url.param1,
+              //     screen: 'PROFILE'
+              //   });
+              // }, 4800);
+              this.props.setUrlRoute('QRAProfile',notification.alert.Url.param1)
                 break;
               case 'QSODetail':
-                setTimeout(() => {
-                  this.props.navigation.navigate('QSODetail', {
-                    QSO_GUID: notification.alert.Url.param1
-                  });
-                }, 4800);
+                // setTimeout(() => {
+                //   this.props.navigation.navigate('QSODetail', {
+                //     QSO_GUID: notification.alert.Url.param1
+                //   });
+                // }, 4800);
+                this.props.setUrlRoute('QSODetail',notification.alert.Url.param1)
                 break;
               case 'ExploreUsers':
-                setTimeout(() => {
-                  this.props.navigation.navigate('ExploreUsers');
-                }, 4800);
+                // setTimeout(() => {
+                //   this.props.navigation.navigate('ExploreUsers');
+                // }, 4800);
+                this.props.setUrlRoute('ExploreUsers','')
                 break;
               case 'Activities':
-                setTimeout(() => {
-                  this.props.navigation.navigate('FieldDays');
-                }, 4800);
+                // setTimeout(() => {
+                //   this.props.navigation.navigate('FieldDays');
+                // }, 4800);
+                this.props.setUrlRoute('Activities','')
                 break;
               default:
                 console.log('Nothing');
@@ -1608,7 +1621,8 @@ const mapDispatchToProps = {
   welcomeUserFirstTime,
   // setWebView,
   apiCheckVersion,
-  setPendingVerification
+  setPendingVerification,
+  setUrlRoute
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
