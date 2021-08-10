@@ -65,13 +65,13 @@ export default {
   confirmSignUpResendCodeButton: 'Reenviar Email',
   confirmSignUpConfirmButton: 'Listo',
   confirmHelp1: '¿No te llego el email de confirmación?',
-  confirmHelp2: 'Si no te llego el email hace lo siguiente.',
+  confirmHelp2: 'Si no te llego el email, hace clic aquí.',
   confirmHelp3:
     '1. Busca en otras carpetas de tu correo incluso en “Correo no deseado”(SPAM)',
   confirmHelp4:
-    '2. Si aún no lo encuentras, pincha sobre “Reenviar Email para que te enviemos el correo nuevamente y vuelve al paso 1.',
+    '2. Si aún no lo encuentras, pincha sobre “Reenviar Email“ y vuelve al paso 1.',
   confirmHelp5:
-    '3. Si aún no lo encuentras escríbenos a info@superqso.com e infórmanos tu Señal distintiva/indicativo y en el titulo del correo: “codigo confirmación” que te contactaremos a la brevedad o bien puedes contactarnos al WhatsApp +5491154153542.',
+    '3. Si aún no lo encuentras escríbenos a info@superqso.com e infórmanos tu Señal distintiva/indicativo que te contactaremos a la brevedad o bien puedes contactarnos al WhatsApp +5491154153542.',
 
   variosModWelcWelcome: 'Bienvenido a SuperQSO!',
   variosModWelcSendLicense1:
@@ -156,6 +156,7 @@ export default {
   QsoScrStartNewPost: 'Iniciar nueva Publicación',
   QsoScrRecord: 'Grabar',
   QsoScrPhoto: 'Foto',
+  QsoScrVideo: 'Video',
   QsoScrPublishingPost: 'Publicando ...',
   QsoScrAreYouSureEnd: '¿Esta seguro de finalizar este',
   QsoScrAreYouSureEndPost: 'posteo?',

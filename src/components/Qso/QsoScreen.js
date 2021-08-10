@@ -3277,7 +3277,7 @@ class QsoScreen extends React.PureComponent {
                         marginLeft:
                           I18n.locale.substring(0, 2) === 'es' ? 18 : 16
                       }}>
-                      Video
+                      {I18n.t('QsoScrVideo')}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -3486,20 +3486,26 @@ class QsoScreen extends React.PureComponent {
             onPress={() => this.newQso('LISTEN')}>
             <View
               style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-              {I18n.locale.substring(0, 2) === 'es' && (
+              {I18n.locale.substring(0, 2) === 'es' ? 
                 <Image
                   source={require('../../images/escucha10.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
-              )}
-              {I18n.locale.substring(0, 2) === 'en' && (
+              
+              :
+              <Image
+                  source={require('../../images/swl10.png')}
+                  style={{ width: 50, height: 50, flex: 0.3 }}
+                  resizeMode="contain"
+                />}
+              {/* {I18n.locale.substring(0, 2) === 'en' && (
                 <Image
                   source={require('../../images/swl10.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
-              )}
+              )} */}
               <Text
                 style={{
                   color: '#243665',
@@ -3533,20 +3539,26 @@ class QsoScreen extends React.PureComponent {
             onPress={() => this.newQso('FLDDAY')}>
             <View
               style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-              {I18n.locale.substring(0, 2) === 'es' && (
+              {I18n.locale.substring(0, 2) === 'es' ? (
                 <Image
                   source={require('../../images/actividad09.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
-              )}
-              {I18n.locale.substring(0, 2) === 'en' && (
+              )
+              :
+              <Image
+              source={require('../../images/activity10.png')}
+              style={{ width: 50, height: 50, flex: 0.3 }}
+              resizeMode="contain"
+            />}
+              {/* {I18n.locale.substring(0, 2) === 'en' && (
                 <Image
                   source={require('../../images/activity10.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
-              )}
+              )} */}
 
               <Text
                 style={{
@@ -3621,20 +3633,27 @@ class QsoScreen extends React.PureComponent {
             onPress={() => this.newQso('POST')}>
             <View
               style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-              {I18n.locale.substring(0, 2) === 'es' && (
+              {I18n.locale.substring(0, 2) === 'es' ? (
                 <Image
                   source={require('../../images/generico.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
-              )}
-              {I18n.locale.substring(0, 2) === 'en' && (
+              )
+              :
+              <Image
+              source={require('../../images/generic.png')}
+              style={{ width: 50, height: 50, flex: 0.3 }}
+              resizeMode="contain"
+            />
+             }
+              {/* {I18n.locale.substring(0, 2) === 'en' && (
                 <Image
                   source={require('../../images/generic.png')}
                   style={{ width: 50, height: 50, flex: 0.3 }}
                   resizeMode="contain"
                 />
-              )}
+              )} */}
               <Text
                 style={{
                   color: '#243665',

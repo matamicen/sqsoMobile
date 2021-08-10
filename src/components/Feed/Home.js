@@ -244,6 +244,57 @@ class Home extends React.PureComponent {
 
     AppState.addEventListener('change', this._handleAppStateChange);
     BackHandler.addEventListener('hardwareBackPress', this.backAction);
+
+
+
+          // se recibe de redux el push recibido que lo envia LOGINFORM, para que el HOME lo tome y navegue, no se navega desde LOGINFORM porque
+          // a veces al venir de KILLED la app tarda en cargar y no toma la ruta desde LoginFORM pero si desde aca.
+
+    switch (this.props.urlroute) {
+              
+      case 'QRAProfile':
+        // setTimeout(() => {
+        this.props.navigation.push('QRAProfile', {
+          qra: this.props.urlparam,
+          screen: 'PROFILE'
+        });
+      // }, 4800);
+        break;
+      case 'QSODetail':
+        // setTimeout(() => {
+          console.log('home QSODetail')
+          this.props.navigation.navigate('QSODetail', {
+            QSO_GUID: this.props.urlparam
+          });
+        // }, 4800);
+        // this.props.setUrlRoute('QSODetail',notification.userInfo.url.param1)
+        break;
+      case 'ExploreUsers':
+        // setTimeout(() => {
+          this.props.navigation.navigate('ExploreUsers');
+        // }, 4800);
+        break;
+      case 'Activities':
+        // setTimeout(() => {
+          this.props.navigation.navigate('FieldDays');
+        // }, 4800);
+        break;
+      default:
+        console.log('Nothing');
+    }
+
+
+
+
+
+
+
+
+    // if (this.props.urlroute
+    // console.log('test qsodetail hardcode')
+    // this.props.navigation.navigate('QSODetail', {
+    //   QSO_GUID: 'd37aaab1-aee8-4b91-8dad-d329b00a020d'
+    // });
   }
 
   componentWillUnmount() {
@@ -258,6 +309,8 @@ class Home extends React.PureComponent {
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
     // this.props.actions.setSearchedResults([]);
     if (this.props.presshome === 1) {
+      // si estaba en SEARCH y refresca debe salir del modo SEARCH
+      this.props.actions.setSearchedResults([],false);
       this.toast(I18n.t('Refreshing'), 2500);
 
       this.props.actions.doClearFeed(this.props.publicFeed);
@@ -436,7 +489,9 @@ const mapStateToProps = (state) => ({
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos,
   presshome: state.sqso.pressHome,
-  searchedResults: state.sqso.feed.searchedResults
+  searchedResults: state.sqso.feed.searchedResults,
+  urlroute: state.sqso.urlRoute,
+  urlparam: state.sqso.urlParam,
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

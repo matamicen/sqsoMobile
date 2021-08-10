@@ -345,8 +345,10 @@ class FeedItemSearchQra extends React.PureComponent {
             {/* <Card.Divider style={styles.divider} /> */}
             {/* de aca para abajo va */}
             <View style={styles.buttons}>
+                
               {this.props.following.some((o) => o.qra === this.props.qra.qra) ||
-              this.state.followed.some((o) => o === this.props.qra.qra) ? (
+              this.state.followed.some((o) => o === this.props.qra.qra) ||
+              (this.props.userinfo.qra === this.props.qra.qra)? (
                 <Button
                   fluid
                   disabled

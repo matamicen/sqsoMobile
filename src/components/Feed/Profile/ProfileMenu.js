@@ -13,7 +13,6 @@ class ProfileMenu extends React.PureComponent {
 
     if (
       this.props.currentQRA === 'LU2ACH' ||
-      this.props.currentQRA === 'LU7ACH' ||
       this.props.currentQRA === 'TSMM' ||
       this.props.currentQRA === 'TSLL'
     )

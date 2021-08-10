@@ -103,7 +103,6 @@ class QRAProfileInfo extends React.PureComponent {
 
         <View style={{marginLeft: 15}}>
           {(this.props.currentQRA === 'LU2ACH' ||
-            this.props.currentQRA === 'LU7ACH' ||
             this.props.env === 'QA') && (
               <View>
                 <Text style={styles.text}>

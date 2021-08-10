@@ -8,7 +8,7 @@ export default {
   currentSession: 'Loading ...',
   USER_NOT_VALIDATED: 'User not validated',
   USER_NOT_VALIDATED_TEXT:
-    'You can not perform this action until your user is validated, Please send us a copy of your callsign license issued by your association to info@superqso.com. This approval could take us 24 hs.',
+    'You can not perform this action until your user is validated, please send us a copy of your callsign license issued by your association to info@superqso.com to speed up the validation of your account. This approval could take us 24 hs.',
   USER_NOT_VALIDATED_CLOSE: 'Close',
   loginerrorMessUserNotFound: 'Login error, user/password not found, try again',
   loginerrorUserDisabled:
@@ -64,9 +64,18 @@ export default {
   confirmSignUpCancelButton: 'Cancel',
   confirmSignUpResendCodeButton: 'Resend Email',
   confirmSignUpConfirmButton: 'Done',
+  confirmHelp1: 'You did not receive the confirmation email?',
+  confirmHelp2: 'If you did not receive the email click here',
+  confirmHelp3:
+    '1. Look up in other email folders, even in SPAM',
+  confirmHelp4:
+    '2. If you still do not find it, choose “Resend email" and back to step 1.',
+  confirmHelp5:
+    '3. If you still do not find it, contact us: info@superqso.com and tell us your callsign, we will contact you as soon as possible or you can contact us to this WhatsApp +5491154153542.',
+
   variosModWelcWelcome: 'Welcome to SuperQSO!',
   variosModWelcSendLicense1:
-    'To facilitate the validation of your account, please send us a proof of your ham license (Id card, or similar) to',
+    'To facilitate and speed up the validation of your account, please send us a proof of your ham license (Id card, or similar) to',
   variosModWelcSendLicense2:
     'in order to start using SuperQSO with your callsign.',
   variosModWelcEnableYou:
@@ -145,6 +154,7 @@ export default {
   QsoScrStartNewPost: 'Start new Post',
   QsoScrRecord: 'Record',
   QsoScrPhoto: 'Photo',
+  QsoScrVideo: 'Video',
   QsoScrPublishingPost: 'Publishing ...',
   QsoScrAreYouSureEnd: 'Are you sure to END this',
   QsoScrAreYouSureEndPost: 'post?',
