@@ -537,7 +537,7 @@ export default {
     // allUsersFeed: '全ての行事をチェックする',
     allUsersFeed: '全員の投稿を見る',
     // onlyFollowFeed: 'フォローしている行事のみを見る',
-    onlyFollowFeed: 'フォローしている投稿のみを見',
+    onlyFollowFeed: 'フォローしている投稿のみを見る',
    
     noFollowingMessage: 'まだフォローしている人がいません'
   },
