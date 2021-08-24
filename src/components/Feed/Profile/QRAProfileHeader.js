@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   nameText: {
-    fontSize: 18
+    fontSize: 19
   },
   flagText: {
-    fontSize: 15
+    fontSize: 17
   },
   detail: {
     flex: 1,
