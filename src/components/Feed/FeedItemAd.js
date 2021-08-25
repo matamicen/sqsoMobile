@@ -3,6 +3,7 @@ import React from 'react';
 import { Platform, View, Linking } from 'react-native';
 import global_config from '../../global_config.json';
 import { Image } from 'react-native-elements';
+import analytics from '@react-native-firebase/analytics';
 var adUnitId;
 
 export default function FeedItemAdd(props) {
@@ -39,7 +40,8 @@ export default function FeedItemAdd(props) {
             width: 250
           }}
           onPress={() => {
-            Linking.canOpenURL('https://logdeargentina.com.ar/')
+            if (!__DEV__) analytics().logEvent('LDA_APPPRD');
+            Linking.canOpenURL('https://www.clarin.com')
               .then((supported) => {
                 if (!supported) {
                   console.log(
@@ -69,13 +71,15 @@ export default function FeedItemAdd(props) {
         <Image
           style={{
             flex: 1,
-            height: 250,
+            height: 280,
             padding: 0,
             margin: 0,
-            width: 250
+            width: 280
           }}
           onPress={() => {
-            Linking.canOpenURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g')
+            if (!__DEV__) analytics().logEvent('JH9KIO_US_APPPRD');
+
+            Linking.canOpenURL('https://www.clarin.com')
               .then((supported) => {
                 if (!supported) {
                   console.log(
@@ -107,17 +111,20 @@ export default function FeedItemAdd(props) {
         <Image
           style={{
             flex: 1,
-            height: 250,
+            height: 280,
             padding: 0,
             margin: 0,
-            width: 250
+            width: 280
           }}
           onPress={() => {
-            Linking.canOpenURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g')
+
+            if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
+            Linking.canOpenURL('https://www.clarin.com')
+          
               .then((supported) => {
                 if (!supported) {
                   console.log(
-                    "Can't handle url: " + 'https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g'
+                    "Can't handle url: " + 'https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g f2'
                   );
                 } else {
                   return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');

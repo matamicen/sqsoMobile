@@ -27,12 +27,21 @@
   <!--&lt;!&ndash;    <uses-permission android:name="android.permission.VIBRATE" />&ndash;&gt;-->
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+
   <!-- Finaliza agregado de librearia react-native-push-notification -->
 
   <queries>
     <intent>
       <action android:name="android.intent.action.PICK" />
       <data android:mimeType="video/*" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <data android:scheme="http"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <data android:scheme="https"/>
     </intent>
   </queries>
 
