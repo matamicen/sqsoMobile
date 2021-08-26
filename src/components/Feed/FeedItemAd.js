@@ -3,6 +3,7 @@ import React from 'react';
 import { Platform, View, Linking } from 'react-native';
 import global_config from '../../global_config.json';
 import { Image } from 'react-native-elements';
+import analytics from '@react-native-firebase/analytics';
 var adUnitId;
 
 export default function FeedItemAdd(props) {
@@ -11,6 +12,13 @@ export default function FeedItemAdd(props) {
   } else {
     adUnitId = 'ca-app-pub-1064314468310203/8095250311';
   }
+
+  const adNumber = (String(Date.now()).substr(12, 1) % 2);
+  // console.log('INTERNET CHECK NOW: ' + fechaEnMiliseg);
+  console.log('substring:' + adNumber);
+  // console.log('substring div:' + myNewStr % 2);
+
+     
 
   if (props.feedType === 'DETAIL' && props.country === 'AR') {
     return (
@@ -32,7 +40,8 @@ export default function FeedItemAdd(props) {
             width: 250
           }}
           onPress={() => {
-            Linking.canOpenURL('https://logdeargentina.com.ar/')
+            if (!__DEV__) analytics().logEvent('LDA_APPPRD');
+            Linking.canOpenURL('https://www.clarin.com')
               .then((supported) => {
                 if (!supported) {
                   console.log(
@@ -50,7 +59,88 @@ export default function FeedItemAdd(props) {
         />
       </View>
     );
-  } else
+  } else if (props.feedType === 'DETAIL' && props.country === 'JP')
+    return (
+      <View
+        style={{
+          zIndex: 0,
+          justifyContent: 'center',
+          alignSelf: 'center'
+        }}>
+      
+        <Image
+          style={{
+            flex: 1,
+            height: 280,
+            padding: 0,
+            margin: 0,
+            width: 280
+          }}
+          onPress={() => {
+            if (!__DEV__) analytics().logEvent('JH9KIO_US_APPPRD');
+
+            Linking.canOpenURL('https://www.clarin.com')
+              .then((supported) => {
+                if (!supported) {
+                  console.log(
+                    "Can't handle url: " + 'https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g'
+                  );
+                } else {
+                  return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');
+                }
+              })
+              .catch((err) => console.error('An error occurred', err));
+          }}
+          // source={{ uri: global_config.s3Cloudfront + 'lda2.png' }}
+          source={{ uri: 'https://d1dwfud4bi54v7.cloudfront.net/jh9kio_ad_jp_'+ adNumber + '.jpg' }}
+
+          resizeMethod="scale"
+          resizeMode="contain"
+        />
+      </View>
+    );
+    else if (props.feedType === 'DETAIL')
+    return (
+      <View
+        style={{
+          zIndex: 0,
+          justifyContent: 'center',
+          alignSelf: 'center'
+        }}>
+      
+        <Image
+          style={{
+            flex: 1,
+            height: 280,
+            padding: 0,
+            margin: 0,
+            width: 280
+          }}
+          onPress={() => {
+
+            if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
+            Linking.canOpenURL('https://www.clarin.com')
+          
+              .then((supported) => {
+                if (!supported) {
+                  console.log(
+                    "Can't handle url: " + 'https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g f2'
+                  );
+                } else {
+                  return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');
+                }
+              })
+              .catch((err) => console.error('An error occurred', err));
+          }}
+          // source={{ uri: global_config.s3Cloudfront + 'lda2.png' }}
+          source={{ uri: 'https://d1dwfud4bi54v7.cloudfront.net/jh9kio_ad_en_' + adNumber + '.jpg' }}
+
+          resizeMethod="scale"
+          resizeMode="contain"
+        />
+      </View>
+    );
+    else
     return (
       <View
         style={{
@@ -70,4 +160,5 @@ export default function FeedItemAdd(props) {
         />
       </View>
     );
+
 }

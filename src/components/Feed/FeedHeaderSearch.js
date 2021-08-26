@@ -11,6 +11,7 @@ import * as Actions from '../../actions';
 import Autocomplete from 'react-native-autocomplete-input';
 import { setToken } from '../../actions';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
+import analytics from '@react-native-firebase/analytics';
 
 const FeedHeaderSearch = (props) => {
   // For Main Data
@@ -144,6 +145,8 @@ const FeedHeaderSearch = (props) => {
     console.log('buscar: '+searchValue.length)
     if (searchValue.length > 0)
  {   
+
+  if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
   // borro el resultado de la busqueda anterior 
   props.actions.setSearchedResults([],true);
      Keyboard.dismiss();
@@ -205,7 +208,7 @@ const FeedHeaderSearch = (props) => {
             // // props.actions.doFetchUserFeed(props.currentQRA);
             // props.actions.doFetchPublicFeed();
           }
-          if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
+          // if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
         })
         .catch((err) => {
           console.log(err);

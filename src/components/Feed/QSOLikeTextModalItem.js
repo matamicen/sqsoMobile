@@ -125,7 +125,7 @@ class QSOLikeTextModalItem extends React.PureComponent {
             }}>
             <Text numberOfLines={1} style={{ fontSize: 16 }}>
               <Text style={{ fontSize: 17 }}>{l.qra}</Text>
-              <Text style={{ fontSize: 13 }}>
+              <Text style={{ fontSize: 17 }}>
                 {l.country !== '' && l.country !== null && (
                   <Text>{country2emoji(l.country)}</Text>
                 )}
