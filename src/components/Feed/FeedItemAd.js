@@ -77,7 +77,7 @@ export default function FeedItemAdd(props) {
             width: 280
           }}
           onPress={() => {
-            if (!__DEV__) analytics().logEvent('JH9KIO_US_APPPRD');
+            if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
 
             Linking.canOpenURL('https://www.clarin.com')
               .then((supported) => {
@@ -118,7 +118,7 @@ export default function FeedItemAdd(props) {
           }}
           onPress={() => {
 
-            if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
+            if (!__DEV__) analytics().logEvent('JH9KIO_US_APPPRD');
             Linking.canOpenURL('https://www.clarin.com')
           
               .then((supported) => {

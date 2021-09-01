@@ -127,10 +127,10 @@ class QRAProfileInfo extends React.PureComponent {
           </Text>
           <Text style={styles.text}>{I18n.t('qra.email')}</Text>
           <Text style={styles.textDesc}>{email}</Text>
-          <Text style={styles.text}>
+          {/* <Text style={styles.text}>
             {I18n.t('qra.birthday')}
           </Text>
-          <Text style={styles.textDesc}>{new Date(birthday).toISOString().substring(0, 10)}</Text>
+          <Text style={styles.textDesc}>{new Date(birthday).toISOString().substring(0, 10)}</Text> */}
 
 
           <Divider style={{ backgroundColor: '#222', marginRight: 15 }} />
