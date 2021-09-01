@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import { userNotValidated } from '../../helper';
+import analytics from '@react-native-firebase/analytics';
 import {
   View,
   TouchableOpacity,
@@ -56,7 +57,7 @@ class FeedItemSearchQra extends React.PureComponent {
         //     event_category: 'User',
         //     event_label: 'follow'
         //   });
-        if (!__DEV__) analytics().logEvent('qraFollowRecommended_APPPRD');
+        if (!__DEV__) analytics().logEvent('qraFollowSearchCard_APPPRD');
         if (this.props.userinfo.pendingVerification) userNotValidated();
         else {
           this.setState({ followed: [...this.state.followed, param] });
