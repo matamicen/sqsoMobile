@@ -164,6 +164,8 @@ export default {
   ShareShare: 'Share',
   Refreshing: 'Refreshing',
   ShareMessage: 'Please check out this activity',
+  ShareInviteFriend: '%{callsign} invites you to SuperQSO! 🎉, "The Facebook for Hams" is now available Worldwide',
+  InviteFriend: 'Invite a friend! 🎉',
   ShareTitle: 'Awesome Contents',
   QsoQrasPleaseAdd: 'Please Add a Callsign',
   QsoHeaderAddCallsign: 'Add Callsign',

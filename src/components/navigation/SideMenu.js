@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import analytics from '@react-native-firebase/analytics';
+import Share from 'react-native-share';
+
 class SideMenu extends Component {
   // navigateToScreen = (route) => () => {
   //   const navigateAction = NavigationActions.navigate({
@@ -16,6 +18,38 @@ class SideMenu extends Component {
   //   this.props.navigation.push(route);
   // };
 
+  share = () => {
+    // const url = 'https://www.superqso.com/qso/e2166569-599b-11ea-9581-0a96c372e817';
+    // const url = 'http://superqso-dev.us-east-1.elasticbeanstalk.com/qso/'+this.props.sharerluid;
+    const url = 'https://www.superqso.com';
+      // global_config.dynamic_link +
+      // 'QSO=' +
+      // this.props.idqso +
+      // global_config.dynamic_apn +
+      // global_config.dynamic_ibi +
+      // global_config.dynamic_afl +
+      // '/qso/' +
+      // this.props.idqso +
+      // global_config.dynamic_isi +
+      // global_config.dynamic_ifl +
+      // '/qso/' +
+      // this.props.idqso +
+      // global_config.dynamic_ofl +
+      // '/qso/' +
+      // this.props.idqso;
+    // const title = this.props.currentQRA + ' invites you to SuperQSO, "The Facebook for Hams" is now available Worldwide';
+    const title =  I18n.t('ShareInviteFriend', { callsign: this.props.currentQRA })
+    // const message = I18n.t('ShareMessage');
+    const options = {
+      title,
+      subject: 'title2',
+      // message: `${title}`
+      message: `${title} ${url}`
+    };
+
+    Share.open(options);
+    if (!__DEV__) analytics().logEvent('inviteFriendsDrawer_APPPRD');
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -116,6 +150,25 @@ class SideMenu extends Component {
               </Text>
             </View>
           </View>
+          <View>
+            {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
+            <View style={styles.navSectionStyle}>
+              <Text
+                style={styles.inviteStyle}
+                onPress={() => {
+                  // if (!__DEV__)
+                  //   analytics().logEvent('drawerInviteFriendPressed_APPPRD');
+                  // this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.share();
+                 
+
+                  // this.props.navigation.navigate('editInfo');
+                }}>
+                  {I18n.t('InviteFriend')}
+              </Text>
+            </View>
+          </View>
         </ScrollView>
         {/* <View style={styles.footerContainer}>
           <Text>This is my fixed footer</Text>
@@ -136,6 +189,12 @@ const styles = StyleSheet.create({
   navItemStyle: {
     padding: 10,
     fontSize: 20
+  },
+  inviteStyle: {
+    padding: 10,
+    fontSize: 20,
+    color: '#243665',
+    fontWeight: 'bold'
   },
   navSectionStyle: {
     // backgroundColor: 'lightgrey'

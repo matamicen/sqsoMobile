@@ -164,6 +164,8 @@ export default {
   ShareShare: '共有',
   Refreshing: '更新中',
   ShareMessage: '確認して下さい',
+  ShareInviteFriend: '%{callsign} がSuperQSOにあなたを招待します。「TheFacebookforHams」が世界中で利用可能になりました 🎉',
+  InviteFriend: '友達を招待しましょう! 🎉',
   ShareTitle: '素晴らしい投稿',
   QsoQrasPleaseAdd: 'コールサインを加えて下さい',
   // QsoHeaderAddCallsign: 'コールサインを加えて下さい',
