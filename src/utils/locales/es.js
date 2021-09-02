@@ -167,6 +167,8 @@ export default {
   ShareShare: 'Compartir',
   Refreshing: 'Refrescando',
   ShareMessage: 'Mirá esta actividad',
+  ShareInviteFriend: '%{callsign} te invita a SuperQSO! 🎉, "El FaceBook de los radioaficionados" ahora disponible al mundo.',
+  InviteFriend: 'Invitá a un amigo! 🎉',
   ShareTitle: 'Increible Contenido',
   QsoQrasPleaseAdd: 'Por favor agregue SD (Señal Distintiva)',
   QsoHeaderAddCallsign: 'Agregar SD',

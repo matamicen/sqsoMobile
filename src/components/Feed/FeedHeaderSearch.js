@@ -12,6 +12,10 @@ import Autocomplete from 'react-native-autocomplete-input';
 import { setToken } from '../../actions';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import analytics from '@react-native-firebase/analytics';
+import Share from 'react-native-share';
+
+
+
 
 const FeedHeaderSearch = (props) => {
   // For Main Data
@@ -221,9 +225,26 @@ const FeedHeaderSearch = (props) => {
       else
         setSearchValue('')
 
-
+      
 
   }
+
+  const share = () => {
+
+    const url = 'https://www.superqso.com';
+  
+    const title =  I18n.t('ShareInviteFriend', { callsign: props.currentQRA })
+    // const message = I18n.t('ShareMessage');
+    const options = {
+      title,
+      subject: 'title2',
+      // message: `${title}`
+      message: `${title} ${url}`
+    };
+  
+    Share.open(options);
+    if (!__DEV__) analytics().logEvent('InviteFriendPressedSearchBAR_APPPRD');
+  };
 
 
 
@@ -287,7 +308,7 @@ const FeedHeaderSearch = (props) => {
     <SafeAreaView style={{ flex: 1, flexDirection: 'row' }}>
       <View
             style={{
-              flex: 0.2,
+              flex: 0.15,
               // flexBasis: 60,
               // flexGrow: 0,
               // flexShrink: 0,
@@ -302,17 +323,42 @@ const FeedHeaderSearch = (props) => {
           </View> 
           <View
             style={{
-              flex: 0.80,
+              flex: 0.85,
+              flexDirection: 'row',
               // flexBasis: 60,
               // flexGrow: 0,
               // flexShrink: 0,
-               alignItems: 'flex-end',
+              //  alignItems: 'flex-end',
               // justifyContent: 'flex-end',
               marginTop: 10,
               marginLeft:12,
               // backgroundColor: 'green'
             }}>
+
+<View
+            style={{
+              flex: 0.78}}>
+<Button
+              fluid
+              raised
+              titleStyle={{ fontSize:I18n.locale.substring(0, 2) === 'ja' ? 16.5 : 17.5, color: '#243665'
+               }}
+              buttonStyle={{ backgroundColor: '#8BD8BD' }}
+              size="medium"
+              onPress={() => {
+                if (!__DEV__) analytics().logEvent('inviteFriendsSearchBAR_APPPRD');
+                 share();
+              }
+            }
+              title={I18n.t('InviteFriend')}
+              // title='Invite a friend!'
+            />
+            </View>
           
+
+            <View
+            style={{
+              flex: 0.22}}>     
               <Icon
               name="search"
              
@@ -323,6 +369,7 @@ const FeedHeaderSearch = (props) => {
       onPress={() => searchIconPress()} 
    
     />
+    </View>
 
 
           </View> 
