@@ -1377,3 +1377,304 @@ export const userNotValidated = () => {
 
   return true;
 };
+
+
+export const languageCheck = (lang) => {
+  
+  text = 'Translate';
+  lan = 'en';
+
+  switch (lang) {
+    case 'af':
+      text = 'Vertaal';
+      lan = lang;
+      break;
+    case 'sq':
+      text = 'perkthe';
+      lan = lang;
+      break;
+    case 'am':
+      text = 'መተርጎም';
+      lan = lang;
+      break;
+    case 'ar':
+      text = 'ترجمة';
+      lan = lang;
+      break;
+    case 'hy':
+      text = 'թարգմանել';
+      lan = lang;
+      break;
+    case 'az':
+      text = 'tərcümə etmək';
+      lan = lang;
+      break;
+    case 'bn':
+      text = 'অনুবাদ করা';
+      lan = lang;
+      break;
+    case 'bs':
+      text = 'prevesti';
+      lan = lang;
+      break;
+    case 'bg':
+      text = 'превеждам';
+      lan = lang;
+      break;
+    case 'ca':
+      text = 'traduir';
+      lan = lang;
+      break;
+    case 'zh':
+      text = '翻译';
+      lan = lang;
+      break;
+    case 'hr':
+      text = 'Prevedi';
+      lan = lang;
+      break;
+      case 'cs':
+        text = 'přeložit';
+        lan = lang;
+        break;
+      case 'bg':
+        text = 'превеждам';
+        lan = lang;
+        break;
+      case 'da':
+        text = 'Oversætte';
+        lan = lang;
+        break;
+      case 'nl':
+        text = 'vertalen';
+        lan = lang;
+        break;
+      case 'et':
+        text = 'tõlkida';
+        lan = lang;
+        break;
+        case 'tl':
+          text = 'Isalin';
+          lan = lang;
+          break;
+        case 'fi':
+          text = 'Kääntää';
+          lan = lang;
+          break;
+        case 'fr':
+          text = 'Traduire';
+          lan = lang;
+          break;
+        case 'ka':
+          text = 'თარგმნე';
+          lan = lang;
+          break;
+        case 'de':
+          text = 'Übersetzen';
+          lan = lang;
+          break;
+          case 'el':
+            text = 'μεταφράζω';
+            lan = lang;
+            break;
+          case 'gu':
+            text = 'અનુવાદ કરો';
+            lan = lang;
+            break;
+          case 'he':
+            text = 'לתרגם';
+            lan = lang;
+            break;
+          case 'hi':
+            text = 'अनुवाद करना';
+            lan = lang;
+            break;
+          case 'hu':
+            text = 'fordít';
+            lan = lang;
+            break;
+            case 'is':
+              text = 'þýða';
+              lan = lang;
+              break;
+            case 'id':
+              text = 'menerjemahkan';
+              lan = lang;
+              break;
+            case 'it':
+              text = 'tradurre';
+              lan = lang;
+              break;
+            case 'ja':
+              text = '翻訳';
+              lan = lang;
+              break;
+            case 'ko':
+              text = '번역하다';
+              lan = lang;
+              break;
+      case 'et':
+        text = 'tõlkida';
+        lan = lang;
+        break;
+        case 'tl':
+          text = 'Isalin';
+          lan = lang;
+          break;
+        case 'fi':
+          text = 'Kääntää';
+          lan = lang;
+          break;
+        case 'fr':
+          text = 'Traduire';
+          lan = lang;
+          break;
+        case 'ka':
+          text = 'თარგმნე';
+          lan = lang;
+          break;
+        case 'de':
+          text = 'Übersetzen';
+          lan = lang;
+          break;
+          case 'el':
+            text = 'μεταφράζω';
+            lan = lang;
+            break;
+          case 'gu':
+            text = 'અનુવાદ કરો';
+            lan = lang;
+            break;
+          case 'he':
+            text = 'לתרגם';
+            lan = lang;
+            break;
+          case 'hi':
+            text = 'अनुवाद करना';
+            lan = lang;
+            break;
+          case 'hu':
+            text = 'fordít';
+            lan = lang;
+            break;
+            case 'is':
+              text = 'þýða';
+              lan = lang;
+              break;
+            case 'id':
+              text = 'menerjemahkan';
+              lan = lang;
+              break;
+            case 'it':
+              text = 'tradurre';
+              lan = lang;
+              break;
+            case 'ja':
+              text = '翻訳';
+              lan = lang;
+              break;
+            case 'ko':
+              text = '번역하다';
+              lan = lang;
+              break;
+
+              case 'lv':
+                text = 'tulkot';
+                lan = lang;
+                break;
+                case 'lt':
+                  text = 'išversti';
+                  lan = lang;
+                  break;
+                case 'mk':
+                  text = 'преведи';
+                  lan = lang;
+                  break;
+                case 'ms':
+                  text = 'terjemahkan';
+                  lan = lang;
+                  break;
+                case 'ml':
+                  text = 'വിവർത്തനം ചെയ്യുക';
+                  lan = lang;
+                  break;
+                case 'mt':
+                  text = 'tittraduċi';
+                  lan = lang;
+                  break;
+                  case 'mn':
+                    text = 'орчуулах';
+                    lan = lang;
+                    break;
+                  case 'no':
+                    text = 'oversette';
+                    lan = lang;
+                    break;
+                  case 'ru':
+                    text = 'перевести';
+                    lan = lang;
+                    break;
+                  case 'sr':
+                    text = 'превести';
+                    lan = lang;
+                    break;
+                  case 'pl':
+                    text = 'Tłumaczyć';
+                    lan = lang;
+                    break;
+                    case 'pt':
+                      text = 'traduzir';
+                      lan = lang;
+                      break;
+                    case 'ro':
+                      text = 'Traduceți';
+                      lan = lang;
+                      break;
+                    case 'sk':
+                      text = 'preložiť';
+                      lan = lang;
+                      break;
+                    case 'sl':
+                      text = 'prevesti';
+                      lan = lang;
+                      break;
+                    case 'es':
+                      text = 'Traducir';
+                      lan = lang;
+                      break;
+
+                      case 'sv':
+                        text = 'Översätt';
+                        lan = lang;
+                        break;
+                        case 'th':
+                          text = 'แปลภาษา';
+                          lan = lang;
+                          break;
+                        case 'tr':
+                          text = 'Çevirmek';
+                          lan = lang;
+                          break;
+                        case 'uk':
+                          text = 'перекладати';
+                          lan = lang;
+                          break;
+                        case 'vi':
+                          text = 'Phiên dịch';
+                          lan = lang;
+                          break;
+                        case 'cy':
+                          text = 'cyfieithu';
+                          lan = lang;
+                          break;
+                          
+  }
+
+
+  return {
+    translateText: text,
+    language: lan
+    
+  };
+
+};

@@ -8,7 +8,8 @@ import {
   Modal,
   Linking,
   Alert,
-  Platform
+  Platform,
+  TouchableOpacity
 } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Image, Icon } from 'react-native-elements';
@@ -16,6 +17,23 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
+import I18n from '../../utils/i18n';
+
+// import { Auth } from '@aws-amplify/auth';
+// import Amplify from "@aws-amplify/core"
+// import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+// import awsconfig from '../../aws-exports';
+import TranslatedDescription from './TranslatedDescription';
+
+// Auth.configure(awsconfig);
+// Amplify.configure(awsconfig);
+
+// estos dos de abajo ambien andan si comento el Amplify.addPluggable(....)
+// Amplify.register(Predictions);
+// Predictions.addPluggable(new AmazonAIPredictionsProvider());
+
+// Amplify.addPluggable(new AmazonAIPredictionsProvider());
+
 
 class Link extends React.PureComponent {
   openUrl(url) {
@@ -49,6 +67,10 @@ class Link extends React.PureComponent {
 }
 
 class Description extends React.PureComponent {
+
+  
+
+
   render() {
     // Check if nested content is a plain string
     if (typeof this.props.description === 'string') {
@@ -70,10 +92,10 @@ class Description extends React.PureComponent {
           );
         } else {
           return (
-            <Text key={i}>
-              {word}
-              {separator}
-            </Text>
+              <Text key={i}>
+                {word}
+                {separator}
+              </Text>
           );
         }
       }, this);
@@ -85,6 +107,9 @@ class Description extends React.PureComponent {
           'This component only supports plain text children.'
       );
       return <Text>{this.props.children}</Text>;
+         
+          
+      
     }
 
     // Return the modified content wrapped in a <Text> component
@@ -98,7 +123,7 @@ const sliderWidth = Dimensions.get('window').width;
 const itemHeight = 380;
 class FeedImage extends React.PureComponent {
   itemWidth = Dimensions.get('window').width;
-  state = { showModal: false, activeSlide: 0 };
+  state = { showModal: false, activeSlide: 0, showTranslation: false, descriptionTranslated: '' };
   componentDidMount() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
   }
@@ -161,11 +186,17 @@ class FeedImage extends React.PureComponent {
               }}>
               <Description description={item.description} />
             </Text>
+            <TranslatedDescription description={item.description} />
+     
+            
           </View>
         </View>
         // </View>
       );
   };
+
+  
+
   showFooter(currentIndex) {
     return (
       <View style={{ height: 100, backgroundColor: 'black' }}>

@@ -150,8 +150,8 @@ class SideMenu extends Component {
               </Text>
             </View>
           </View>
-          <View>
-            {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
+          {/* <View>
+            
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.inviteStyle}
@@ -168,7 +168,8 @@ class SideMenu extends Component {
                   {I18n.t('InviteFriend')}
               </Text>
             </View>
-          </View>
+            
+          </View> */}
         </ScrollView>
         {/* <View style={styles.footerContainer}>
           <Text>This is my fixed footer</Text>
