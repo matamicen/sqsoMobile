@@ -108,7 +108,11 @@ class QSOComments extends React.PureComponent {
         this.props.token,
         this.props.qso.idqso_shared
       );
+      setTimeout(() => {
+      this.flatListRef.scrollToEnd({ animated: true })
 
+         }, 1500);
+    
       // this.flatListRef.getScrollResponder().scrollResponderScrollToEnd({
       //   animated: true,
       // });
@@ -261,9 +265,9 @@ class QSOComments extends React.PureComponent {
                   ItemSeparatorComponent={this.renderSeparator}
                   renderItem={this._renderItem}
                   // contentContainerStyle={styles.container}
-                  onContentSizeChange={() =>
-                    this.flatListRef.scrollToEnd({ animated: true })
-                  }
+                  // onContentSizeChange={() =>
+                  //    this.flatListRef.scrollToEnd({ animated: true })
+                  // }
                   onLayout={() =>
                     this.flatListRef.scrollToEnd({ animated: true })
                   }
@@ -424,9 +428,9 @@ class QSOComments extends React.PureComponent {
                   keyExtractor={(item, index) => index.toString()}
                   ItemSeparatorComponent={this.renderSeparator}
                   renderItem={this._renderItem}
-                  onContentSizeChange={() =>
-                    this.flatListRef.scrollToEnd({ animated: true })
-                  }
+                  // onContentSizeChange={() =>
+                  //   this.flatListRef.scrollToEnd({ animated: true })
+                  // }
                   onLayout={() =>
                     this.flatListRef.scrollToEnd({ animated: true })
                   }

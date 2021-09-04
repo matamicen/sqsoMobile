@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import I18n from '../../utils/i18n';
 import * as Actions from '../../actions';
+import TranslatedDescription from './TranslatedDescription'
 // import './style.js';
 class Link extends React.PureComponent {
   openUrl(url) {
@@ -229,21 +230,36 @@ class FeedVideo extends React.PureComponent {
           {this.props.media.views_counter > 0 && (
             <Text style={{ fontSize: 17, paddingHorizontal: 5 }}>
               {this.props.media.description && (
+             
                 <Text style={{ fontSize: 19, paddingHorizontal: 5 }}>
                   <Description description={this.props.media.description} />{' '}
                   {' - '}
                 </Text>
+                
+                
               )}
 
               {I18n.t('qso.audioPlays', {
                 count: this.props.media.views_counter + 1
               })}
+              
             </Text>
+            
+            
           )}
+
+        {this.props.media.views_counter > 0 && 
+          <TranslatedDescription description={this.props.media.description} />
+        }
+
+
           {this.props.media.views_counter === 0 && (
+            <View>
             <Text style={{ fontSize: 19, paddingHorizontal: 5 }}>
               <Description description={this.props.media.description} />
             </Text>
+              <TranslatedDescription description={this.props.media.description} />
+            </View>
           )}
         </View>
       </View>

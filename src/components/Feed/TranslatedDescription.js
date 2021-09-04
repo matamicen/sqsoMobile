@@ -23,12 +23,16 @@ import {languageCheck} from '../../helper';
 
 
 // Predictions.addPluggable(new AmazonAIPredictionsProvider());
+
+
 Auth.configure(awsconfig);
 Amplify.configure(awsconfig);
+
 
 // estos dos de abajo ambien andan si comento el Amplify.addPluggable(....)
 // Amplify.register(Predictions);
 // Predictions.addPluggable(new AmazonAIPredictionsProvider());
+
 
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
@@ -97,8 +101,9 @@ class TranslatedDescription extends React.PureComponent {
               <Text  style={{
                 fontSize: 18.5,
                 color: 'blue',
-                paddingHorizontal: 5,
-                textAlign: 'center'}}>
+                // paddingHorizontal: 5,
+                // textAlign: 'center'
+                }}>
                     {this.state.descriptionTranslated}</Text>
              }
         </View>

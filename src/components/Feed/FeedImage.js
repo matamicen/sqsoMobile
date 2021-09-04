@@ -123,7 +123,7 @@ const sliderWidth = Dimensions.get('window').width;
 const itemHeight = 380;
 class FeedImage extends React.PureComponent {
   itemWidth = Dimensions.get('window').width;
-  state = { showModal: false, activeSlide: 0, showTranslation: false, descriptionTranslated: '' };
+  state = { showModal: false, activeSlide: 0 };
   componentDidMount() {
     this.itemWidth = this.props.type === 'SHARE' ? slideWidth - 50 : slideWidth;
   }
