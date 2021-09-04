@@ -88,7 +88,7 @@ class TranslatedDescription extends React.PureComponent {
       return (
         <View>
            {(!this.state.showTranslation) ?
-              <TouchableOpacity style={{ width: 80 }} onPress={() => this.translate(this.props.description)}>
+              <TouchableOpacity style={{ width: 280 }} onPress={() => this.translate(this.props.description)}>
                   <Text  style={{
                 fontSize: 16,
                 color: 'blue',
@@ -101,6 +101,7 @@ class TranslatedDescription extends React.PureComponent {
               <Text  style={{
                 fontSize: 18.5,
                 color: 'blue',
+                width: 280
                 // paddingHorizontal: 5,
                 // textAlign: 'center'
                 }}>
