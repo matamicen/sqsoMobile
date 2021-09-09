@@ -341,7 +341,7 @@ const FeedHeaderSearch = (props) => {
 <Button
               fluid
               raised
-              titleStyle={{ fontSize:I18n.locale.substring(0, 2) === 'ja' ? 16.5 : 17.5, color: '#243665'
+              titleStyle={{ fontSize:I18n.locale.substring(0, 2) === 'ja' ? 15 : 17.5, color: '#243665'
                }}
               buttonStyle={{ backgroundColor: '#8BD8BD' }}
               size="medium"

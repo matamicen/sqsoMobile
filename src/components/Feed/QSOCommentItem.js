@@ -18,6 +18,8 @@ import I18n from '../../utils/i18n';
 import FeedOptionsMenu from './FeedOptionsMenu';
 import { userNotValidated } from '../../helper';
 import moment from 'moment';
+import TranslatedDescription from './TranslatedDescription'
+
 const country2emoji = (country_code) => {
   var OFFSET = 127397;
   var cc = country_code.toUpperCase();
@@ -311,6 +313,7 @@ class QSOCommentItem extends React.PureComponent {
               }}
             />
           </Text>
+          <TranslatedDescription description={this.props.comment.comment} />
         </View>
       </View>
     );

@@ -1,6 +1,11 @@
 import moment from 'moment';
-import 'moment/locale/es';
-import 'moment/locale/ja';
+import 'moment/min/locales';
+// import 'moment/locale/es';
+// import 'moment/locale/ja';
+// import 'moment/locale/pl';
+// import 'moment/locale/fr';
+
+
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -8,9 +13,10 @@ import I18n from '../../utils/i18n';
 
 // import 'moment/locale/pt';
 
-if (I18n.locale.substring(0, 2) === 'es') moment.locale('es');
-if (I18n.locale.substring(0, 2) === 'en') moment.locale('en');
-if (I18n.locale.substring(0, 2) === 'ja') moment.locale('ja');
+// if (I18n.locale.substring(0, 2) === 'es') moment.locale('es');
+// if (I18n.locale.substring(0, 2) === 'en') moment.locale('en');
+// if (I18n.locale.substring(0, 2) === 'ja') moment.locale('ja');
+moment.locale(I18n.locale.substring(0, 2));
 //   Anda bien con el protugues, lo comento porque por ahora no implementamos Brasil
 //  if (I18n.locale.substring(0, 2) ==='pt')
 //  moment.locale('pt');

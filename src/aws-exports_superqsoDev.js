@@ -55,7 +55,71 @@ const config = {
     // identityPoolId: 'us-east-1:2cf52faa-ca6d-41a5-9bd0-70d7a57f025a',
     region: 'us-east-1', // OPTIONAL -  Amazon service region
     identityPoolId: 'us-east-1:daa39e2c-c363-4b97-91a9-de1ae54c7590'
+  },
+  predictions: {
+      convert: {
+          translateText: {
+              region: "us-east-1",
+              proxy: false,
+              defaults: {
+                  sourceLanguage: "auto",
+                  targetLanguage: "en"
+              }
+          },
+          "speechGenerator": {
+              "region": "us-east-1",
+              "proxy": false,
+              "defaults": {
+                  "VoiceId": "Ivy",
+                  "LanguageCode": "en-US"
+              }
+          },
+          "transcription": {
+              "region": "us-east-1",
+              "proxy": false,
+              "defaults": {
+                  "language": "en-US"
+              }
+          }
+      },
+      "identify": {
+          "identifyText": {
+              "proxy": false,
+              "region": "us-east-1",
+              "defaults": {
+                  "format": "PLAIN"
+              }
+          },
+          "identifyEntities": {
+              "proxy": false,
+              "region": "us-east-1",
+              "celebrityDetectionEnabled": true,
+              "defaults": {
+                  "collectionId": "identifyEntities8b89c648-test",
+                  "maxEntities": 50
+              }
+          },
+          "identifyLabels": {
+              "proxy": false,
+              "region": "us-east-1",
+              "defaults": {
+                  "type": "LABELS"
+              }
+          }
+      },
+      "interpret": {
+          "interpretText": {
+              "region": "us-east-1",
+              "proxy": false,
+              "defaults": {
+                  "type": "ALL"
+              }
+          }
+      }
   }
+
+
+ 
   // Analytics: {
   //   // OPTIONAL -  Amazon Pinpoint App ID
   //   disabled: true,
