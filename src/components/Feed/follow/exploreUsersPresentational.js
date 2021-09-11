@@ -87,7 +87,7 @@ const ExploreUsers = ({
                             // actions.doLatestUsersFetchByCountry('IT');
                             setShowFlag(true)
                           }}>
-                            <Text style={{ fontSize: 16, color: 'white' }}>country:</Text>
+                            <Text style={{ fontSize: 16, color: 'white' }}>{I18n.t('exploreUsers.country')}</Text>
 
          </TouchableOpacity>
          </View>
@@ -125,7 +125,7 @@ const ExploreUsers = ({
                                 setcountryName('all')
                                 // setShowFlag(true)
                               }}>
-                                <Text style={{ fontSize: 16, color: 'white' }}>clear</Text>
+                                <Text style={{ fontSize: 16, color: 'white' }}>{I18n.t('exploreUsers.clear')}</Text>
 
             </TouchableOpacity>
          </View>
