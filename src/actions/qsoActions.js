@@ -4716,6 +4716,56 @@ export function doLatestUsersFetch() {
   };
 }
 
+export function doLatestUsersFetchByCountry(countryFilter) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'getLatestUsers_APPPRD', {
+    //     event_category: 'User',
+    //     event_label: 'getLatestUsers'
+    //   });
+    if (!__DEV__) analytics().logEvent('getLatestUsersByCountry_APPPRD');
+    try {
+      // const currentSession = await Auth.currentSession();
+      // const token = await currentSession.getIdToken().getJwtToken();
+      // dispatch(refreshToken(token));
+      // dispatch(doFollowRequest());
+      const apiName = 'superqso';
+      const path = '/qra/recFollow';
+      const myInit = {
+        body: { query: 3,
+               country: countryFilter }, // replace this with attributes you need
+        headers: {
+          // Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            dispatch(doLatestUsersReceive(response.body.message));
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          console.log(error);
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__) {
+            console.log(error.message);
+            crashlytics().recordError(new Error('doLatestUsersFetch_WEBDEV'));
+          } else
+            crashlytics().recordError(new Error('doLatestUsersFetch_APPPRD'));
+        });
+      //   }
+      // );
+    } catch (error) {
+      console.log(error);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) {
+        console.log(error.message);
+        crashlytics().recordError(new Error('doLatestUsersFetch_WEBDEV'));
+      } else crashlytics().recordError(new Error('doLatestUsersFetch_APPPRD'));
+    }
+  };
+}
+
 export function doLatestUsersReceive(follow) {
   return {
     type: LATEST_USERS_RECEIVE,
