@@ -833,7 +833,7 @@ export default {
     callsignsFollowYou: 'Señales Distintivas que te siguen',
     callsignsMostFollowed: 'Señales Distintivas más seguidos',
     country: 'País:',
-    clear: 'Borrar',
+    clear: 'Todos',
   },
   search: {
     all: 'Todo',

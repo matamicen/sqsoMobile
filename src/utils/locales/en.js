@@ -815,7 +815,7 @@ export default {
     callsignsFollowYou: 'Callsigns that follow you',
     callsignsMostFollowed: 'Callsigns most followed',
     country: 'Country:',
-    clear: 'Clear',
+    clear: 'All',
   },
   search: {
     all: 'All',
