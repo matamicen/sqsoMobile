@@ -816,7 +816,7 @@ createdFLDDAY: ' 行事をPRしました',
     callsignsFollowYou: '貴局をフォロー中のコールサイン',
     callsignsMostFollowed: '一番フォローされているコールサイン',
     country: '国',
-    clear: 'リセット'
+    clear: '全て'
   },
   search: {
     all: '全て',
