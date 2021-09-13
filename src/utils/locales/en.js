@@ -813,7 +813,9 @@ export default {
     callsignsYouTagged: 'Callsigns that you have already tagged',
     callsignsTaggedYou: 'Callsigns that already tagged you',
     callsignsFollowYou: 'Callsigns that follow you',
-    callsignsMostFollowed: 'Callsigns most followed'
+    callsignsMostFollowed: 'Callsigns most followed',
+    country: 'Country:',
+    clear: 'All',
   },
   search: {
     all: 'All',

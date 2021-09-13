@@ -831,7 +831,9 @@ export default {
     callsignsYouTagged: 'Señales Distintivas que has mencionado',
     callsignsTaggedYou: 'Señales Distintivas que te han mencionado',
     callsignsFollowYou: 'Señales Distintivas que te siguen',
-    callsignsMostFollowed: 'Señales Distintivas más seguidos'
+    callsignsMostFollowed: 'Señales Distintivas más seguidos',
+    country: 'País:',
+    clear: 'Todos',
   },
   search: {
     all: 'Todo',

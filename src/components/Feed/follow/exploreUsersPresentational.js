@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   FlatList,
   TouchableOpacity,
   Text,
+  Platform,
   StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
 import { withNavigation } from 'react-navigation';
 import { Button, Avatar, Card, Icon } from 'react-native-elements';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const country2emoji = (country_code) => {
   var OFFSET = 127397;
@@ -37,6 +39,7 @@ const country2emoji = (country_code) => {
       )
     : null;
 };
+
 const ExploreUsers = ({
   active,
   users,
@@ -48,8 +51,122 @@ const ExploreUsers = ({
   navigation,
   actions
 }) => {
+
+  const [count, setCount] = useState(0);
+  const [showFlag, setShowFlag] = useState(false);
+  const [cca2, setcca2] = useState('');
+  const [countryName, setcountryName] = useState('All');
+
+
+
+ 
+
   return (
     <View style={{ flex: 1 }}>
+      <View style={{flexDirection: 'row', flex: 0.10 }}>
+        <View style={{ margin:5,
+                         padding:Platform.OS === 'android' ? 7: 15, 
+                         backgroundColor: '#243665',
+                         bottom: 10,
+                         left: 2,
+                         top: 1,
+                         right: 38,
+                        //  position: 'absolute',
+                        //  alignItems: 'center',
+                         borderBottomLeftRadius: 22,
+                         borderBottomRightRadius: 22,
+                         borderTopLeftRadius: 22,
+                         borderTopRightRadius: 22, 
+                         flex:0.22   
+                                          
+                          }}>
+
+      <TouchableOpacity
+        style={{ height: 60, width:80   }}
+                          onPress={() => {
+                            // actions.doLatestUsersFetchByCountry('IT');
+                            setShowFlag(true)
+                          }}>
+                            <Text style={{ fontSize: 16, color: 'white' }}>{I18n.t('exploreUsers.country')}</Text>
+
+         </TouchableOpacity>
+         </View>
+       
+         <View style={{flex: 0.62, top: 16 }}>
+          <TouchableOpacity
+                          onPress={() => {
+                            // actions.doLatestUsersFetchByCountry('IT');
+                            setShowFlag(true)
+                          }}>
+            <Text style={{ fontSize: 16, padding:Platform.OS === 'android' ? 1: 7 }} >{countryName}</Text>
+            </TouchableOpacity>
+         </View>
+        
+         <View style={{ margin:5,
+                         padding:Platform.OS === 'android' ? 7: 15, 
+                          backgroundColor: '#243665',
+                         bottom: 3,
+                         left: 1,
+                         right: 20,
+                         top: 2,
+                        //  position: 'absolute',
+                          alignItems: 'center',
+                         borderBottomLeftRadius: 22,
+                         borderBottomRightRadius: 22,
+                         borderTopLeftRadius: 22,
+                         borderTopRightRadius: 22, 
+                         flex:0.16   
+                                          
+                          }}>
+            <TouchableOpacity
+            style={{ height: 60, width:80 ,  alignItems: 'center',}}
+                              onPress={() => {
+                                actions.doLatestUsersFetch();
+                                setcountryName('all')
+                                // setShowFlag(true)
+                              }}>
+                                <Text style={{ fontSize: 16, color: 'white' }}>{I18n.t('exploreUsers.clear')}</Text>
+
+            </TouchableOpacity>
+         </View>
+         { showFlag &&
+         <CountryPicker
+                        withEmoji={false}
+                        withCloseButton={true}
+                        withFlag={true}
+                        //    countryCode={this.state.countryCode}
+                        withFilter={true}
+                        visible={true}
+                        //  theme="black"
+                        // withCallingCode
+                        onSelect={(value) => {
+                          // this.setState({
+                          //   countryCode: country.cca2,
+                          //   callingCode: `+ ${country.callingCode}`,
+                          // });
+
+                          // this.setState({
+                          //   cca2: value.cca2,
+                          //   callingCode: value.callingCode,
+                          //   country: value.name,
+                          //   showFlag: false
+                          // });
+                          console.log(value);
+                          setShowFlag(false)
+                          setCount(count + 5)
+                          setcca2(value.cca2)
+                          setcountryName(value.name)
+                          actions.doLatestUsersFetchByCountry(value.cca2);
+                        }}
+                        onClose = { () => {
+                          setShowFlag(false);
+                          // setcountryName('');
+                          console.log('cerro')} }
+                        // ref={ref => {this.countryPicker = ref}}
+                      />
+              }
+                 </View>
+       <View style={{flex: 0.90 }}>
       <FlatList
         numColumns={2}
         contentContainerStyle={{
@@ -239,6 +356,7 @@ const ExploreUsers = ({
         </View>
       </ScrollView> */}
       {/* */}
+      </View>
     </View>
   );
 };
