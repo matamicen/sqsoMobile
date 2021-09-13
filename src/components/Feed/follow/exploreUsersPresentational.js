@@ -55,7 +55,7 @@ const ExploreUsers = ({
   const [count, setCount] = useState(0);
   const [showFlag, setShowFlag] = useState(false);
   const [cca2, setcca2] = useState('');
-  const [countryName, setcountryName] = useState('All');
+  const [countryName, setcountryName] = useState(I18n.t('exploreUsers.clear'));
 
 
 
