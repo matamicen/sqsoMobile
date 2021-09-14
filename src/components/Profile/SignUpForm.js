@@ -342,17 +342,19 @@ class SignUpForm extends React.PureComponent {
         // this.countryRef.focus();
       }
 
-      if (this.diffyears < 13  && !this.state.isClub) {
-        this.setState({
-          errormessage: I18n.t('signupValDiffYears'),
-          heightindicator: 0,
-          indicator: 0,
-          heighterror: 25,
-          loginerror: 1
-        });
-        this.error = true;
-        //  this.birthdateRef.focus();
-      }
+      // remove birthdate from signup 13/09/2021
+
+      // if (this.diffyears < 13  && !this.state.isClub) {
+      //   this.setState({
+      //     errormessage: I18n.t('signupValDiffYears'),
+      //     heightindicator: 0,
+      //     indicator: 0,
+      //     heighterror: 25,
+      //     loginerror: 1
+      //   });
+      //   this.error = true;
+      //   //  this.birthdateRef.focus();
+      // }
 
       if (this.state.hamDate == 'birthdate'  && !this.state.isClub) {
         this.setState({
@@ -637,36 +639,40 @@ class SignUpForm extends React.PureComponent {
         // this.countryRef.focus();
       }
 
-      if (this.diffyears < 13 && !this.state.isClub) {
-        this.setState({
-          errormessage: I18n.t('signupValDiffYears'),
-          heightindicator: 0,
-          indicator: 0,
-          heighterror: 25,
-          loginerror: 1
-        });
-        this.error = true;
-        //  this.birthdateRef.focus();
-      }
+      // remove birthdate from signup 13/09/2021
 
-      if (this.state.birthdate == 'birthdate' && !this.state.isClub) {
-        this.setState({
-          errormessage: I18n.t('signupValBirthDate'),
-          heightindicator: 0,
-          indicator: 0,
-          heighterror: 25,
-          loginerror: 1
-        });
-        this.error = true;
-        //  this.birthdateRef.focus();
-      }
+      // if (this.diffyears < 13 && !this.state.isClub) {
+      //   this.setState({
+      //     errormessage: I18n.t('signupValDiffYears'),
+      //     heightindicator: 0,
+      //     indicator: 0,
+      //     heighterror: 25,
+      //     loginerror: 1
+      //   });
+      //   this.error = true;
+      //   //  this.birthdateRef.focus();
+      // }
 
-      if (this.state.birthdate == 'birthdate' && this.state.isClub) {
-        this.setState({
-          birthdate: "00-00-0000"
-        });
-        //  this.birthdateRef.focus();
-      }
+      // if (this.state.birthdate == 'birthdate' && !this.state.isClub) {
+      //   this.setState({
+      //     errormessage: I18n.t('signupValBirthDate'),
+      //     heightindicator: 0,
+      //     indicator: 0,
+      //     heighterror: 25,
+      //     loginerror: 1
+      //   });
+      //   this.error = true;
+      //   //  this.birthdateRef.focus();
+      // }
+
+      // if (this.state.birthdate == 'birthdate' && this.state.isClub) {
+      //   this.setState({
+      //     birthdate: "00-00-0000"
+      //   });
+      //   //  this.birthdateRef.focus();
+      // }
+
+      // remove birthdate from signup 13/09/2021
       
       if(!this.error){
         this.setState({
@@ -753,7 +759,9 @@ class SignUpForm extends React.PureComponent {
       password: this.state.password,
       attributes: {
         email: this.state.email.toLowerCase(),
-        birthdate: fechanac,
+        // birthdate: fechanac,
+        // remove birthdate from signup 13/09/2021
+        birthdate: '00/00/0000',
         'custom:firstName': this.state.firstname,
         'custom:lastName': this.state.lastname,
         'custom:country': this.state.cca2,
@@ -1232,8 +1240,8 @@ class SignUpForm extends React.PureComponent {
                     </View>
                     }
                   
-                    
-                    <View style={{ flexDirection: 'row' }}>
+              
+                    {/* <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                       style={styles.birthdateContainer}
                       // onPress={() => this.date_picker()}>
@@ -1245,7 +1253,7 @@ class SignUpForm extends React.PureComponent {
                                 (this.birthdatedRef = birthdatedRef)
                               }>
                               {' '}
-                              {/* {this.state.birthdate} */}
+                       
                               
                               {this.state.clubDate}                             
                                 
@@ -1257,7 +1265,7 @@ class SignUpForm extends React.PureComponent {
                                (this.birthdatedRef = birthdatedRef)
                              }>
                              {' '}
-                             {/* {this.state.birthdate} */}
+                      
                              
                                {this.state.hamDate}
                              
@@ -1268,7 +1276,9 @@ class SignUpForm extends React.PureComponent {
                     <TouchableOpacity style={{ height: 40, width: 60 }}>
                       <Text> </Text>
                     </TouchableOpacity>
-                  </View>
+                  </View> */}
+
+                    
 
                   {/* this.toggleCountryPicker() */}
                   <View style={{ flexDirection: 'row' }}>
@@ -1387,6 +1397,7 @@ class SignUpForm extends React.PureComponent {
                       //textContentType= {'password'}
                       style={styles.input}
                       value={this.state.password}
+                      // blurOnSubmit={false}
                       onChangeText={(text) => this.setState({ password: text })}
                     />
                     <TouchableOpacity style={{ height: 40, width: 60 }}>

@@ -102,16 +102,7 @@ class QRAProfileInfo extends React.PureComponent {
         )}
 
         <View style={{marginLeft: 15}}>
-          {(this.props.currentQRA === 'LU2ACH' ||
-            this.props.env === 'QA') && (
-              <View>
-                <Text style={styles.text}>
-                  {I18n.t('qra.phone')}
-                </Text>
-                <Text>{phone}</Text>
-              </View>
-            
-          )}
+     
           <Text style={{fontSize:25, fontWeight: 'bold', color: '#777', marginTop: 15}}>{I18n.t('qra.personalData')}</Text>
           <Text style={styles.text}>
             {I18n.t('qra.firstName')}
@@ -125,8 +116,13 @@ class QRAProfileInfo extends React.PureComponent {
           <Text style={styles.textDesc}>
             {lastname}
           </Text>
+          { (!this.props.userinfo.pendingVerification) &&
+          <View>
           <Text style={styles.text}>{I18n.t('qra.email')}</Text>
+  
           <Text style={styles.textDesc}>{email}</Text>
+          </View>
+          }
           {/* <Text style={styles.text}>
             {I18n.t('qra.birthday')}
           </Text>
@@ -269,6 +265,7 @@ const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
   env: state.sqso.env,
   qra: state.sqso.feed.qra,
+  userinfo: state.sqso.userInfo,
   token: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
