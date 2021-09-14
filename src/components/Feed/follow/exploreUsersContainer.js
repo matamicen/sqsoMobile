@@ -19,7 +19,7 @@ class exploreUsersContainer extends React.PureComponent {
     //     event_category: 'User',
     //     event_label: 'follow'
     //   });
-    if (!__DEV__) analytics().logEvent('qraFollowRecommended_APPPRD');
+    if (!__DEV__) analytics().logEvent('qraFollowExplore_APPPRD');
     if (this.props.userinfo.pendingVerification) userNotValidated();
     else {
       this.setState({ followed: [...this.state.followed, param] });
