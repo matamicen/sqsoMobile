@@ -17,6 +17,7 @@ import Privacy from './Privacy';
 import I18n from '../../utils/i18n';
 import {APP_VERSION} from '../../appVersion';
 import analytics from '@react-native-firebase/analytics';
+import CheckBox from '@react-native-community/checkbox';
 // import Iap from './Iap';
 
 
@@ -45,7 +46,8 @@ class VariosModales extends React.PureComponent {
       contactMessage: ' ',
       showOkBePremium: false,
       termsaccepted: false,
-      privacyaccepted: false
+      privacyaccepted: false,
+      checkbox: false
     };
   }
 
@@ -1239,6 +1241,74 @@ class VariosModales extends React.PureComponent {
   
 
       );
+
+      if (this.props.modalType === "morephotos"){
+          return (
+            <View>
+              <Modal
+                visible={this.state.show}
+                transparent={true}
+                onRequestClose={() => console.log("Close was requested")}
+              >
+                <View
+            
+                  style={{
+                    //  margin:20,
+                    padding: 20,
+                 //   backgroundColor: "#475788",
+                   backgroundColor : 'rgba(36,54,101,0.95)',
+                    top: 40,
+                    left: 20,
+                    right: 20,
+                    position: "absolute",
+                    borderBottomLeftRadius: 22,
+                    borderBottomRightRadius: 22,
+                    borderTopLeftRadius: 22,
+                    borderTopRightRadius: 22
+    
+                    //  alignItems: 'center'
+                  }}
+                >
+                  <View style={{ flex: 1, alignItems: "center" }}>
+                   <View style={{ flex: 0.2, alignItems: "center" }}>
+                    <Image
+                      source={require("../../images/stack-of-photos.png")}
+                      style={{ width: 60, height: 60 }}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <View style={{ flex: 0.7, alignItems: "center" }}>
+                  <View style={{ flex: 0.6, alignItems: "center" }}>
+                    <Text style={{ color: "#FFFFFF", fontSize: 19, padding: 5 }}>
+                    {I18n.t("variosMorePhotos")}
+                    </Text>
+                    </View>
+                    <View style={{ flex: 0.1, flexDirection: 'row', alignItems: "flex-start" }}>
+                    <CheckBox
+                      disabled={false}
+                      value={this.state.checkbox}
+                      onValueChange={(newValue) => this.setState({checkbox: newValue})}
+                    />
+                     <Text style={{ color: "#999", fontSize: 15, padding: 3 }}>
+                    {I18n.t("variosDontShow")}
+                    </Text>
+                      </View>
+                
+                  </View>
+                  <View style={{ flex: 0.1, alignItems: "center" }}>
+                    <TouchableOpacity
+                      onPress={() => this.props.closeInternetModal(this.state.checkbox ? 'dontshowanymore': '')}
+                      style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5 }}
+                    >
+                      <Text style={{ color: "#FFFFFF", fontSize: 22 }}>{I18n.t("variosModNointernetOKButton")}</Text>
+                    </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+            </View>
+          );
+                }
 
 
 
