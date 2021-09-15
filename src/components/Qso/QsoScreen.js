@@ -178,6 +178,7 @@ class QsoScreen extends React.PureComponent {
     this.videoSize = 0;
     this.file10_delete = {};
     this.videoaux_delete = {};
+    this.dontshow = false;
 
     this.state = {
       people: [],
@@ -217,7 +218,9 @@ class QsoScreen extends React.PureComponent {
       readingVideo: false,
       percentageCompressionInitialTime: '',
       videoSizeBeforeCompress: 0,
-      externalShareurl: false
+      externalShareurl: false,
+      morePhotos: false,
+      // dontshow: false
     };
   }
 
@@ -247,6 +250,12 @@ class QsoScreen extends React.PureComponent {
   };
   async componentDidMount() {
     console.log('COMPONENT did mount QSO Screen!');
+
+    dontshow = await AsyncStorage.getItem('dontshow');
+    console.log('dontshow did:'+dontshow );
+    if (dontshow === null) this.dontshow = false;
+    else this.dontshow = true;
+    // this.setState({dontshow: true})
 
     this.props.setPressHome(0);
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
@@ -2053,12 +2062,13 @@ class QsoScreen extends React.PureComponent {
   //   });
   // };
 
-  closeVariosModales = (param) => {
+  closeVariosModales = async (param) => {
     //  this.setState({ nointernet: false, prevideorewarded: false });
     this.setState({
       nointernet: false,
       novideomp4: false,
-      readingVideo: false
+      readingVideo: false,
+      morePhotos: false
     });
     this.props.welcomeUserFirstTime(false);
     // if (param==='yes')
@@ -2071,6 +2081,11 @@ class QsoScreen extends React.PureComponent {
     // , 50);
 
     console.log('cerro modal:' + param);
+    // dontshowanymore
+    if (param==='dontshowanymore') {
+      await AsyncStorage.setItem('dontshow','true');
+      this.dontshow = true;
+    }
   };
 
   not_rewarded = () => {
@@ -2079,6 +2094,18 @@ class QsoScreen extends React.PureComponent {
   };
 
   receive_data_from_modal = (envio, fileauxProfileAvatar) => {
+    console.log('enviotype:' + envio.type)
+
+    if (envio.type === 'image') {
+      // dontshow = await AsyncStorage.getItem('dontshow');
+      // console.log('dontshow:'+ dontshow)
+      if (this.dontshow===false)
+           this.setState({morePhotos: true})
+    }
+    else
+    this.setState({morePhotos: false})
+     
+
     console.log('imprimo data que recibo de modal:');
     console.log(envio);
     this.envio = envio;
@@ -3097,6 +3124,14 @@ class QsoScreen extends React.PureComponent {
               <VariosModales
                 show={this.state.nointernet}
                 modalType="nointernet"
+                closeInternetModal={this.closeVariosModales.bind()}
+              />
+            )}
+
+        {this.state.morePhotos && (
+              <VariosModales
+                show={true}
+                modalType="morephotos"
                 closeInternetModal={this.closeVariosModales.bind()}
               />
             )}
