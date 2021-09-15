@@ -88,7 +88,7 @@ export default {
     'After the 3 month you can continue using SuperQSO with the FREE subscription.',
   variosModWelOKButton: 'OK',
   variosModNointernet: 'There is no Internet connection.',
-  variosMorePhotos: 'You can add more photos by pressing the photo icon.',
+  variosMorePhotos: 'You can add another photo by pressing the photo icon.',
   variosDontShow: 'Do not show this message anymore',
   variosModNovideomp4:
     'Sorry, you can not upload videos at this moment, we will let you know asap when this feature in enable.',

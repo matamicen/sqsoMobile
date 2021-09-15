@@ -2096,7 +2096,7 @@ class QsoScreen extends React.PureComponent {
   receive_data_from_modal = (envio, fileauxProfileAvatar) => {
     console.log('enviotype:' + envio.type)
 
-    if (envio.type = 'image') {
+    if (envio.type === 'image') {
       // dontshow = await AsyncStorage.getItem('dontshow');
       // console.log('dontshow:'+ dontshow)
       if (this.dontshow===false)

@@ -88,7 +88,7 @@ export default {
     '3か月経過後も無料にてSuperQSO を使用可能です',
   variosModWelOKButton: 'OK',
   variosModNointernet: 'インターネットが接続されていません',
-  variosMorePhotos: '写真アイコンを押すと、さらに写真を追加できます。',
+  variosMorePhotos: '写真アイコンを押すと、別の写真を追加できます',
   variosDontShow: 'このメッセージはもう表示しないでください',
   variosModNovideomp4:
     '申し訳ありません、ただ今動画のアップロードができません。復旧次第、連絡します',

@@ -9,7 +9,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import Terms from './Terms';
@@ -1284,11 +1285,22 @@ class VariosModales extends React.PureComponent {
                     </Text>
                     </View>
                     <View style={{ flex: 0.1, flexDirection: 'row', alignItems: "flex-start" }}>
+                    {(Platform.OS==='ios')?
                     <CheckBox
                       disabled={false}
                       value={this.state.checkbox}
                       onValueChange={(newValue) => this.setState({checkbox: newValue})}
+                      style={{ width: 20, height: 20}}
+                 
                     />
+                    :
+                    <CheckBox
+                      disabled={false}
+                      value={this.state.checkbox}
+                      onValueChange={(newValue) => this.setState({checkbox: newValue})}     
+                    />
+                }
+
                      <Text style={{ color: "#999", fontSize: 15, padding: 3 }}>
                     {I18n.t("variosDontShow")}
                     </Text>
