@@ -44,7 +44,7 @@
     "react-native-ffmpeg": "^0.5.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-iap": "^4.0.7",
-    "react-native-image-crop-picker": "^0.34.1",
+    "react-native-image-crop-picker": "^0.36.2",
     "react-native-image-picker": "^3.3.2",
     "react-native-image-resizer": "^1.0.1",
     "react-native-image-zoom-viewer": "^3.0.1",
