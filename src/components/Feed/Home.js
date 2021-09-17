@@ -195,8 +195,9 @@ class Home extends React.PureComponent {
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
           this.props.actions.doClearFeed();
-          if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-          else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+          if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
+          if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
+          if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
 
           this.props.actions.doFetchFieldDaysFeed();
           this.props.actions.doLatestUsersFetch();
@@ -234,9 +235,19 @@ class Home extends React.PureComponent {
     //   this.setState({ adActive: false });
     this.props.actions.doFollowFetch();
     if (this.props.qsos.length === 0) {
+      console.log('entro aca de cabeza!')
       this.props.actions.doClearFeed(this.props.publicFeed);
-      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      // if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
+      // if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      // if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
+     
+     this.props.actions.doFetchUserFeed(this.props.currentQRA);
+     this.props.actions.doFetchPublicQAPfeed();
+     this.props.actions.doFetchPublicFeed();
+
+
+      // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
@@ -314,8 +325,11 @@ class Home extends React.PureComponent {
       this.toast(I18n.t('Refreshing'), 2500);
 
       this.props.actions.doClearFeed(this.props.publicFeed);
-      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
+      if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
+      // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
       this.props.actions.doFetchFieldDaysFeed();
       this.props.actions.doLatestUsersFetch();
@@ -384,8 +398,11 @@ class Home extends React.PureComponent {
         console.log('more than 15 minutes it refreshs');
 
         this.props.actions.doClearFeed(this.props.publicFeed);
-        if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-        else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+        if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
+        if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
+        if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
+        // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+        // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
         this.props.actions.doFetchFieldDaysFeed();
         this.props.actions.doLatestUsersFetch();

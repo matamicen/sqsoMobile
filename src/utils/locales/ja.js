@@ -394,9 +394,9 @@ export default {
   PUSH_LISTENEDYOUQSO_MESSAGE: 'モード: %{mode}バンド: %{band}',
   PUSH_NEWFLDDAY_TITLE: '%{callsign} さんが行事を進めています',
   PUSH_NEWFLDDAY_MESSAGE: 'こちらに詳細があります',
-  PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign}さんが行事にタグを付けました',
+  PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign} さんが行事にタグを付けました',
   PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'こちらに詳細があります',
-  PUSH_NEWQAP_TITLE: '%{callsign}さんがQAPを投稿しました',
+  PUSH_NEWQAP_TITLE: '%{callsign} さんがQAPを投稿しました',
   PUSH_NEWQAP_MESSAGE: 'こちらに詳細があります',
   PUSH_TAGYOUNEWQAP_TITLE: '%{callsign}さんがQAPにタグを付けました',
   PUSH_TAGYOUNEWQAP_MESSAGE: 'こちらに詳細があります',
@@ -543,7 +543,10 @@ export default {
     // onlyFollowFeed: 'フォローしている行事のみを見る',
     onlyFollowFeed: 'フォローしている投稿のみを見る',
    
-    noFollowingMessage: 'まだフォローしている人がいません'
+    noFollowingMessage: 'まだフォローしている人がいません',
+    global: 'グローバル',
+    following: 'フォロー中',
+    QAP: 'QAP'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: 'SuperQSOとは?',

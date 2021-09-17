@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedHeaderSearch from './FeedHeaderSearch';
+import { _ } from 'lodash';
 
 
 // const all = async () =>{
@@ -202,51 +203,91 @@ class FeedHeaderBar extends React.Component {
          }
         </View>
 
-        {(this.state.followAllButtonsAndDrawer) && 
-        <View
-          style={{ paddingBottom: 10, zIndex: 1 }}
-          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
-          {this.props.publicFeed && (
-            <Button
-              fluid
-              raised
-              titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: '#243665' }}
-              size="medium"
+       { (this.state.followAllButtonsAndDrawer) && 
+
+     <View style={{ paddingBottom: 10, zIndex: 1, flexDirection: 'row' }} > 
+         
+          
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
+           
+             <Text  style={{ color: this.state.color1, fontSize: 18}} 
+             onPress={() => {
+           
+              this.setState({color1: '#243665', border1: 3,
+              color2: 'grey',color3: 'grey', border2: 0,
+              border3: 0,
+               })
+                      if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
+                   if (_.isEmpty(this.props.global_aux)) { 
+                      this.props.actions.doClearFeed('GLOBAL');
+                      this.props.actions.doFetchPublicFeed();
+                   }
+                   else
+                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL')
+                   
+                    }}>
+                    {I18n.t('navBar.global')}
+             </Text>
+            </View>
+
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+           
+            <Text  style={{ color: this.state.color2, fontSize: 18}} 
+                           onPress={() => {
+                            this.setState({color1: 'grey', border1: 0,
+                            color2: '#243665',color3: 'grey', border2: 3,
+                            border3: 0,
+                             })
+                                    if (!__DEV__) analytics().logEvent('swichToFollowingFeed_APPPRD');
+                                    if (this.props.following_counter === 0)
+                                      Alert.alert(I18n.t('navBar.noFollowingMessage'));
+                                    else {
+                                      if (_.isEmpty(this.props.following_aux)) { 
+                                        this.props.actions.doClearFeed('FOLLOWING');
+                                        this.props.actions.doFetchUserFeed(this.props.currentQRA);
+                                      }
+                                      else
+                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING')
+                                    }
+                                  }}>    
+              {I18n.t('navBar.following')}</Text>
+           </View>
+
+          <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+           
+           <Text  style={{ color: this.state.color3, fontSize: 18}}
               onPress={() => {
-                if (!__DEV__) analytics().logEvent('swichToUserFeed_APPPRD');
+                this.setState({color1: 'grey', border1: 0,
+                color2: 'grey',color3: '#243665', border2: 0,
+                border3: 3,
+                 })
+                if (!__DEV__) analytics().logEvent('swichToQAPFeed_APPPRD');
                 if (this.props.following_counter === 0)
                   Alert.alert(I18n.t('navBar.noFollowingMessage'));
                 else {
-                  this.props.actions.doClearFeed(false);
-                  this.props.actions.doFetchUserFeed(this.props.currentQRA);
+                  if (_.isEmpty(this.props.qap_aux)) { 
+                  this.props.actions.doClearFeed('QAP');
+                  this.props.actions.doFetchPublicQAPfeed();
+                  }
+                  else
+                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP')
                 }
-              }}
-              title={I18n.t('navBar.onlyFollowFeed')}
-            />
-          )}
-          {!this.props.publicFeed && (
-            <Button
-              fluid
-              raised
-              titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: '#243665' }}
-              size="medium"
-              onPress={() => {
-                if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
-                this.props.actions.doClearFeed(true);
-                this.props.actions.doFetchPublicFeed();
-              }}
-              title={I18n.t('navBar.allUsersFeed')}
-            />
-          )}
-        </View>
+              }}>          
+               {I18n.t('navBar.QAP')}
+           </Text>
+          </View>
+  
+            </View>
   }
+
+
+  
  {(this.state.afterSearchTabs) && 
    <View
           style={{ paddingBottom: 10, zIndex: 1, flexDirection: 'row' }}
           opacity={this.state.opacity}
-          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}> 
+          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}
+          > 
          
           
             <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
@@ -297,7 +338,10 @@ const mapStateToProps = (state) => ({
   searchfeed: state.sqso.feed.searchfeed,
 
   token: state.sqso.jwtToken,
-  qsos: state.sqso.feed.qsos
+  qsos: state.sqso.feed.qsos,
+  global_aux: state.sqso.feed.global_aux,
+  following_aux: state.sqso.feed.following_aux,
+  qap_aux: state.sqso.feed.qap_aux
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

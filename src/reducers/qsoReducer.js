@@ -246,10 +246,13 @@ const initialState = {
       userFetched: false
     },
     qsos: [],
+    global_aux: [],
+    following_aux: [],
+    qap_aux: [],
     FetchingQSOS: false,
     qsosFetched: false,
     feedFetchedDate: null,
-    publicFeed: true,
+    publicFeed: 'GLOBAL',
     fieldDays: [],
     FetchingFieldDays: false,
     fieldDaysFetched: false,
@@ -1890,7 +1893,10 @@ const qsoReducer = (state = initialState, action) => {
           FetchingQSOS: false,
           qsosFetched: true,
           feedFetchedDate: new Date(),
-          publicFeed: action.publicFeed
+          publicFeed: action.publicFeed,
+          global_aux: (action.publicFeed==='GLOBAL') ? action.qsos : state.feed.global_aux,
+          following_aux: (action.publicFeed==='FOLLOWING') ? action.qsos : state.feed.following_aux,
+          qap_aux: (action.publicFeed==='QAP') ? action.qsos : state.feed.qap_aux
         }
       });
       return newStore;

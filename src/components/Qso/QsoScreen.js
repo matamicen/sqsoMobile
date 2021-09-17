@@ -74,7 +74,8 @@ import {
   doFetchFieldDaysFeed,
   doFetchUserFeed,
   doClearFeed,
-  doFetchPublicFeed
+  doFetchPublicFeed,
+  doFetchPublicQAPfeed
 } from '../../actions';
 import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
@@ -2913,9 +2914,17 @@ class QsoScreen extends React.PureComponent {
   }
 
   goToHomeAfterPublish = async () => {
-    this.props.doClearFeed(this.props.publicFeed);
-    if (this.props.publicFeed) this.props.doFetchPublicFeed();
-    else this.props.doFetchUserFeed(this.props.qra);
+    // this.props.doClearFeed(this.props.publicFeed);
+    // if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed();
+    // if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.qra);
+    // if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(); 
+
+    // after publish always go to a Global feed to show the new post of the user
+    this.props.doClearFeed('GLOBAL');
+    this.props.doFetchPublicFeed();
+    
+    // if (this.props.publicFeed) this.props.doFetchPublicFeed();
+    // else this.props.doFetchUserFeed(this.props.qra);
     // this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
     this.props.doLatestUsersFetch();
     this.props.navigation.navigate('Home');
@@ -3921,7 +3930,8 @@ const mapDispatchToProps = {
   doFetchUserFeed,
   doClearFeed,
   doFetchFieldDaysFeed,
-  doLatestUsersFetch
+  doLatestUsersFetch,
+  doFetchPublicQAPfeed
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QsoScreen);

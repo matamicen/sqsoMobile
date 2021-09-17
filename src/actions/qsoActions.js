@@ -3665,6 +3665,45 @@ export const setPendingVerification = (status) => {
   };
 };
 
+export const doFetchPublicQAPfeed = (qra = null) => {
+  // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
+  return async (dispatch) => {
+    dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
+
+    dispatch(doRequestFeed());
+    const apiName = 'superqso';
+    const path = '/qap-public-list';
+    console.log('llamo api /qso-public-list')
+    // const myInit = {
+    //    body: {query: 'QAP'}, // replace this with attributes you need
+    //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
+    // };
+    const myInit = {};
+    API.get(apiName, path, myInit)
+      .then((response) => {
+        // console.log(response);
+        if (response.body.error === 0) {
+          dispatch(doReceiveFeed(response.body.message, 'QAP'));
+         
+            dispatch(setSearchedResults([],false));
+
+          
+          // dispatch(setSearchedResults(response.body.message));
+        } else console.log(response.body.message);
+      })
+      .catch(async (error) => {
+        if (__DEV__) {
+          console.log(error.message);
+        } else {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('getPublicFeed_WEBDEV'));
+          else crashlytics().recordError(new Error('getPublicFeed_APPPRD'));
+        }
+      });
+  };
+};
+
 // BEGIN NATIVE FEED
 export const doFetchPublicFeed = (qra = null) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
@@ -3676,7 +3715,7 @@ export const doFetchPublicFeed = (qra = null) => {
     const path = '/qso-public-list';
     console.log('llamo api /qso-public-list')
     // const myInit = {
-    //   body: {}, // replace this with attributes you need
+    //    body: {query: 'FEED'},// replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
     // };
     const myInit = {};
@@ -3684,7 +3723,7 @@ export const doFetchPublicFeed = (qra = null) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message, true));
+          dispatch(doReceiveFeed(response.body.message, 'GLOBAL'));
          
             dispatch(setSearchedResults([],false));
 
@@ -3726,7 +3765,7 @@ export const doFetchUserFeed = (qra) => {
         .then((response) => {
           if (response.body.error === 0) {
             if (response.body.message.length > 0)
-              dispatch(doReceiveFeed(response.body.message, false));
+              dispatch(doReceiveFeed(response.body.message, 'FOLLOWING'));
             else {
               dispatch(doFetchPublicFeed());
             }

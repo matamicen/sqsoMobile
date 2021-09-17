@@ -407,7 +407,7 @@ export default {
   PUSH_TAGYOUNEWFLDDAY_TITLE:
     '%{callsign} te etiquetó en su public. de Actividades',
   PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'Mirá los detalles aquí',
-  PUSH_NEWQAP_TITLE: '%{callsign} publicó que esta QAP',
+  PUSH_NEWQAP_TITLE: '%{callsign} esta QAP',
   PUSH_NEWQAP_MESSAGE: 'Mirá los detalles aquí',
   PUSH_TAGYOUNEWQAP_TITLE: '%{callsign} te etiquetó en su public. de QAP',
   PUSH_TAGYOUNEWQAP_MESSAGE: 'Mirá los detalles aquí',
@@ -555,7 +555,10 @@ export default {
     searchCallsign: 'Buscar en SuperQSO',
     allUsersFeed: 'Ver Publicaciones de todos los usuarios',
     onlyFollowFeed: 'Ver Publicaciones de usuarios que sigo',
-    noFollowingMessage: 'Todavía no seguis a nadie...'
+    noFollowingMessage: 'Todavía no seguis a nadie...',
+    global: 'Global',
+    following: 'Seguidos',
+    QAP: 'QAP'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: '¿Qué es SuperQSO?',
@@ -685,7 +688,7 @@ export default {
     updatedProfilePic: '{{QRA}} actualizó su foto de perfil',
     workedQSO: '{{QRA}} realizó un QSO',
     listenedQSO: '{{QRA}} escuchó un QSO',
-    createdQAP: '{{QRA}} publicó que está QAP',
+    createdQAP: '{{QRA}} está QAP',
     createdFLDDAY: '{{QRA}} promocionó una actividad',
     createdPOST: '{{QRA}} creó una publicación',
     sharedQSO: '{{QRA}} republicó un QSO',
@@ -722,7 +725,7 @@ export default {
     qsoDeleted: 'QSO Eliminado',
     workedAQSO: ' realizó un QSO',
     createdPost: ' creó una publicación',
-    createdQAP: ' publicó que está QAP',
+    createdQAP: ' está QAP',
     createdFLDDAY: ' promocionó una actividad',
     listenedQSO: ' escuchó un QSO',
     repostedQSO: ' republicó un QSO',
