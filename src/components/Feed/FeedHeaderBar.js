@@ -46,13 +46,35 @@ class FeedHeaderBar extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log('getderived tabToGlobal: '+ props.tabtoglobal)
+     if (props.tabtoglobal){  // si acaba de publicar entra aca
+       props.actions.setTabToGlobal(false);
+
+      return {
+        followAllButtonsAndDrawer: false,  afterSearchTabs: true,
+        color1: '#243665', border1: 3,
+              color2: 'grey',color3: 'grey', border2: 0,
+              border3: 0
+      }
+     } 
+
     console.log('getDerived headerbar')
+
     console.log('searchfeed props: '+props.searchfeed)
-    if (props.searchfeed)
+    if (props.searchfeed){
+      
+      if (_.isEmpty(props.global_aux)) { // si vience de search carga feed global
+        props.actions.doClearFeed('GLOBAL');
+        props.actions.doFetchPublicFeed();
+     }
+     else
+      props.actions.doReceiveFeed(props.global_aux, 'GLOBAL')
+
     // return null
      return {
       followAllButtonsAndDrawer: false,  afterSearchTabs: true
     }
+  }
     else
     return {
       followAllButtonsAndDrawer: true, afterSearchTabs: false, opacity:0.01
@@ -336,12 +358,12 @@ const mapStateToProps = (state) => ({
   currentQRA: state.sqso.qra,
   feedtouchable: state.sqso.feed.FeedTouchable,
   searchfeed: state.sqso.feed.searchfeed,
-
   token: state.sqso.jwtToken,
   qsos: state.sqso.feed.qsos,
   global_aux: state.sqso.feed.global_aux,
   following_aux: state.sqso.feed.following_aux,
-  qap_aux: state.sqso.feed.qap_aux
+  qap_aux: state.sqso.feed.qap_aux,
+  tabtoglobal: state.sqso.tabToGlobal
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

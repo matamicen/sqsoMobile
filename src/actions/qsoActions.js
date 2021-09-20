@@ -127,7 +127,8 @@ import {
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
-  SET_URL_ROUTE
+  SET_URL_ROUTE,
+  SET_TABTOGLOBAL
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -262,6 +263,13 @@ export const setPressHome = (cant) => {
 export const setJustPublished = (stat) => {
   return {
     type: SET_JUSTPUBLISHED,
+    status: stat
+  };
+};
+
+export const setTabToGlobal = (stat) => {
+  return {
+    type: SET_TABTOGLOBAL,
     status: stat
   };
 };

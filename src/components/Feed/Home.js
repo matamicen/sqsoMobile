@@ -237,13 +237,13 @@ class Home extends React.PureComponent {
     if (this.props.qsos.length === 0) {
       console.log('entro aca de cabeza!')
       this.props.actions.doClearFeed(this.props.publicFeed);
-      // if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
-      // if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
-      // if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
+      if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
+      if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
      
-     this.props.actions.doFetchUserFeed(this.props.currentQRA);
-     this.props.actions.doFetchPublicQAPfeed();
-     this.props.actions.doFetchPublicFeed();
+    //  this.props.actions.doFetchUserFeed(this.props.currentQRA);
+    //  this.props.actions.doFetchPublicQAPfeed();
+    //  this.props.actions.doFetchPublicFeed();
 
 
       // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
@@ -499,7 +499,6 @@ const mapStateToProps = (state) => ({
   FetchingQSOS: state.sqso.feed.FetchingQSOS,
   qsosFetched: state.sqso.feed.qsosFetched,
   //   authenticating: state.sqso.feeduserData.authenticating,
-
   userinfo: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
   publicFeed: state.sqso.feed.publicFeed,

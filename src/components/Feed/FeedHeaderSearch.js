@@ -50,7 +50,7 @@ const FeedHeaderSearch = (props) => {
 
   const cancelSearch2 = async () => {
   
-
+    props.searching();
     props.actions.setSearchedResults([],false);
     // setSearchInput(false);
     //  props.cancelsearch();

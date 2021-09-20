@@ -111,7 +111,8 @@ import {
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
-  SET_URL_ROUTE
+  SET_URL_ROUTE,
+  SET_TABTOGLOBAL
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -157,6 +158,7 @@ const initialState = {
 
   pressHome: 1,
   justPublished: false,
+  tabToGlobal: false,
   externalShareUrl: false,
   mustUpgradeApp: false,
   urlRoute: '',
@@ -1033,6 +1035,14 @@ const qsoReducer = (state = initialState, action) => {
         justPublished: action.status
       });
       return newStore;
+
+      case SET_TABTOGLOBAL:
+        newStore = Object.assign({}, state, {
+          ...state,
+  
+          tabToGlobal: action.status
+        });
+        return newStore;
 
     case SET_EXTERNAL_SHARE_URL:
       newStore = Object.assign({}, state, {

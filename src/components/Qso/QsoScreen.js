@@ -75,7 +75,8 @@ import {
   doFetchUserFeed,
   doClearFeed,
   doFetchPublicFeed,
-  doFetchPublicQAPfeed
+  doFetchPublicQAPfeed,
+  setTabToGlobal
 } from '../../actions';
 import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
@@ -2930,6 +2931,7 @@ class QsoScreen extends React.PureComponent {
     this.props.navigation.navigate('Home');
     this.props.doFetchFieldDaysFeed();
     this.props.setJustPublished(false);
+    this.props.setTabToGlobal(true); // when publish the tab must switch to global
     this.props.setPressHome(1);
   };
 
@@ -3931,7 +3933,8 @@ const mapDispatchToProps = {
   doClearFeed,
   doFetchFieldDaysFeed,
   doLatestUsersFetch,
-  doFetchPublicQAPfeed
+  doFetchPublicQAPfeed,
+  setTabToGlobal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QsoScreen);
