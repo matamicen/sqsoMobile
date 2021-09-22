@@ -237,7 +237,9 @@ class Home extends React.PureComponent {
     });
     // if (__DEV__)
     //   this.setState({ adActive: false });
-    this.props.actions.doFollowFetch();
+    if (!this.props.isfetchingdofollowfetch)
+      this.props.actions.doFollowFetch();
+
     if (this.props.qsos.length === 0) {
       console.log('entro aca de cabeza!')
       // this.props.actions.doClearFeed(this.props.publicFeed);
@@ -267,9 +269,11 @@ class Home extends React.PureComponent {
 
       // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
       // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
-
-      this.props.actions.doFetchFieldDaysFeed();
+    if (!this.props.isfetchinggetfielddaysfeed)
+        this.props.actions.doFetchFieldDaysFeed();
+    if (!this.props.isfetchinggetlatestusers)
       this.props.actions.doLatestUsersFetch();
+
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -349,8 +353,10 @@ class Home extends React.PureComponent {
       if (this.props.publicFeed==='QAP' && !this.props.isfetchingQAPfeed) this.props.actions.doFetchPublicQAPfeed(false);
       // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
       // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      if (!this.props.isfetchinggetfielddaysfeed)
+        this.props.actions.doFetchFieldDaysFeed();
 
-      this.props.actions.doFetchFieldDaysFeed();
+    if (!this.props.isfetchinggetlatestusers)   
       this.props.actions.doLatestUsersFetch();
 
       //   this.props.setPressHome(0);
@@ -529,7 +535,10 @@ const mapStateToProps = (state) => ({
   urlparam: state.sqso.urlParam,
   isfetchingpublicfeed:state.sqso.isFetchingPublicFeed,
   isfetchinguserfeed:state.sqso.isFetchingUserFeed,
-  isfetchingQAPfeed: state.sqso.isFetchingQAPFeed
+  isfetchingQAPfeed: state.sqso.isFetchingQAPFeed,
+  isfetchingdofollowfetch: state.sqso.isFetchingdoFollowFetch,
+  isfetchinggetfielddaysfeed: state.sqso.isFetchinggetFieldDaysFeed,
+  isfetchinggetlatestusers: state.sqso.isFetchinggetLatestUsers
 
   
 });

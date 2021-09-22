@@ -150,6 +150,22 @@ const initialState = {
   QAPFeedApiSuccesMessage: '',
   QAPFeedApiSuccesStatus: false,
   QAPFeedApiErrorMessage: '',
+
+  isFetchingdoFollowFetch: false,
+  doFollowFetchApiSuccesMessage: '',
+  doFollowFetchApiSuccesStatus: false,
+  doFollowFetchApiErrorMessage: '',
+
+  isFetchinggetFieldDaysFeed: false,
+  getFieldDaysFeedApiSuccesMessage: '',
+  getFieldDaysFeedApiSuccesStatus: false,
+  getFieldDaysFeedApiErrorMessage: '',
+
+  isFetchinggetLatestUsers: false,
+  getLatestUsersApiSuccesMessage: '',
+  getLatestUsersApiSuccesStatus: false,
+  getLatestUsersApiErrorMessage: '',
+  
   qsoScreenDidmount: true,
   currentLocationPermission: false,
   adShowed: false,
@@ -347,7 +363,38 @@ const qsoReducer = (state = initialState, action) => {
         return newStore;
       }
 
-      
+      if (action.apiName === 'getLatestUsers') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetLatestUsers: true,
+          getLatestUsersApiSuccesMessage: '',
+          getLatestUsersApiErrorMessage: ''
+        });
+        return newStore;
+      }     
+
+      if (action.apiName === 'doFollowFetch') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingdoFollowFetch: true,
+          doFollowFetchApiSuccesMessage: '',
+          doFollowFetchApiErrorMessage: ''
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'getFieldDaysFeed') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetFieldDaysFeed: true,
+          getFieldDaysFeedApiSuccesMessage: '',
+          getFieldDaysFeedApiErrorMessage: ''
+        });
+        return newStore;
+      } 
 
       return state;
 
@@ -391,6 +438,39 @@ const qsoReducer = (state = initialState, action) => {
           ...state,
           isFetchingQAPFeed: false,
           QAPFeedApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'getLatestUsers') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetLatestUsers: false,
+          getLatestUsersApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'doFollowFetch') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingdoFollowFetch: false,
+          doFollowFetchApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'getFieldDaysFeed') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetFieldDaysFeed: false,
+          getFieldDaysFeedApiErrorMessage: action.payload,
           errorApiMessage: action.payload
         });
         return newStore;
@@ -453,6 +533,42 @@ const qsoReducer = (state = initialState, action) => {
           isFetchingQAPFeed: false,
           QAPFeedApiSuccesMessage: action.payload,
           QAPFeedApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'getLatestUsers') {
+        console.log('trajo getLatestUsers');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetLatestUsers: false,
+          getLatestUsersApiSuccesMessage: action.payload,
+          getLatestUsersApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFollowFetch') {
+        console.log('trajo doFollowFetch');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingdoFollowFetch: false,
+          doFollowFetchApiSuccesMessage: action.payload,
+          doFollowFetchApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'getFieldDaysFeed') {
+        console.log('trajo getFieldDaysFeed');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetFieldDaysFeed: false,
+          getFieldDaysFeedApiSuccesMessage: action.payload,
+          getFieldDaysFeedApiSuccesStatus: true
         });
         return newStore;
       }

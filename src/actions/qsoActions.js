@@ -3856,6 +3856,7 @@ export const doFollowFetch = () => {
   console.log('___doFollowFetch');
   return async (dispatch) => {
     try {
+      dispatch(fetchingApiRequest('doFollowFetch'));
       const apiName = 'superqso';
       const path = '/qra/recFollow';
       const myInit = {
@@ -3869,8 +3870,10 @@ export const doFollowFetch = () => {
           if (response.body.error === 0) {
             dispatch(doFollowReceive(response.body.message));
           } else console.log(response.body.message);
+          dispatch(fetchingApiSuccess('doFollowFetch',response));
         })
         .catch(async (error) => {
+          dispatch(fetchingApiFailure('doFollowFetch', error));
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('doFollowFetch_WEBDEV'));
@@ -4623,6 +4626,7 @@ export function doFetchFieldDaysFeed(qra = null) {
   if (!__DEV__) analytics().logEvent('getFieldDaysFeed_APPPRD');
 
   return async (dispatch) => {
+    dispatch(fetchingApiRequest('getFieldDaysFeed'));
     dispatch(doRequestFieldDay());
     const apiName = 'superqso';
     const path = '/qsoGetByType';
@@ -4636,8 +4640,10 @@ export function doFetchFieldDaysFeed(qra = null) {
         if (response.body.error === 0) {
           dispatch(doReceiveFieldDays(response.body.message));
         } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('getFieldDaysFeed',response));
       })
       .catch((error) => {
+        dispatch(fetchingApiFailure('getFieldDaysFeed', error));
         console.log(error);
         crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__) {
@@ -4729,6 +4735,8 @@ export const setSearchedResultsFilter = (filtertype) => {
 export function doLatestUsersFetch() {
   console.log('___doLatestUsersFetch')
   return async (dispatch) => {
+    dispatch(fetchingApiRequest('getLatestUsers'));
+
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'getLatestUsers_APPPRD', {
     //     event_category: 'User',
@@ -4753,8 +4761,10 @@ export function doLatestUsersFetch() {
           if (response.body.error === 0) {
             dispatch(doLatestUsersReceive(response.body.message));
           } else console.log(response.body.message);
+          dispatch(fetchingApiSuccess('getLatestUsers',response));
         })
         .catch(async (error) => {
+          dispatch(fetchingApiFailure('getLatestUsers', error));
           console.log(error);
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__) {
