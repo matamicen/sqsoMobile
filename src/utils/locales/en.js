@@ -265,7 +265,7 @@ export default {
   QsoTypeANYdescOther:
     'Post something generic, a photo of your shack, antenna, friends, etc.',
   QsoTypeANYdescFieldDay: 'Promote an activation, contest, zoom talk.',
-  QsoTypeANYdescQAP: 'Post that you are QAP',
+  QsoTypeANYdescQAP: 'You are QAP or calling CQ (Frequency and Mode should be in the photo or description)',
   QsoTypePOST: 'Generic',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Activity',
@@ -542,7 +542,7 @@ export default {
     // onlyFollowFeed: 'Watch only my followings activity ',
     onlyFollowFeed: 'See only posts from users I follow',
    
-    noFollowingMessage: 'You don´t follow anyone yet',
+    noFollowingMessage: 'You don´t follow anyone yet... Start following hams and you will see they posts here.',
     global: 'Global',
     following: 'Following',
     QAP: 'QAP'

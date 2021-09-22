@@ -266,7 +266,7 @@ export default {
   QsoTypeANYdescOther:
     'シャックやアンテナ、仲間の写真等を投稿する',
   QsoTypeANYdescFieldDay: 'コンテストやズームなどの企画をPRする',
-  QsoTypeANYdescQAP: 'QAPを投稿',
+  QsoTypeANYdescQAP: 'あなたはQAPであるか、CQに電話をかけています（周波数とモードは写真または説明にあるはずです)',
   QsoTypePOST: 'その他一般',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: '行事',
@@ -542,8 +542,7 @@ export default {
     allUsersFeed: '全員の投稿を見る',
     // onlyFollowFeed: 'フォローしている行事のみを見る',
     onlyFollowFeed: 'フォローしている投稿のみを見る',
-   
-    noFollowingMessage: 'まだフォローしている人がいません',
+    noFollowingMessage: 'まだ誰もフォローしていません...ユーザーのフォローを開始すると、ここに投稿が表示されます。',
     global: 'グローバル',
     following: 'フォロー中',
     QAP: 'QAP'

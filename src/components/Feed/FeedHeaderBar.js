@@ -63,12 +63,13 @@ class FeedHeaderBar extends React.Component {
     console.log('searchfeed props: '+props.searchfeed)
     if (props.searchfeed){
       
-      if (_.isEmpty(props.global_aux)) { // si vience de search carga feed global
+      if (_.isEmpty(props.global_aux)) { // si viene de search carga feed global
         props.actions.doClearFeed('GLOBAL');
-        props.actions.doFetchPublicFeed();
+        props.actions.doFetchPublicFeed(false);
      }
      else
-      props.actions.doReceiveFeed(props.global_aux, 'GLOBAL')
+      props.actions.doReceiveFeed(props.global_aux, 'GLOBAL', false)
+    
 
     // return null
      return {
@@ -242,10 +243,10 @@ class FeedHeaderBar extends React.Component {
                       if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
                    if (_.isEmpty(this.props.global_aux)) { 
                       this.props.actions.doClearFeed('GLOBAL');
-                      this.props.actions.doFetchPublicFeed();
+                      this.props.actions.doFetchPublicFeed(false);
                    }
                    else
-                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL')
+                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL',false)
                    
                     }}>
                     {I18n.t('navBar.global')}
@@ -256,20 +257,23 @@ class FeedHeaderBar extends React.Component {
            
             <Text  style={{ color: this.state.color2, fontSize: 18}} 
                            onPress={() => {
-                            this.setState({color1: 'grey', border1: 0,
-                            color2: '#243665',color3: 'grey', border2: 3,
-                            border3: 0,
-                             })
+                            
                                     if (!__DEV__) analytics().logEvent('swichToFollowingFeed_APPPRD');
                                     if (this.props.following_counter === 0)
-                                      Alert.alert(I18n.t('navBar.noFollowingMessage'));
+                                    // if (1===2)
+                                      Alert.alert('',I18n.t('navBar.noFollowingMessage'));
                                     else {
+                                      this.setState({color1: 'grey', border1: 0,
+                                          color2: '#243665',color3: 'grey', border2: 3,
+                                          border3: 0,
+                                          })
                                       if (_.isEmpty(this.props.following_aux)) { 
+                                        console.log('length:'+this.props.following_aux.length)
                                         this.props.actions.doClearFeed('FOLLOWING');
-                                        this.props.actions.doFetchUserFeed(this.props.currentQRA);
+                                        this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
                                       }
                                       else
-                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING')
+                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING',false)
                                     }
                                   }}>    
               {I18n.t('navBar.following')}</Text>
@@ -284,16 +288,14 @@ class FeedHeaderBar extends React.Component {
                 border3: 3,
                  })
                 if (!__DEV__) analytics().logEvent('swichToQAPFeed_APPPRD');
-                if (this.props.following_counter === 0)
-                  Alert.alert(I18n.t('navBar.noFollowingMessage'));
-                else {
+             
                   if (_.isEmpty(this.props.qap_aux)) { 
                   this.props.actions.doClearFeed('QAP');
-                  this.props.actions.doFetchPublicQAPfeed();
+                  this.props.actions.doFetchPublicQAPfeed(false);
                   }
                   else
-                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP')
-                }
+                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP', false)
+          
               }}>          
                {I18n.t('navBar.QAP')}
            </Text>

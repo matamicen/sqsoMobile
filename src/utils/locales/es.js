@@ -268,7 +268,7 @@ export default {
   QsoTypeANYdescOther:
     'Publica algo genérico, una foto de tu estación, proyectos, antenas, amigos, etc.',
   QsoTypeANYdescFieldDay: 'Promocioná una activación, concurso o charla.',
-  QsoTypeANYdescQAP: 'Publica que estas QAP.',
+  QsoTypeANYdescQAP: 'Estas QAP o llamas CQ (Informa frecuencia y modo en la foto o descripción)',
   QsoTypePOST: 'Genérico',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Actividad',
@@ -555,7 +555,7 @@ export default {
     searchCallsign: 'Buscar en SuperQSO',
     allUsersFeed: 'Ver Publicaciones de todos los usuarios',
     onlyFollowFeed: 'Ver Publicaciones de usuarios que sigo',
-    noFollowingMessage: 'Todavía no seguis a nadie...',
+    noFollowingMessage: 'Todavía no seguis a nadie...Empezá a seguir a colegas y verás sus publicaciones aquí.',
     global: 'Global',
     following: 'Seguidos',
     QAP: 'QAP'

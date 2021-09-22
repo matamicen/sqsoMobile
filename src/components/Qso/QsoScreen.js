@@ -3648,12 +3648,12 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 17.5,
+                  fontSize: I18n.locale.substring(0, 2) === 'ja' ? 15:16,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 8,
                   height: 85,
-                  marginTop: 35
+                  marginTop: 5
                 }}>
                 {I18n.t('QsoTypeANYdescQAP')}
               </Text>

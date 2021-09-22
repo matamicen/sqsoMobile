@@ -3673,15 +3673,17 @@ export const setPendingVerification = (status) => {
   };
 };
 
-export const doFetchPublicQAPfeed = (qra = null) => {
+// export const doFetchPublicQAPfeed = (qra = null,onlyloadToAux) => {
+  export const doFetchPublicQAPfeed = (onlyloadToAux) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
+    console.log('QAP __feed onlyloadToAux:'+onlyloadToAux);
 
     dispatch(doRequestFeed());
     const apiName = 'superqso';
     const path = '/qap-public-list';
-    console.log('llamo api /qso-public-list')
+    console.log('llamo api /qap-public-list')
     // const myInit = {
     //    body: {query: 'QAP'}, // replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
@@ -3691,15 +3693,17 @@ export const doFetchPublicQAPfeed = (qra = null) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message, 'QAP'));
+          dispatch(doReceiveFeed(response.body.message, 'QAP',onlyloadToAux));
          
             dispatch(setSearchedResults([],false));
 
           
           // dispatch(setSearchedResults(response.body.message));
         } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('doFetchPublicQAPfeed',response));
       })
       .catch(async (error) => {
+        dispatch(fetchingApiFailure('doFetchPublicQAPfeed', error));
         if (__DEV__) {
           console.log(error.message);
         } else {
@@ -3713,11 +3717,12 @@ export const doFetchPublicQAPfeed = (qra = null) => {
 };
 
 // BEGIN NATIVE FEED
-export const doFetchPublicFeed = (qra = null) => {
+// export const doFetchPublicFeed = (qra = null,onlyloadToAux) => {
+  export const doFetchPublicFeed = (onlyloadToAux) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchPublicFeed'));
-
+    console.log('PUBLIC __feed onlyloadToAux:'+onlyloadToAux);
     dispatch(doRequestFeed());
     const apiName = 'superqso';
     const path = '/qso-public-list';
@@ -3731,15 +3736,17 @@ export const doFetchPublicFeed = (qra = null) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message, 'GLOBAL'));
+          dispatch(doReceiveFeed(response.body.message, 'GLOBAL',onlyloadToAux));
          
             dispatch(setSearchedResults([],false));
-
+           
           
           // dispatch(setSearchedResults(response.body.message));
         } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('doFetchPublicFeed',response));
       })
       .catch(async (error) => {
+        dispatch(fetchingApiFailure('doFetchPublicFeed', error));
         if (__DEV__) {
           console.log(error.message);
         } else {
@@ -3751,10 +3758,10 @@ export const doFetchPublicFeed = (qra = null) => {
       });
   };
 };
-export const doFetchUserFeed = (qra) => {
+export const doFetchUserFeed = (qra,onlyloadToAux) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchUserFeed'));
-
+    console.log('USER __feed onlyloadToAux:'+onlyloadToAux);
     dispatch(doRequestFeed());
     try {
       let session = await Auth.currentSession();
@@ -3772,18 +3779,21 @@ export const doFetchUserFeed = (qra) => {
       API.get(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            if (response.body.message.length > 0)
-              dispatch(doReceiveFeed(response.body.message, 'FOLLOWING'));
-            else {
-              dispatch(doFetchPublicFeed());
-            }
+            // if (response.body.message.length > 0)
+              dispatch(doReceiveFeed(response.body.message, 'FOLLOWING',onlyloadToAux));
+            // else {
+            //   dispatch(doFetchPublicFeed());
+            // }
+
             // dispatch(setSearchedResults([]));
          
               dispatch(setSearchedResults([],false));
             
           } else console.log(response.body.message);
+          dispatch(fetchingApiSuccess('doFetchUserFeed',response));
         })
         .catch(async (error) => {
+          dispatch(fetchingApiFailure('doFetchUserFeed', error));
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('getUserFeed_WEBDEV'));
@@ -3810,13 +3820,14 @@ export const doClearFeed = (publicFeed) => {
     publicFeed: publicFeed
   };
 };
-export const doReceiveFeed = (qsos, publicFeed) => {
+export const doReceiveFeed = (qsos, publicFeed,onlyLoadToAux) => {
   return {
     type: RECEIVE_FEED,
     qsos: qsos,
     FetchingQSOS: false,
     qsosFetched: true,
-    publicFeed
+    publicFeed,
+    onlyloadtoaux: onlyLoadToAux
   };
 };
 export const doReceiveFieldDays = (qsos) => {
@@ -3842,6 +3853,7 @@ export const doRequestFieldDay = () => {
   };
 };
 export const doFollowFetch = () => {
+  console.log('___doFollowFetch');
   return async (dispatch) => {
     try {
       const apiName = 'superqso';
@@ -4069,7 +4081,7 @@ export const doRepost = (idqso, token, qso) => {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
-            dispatch(doFetchPublicFeed());
+            dispatch(doFetchPublicFeed(false));
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';
@@ -4597,7 +4609,7 @@ export function doPauseVideo(idqsos) {
   };
 }
 export function doFetchFieldDaysFeed(qra = null) {
-  // console.log('doFetchPublicFeed');
+  console.log('___doFetchFieldDaysFeed');
   // window.gtag('config', 'G-H8G28LYKBY', {
   //   custom_map: { dimension1: 'userQRA' }
   // });
@@ -4715,6 +4727,7 @@ export const setSearchedResultsFilter = (filtertype) => {
 };
 
 export function doLatestUsersFetch() {
+  console.log('___doLatestUsersFetch')
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'getLatestUsers_APPPRD', {
