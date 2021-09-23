@@ -542,7 +542,7 @@ export default {
     // onlyFollowFeed: 'Watch only my followings activity ',
     onlyFollowFeed: 'See only posts from users I follow',
    
-    noFollowingMessage: 'You don´t follow anyone yet... Start following hams and you will see they posts here.',
+    noFollowingMessage: 'You don´t follow anyone yet... Start following hams and you will see their posts here.',
     global: 'Global',
     following: 'Following',
     QAP: 'QAP'

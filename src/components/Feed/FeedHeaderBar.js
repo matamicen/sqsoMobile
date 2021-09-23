@@ -63,12 +63,12 @@ class FeedHeaderBar extends React.Component {
     console.log('searchfeed props: '+props.searchfeed)
     if (props.searchfeed){
       
-      if (_.isEmpty(props.global_aux)) { // si viene de search carga feed global
-        props.actions.doClearFeed('GLOBAL');
-        props.actions.doFetchPublicFeed(false);
-     }
-     else
-      props.actions.doReceiveFeed(props.global_aux, 'GLOBAL', false)
+    //   if (_.isEmpty(props.global_aux)) { // si viene de search carga feed global
+    //     props.actions.doClearFeed('GLOBAL');
+    //     props.actions.doFetchPublicFeed(false);
+    //  }
+    //  else
+    //   props.actions.doReceiveFeed(props.global_aux, 'GLOBAL', false)
     
 
     // return null
@@ -131,11 +131,22 @@ class FeedHeaderBar extends React.Component {
       color2: 'grey',color3: 'grey', border2: 0,
       border3: 0 })
 
+      if (_.isEmpty(this.props.global_aux)) { // si viene de search carga feed global
+        this.props.actions.doClearFeed('GLOBAL');
+        this.props.actions.doFetchPublicFeed(false);
+     }
+     else
+      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false)
+
+        
+
   }
 
   cancelSearch() {
     this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false,  opacity:0.01 })
     this.props.actions.setSearchedResults([],false);
+
+ 
 
   }
  
