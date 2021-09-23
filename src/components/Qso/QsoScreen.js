@@ -74,7 +74,9 @@ import {
   doFetchFieldDaysFeed,
   doFetchUserFeed,
   doClearFeed,
-  doFetchPublicFeed
+  doFetchPublicFeed,
+  doFetchPublicQAPfeed,
+  setTabToGlobal
 } from '../../actions';
 import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
@@ -2913,14 +2915,23 @@ class QsoScreen extends React.PureComponent {
   }
 
   goToHomeAfterPublish = async () => {
-    this.props.doClearFeed(this.props.publicFeed);
-    if (this.props.publicFeed) this.props.doFetchPublicFeed();
-    else this.props.doFetchUserFeed(this.props.qra);
+    // this.props.doClearFeed(this.props.publicFeed);
+    // if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed();
+    // if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.qra);
+    // if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(); 
+
+    // after publish always go to a Global feed to show the new post of the user
+    this.props.doClearFeed('GLOBAL');
+    this.props.doFetchPublicFeed();
+    
+    // if (this.props.publicFeed) this.props.doFetchPublicFeed();
+    // else this.props.doFetchUserFeed(this.props.qra);
     // this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
     this.props.doLatestUsersFetch();
     this.props.navigation.navigate('Home');
     this.props.doFetchFieldDaysFeed();
     this.props.setJustPublished(false);
+    this.props.setTabToGlobal(true); // when publish the tab must switch to global
     this.props.setPressHome(1);
   };
 
@@ -3637,12 +3648,12 @@ class QsoScreen extends React.PureComponent {
                 style={{
                   color: '#243665',
                   fontWeight: 'bold',
-                  fontSize: 17.5,
+                  fontSize: I18n.locale.substring(0, 2) === 'ja' ? 15:16,
                   flex: 0.7,
                   marginLeft: 8,
                   marginRight: 8,
                   height: 85,
-                  marginTop: 35
+                  marginTop: 5
                 }}>
                 {I18n.t('QsoTypeANYdescQAP')}
               </Text>
@@ -3921,7 +3932,9 @@ const mapDispatchToProps = {
   doFetchUserFeed,
   doClearFeed,
   doFetchFieldDaysFeed,
-  doLatestUsersFetch
+  doLatestUsersFetch,
+  doFetchPublicQAPfeed,
+  setTabToGlobal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QsoScreen);

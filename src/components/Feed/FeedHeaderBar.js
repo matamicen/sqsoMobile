@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import I18n from '../../utils/i18n';
 import FeedHeaderSearch from './FeedHeaderSearch';
+import { _ } from 'lodash';
 
 
 // const all = async () =>{
@@ -45,13 +46,36 @@ class FeedHeaderBar extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log('getderived tabToGlobal: '+ props.tabtoglobal)
+     if (props.tabtoglobal){  // si acaba de publicar entra aca
+       props.actions.setTabToGlobal(false);
+
+      return {
+        followAllButtonsAndDrawer: false,  afterSearchTabs: true,
+        color1: '#243665', border1: 3,
+              color2: 'grey',color3: 'grey', border2: 0,
+              border3: 0
+      }
+     } 
+
     console.log('getDerived headerbar')
+
     console.log('searchfeed props: '+props.searchfeed)
-    if (props.searchfeed)
+    if (props.searchfeed){
+      
+    //   if (_.isEmpty(props.global_aux)) { // si viene de search carga feed global
+    //     props.actions.doClearFeed('GLOBAL');
+    //     props.actions.doFetchPublicFeed(false);
+    //  }
+    //  else
+    //   props.actions.doReceiveFeed(props.global_aux, 'GLOBAL', false)
+    
+
     // return null
      return {
       followAllButtonsAndDrawer: false,  afterSearchTabs: true
     }
+  }
     else
     return {
       followAllButtonsAndDrawer: true, afterSearchTabs: false, opacity:0.01
@@ -107,11 +131,22 @@ class FeedHeaderBar extends React.Component {
       color2: 'grey',color3: 'grey', border2: 0,
       border3: 0 })
 
+      if (_.isEmpty(this.props.global_aux)) { // si viene de search carga feed global
+        this.props.actions.doClearFeed('GLOBAL');
+        this.props.actions.doFetchPublicFeed(false);
+     }
+     else
+      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false)
+
+        
+
   }
 
   cancelSearch() {
     this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false,  opacity:0.01 })
     this.props.actions.setSearchedResults([],false);
+
+ 
 
   }
  
@@ -202,51 +237,92 @@ class FeedHeaderBar extends React.Component {
          }
         </View>
 
-        {(this.state.followAllButtonsAndDrawer) && 
-        <View
-          style={{ paddingBottom: 10, zIndex: 1 }}
-          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}>
-          {this.props.publicFeed && (
-            <Button
-              fluid
-              raised
-              titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: '#243665' }}
-              size="medium"
+       { (this.state.followAllButtonsAndDrawer) && 
+
+     <View style={{ paddingBottom: 10, zIndex: 1, flexDirection: 'row' }} > 
+         
+          
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
+           
+             <Text  style={{ color: this.state.color1, fontSize: 18}} 
+             onPress={() => {
+           
+              this.setState({color1: '#243665', border1: 3,
+              color2: 'grey',color3: 'grey', border2: 0,
+              border3: 0,
+               })
+                      if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
+                   if (_.isEmpty(this.props.global_aux)) { 
+                      this.props.actions.doClearFeed('GLOBAL');
+                      this.props.actions.doFetchPublicFeed(false);
+                   }
+                   else
+                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL',false)
+                   
+                    }}>
+                    {I18n.t('navBar.global')}
+             </Text>
+            </View>
+
+            <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+           
+            <Text  style={{ color: this.state.color2, fontSize: 18}} 
+                           onPress={() => {
+                            
+                                    if (!__DEV__) analytics().logEvent('swichToFollowingFeed_APPPRD');
+                                    if (this.props.following_counter === 0)
+                                    // if (1===2)
+                                      Alert.alert('',I18n.t('navBar.noFollowingMessage'));
+                                    else {
+                                      this.setState({color1: 'grey', border1: 0,
+                                          color2: '#243665',color3: 'grey', border2: 3,
+                                          border3: 0,
+                                          })
+                                      if (_.isEmpty(this.props.following_aux)) { 
+                                        console.log('length:'+this.props.following_aux.length)
+                                        this.props.actions.doClearFeed('FOLLOWING');
+                                        this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+                                      }
+                                      else
+                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING',false)
+                                    }
+                                  }}>    
+              {I18n.t('navBar.following')}</Text>
+           </View>
+
+          <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+           
+           <Text  style={{ color: this.state.color3, fontSize: 18}}
               onPress={() => {
-                if (!__DEV__) analytics().logEvent('swichToUserFeed_APPPRD');
-                if (this.props.following_counter === 0)
-                  Alert.alert(I18n.t('navBar.noFollowingMessage'));
-                else {
-                  this.props.actions.doClearFeed(false);
-                  this.props.actions.doFetchUserFeed(this.props.currentQRA);
-                }
-              }}
-              title={I18n.t('navBar.onlyFollowFeed')}
-            />
-          )}
-          {!this.props.publicFeed && (
-            <Button
-              fluid
-              raised
-              titleStyle={{ fontSize: 17 }}
-              buttonStyle={{ backgroundColor: '#243665' }}
-              size="medium"
-              onPress={() => {
-                if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
-                this.props.actions.doClearFeed(true);
-                this.props.actions.doFetchPublicFeed();
-              }}
-              title={I18n.t('navBar.allUsersFeed')}
-            />
-          )}
-        </View>
+                this.setState({color1: 'grey', border1: 0,
+                color2: 'grey',color3: '#243665', border2: 0,
+                border3: 3,
+                 })
+                if (!__DEV__) analytics().logEvent('swichToQAPFeed_APPPRD');
+             
+                  if (_.isEmpty(this.props.qap_aux)) { 
+                  this.props.actions.doClearFeed('QAP');
+                  this.props.actions.doFetchPublicQAPfeed(false);
+                  }
+                  else
+                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP', false)
+          
+              }}>          
+               {I18n.t('navBar.QAP')}
+           </Text>
+          </View>
+  
+            </View>
   }
+
+
+  
  {(this.state.afterSearchTabs) && 
    <View
           style={{ paddingBottom: 10, zIndex: 1, flexDirection: 'row' }}
           opacity={this.state.opacity}
-          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}> 
+          pointerEvents={this.props.feedtouchable ? 'auto' : 'none'}
+          > 
          
           
             <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
@@ -295,9 +371,12 @@ const mapStateToProps = (state) => ({
   currentQRA: state.sqso.qra,
   feedtouchable: state.sqso.feed.FeedTouchable,
   searchfeed: state.sqso.feed.searchfeed,
-
   token: state.sqso.jwtToken,
-  qsos: state.sqso.feed.qsos
+  qsos: state.sqso.feed.qsos,
+  global_aux: state.sqso.feed.global_aux,
+  following_aux: state.sqso.feed.following_aux,
+  qap_aux: state.sqso.feed.qap_aux,
+  tabtoglobal: state.sqso.tabToGlobal
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

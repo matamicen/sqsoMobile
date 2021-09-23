@@ -266,7 +266,7 @@ export default {
   QsoTypeANYdescOther:
     'シャックやアンテナ、仲間の写真等を投稿する',
   QsoTypeANYdescFieldDay: 'コンテストやズームなどの企画をPRする',
-  QsoTypeANYdescQAP: 'QAPを投稿',
+  QsoTypeANYdescQAP: 'あなたはQAPであるか、CQに電話をかけています（周波数とモードは写真または説明にあるはずです)',
   QsoTypePOST: 'その他一般',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: '行事',
@@ -394,9 +394,9 @@ export default {
   PUSH_LISTENEDYOUQSO_MESSAGE: 'モード: %{mode}バンド: %{band}',
   PUSH_NEWFLDDAY_TITLE: '%{callsign} さんが行事を進めています',
   PUSH_NEWFLDDAY_MESSAGE: 'こちらに詳細があります',
-  PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign}さんが行事にタグを付けました',
+  PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign} さんが行事にタグを付けました',
   PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'こちらに詳細があります',
-  PUSH_NEWQAP_TITLE: '%{callsign}さんがQAPを投稿しました',
+  PUSH_NEWQAP_TITLE: '%{callsign} さんがQAPを投稿しました',
   PUSH_NEWQAP_MESSAGE: 'こちらに詳細があります',
   PUSH_TAGYOUNEWQAP_TITLE: '%{callsign}さんがQAPにタグを付けました',
   PUSH_TAGYOUNEWQAP_MESSAGE: 'こちらに詳細があります',
@@ -542,8 +542,10 @@ export default {
     allUsersFeed: '全員の投稿を見る',
     // onlyFollowFeed: 'フォローしている行事のみを見る',
     onlyFollowFeed: 'フォローしている投稿のみを見る',
-   
-    noFollowingMessage: 'まだフォローしている人がいません'
+    noFollowingMessage: 'まだ誰もフォローしていません...ユーザーのフォローを開始すると、ここに投稿が表示されます。',
+    global: 'グローバル',
+    following: 'フォロー中',
+    QAP: 'QAP'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: 'SuperQSOとは?',

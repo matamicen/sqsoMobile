@@ -59,6 +59,10 @@ class Home extends React.PureComponent {
     // console.log('qra: ', qra);
     // Handle dynamic link inside your own application
   }
+
+
+  
+  
   async componentDidMount() {
     await Linking.addEventListener('url', (e) => {
       try {
@@ -195,8 +199,9 @@ class Home extends React.PureComponent {
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
           this.props.actions.doClearFeed();
-          if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-          else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+          if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed(false);
+          if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+          if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false);
 
           this.props.actions.doFetchFieldDaysFeed();
           this.props.actions.doLatestUsersFetch();
@@ -232,14 +237,43 @@ class Home extends React.PureComponent {
     });
     // if (__DEV__)
     //   this.setState({ adActive: false });
-    this.props.actions.doFollowFetch();
-    if (this.props.qsos.length === 0) {
-      this.props.actions.doClearFeed(this.props.publicFeed);
-      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+    if (!this.props.isfetchingdofollowfetch)
+      this.props.actions.doFollowFetch();
 
-      this.props.actions.doFetchFieldDaysFeed();
+    if (this.props.qsos.length === 0) {
+      console.log('entro aca de cabeza!')
+      // this.props.actions.doClearFeed(this.props.publicFeed);
+      // if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed();
+      // if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      // if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed();
+     
+
+      // el true indica que carge el feed en la variable AUX del store pero que no la copie al FEED 
+      // el false es que copie al AUX y que ademas lo ponga en el FEED
+      // estos 2 TRUE se hacen para que ya esten pre cargados los feed de SEGUIDOS y QAP para que el switch
+      // entre FEEDs se todo en memoria y no tenga que llamar a API. 
+      // los IF estan para que no se llamen mas de 1 vez
+      if (!this.props.isfetchingpublicfeed)
+        this.props.actions.doFetchPublicFeed(false);
+
+      if (!this.props.isfetchinguserfeed)
+        this.props.actions.doFetchUserFeed(this.props.currentQRA,true);
+ 
+      if (!this.props.isfetchingQAPfeed)
+        this.props.actions.doFetchPublicQAPfeed(true);
+        
+    //  this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+    //  this.props.actions.doFetchPublicQAPfeed(false);
+    
+
+
+      // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+    if (!this.props.isfetchinggetfielddaysfeed)
+        this.props.actions.doFetchFieldDaysFeed();
+    if (!this.props.isfetchinggetlatestusers)
       this.props.actions.doLatestUsersFetch();
+
     }
 
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -314,10 +348,15 @@ class Home extends React.PureComponent {
       this.toast(I18n.t('Refreshing'), 2500);
 
       this.props.actions.doClearFeed(this.props.publicFeed);
-      if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-      else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      if (this.props.publicFeed==='GLOBAL' && !this.props.isfetchingpublicfeed) this.props.actions.doFetchPublicFeed(false);
+      if (this.props.publicFeed==='FOLLOWING' && !this.props.isfetchinguserfeed) this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+      if (this.props.publicFeed==='QAP' && !this.props.isfetchingQAPfeed) this.props.actions.doFetchPublicQAPfeed(false);
+      // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+      // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+      if (!this.props.isfetchinggetfielddaysfeed)
+        this.props.actions.doFetchFieldDaysFeed();
 
-      this.props.actions.doFetchFieldDaysFeed();
+    if (!this.props.isfetchinggetlatestusers)   
       this.props.actions.doLatestUsersFetch();
 
       //   this.props.setPressHome(0);
@@ -384,8 +423,11 @@ class Home extends React.PureComponent {
         console.log('more than 15 minutes it refreshs');
 
         this.props.actions.doClearFeed(this.props.publicFeed);
-        if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
-        else this.props.actions.doFetchUserFeed(this.props.currentQRA);
+        if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed(false);
+        if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+        if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false);
+        // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
+        // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
         this.props.actions.doFetchFieldDaysFeed();
         this.props.actions.doLatestUsersFetch();
@@ -482,7 +524,6 @@ const mapStateToProps = (state) => ({
   FetchingQSOS: state.sqso.feed.FetchingQSOS,
   qsosFetched: state.sqso.feed.qsosFetched,
   //   authenticating: state.sqso.feeduserData.authenticating,
-
   userinfo: state.sqso.userInfo,
   currentQRA: state.sqso.qra,
   publicFeed: state.sqso.feed.publicFeed,
@@ -492,6 +533,14 @@ const mapStateToProps = (state) => ({
   searchedResults: state.sqso.feed.searchedResults,
   urlroute: state.sqso.urlRoute,
   urlparam: state.sqso.urlParam,
+  isfetchingpublicfeed:state.sqso.isFetchingPublicFeed,
+  isfetchinguserfeed:state.sqso.isFetchingUserFeed,
+  isfetchingQAPfeed: state.sqso.isFetchingQAPFeed,
+  isfetchingdofollowfetch: state.sqso.isFetchingdoFollowFetch,
+  isfetchinggetfielddaysfeed: state.sqso.isFetchinggetFieldDaysFeed,
+  isfetchinggetlatestusers: state.sqso.isFetchinggetLatestUsers
+
+  
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
