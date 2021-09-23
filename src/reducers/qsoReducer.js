@@ -111,7 +111,8 @@ import {
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
-  SET_URL_ROUTE
+  SET_URL_ROUTE,
+  SET_TABTOGLOBAL
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -137,6 +138,34 @@ const initialState = {
   userInfoApiSuccesMessage: '',
   userInfoApiSuccesStatus: false,
   userInfoApiErrorMessage: '',
+  isFetchingPublicFeed: false,
+  PublicFeedApiSuccesMessage: '',
+  PublicFeedApiSuccesStatus: false,
+  PublicFeedApiErrorMessage: '',
+  isFetchingUserFeed: false,
+  UserFeedApiSuccesMessage: '',
+  UserFeedApiSuccesStatus: false,
+  UserFeedApiErrorMessage: '',
+  isFetchingQAPFeed: false,
+  QAPFeedApiSuccesMessage: '',
+  QAPFeedApiSuccesStatus: false,
+  QAPFeedApiErrorMessage: '',
+
+  isFetchingdoFollowFetch: false,
+  doFollowFetchApiSuccesMessage: '',
+  doFollowFetchApiSuccesStatus: false,
+  doFollowFetchApiErrorMessage: '',
+
+  isFetchinggetFieldDaysFeed: false,
+  getFieldDaysFeedApiSuccesMessage: '',
+  getFieldDaysFeedApiSuccesStatus: false,
+  getFieldDaysFeedApiErrorMessage: '',
+
+  isFetchinggetLatestUsers: false,
+  getLatestUsersApiSuccesMessage: '',
+  getLatestUsersApiSuccesStatus: false,
+  getLatestUsersApiErrorMessage: '',
+  
   qsoScreenDidmount: true,
   currentLocationPermission: false,
   adShowed: false,
@@ -157,6 +186,7 @@ const initialState = {
 
   pressHome: 1,
   justPublished: false,
+  tabToGlobal: false,
   externalShareUrl: false,
   mustUpgradeApp: false,
   urlRoute: '',
@@ -246,10 +276,13 @@ const initialState = {
       userFetched: false
     },
     qsos: [],
+    global_aux: [],
+    following_aux: [],
+    qap_aux: [],
     FetchingQSOS: false,
     qsosFetched: false,
     feedFetchedDate: null,
-    publicFeed: true,
+    publicFeed: 'GLOBAL',
     fieldDays: [],
     FetchingFieldDays: false,
     fieldDaysFetched: false,
@@ -297,12 +330,76 @@ const qsoReducer = (state = initialState, action) => {
         return newStore;
       }
 
+      if (action.apiName === 'doFetchPublicFeed') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingPublicFeed: true,
+          PublicFeedApiSuccesMessage: '',
+          PublicFeedApiErrorMessage: ''
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchUserFeed') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingUserFeed: true,
+          UserFeedApiSuccesMessage: '',
+          UserFeedApiErrorMessage: ''
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchPublicQAPfeed') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingQAPFeed: true,
+          QAPFeedApiSuccesMessage: '',
+          QAPFeedApiErrorMessage: ''
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'getLatestUsers') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetLatestUsers: true,
+          getLatestUsersApiSuccesMessage: '',
+          getLatestUsersApiErrorMessage: ''
+        });
+        return newStore;
+      }     
+
+      if (action.apiName === 'doFollowFetch') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingdoFollowFetch: true,
+          doFollowFetchApiSuccesMessage: '',
+          doFollowFetchApiErrorMessage: ''
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'getFieldDaysFeed') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetFieldDaysFeed: true,
+          getFieldDaysFeedApiSuccesMessage: '',
+          getFieldDaysFeedApiErrorMessage: ''
+        });
+        return newStore;
+      } 
+
       return state;
 
     case FETCHING_API_FAILURE:
       if (action.apiName === 'getUserInfo') {
-        //  return {...state, isFetchingUserInfo: false,
-        //   userInfoApiErrorMessage: action.payload };
 
         newStore = Object.assign({}, state, {
           ...state,
@@ -311,31 +408,167 @@ const qsoReducer = (state = initialState, action) => {
           errorApiMessage: action.payload
         });
         return newStore;
-      } else {
+      } 
+
+      if (action.apiName === 'doFetchPublicFeed') {
+     
         newStore = Object.assign({}, state, {
           ...state,
-          isFetchingUserInfo: false,
+          isFetchingPublicFeed: false,
+          PublicFeedApiErrorMessage: action.payload,
           errorApiMessage: action.payload
         });
         return newStore;
-      }
+      } 
 
-    // return state;
+      if (action.apiName === 'doFetchUserFeed') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingUserFeed: false,
+          UserFeedApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'doFetchPublicQAPfeed') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingQAPFeed: false,
+          QAPFeedApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'getLatestUsers') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetLatestUsers: false,
+          getLatestUsersApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'doFollowFetch') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingdoFollowFetch: false,
+          doFollowFetchApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'getFieldDaysFeed') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetFieldDaysFeed: false,
+          getFieldDaysFeedApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+      // else {
+      //   newStore = Object.assign({}, state, {
+      //     ...state,
+      //     isFetchingUserInfo: false,
+      //     errorApiMessage: action.payload
+      //   });
+      //   return newStore;
+      // }
+
+    return state;
 
     //  return {...state, isFetching: false, errorApiMessage: action.payload  };
 
     case FETCHING_API_SUCCESS:
       if (action.apiName === 'getUserInfo') {
         console.log('trajo getUserInfo');
-        //  return {...state, isFetchingUserInfo: false,
-        //     userInfoApiSuccesMessage: action.payload,
-        //     userInfoApiSuccesStatus: true };
 
         newStore = Object.assign({}, state, {
           ...state,
           isFetchingUserInfo: false,
           userInfoApiSuccesMessage: action.payload,
           userInfoApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchPublicFeed') {
+        console.log('trajo doFetchPublicFeed');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingPublicFeed: false,
+          PublicFeedApiSuccesMessage: action.payload,
+          PublicFeedApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchUserFeed') {
+        console.log('trajo doFetchUserFeed');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingUserFeed: false,
+          UserFeedApiSuccesMessage: action.payload,
+          UserFeedApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchPublicQAPfeed') {
+        console.log('trajo doFetchPublicQAPfeed');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingQAPFeed: false,
+          QAPFeedApiSuccesMessage: action.payload,
+          QAPFeedApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'getLatestUsers') {
+        console.log('trajo getLatestUsers');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetLatestUsers: false,
+          getLatestUsersApiSuccesMessage: action.payload,
+          getLatestUsersApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFollowFetch') {
+        console.log('trajo doFollowFetch');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingdoFollowFetch: false,
+          doFollowFetchApiSuccesMessage: action.payload,
+          doFollowFetchApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'getFieldDaysFeed') {
+        console.log('trajo getFieldDaysFeed');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchinggetFieldDaysFeed: false,
+          getFieldDaysFeedApiSuccesMessage: action.payload,
+          getFieldDaysFeedApiSuccesStatus: true
         });
         return newStore;
       }
@@ -1030,6 +1263,14 @@ const qsoReducer = (state = initialState, action) => {
         justPublished: action.status
       });
       return newStore;
+
+      case SET_TABTOGLOBAL:
+        newStore = Object.assign({}, state, {
+          ...state,
+  
+          tabToGlobal: action.status
+        });
+        return newStore;
 
     case SET_EXTERNAL_SHARE_URL:
       newStore = Object.assign({}, state, {
@@ -1882,6 +2123,20 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
     case RECEIVE_FEED:
+      console.log('RECEIVE_FEED action.onlyloadtoaux:'+action.onlyloadtoaux)
+      console.log('RECEIVE_FEED action.publicFeed:'+action.publicFeed)
+
+    if (action.onlyloadtoaux) 
+      newStore = Object.assign({}, state, {
+        ...state,
+        feed: {
+          ...state.feed,
+          global_aux: (action.publicFeed==='GLOBAL') ? action.qsos : state.feed.global_aux,
+          following_aux: (action.publicFeed==='FOLLOWING') ? action.qsos : state.feed.following_aux,
+          qap_aux: (action.publicFeed==='QAP') ? action.qsos : state.feed.qap_aux
+        }
+      })
+    else
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -1890,7 +2145,10 @@ const qsoReducer = (state = initialState, action) => {
           FetchingQSOS: false,
           qsosFetched: true,
           feedFetchedDate: new Date(),
-          publicFeed: action.publicFeed
+          publicFeed: action.publicFeed,
+          global_aux: (action.publicFeed==='GLOBAL') ? action.qsos : state.feed.global_aux,
+          following_aux: (action.publicFeed==='FOLLOWING') ? action.qsos : state.feed.following_aux,
+          qap_aux: (action.publicFeed==='QAP') ? action.qsos : state.feed.qap_aux
         }
       });
       return newStore;

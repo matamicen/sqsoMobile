@@ -312,7 +312,7 @@ class QsoType extends React.PureComponent {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}
+                      <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}
                       </Text>
                     </View>  
                    </TouchableOpacity> 
@@ -370,7 +370,7 @@ class QsoType extends React.PureComponent {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}</Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}</Text>
                     </View>  
                    </TouchableOpacity> 
                     : null }                
@@ -446,7 +446,7 @@ class QsoType extends React.PureComponent {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
                 
                     </View>  
                    </TouchableOpacity> 
@@ -487,7 +487,7 @@ class QsoType extends React.PureComponent {
                    <View style={{flexDirection: 'row', flex:1}}>
                       <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
-                      <Text style={{ color: '#4F4F4F', fontSize: 16, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
+                      <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
                 
                     </View>  
                    </TouchableOpacity> 

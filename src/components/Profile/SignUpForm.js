@@ -486,7 +486,7 @@ class SignUpForm extends React.PureComponent {
       await this.props.setToken(this.jwtToken);
 
       this.props.getUserInfo(this.jwtToken);
-      this.props.doFetchPublicFeed();
+      this.props.doFetchPublicFeed(false);
       this.props.doFetchFieldDaysFeed();
       this.props.doFollowFetch();
       this.props.doLatestUsersFetch();

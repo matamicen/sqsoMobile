@@ -127,7 +127,8 @@ import {
   SET_SEARCHED_RESULTS,
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
-  SET_URL_ROUTE
+  SET_URL_ROUTE,
+  SET_TABTOGLOBAL
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -262,6 +263,13 @@ export const setPressHome = (cant) => {
 export const setJustPublished = (stat) => {
   return {
     type: SET_JUSTPUBLISHED,
+    status: stat
+  };
+};
+
+export const setTabToGlobal = (stat) => {
+  return {
+    type: SET_TABTOGLOBAL,
     status: stat
   };
 };
@@ -3665,18 +3673,19 @@ export const setPendingVerification = (status) => {
   };
 };
 
-// BEGIN NATIVE FEED
-export const doFetchPublicFeed = (qra = null) => {
+// export const doFetchPublicQAPfeed = (qra = null,onlyloadToAux) => {
+  export const doFetchPublicQAPfeed = (onlyloadToAux) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
-    dispatch(fetchingApiRequest('doFetchPublicFeed'));
+    dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
+    console.log('QAP __feed onlyloadToAux:'+onlyloadToAux);
 
     dispatch(doRequestFeed());
     const apiName = 'superqso';
-    const path = '/qso-public-list';
-    console.log('llamo api /qso-public-list')
+    const path = '/qap-public-list';
+    console.log('llamo api /qap-public-list')
     // const myInit = {
-    //   body: {}, // replace this with attributes you need
+    //    body: {query: 'QAP'}, // replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
     // };
     const myInit = {};
@@ -3684,15 +3693,17 @@ export const doFetchPublicFeed = (qra = null) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message, true));
+          dispatch(doReceiveFeed(response.body.message, 'QAP',onlyloadToAux));
          
             dispatch(setSearchedResults([],false));
 
           
           // dispatch(setSearchedResults(response.body.message));
         } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('doFetchPublicQAPfeed',response));
       })
       .catch(async (error) => {
+        dispatch(fetchingApiFailure('doFetchPublicQAPfeed', error));
         if (__DEV__) {
           console.log(error.message);
         } else {
@@ -3704,10 +3715,53 @@ export const doFetchPublicFeed = (qra = null) => {
       });
   };
 };
-export const doFetchUserFeed = (qra) => {
+
+// BEGIN NATIVE FEED
+// export const doFetchPublicFeed = (qra = null,onlyloadToAux) => {
+  export const doFetchPublicFeed = (onlyloadToAux) => {
+  // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
+  return async (dispatch) => {
+    dispatch(fetchingApiRequest('doFetchPublicFeed'));
+    console.log('PUBLIC __feed onlyloadToAux:'+onlyloadToAux);
+    dispatch(doRequestFeed());
+    const apiName = 'superqso';
+    const path = '/qso-public-list';
+    console.log('llamo api /qso-public-list')
+    // const myInit = {
+    //    body: {query: 'FEED'},// replace this with attributes you need
+    //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
+    // };
+    const myInit = {};
+    API.get(apiName, path, myInit)
+      .then((response) => {
+        // console.log(response);
+        if (response.body.error === 0) {
+          dispatch(doReceiveFeed(response.body.message, 'GLOBAL',onlyloadToAux));
+         
+            dispatch(setSearchedResults([],false));
+           
+          
+          // dispatch(setSearchedResults(response.body.message));
+        } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('doFetchPublicFeed',response));
+      })
+      .catch(async (error) => {
+        dispatch(fetchingApiFailure('doFetchPublicFeed', error));
+        if (__DEV__) {
+          console.log(error.message);
+        } else {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('getPublicFeed_WEBDEV'));
+          else crashlytics().recordError(new Error('getPublicFeed_APPPRD'));
+        }
+      });
+  };
+};
+export const doFetchUserFeed = (qra,onlyloadToAux) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchUserFeed'));
-
+    console.log('USER __feed onlyloadToAux:'+onlyloadToAux);
     dispatch(doRequestFeed());
     try {
       let session = await Auth.currentSession();
@@ -3725,18 +3779,21 @@ export const doFetchUserFeed = (qra) => {
       API.get(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            if (response.body.message.length > 0)
-              dispatch(doReceiveFeed(response.body.message, false));
-            else {
-              dispatch(doFetchPublicFeed());
-            }
+            // if (response.body.message.length > 0)
+              dispatch(doReceiveFeed(response.body.message, 'FOLLOWING',onlyloadToAux));
+            // else {
+            //   dispatch(doFetchPublicFeed());
+            // }
+
             // dispatch(setSearchedResults([]));
          
               dispatch(setSearchedResults([],false));
             
           } else console.log(response.body.message);
+          dispatch(fetchingApiSuccess('doFetchUserFeed',response));
         })
         .catch(async (error) => {
+          dispatch(fetchingApiFailure('doFetchUserFeed', error));
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('getUserFeed_WEBDEV'));
@@ -3763,13 +3820,14 @@ export const doClearFeed = (publicFeed) => {
     publicFeed: publicFeed
   };
 };
-export const doReceiveFeed = (qsos, publicFeed) => {
+export const doReceiveFeed = (qsos, publicFeed,onlyLoadToAux) => {
   return {
     type: RECEIVE_FEED,
     qsos: qsos,
     FetchingQSOS: false,
     qsosFetched: true,
-    publicFeed
+    publicFeed,
+    onlyloadtoaux: onlyLoadToAux
   };
 };
 export const doReceiveFieldDays = (qsos) => {
@@ -3795,8 +3853,10 @@ export const doRequestFieldDay = () => {
   };
 };
 export const doFollowFetch = () => {
+  console.log('___doFollowFetch');
   return async (dispatch) => {
     try {
+      dispatch(fetchingApiRequest('doFollowFetch'));
       const apiName = 'superqso';
       const path = '/qra/recFollow';
       const myInit = {
@@ -3810,8 +3870,10 @@ export const doFollowFetch = () => {
           if (response.body.error === 0) {
             dispatch(doFollowReceive(response.body.message));
           } else console.log(response.body.message);
+          dispatch(fetchingApiSuccess('doFollowFetch',response));
         })
         .catch(async (error) => {
+          dispatch(fetchingApiFailure('doFollowFetch', error));
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__)
             crashlytics().recordError(new Error('doFollowFetch_WEBDEV'));
@@ -4022,7 +4084,7 @@ export const doRepost = (idqso, token, qso) => {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
-            dispatch(doFetchPublicFeed());
+            dispatch(doFetchPublicFeed(false));
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';
@@ -4550,7 +4612,7 @@ export function doPauseVideo(idqsos) {
   };
 }
 export function doFetchFieldDaysFeed(qra = null) {
-  // console.log('doFetchPublicFeed');
+  console.log('___doFetchFieldDaysFeed');
   // window.gtag('config', 'G-H8G28LYKBY', {
   //   custom_map: { dimension1: 'userQRA' }
   // });
@@ -4564,6 +4626,7 @@ export function doFetchFieldDaysFeed(qra = null) {
   if (!__DEV__) analytics().logEvent('getFieldDaysFeed_APPPRD');
 
   return async (dispatch) => {
+    dispatch(fetchingApiRequest('getFieldDaysFeed'));
     dispatch(doRequestFieldDay());
     const apiName = 'superqso';
     const path = '/qsoGetByType';
@@ -4577,8 +4640,10 @@ export function doFetchFieldDaysFeed(qra = null) {
         if (response.body.error === 0) {
           dispatch(doReceiveFieldDays(response.body.message));
         } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('getFieldDaysFeed',response));
       })
       .catch((error) => {
+        dispatch(fetchingApiFailure('getFieldDaysFeed', error));
         console.log(error);
         crashlytics().log('error: ' + JSON.stringify(error));
         if (__DEV__) {
@@ -4668,7 +4733,10 @@ export const setSearchedResultsFilter = (filtertype) => {
 };
 
 export function doLatestUsersFetch() {
+  console.log('___doLatestUsersFetch')
   return async (dispatch) => {
+    dispatch(fetchingApiRequest('getLatestUsers'));
+
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'getLatestUsers_APPPRD', {
     //     event_category: 'User',
@@ -4693,8 +4761,10 @@ export function doLatestUsersFetch() {
           if (response.body.error === 0) {
             dispatch(doLatestUsersReceive(response.body.message));
           } else console.log(response.body.message);
+          dispatch(fetchingApiSuccess('getLatestUsers',response));
         })
         .catch(async (error) => {
+          dispatch(fetchingApiFailure('getLatestUsers', error));
           console.log(error);
           crashlytics().log('error: ' + JSON.stringify(error));
           if (__DEV__) {

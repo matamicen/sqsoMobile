@@ -47,7 +47,8 @@ import {
   setPressHome,
   setSearchedResults,
   setProfileModalStat,
-  setSendingProfilePhotoModal
+  setSendingProfilePhotoModal,
+  doFetchPublicQAPfeed
 } from '../../actions';
 import awsconfig from '../../aws-exports';
 import { hasAPIConnection, userNotValidated } from '../../helper';
@@ -583,8 +584,11 @@ class InitialScreen extends React.PureComponent {
               style={{}}
               onPress={() => {
                 this.props.doClearFeed(this.props.publicFeed);
-                if (this.props.publicFeed) this.props.doFetchPublicFeed();
-                else this.props.doFetchUserFeed(this.props.currentQRA);
+                if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed();
+                if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.currentQRA,false);
+                if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(false);                 
+                // if (this.props.publicFeed) this.props.doFetchPublicFeed();
+                // else this.props.doFetchUserFeed(this.props.currentQRA);
                 this.props.doFetchFieldDaysFeed();
                 this.props.doFollowFetch();
                 this.props.doLatestUsersFetch();
@@ -852,7 +856,8 @@ const mapDispatchToProps = {
   sendActualMedia,
   manageLocationPermissions,
   setPressHome,
-  setSearchedResults
+  setSearchedResults,
+  doFetchPublicQAPfeed
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InitialScreen);

@@ -265,7 +265,7 @@ export default {
   QsoTypeANYdescOther:
     'Post something generic, a photo of your shack, antenna, friends, etc.',
   QsoTypeANYdescFieldDay: 'Promote an activation, contest, zoom talk.',
-  QsoTypeANYdescQAP: 'Post that you are QAP',
+  QsoTypeANYdescQAP: 'You are QAP or calling CQ (Frequency and Mode should be in the photo or description)',
   QsoTypePOST: 'Generic',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: 'Activity',
@@ -395,7 +395,7 @@ export default {
   PUSH_NEWFLDDAY_MESSAGE: 'See more details here',
   PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign} tagged you in an Activity post',
   PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'See more details here',
-  PUSH_NEWQAP_TITLE: '%{callsign} posted that is QAP',
+  PUSH_NEWQAP_TITLE: '%{callsign} is QAP',
   PUSH_NEWQAP_MESSAGE: 'See more details here',
   PUSH_TAGYOUNEWQAP_TITLE: '%{callsign} tagged you in his QAP post',
   PUSH_TAGYOUNEWQAP_MESSAGE: 'See more details here',
@@ -542,7 +542,10 @@ export default {
     // onlyFollowFeed: 'Watch only my followings activity ',
     onlyFollowFeed: 'See only posts from users I follow',
    
-    noFollowingMessage: 'You don´t follow anyone yet'
+    noFollowingMessage: 'You don´t follow anyone yet... Start following hams and you will see their posts here.',
+    global: 'Global',
+    following: 'Following',
+    QAP: 'QAP'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: 'What is SuperQSO?',
@@ -668,7 +671,7 @@ export default {
     updatedProfilePic: '{{QRA}} updated his Profile Pic',
     workedQSO: '{{QRA}} worked a QSO',
     listenedQSO: '{{QRA}} listened a QSO',
-    createdQAP: '{{QRA}} posted that is QAP',
+    createdQAP: '{{QRA}} is QAP',
     createdFLDDAY: '{{QRA}} promoted an Activity',
     createdPOST: '{{QRA}} created a POST',
     sharedQSO: '{{QRA}} reposted a QSO',
@@ -705,7 +708,7 @@ export default {
     qsoDeleted: 'QSO Deleted',
     workedAQSO: ' worked a QSO',
     createdPost: ' created a new POST',
-    createdQAP: ' posted that is QAP',
+    createdQAP: ' is QAP',
     createdFLDDAY: ' promoted an Activity',
     listenedQSO: ' listened a QSO',
     repostedQSO: ' reposted a QSO',
