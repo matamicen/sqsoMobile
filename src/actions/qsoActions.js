@@ -2781,6 +2781,10 @@ export const getUserInfo = (jwtToken) => {
 
       if (respuesta.body.error === 0) {
         console.log('ejecuto bien user-info');
+        console.log(respuesta)
+        console.log(respuesta.body.message.qra)
+        console.log(respuesta.body.message.blocked)
+        
         var followings = respuesta.body.message.following;
         var followers = respuesta.body.message.followers;
         //   console.log("la url que envio:" + url);

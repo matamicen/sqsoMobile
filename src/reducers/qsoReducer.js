@@ -2125,6 +2125,55 @@ const qsoReducer = (state = initialState, action) => {
     case RECEIVE_FEED:
       console.log('RECEIVE_FEED action.onlyloadtoaux:'+action.onlyloadtoaux)
       console.log('RECEIVE_FEED action.publicFeed:'+action.publicFeed)
+      console.log(action.qsos)
+      console.log('RECEIVE_FEED MEDIA:')
+      console.log(action.qsos[1].likes)
+      console.log(action.qsos[1].media)
+
+      test = [{"blockedbyme": "blockedbyme", "idqra_blocked": 718, "profilepic": "https://d30o7j00smmz5f.cloudfront.net/1/us-east-1%3Aa7752f4f-bcdf-4350-89c1-18625bc82fce/profile/profile_1588362668213.jpg"}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}]
+console.log(test)
+
+
+      action.qsos = action.qsos.filter(
+        (qso) => 
+        {
+          if (test.some(item => item.idqra_blocked === qso.idqra_owner))
+          return false
+          else
+          return true
+        
+        }
+      );
+
+     
+      action.qsos.forEach(function(part, index, qso) {
+    
+        if (qso[index].likes){
+        qso[index].likes = qso[index].likes.filter(
+          (like) => {
+            if (test.some(item => item.idqra_blocked === like.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      }
+
+        if (qso[index].comments)
+        qso[index].comments = qso[index].comments.filter(
+          (comment) => {
+            if (test.some(item => item.idqra_blocked === comment.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      
+    });
+
+      
 
     if (action.onlyloadtoaux) 
       newStore = Object.assign({}, state, {
