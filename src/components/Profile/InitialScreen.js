@@ -584,12 +584,12 @@ class InitialScreen extends React.PureComponent {
               style={{}}
               onPress={() => {
                 this.props.doClearFeed(this.props.publicFeed);
-                if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed();
-                if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.currentQRA,false);
-                if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(false);                 
+                if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed(false,this.props.blockedusers);
+                if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
+                if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);                 
                 // if (this.props.publicFeed) this.props.doFetchPublicFeed();
                 // else this.props.doFetchUserFeed(this.props.currentQRA);
-                this.props.doFetchFieldDaysFeed();
+                this.props.doFetchFieldDaysFeed(this.props.blockedusers);
                 this.props.doFollowFetch();
                 this.props.doLatestUsersFetch();
 
@@ -830,7 +830,8 @@ const mapStateToProps = (state) => {
     confirmprofilemodal: state.sqso.confirmProfileModal,
     sendingprofilemodal_stat: state.sqso.sendingProfileModal_stat,
     cancelbutton_stat: state.sqso.cancelButton_stat,
-    userinfo: state.sqso.userInfo
+    userinfo: state.sqso.userInfo,
+    blockedusers: state.sqso.currentQso.blockedUsers
   };
 };
 

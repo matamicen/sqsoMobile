@@ -557,7 +557,7 @@ export default {
     onlyFollowFeed: 'Ver Publicaciones de usuarios que sigo',
     noFollowingMessage: 'Todavía no seguis a nadie...Empezá a seguir a colegas y verás sus publicaciones aquí.',
     global: 'Global',
-    following: 'Seguidos',
+    following: 'Siguiendo',
     QAP: 'QAP'
   },
   whatIsSuperQSO: {

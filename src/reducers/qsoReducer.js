@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { ActionSheetIOS } from 'react-native';
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
@@ -31,6 +32,7 @@ import {
   FOLLOW_RECEIVE,
   INSERT_FOLLOWERS,
   INSERT_FOLLOWINGS,
+  INSERT_BLOCKED_USERS,
   MANAGE_LOCATION_PERMISSIONS,
   MANAGE_NOTIFICATIONS,
   MANAGE_PUSH_TOKEN,
@@ -228,6 +230,7 @@ const initialState = {
     qraDeleted: false,
     followings: [],
     followers: [],
+    blockedUsers: [],
     notifications: [],
     notifBackground: false,
     followersAlreadyCalled: false,
@@ -1631,6 +1634,19 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
 
+      
+      case INSERT_BLOCKED_USERS:
+        console.log('INSERT_BLOCKED_USERS')
+        auxcurrentQso = {
+          ...state.currentQso,
+          blockedUsers: action.blockedUsers
+        };
+        newStore = Object.assign({}, state, {
+          ...state,
+          currentQso: auxcurrentQso
+        });
+        return newStore;
+
     case FOLLOWERS_ALREADY_CALLED:
       //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
       auxcurrentQso = {
@@ -2098,7 +2114,51 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
+
     case RECEIVE_FIELDDAYS:
+
+      action.fieldDays = action.fieldDays.filter(
+  (qso) => 
+  {
+    if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqra_owner))
+    return false
+    else
+    return true
+  
+  }
+);
+
+
+action.fieldDays.forEach(function(part, index, qso) {
+
+  if (qso[index].likes){
+  qso[index].likes = qso[index].likes.filter(
+    (like) => {
+      if (action.blockedUsers.some(item => item.idqra_blocked === like.idqra))
+      return false
+      else
+      return true
+    
+    }
+  );
+}
+
+  if (qso[index].comments)
+  qso[index].comments = qso[index].comments.filter(
+    (comment) => {
+      if (action.blockedUsers.some(item => item.idqra_blocked === comment.idqra))
+      return false
+      else
+      return true
+    
+    }
+  );
+
+});
+
+
+
+
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2131,13 +2191,14 @@ const qsoReducer = (state = initialState, action) => {
       console.log(action.qsos[1].media)
 
       test = [{"blockedbyme": "blockedbyme", "idqra_blocked": 718, "profilepic": "https://d30o7j00smmz5f.cloudfront.net/1/us-east-1%3Aa7752f4f-bcdf-4350-89c1-18625bc82fce/profile/profile_1588362668213.jpg"}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}]
-console.log(test)
+      console.log('blocked reducer:')
+      console.log(action.blockedUsers)
 
 
       action.qsos = action.qsos.filter(
         (qso) => 
         {
-          if (test.some(item => item.idqra_blocked === qso.idqra_owner))
+          if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqra_owner))
           return false
           else
           return true
@@ -2151,7 +2212,7 @@ console.log(test)
         if (qso[index].likes){
         qso[index].likes = qso[index].likes.filter(
           (like) => {
-            if (test.some(item => item.idqra_blocked === like.idqra))
+            if (action.blockedUsers.some(item => item.idqra_blocked === like.idqra))
             return false
             else
             return true
@@ -2163,7 +2224,7 @@ console.log(test)
         if (qso[index].comments)
         qso[index].comments = qso[index].comments.filter(
           (comment) => {
-            if (test.some(item => item.idqra_blocked === comment.idqra))
+            if (action.blockedUsers.some(item => item.idqra_blocked === comment.idqra))
             return false
             else
             return true
@@ -2559,6 +2620,21 @@ console.log(test)
             }
             return qso;
           }),
+
+          fieldDays: state.feed.fieldDays.map((qso) => {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
+            ) {
+              qso.comments = [...qso.comments, action.comment];
+            }
+            return qso;
+          }),
+          
           qso_link:
             state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
               ? {

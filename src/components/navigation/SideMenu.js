@@ -96,7 +96,7 @@ class SideMenu extends Component {
                 onPress={() => {
                   if (!__DEV__)
                     analytics().logEvent('drawerFieldDaysPressed_APPPRD');
-                  this.props.actions.doFetchFieldDaysFeed();
+                  this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
                   this.props.navigation.navigate('FieldDays');
@@ -211,7 +211,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  currentQRA: state.sqso.qra
+  currentQRA: state.sqso.qra,
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

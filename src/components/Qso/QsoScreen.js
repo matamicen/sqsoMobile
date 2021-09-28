@@ -2922,14 +2922,14 @@ class QsoScreen extends React.PureComponent {
 
     // after publish always go to a Global feed to show the new post of the user
     this.props.doClearFeed('GLOBAL');
-    this.props.doFetchPublicFeed();
+    this.props.doFetchPublicFeed(false,this.props.blockedusers);
     
     // if (this.props.publicFeed) this.props.doFetchPublicFeed();
     // else this.props.doFetchUserFeed(this.props.qra);
     // this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
     this.props.doLatestUsersFetch();
     this.props.navigation.navigate('Home');
-    this.props.doFetchFieldDaysFeed();
+    this.props.doFetchFieldDaysFeed(this.props.blockedusers);
     this.props.setJustPublished(false);
     this.props.setTabToGlobal(true); // when publish the tab must switch to global
     this.props.setPressHome(1);
@@ -3878,7 +3878,8 @@ const mapStateToProps = (state) => {
     activitydatebegin: state.sqso.currentQso.activityDateBegin,
     activitydateend: state.sqso.currentQso.activityDateEnd,
     activityutcbegin: state.sqso.currentQso.activityUtcBegin,
-    activityutcend: state.sqso.currentQso.activityUtcEnd
+    activityutcend: state.sqso.currentQso.activityUtcEnd,
+    blockedusers: state.sqso.currentQso.blockedUsers
   };
 };
 
