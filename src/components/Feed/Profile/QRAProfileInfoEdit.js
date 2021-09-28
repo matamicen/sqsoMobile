@@ -94,7 +94,7 @@ class QraProfileInfoEdit extends React.Component {
             firstname: this.props.qra.firstname,
             lastname: this.props.qra.lastname,
             mobile: this.props.qra.mobile,
-            birthday: this.props.qra.birthday,
+            // birthday: this.props.qra.birthday,
             address: this.props.qra.address,
             address2: this.props.qra.address2,
             city: this.props.qra.city,
@@ -111,7 +111,7 @@ class QraProfileInfoEdit extends React.Component {
             lotw: this.props.qra.lotw,
             mailqsl: this.props.qra.mailqsl
           }}
-          validationSchema={validationSchema}
+          // validationSchema={validationSchema}
           onSubmit={(val) => {
             this.setState({
               qra: {
@@ -119,7 +119,7 @@ class QraProfileInfoEdit extends React.Component {
                 firstname: val.firstname,
                 lastname: val.lastname,
                 mobile: val.mobile,
-                birthday: val.birthday,
+                // birthday: val.birthday,
                 address: val.address,
                 address2: val.address2,
                 city: val.city,
@@ -198,7 +198,7 @@ class QraProfileInfoEdit extends React.Component {
                   </Text>
                 )}
               </View>
-              <Input
+              {/* <Input
                 value={values.birthday}
                 onChangeText={handleChange('birthday')}
                 onBlur={() => setFieldTouched('birthday')}
@@ -208,7 +208,7 @@ class QraProfileInfoEdit extends React.Component {
                 <Text style={{ fontSize: 10, color: 'red' }}>
                   {errors.birthday}
                 </Text>
-              )}
+              )} */}
               <Input
                 value={values.address}
                 onChangeText={handleChange('address')}
