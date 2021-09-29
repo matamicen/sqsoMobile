@@ -11,10 +11,11 @@ import {   useSelector, useDispatch  } from 'react-redux';
 // import { bindActionCreators} from 'redux';
 // import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
-// import { withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { Button, Avatar, Card, Icon } from 'react-native-elements';
 import CountryPicker from 'react-native-country-picker-modal';
-import {doLatestUsersFetch, doLatestUsersFetchByCountry} from '../../../actions/qsoActions';
+import {clearQRA, doFetchQRA, doLatestUsersFetch, doLatestUsersFetchByCountry} from '../../../actions/qsoActions';
+
 
 const country2emoji = (country_code) => {
   var OFFSET = 127397;
@@ -212,8 +213,10 @@ function ExploreUsers ({
                       <View style={styles.avatar}>
                         <TouchableOpacity
                           onPress={() => {
-                            actions.clearQRA();
-                            actions.doFetchQRA(qra.qra);
+                            // actions.clearQRA();
+                            dispatch(clearQRA());
+                            // actions.doFetchQRA(qra.qra);
+                            dispatch(doFetchQRA(qra.qra));
                             navigation.push('QRAProfile', {
                               qra: qra.qra,
                               screen: 'PROFILE'
@@ -235,8 +238,10 @@ function ExploreUsers ({
                       <View style={styles.name}>
                         <TouchableOpacity
                           onPress={() => {
-                            actions.clearQRA();
-                            actions.doFetchQRA(qra.qra);
+                            // actions.clearQRA();
+                            dispatch(clearQRA());
+                            // actions.doFetchQRA(qra.qra);
+                            dispatch(doFetchQRA(qra.qra));
                             navigation.push('QRAProfile', {
                               qra: qra.qra,
                               screen: 'PROFILE'
@@ -423,4 +428,4 @@ const styles = StyleSheet.create({
  
 
 // );
-export default ExploreUsers;
+export default withNavigation(ExploreUsers);
