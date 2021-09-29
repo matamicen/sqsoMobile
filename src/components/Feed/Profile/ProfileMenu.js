@@ -65,7 +65,7 @@ class ProfileMenu extends React.PureComponent {
               </View>
               <ScrollView>
                 {this.props.qraInfo &&
-                  this.props.qraInfo.qra.pendingVerification && (
+                  this.props.qraInfo.qra.pendingVerification ? (
                     <Button
                       // fluid
                       size="medium"
@@ -76,7 +76,13 @@ class ProfileMenu extends React.PureComponent {
                       }}
                       title={I18n.t('qra.approveUser')}
                     />
-                  )}
+                  )
+                  :
+                  <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                      Usuario ya aprobado!
+                   </Text>
+                  
+                  }
               </ScrollView>
             </View>
           </Overlay>
