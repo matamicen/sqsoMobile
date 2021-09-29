@@ -7,13 +7,14 @@ import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
 class ProfileMenu extends React.PureComponent {
   state = {
-    showModal: false
+    showModal: false,
+    showBlockModal: false
   };
   render() {
 
     if (
       this.props.currentQRA === 'LU2ACH' ||
-      this.props.currentQRA === 'TSMM' ||
+      this.props.currentQRA === 'TSMM1' ||
       this.props.currentQRA === 'TSLL'
     )
       return (
@@ -88,7 +89,86 @@ class ProfileMenu extends React.PureComponent {
           </Overlay>
         </View>
       );
-    else return null;
+    else // here is the blockUser menu
+    return (
+      <View>
+        <Icon
+          size={32}
+          name="ellipsis-v"
+          type="font-awesome"
+          onPress={() => this.setState({ showBlockModal: true })}
+        />
+        <Overlay
+          animationType="slide"
+          isVisible={this.state.showBlockModal}
+          onBackdropPress={() => this.setState({ showBlockModal: false })}
+          backdropStyle={{ opacity: 1 }}
+          width="auto"
+          height="auto"
+          borderRadius={8}
+          overlayStyle={{
+            position: 'absolute',
+            flex: 1,
+            top: 50,
+            // bottom: 50,
+            width: '80%'
+            // maxHeight: '80%'
+          }}>
+          <View style={{ flex: 1, width: '100%' }}>
+            {/* <KeyboardAvoidingView
+            behavior="padding"
+            style={{ flex: 1, justifyContent: 'center' }}> */}
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+              }}>
+              <View style={{ width: '80%' }}>
+                <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                  {I18n.t('qra.blockMenu')} {this.props.qraInfo && 
+                  this.props.qraInfo.qra.qra}
+                </Text>
+              </View>
+              <View style={styles.iconView}>
+                <Icon
+                  name="close"
+                  type="font-awesome"
+                  onPress={() => this.setState({ showBlockModal: false })}
+                />
+              </View>
+            </View>
+            <ScrollView>
+           
+            <Text style={{fontSize: 16}}> 
+            {"\n"}
+                {I18n.t('qra.blockMess1')}
+               
+                {"\n\n"}
+                {I18n.t('qra.blockMess2')}
+                {"\n"}
+                {I18n.t('qra.blockMess3')}
+                {"\n"}
+             </Text>
+             
+                  <Button
+                    // fluid
+                    size="medium"
+                    onPress={() => {
+                      this.props.actions.doValidateUser(
+                        this.props.qraInfo.qra.qra
+                      );
+                    }}
+                    title={I18n.t('qra.blockUser')}
+                  />
+  
+                
+
+            </ScrollView>
+          </View>
+        </Overlay>
+      </View>
+    );
   }
 }
 const styles = StyleSheet.create({
