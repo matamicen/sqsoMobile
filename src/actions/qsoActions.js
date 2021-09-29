@@ -4737,11 +4737,12 @@ export const setFeedTouchable = (status) => {
     status: status
   };
 };
-export const setSearchedResults = (results,searchfeedStatus) => {
+export const setSearchedResults = (results,searchfeedStatus,blockedUsers) => {
   return {
     type: SET_SEARCHED_RESULTS,
     results: results,
-    searchfeed: searchfeedStatus
+    searchfeed: searchfeedStatus,
+    blockedUsers: blockedUsers
   };
 };
 

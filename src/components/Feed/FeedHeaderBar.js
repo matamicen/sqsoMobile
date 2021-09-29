@@ -136,7 +136,7 @@ class FeedHeaderBar extends React.Component {
         this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
      }
      else
-      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false,this.props.userinfo)
+      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false,this.props.blockedusers)
 
         
 

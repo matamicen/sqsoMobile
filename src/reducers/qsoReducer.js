@@ -3048,6 +3048,46 @@ action.fieldDays.forEach(function(part, index, qso) {
       return newStore;
     }
     case SET_SEARCHED_RESULTS: {
+
+      action.results = action.results.filter(
+        (qso) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqras))
+          return false
+          else
+          return true
+        
+        }
+      );
+
+
+      action.results.forEach(function(part, index, qso) {
+    
+        if (qso[index].likes){
+        qso[index].likes = qso[index].likes.filter(
+          (like) => {
+            if (action.blockedUsers.some(item => item.idqra_blocked === like.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      }
+
+        if (qso[index].comments)
+        qso[index].comments = qso[index].comments.filter(
+          (comment) => {
+            if (action.blockedUsers.some(item => item.idqra_blocked === comment.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      
+    });
+
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
