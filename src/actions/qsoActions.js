@@ -4752,8 +4752,9 @@ export const setSearchedResultsFilter = (filtertype) => {
   };
 };
 
-export function doLatestUsersFetch() {
+export function doLatestUsersFetch(blockedUsers) {
   console.log('___doLatestUsersFetch')
+  console.log(blockedUsers)
   return async (dispatch) => {
     dispatch(fetchingApiRequest('getLatestUsers'));
 
@@ -4779,7 +4780,7 @@ export function doLatestUsersFetch() {
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            dispatch(doLatestUsersReceive(response.body.message));
+            dispatch(doLatestUsersReceive(response.body.message,blockedUsers));
           } else console.log(response.body.message);
           dispatch(fetchingApiSuccess('getLatestUsers',response));
         })
@@ -4806,7 +4807,16 @@ export function doLatestUsersFetch() {
   };
 }
 
-export function doLatestUsersFetchByCountry(countryFilter) {
+export function doLatestUsersFetchByCountry(countryFilter, blockedUsers) {
+  console.log('ByCountry')
+  console.log(blockedUsers)
+  // console.log(blockedUsers['blockedUsers'])
+  // if (blockedUsers.blockedUsers)
+  //   console('estrue')
+  // else
+  //   console('esfalse')
+  console.log('filtro!')
+  console.log(countryFilter)
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'getLatestUsers_APPPRD', {
@@ -4831,7 +4841,7 @@ export function doLatestUsersFetchByCountry(countryFilter) {
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            dispatch(doLatestUsersReceive(response.body.message));
+            dispatch(doLatestUsersReceive(response.body.message,blockedUsers));
           } else console.log(response.body.message);
         })
         .catch(async (error) => {
@@ -4856,10 +4866,11 @@ export function doLatestUsersFetchByCountry(countryFilter) {
   };
 }
 
-export function doLatestUsersReceive(follow) {
+export function doLatestUsersReceive(follow,blockedUsers) {
   return {
     type: LATEST_USERS_RECEIVE,
-    follow: follow
+    follow: follow,
+    blockedUsers: blockedUsers
   };
 }
 export function doValidateUser(qra) {

@@ -7,13 +7,14 @@ import {
   Platform,
   StyleSheet
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as Actions from '../../../actions';
+import {   useSelector, useDispatch  } from 'react-redux';
+// import { bindActionCreators} from 'redux';
+// import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
-import { withNavigation } from 'react-navigation';
+// import { withNavigation } from 'react-navigation';
 import { Button, Avatar, Card, Icon } from 'react-native-elements';
 import CountryPicker from 'react-native-country-picker-modal';
+import {doLatestUsersFetch, doLatestUsersFetchByCountry} from '../../../actions/qsoActions';
 
 const country2emoji = (country_code) => {
   var OFFSET = 127397;
@@ -40,7 +41,7 @@ const country2emoji = (country_code) => {
     : null;
 };
 
-const ExploreUsers = ({
+function ExploreUsers ({
   active,
   users,
   followed,
@@ -50,8 +51,11 @@ const ExploreUsers = ({
   currentQRA,
   navigation,
   actions
-}) => {
+}) {
 
+  const __blockedUsers = useSelector( (state) => state.sqso.currentQso.blockedUsers)
+  // const blockedUsers = blocked['blockedUsers'];
+  const dispatch = useDispatch();
   const [count, setCount] = useState(0);
   const [showFlag, setShowFlag] = useState(false);
   const [cca2, setcca2] = useState('');
@@ -118,10 +122,12 @@ const ExploreUsers = ({
                          flex:0.16   
                                           
                           }}>
+                       
             <TouchableOpacity
             style={{ height: 60, width:80 ,  alignItems: 'center',}}
                               onPress={() => {
-                                actions.doLatestUsersFetch();
+                                // actions.doLatestUsersFetch({blockedUsers});
+                                dispatch(doLatestUsersFetch(__blockedUsers));
                                 setcountryName('all')
                                 // setShowFlag(true)
                               }}>
@@ -156,7 +162,8 @@ const ExploreUsers = ({
                           setCount(count + 5)
                           setcca2(value.cca2)
                           setcountryName(value.name)
-                          actions.doLatestUsersFetchByCountry(value.cca2);
+                          // actions.doLatestUsersFetchByCountry(value.cca2,{blockedUsers});
+                          dispatch(doLatestUsersFetchByCountry(value.cca2,__blockedUsers));
                         }}
                         onClose = { () => {
                           setShowFlag(false);
@@ -405,10 +412,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start'
   }
 });
-const mapStateToProps = (state) => ({});
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(Actions, dispatch)
-});
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(ExploreUsers)
-);
+// const mapStateToProps = (state) => ({
+//   // blockedusers: state.sqso.currentQso.blockedUsers
+// });
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(Actions, dispatch)
+// });
+// export default withNavigation(
+//   connect(mapStateToProps, mapDispatchToProps)(ExploreUsers)
+ 
+
+// );
+export default ExploreUsers;

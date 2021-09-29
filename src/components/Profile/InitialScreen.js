@@ -591,7 +591,7 @@ class InitialScreen extends React.PureComponent {
                 // else this.props.doFetchUserFeed(this.props.currentQRA);
                 this.props.doFetchFieldDaysFeed(this.props.blockedusers);
                 this.props.doFollowFetch();
-                this.props.doLatestUsersFetch();
+                this.props.doLatestUsersFetch(this.props.blockedusers);
 
                 this.props.getUserInfo(this.props.jwtToken);
               }}>

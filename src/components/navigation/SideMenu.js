@@ -79,7 +79,7 @@ class SideMenu extends Component {
                 onPress={() => {
                   if (!__DEV__)
                     analytics().logEvent('drawerLatestUsersPressed_APPPRD');
-                  this.props.actions.doLatestUsersFetch();
+                  this.props.actions.doLatestUsersFetch(this.props.blockedusers);
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
                   this.props.navigation.navigate('ExploreUsers');

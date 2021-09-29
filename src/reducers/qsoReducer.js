@@ -3079,6 +3079,21 @@ action.fieldDays.forEach(function(part, index, qso) {
       return newStore;
     }
     case LATEST_USERS_RECEIVE: {
+   
+
+      action.follow = action.follow.filter(
+        (qso) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqras))
+          return false
+          else
+          return true
+        
+        }
+      );
+
+
+
       newStore = Object.assign({}, state, {
         ...state,
         feed: {

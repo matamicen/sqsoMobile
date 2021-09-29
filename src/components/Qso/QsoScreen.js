@@ -2927,7 +2927,7 @@ class QsoScreen extends React.PureComponent {
     // if (this.props.publicFeed) this.props.doFetchPublicFeed();
     // else this.props.doFetchUserFeed(this.props.qra);
     // this.props.doFetchPublicFeed(this.props.qra); // para que actualice el feed con la publicacion recien publicada
-    this.props.doLatestUsersFetch();
+    this.props.doLatestUsersFetch(this.props.blockedusers);
     this.props.navigation.navigate('Home');
     this.props.doFetchFieldDaysFeed(this.props.blockedusers);
     this.props.setJustPublished(false);

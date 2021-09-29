@@ -489,7 +489,7 @@ class SignUpForm extends React.PureComponent {
       this.props.doFetchPublicFeed(false,this.props.blockedusers);
       this.props.doFetchFieldDaysFeed(this.props.blockedusers);
       this.props.doFollowFetch();
-      this.props.doLatestUsersFetch();
+      this.props.doLatestUsersFetch(this.props.blockedusers);
 
       //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
       this.props.followersAlreadyCalled(true);
