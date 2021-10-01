@@ -409,7 +409,8 @@ class Home extends React.PureComponent {
       this.props.actions.setToken(session.idToken.jwtToken);
       // si viene de background debe traer las ultimas actualizaciones de notificaciones
       // puede venir de background porque el usuario volvio manualmente o porque apreto un PUSH
-      this.props.actions.get_notifications(session.idToken.jwtToken);
+      console.log('vuelve de background')
+      this.props.actions.get_notifications(session.idToken.jwtToken,this.props.blockedusers);
 
       // llamo a getuserInfo solo si el usuario no esa validado
       console.log(
@@ -440,6 +441,7 @@ class Home extends React.PureComponent {
   };
 
   static getDerivedStateFromProps(props, state) {
+    console.log('getderived home:')
     if (props.qsos.length > 0) return { active: false, qsos: props.qsos };
     else if (props.qsos.length === 0) return { active: true };
   }
@@ -513,6 +515,65 @@ class Home extends React.PureComponent {
   //   // else if (props.qsos.length === 0) return { active: true };
   // }
   render() {
+   console.log('parametros: ') 
+   console.log(this.props.navigation.state.params)
+   if (this.props.navigation.state.params!==undefined)
+   {
+     const { p1, p2, p3 } = this.props.navigation.state.params;
+   console.log('p1:'+p1) 
+   if (p1==='BlockUser') {
+     // The user Block a user, so it has bo load everything again in order to filter
+     // that block User
+
+
+     this.props.navigation.setParams({p1: null}); // reset the param
+
+     // el timeout le da tiempo a que el parametro lo ponga en null y en el proximo render no llame 
+     // otra vez a las APIs
+
+          setTimeout(() => {
+            console.log('block list:')
+            console.log(this.props.blockedusers)
+
+            this.props.actions.doClearFeed();
+
+
+
+
+            if (!this.props.isfetchingpublicfeed)
+     this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
+
+   if (!this.props.isfetchinguserfeed)
+     this.props.actions.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
+
+   if (!this.props.isfetchingQAPfeed)
+     this.props.actions.doFetchPublicQAPfeed(true,this.props.blockedusers);
+
+   if (!this.props.isfetchinggetfielddaysfeed)
+       this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
+   if (!this.props.isfetchinggetlatestusers)
+     this.props.actions.doLatestUsersFetch(this.props.blockedusers);
+
+    //  if (!this.props.isfetchingdofollowfetch)
+    //  this.props.actions.doFollowFetch();
+
+    // traigo los followers de nuevo porque tuvo que dejar de seguir al usuario bloqueado
+    // this.props.actions.doFollowQRA(this.props.token, idqra);
+    // this.props.actions.doFollowFetch();
+
+    // para que traiga los followers y following actualizados
+    this.props.actions.getUserInfo(this.props.token);
+
+
+          }, 2000);
+     
+
+      }
+  }
+  //  ?
+  //     console.log(this.props.navigation.state.params.p1)
+  //     :
+  //     console.log('p1 esta vacio')
     // if (this.props.qsos.length > 0) {
     return <NewsFeed />;
     // } else

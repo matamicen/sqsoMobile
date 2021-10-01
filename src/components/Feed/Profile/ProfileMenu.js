@@ -3,13 +3,21 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Overlay, Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withNavigation, NavigationActions } from 'react-navigation';
 import * as Actions from '../../../actions';
 import I18n from '../../../utils/i18n';
 class ProfileMenu extends React.PureComponent {
+  constructor(props) {
+    super(props);
+   
+  }
   state = {
     showModal: false,
-    showBlockModal: false
+    showBlockModal: false,
+    blocked: false
   };
+
+
   render() {
 
     if (
@@ -101,7 +109,16 @@ class ProfileMenu extends React.PureComponent {
         <Overlay
           animationType="slide"
           isVisible={this.state.showBlockModal}
-          onBackdropPress={() => this.setState({ showBlockModal: false })}
+          onBackdropPress={() => {
+                 this.setState({ showBlockModal: false })
+                 if (this.state.blocked) // es porque lo Bloqueo y debe salir del perfil bloqueado
+                 this.props.navigation.navigate(
+                   'Home',
+                   {p1 : 'BlockUser'},
+                 );
+                 
+          }
+        }
           backdropStyle={{ opacity: 1 }}
           width="auto"
           height="auto"
@@ -134,7 +151,20 @@ class ProfileMenu extends React.PureComponent {
                 <Icon
                   name="close"
                   type="font-awesome"
-                  onPress={() => this.setState({ showBlockModal: false })}
+                  onPress={() => {
+                    // console.log(this.props.blockedusers)
+                    this.setState({ showBlockModal: false })
+                     if (this.state.blocked) // es porque lo Bloqueo y debe salir del perfil bloqueado
+                      this.props.navigation.navigate(
+                        'Home',
+                        {p1 : 'BlockUser'},
+                      );
+  
+
+                  }
+                
+                
+                }
                 />
               </View>
             </View>
@@ -155,11 +185,27 @@ class ProfileMenu extends React.PureComponent {
                     // fluid
                     size="medium"
                     onPress={() => {
-                      this.props.actions.doValidateUser(
-                        this.props.qraInfo.qra.qra
-                      );
-                    }}
-                    title={I18n.t('qra.blockUser')}
+                      if (!this.state.blocked) {
+                        console.log(this.props.qraInfo.qra)
+                        this.props.actions.blockUnblockUser(
+                        this.props.qraInfo.qra.qra,'BLOCK',this.props.jwtToken)
+                        user = {"blockedbyme": "blockedbyme", "idqra_blocked": this.props.qraInfo.qra.idqras, "profilepic": this.props.qraInfo.qra.profilepic}
+                        this.props.actions.updateBlockUsers(user,'BLOCK')
+                        this.setState({blocked: true})
+                        
+                       
+                      
+                      }
+                      else
+                      {
+                      this.props.actions.blockUnblockUser(this.props.qraInfo.qra.qra,'UNBLOCK',this.props.jwtToken)
+                      user = {"idqra_unblock": this.props.qraInfo.qra.idqras}
+                      this.props.actions.updateBlockUsers(user,'UNBLOCK')
+                      this.setState({blocked: false})
+                    }
+                  }
+                  }
+                    title={!this.state.blocked ? I18n.t('qra.blockUser') : I18n.t('qra.UnblockUser')}
                   />
   
                 
@@ -224,10 +270,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => ({
   currentQRA: state.sqso.qra,
   qraInfo: state.sqso.feed.qra,
-  env: state.sqso.env
+  env: state.sqso.env,
+  blockedusers: state.sqso.currentQso.blockedUsers,
+  jwtToken: state.sqso.jwtToken
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileMenu);
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(ProfileMenu));

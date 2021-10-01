@@ -19,7 +19,7 @@ class NotificationList extends React.PureComponent {
 
   onRefresh() {
     // this.setState({ isFetching: true });
-    this.props.get_notifications(this.props.jwtToken);
+    this.props.get_notifications(this.props.jwtToken, this.props.blockedusers);
   }
 
   // _keyExtractor = item => item.idqra_notifications.toString();
@@ -116,7 +116,8 @@ const mapStateToProps = (state) => {
   return {
     notifications: state.sqso.currentQso.notifications,
     jwtToken: state.sqso.jwtToken,
-    unreadcounter: state.sqso.notificationsUnread
+    unreadcounter: state.sqso.notificationsUnread,
+    blockedusers: state.sqso.currentQso.blockedUsers
   };
 };
 

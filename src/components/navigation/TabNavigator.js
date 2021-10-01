@@ -131,7 +131,7 @@ export const HomeStackNavigator = createStackNavigator(
         ),
         headerRight: (
           <View style={{ padding: 20 }}>
-            <ProfileMenu />
+            <ProfileMenu navigation={navigation}/>
           </View>
         )
       })

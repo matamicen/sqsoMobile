@@ -114,7 +114,8 @@ import {
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
   SET_URL_ROUTE,
-  SET_TABTOGLOBAL
+  SET_TABTOGLOBAL,
+  UPDATE_BLOCKED_USERS
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -1637,6 +1638,7 @@ const qsoReducer = (state = initialState, action) => {
       
       case INSERT_BLOCKED_USERS:
         console.log('INSERT_BLOCKED_USERS')
+        console.log(action.blockedUsers)
         auxcurrentQso = {
           ...state.currentQso,
           blockedUsers: action.blockedUsers
@@ -1646,6 +1648,36 @@ const qsoReducer = (state = initialState, action) => {
           currentQso: auxcurrentQso
         });
         return newStore;
+        
+
+        case UPDATE_BLOCKED_USERS:
+          console.log('UPDATE_BLOCKED_USERS')
+          console.log(action.user)
+          console.log(action.param)
+          if (action.param === 'BLOCK')
+            auxcurrentQso = {
+              ...state.currentQso,
+              blockedUsers: [...state.currentQso.blockedUsers,action.user]
+            
+            };
+            if (action.param === 'UNBLOCK')
+              {
+                const auxBlock = state.currentQso.blockedUsers.filter(
+                  (item) => item.idqra_blocked !== action.user.idqra_unblock
+                );
+          
+                auxcurrentQso = {
+                  ...state.currentQso,
+                  blockedUsers: auxBlock
+                
+                };
+            }
+
+          newStore = Object.assign({}, state, {
+            ...state,
+            currentQso: auxcurrentQso
+          });
+          return newStore;
 
     case FOLLOWERS_ALREADY_CALLED:
       //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
@@ -1892,6 +1924,18 @@ const qsoReducer = (state = initialState, action) => {
 
     case MANAGE_NOTIFICATIONS:
       // let auxcurrentQso;
+
+      action.notifications = action.notifications.filter(
+        (notif) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === notif.QRA_IDQRA  || item.idqra_blocked === notif.REF_IDQRA))
+          return false
+          else
+          return true
+        
+        }
+      );
+      // item.idqra_blocked === notif.REF_IDQRA
 
       if (action.notifType === 'CALCULOUNREADPRESSNOTIFICATIONS') {
         cont = 0;

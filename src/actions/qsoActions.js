@@ -129,7 +129,8 @@ import {
   SET_SEARCHED_RESULTS_FILTER,
   SET_URL_ROUTE,
   SET_TABTOGLOBAL,
-  INSERT_BLOCKED_USERS
+  INSERT_BLOCKED_USERS,
+  UPDATE_BLOCKED_USERS
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -341,6 +342,14 @@ export const updateQraUrl = (qra, url) => {
     type: UPDATE_QRA_URL,
     qra: qra,
     url: url
+  };
+};
+
+export const updateBlockUsers = (user, param) => {
+  return {
+    type: UPDATE_BLOCKED_USERS,
+    user: user,
+    param: param
   };
 };
 
@@ -1077,12 +1086,13 @@ export const deleteQsoQra = (qra) => {
   };
 };
 
-export const manage_notifications = (notiftype, notif, date) => {
+export const manage_notifications = (notiftype, notif, date, blockedUsers) => {
   return {
     type: MANAGE_NOTIFICATIONS,
     notifType: notiftype,
     notifications: notif,
-    date: date
+    date: date,
+    blockedUsers: blockedUsers
   };
 };
 
@@ -1379,7 +1389,7 @@ export const postSetProfilePic = (url, urlNSFWavatar, filename2, jwtToken) => {
   };
 };
 
-export const get_notifications = (jwtToken) => {
+export const get_notifications = (jwtToken, blockedUsers) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('get_notifications'));
     console.log('ejecuta llamada API get_notifications');
@@ -1400,13 +1410,15 @@ export const get_notifications = (jwtToken) => {
       };
 
       var respuesta = await API.get(apiName, path, myInit);
-      // console.log('llamo api get_notifications!');
+     
 
       dispatch(fetchingApiSuccess('get_notifications', respuesta));
       // console.log('devuelve get_notifications: ' + JSON.stringify(respuesta));
 
       if (respuesta.body.error === 0) {
+        console.log('llamo api get_notifications!');
         // dispatch(manage_notifications('ADD',respuesta.body.message));
+        console.log(respuesta.body.message)
         var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
         if (ultimaFechaDeIngreso === null) {
           var formateo = new Date();
@@ -1418,7 +1430,8 @@ export const get_notifications = (jwtToken) => {
           manage_notifications(
             'CALCULOUNREAD',
             respuesta.body.message,
-            formateo
+            formateo,
+            blockedUsers
           )
         );
       }
@@ -2819,7 +2832,8 @@ export const getUserInfo = (jwtToken) => {
           manage_notifications(
             'CALCULOUNREAD',
             respuesta.body.message.notifications,
-            formateo
+            formateo,
+            respuesta.body.message.blocked
           )
         );
       }
@@ -4922,6 +4936,53 @@ export function doValidateUser(qra) {
     }
   };
 }
+
+export function blockUnblockUser(qraToBlock, action,token) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'qsoDelete_APPPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'delete'
+    //   });
+    if (!__DEV__) analytics().logEvent(action+'_APPPRD');
+    try {
+      // let session = await Auth.currentSession();
+      // dispatch(setToken(session.idToken.jwtToken));
+
+      const apiName = 'superqso';
+      const path = '/block-unblock';
+      const myInit = {
+        body: {
+          qratoblock: qraToBlock,
+          action: action
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            console.log(response.body.message);
+            // al bloquear el usuario se debe dejar de seguir a la persona bloqueada
+            // dispatch(unfollow('',qraToBlock,token))
+            // dispatch(doValidateUserResponse(qra));
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          console.log(error);
+          crashlytics().log('error: ' + JSON.stringify(error));
+          crashlytics().recordError(new Error(action+'_APPPRD'));
+        });
+
+    } catch (error) {
+      console.log(error);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      crashlytics().recordError(new Error(action+'_APPPRD'));
+    }
+  };
+}
+
 
 export function doValidateUserResponse(qra) {
   this.toast(I18n.t('qra.userValidated'), 2500);

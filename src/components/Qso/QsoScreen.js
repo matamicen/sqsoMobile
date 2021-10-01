@@ -587,7 +587,7 @@ class QsoScreen extends React.PureComponent {
             // porque puede ver muchos QSOs en poco tiempo y es al pedo llamar al backend, solo va a tener
             // actualizadas si le llego algun PUSH mientras estaba en el browser de Interne
             if (this.props.notifbackground === false)
-              this.props.get_notifications(session.idToken.jwtToken);
+              this.props.get_notifications(session.idToken.jwtToken,this.props.blockedusers);
             else
               this.props.manage_notifications('NOTIF_BACKGROUND_FALSE', '', '');
             // le cambio el flag a FALSE si volvio de navegar por hacer click en una notificacion,
