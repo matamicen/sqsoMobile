@@ -1112,7 +1112,7 @@
 				CODE_SIGN_ENTITLEMENTS = sqsoMobile/sqsoMobile.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 114;
+				CURRENT_PROJECT_VERSION = 115;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = sqsoMobile/Info.plist;
@@ -1122,7 +1122,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.13.3;
+				MARKETING_VERSION = 1.14.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
@@ -1153,7 +1153,7 @@
 				CODE_SIGN_ENTITLEMENTS = sqsoMobile/sqsoMobileRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 114;
+				CURRENT_PROJECT_VERSION = 115;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9CPRK9F5EY;
 				ENABLE_BITCODE = YES;
@@ -1164,7 +1164,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
 					"$(inherited)",
 				);
-				MARKETING_VERSION = 1.13.3;
+				MARKETING_VERSION = 1.14.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",

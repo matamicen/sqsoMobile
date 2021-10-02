@@ -107,7 +107,7 @@ console.log(this.props.blockedusers)
             // numColumns={3}
           />
           :
-          <Text>{I18n.t('qra.NoBlockUsers')}No hay usuarios bloqueados</Text>
+          <Text>{I18n.t('qra.NoBlockUsers')}</Text>
   }
         </View>
    
