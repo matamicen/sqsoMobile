@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { ActionSheetIOS } from 'react-native';
 import {
   ACT_INDICATOR_IMAGE_ENABLED,
   ACT_INDICATOR_POST_QSO_NEW_FALSE,
@@ -31,6 +32,7 @@ import {
   FOLLOW_RECEIVE,
   INSERT_FOLLOWERS,
   INSERT_FOLLOWINGS,
+  INSERT_BLOCKED_USERS,
   MANAGE_LOCATION_PERMISSIONS,
   MANAGE_NOTIFICATIONS,
   MANAGE_PUSH_TOKEN,
@@ -112,7 +114,8 @@ import {
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
   SET_URL_ROUTE,
-  SET_TABTOGLOBAL
+  SET_TABTOGLOBAL,
+  UPDATE_BLOCKED_USERS
 } from '../actions/types';
 import global_config from '../global_config.json';
 import I18n from '../utils/i18n';
@@ -228,6 +231,7 @@ const initialState = {
     qraDeleted: false,
     followings: [],
     followers: [],
+    blockedUsers: [],
     notifications: [],
     notifBackground: false,
     followersAlreadyCalled: false,
@@ -1631,6 +1635,50 @@ const qsoReducer = (state = initialState, action) => {
       });
       return newStore;
 
+      
+      case INSERT_BLOCKED_USERS:
+        console.log('INSERT_BLOCKED_USERS')
+        console.log(action.blockedUsers)
+        auxcurrentQso = {
+          ...state.currentQso,
+          blockedUsers: action.blockedUsers
+        };
+        newStore = Object.assign({}, state, {
+          ...state,
+          currentQso: auxcurrentQso
+        });
+        return newStore;
+        
+
+        case UPDATE_BLOCKED_USERS:
+          console.log('UPDATE_BLOCKED_USERS')
+          console.log(action.user)
+          console.log(action.param)
+          if (action.param === 'BLOCK')
+            auxcurrentQso = {
+              ...state.currentQso,
+              blockedUsers: [...state.currentQso.blockedUsers,action.user]
+            
+            };
+            if (action.param === 'UNBLOCK')
+              {
+                const auxBlock = state.currentQso.blockedUsers.filter(
+                  (item) => item.idqra_blocked !== action.user.idqra_unblock
+                );
+          
+                auxcurrentQso = {
+                  ...state.currentQso,
+                  blockedUsers: auxBlock
+                
+                };
+            }
+
+          newStore = Object.assign({}, state, {
+            ...state,
+            currentQso: auxcurrentQso
+          });
+          return newStore;
+
     case FOLLOWERS_ALREADY_CALLED:
       //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
       auxcurrentQso = {
@@ -1877,6 +1925,18 @@ const qsoReducer = (state = initialState, action) => {
     case MANAGE_NOTIFICATIONS:
       // let auxcurrentQso;
 
+      action.notifications = action.notifications.filter(
+        (notif) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === notif.QRA_IDQRA  || item.idqra_blocked === notif.REF_IDQRA))
+          return false
+          else
+          return true
+        
+        }
+      );
+      // item.idqra_blocked === notif.REF_IDQRA
+
       if (action.notifType === 'CALCULOUNREADPRESSNOTIFICATIONS') {
         cont = 0;
         today = new Date();
@@ -2098,7 +2158,51 @@ const qsoReducer = (state = initialState, action) => {
         }
       });
       return newStore;
+
     case RECEIVE_FIELDDAYS:
+
+      action.fieldDays = action.fieldDays.filter(
+  (qso) => 
+  {
+    if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqra_owner))
+    return false
+    else
+    return true
+  
+  }
+);
+
+
+action.fieldDays.forEach(function(part, index, qso) {
+
+  if (qso[index].likes){
+  qso[index].likes = qso[index].likes.filter(
+    (like) => {
+      if (action.blockedUsers.some(item => item.idqra_blocked === like.idqra))
+      return false
+      else
+      return true
+    
+    }
+  );
+}
+
+  if (qso[index].comments)
+  qso[index].comments = qso[index].comments.filter(
+    (comment) => {
+      if (action.blockedUsers.some(item => item.idqra_blocked === comment.idqra))
+      return false
+      else
+      return true
+    
+    }
+  );
+
+});
+
+
+
+
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2125,6 +2229,56 @@ const qsoReducer = (state = initialState, action) => {
     case RECEIVE_FEED:
       console.log('RECEIVE_FEED action.onlyloadtoaux:'+action.onlyloadtoaux)
       console.log('RECEIVE_FEED action.publicFeed:'+action.publicFeed)
+      console.log(action.qsos)
+      console.log('RECEIVE_FEED MEDIA:')
+      console.log(action.qsos[1].likes)
+      console.log(action.qsos[1].media)
+
+      test = [{"blockedbyme": "blockedbyme", "idqra_blocked": 718, "profilepic": "https://d30o7j00smmz5f.cloudfront.net/1/us-east-1%3Aa7752f4f-bcdf-4350-89c1-18625bc82fce/profile/profile_1588362668213.jpg"}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}]
+      console.log('blocked reducer:')
+      console.log(action.blockedUsers)
+
+
+      action.qsos = action.qsos.filter(
+        (qso) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqra_owner))
+          return false
+          else
+          return true
+        
+        }
+      );
+
+     
+      action.qsos.forEach(function(part, index, qso) {
+    
+        if (qso[index].likes){
+        qso[index].likes = qso[index].likes.filter(
+          (like) => {
+            if (action.blockedUsers.some(item => item.idqra_blocked === like.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      }
+
+        if (qso[index].comments)
+        qso[index].comments = qso[index].comments.filter(
+          (comment) => {
+            if (action.blockedUsers.some(item => item.idqra_blocked === comment.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      
+    });
+
+      
 
     if (action.onlyloadtoaux) 
       newStore = Object.assign({}, state, {
@@ -2510,6 +2664,21 @@ const qsoReducer = (state = initialState, action) => {
             }
             return qso;
           }),
+
+          fieldDays: state.feed.fieldDays.map((qso) => {
+            if (
+              qso.idqsos === action.idqso ||
+              qso.idqsos === action.idqso_shared ||
+              qso.idqso_shared === action.idqso ||
+              (qso.idqso_shared &&
+                action.idqso_shared &&
+                qso.idqso_shared === action.idqso_shared)
+            ) {
+              qso.comments = [...qso.comments, action.comment];
+            }
+            return qso;
+          }),
+          
           qso_link:
             state.feed.qso_link && state.feed.qso_link.idqsos === action.idqso
               ? {
@@ -2923,6 +3092,46 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
     case SET_SEARCHED_RESULTS: {
+
+      action.results = action.results.filter(
+        (qso) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqras))
+          return false
+          else
+          return true
+        
+        }
+      );
+
+
+      action.results.forEach(function(part, index, qso) {
+    
+        if (qso[index].likes){
+        qso[index].likes = qso[index].likes.filter(
+          (like) => {
+            if (action.blockedUsers.some(item => item.idqra_blocked === like.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      }
+
+        if (qso[index].comments)
+        qso[index].comments = qso[index].comments.filter(
+          (comment) => {
+            if (action.blockedUsers.some(item => item.idqra_blocked === comment.idqra))
+            return false
+            else
+            return true
+          
+          }
+        );
+      
+    });
+
       newStore = Object.assign({}, state, {
         ...state,
         feed: {
@@ -2954,6 +3163,21 @@ const qsoReducer = (state = initialState, action) => {
       return newStore;
     }
     case LATEST_USERS_RECEIVE: {
+   
+
+      action.follow = action.follow.filter(
+        (qso) => 
+        {
+          if (action.blockedUsers.some(item => item.idqra_blocked === qso.idqras))
+          return false
+          else
+          return true
+        
+        }
+      );
+
+
+
       newStore = Object.assign({}, state, {
         ...state,
         feed: {

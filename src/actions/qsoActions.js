@@ -128,7 +128,9 @@ import {
   SET_USER_PENDINGVERIFICATION,
   SET_SEARCHED_RESULTS_FILTER,
   SET_URL_ROUTE,
-  SET_TABTOGLOBAL
+  SET_TABTOGLOBAL,
+  INSERT_BLOCKED_USERS,
+  UPDATE_BLOCKED_USERS
 } from './types';
 
 // Analytics.addPluggable(new AWSKinesisProvider());
@@ -340,6 +342,14 @@ export const updateQraUrl = (qra, url) => {
     type: UPDATE_QRA_URL,
     qra: qra,
     url: url
+  };
+};
+
+export const updateBlockUsers = (user, param) => {
+  return {
+    type: UPDATE_BLOCKED_USERS,
+    user: user,
+    param: param
   };
 };
 
@@ -1076,12 +1086,13 @@ export const deleteQsoQra = (qra) => {
   };
 };
 
-export const manage_notifications = (notiftype, notif, date) => {
+export const manage_notifications = (notiftype, notif, date, blockedUsers) => {
   return {
     type: MANAGE_NOTIFICATIONS,
     notifType: notiftype,
     notifications: notif,
-    date: date
+    date: date,
+    blockedUsers: blockedUsers
   };
 };
 
@@ -1378,7 +1389,7 @@ export const postSetProfilePic = (url, urlNSFWavatar, filename2, jwtToken) => {
   };
 };
 
-export const get_notifications = (jwtToken) => {
+export const get_notifications = (jwtToken, blockedUsers) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('get_notifications'));
     console.log('ejecuta llamada API get_notifications');
@@ -1399,13 +1410,15 @@ export const get_notifications = (jwtToken) => {
       };
 
       var respuesta = await API.get(apiName, path, myInit);
-      // console.log('llamo api get_notifications!');
+     
 
       dispatch(fetchingApiSuccess('get_notifications', respuesta));
       // console.log('devuelve get_notifications: ' + JSON.stringify(respuesta));
 
       if (respuesta.body.error === 0) {
+        console.log('llamo api get_notifications!');
         // dispatch(manage_notifications('ADD',respuesta.body.message));
+        console.log(respuesta.body.message)
         var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
         if (ultimaFechaDeIngreso === null) {
           var formateo = new Date();
@@ -1417,7 +1430,8 @@ export const get_notifications = (jwtToken) => {
           manage_notifications(
             'CALCULOUNREAD',
             respuesta.body.message,
-            formateo
+            formateo,
+            blockedUsers
           )
         );
       }
@@ -2781,8 +2795,15 @@ export const getUserInfo = (jwtToken) => {
 
       if (respuesta.body.error === 0) {
         console.log('ejecuto bien user-info');
+        dispatch(insertBlocked(respuesta.body.message.blocked));
+       
+        console.log(respuesta)
+        console.log(respuesta.body.message.qra)
+        // console.log(respuesta.body.message.blocked)
+        
         var followings = respuesta.body.message.following;
         var followers = respuesta.body.message.followers;
+        // var blockedUsers = respuesta.body.message.blocked;
         //   console.log("la url que envio:" + url);
         //   console.log("EL QRA:" + qra);
         dispatch(fetchingApiSuccess('getUserInfo', respuesta));
@@ -2790,6 +2811,8 @@ export const getUserInfo = (jwtToken) => {
         dispatch(setUserInfo('ALL', respuesta.body.message.qra));
         dispatch(insertFollowings(followings, 'ALL'));
         dispatch(insertFollowers(followers));
+        
+        // dispatch(insertBlocked(blockedUsers));
         if (respuesta.body.message.qra.avatarpic === null) avatar_profile = '';
         else var avatar_profile = respuesta.body.message.qra.avatarpic;
 
@@ -2809,7 +2832,8 @@ export const getUserInfo = (jwtToken) => {
           manage_notifications(
             'CALCULOUNREAD',
             respuesta.body.message.notifications,
-            formateo
+            formateo,
+            respuesta.body.message.blocked
           )
         );
       }
@@ -2880,6 +2904,13 @@ export const insertFollowers = (followers) => {
   return {
     type: INSERT_FOLLOWERS,
     followers: followers
+  };
+};
+
+export const insertBlocked = (blockedUsers) => {
+  return {
+    type: INSERT_BLOCKED_USERS,
+    blockedUsers: blockedUsers
   };
 };
 
@@ -3674,7 +3705,7 @@ export const setPendingVerification = (status) => {
 };
 
 // export const doFetchPublicQAPfeed = (qra = null,onlyloadToAux) => {
-  export const doFetchPublicQAPfeed = (onlyloadToAux) => {
+  export const doFetchPublicQAPfeed = (onlyloadToAux,blockedUsers) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
@@ -3693,7 +3724,7 @@ export const setPendingVerification = (status) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message, 'QAP',onlyloadToAux));
+          dispatch(doReceiveFeed(response.body.message, 'QAP',onlyloadToAux, blockedUsers));
          
             dispatch(setSearchedResults([],false));
 
@@ -3718,7 +3749,7 @@ export const setPendingVerification = (status) => {
 
 // BEGIN NATIVE FEED
 // export const doFetchPublicFeed = (qra = null,onlyloadToAux) => {
-  export const doFetchPublicFeed = (onlyloadToAux) => {
+  export const doFetchPublicFeed = (onlyloadToAux,blockedUsers) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchPublicFeed'));
@@ -3736,7 +3767,7 @@ export const setPendingVerification = (status) => {
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
-          dispatch(doReceiveFeed(response.body.message, 'GLOBAL',onlyloadToAux));
+          dispatch(doReceiveFeed(response.body.message, 'GLOBAL',onlyloadToAux,blockedUsers));
          
             dispatch(setSearchedResults([],false));
            
@@ -3758,7 +3789,7 @@ export const setPendingVerification = (status) => {
       });
   };
 };
-export const doFetchUserFeed = (qra,onlyloadToAux) => {
+export const doFetchUserFeed = (qra,onlyloadToAux,blockedUsers) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchUserFeed'));
     console.log('USER __feed onlyloadToAux:'+onlyloadToAux);
@@ -3780,7 +3811,7 @@ export const doFetchUserFeed = (qra,onlyloadToAux) => {
         .then((response) => {
           if (response.body.error === 0) {
             // if (response.body.message.length > 0)
-              dispatch(doReceiveFeed(response.body.message, 'FOLLOWING',onlyloadToAux));
+              dispatch(doReceiveFeed(response.body.message, 'FOLLOWING',onlyloadToAux,blockedUsers));
             // else {
             //   dispatch(doFetchPublicFeed());
             // }
@@ -3820,22 +3851,24 @@ export const doClearFeed = (publicFeed) => {
     publicFeed: publicFeed
   };
 };
-export const doReceiveFeed = (qsos, publicFeed,onlyLoadToAux) => {
+export const doReceiveFeed = (qsos, publicFeed,onlyLoadToAux,blockedUsers) => {
   return {
     type: RECEIVE_FEED,
     qsos: qsos,
     FetchingQSOS: false,
     qsosFetched: true,
     publicFeed,
-    onlyloadtoaux: onlyLoadToAux
+    onlyloadtoaux: onlyLoadToAux,
+    blockedUsers: blockedUsers
   };
 };
-export const doReceiveFieldDays = (qsos) => {
+export const doReceiveFieldDays = (qsos,blockedUsers) => {
   return {
     type: RECEIVE_FIELDDAYS,
     fieldDays: qsos,
     FetchingFieldDays: false,
-    fieldDaysFetched: true
+    fieldDaysFetched: true,
+    blockedUsers: blockedUsers
   };
 };
 export const doRequestFeed = () => {
@@ -4054,7 +4087,7 @@ export function doReceiveMediaCounter(data) {
     monthly_audio_play: data
   };
 }
-export const doRepost = (idqso, token, qso) => {
+export const doRepost = (idqso, token, qso,blockedUsers) => {
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'repost_APPPRD', {
@@ -4084,7 +4117,7 @@ export const doRepost = (idqso, token, qso) => {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
-            dispatch(doFetchPublicFeed(false));
+            dispatch(doFetchPublicFeed(false,blockedUsers));
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';
@@ -4611,7 +4644,7 @@ export function doPauseVideo(idqsos) {
     idqsos
   };
 }
-export function doFetchFieldDaysFeed(qra = null) {
+export function doFetchFieldDaysFeed(blockedUsers) {
   console.log('___doFetchFieldDaysFeed');
   // window.gtag('config', 'G-H8G28LYKBY', {
   //   custom_map: { dimension1: 'userQRA' }
@@ -4636,9 +4669,10 @@ export function doFetchFieldDaysFeed(qra = null) {
     };
     API.post(apiName, path, myInit)
       .then((response) => {
-        // console.log(response);
+        console.log('fieldday:');
+         console.log(response.body.message);
         if (response.body.error === 0) {
-          dispatch(doReceiveFieldDays(response.body.message));
+          dispatch(doReceiveFieldDays(response.body.message,blockedUsers));
         } else console.log(response.body.message);
         dispatch(fetchingApiSuccess('getFieldDaysFeed',response));
       })
@@ -4717,11 +4751,12 @@ export const setFeedTouchable = (status) => {
     status: status
   };
 };
-export const setSearchedResults = (results,searchfeedStatus) => {
+export const setSearchedResults = (results,searchfeedStatus,blockedUsers) => {
   return {
     type: SET_SEARCHED_RESULTS,
     results: results,
-    searchfeed: searchfeedStatus
+    searchfeed: searchfeedStatus,
+    blockedUsers: blockedUsers
   };
 };
 
@@ -4732,8 +4767,9 @@ export const setSearchedResultsFilter = (filtertype) => {
   };
 };
 
-export function doLatestUsersFetch() {
+export function doLatestUsersFetch(blockedUsers) {
   console.log('___doLatestUsersFetch')
+  console.log(blockedUsers)
   return async (dispatch) => {
     dispatch(fetchingApiRequest('getLatestUsers'));
 
@@ -4759,7 +4795,7 @@ export function doLatestUsersFetch() {
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            dispatch(doLatestUsersReceive(response.body.message));
+            dispatch(doLatestUsersReceive(response.body.message,blockedUsers));
           } else console.log(response.body.message);
           dispatch(fetchingApiSuccess('getLatestUsers',response));
         })
@@ -4786,7 +4822,16 @@ export function doLatestUsersFetch() {
   };
 }
 
-export function doLatestUsersFetchByCountry(countryFilter) {
+export function doLatestUsersFetchByCountry(countryFilter, blockedUsers) {
+  console.log('ByCountry')
+  console.log(blockedUsers)
+  // console.log(blockedUsers['blockedUsers'])
+  // if (blockedUsers.blockedUsers)
+  //   console('estrue')
+  // else
+  //   console('esfalse')
+  console.log('filtro!')
+  console.log(countryFilter)
   return async (dispatch) => {
     // if (process.env.REACT_APP_STAGE === 'production')
     //   window.gtag('event', 'getLatestUsers_APPPRD', {
@@ -4811,7 +4856,7 @@ export function doLatestUsersFetchByCountry(countryFilter) {
       API.post(apiName, path, myInit)
         .then((response) => {
           if (response.body.error === 0) {
-            dispatch(doLatestUsersReceive(response.body.message));
+            dispatch(doLatestUsersReceive(response.body.message,blockedUsers));
           } else console.log(response.body.message);
         })
         .catch(async (error) => {
@@ -4836,10 +4881,11 @@ export function doLatestUsersFetchByCountry(countryFilter) {
   };
 }
 
-export function doLatestUsersReceive(follow) {
+export function doLatestUsersReceive(follow,blockedUsers) {
   return {
     type: LATEST_USERS_RECEIVE,
-    follow: follow
+    follow: follow,
+    blockedUsers: blockedUsers
   };
 }
 export function doValidateUser(qra) {
@@ -4890,6 +4936,53 @@ export function doValidateUser(qra) {
     }
   };
 }
+
+export function blockUnblockUser(qraToBlock, action,token) {
+  return async (dispatch) => {
+    // if (process.env.REACT_APP_STAGE === 'production')
+    //   window.gtag('event', 'qsoDelete_APPPRD', {
+    //     event_category: 'QSO',
+    //     event_label: 'delete'
+    //   });
+    if (!__DEV__) analytics().logEvent(action+'_APPPRD');
+    try {
+      // let session = await Auth.currentSession();
+      // dispatch(setToken(session.idToken.jwtToken));
+
+      const apiName = 'superqso';
+      const path = '/block-unblock';
+      const myInit = {
+        body: {
+          qratoblock: qraToBlock,
+          action: action
+        }, // replace this with attributes you need
+        headers: {
+          Authorization: token
+        } // OPTIONAL
+      };
+      API.post(apiName, path, myInit)
+        .then((response) => {
+          if (response.body.error === 0) {
+            console.log(response.body.message);
+            // al bloquear el usuario se debe dejar de seguir a la persona bloqueada
+            // dispatch(unfollow('',qraToBlock,token))
+            // dispatch(doValidateUserResponse(qra));
+          } else console.log(response.body.message);
+        })
+        .catch(async (error) => {
+          console.log(error);
+          crashlytics().log('error: ' + JSON.stringify(error));
+          crashlytics().recordError(new Error(action+'_APPPRD'));
+        });
+
+    } catch (error) {
+      console.log(error);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      crashlytics().recordError(new Error(action+'_APPPRD'));
+    }
+  };
+}
+
 
 export function doValidateUserResponse(qra) {
   this.toast(I18n.t('qra.userValidated'), 2500);

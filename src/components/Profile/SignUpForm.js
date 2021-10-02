@@ -486,10 +486,10 @@ class SignUpForm extends React.PureComponent {
       await this.props.setToken(this.jwtToken);
 
       this.props.getUserInfo(this.jwtToken);
-      this.props.doFetchPublicFeed(false);
-      this.props.doFetchFieldDaysFeed();
+      this.props.doFetchPublicFeed(false,this.props.blockedusers);
+      this.props.doFetchFieldDaysFeed(this.props.blockedusers);
       this.props.doFollowFetch();
-      this.props.doLatestUsersFetch();
+      this.props.doLatestUsersFetch(this.props.blockedusers);
 
       //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
       this.props.followersAlreadyCalled(true);
@@ -1952,7 +1952,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  return { pushtoken: state.sqso.pushToken };
+  return { pushtoken: state.sqso.pushToken,
+           blockedusers: state.sqso.currentQso.blockedUsers
+  
+  };
 };
 
 const mapDispatchToProps = {

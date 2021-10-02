@@ -56,7 +56,7 @@ const FeedHeaderSearch = (props) => {
         props.searching();
       }, 100);
     
-    props.actions.setSearchedResults([],false);
+    props.actions.setSearchedResults([],false,props.blockedusers);
     // setSearchInput(false);
     //  props.cancelsearch();
  
@@ -66,7 +66,7 @@ const FeedHeaderSearch = (props) => {
   const searchIconPress = async () => {
     //  setSearchInput(true)
     // props.searchicon();
-    props.actions.setSearchedResults([],true);
+    props.actions.setSearchedResults([],true,props.blockedusers);
     // someFeed = {
     //   type: "AD2",
     //   source: "FEED",
@@ -157,7 +157,7 @@ const FeedHeaderSearch = (props) => {
 
   if (!__DEV__) analytics().logEvent('qraNavBarSearch_APPPRD');
   // borro el resultado de la busqueda anterior 
-  props.actions.setSearchedResults([],true);
+  props.actions.setSearchedResults([],true,props.blockedusers);
      Keyboard.dismiss();
    setTimeout(() => {
     props.actions.setSearchedResultsFilter('ALL'); // new search by default filter by POSTs
@@ -202,7 +202,7 @@ const FeedHeaderSearch = (props) => {
             // console.log('SEARCHMM:')
             // console.log(response.body.message)
             props.searching();
-            props.actions.setSearchedResults(response.body.message,true);
+            props.actions.setSearchedResults(response.body.message,true,props.blockedusers);
           
    
             
@@ -495,7 +495,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
 
   currentQRA: state.sqso.qra,
-  searchfeed: state.sqso.feed.searchfeed
+  searchfeed: state.sqso.feed.searchfeed,
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

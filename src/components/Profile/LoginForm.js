@@ -799,7 +799,7 @@ class LoginForm extends React.PureComponent {
                 'esto se maneja asi debido a que si el ancho de banda del usuario es bajo, no deja pasar a la pantalla principal a menos que este userInfo ejecutada'
               );
 
-              this.props.getUserInfo(session.idToken.jwtToken);
+             this.props.getUserInfo(session.idToken.jwtToken);
 
               // this.props.followersAlreadyCalled(true);
               // this.props.navigation.navigate("AppNavigator2");

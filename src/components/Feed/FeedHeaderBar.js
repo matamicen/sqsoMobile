@@ -133,10 +133,10 @@ class FeedHeaderBar extends React.Component {
 
       if (_.isEmpty(this.props.global_aux)) { // si viene de search carga feed global
         this.props.actions.doClearFeed('GLOBAL');
-        this.props.actions.doFetchPublicFeed(false);
+        this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
      }
      else
-      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false)
+      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false,this.props.blockedusers)
 
         
 
@@ -254,10 +254,10 @@ class FeedHeaderBar extends React.Component {
                       if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
                    if (_.isEmpty(this.props.global_aux)) { 
                       this.props.actions.doClearFeed('GLOBAL');
-                      this.props.actions.doFetchPublicFeed(false);
+                      this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
                    }
                    else
-                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL',false)
+                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL',false,this.props.blockedusers)
                    
                     }}>
                     {I18n.t('navBar.global')}
@@ -281,10 +281,10 @@ class FeedHeaderBar extends React.Component {
                                       if (_.isEmpty(this.props.following_aux)) { 
                                         console.log('length:'+this.props.following_aux.length)
                                         this.props.actions.doClearFeed('FOLLOWING');
-                                        this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+                                        this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
                                       }
                                       else
-                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING',false)
+                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING',false,this.props.blockedusers)
                                     }
                                   }}>    
               {I18n.t('navBar.following')}</Text>
@@ -302,10 +302,10 @@ class FeedHeaderBar extends React.Component {
              
                   if (_.isEmpty(this.props.qap_aux)) { 
                   this.props.actions.doClearFeed('QAP');
-                  this.props.actions.doFetchPublicQAPfeed(false);
+                  this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
                   }
                   else
-                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP', false)
+                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP', false,this.props.blockedusers)
           
               }}>          
                {I18n.t('navBar.QAP')}
@@ -376,7 +376,9 @@ const mapStateToProps = (state) => ({
   global_aux: state.sqso.feed.global_aux,
   following_aux: state.sqso.feed.following_aux,
   qap_aux: state.sqso.feed.qap_aux,
-  tabtoglobal: state.sqso.tabToGlobal
+  tabtoglobal: state.sqso.tabToGlobal,
+  userinfo: state.sqso.userInfo,
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

@@ -23,7 +23,8 @@ class QSORePostButton extends React.PureComponent {
           ? this.props.qso.idqso_shared
           : this.props.qso.idqsos,
         this.props.token,
-        this.props.qso
+        this.props.qso,
+        this.props.blockedusers
       );
     }
   }
@@ -81,7 +82,8 @@ const selectorFeedType = (state, ownProps) => {
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
   userinfo: state.sqso.userInfo,
-  qso: selectorFeedType(state, ownProps)
+  qso: selectorFeedType(state, ownProps),
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

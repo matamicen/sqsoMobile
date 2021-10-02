@@ -79,7 +79,7 @@ class SideMenu extends Component {
                 onPress={() => {
                   if (!__DEV__)
                     analytics().logEvent('drawerLatestUsersPressed_APPPRD');
-                  this.props.actions.doLatestUsersFetch();
+                  this.props.actions.doLatestUsersFetch(this.props.blockedusers);
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
                   this.props.navigation.navigate('ExploreUsers');
@@ -96,7 +96,7 @@ class SideMenu extends Component {
                 onPress={() => {
                   if (!__DEV__)
                     analytics().logEvent('drawerFieldDaysPressed_APPPRD');
-                  this.props.actions.doFetchFieldDaysFeed();
+                  this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
                   this.props.navigation.dispatch(DrawerActions.closeDrawer());
 
                   this.props.navigation.navigate('FieldDays');
@@ -147,6 +147,22 @@ class SideMenu extends Component {
                   this.props.navigation.navigate('editInfo');
                 }}>
                 {I18n.t('navBar.editProfile')}
+              </Text>
+            </View>
+          </View>
+          <View>
+            {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
+            <View style={styles.navSectionStyle}>
+              <Text
+                style={styles.navItemStyle}
+                onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawereditSettingsPressed_APPPRD');
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.props.navigation.navigate('editSettings');
+                }}>
+        
+               {I18n.t('navBar.settings')} 
               </Text>
             </View>
           </View>
@@ -211,7 +227,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  currentQRA: state.sqso.qra
+  currentQRA: state.sqso.qra,
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
