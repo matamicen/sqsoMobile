@@ -150,6 +150,22 @@ class SideMenu extends Component {
               </Text>
             </View>
           </View>
+          <View>
+            {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
+            <View style={styles.navSectionStyle}>
+              <Text
+                style={styles.navItemStyle}
+                onPress={() => {
+                  if (!__DEV__)
+                    analytics().logEvent('drawereditSettingsPressed_APPPRD');
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  this.props.navigation.navigate('editSettings');
+                }}>
+        
+               {I18n.t('navBar.settings')} 
+              </Text>
+            </View>
+          </View>
           {/* <View>
             
             <View style={styles.navSectionStyle}>
