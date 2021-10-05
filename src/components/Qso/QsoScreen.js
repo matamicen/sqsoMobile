@@ -589,7 +589,7 @@ class QsoScreen extends React.PureComponent {
             if (this.props.notifbackground === false)
               this.props.get_notifications(session.idToken.jwtToken,this.props.blockedusers);
             else
-              this.props.manage_notifications('NOTIF_BACKGROUND_FALSE', '', '');
+              this.props.manage_notifications('NOTIF_BACKGROUND_FALSE', '', '',this.props.blockedusers);
             // le cambio el flag a FALSE si volvio de navegar por hacer click en una notificacion,
             //la idea es que si se va a background de manera natural que al regresar si vaya al
             // backend ya que esto sucede con menos frecuencia
