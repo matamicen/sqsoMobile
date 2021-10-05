@@ -255,7 +255,7 @@ class LoginForm extends React.PureComponent {
                 };
                 // }
 
-                this.props.manage_notifications('ADDONE', envioNotif, '');
+                this.props.manage_notifications('ADDONE', envioNotif, '',this.props.blockedusers);
 
                 // si el push es de Aprobacion de usuario actualizo GetUserInfo
                 // asi ya lo deja publicar, dar like y comentar.
@@ -473,7 +473,7 @@ class LoginForm extends React.PureComponent {
                 );
               }
 
-              this.props.manage_notifications('ADDONE', envioNotif, '');
+              this.props.manage_notifications('ADDONE', envioNotif, '',this.props.blockedusers);
               // si el push es de Aprobacion de usuario actualizo GetUserInfo
               // asi ya lo deja publicar, dar like y comentar.
               if (
@@ -1608,7 +1608,8 @@ const mapStateToProps = (state) => {
     userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
     env: state.sqso.env,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
-    mustupgradeapp: state.sqso.mustUpgradeApp
+    mustupgradeapp: state.sqso.mustUpgradeApp,
+    blockedusers: state.sqso.currentQso.blockedUsers
   };
 };
 

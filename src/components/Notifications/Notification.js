@@ -73,7 +73,8 @@ class Notification extends React.PureComponent {
     this.props.manage_notifications(
       'CALCULOUNREADPRESSNOTIFICATIONS',
       this.props.notifications,
-      formateo
+      formateo,
+      this.props.blockedusers
     );
     AsyncStorage.setItem('ultimafecha', today.toString());
   };
@@ -123,7 +124,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     followersalreadycalled: state.sqso.currentQso.followersAlreadyCalled,
-    notifications: state.sqso.currentQso.notifications
+    notifications: state.sqso.currentQso.notifications,
+    blockedusers: state.sqso.currentQso.blockedUsers
   };
 };
 
