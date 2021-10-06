@@ -107,6 +107,8 @@ class SignUpForm extends React.PureComponent {
       callingCode: '',
       namec: '',
       showFlag: false,
+      countryRegion: '',
+      countrySubregion: '',
 
       privacy: false,
       date: new Date(),
@@ -768,7 +770,11 @@ class SignUpForm extends React.PureComponent {
         'custom:callsign': this.state.qra.toUpperCase(),
         'custom:phone': this.state.phone,
         'custom:userType': this.state.isClub ? "1" : "0",
-        'custom:referralQra' : this.state.referral
+        'custom:referralQra' : this.state.referral,
+        'custom:countryName': this.state.country,
+        'custom:countryRegion': this.state.countryRegion,
+        'custom:countrySubregion': this.state.countrySubregion
+
       }
     }
     console.log('parametros de signup')
@@ -1553,7 +1559,9 @@ class SignUpForm extends React.PureComponent {
                             cca2: value.cca2,
                             callingCode: value.callingCode,
                             country: value.name,
-                            showFlag: false
+                            showFlag: false,
+                            countryRegion: value.region,
+                            countrySubregion: value.subregion
                           });
                           console.log(value);
                         }}

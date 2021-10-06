@@ -1479,7 +1479,14 @@ const qsoReducer = (state = initialState, action) => {
       newStore = Object.assign({}, state, {
         ...state,
         //  profilePicRefresh: Date.now(),
-        profilePicRefresh: action.urlprofile
+        profilePicRefresh: action.urlprofile,
+        feed: {
+          ...state.feed,
+          global_aux: [],
+          following_aux: [],
+          qap_aux: [],
+          qsos: []
+        }
       });
       return newStore;
 

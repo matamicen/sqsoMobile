@@ -3755,18 +3755,28 @@ export const setPendingVerification = (status) => {
     dispatch(fetchingApiRequest('doFetchPublicFeed'));
     console.log('PUBLIC __feed onlyloadToAux:'+onlyloadToAux);
     dispatch(doRequestFeed());
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+
+
     const apiName = 'superqso';
     const path = '/qso-public-list';
     console.log('llamo api /qso-public-list')
+    const myInit = {
+    headers: {
+      Authorization: session.idToken.jwtToken
+    } // OPTIONAL
+  };
     // const myInit = {
     //    body: {query: 'FEED'},// replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
     // };
-    const myInit = {};
+    // const myInit = {};
     API.get(apiName, path, myInit)
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
+          
           dispatch(doReceiveFeed(response.body.message, 'GLOBAL',onlyloadToAux,blockedUsers));
          
             dispatch(setSearchedResults([],false));
@@ -3777,6 +3787,8 @@ export const setPendingVerification = (status) => {
         dispatch(fetchingApiSuccess('doFetchPublicFeed',response));
       })
       .catch(async (error) => {
+      
+        console.log(error);
         dispatch(fetchingApiFailure('doFetchPublicFeed', error));
         if (__DEV__) {
           console.log(error.message);

@@ -157,6 +157,7 @@ class InitialScreen extends React.PureComponent {
       await Auth.signOut()
         .then((data) => {
           console.log(JSON.stringify(data));
+          // profilePictureRefresh also clear the the main Feed and all the AUXfeeds.
           this.props.profilePictureRefresh('');
           this.props.manage_notifications('DELETE_NOTIF', '', '',this.props.blockedusers);
 
