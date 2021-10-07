@@ -3710,7 +3710,7 @@ export const setPendingVerification = (status) => {
   return async (dispatch) => {
     let session = await Auth.currentSession();
     dispatch(setToken(session.idToken.jwtToken));
-    
+
     dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
     console.log('QAP __feed onlyloadToAux:'+onlyloadToAux);
 
@@ -4679,13 +4679,18 @@ export function doFetchFieldDaysFeed(blockedUsers) {
   if (!__DEV__) analytics().logEvent('getFieldDaysFeed_APPPRD');
 
   return async (dispatch) => {
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+    
     dispatch(fetchingApiRequest('getFieldDaysFeed'));
     dispatch(doRequestFieldDay());
     const apiName = 'superqso';
     const path = '/qsoGetByType';
     const myInit = {
       body: { type: 'FLDDAY' }, // replace this with attributes you need
-      headers: {} // OPTIONAL
+       headers: {
+        Authorization: session.idToken.jwtToken
+      }
     };
     API.post(apiName, path, myInit)
       .then((response) => {
