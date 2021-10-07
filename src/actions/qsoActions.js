@@ -3708,6 +3708,9 @@ export const setPendingVerification = (status) => {
   export const doFetchPublicQAPfeed = (onlyloadToAux,blockedUsers) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+    
     dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
     console.log('QAP __feed onlyloadToAux:'+onlyloadToAux);
 
@@ -3715,11 +3718,16 @@ export const setPendingVerification = (status) => {
     const apiName = 'superqso';
     const path = '/qap-public-list';
     console.log('llamo api /qap-public-list')
+    const myInit = {
+      headers: {
+        Authorization: session.idToken.jwtToken
+      } // OPTIONAL
+    };
     // const myInit = {
     //    body: {query: 'QAP'}, // replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
     // };
-    const myInit = {};
+    // const myInit = {};
     API.get(apiName, path, myInit)
       .then((response) => {
         // console.log(response);
