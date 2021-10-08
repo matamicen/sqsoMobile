@@ -76,7 +76,8 @@ import {
   doClearFeed,
   doFetchPublicFeed,
   doFetchPublicQAPfeed,
-  setTabToGlobal
+  setTabToGlobal,
+  doFetchRegionalFeed
 } from '../../actions';
 import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
@@ -2921,8 +2922,12 @@ class QsoScreen extends React.PureComponent {
     // if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(); 
 
     // after publish always go to a Global feed to show the new post of the user
-    this.props.doClearFeed('GLOBAL');
-    this.props.doFetchPublicFeed(false,this.props.blockedusers);
+    this.props.doClearFeed('REGIONAL');
+    this.props.doFetchRegionalFeed(false,this.props.blockedusers);
+    this.props.doFetchPublicFeed(true,this.props.blockedusers);
+    this.props.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
+    this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);
+   
     
     // if (this.props.publicFeed) this.props.doFetchPublicFeed();
     // else this.props.doFetchUserFeed(this.props.qra);
@@ -3935,7 +3940,9 @@ const mapDispatchToProps = {
   doFetchFieldDaysFeed,
   doLatestUsersFetch,
   doFetchPublicQAPfeed,
-  setTabToGlobal
+  setTabToGlobal,
+  doFetchRegionalFeed
+  
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QsoScreen);

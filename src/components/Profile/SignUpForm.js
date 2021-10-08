@@ -34,7 +34,10 @@ import {
   setQra,
   setToken,
   setUrlRdsS3,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  doFetchRegionalFeed,
+  doFetchUserFeed,
+  doFetchPublicQAPfeed
 } from '../../actions';
 import awsconfig from '../../aws-exports';
 import global_config from '../../global_config.json';
@@ -488,7 +491,10 @@ class SignUpForm extends React.PureComponent {
       await this.props.setToken(this.jwtToken);
 
       this.props.getUserInfo(this.jwtToken);
-      this.props.doFetchPublicFeed(false,this.props.blockedusers);
+      this.props.doFetchRegionalFeed(false,this.props.blockedusers);
+      this.props.doFetchPublicFeed(true,this.props.blockedusers);
+      this.props.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
+      this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);
       this.props.doFetchFieldDaysFeed(this.props.blockedusers);
       this.props.doFollowFetch();
       this.props.doLatestUsersFetch(this.props.blockedusers);
@@ -1979,7 +1985,10 @@ const mapDispatchToProps = {
   doFetchFieldDaysFeed,
   doFollowFetch,
   doLatestUsersFetch,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  doFetchRegionalFeed,
+  doFetchUserFeed,
+  doFetchPublicQAPfeed
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

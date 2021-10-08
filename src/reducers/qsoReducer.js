@@ -153,6 +153,10 @@ const initialState = {
   QAPFeedApiSuccesMessage: '',
   QAPFeedApiSuccesStatus: false,
   QAPFeedApiErrorMessage: '',
+  isFetchingRegionalFeed: false,
+  RegionalFeedApiSuccesMessage: '',
+  RegionalFeedApiSuccesStatus: false,
+  RegionalFeedApiErrorMessage: '',
 
   isFetchingdoFollowFetch: false,
   doFollowFetchApiSuccesMessage: '',
@@ -281,12 +285,13 @@ const initialState = {
     },
     qsos: [],
     global_aux: [],
+    regional_aux: [],
     following_aux: [],
     qap_aux: [],
     FetchingQSOS: false,
     qsosFetched: false,
     feedFetchedDate: null,
-    publicFeed: 'GLOBAL',
+    publicFeed: 'REGIONAL',
     fieldDays: [],
     FetchingFieldDays: false,
     fieldDaysFetched: false,
@@ -341,6 +346,17 @@ const qsoReducer = (state = initialState, action) => {
           isFetchingPublicFeed: true,
           PublicFeedApiSuccesMessage: '',
           PublicFeedApiErrorMessage: ''
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchRegionalFeed') {
+  
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingRegionalFeed: true,
+          RegionalFeedApiSuccesMessage: '',
+          RegionalFeedApiErrorMessage: ''
         });
         return newStore;
       }
@@ -420,6 +436,17 @@ const qsoReducer = (state = initialState, action) => {
           ...state,
           isFetchingPublicFeed: false,
           PublicFeedApiErrorMessage: action.payload,
+          errorApiMessage: action.payload
+        });
+        return newStore;
+      } 
+
+      if (action.apiName === 'doFetchRegionalFeed') {
+     
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingRegionalFeed: false,
+          RegionalFeedApiErrorMessage: action.payload,
           errorApiMessage: action.payload
         });
         return newStore;
@@ -513,6 +540,18 @@ const qsoReducer = (state = initialState, action) => {
           isFetchingPublicFeed: false,
           PublicFeedApiSuccesMessage: action.payload,
           PublicFeedApiSuccesStatus: true
+        });
+        return newStore;
+      }
+
+      if (action.apiName === 'doFetchRegionalFeed') {
+        console.log('trajo doFetchRegionalFeed');
+
+        newStore = Object.assign({}, state, {
+          ...state,
+          isFetchingRegionalFeed: false,
+          RegionalFeedApiSuccesMessage: action.payload,
+          RegionalFeedApiSuccesStatus: true
         });
         return newStore;
       }
@@ -1483,6 +1522,7 @@ const qsoReducer = (state = initialState, action) => {
         feed: {
           ...state.feed,
           global_aux: [],
+          regional_aux: [],
           following_aux: [],
           qap_aux: [],
           qsos: []
@@ -2293,6 +2333,7 @@ action.fieldDays.forEach(function(part, index, qso) {
         feed: {
           ...state.feed,
           global_aux: (action.publicFeed==='GLOBAL') ? action.qsos : state.feed.global_aux,
+          regional_aux: (action.publicFeed==='REGIONAL') ? action.qsos : state.feed.regional_aux,
           following_aux: (action.publicFeed==='FOLLOWING') ? action.qsos : state.feed.following_aux,
           qap_aux: (action.publicFeed==='QAP') ? action.qsos : state.feed.qap_aux
         }
@@ -2308,6 +2349,7 @@ action.fieldDays.forEach(function(part, index, qso) {
           feedFetchedDate: new Date(),
           publicFeed: action.publicFeed,
           global_aux: (action.publicFeed==='GLOBAL') ? action.qsos : state.feed.global_aux,
+          regional_aux: (action.publicFeed==='REGIONAL') ? action.qsos : state.feed.regional_aux,
           following_aux: (action.publicFeed==='FOLLOWING') ? action.qsos : state.feed.following_aux,
           qap_aux: (action.publicFeed==='QAP') ? action.qsos : state.feed.qap_aux
         }

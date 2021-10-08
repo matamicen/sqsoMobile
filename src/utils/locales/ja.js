@@ -545,6 +545,7 @@ export default {
     onlyFollowFeed: 'フォローしている投稿のみを見る',
     noFollowingMessage: 'まだ誰もフォローしていません...ユーザーのフォローを開始すると、ここに投稿が表示されます。',
     global: 'グローバル',
+    regional: '地域',
     following: 'フォロー中',
     QAP: 'QAP'
   },

@@ -585,6 +585,7 @@ class InitialScreen extends React.PureComponent {
               style={{}}
               onPress={() => {
                 this.props.doClearFeed(this.props.publicFeed);
+                if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
                 if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed(false,this.props.blockedusers);
                 if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
                 if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);                 

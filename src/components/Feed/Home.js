@@ -198,7 +198,8 @@ class Home extends React.PureComponent {
           // this.time = 50;
           // await this.props.setWebView(this.props.webviewsession, home);
           this.toast(I18n.t('Refreshing'), 2500);
-          this.props.actions.doClearFeed();
+          this.props.actions.doClearFeed(this.props.publicFeed);
+          if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
           if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
           if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
           if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
@@ -255,8 +256,12 @@ class Home extends React.PureComponent {
       // entre FEEDs se todo en memoria y no tenga que llamar a API. 
       // los IF estan para que no se llamen mas de 1 vez
 
+
+      if (!this.props.isfetchingregionalfeed)
+      this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
+
       if (!this.props.isfetchingpublicfeed)
-      this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
+      this.props.actions.doFetchPublicFeed(true,this.props.blockedusers);
 
     if (!this.props.isfetchinguserfeed)
       this.props.actions.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
@@ -344,6 +349,7 @@ class Home extends React.PureComponent {
 
   tapOnTabNavigator = async () => {
     console.log('PRESS HOME! tapOnTabNavigator');
+    console.log(this.props.publicFeed)
     // sumo contador de press home para resfrescar el feed solo cuando apreta la segunda vez
     // this.props.actions.setSearchedResults([]);
     if (this.props.presshome === 1) {
@@ -352,6 +358,7 @@ class Home extends React.PureComponent {
       this.toast(I18n.t('Refreshing'), 2500);
 
       this.props.actions.doClearFeed(this.props.publicFeed);
+      if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
       if (this.props.publicFeed==='GLOBAL' && !this.props.isfetchingpublicfeed) this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
       if (this.props.publicFeed==='FOLLOWING' && !this.props.isfetchinguserfeed) this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
       if (this.props.publicFeed==='QAP' && !this.props.isfetchingQAPfeed) this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
@@ -428,6 +435,7 @@ class Home extends React.PureComponent {
         console.log('more than 15 minutes it refreshs');
 
         this.props.actions.doClearFeed(this.props.publicFeed);
+        if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
         if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
         if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
         if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
@@ -599,6 +607,7 @@ const mapStateToProps = (state) => ({
   urlroute: state.sqso.urlRoute,
   urlparam: state.sqso.urlParam,
   isfetchingpublicfeed:state.sqso.isFetchingPublicFeed,
+  isfetchingregionalfeed:state.sqso.isFetchingRegionalFeed,
   isfetchinguserfeed:state.sqso.isFetchingUserFeed,
   isfetchingQAPfeed: state.sqso.isFetchingQAPFeed,
   isfetchingdofollowfetch: state.sqso.isFetchingdoFollowFetch,

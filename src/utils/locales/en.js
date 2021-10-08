@@ -545,6 +545,7 @@ export default {
    
     noFollowingMessage: 'You don´t follow anyone yet... Start following hams and you will see their posts here.',
     global: 'Global',
+    regional: 'Regional',
     following: 'Following',
     QAP: 'QAP'
   },

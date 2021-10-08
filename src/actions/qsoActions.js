@@ -3809,6 +3809,59 @@ export const setPendingVerification = (status) => {
       });
   };
 };
+
+export const doFetchRegionalFeed = (onlyloadToAux,blockedUsers) => {
+  // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
+  return async (dispatch) => {
+    dispatch(fetchingApiRequest('doFetchRegionalFeed'));
+    console.log('REGIONAL __feed onlyloadToAux:'+onlyloadToAux);
+    dispatch(doRequestFeed());
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+
+
+    const apiName = 'superqso';
+    const path = '/qso-regional-list';
+    const myInit = {
+    headers: {
+      Authorization: session.idToken.jwtToken
+    } // OPTIONAL
+  };
+    // const myInit = {
+    //    body: {query: 'FEED'},// replace this with attributes you need
+    //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
+    // };
+    // const myInit = {};
+    API.get(apiName, path, myInit)
+      .then((response) => {
+        // console.log(response);
+        if (response.body.error === 0) {
+          
+          dispatch(doReceiveFeed(response.body.message,'REGIONAL',onlyloadToAux,blockedUsers));
+         
+            dispatch(setSearchedResults([],false));
+           
+          
+          // dispatch(setSearchedResults(response.body.message));
+        } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('doFetchRegionalFeed',response));
+      })
+      .catch(async (error) => {
+      
+        console.log(error);
+        dispatch(fetchingApiFailure('doFetchRegionalFeed', error));
+        if (__DEV__) {
+          console.log(error.message);
+        } else {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('getRegionalFeed_WEBDEV'));
+          else crashlytics().recordError(new Error('getRegionalFeed_APPPRD'));
+        }
+      });
+  };
+};
+
 export const doFetchUserFeed = (qra,onlyloadToAux,blockedUsers) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchUserFeed'));
@@ -4681,7 +4734,7 @@ export function doFetchFieldDaysFeed(blockedUsers) {
   return async (dispatch) => {
     let session = await Auth.currentSession();
     dispatch(setToken(session.idToken.jwtToken));
-    
+
     dispatch(fetchingApiRequest('getFieldDaysFeed'));
     dispatch(doRequestFieldDay());
     const apiName = 'superqso';
