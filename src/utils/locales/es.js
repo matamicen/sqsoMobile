@@ -721,7 +721,7 @@ export default {
     and: ' y a ',
     loadingQSOLink: 'Cargando QSO Link...',
     loadingQSO: 'Cargando...',
-    confirmRepost: '¿Está seguro que quiere republicar esto?',
+    confirmRepost: '¿Está seguro que quiere republicar esto? La republicación solo la veran sus seguidores.',
     playAudio: 'Reproducir',
     qsoReposted: 'Republicado con éxito!',
     qsoDeleted: 'QSO Eliminado',

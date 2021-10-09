@@ -704,7 +704,7 @@ export default {
     and: ' and ',
     loadingQSOLink: 'QSOのリンクをロード中です・・',
     loadingQSO: 'ロード中・・',
-    confirmRepost: '再投稿を確認しますか?',
+    confirmRepost: '再投稿を確認しますか? 再投稿はフォロワーにのみ表示されます',
     playAudio: '音源を再生',
     qsoReposted: '再投稿されました',
     qsoDeleted: 'QSOが削除されました',

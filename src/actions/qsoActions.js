@@ -4190,7 +4190,8 @@ export const doRepost = (idqso, token, qso,blockedUsers) => {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
-            dispatch(doFetchPublicFeed(false,blockedUsers));
+            // dispatch(doFetchPublicFeed(false,blockedUsers));
+            // dispatch(doFetchUserFeed('',false,blockedUsers));
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';

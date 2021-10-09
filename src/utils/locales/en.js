@@ -704,7 +704,7 @@ export default {
     and: ' and ',
     loadingQSOLink: 'Loading QSO Link...',
     loadingQSO: 'Loading ...',
-    confirmRepost: 'Confirm Repost?',
+    confirmRepost: 'Confirm Repost? The repost will only be seen by your followers.',
     playAudio: 'Play Audio',
     qsoReposted: 'Reposted Successfully!',
     qsoDeleted: 'QSO Deleted',
