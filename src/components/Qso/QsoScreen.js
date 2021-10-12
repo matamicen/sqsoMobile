@@ -3645,7 +3645,7 @@ class QsoScreen extends React.PureComponent {
             <View
               style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
               <Image
-                source={require('../../images/qap10.png')}
+                source={require('../../images/CQ.png')}
                 style={{ width: 50, height: 50, flex: 0.3 }}
                 resizeMode="contain"
               />
