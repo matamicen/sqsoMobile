@@ -53,7 +53,9 @@ const FeedHeaderSearch = (props) => {
    
       
       setTimeout(() => {
-        props.searching();
+        // props.searching();
+        props.cancelsearch();
+
       }, 100);
     
     props.actions.setSearchedResults([],false,props.blockedusers);

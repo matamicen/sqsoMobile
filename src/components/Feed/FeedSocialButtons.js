@@ -74,6 +74,7 @@ class FeedSocialButtons extends React.PureComponent {
               <QSORePostButton
                 feedType={this.props.feedType}
                 idqsos={this.props.idqsos}
+                navigation={this.props.navigation}
                 // qso={this.props.qso}
               />
             </View>

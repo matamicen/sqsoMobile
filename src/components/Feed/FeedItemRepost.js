@@ -97,6 +97,7 @@ class FeedItemRepost extends React.PureComponent {
             index={this.props.index}
             qso_owner={this.props.qso.qra}
             shareText={shareText}
+            navigation={this.props.navigation}
           />
         )}
       </Card>

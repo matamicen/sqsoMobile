@@ -3708,6 +3708,9 @@ export const setPendingVerification = (status) => {
   export const doFetchPublicQAPfeed = (onlyloadToAux,blockedUsers) => {
   // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
   return async (dispatch) => {
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+
     dispatch(fetchingApiRequest('doFetchPublicQAPfeed'));
     console.log('QAP __feed onlyloadToAux:'+onlyloadToAux);
 
@@ -3715,11 +3718,16 @@ export const setPendingVerification = (status) => {
     const apiName = 'superqso';
     const path = '/qap-public-list';
     console.log('llamo api /qap-public-list')
+    const myInit = {
+      headers: {
+        Authorization: session.idToken.jwtToken
+      } // OPTIONAL
+    };
     // const myInit = {
     //    body: {query: 'QAP'}, // replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
     // };
-    const myInit = {};
+    // const myInit = {};
     API.get(apiName, path, myInit)
       .then((response) => {
         // console.log(response);
@@ -3755,18 +3763,28 @@ export const setPendingVerification = (status) => {
     dispatch(fetchingApiRequest('doFetchPublicFeed'));
     console.log('PUBLIC __feed onlyloadToAux:'+onlyloadToAux);
     dispatch(doRequestFeed());
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+
+
     const apiName = 'superqso';
     const path = '/qso-public-list';
     console.log('llamo api /qso-public-list')
+    const myInit = {
+    headers: {
+      Authorization: session.idToken.jwtToken
+    } // OPTIONAL
+  };
     // const myInit = {
     //    body: {query: 'FEED'},// replace this with attributes you need
     //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
     // };
-    const myInit = {};
+    // const myInit = {};
     API.get(apiName, path, myInit)
       .then((response) => {
         // console.log(response);
         if (response.body.error === 0) {
+          
           dispatch(doReceiveFeed(response.body.message, 'GLOBAL',onlyloadToAux,blockedUsers));
          
             dispatch(setSearchedResults([],false));
@@ -3777,6 +3795,8 @@ export const setPendingVerification = (status) => {
         dispatch(fetchingApiSuccess('doFetchPublicFeed',response));
       })
       .catch(async (error) => {
+      
+        console.log(error);
         dispatch(fetchingApiFailure('doFetchPublicFeed', error));
         if (__DEV__) {
           console.log(error.message);
@@ -3789,6 +3809,59 @@ export const setPendingVerification = (status) => {
       });
   };
 };
+
+export const doFetchRegionalFeed = (onlyloadToAux,blockedUsers) => {
+  // if (!__DEV__) analytics().logEvent('getPublicFeed_APPPRD');
+  return async (dispatch) => {
+    dispatch(fetchingApiRequest('doFetchRegionalFeed'));
+    console.log('REGIONAL __feed onlyloadToAux:'+onlyloadToAux);
+    dispatch(doRequestFeed());
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+
+
+    const apiName = 'superqso';
+    const path = '/qso-regional-list';
+    const myInit = {
+    headers: {
+      Authorization: session.idToken.jwtToken
+    } // OPTIONAL
+  };
+    // const myInit = {
+    //    body: {query: 'FEED'},// replace this with attributes you need
+    //   headers: { 'Content-Type': 'application/json' } // OPTIONAL
+    // };
+    // const myInit = {};
+    API.get(apiName, path, myInit)
+      .then((response) => {
+        // console.log(response);
+        if (response.body.error === 0) {
+          
+          dispatch(doReceiveFeed(response.body.message,'REGIONAL',onlyloadToAux,blockedUsers));
+         
+            dispatch(setSearchedResults([],false));
+           
+          
+          // dispatch(setSearchedResults(response.body.message));
+        } else console.log(response.body.message);
+        dispatch(fetchingApiSuccess('doFetchRegionalFeed',response));
+      })
+      .catch(async (error) => {
+      
+        console.log(error);
+        dispatch(fetchingApiFailure('doFetchRegionalFeed', error));
+        if (__DEV__) {
+          console.log(error.message);
+        } else {
+          crashlytics().log('error: ' + JSON.stringify(error));
+          if (__DEV__)
+            crashlytics().recordError(new Error('getRegionalFeed_WEBDEV'));
+          else crashlytics().recordError(new Error('getRegionalFeed_APPPRD'));
+        }
+      });
+  };
+};
+
 export const doFetchUserFeed = (qra,onlyloadToAux,blockedUsers) => {
   return async (dispatch) => {
     dispatch(fetchingApiRequest('doFetchUserFeed'));
@@ -4117,7 +4190,8 @@ export const doRepost = (idqso, token, qso,blockedUsers) => {
         .then((response) => {
           if (response.body.error !== 0) console.log(response.body.message);
           else {
-            dispatch(doFetchPublicFeed(false,blockedUsers));
+            // dispatch(doFetchPublicFeed(false,blockedUsers));
+            // dispatch(doFetchUserFeed('',false,blockedUsers));
             // qso.idqso_shared = qso.idqsos;
             // qso.idqsos = response.body.message;
             // qso.type = 'SHARE';
@@ -4659,13 +4733,18 @@ export function doFetchFieldDaysFeed(blockedUsers) {
   if (!__DEV__) analytics().logEvent('getFieldDaysFeed_APPPRD');
 
   return async (dispatch) => {
+    let session = await Auth.currentSession();
+    dispatch(setToken(session.idToken.jwtToken));
+
     dispatch(fetchingApiRequest('getFieldDaysFeed'));
     dispatch(doRequestFieldDay());
     const apiName = 'superqso';
     const path = '/qsoGetByType';
     const myInit = {
       body: { type: 'FLDDAY' }, // replace this with attributes you need
-      headers: {} // OPTIONAL
+       headers: {
+        Authorization: session.idToken.jwtToken
+      }
     };
     API.post(apiName, path, myInit)
       .then((response) => {
