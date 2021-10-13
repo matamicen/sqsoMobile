@@ -144,7 +144,8 @@ class LoginForm extends React.PureComponent {
       };
     }
 
-    if (props.userInfoApiSuccesStatus) {
+ 
+    if (props.userInfoApiSuccesStatus && !state.stopApp) {
       console.log(
         'adentro de getDerivedStateFromProps: ' + props.userInfoApiSuccesStatus
       );
@@ -776,9 +777,9 @@ class LoginForm extends React.PureComponent {
           console.log('mat2 el pushtoken del store es:' + this.props.pushtoken);
 
           //apologize
-          if (pushtoken === null)
+          // if (pushtoken === null)
           // Si no encuentra pushToken guardado debe reinstalar la APP
-          // if (1 === 2)
+          if (1 === 2)
             this.setState({ stopApp: true, pushTokenNotFound: true });
           else {
             console.log('Antes de AsyncStorage.getItem');

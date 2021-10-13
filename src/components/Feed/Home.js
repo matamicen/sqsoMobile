@@ -547,9 +547,11 @@ class Home extends React.PureComponent {
 
 
 
+            if (!this.props.isfetchingregionalfeed)
+            this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
 
             if (!this.props.isfetchingpublicfeed)
-     this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
+     this.props.actions.doFetchPublicFeed(true,this.props.blockedusers);
 
    if (!this.props.isfetchinguserfeed)
      this.props.actions.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);

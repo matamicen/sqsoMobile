@@ -2278,8 +2278,8 @@ action.fieldDays.forEach(function(part, index, qso) {
       console.log('RECEIVE_FEED action.publicFeed:'+action.publicFeed)
       console.log(action.qsos)
       console.log('RECEIVE_FEED MEDIA:')
-      console.log(action.qsos[1].likes)
-      console.log(action.qsos[1].media)
+      // console.log(action.qsos[1].likes)
+      // console.log(action.qsos[1].media)
 
       test = [{"blockedbyme": "blockedbyme", "idqra_blocked": 718, "profilepic": "https://d30o7j00smmz5f.cloudfront.net/1/us-east-1%3Aa7752f4f-bcdf-4350-89c1-18625bc82fce/profile/profile_1588362668213.jpg"}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}, {"blockedbyme": "iwasblocked", "idqra_blocked": 728, "profilepic": ""}]
       console.log('blocked reducer:')
