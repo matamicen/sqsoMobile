@@ -22,7 +22,7 @@ class QRAProfile extends React.PureComponent {
   render() {
     const buttons = [
       I18n.t('qra.qsosTab'),
-      I18n.t('qra.bio'),
+      // I18n.t('qra.bio'),
       I18n.t('qra.info'),
       I18n.t('qra.followingTab')
     ];
@@ -75,9 +75,9 @@ class QRAProfile extends React.PureComponent {
                       QRAFetched={this.props.QRAFetched}
                     />
                   ),
-                  1: <QRAProfileBio qraInfo={this.props.qraInfo} />,
-                  2: <QRAProfileInfo qraInfo={this.props.qraInfo} />,
-                  3: (
+                  // 1: <QRAProfileBio qraInfo={this.props.qraInfo} />,
+                  1: <QRAProfileInfo qraInfo={this.props.qraInfo} />,
+                  2: (
                     <QRAProfileFollowing
                       following={
                         this.props.qra ? this.props.qra.following : null

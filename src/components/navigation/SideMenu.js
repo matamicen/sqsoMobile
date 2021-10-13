@@ -120,8 +120,8 @@ class SideMenu extends Component {
               </Text>
             </View>
           </View>
-          <View>
-            {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
+          {/* <View>
+            
             <View style={styles.navSectionStyle}>
               <Text
                 style={styles.navItemStyle}
@@ -134,7 +134,7 @@ class SideMenu extends Component {
                 {I18n.t('navBar.editBio')}
               </Text>
             </View>
-          </View>
+          </View> */}
           <View>
             {/* <Text style={styles.sectionHeadingStyle}>Section 2</Text> */}
             <View style={styles.navSectionStyle}>
