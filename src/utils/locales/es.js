@@ -8,12 +8,12 @@ export default {
   currentSession: 'Cargando ...',
   USER_NOT_VALIDATED: 'Usuario no validado',
   USER_NOT_VALIDATED_TEXT:
-    'No se puede realizar esta acción ya que su usuario todavía no fue validado. Por favor envie su carnet/resolución de licencia a info@superqso.com. Este tramite puede demorar 24hs',
+    'No se puede realizar esta acción ya que su usuario todavía no fue validado. Este tramite puede demorar 24hs.',
   USER_NOT_VALIDATED_CLOSE: 'Cerrar',
   loginerrorMessUserNotFound:
     'Error de inicio de sesión, usuario/contraseña incorrecto, intente nuevamente',
   loginerrorUserDisabled:
-    'El usuario aún no esta hablitado, recuerde de envíar su carnet/resolución de licencia a info@superqso.com',
+    'El usuario aún no esta hablitado, Este tramite puede demorar 24hs.',
   loginerrorMessUserEmpty: 'El correo electrónico esta vacío',
   signupForm: 'Formulario de Registración',
   signupRadioClub: 'Radio club',
@@ -75,7 +75,7 @@ export default {
 
   variosModWelcWelcome: 'Bienvenido a SuperQSO!',
   variosModWelcSendLicense1:
-    'Para agilizar la habilitación de tu cuenta, envíanos una constancia de tu licencia (carnet, resolución, etc) a',
+    '',
   variosModWelcSendLicense2: 'para habilitar tu cuenta.',
   variosModWelcEnableYou:
     'Te vamos a habilitar lo antes posible una vez recibida la licencia.',
@@ -571,8 +571,7 @@ export default {
   },
   auth: {
     incorrectUserPass: 'Usuario o contraseña incorrectas',
-    userDisabled:
-      'El usuario no esta hablitado todavía debido a que no recibimos constancia de su licencia. Envíela lo antes posible a info@superqso.com para que activemos su cuenta',
+    userDisabled:'El usuario aún no esta hablitado. Puede contactarnos a info@superqso.com',
     userNotConfirmed:
       'El usuario no ha ingresado los códigos de Confirmación enviados al Email',
     enterMailPassword: 'Ingresar Email y Contraseña',
