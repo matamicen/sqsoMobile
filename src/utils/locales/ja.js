@@ -266,7 +266,7 @@ export default {
   QsoTypeANYdescOther:
     'シャックやアンテナ、仲間の写真等を投稿する',
   QsoTypeANYdescFieldDay: 'コンテストやズームなどの企画をPRする',
-  QsoTypeANYdescQAP: 'あなたはQAPであるか、CQに電話をかけています（周波数とモードは写真または説明にあるはずです)',
+  QsoTypeANYdescQAP: '貴局がCQを出すときに投稿して下さい。なお、周波数およびモードを明記して下さい。',
   QsoTypePOST: 'その他一般',
   QsoTypeQAP: 'QAP',
   QsoTypeFLDDAY: '行事',
@@ -547,7 +547,7 @@ export default {
     global: 'グローバル',
     regional: '地域',
     following: 'フォロー中',
-    QAP: 'QAP'
+    QAP: 'CQ'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: 'SuperQSOとは?',

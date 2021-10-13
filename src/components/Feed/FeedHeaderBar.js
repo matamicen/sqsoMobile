@@ -304,7 +304,7 @@ class FeedHeaderBar extends React.Component {
              </Text>
             </View>
 
-            <View style={{ flex: 0.25, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+            <View style={{ flex: 0.29, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
            
             <Text  style={{ color: this.state.color2, fontSize: 18}} 
                            onPress={() => {
@@ -330,7 +330,7 @@ class FeedHeaderBar extends React.Component {
               {I18n.t('navBar.following')}</Text>
            </View>
 
-          <View style={{ flex: 0.25, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+          <View style={{ flex: 0.21, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
            
            <Text  style={{ color: this.state.color3, fontSize: 18}}
               onPress={() => {
