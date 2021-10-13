@@ -34,6 +34,7 @@ class Settings extends React.PureComponent {
     const { blockedbyme,idqra_blocked, qrablocked, profilepic } = item;
 
     return (
+      (blockedbyme !== 'iwasblocked') &&
       <View>
         {/* <View style={{ paddingRight: 5, width: 88, paddingBottom: 5 }}> */}
          <View style={{
@@ -90,7 +91,7 @@ console.log(this.props.blockedusers)
         }}>
       
         <View  style={{flex: 0.1}}>
-          <Text style={{fontSize: 18}}>Blocked Users</Text>
+          <Text style={{fontSize: 18}}>{I18n.t('qra.blockTitle')}</Text>
         </View>
         <View  style={{flex: 0.8}}>
        {this.props.blockedusers.length > 0 ?

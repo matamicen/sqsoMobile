@@ -757,6 +757,7 @@ export default {
     approveUser: 'Aprobar Usuario',
     blockUser: 'Bloquear',
     UnblockUser: 'Desbloquear',
+    blockTitle: 'Usuarios bloqueados',
     NoBlockUsers: 'No hay usuarios bloqueados',
     blockMenu: 'Bloquear a ',
     blockMess1: 'Al bloquear al usuario no podra ver nada de su actividad y el usuario que fue bloqueado tampoco podra ver nada de su actividad.',

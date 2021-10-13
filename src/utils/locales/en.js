@@ -739,6 +739,7 @@ export default {
     approveUser: 'Approve User',
     blockUser: 'Block',
     UnblockUser: 'Unblock',
+    blockTitle: 'Blocked Users',
     NoBlockUsers: 'There is no blocked users.',
     blockMenu: 'Block ',
     blockMess1: 'By blocking the user, you will not be able to see anything of his activity and the user who was blocked will not be able to see any of your activity either.',
