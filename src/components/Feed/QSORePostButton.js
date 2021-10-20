@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withNavigation } from 'react-navigation';
 import * as Actions from '../../actions';
 import { userNotValidated } from '../../helper';
 import I18n from '../../utils/i18n';
@@ -23,8 +24,17 @@ class QSORePostButton extends React.PureComponent {
           ? this.props.qso.idqso_shared
           : this.props.qso.idqsos,
         this.props.token,
-        this.props.qso
+        this.props.qso,
+        this.props.blockedusers
       );
+      setTimeout(() => {
+        this.props.navigation.navigate('QRAProfile', {
+          qra: this.props.userinfo.qra,
+          screen: 'PROFILE'
+        });
+      }, 2500);
+   
+   
     }
   }
 
@@ -81,12 +91,17 @@ const selectorFeedType = (state, ownProps) => {
 const mapStateToProps = (state, ownProps) => ({
   token: state.sqso.jwtToken,
   userinfo: state.sqso.userInfo,
-  qso: selectorFeedType(state, ownProps)
+  qso: selectorFeedType(state, ownProps),
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(QSORePostButton);
+// export default connect(mapStateToProps, mapDispatchToProps)(QSORePostButton);
+
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(QSORePostButton)
+);
 // export default connect(mapStateToProps, mapDispatchToProps, null, {
 //   pure: false
 // })(QSORePostButton);

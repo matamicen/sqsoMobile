@@ -24,10 +24,12 @@ class FeedHeaderBar extends React.Component {
     super(props);
 
     this.state = {
-        color1: '#243665',
+        color0: '#243665',
+        color1: 'grey',
         color2: 'grey',
         color3: 'grey',
-        border1: 3,
+        border0: 3,
+        border1: 0,
         border2: 0,
         border3: 0,
         afterSearchTabs: false,
@@ -40,7 +42,7 @@ class FeedHeaderBar extends React.Component {
 
           // this.searchIcon = this.searchIcon.bind(this); 
           this.searching = this.searching.bind(this);
-          // this.cancelSearch = this.cancelSearch.bind(this);
+          this.cancelSearch = this.cancelSearch.bind(this);
           this.startScreenHelp = this.startScreenHelp.bind(this)
 
   }
@@ -52,8 +54,8 @@ class FeedHeaderBar extends React.Component {
 
       return {
         followAllButtonsAndDrawer: false,  afterSearchTabs: true,
-        color1: '#243665', border1: 3,
-              color2: 'grey',color3: 'grey', border2: 0,
+        color0: '#243665', border0: 3,
+        color1: 'grey', color2: 'grey',color3: 'grey', border1: 0,border2: 0,
               border3: 0
       }
      } 
@@ -79,6 +81,9 @@ class FeedHeaderBar extends React.Component {
     else
     return {
       followAllButtonsAndDrawer: true, afterSearchTabs: false, opacity:0.01
+      // color0: '#243665', border0: 3,
+      //   color1: 'grey', color2: 'grey',color3: 'grey', border1: 0,border2: 0,
+      //         border3: 0
     }
 
    
@@ -131,21 +136,33 @@ class FeedHeaderBar extends React.Component {
       color2: 'grey',color3: 'grey', border2: 0,
       border3: 0 })
 
-      if (_.isEmpty(this.props.global_aux)) { // si viene de search carga feed global
-        this.props.actions.doClearFeed('GLOBAL');
-        this.props.actions.doFetchPublicFeed(false);
-     }
-     else
-      this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false)
+    //   if (_.isEmpty(this.props.global_aux)) { // si viene de search carga feed global
+    //     this.props.actions.doClearFeed('GLOBAL');
+    //     this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
+    //  }
+    //  else
+    //   this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL', false,this.props.blockedusers)
 
+
+        
         
 
   }
 
   cancelSearch() {
-    this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false,  opacity:0.01 })
-    this.props.actions.setSearchedResults([],false);
+    // this.setState({followAllButtonsAndDrawer: true, afterSearchTabs: false,  opacity:0.01 })
+    // this.props.actions.setSearchedResults([],false);
+    this.setState({followAllButtonsAndDrawer: false, afterSearchTabs: true, opacity:1,
+      color0: '#243665', color1: 'grey', border0: 3, border1: 0,
+      color2: 'grey',color3: 'grey', border2: 0,
+      border3: 0 })
 
+      if (_.isEmpty(this.props.global_aux)) { // si viene de search carga feed global
+        this.props.actions.doClearFeed('REGIONAL');
+        this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
+     }
+     else
+      this.props.actions.doReceiveFeed(this.props.regional_aux, 'REGIONAL', false,this.props.blockedusers)
  
 
   }
@@ -211,7 +228,7 @@ class FeedHeaderBar extends React.Component {
               }}
               // searchicon={this.searchIcon.bind()}
               searching={this.searching.bind()}
-              // cancelsearch={this.cancelSearch.bind()}
+              cancelsearch={this.cancelSearch.bind()}
               startscreenhelp={this.startScreenHelp.bind()}
             />
           </View>
@@ -242,29 +259,52 @@ class FeedHeaderBar extends React.Component {
      <View style={{ paddingBottom: 10, zIndex: 1, flexDirection: 'row' }} > 
          
           
-            <View style={{ flex: 0.33, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
+     
+         <View style={{ flex: 0.25, borderBottomWidth: this.state.border0, borderBottomColor: this.state.color0, alignItems: 'center' }}>
+           
+           <Text  style={{ color: this.state.color0, fontSize: 18}} 
+           onPress={() => {
+         
+            this.setState({color0: '#243665', border0: 3,
+            color1: 'grey', color2: 'grey',color3: 'grey', border1: 0, border2: 0,
+            border3: 0,
+             })
+                    if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
+                 if (_.isEmpty(this.props.global_aux)) { 
+                    this.props.actions.doClearFeed('REGIONAL');
+                    this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
+                 }
+                 else
+                  this.props.actions.doReceiveFeed(this.props.regional_aux, 'REGIONAL',false,this.props.blockedusers)
+                 
+                  }}>
+                  {I18n.t('navBar.regional')}
+           </Text>
+          </View>
+
+            <View style={{ flex: 0.25, borderBottomWidth: this.state.border1, borderBottomColor: this.state.color1, alignItems: 'center' }}>
            
              <Text  style={{ color: this.state.color1, fontSize: 18}} 
              onPress={() => {
            
               this.setState({color1: '#243665', border1: 3,
-              color2: 'grey',color3: 'grey', border2: 0,
+              color0: 'grey', color2: 'grey',color3: 'grey', border0: 0, border2: 0,
               border3: 0,
                })
                       if (!__DEV__) analytics().logEvent('swichToPublicFeed_APPPRD');
                    if (_.isEmpty(this.props.global_aux)) { 
                       this.props.actions.doClearFeed('GLOBAL');
-                      this.props.actions.doFetchPublicFeed(false);
+                      this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
                    }
                    else
-                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL',false)
+                    this.props.actions.doReceiveFeed(this.props.global_aux, 'GLOBAL',false,this.props.blockedusers)
                    
                     }}>
                     {I18n.t('navBar.global')}
              </Text>
             </View>
 
-            <View style={{ flex: 0.33, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
+            <View style={{ flex: 0.29, borderBottomWidth: this.state.border2, borderBottomColor: this.state.color2, alignItems: 'center' }}>
            
             <Text  style={{ color: this.state.color2, fontSize: 18}} 
                            onPress={() => {
@@ -275,37 +315,37 @@ class FeedHeaderBar extends React.Component {
                                       Alert.alert('',I18n.t('navBar.noFollowingMessage'));
                                     else {
                                       this.setState({color1: 'grey', border1: 0,
-                                          color2: '#243665',color3: 'grey', border2: 3,
+                                      color0: 'grey', color2: '#243665',color3: 'grey', border0: 0, border2: 3,
                                           border3: 0,
                                           })
                                       if (_.isEmpty(this.props.following_aux)) { 
                                         console.log('length:'+this.props.following_aux.length)
                                         this.props.actions.doClearFeed('FOLLOWING');
-                                        this.props.actions.doFetchUserFeed(this.props.currentQRA,false);
+                                        this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
                                       }
                                       else
-                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING',false)
+                                       this.props.actions.doReceiveFeed(this.props.following_aux, 'FOLLOWING',false,this.props.blockedusers)
                                     }
                                   }}>    
               {I18n.t('navBar.following')}</Text>
            </View>
 
-          <View style={{ flex: 0.33, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
+          <View style={{ flex: 0.21, borderBottomWidth: this.state.border3, borderBottomColor: this.state.color3, alignItems: 'center' }}>
            
            <Text  style={{ color: this.state.color3, fontSize: 18}}
               onPress={() => {
                 this.setState({color1: 'grey', border1: 0,
-                color2: 'grey',color3: '#243665', border2: 0,
+                color0: 'grey', color2: 'grey',color3: '#243665', border0: 0, border2: 0,
                 border3: 3,
                  })
                 if (!__DEV__) analytics().logEvent('swichToQAPFeed_APPPRD');
              
                   if (_.isEmpty(this.props.qap_aux)) { 
                   this.props.actions.doClearFeed('QAP');
-                  this.props.actions.doFetchPublicQAPfeed(false);
+                  this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
                   }
                   else
-                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP', false)
+                   this.props.actions.doReceiveFeed(this.props.qap_aux, 'QAP', false,this.props.blockedusers)
           
               }}>          
                {I18n.t('navBar.QAP')}
@@ -376,7 +416,10 @@ const mapStateToProps = (state) => ({
   global_aux: state.sqso.feed.global_aux,
   following_aux: state.sqso.feed.following_aux,
   qap_aux: state.sqso.feed.qap_aux,
-  tabtoglobal: state.sqso.tabToGlobal
+  regional_aux: state.sqso.feed.regional_aux,
+  tabtoglobal: state.sqso.tabToGlobal,
+  userinfo: state.sqso.userInfo,
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

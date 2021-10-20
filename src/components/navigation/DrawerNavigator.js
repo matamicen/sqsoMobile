@@ -9,7 +9,8 @@ import {
   ExploreUsersStackNavigator,
   MyPostsStackNavigator,
   ProfileStackNavigator,
-  PostStackNavigator
+  PostStackNavigator,
+  editSettingsStackNavigator
 } from './StackNavigator';
 import { TabNavigator } from './TabNavigator';
 const DrawerRouteConfigs = {
@@ -50,6 +51,12 @@ const DrawerRouteConfigs = {
     screen: editInfoStackNavigator,
     navigationOptions: {
       title: I18n.t('navBar.editProfile')
+    }
+  },
+  editSettings: {
+    screen: editSettingsStackNavigator,
+    navigationOptions: {
+      title: 'Settings Draw'
     }
   },
   Notifications: {

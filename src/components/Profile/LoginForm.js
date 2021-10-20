@@ -144,7 +144,8 @@ class LoginForm extends React.PureComponent {
       };
     }
 
-    if (props.userInfoApiSuccesStatus) {
+ 
+    if (props.userInfoApiSuccesStatus && !state.stopApp) {
       console.log(
         'adentro de getDerivedStateFromProps: ' + props.userInfoApiSuccesStatus
       );
@@ -255,7 +256,7 @@ class LoginForm extends React.PureComponent {
                 };
                 // }
 
-                this.props.manage_notifications('ADDONE', envioNotif, '');
+                this.props.manage_notifications('ADDONE', envioNotif, '',this.props.blockedusers);
 
                 // si el push es de Aprobacion de usuario actualizo GetUserInfo
                 // asi ya lo deja publicar, dar like y comentar.
@@ -473,7 +474,7 @@ class LoginForm extends React.PureComponent {
                 );
               }
 
-              this.props.manage_notifications('ADDONE', envioNotif, '');
+              this.props.manage_notifications('ADDONE', envioNotif, '',this.props.blockedusers);
               // si el push es de Aprobacion de usuario actualizo GetUserInfo
               // asi ya lo deja publicar, dar like y comentar.
               if (
@@ -726,6 +727,7 @@ class LoginForm extends React.PureComponent {
         // console.log('Antes de Auth.currentSession() ');
         this.setState({ mess: I18n.t('currentSession') });
         var session = await Auth.currentSession();
+        this.props.getUserInfo(session.idToken.jwtToken);
 
         //  session = await Auth.currentAuthenticatedUser();
         // console.log('Su token DID MOUNT es: ' + session.idToken.jwtToken);
@@ -799,7 +801,7 @@ class LoginForm extends React.PureComponent {
                 'esto se maneja asi debido a que si el ancho de banda del usuario es bajo, no deja pasar a la pantalla principal a menos que este userInfo ejecutada'
               );
 
-              this.props.getUserInfo(session.idToken.jwtToken);
+            //  this.props.getUserInfo(session.idToken.jwtToken); //estaba aca
 
               // this.props.followersAlreadyCalled(true);
               // this.props.navigation.navigate("AppNavigator2");
@@ -1042,6 +1044,7 @@ class LoginForm extends React.PureComponent {
       }
       if (!this.usernotfound) {
         try {
+          this.props.getUserInfo(this.jwtToken);
           const { identityId } = await Auth.currentCredentials();
           console.log('PASO POR SIGNIN la credencial es:' + identityId);
           var res = identityId.replace(':', '%3A');
@@ -1071,7 +1074,7 @@ class LoginForm extends React.PureComponent {
         await this.props.setToken(this.jwtToken);
 
         console.log('antes de getInfo');
-        this.props.getUserInfo(this.jwtToken);
+        // this.props.getUserInfo(this.jwtToken); // estaba aca
         //this.props.followersAlreadyCalled(true);
 
         // seteo el usuario logueado en store
@@ -1208,7 +1211,15 @@ class LoginForm extends React.PureComponent {
         // });
 
         // The navigateToScreen2 action is dispatched and new navigation state will be calculated in basicNavigationReducer here ---> https://gist.github.com/shubhnik/b55602633aaeb5919f6f3c15552d1802
-        this.props.navigation.push('Home');
+       
+       
+       // se agrego este delay para cuando hace SignIn para que le de tiempo
+       // a cargar los usuarios bloqueados y muestre el feed sin los bloqueados en iOS
+        setTimeout(() => {
+          console.log('paso por aca!!!')
+          this.props.navigation.push('Home');
+        }, 1000);
+        
       }
       // this.setState({indicator: 0});
       // Keyboard.dismiss();
@@ -1598,7 +1609,8 @@ const mapStateToProps = (state) => {
     userInfoApiSuccesStatus: state.sqso.userInfoApiSuccesStatus,
     env: state.sqso.env,
     welcomeuserfirsttime: state.sqso.welcomeUserFirstTime,
-    mustupgradeapp: state.sqso.mustUpgradeApp
+    mustupgradeapp: state.sqso.mustUpgradeApp,
+    blockedusers: state.sqso.currentQso.blockedUsers
   };
 };
 

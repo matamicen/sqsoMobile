@@ -141,8 +141,9 @@ class QSOLikeTextModalItem extends React.PureComponent {
         {!this.followed && l.qra !== this.props.currentQRA && (
           <View style={styles.follow}>
             <Button
-              buttonStyle={{ width: 80 }}
+              buttonStyle={{ width: 80, fontSize: 10 }}
               containerStyle={{ width: 80 }}
+              titleStyle={{fontSize: 15 }}
               raised
               onPress={() => this.handleButtonClick(l.qra)}
               title={
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     flexGrow: 0,
     flexBasis: 80,
-    flexShrink: 0
+    flexShrink: 0,
     // flexDirection: 'row'
   },
   avatarView: {

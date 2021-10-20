@@ -34,7 +34,10 @@ import {
   setQra,
   setToken,
   setUrlRdsS3,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  doFetchRegionalFeed,
+  doFetchUserFeed,
+  doFetchPublicQAPfeed
 } from '../../actions';
 import awsconfig from '../../aws-exports';
 import global_config from '../../global_config.json';
@@ -107,6 +110,8 @@ class SignUpForm extends React.PureComponent {
       callingCode: '',
       namec: '',
       showFlag: false,
+      countryRegion: '',
+      countrySubregion: '',
 
       privacy: false,
       date: new Date(),
@@ -486,10 +491,13 @@ class SignUpForm extends React.PureComponent {
       await this.props.setToken(this.jwtToken);
 
       this.props.getUserInfo(this.jwtToken);
-      this.props.doFetchPublicFeed(false);
-      this.props.doFetchFieldDaysFeed();
+      this.props.doFetchRegionalFeed(false,this.props.blockedusers);
+      this.props.doFetchPublicFeed(true,this.props.blockedusers);
+      this.props.doFetchUserFeed(this.qra,true,this.props.blockedusers);
+      this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);
+      this.props.doFetchFieldDaysFeed(this.props.blockedusers);
       this.props.doFollowFetch();
-      this.props.doLatestUsersFetch();
+      this.props.doLatestUsersFetch(this.qra,this.props.blockedusers);
 
       //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
       this.props.followersAlreadyCalled(true);
@@ -768,7 +776,11 @@ class SignUpForm extends React.PureComponent {
         'custom:callsign': this.state.qra.toUpperCase(),
         'custom:phone': this.state.phone,
         'custom:userType': this.state.isClub ? "1" : "0",
-        'custom:referralQra' : this.state.referral
+        'custom:referralQra' : this.state.referral,
+        'custom:countryName': this.state.country,
+        'custom:countryRegion': this.state.countryRegion,
+        'custom:countrySubregion': this.state.countrySubregion
+
       }
     }
     console.log('parametros de signup')
@@ -1553,7 +1565,9 @@ class SignUpForm extends React.PureComponent {
                             cca2: value.cca2,
                             callingCode: value.callingCode,
                             country: value.name,
-                            showFlag: false
+                            showFlag: false,
+                            countryRegion: value.region,
+                            countrySubregion: value.subregion
                           });
                           console.log(value);
                         }}
@@ -1952,7 +1966,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  return { pushtoken: state.sqso.pushToken };
+  return { pushtoken: state.sqso.pushToken,
+           blockedusers: state.sqso.currentQso.blockedUsers
+  
+  };
 };
 
 const mapDispatchToProps = {
@@ -1968,7 +1985,10 @@ const mapDispatchToProps = {
   doFetchFieldDaysFeed,
   doFollowFetch,
   doLatestUsersFetch,
-  welcomeUserFirstTime
+  welcomeUserFirstTime,
+  doFetchRegionalFeed,
+  doFetchUserFeed,
+  doFetchPublicQAPfeed
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

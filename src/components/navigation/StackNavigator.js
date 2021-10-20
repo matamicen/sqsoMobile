@@ -17,6 +17,7 @@ import { View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import exploreUsersContainer from '../Feed/follow/exploreUsersContainer';
+import Settings from '../Feed/Settings';
 export const AuthNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -66,6 +67,18 @@ const editInfoRouteConfigs = {
     })
   }
 };
+const editSettingsRouteConfigs = {
+  settingsEdit: {
+    screen: Settings,
+    params: { qra: null },
+    navigationOptions: ({ navigation }) => ({
+      title: I18n.t('navBar.settings'),
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  }
+};
 const MyPostsRouteConfigs = {
   QRAProfile: {
     screen: QRAProfile,
@@ -106,7 +119,17 @@ const MyPostsRouteConfigs = {
         <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
       )
     })
-  }
+  },
+  settingsEdit: {
+    screen: Settings,
+    params: { screen: 'settingsEdit' },
+    navigationOptions: ({ navigation }) => ({
+      title: 'SettingsStack',
+      headerLeft: (
+        <HeaderBackButton onPress={(_) => navigation.navigate('Home')} />
+      )
+    })
+  },
 };
 const ExploreUsersRouteConfigs = {
   ExploreUsers: {
@@ -120,6 +143,7 @@ const ExploreUsersRouteConfigs = {
     })
   }
 };
+
 const FieldDaysRouteConfigs = {
   FieldDaysFeed: {
     screen: FieldDaysFeed,
@@ -144,6 +168,10 @@ export const editBioStackNavigator = createStackNavigator(
 );
 export const editInfoStackNavigator = createStackNavigator(
   editInfoRouteConfigs,
+  StackNavigatorConfig
+);
+export const editSettingsStackNavigator = createStackNavigator(
+  editSettingsRouteConfigs,
   StackNavigatorConfig
 );
 export const NotificationStackNavigator = createStackNavigator({

@@ -185,7 +185,8 @@ class NotifItem extends React.PureComponent {
               this.props.manage_notifications(
                 'SET_READ_URL',
                 idqra_notifications,
-                ''
+                '',
+                this.props.blockedusers
               );
             }, 2500);
             return Linking.openURL(urlnotif);
@@ -207,7 +208,7 @@ class NotifItem extends React.PureComponent {
     // let url = 'http://d3cevjpdxmn966.cloudfront.net/qso/'+urlnotif;
 
     this.props.set_notification_read(idqra_notifications, this.props.jwtToken); // llamo api de borrado de notificacion en backend
-    this.props.manage_notifications('SET_READ', idqra_notifications, ''); // borro del array de notificacion en memoria asi el usuario ve el efecto inmediato
+    this.props.manage_notifications('SET_READ', idqra_notifications, '',this.props.blockedusers); // borro del array de notificacion en memoria asi el usuario ve el efecto inmediato
 
     //     Linking.canOpenURL(url).then(supported => {
     //      if (!supported) {
@@ -866,7 +867,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     jwtToken: state.sqso.jwtToken,
-    qra: state.sqso.qra
+    qra: state.sqso.qra,
+    blockedusers: state.sqso.currentQso.blockedUsers
     // webviewsession: state.sqso.webviewSession
   };
 };

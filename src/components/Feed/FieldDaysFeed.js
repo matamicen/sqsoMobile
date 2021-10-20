@@ -21,7 +21,7 @@ class FieldDaysFeed extends React.PureComponent {
     // if (process.env.NODE_ENV !== 'production')
     //   this.setState({ adActive: false });
     this.props.navigation.addListener('didFocus', this.onScreenFocus);
-    this.props.actions.doFetchFieldDaysFeed();
+    this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
 
     //Comentado Adsense
     // window.googletag.cmd.push(function () {
@@ -86,7 +86,8 @@ const mapStateToProps = (state) => ({
   qsosFetched: state.sqso.feed.fieldDaysFetched,
   currentQRA: state.sqso.qra,
   token: state.sqso.jwtToken,
-  fieldDays: state.sqso.feed.fieldDays
+  fieldDays: state.sqso.feed.fieldDays,
+  blockedusers: state.sqso.currentQso.blockedUsers
 });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)

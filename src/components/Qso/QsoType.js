@@ -232,7 +232,7 @@ class QsoType extends React.PureComponent {
 
                     (this.props.qsotype==='QAP') ? 
                      <TouchableOpacity  style={{}}  onPress={ () => this.openQsoTypeModal() }> 
-                       <Image source={require('../../images/qap12.png')} style={{width: 50, height: 50} } 
+                       <Image source={require('../../images/CQ.png')} style={{width: 50, height: 50} } 
                              resizeMode="contain" />
                      </TouchableOpacity>
                  
@@ -310,7 +310,7 @@ class QsoType extends React.PureComponent {
               { (this.props.qsotype==='QSO') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/CQ.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
                       <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}
                       </Text>
@@ -368,7 +368,7 @@ class QsoType extends React.PureComponent {
               { (this.props.qsotype==='LISTEN') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/CQ.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
                       <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")}</Text>
                     </View>  
@@ -444,7 +444,7 @@ class QsoType extends React.PureComponent {
                    { (this.props.qsotype==='POST') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/CQ.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
                       <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
                 
@@ -485,7 +485,7 @@ class QsoType extends React.PureComponent {
                    { (this.props.qsotype==='FLDDAY') ? 
                    <TouchableOpacity  style={{marginLeft:1, padding: 5 }}  onPress={ () => this.changeQsoType('QAP') }> 
                    <View style={{flexDirection: 'row', flex:1}}>
-                      <Image source={require('../../images/qap9.png')} style={{width: 50, height: 50, flex: 0.3} } 
+                      <Image source={require('../../images/CQ.png')} style={{width: 50, height: 50, flex: 0.3} } 
                       resizeMode="contain" />
                       <Text style={{ color: '#4F4F4F', fontSize: 15, flex: 0.7, marginLeft: 10 }}>{I18n.t("QsoTypeANYdescQAP")} </Text>
                 

@@ -44,6 +44,7 @@ class FeedItem extends React.Component {
               idqsos={this.props.idqsos}
               // qso={this.props.qso}
               index={this.props.currentIndex}
+              navigation={this.props.navigation}
             />
           );
         case 'AD':
