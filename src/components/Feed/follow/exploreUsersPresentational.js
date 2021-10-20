@@ -128,7 +128,7 @@ function ExploreUsers ({
             style={{ height: 60, width:80 ,  alignItems: 'center',}}
                               onPress={() => {
                                 // actions.doLatestUsersFetch({blockedUsers});
-                                dispatch(doLatestUsersFetch(__blockedUsers));
+                                dispatch(doLatestUsersFetch(currentQRA,__blockedUsers));
                                 setcountryName('all')
                                 // setShowFlag(true)
                               }}>

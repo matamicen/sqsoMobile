@@ -205,7 +205,7 @@ class Home extends React.PureComponent {
           if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
 
           this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
-          this.props.actions.doLatestUsersFetch(this.props.blockedusers);
+          this.props.actions.doLatestUsersFetch(this.props.currentQRA,this.props.blockedusers);
           //   this.props.setPressHome(0);
         } else {
           console.log('press NO esta en 1 y y lo pone en 1');
@@ -281,7 +281,7 @@ class Home extends React.PureComponent {
     if (!this.props.isfetchinggetfielddaysfeed)
         this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
     if (!this.props.isfetchinggetlatestusers)
-      this.props.actions.doLatestUsersFetch(this.props.blockedusers);
+      this.props.actions.doLatestUsersFetch(this.props.currentQRA,this.props.blockedusers);
                                             
     }
 
@@ -368,7 +368,7 @@ class Home extends React.PureComponent {
         this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
 
     if (!this.props.isfetchinggetlatestusers)   
-      this.props.actions.doLatestUsersFetch(this.props.blockedusers);
+      this.props.actions.doLatestUsersFetch(this.props.currentQRA,this.props.blockedusers);
 
       //   this.props.setPressHome(0);
     } else {
@@ -443,7 +443,7 @@ class Home extends React.PureComponent {
         // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 
         this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
-        this.props.actions.doLatestUsersFetch(this.props.blockedusers);
+        this.props.actions.doLatestUsersFetch(this.props.currentQRA,this.props.blockedusers);
       }
     }
   };
@@ -562,7 +562,7 @@ class Home extends React.PureComponent {
    if (!this.props.isfetchinggetfielddaysfeed)
        this.props.actions.doFetchFieldDaysFeed(this.props.blockedusers);
    if (!this.props.isfetchinggetlatestusers)
-     this.props.actions.doLatestUsersFetch(this.props.blockedusers);
+     this.props.actions.doLatestUsersFetch(this.props.currentQRA,this.props.blockedusers);
 
     //  if (!this.props.isfetchingdofollowfetch)
     //  this.props.actions.doFollowFetch();

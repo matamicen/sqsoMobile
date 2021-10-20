@@ -8,11 +8,11 @@ export default {
   currentSession: 'ロード中・・',
   USER_NOT_VALIDATED: 'ユーザーが有効ではありません',
   USER_NOT_VALIDATED_TEXT:
-'ユーザー認証をお願いします。認証後に操作が可能になります。貴国の所轄官庁から発行された（コールサインが明記された）免許状のコピーを以下までお送りください。画像ファイルで結構です。送付先:info@superqso.com　 24時間以内に承認されます。',
+'認証後に操作が可能になります。この検証には24時間かかる可能性があります。',
   USER_NOT_VALIDATED_CLOSE: '閉じる',
   loginerrorMessUserNotFound: 'ログインエラーです。ユーザーまたはパスワードが見つかりません。再試行して下さい。',
   loginerrorUserDisabled:
-'ユーザーが未認証です。認証には免許状のコピー送付が必要です。以下までご送付下さい。info@superqso.com',
+'ユーザーは認証されていません。この検証には24時間かかる可能性があります。',
   loginerrorMessUserEmpty: 'Eメールが未入力です',
   signupForm: 'サインアップ様式',
   signupRadioClub: '無線クラブ',
@@ -75,7 +75,7 @@ export default {
 
   variosModWelcWelcome: 'SuperQSOへようこそ!',
   variosModWelcSendLicense1:
-    '速やかなアカウント認証のために貴局の無線局免許状のコピーをお送り下さい',
+    '',
   variosModWelcSendLicense2:
     '貴局のコールサインでSuperQSOを始めるために',
   variosModWelcEnableYou:
@@ -559,7 +559,7 @@ export default {
   auth: {
     incorrectUserPass: 'ユーザー名またはパスワードが違います',
     userDisabled:
-      'ユーザーが未認証です。認証には免許状のコピー送付が必要です。以下までご送付下さい。info@superqso.com',
+      'ユーザーは認証されていません。この検証には24時間かかる可能性があります。',
     userNotConfirmed:
       '確認コードが未入力です',
     enterMailPassword: 'Eメールとパスワードを入力して下さい',
@@ -741,6 +741,7 @@ createdFLDDAY: ' 行事をPRしました',
     approveUser: 'ユーザーを承認',
     blockUser: 'ブロック',
     UnblockUser: 'ブロックを解除する',
+    blockTitle: 'ブロックされたユーザー',
     NoBlockUsers: 'ブロックされたユーザーはありません。',
     blockMenu: 'ブロック',
     blockMess1: 'ユーザーをブロックすると、そのユーザーのアクティビティは表示されなくなり、ブロックされたユーザーもあなたのアクティビティを表示できなくなります',

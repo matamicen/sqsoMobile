@@ -8,11 +8,10 @@ export default {
   currentSession: 'Loading ...',
   USER_NOT_VALIDATED: 'User not validated',
   USER_NOT_VALIDATED_TEXT:
-    'You can not perform this action until your user is validated, please send us a copy of your callsign license issued by your association to info@superqso.com to speed up the validation of your account. This approval could take us 24 hs.',
+    'You can not perform this action until your user is validated, this validation could take us 24 hs.',
   USER_NOT_VALIDATED_CLOSE: 'Close',
   loginerrorMessUserNotFound: 'Login error, user/password not found, try again',
-  loginerrorUserDisabled:
-    'The user is not enabled yet, remember to send us a copy of your issued ham license to info@superqso.com',
+  loginerrorUserDisabled:'The user is not validated yet, this validation could take us 24 hs.',
   loginerrorMessUserEmpty: 'The email is empty',
   signupForm: 'Signup Form',
   signupRadioClub: 'Radio club',
@@ -75,7 +74,7 @@ export default {
 
   variosModWelcWelcome: 'Welcome to SuperQSO!',
   variosModWelcSendLicense1:
-    'To facilitate and speed up the validation of your account, please send us a proof of your ham license (Id card, or similar) to',
+    '',
   variosModWelcSendLicense2:
     'in order to start using SuperQSO with your callsign.',
   variosModWelcEnableYou:
@@ -558,8 +557,7 @@ export default {
   },
   auth: {
     incorrectUserPass: 'Incorrect username or password.',
-    userDisabled:
-      'The user is not enabled yet since we didn\'t receive a copy of your issued ham license. Send it ASAP to info@superqso.com in order to enable your account',
+    userDisabled: 'The user is not validated yet. You can caontact us to info@superqso.com',
     userNotConfirmed:
       'The user did not enter the Confirmation Code sent to the email',
     enterMailPassword: 'Please enter Email and Password',
@@ -741,6 +739,7 @@ export default {
     approveUser: 'Approve User',
     blockUser: 'Block',
     UnblockUser: 'Unblock',
+    blockTitle: 'Blocked Users',
     NoBlockUsers: 'There is no blocked users.',
     blockMenu: 'Block ',
     blockMess1: 'By blocking the user, you will not be able to see anything of his activity and the user who was blocked will not be able to see any of your activity either.',

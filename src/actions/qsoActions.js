@@ -4846,7 +4846,7 @@ export const setSearchedResultsFilter = (filtertype) => {
   };
 };
 
-export function doLatestUsersFetch(blockedUsers) {
+export function doLatestUsersFetch(qra,blockedUsers) {
   console.log('___doLatestUsersFetch')
   console.log(blockedUsers)
   return async (dispatch) => {
@@ -4857,6 +4857,13 @@ export function doLatestUsersFetch(blockedUsers) {
     //     event_category: 'User',
     //     event_label: 'getLatestUsers'
     //   });
+
+    // esto para que en PRD exploreUsers solo muestre los usuarios Validados a todos los usuarios menos a LU2ACH
+    // que es quien los tiene que aprobar
+    if (qra === 'TSMM' || qra === 'LU2ACH')
+      queryParam = 4
+      else
+      queryParam = 2
     if (!__DEV__) analytics().logEvent('getLatestUsers_APPPRD');
     try {
       // const currentSession = await Auth.currentSession();
@@ -4866,7 +4873,7 @@ export function doLatestUsersFetch(blockedUsers) {
       const apiName = 'superqso';
       const path = '/qra/recFollow';
       const myInit = {
-        body: { query: 2 }, // replace this with attributes you need
+        body: { query: queryParam }, // replace this with attributes you need
         headers: {
           // Authorization: token
         } // OPTIONAL
