@@ -490,14 +490,15 @@ class SignUpForm extends React.PureComponent {
 
       await this.props.setToken(this.jwtToken);
 
+      
       this.props.getUserInfo(this.jwtToken);
-      this.props.doFetchRegionalFeed(false,this.props.blockedusers);
-      this.props.doFetchPublicFeed(true,this.props.blockedusers);
-      this.props.doFetchUserFeed(this.qra,true,this.props.blockedusers);
-      this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);
-      this.props.doFetchFieldDaysFeed(this.props.blockedusers);
+      // this.props.doFetchRegionalFeed(false,this.props.blockedusers); saque
+      // this.props.doFetchPublicFeed(true,this.props.blockedusers); saque
+      // this.props.doFetchUserFeed(this.qra,true,this.props.blockedusers); saque
+      // this.props.doFetchPublicQAPfeed(true,this.props.blockedusers); saque
+      // this.props.doFetchFieldDaysFeed(this.props.blockedusers); saque
       this.props.doFollowFetch();
-      this.props.doLatestUsersFetch(this.qra,this.props.blockedusers);
+      // this.props.doLatestUsersFetch(this.qra,this.props.blockedusers); saque
 
       //   this.props.fetchQraProfileUrl(this.state.qra.toUpperCase(),'profile',session.idToken.jwtToken);
       this.props.followersAlreadyCalled(true);
@@ -558,7 +559,11 @@ class SignUpForm extends React.PureComponent {
       this.props.welcomeUserFirstTime(true);
       this.setState({ indicator: 0 });
       // this.props.navigation.navigate('AppNavigator2');
-      this.props.navigation.navigate('Home');
+      // this.props.navigation.navigate('Home'); saque
+      this.props.navigation.navigate(
+        'Home',
+        {p1 : 'BlockUser'},
+      );
     } else {
       this.setState({ indicator: 0 });
 
