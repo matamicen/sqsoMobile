@@ -544,10 +544,10 @@ export default {
     // onlyFollowFeed: 'フォローしている行事のみを見る',
     onlyFollowFeed: 'フォローしている投稿のみを見る',
     noFollowingMessage: 'まだ誰もフォローしていません...ユーザーのフォローを開始すると、ここに投稿が表示されます。',
-    global: 'グローバル',
-    regional: '地域',
-    following: 'フォロー中',
-    QAP: 'CQ'
+    global: '外国局',
+    regional: 'アジア局',
+    following: 'フォロー局',
+    QAP: 'CQ局'
   },
   whatIsSuperQSO: {
     whatIsSuperQSO: 'SuperQSOとは?',

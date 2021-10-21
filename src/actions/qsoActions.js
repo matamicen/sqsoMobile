@@ -2795,6 +2795,7 @@ export const getUserInfo = (jwtToken) => {
 
       if (respuesta.body.error === 0) {
         console.log('ejecuto bien user-info');
+        console.log('pendingverification:'+ respuesta.body.message.qra.pendingVerification);
         dispatch(insertBlocked(respuesta.body.message.blocked));
        
         console.log(respuesta)
@@ -2849,6 +2850,93 @@ export const getUserInfo = (jwtToken) => {
     }
   };
 };
+
+export const getUserInfoBackGround = (jwtToken) => {
+  return async (dispatch) => {
+    dispatch(fetchingApiRequest('getUserInfo'));
+    // console.log('ejecuta llamada API getUserInfo');
+    // console.log('TOKEN getUserInfo:' + jwtToken);
+    try {
+      // var session = await Auth.currentSession();
+      // console.log("Su token es: " + session.idToken.jwtToken);
+      let apiName = 'superqso';
+      let path = '/user-info';
+      let myInit = {
+        // OPTIONAL
+        headers: {
+          Authorization: jwtToken,
+          'Content-Type': 'application/json'
+        } // OPTIONAL
+        //   body: {
+
+        //   }
+      };
+
+      var respuesta = await API.get(apiName, path, myInit);
+      //  console.log('llamo api getUserInfo');
+      //console.log("respuesta API:" + JSON.stringify(respuesta));
+      // console.log('respuesta API getUserInfo:');
+      // console.log(respuesta);
+
+      if (respuesta.body.error === 0) {
+        console.log('ejecuto bien user-info background');
+        console.log('pendingverification:'+ respuesta.body.message.qra.pendingVerification);
+        // dispatch(insertBlocked(respuesta.body.message.blocked));
+       
+        console.log(respuesta)
+        console.log(respuesta.body.message.qra)
+        // console.log(respuesta.body.message.blocked)
+        
+        var followings = respuesta.body.message.following;
+        var followers = respuesta.body.message.followers;
+        // var blockedUsers = respuesta.body.message.blocked;
+        //   console.log("la url que envio:" + url);
+        //   console.log("EL QRA:" + qra);
+        dispatch(fetchingApiSuccess('getUserInfo', respuesta));
+        //  dispatch(insertFollowingsFollowers(followings,followers));
+        // dispatch(setUserInfo('ALL', respuesta.body.message.qra));
+        dispatch(setPendingVerification(respuesta.body.message.qra.pendingVerification))
+        // dispatch(insertFollowings(followings, 'ALL'));
+        // dispatch(insertFollowers(followers));
+        
+        // dispatch(insertBlocked(blockedUsers));
+        if (respuesta.body.message.qra.avatarpic === null) avatar_profile = '';
+        else var avatar_profile = respuesta.body.message.qra.avatarpic;
+
+        // dispatch(profilePictureRefresh(avatar_profile));
+        // dispatch(manage_notifications('ADD',respuesta.body.message.notifications));
+        var ultimaFechaDeIngreso = await AsyncStorage.getItem('ultimafecha');
+        //  console.log('ultimaFechaDeIngreso log: ' + ultimaFechaDeIngreso);
+        if (ultimaFechaDeIngreso === null) {
+          var formateo = new Date();
+          AsyncStorage.setItem('ultimafecha', formateo.toString());
+        } else formateo = new Date(ultimaFechaDeIngreso);
+        // formateo2 = new Date(respuesta.body.message.qra.last_login);
+        //console.log('ultimafecha getuserInfo: ' + formateo);
+        //console.log(respuesta.body.message.notifications);
+        // console.log('ultimafecha getuserInfo lastLogin: '+ formateo2);
+        // dispatch(
+        //   manage_notifications(
+        //     'CALCULOUNREAD',
+        //     respuesta.body.message.notifications,
+        //     formateo,
+        //     respuesta.body.message.blocked
+        //   )
+        // );
+      }
+    } catch (error) {
+      console.log('Api getUserInfo catch error:', error);
+      dispatch(fetchingApiFailure('getUserInfo', error));
+
+      // Handle exceptions
+      // crashlytics().setUserId(LoggeduserQra);
+      crashlytics().log('error: ' + JSON.stringify(error));
+      if (__DEV__) crashlytics().recordError(new Error('getUserInfo_DEV'));
+      else crashlytics().recordError(new Error('getUserInfo_PRD'));
+    }
+  };
+};
+
 
 export const updateLocationBackend = (lat, lon, jwtToken) => {
   return async (dispatch) => {

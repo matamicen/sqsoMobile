@@ -277,6 +277,7 @@ class QSOCommentItem extends React.PureComponent {
                 raised
                 buttonStyle={{ width: 80 }}
                 containerStyle={{ width: 80 }}
+                titleStyle={{fontSize: 15 }}
                 onPress={() => this.handleButtonClick(this.props.comment.qra)}
                 title={
                   this.props.followers.some(
