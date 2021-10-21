@@ -423,8 +423,11 @@ class Home extends React.PureComponent {
       console.log(
         'pendingValidation:' + this.props.userinfo.pendingVerification
       );
+
       if (this.props.userinfo.pendingVerification)
-        this.props.actions.getUserInfo(session.idToken.jwtToken);
+      this.props.actions.getUserInfoBackGround(session.idToken.jwtToken); // se usa este porque el getUserInfo explotaba los feeds no se porque 
+        // this.props.actions.getUserInfo(session.idToken.jwtToken);
+     
 
       // // refresh feed ? it depends the seconds in background
       // console.log('timeGoesBackGround: ' + this.timeGoesBackGround);
@@ -432,7 +435,10 @@ class Home extends React.PureComponent {
       // console.log('dif: ' + moment().diff(this.timeGoesBackGround, 'minutes'));
       var dif = moment().diff(this.timeGoesBackGround, 'minutes');
       if (dif > 15) {
+        // if (1===1) {
         console.log('more than 15 minutes it refreshs');
+        this.props.actions.setTabToGlobal(true); 
+
 
         this.props.actions.doClearFeed(this.props.publicFeed);
         if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);

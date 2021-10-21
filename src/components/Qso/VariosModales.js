@@ -107,7 +107,7 @@ class VariosModales extends React.PureComponent {
               padding: 10,
            //   backgroundColor: "#475788",
                backgroundColor:"rgba(0,0,0,0.85)",
-              top: 20,
+              top: 40,
               left: 15,
               right: 15,
               position: "absolute",
