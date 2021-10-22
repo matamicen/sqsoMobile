@@ -21,6 +21,8 @@ export default function FeedItemAdd(props) {
      
 
   if (props.feedType === 'DETAIL' && props.country === 'AR') {
+    console.log('entro ahora ad AR')
+   
     return (
       <View
         style={{
@@ -141,6 +143,8 @@ export default function FeedItemAdd(props) {
       </View>
     );
     else
+    {
+      console.log('CurrentIndex:'+props.currentIndex)
     return (
       <View
         style={{
@@ -148,7 +152,36 @@ export default function FeedItemAdd(props) {
           justifyContent: 'center',
           alignSelf: 'center'
         }}>
-        <BannerAd
+               <Image
+          style={{
+          
+            height: 280,
+            padding: 0,
+            margin: 0,
+            width: 280
+          }}
+          onPress={() => {
+            if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
+
+            Linking.canOpenURL('https://www.clarin.com')
+              .then((supported) => {
+                if (!supported) {
+                  console.log(
+                    "Can't handle url: " + 'https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g'
+                  );
+                } else {
+                  return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');
+                }
+              })
+              .catch((err) => console.error('An error occurred', err));
+          }}
+          // source={{ uri: global_config.s3Cloudfront + 'lda2.png' }}
+          source={{ uri: 'https://d1dwfud4bi54v7.cloudfront.net/jh9kio_ad_jp_0.jpg' }}
+
+          resizeMethod="scale"
+          resizeMode="contain"
+        />
+        {/* <BannerAd
           style={{ zIndex: 0 }}
           unitId={adUnitId}
           size={BannerAdSize.MEDIUM_RECTANGLE}
@@ -157,8 +190,9 @@ export default function FeedItemAdd(props) {
               // requestNonPersonalizedAdsOnly: true
             }
           }
-        />
+        /> */}
       </View>
     );
+        }
 
 }
