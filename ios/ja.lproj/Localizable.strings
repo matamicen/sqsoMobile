@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  sqsoMobile
+
+  Created by Matias Micenmacher on 18/06/2020.
+  Copyright © 2020 Facebook. All rights reserved.
+*/
+"PUSH_FOLLOWSYOU_TITLE" = "%@ now follows you";
+"PUSH_FOLLOWSYOU_MESSAGE" = "Click to see his profile";
+"PUSH_COMMENTEDPARTICPATING_TITLE" = "%@ commented a QSO you are participating";
+"PUSH_COMMENTEDPARTICPATING_MESSAGE" =  "%@";
+"PUSH_NEWPOSTANY_TITLE" = "%@ created a new POST";
+"PUSH_NEWPOSTANY_MESSAGE" =  "Click to see more details";
+"PUSH_TAGYOUNEWPOSTANY_TITLE" = "%@ tag you in his new POST";
+"PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "Click to see more details";
+"PUSH_WORKEDQSO_TITLE" = "%@ worked a QSO";
+"PUSH_WORKEDQSO_MESSAGE" =  "Mode: %@ Band: %@ UTC: %@";
+"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ worked you in his QSO";
+"PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE" =  "Mode: %@ Band: %@";
+"PUSH_LISTENEDQSO_TITLE" = "%@ listened a QSO";
+"PUSH_LISTENEDQSO_MESSAGE" = "Mode: %@ Band: %@ UTC: %@";
+"PUSH_LISTENEDYOUQSO_TITLE" = "%@ listened you in a QSO";
+"PUSH_LISTENEDYOUQSO_MESSAGE" =  "Mode: %@ Band: %@";
+"PUSH_NEWFLDDAY_TITLE" = "%@ promoted a Field Day";
+"PUSH_NEWFLDDAY_MESSAGE" =  "See more details here";
+"PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ tagged you in a Field Day post";
+"PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "See more details here";
+"PUSH_NEWQAP_TITLE" = "%@ is calling CQ";
+"PUSH_NEWQAP_MESSAGE" =  "See more details here";
+"PUSH_TAGYOUNEWQAP_TITLE" = "%@ tagged you in his CQ post";
+"PUSH_TAGYOUNEWQAP_MESSAGE" =  "See more details here";
+"PUSH_REPOSTQSO_TITLE" = "%@ repost a QSO";
+"PUSH_REPOSTQSO_MESSAGE" =  "See more details here";
+"PUSH_REPOSTLISTEN_TITLE" = "%@ repost a listen";
+"PUSH_REPOSTLISTEN_MESSAGE" =  "See more details here";
+"PUSH_REPOSTANY_TITLE" = "%@ repost a post";
+"PUSH_REPOSTANY_MESSAGE" =  "See more details here";
+"PUSH_REPOSTFLDDAY_TITLE" = "%@ repost a Field Day";
+"PUSH_REPOSTFLDDAY_MESSAGE" =  "See more details here";
+"PUSH_REPOSTQAP_TITLE" = "%@ repost a CQ";
+"PUSH_REPOSTQAP_MESSAGE" =  "See more details here";
+"PUSH_MARKETING_TITLE" = "%@";
+"PUSH_MARKETING_MESSAGE" =  "%@";
+"PUSH_APPROVE_USER_TITLE" = "Your user has been validated and approved. ";
+"PUSH_APPROVE_USER_MESSAGE" =  "You can start using SuperQSO ! :)";
+"PUSH_MENTION_TITLE" = "%@ mentioned you in a comment";
+"PUSH_MENTION_MESSAGE" =  "%@";
+"PUSH_LIKE_TITLE" = "%@ liked your post  👍💪";
+"PUSH_LIKE_MESSAGE" =  "Keep on going!! 🚀😃";
