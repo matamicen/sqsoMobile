@@ -441,10 +441,14 @@ class Home extends React.PureComponent {
 
 
         this.props.actions.doClearFeed(this.props.publicFeed);
-        if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
-        if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
-        if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
-        if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
+        // if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
+        // if (this.props.publicFeed==='GLOBAL') this.props.actions.doFetchPublicFeed(false,this.props.blockedusers);
+        // if (this.props.publicFeed==='FOLLOWING') this.props.actions.doFetchUserFeed(this.props.currentQRA,false,this.props.blockedusers);
+        // if (this.props.publicFeed==='QAP') this.props.actions.doFetchPublicQAPfeed(false,this.props.blockedusers);
+        this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
+        this.props.actions.doFetchPublicFeed(true,this.props.blockedusers);
+        this.props.actions.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
+        this.props.actions.doFetchPublicQAPfeed(true,this.props.blockedusers);
         // if (this.props.publicFeed) this.props.actions.doFetchPublicFeed();
         // else this.props.actions.doFetchUserFeed(this.props.currentQRA);
 

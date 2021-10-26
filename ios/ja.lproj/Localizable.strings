@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  sqsoMobile
+
+  Created by Matias Micenmacher on 18/06/2020.
+  Copyright © 2020 Facebook. All rights reserved.
+*/
+"PUSH_FOLLOWSYOU_TITLE" = "%@ さんが貴局をフォローしました";
+"PUSH_FOLLOWSYOU_MESSAGE" = "プロフィールを見るにはこちらをクリック";
+"PUSH_COMMENTEDPARTICPATING_TITLE" = "%@ さんが貴局のQSOにコメントしました";
+"PUSH_COMMENTEDPARTICPATING_MESSAGE" =  "%@";
+"PUSH_NEWPOSTANY_TITLE" = "%@ さんが新しい投稿をしました";
+"PUSH_NEWPOSTANY_MESSAGE" =  "詳細はこちらをクリック";
+"PUSH_TAGYOUNEWPOSTANY_TITLE" = "%@ さんが貴局をタグ付けしました";
+"PUSH_TAGYOUNEWPOSTANY_MESSAGE" =  "詳細はこちらをクリック";
+"PUSH_WORKEDQSO_TITLE" = "%@ さんがQSOをしました";
+"PUSH_WORKEDQSO_MESSAGE" =  "モード  %@ バンド %@ %@ 標準時";
+"PUSH_INCLUDEDYOUWORKEDQSO_TITLE" = "%@ さんが貴局と交信しました";
+"PUSH_INCLUDEDYOUWORKEDQSO_MESSAGE" =  "モード %@ バンド %@";
+"PUSH_LISTENEDQSO_TITLE" = "%@ さんが交信をワッチしました";
+"PUSH_LISTENEDQSO_MESSAGE" = "モード %@ バン %@ %@ 標準時";
+"PUSH_LISTENEDYOUQSO_TITLE" = "%@ さんが交信中の貴局をワッチしました";
+"PUSH_LISTENEDYOUQSO_MESSAGE" =  "モード %@ バンド %@";
+"PUSH_NEWFLDDAY_TITLE" = "%@ さんが行事を企画しています";
+"PUSH_NEWFLDDAY_MESSAGE" =  "詳細はこちら";
+"PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ さんが行事に貴局をタグ付けしました";
+"PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "詳細はこちら";
+"PUSH_NEWQAP_TITLE" = "%@ さんがCQを出しています";
+"PUSH_NEWQAP_MESSAGE" =  "詳細はこちら";
+"PUSH_TAGYOUNEWQAP_TITLE" = "%@ さんが貴局をCQの投稿にタグ付けしました";
+"PUSH_TAGYOUNEWQAP_MESSAGE" =  "詳細はこちら";
+"PUSH_REPOSTQSO_TITLE" = "%@ さんがQSOを再投稿しました";
+"PUSH_REPOSTQSO_MESSAGE" =  "詳細はこちら";
+"PUSH_REPOSTLISTEN_TITLE" = "%@ さんがワッチを再投稿しました";
+"PUSH_REPOSTLISTEN_MESSAGE" =  "詳細はこちら";
+"PUSH_REPOSTANY_TITLE" = "%@ さんが投稿を再投稿しました";
+"PUSH_REPOSTANY_MESSAGE" =  "詳細はこちら";
+"PUSH_REPOSTFLDDAY_TITLE" = "%@ さんが行事を再投稿しました";
+"PUSH_REPOSTFLDDAY_MESSAGE" =  "詳細はこちら";
+"PUSH_REPOSTQAP_TITLE" = "%@ さんがCQを再投稿しました";
+"PUSH_REPOSTQAP_MESSAGE" =  "詳細はこちら";
+"PUSH_MARKETING_TITLE" = "%@";
+"PUSH_MARKETING_MESSAGE" =  "%@";
+"PUSH_APPROVE_USER_TITLE" = "貴局が承認されました";
+"PUSH_APPROVE_USER_MESSAGE" =  "SuperQSOをお楽しみください！";
+"PUSH_MENTION_TITLE" = "%@ さんが貴局についてコメントしました";
+"PUSH_MENTION_MESSAGE" =  "%@";
+"PUSH_LIKE_TITLE" = "%@ さんが貴局の投稿を気に入りました  👍💪";
+"PUSH_LIKE_MESSAGE" =  "頑張れ!! 🚀😃";

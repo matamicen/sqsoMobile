@@ -25,9 +25,9 @@
 "PUSH_NEWFLDDAY_MESSAGE" =  "See more details here";
 "PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ tagged you in a Field Day post";
 "PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "See more details here";
-"PUSH_NEWQAP_TITLE" = "%@ post that is QAP";
+"PUSH_NEWQAP_TITLE" = "%@ is calling CQ";
 "PUSH_NEWQAP_MESSAGE" =  "See more details here";
-"PUSH_TAGYOUNEWQAP_TITLE" = "%@ tagged you in his QAP post";
+"PUSH_TAGYOUNEWQAP_TITLE" = "%@ tagged you in his CQ post";
 "PUSH_TAGYOUNEWQAP_MESSAGE" =  "See more details here";
 "PUSH_REPOSTQSO_TITLE" = "%@ repost a QSO";
 "PUSH_REPOSTQSO_MESSAGE" =  "See more details here";
@@ -37,7 +37,7 @@
 "PUSH_REPOSTANY_MESSAGE" =  "See more details here";
 "PUSH_REPOSTFLDDAY_TITLE" = "%@ repost a Field Day";
 "PUSH_REPOSTFLDDAY_MESSAGE" =  "See more details here";
-"PUSH_REPOSTQAP_TITLE" = "%@ repost a QAP";
+"PUSH_REPOSTQAP_TITLE" = "%@ repost a CQ";
 "PUSH_REPOSTQAP_MESSAGE" =  "See more details here";
 "PUSH_MARKETING_TITLE" = "%@";
 "PUSH_MARKETING_MESSAGE" =  "%@";
