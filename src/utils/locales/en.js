@@ -390,7 +390,7 @@ export default {
   PUSH_LISTENEDQSO_MESSAGE: 'on Mode: %{mode} Band: %{band} UTC: %{utc}',
   PUSH_LISTENEDYOUQSO_TITLE: '%{callsign} listened you in a QSO',
   PUSH_LISTENEDYOUQSO_MESSAGE: 'on Mode: %{mode} Band: %{band}',
-  PUSH_NEWFLDDAY_TITLE: '%{callsign} promoted av Activity',
+  PUSH_NEWFLDDAY_TITLE: '%{callsign} promoted an Activity',
   PUSH_NEWFLDDAY_MESSAGE: 'See more details here',
   PUSH_TAGYOUNEWFLDDAY_TITLE: '%{callsign} tagged you in an Activity post',
   PUSH_TAGYOUNEWFLDDAY_MESSAGE: 'See more details here',
