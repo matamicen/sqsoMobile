@@ -89,6 +89,8 @@ class FeedItem extends React.Component {
                   feedType={this.props.feedType}
                   country={this.props.country}
                   currentIndex={this.props.currentIndex}
+                  userinfo={this.props.userinfo}
+                  feed={this.props.publicFeed}
                 />
                
             </View>
@@ -116,6 +118,8 @@ class FeedItem extends React.Component {
                   feedType={this.props.feedType}
                   country={this.props.country}
                   currentIndex={this.props.currentIndex}
+                  userinfo={this.props.userinfo}
+                  feed={this.props.publicFeed}
                 />
                                
                  
@@ -130,6 +134,8 @@ class FeedItem extends React.Component {
                 feedType={this.props.feedType}
                 country={this.props.country}
                 currentIndex={this.props.currentIndex}
+                userinfo={this.props.userinfo}
+                feed={this.props.publicFeed}
               />
             );
           } else {
@@ -149,7 +155,12 @@ class FeedItem extends React.Component {
 }
 
 const mapStateToProps = (state) => ({ country: state.sqso.userInfo.country,
-                                   publicFeed: state.sqso.feed.publicFeed});
+                                   publicFeed: state.sqso.feed.publicFeed,
+                                   userinfo: state.sqso.userInfo
+                                  
+                                  
+                                  
+                                  });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });

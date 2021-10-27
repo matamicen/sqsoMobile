@@ -16,9 +16,23 @@ export default function FeedItemAdd(props) {
   const adNumber = (String(Date.now()).substr(12, 1) % 2);
   // console.log('INTERNET CHECK NOW: ' + fechaEnMiliseg);
   console.log('substring:' + adNumber);
+  console.log('feedtype:' + props.feedType);
   // console.log('substring div:' + myNewStr % 2);
 
-     
+  // const adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
+   adToshow = ''
+  if (props.feed === 'GLOBAL')
+       adToshow = props.userinfo.ads.feedGlobal[props.currentIndex].adimageurl
+  if (props.feed === 'REGIONAL')
+       adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
+  if (props.feed === 'FOLLOWING')
+       adToshow = props.userinfo.ads.feedFollowing[props.currentIndex].adimageurl
+  if (props.feed === 'QAP')
+      adToshow = props.userinfo.ads.feedCQ[props.currentIndex].adimageurl
+  
+      if (props.feedType === 'PROFILE')
+        adToshow = props.userinfo.ads.feedProfile[props.currentIndex].adimageurl
+
 
   if (props.feedType === 'DETAIL' && props.country === 'AR') {
     console.log('entro ahora ad AR')
@@ -145,6 +159,8 @@ export default function FeedItemAdd(props) {
     else
     {
       console.log('CurrentIndex:'+props.currentIndex)
+      console.log('AD REGIONAL 4:'+props.userinfo.ads.feedRegional[props.currentIndex].vendorname)
+      // .qra.ads.feedRegional[4]
     return (
       <View
         style={{
@@ -155,10 +171,10 @@ export default function FeedItemAdd(props) {
                <Image
           style={{
           
-            height: 280,
+            height: 460,
             padding: 0,
             margin: 0,
-            width: 280
+            width: 500
           }}
           onPress={() => {
             if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
@@ -176,7 +192,8 @@ export default function FeedItemAdd(props) {
               .catch((err) => console.error('An error occurred', err));
           }}
           // source={{ uri: global_config.s3Cloudfront + 'lda2.png' }}
-          source={{ uri: 'https://d1dwfud4bi54v7.cloudfront.net/jh9kio_ad_jp_0.jpg' }}
+          // source={{ uri: 'https://d1dwfud4bi54v7.cloudfront.net/jh9kio_ad_jp_0.jpg' }}
+          source={{ uri: adToshow }}
 
           resizeMethod="scale"
           resizeMode="contain"

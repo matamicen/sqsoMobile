@@ -2797,6 +2797,8 @@ export const getUserInfo = (jwtToken) => {
         console.log('ejecuto bien user-info');
         console.log('pendingverification:'+ respuesta.body.message.qra.pendingVerification);
         dispatch(insertBlocked(respuesta.body.message.blocked));
+        console.log('ADS:');
+        console.log(respuesta.body.message.qra.ads.feedRegional);
        
         console.log(respuesta)
         console.log(respuesta.body.message.qra)
