@@ -159,6 +159,7 @@ export default function FeedItemAdd(props) {
     else
     {
       console.log('CurrentIndex:'+props.currentIndex)
+      console.log('AD REGIONAL id AD:'+props.userinfo.ads.feedRegional[props.currentIndex].idad)
       console.log('AD REGIONAL 4:'+props.userinfo.ads.feedRegional[props.currentIndex].vendorname)
       // .qra.ads.feedRegional[4]
     return (
@@ -171,13 +172,14 @@ export default function FeedItemAdd(props) {
                <Image
           style={{
           
-            height: 460,
+            height: Platform.OS === 'ios' ? 395: 395,
             padding: 0,
             margin: 0,
-            width: 500
+            width: Platform.OS === 'ios' ? 395: 395,
+            // width: 415
           }}
           onPress={() => {
-            if (!__DEV__) analytics().logEvent('JH9KIO_JP_APPPRD');
+            if (!__DEV__) analytics().logEvent('feed_IDad_'+props.userinfo.ads.feedRegional[props.currentIndex].idad);
 
             Linking.canOpenURL('https://www.clarin.com')
               .then((supported) => {
@@ -186,7 +188,8 @@ export default function FeedItemAdd(props) {
                     "Can't handle url: " + 'https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g'
                   );
                 } else {
-                  return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');
+                  // return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');
+                  return Linking.openURL(props.userinfo.ads.feedRegional[props.currentIndex].urllink);
                 }
               })
               .catch((err) => console.error('An error occurred', err));
