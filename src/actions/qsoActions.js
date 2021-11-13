@@ -9,7 +9,7 @@ import { API, Auth, Storage } from 'aws-amplify';
 import { Buffer } from 'buffer';
 import { NetInfo, Platform } from 'react-native';
 import Upload from 'react-native-background-upload';
-import RNIap, { acknowledgePurchaseAndroid } from 'react-native-iap';
+// import RNIap, { acknowledgePurchaseAndroid } from 'react-native-iap';
 import Toast from 'react-native-root-toast';
 import RNFetchBlob from 'rn-fetch-blob';
 import { APP_VERSION } from '../appVersion';
@@ -3546,7 +3546,7 @@ export const confirmReceiptiOS = (
           console.log('action QRA: ' + qra);
           console.log('action environment: ' + environment);
 
-          RNIap.finishTransactionIOS(transactionId);
+          // RNIap.finishTransactionIOS(transactionId);
           dispatch(getUserInfo(session.idToken.jwtToken));
 
           //if (buystate){
@@ -3652,7 +3652,7 @@ export const confirmReceiptAndroid = (
           console.log('action environment: ' + environment);
 
           try {
-            const ackResult = await acknowledgePurchaseAndroid(purchaseToken);
+            // const ackResult = await acknowledgePurchaseAndroid(purchaseToken);
             // console.log('ejecute acknowledgePurchaseAndroid ');
             dispatch(getUserInfo(session.idToken.jwtToken));
             // console.log('el calltype es BUY');
@@ -3693,7 +3693,7 @@ export const confirmReceiptAndroid = (
           // confirmo el token por el caso de que haya fallado la compra y el usuario se dirija directo a RESTORE PURCHASE
           // sin haber ejecutado de nuevo la APP porqu en ese caso el DidMount de QsoScreen le confirma la compra.
           if (!ack) {
-            const ackResult = await acknowledgePurchaseAndroid(purchaseToken);
+            // const ackResult = await acknowledgePurchaseAndroid(purchaseToken);
           }
           dispatch(getUserInfo(session.idToken.jwtToken));
           dispatch(manageLocationPermissions('iapshowed', 0));

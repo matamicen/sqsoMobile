@@ -20,18 +20,30 @@ export default function FeedItemAdd(props) {
   // console.log('substring div:' + myNewStr % 2);
 
   // const adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
-   adToshow = ''
-  if (props.feed === 'GLOBAL')
+   let adToshow = ''
+   let urllink = ''
+
+  if (props.feed === 'GLOBAL'){
        adToshow = props.userinfo.ads.feedGlobal[props.currentIndex].adimageurl
-  if (props.feed === 'REGIONAL')
+       urllink = props.userinfo.ads.feedGlobal[props.currentIndex].urllink 
+  }
+  if (props.feed === 'REGIONAL'){
        adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
-  if (props.feed === 'FOLLOWING')
+       urllink = props.userinfo.ads.feedRegional[props.currentIndex].urllink 
+      }
+  if (props.feed === 'FOLLOWING'){
        adToshow = props.userinfo.ads.feedFollowing[props.currentIndex].adimageurl
-  if (props.feed === 'QAP')
+       urllink = props.userinfo.ads.feedFollowing[props.currentIndex].urllink 
+      }
+  if (props.feed === 'QAP'){
       adToshow = props.userinfo.ads.feedCQ[props.currentIndex].adimageurl
+      urllink = props.userinfo.ads.feedCQ[props.currentIndex].urllink 
+  }
   
-      if (props.feedType === 'PROFILE')
+      if (props.feedType === 'PROFILE'){
         adToshow = props.userinfo.ads.feedProfile[props.currentIndex].adimageurl
+        urllink = props.userinfo.ads.feedProfile[props.currentIndex].urllink
+      }
 
 
   if (props.feedType === 'DETAIL' && props.country === 'AR') {
@@ -172,10 +184,10 @@ export default function FeedItemAdd(props) {
                <Image
           style={{
           
-            height: Platform.OS === 'ios' ? 395: 395,
+            height: Platform.OS === 'ios' ? 390: 395,
             padding: 0,
             margin: 0,
-            width: Platform.OS === 'ios' ? 395: 395,
+            width: Platform.OS === 'ios' ? 390: 395,
             // width: 415
           }}
           onPress={() => {
@@ -189,7 +201,8 @@ export default function FeedItemAdd(props) {
                   );
                 } else {
                   // return Linking.openURL('https://www.youtube.com/channel/UCE-xEJhqJu0kvy4KnfZcu0g');
-                  return Linking.openURL(props.userinfo.ads.feedRegional[props.currentIndex].urllink);
+                  // return Linking.openURL(props.userinfo.ads.feedRegional[props.currentIndex].urllink);
+                  return Linking.openURL(urllink);
                 }
               })
               .catch((err) => console.error('An error occurred', err));
