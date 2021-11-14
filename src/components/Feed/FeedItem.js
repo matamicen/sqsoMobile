@@ -73,23 +73,69 @@ class FeedItem extends React.Component {
           } else if (this.props.currentIndex === 4 && this.props.feedType !== 'PROFILE'
              && this.props.feedType !== 'SEARCH')
           
-            return <ActivitiesCarousel />;
+            return (
+              <View>
+                 <ActivitiesCarousel /> 
+                  
+                              <View
+                  style={{
+                    height: 20,
+                    width: '100%',
+                    backgroundColor: '#CED0CE'
+                    // marginLeft: '14%'
+                  }}
+                />
+                <FeedItemAd
+                  feedType={this.props.feedType}
+                  country={this.props.country}
+                  currentIndex={this.props.currentIndex}
+                  userinfo={this.props.userinfo}
+                  feed={this.props.publicFeed}
+                />
+               
+            </View>
+            );
           else if (
             (this.props.currentIndex === 8 || this.props.currentIndex % 16 === 0) && this.props.feedType !== 'PROFILE'
               && this.props.feedType !== 'SEARCH')
            {
             return (
-              <FeedItemFollow
-                source={this.props.source}
-                ad={this.props.ad}
-                index={this.props.currentIndex}
-              />
+              <View>
+                 <FeedItemFollow
+                    source={this.props.source}
+                    ad={this.props.ad}
+                    index={this.props.currentIndex}
+                  />
+                  <View
+                  style={{
+                    height: 20,
+                    width: '100%',
+                    backgroundColor: '#CED0CE'
+                    // marginLeft: '14%'
+                  }}
+                />
+                  <FeedItemAd
+                  feedType={this.props.feedType}
+                  country={this.props.country}
+                  currentIndex={this.props.currentIndex}
+                  userinfo={this.props.userinfo}
+                  feed={this.props.publicFeed}
+                />
+                               
+                 
+            </View>
             );
           } else if (this.props.currentIndex !== 0) {
+
+           console.log('cuenta:' + this.props.currentIndex + 'da : '+ this.props.currentIndex%4) 
+           console.log('esta en feed:'+ this.props.publicFeed + 'feedType:'+this.props.feedType)
             return (
               <FeedItemAd
                 feedType={this.props.feedType}
                 country={this.props.country}
+                currentIndex={this.props.currentIndex}
+                userinfo={this.props.userinfo}
+                feed={this.props.publicFeed}
               />
             );
           } else {
@@ -108,7 +154,13 @@ class FeedItem extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ country: state.sqso.userInfo.country });
+const mapStateToProps = (state) => ({ country: state.sqso.userInfo.country,
+                                   publicFeed: state.sqso.feed.publicFeed,
+                                   userinfo: state.sqso.userInfo
+                                  
+                                  
+                                  
+                                  });
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Actions, dispatch)
 });

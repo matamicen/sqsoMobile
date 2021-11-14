@@ -10,14 +10,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 // import NativeButton from 'apsl-react-native-button';
-import RNIap, {
-  Product,
-  ProductPurchase,
-  acknowledgePurchaseAndroid,
-  purchaseUpdatedListener,
-  purchaseErrorListener,
-  PurchaseError,
-} from 'react-native-iap';
+// import RNIap, {
+//   Product,
+//   ProductPurchase,
+//   acknowledgePurchaseAndroid,
+//   purchaseUpdatedListener,
+//   purchaseErrorListener,
+//   PurchaseError,
+// } from 'react-native-iap';
 import { connect } from 'react-redux';
 import { confirmReceiptiOS, manageLocationPermissions, restoreCall, confirmReceiptAndroid } from '../../actions';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -70,7 +70,7 @@ class RestoreSubscription extends React.PureComponent {
     //  this.props.pressPurchaseButton(true);
     
     
-      const result = await RNIap.initConnection();
+      // const result = await RNIap.initConnection();
       // busco codigos de subscripcion para iOS sino me falla el GetSubscription
           
       // const products = await RNIap.getSubscriptions(itemSubs);
@@ -81,21 +81,21 @@ class RestoreSubscription extends React.PureComponent {
 
    // chequeo si el usuario ya es premium y toca Restore, si fuese asi evito llamar a todo 
    // el chequeo y le aviso que ya es premium. 
-if (this.props.userinfo.account_type.idaccount_types===2)
-     this.props.restoreCall(true,I18n.t("RestoreSubscriptionPremiumActive"))
-  else
-      {
-        this.props.manageLocationPermissions("iapshowed",1);
+// if (this.props.userinfo.account_type.idaccount_types===2)
+//      this.props.restoreCall(true,I18n.t("RestoreSubscriptionPremiumActive"))
+//   else
+//       {
+//         this.props.manageLocationPermissions("iapshowed",1);
 
-        if (Platform.OS==='ios')
-            this.getPurchaseHistory();
-      if (Platform.OS==='android')
-      {
-       // this.getPurchaseHistory();
-        this.getAvailablePurchase();
-      }
+//         if (Platform.OS==='ios')
+//             this.getPurchaseHistory();
+//       if (Platform.OS==='android')
+//       {
+//        // this.getPurchaseHistory();
+//         this.getAvailablePurchase();
+//       }
 
-  }
+//   }
 
 
 
@@ -172,195 +172,195 @@ if (this.props.userinfo.account_type.idaccount_types===2)
 //     }
 //   }
 
-  getSubscriptions = async() => {
-    try {
-      const products = await RNIap.getSubscriptions(itemSubs);
-      console.log('Products', products);
-      this.setState({ productList: products });
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-       crashlytics().recordError(new Error('getSubscriptions_DEV'));
-      else
-      crashlytics().recordError(new Error('getSubscriptions_PRD'));
-    }
-  }
+  // getSubscriptions = async() => {
+  //   try {
+  //     const products = await RNIap.getSubscriptions(itemSubs);
+  //     console.log('Products', products);
+  //     this.setState({ productList: products });
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //      crashlytics().recordError(new Error('getSubscriptions_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('getSubscriptions_PRD'));
+  //   }
+  // }
 
-  getPurchaseHistory = async() => {
-    try {
+  // getPurchaseHistory = async() => {
+  //   try {
        
-      console.info('Get available purchases (non-consumable or unconsumed consumable)');
-       const purchases = await RNIap.getPurchaseHistory();
+  //     console.info('Get available purchases (non-consumable or unconsumed consumable)');
+  //      const purchases = await RNIap.getPurchaseHistory();
     
 
-      const sortedAvailablePurchases = purchases.sort(
-        (a, b) => b.transactionDate - a.transactionDate
-      );
-   //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
-   //   console.info('Available purchases :: ', purchases);
-    //  console.log('purchases:');
+  //     const sortedAvailablePurchases = purchases.sort(
+  //       (a, b) => b.transactionDate - a.transactionDate
+  //     );
+  //  //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+  //  //   console.info('Available purchases :: ', purchases);
+  //   //  console.log('purchases:');
 
-      console.log('SORTED purchase HISTORY:');
-      sortedAvailablePurchases.map((purch2, j) => {
-        console.log('productID:'+ purch2.productId);
-        console.log('TransactionID:'+ purch2.transactionId);
-        console.log('transactionDate:'+ purch2.transactionDate);
-        console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
-        console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
-        });
+  //     console.log('SORTED purchase HISTORY:');
+  //     sortedAvailablePurchases.map((purch2, j) => {
+  //       console.log('productID:'+ purch2.productId);
+  //       console.log('TransactionID:'+ purch2.transactionId);
+  //       console.log('transactionDate:'+ purch2.transactionDate);
+  //       console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
+  //       console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
+  //       });
 
     
 
-      if (purchases && purchases.length > 0) {
-        console.log('purchases completo PurchaseHistory:');
-          console.log(purchases);
-          console.log('hya compras y la ultima compra fue:');
-          console.log(purchases[0].originalTransactionIdentifierIOS);
-          console.log(purchases[0].transactionId);
-          console.log(purchases[0].transactionReceipt);
-          // le tengo que pasar el id original, usuario logueado y receipt
-          // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
-          // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
-          // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
-          // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando 
-          // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
-          // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
-          // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
-          // y cambiarlo como PREMIUM al usuario.
+  //     if (purchases && purchases.length > 0) {
+  //       console.log('purchases completo PurchaseHistory:');
+  //         console.log(purchases);
+  //         console.log('hya compras y la ultima compra fue:');
+  //         console.log(purchases[0].originalTransactionIdentifierIOS);
+  //         console.log(purchases[0].transactionId);
+  //         console.log(purchases[0].transactionReceipt);
+  //         // le tengo que pasar el id original, usuario logueado y receipt
+  //         // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
+  //         // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
+  //         // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
+  //         // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando 
+  //         // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
+  //         // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
+  //         // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
+  //         // y cambiarlo como PREMIUM al usuario.
 
         
           
-          if (Platform.OS==='ios') 
-            this.props.confirmReceiptiOS(this.props.qra,purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'RESTORE');
+  //         if (Platform.OS==='ios') 
+  //           this.props.confirmReceiptiOS(this.props.qra,purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'RESTORE');
 
 
 
-        // this.setState({
-        //   availableItemsMessage: `Got ${purchases.length} items.`,
-        //   receipt: purchases[0].transactionReceipt,
-        // });
-      }
-      else
-         console.log('no hay PurchaseHistory');
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('getPurchaseHistory_DEV'));
-      else
-      crashlytics().recordError(new Error('getPurchaseHistory_PRD'));
-      Alert.alert(err.message);
-    }
-  }
+  //       // this.setState({
+  //       //   availableItemsMessage: `Got ${purchases.length} items.`,
+  //       //   receipt: purchases[0].transactionReceipt,
+  //       // });
+  //     }
+  //     else
+  //        console.log('no hay PurchaseHistory');
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('getPurchaseHistory_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('getPurchaseHistory_PRD'));
+  //     Alert.alert(err.message);
+  //   }
+  // }
 
 
-  getAvailablePurchase = async() => {
-    try {
+  // getAvailablePurchase = async() => {
+  //   try {
        
-      console.info('Get available purchases (non-consumable or unconsumed consumable)');
-     //  const purchases = await RNIap.getPurchaseHistory();
-       const purchases = await RNIap.getAvailablePurchases();
+  //     console.info('Get available purchases (non-consumable or unconsumed consumable)');
+  //    //  const purchases = await RNIap.getPurchaseHistory();
+  //      const purchases = await RNIap.getAvailablePurchases();
     
 
-      const sortedAvailablePurchases = purchases.sort(
-        (a, b) => b.transactionDate - a.transactionDate
-      );
-   //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
-   //   console.info('Available purchases :: ', purchases);
-    //  console.log('purchases:');
+  //     const sortedAvailablePurchases = purchases.sort(
+  //       (a, b) => b.transactionDate - a.transactionDate
+  //     );
+  //  //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+  //  //   console.info('Available purchases :: ', purchases);
+  //   //  console.log('purchases:');
 
-      console.log('SORTED AVAILABLE purchases:');
-      sortedAvailablePurchases.map((purch2, j) => {
-        console.log('productID:'+ purch2.productId);
-        console.log('TransactionID:'+ purch2.transactionId);
-        console.log('transactionDate:'+ purch2.transactionDate);
-        console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
-        console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
-        });
+  //     console.log('SORTED AVAILABLE purchases:');
+  //     sortedAvailablePurchases.map((purch2, j) => {
+  //       console.log('productID:'+ purch2.productId);
+  //       console.log('TransactionID:'+ purch2.transactionId);
+  //       console.log('transactionDate:'+ purch2.transactionDate);
+  //       console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
+  //       console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
+  //       });
 
     
 
-      if (purchases && purchases.length > 0) {
-        console.log('purchases completo AVAILABLE:');
-          console.log(purchases);
-          console.log('hya compras y la ultima compra fue:');
-          console.log(purchases[0].originalTransactionIdentifierIOS);
-          console.log(purchases[0].transactionId);
-       //   console.log(purchases[0].transactionReceipt);
-          // le tengo que pasar el id original, usuario logueado y receipt
-          // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
-          // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
-          // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
-          // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando 
-          // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
-          // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
-          // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
-          // y cambiarlo como PREMIUM al usuario.
+  //     if (purchases && purchases.length > 0) {
+  //       console.log('purchases completo AVAILABLE:');
+  //         console.log(purchases);
+  //         console.log('hya compras y la ultima compra fue:');
+  //         console.log(purchases[0].originalTransactionIdentifierIOS);
+  //         console.log(purchases[0].transactionId);
+  //      //   console.log(purchases[0].transactionReceipt);
+  //         // le tengo que pasar el id original, usuario logueado y receipt
+  //         // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
+  //         // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
+  //         // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
+  //         // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando 
+  //         // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
+  //         // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
+  //         // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
+  //         // y cambiarlo como PREMIUM al usuario.
 
         
           
         
-  //        this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
+  // //        this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
          
-      if (Platform.OS==='android') 
-      {
-             console.log('entro a restore de ANDROID');
+  //     if (Platform.OS==='android') 
+  //     {
+  //            console.log('entro a restore de ANDROID');
 
-              purchaseJson = JSON.parse(purchases[0].transactionReceipt);
-              console.log('purchase json');
-              console.log(purchaseJson);
+  //             purchaseJson = JSON.parse(purchases[0].transactionReceipt);
+  //             console.log('purchase json');
+  //             console.log(purchaseJson);
 
-              purchaseToken = purchaseJson.purchaseToken;
-              qra = this.props.qra;
-              packageName = purchaseJson.packageName;
-              productId = purchaseJson.productId;
-              environment = this.props.env;
-              action = 'RESTORE';
-              ack = purchases[0].isAcknowledgedAndroid;
+  //             purchaseToken = purchaseJson.purchaseToken;
+  //             qra = this.props.qra;
+  //             packageName = purchaseJson.packageName;
+  //             productId = purchaseJson.productId;
+  //             environment = this.props.env;
+  //             action = 'RESTORE';
+  //             ack = purchases[0].isAcknowledgedAndroid;
 
-              console.log('purchasetoken:'+purchaseToken);
-              console.log('qra:'+qra);
-              console.log('packageName:'+packageName);
-              console.log('productId:'+productId);
-              console.log('environment:'+environment);
-              console.log('action:'+action);
+  //             console.log('purchasetoken:'+purchaseToken);
+  //             console.log('qra:'+qra);
+  //             console.log('packageName:'+packageName);
+  //             console.log('productId:'+productId);
+  //             console.log('environment:'+environment);
+  //             console.log('action:'+action);
               
 
-              this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action,ack)
+  //             this.props.confirmReceiptAndroid(qra,packageName,purchaseToken,productId,environment,action,ack)
 
-            }
+  //           }
 
 
-        // this.setState({
-        //   availableItemsMessage: `Got ${purchases.length} items.`,
-        //   receipt: purchases[0].transactionReceipt,
-        // });
-      }
-      else{
-       console.log('viene vacio el purchaseAvailable');
-       if (Platform.OS==='android') 
-       {
-            this.props.manageLocationPermissions("iapshowed",0); 
-            this.props.restoreCall(true,I18n.t("RestoreSubscriptionWeDidntFound"))
+  //       // this.setState({
+  //       //   availableItemsMessage: `Got ${purchases.length} items.`,
+  //       //   receipt: purchases[0].transactionReceipt,
+  //       // });
+  //     }
+  //     else{
+  //      console.log('viene vacio el purchaseAvailable');
+  //      if (Platform.OS==='android') 
+  //      {
+  //           this.props.manageLocationPermissions("iapshowed",0); 
+  //           this.props.restoreCall(true,I18n.t("RestoreSubscriptionWeDidntFound"))
  
-         }
-      }
+  //        }
+  //     }
        
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('getAvailablePurchase_DEV'));
-      else
-      crashlytics().recordError(new Error('getAvailablePurchase_PRD'));
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('getAvailablePurchase_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('getAvailablePurchase_PRD'));
 
-      Alert.alert(err.message);
-    }
-  }
+  //     Alert.alert(err.message);
+  //   }
+  // }
 
   
   render() {

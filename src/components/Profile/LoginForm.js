@@ -26,7 +26,7 @@ import {
   BackHandler,
   View
 } from 'react-native';
-import RNIap from 'react-native-iap';
+// import RNIap from 'react-native-iap';
 // import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import {
@@ -687,24 +687,24 @@ class LoginForm extends React.PureComponent {
 
     // para capturar eventos de Purchases no confirmadas de AppleStore
     try {
-      const result = await RNIap.initConnection();
+      // const result = await RNIap.initConnection();
       // busco codigos de subscripcion para iOS para enviarlos a REDUX
       // yq ue ya esten disponibles
 
-      const products = await RNIap.getSubscriptions(itemSubs);
+      // const products = await RNIap.getSubscriptions(itemSubs);
       // console.log('loginform GetSubscriptions');
       // console.log(products);
 
-      var localizedPrice = '';
-      if (Platform.OS === 'android')
-        localizedPrice =
-          products[0].localizedPrice + ' ' + products[0].currency;
-      else localizedPrice = products[0].localizedPrice;
+      // var localizedPrice = '';
+      // if (Platform.OS === 'android')
+      //   localizedPrice =
+      //     products[0].localizedPrice + ' ' + products[0].currency;
+      // else localizedPrice = products[0].localizedPrice;
       // console.log(
       //   'busco codigos de subscripciones loginform:' +
       //     products[0].localizedPrice
       // );
-      this.props.setSubscriptionInfo(products[0].productId, localizedPrice);
+      // this.props.setSubscriptionInfo(products[0].productId, localizedPrice);
 
       //  este debe estar ultimo porque si no hay compras sale por CATCH y necesito
       // que se ejecute lo de arriba antes

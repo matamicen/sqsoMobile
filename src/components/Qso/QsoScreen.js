@@ -140,14 +140,14 @@ import global_config from '../../global_config.json';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImageResizer from 'react-native-image-resizer';
 
-import RNIap, {
-  Product,
-  ProductPurchase,
-  acknowledgePurchaseAndroid,
-  purchaseUpdatedListener,
-  purchaseErrorListener,
-  PurchaseError
-} from 'react-native-iap';
+// import RNIap, {
+//   Product,
+//   ProductPurchase,
+//   acknowledgePurchaseAndroid,
+//   purchaseUpdatedListener,
+//   purchaseErrorListener,
+//   PurchaseError
+// } from 'react-native-iap';
 
 Auth.configure(awsconfig);
 
@@ -271,74 +271,74 @@ class QsoScreen extends React.PureComponent {
     // entonces si llegase a ejecutar este listener ya tiene disponible el QRA para ser enviado
     // al backend.
 
-    purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      console.log('purchaseUpdatedListener de QsoScreen');
-      console.log(purchase);
+    // purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
+    //   console.log('purchaseUpdatedListener de QsoScreen');
+    //   console.log(purchase);
 
       // aca tengo que llamar a la API backend para validar el receipt y una vez validado
       // debo llamar a
 
-      if (
-        purchase.purchaseStateAndroid === 1 &&
-        !purchase.isAcknowledgedAndroid
-      ) {
-        purchaseJson = JSON.parse(purchase.transactionReceipt);
-        console.log('purchase json');
-        console.log(purchaseJson);
+      // if (
+      //   purchase.purchaseStateAndroid === 1 &&
+      //   !purchase.isAcknowledgedAndroid
+      // ) {
+      //   purchaseJson = JSON.parse(purchase.transactionReceipt);
+      //   console.log('purchase json');
+      //   console.log(purchaseJson);
 
-        //  const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
-        console.log('entro listener de compra por ANDROID en QsoScreen');
-        purchaseToken = purchaseJson.purchaseToken;
-        qra = this.props.qra;
-        packageName = purchaseJson.packageName;
-        productId = purchaseJson.productId;
-        environment = this.props.env;
-        action = 'BUY';
+      //   //  const ackResult = await acknowledgePurchaseAndroid(purchase.purchaseToken);
+      //   console.log('entro listener de compra por ANDROID en QsoScreen');
+      //   purchaseToken = purchaseJson.purchaseToken;
+      //   qra = this.props.qra;
+      //   packageName = purchaseJson.packageName;
+      //   productId = purchaseJson.productId;
+      //   environment = this.props.env;
+      //   action = 'BUY';
 
-        console.log('purchasetoken:' + purchaseToken);
-        console.log('qra:' + qra);
-        console.log('packageName:' + packageName);
-        console.log('productId:' + productId);
-        console.log('environment:' + environment);
-        console.log('action:' + action);
+      //   console.log('purchasetoken:' + purchaseToken);
+      //   console.log('qra:' + qra);
+      //   console.log('packageName:' + packageName);
+      //   console.log('productId:' + productId);
+      //   console.log('environment:' + environment);
+      //   console.log('action:' + action);
 
-        this.props.confirmReceiptAndroid(
-          qra,
-          packageName,
-          purchaseToken,
-          productId,
-          environment,
-          action,
-          false
-        );
-      }
-      if (Platform.OS === 'ios') {
-        console.log(
-          'IAP: llamo confirmReceipt de QsoScreen action: ' +
-            purchase.transactionId
-        );
+      //   this.props.confirmReceiptAndroid(
+      //     qra,
+      //     packageName,
+      //     purchaseToken,
+      //     productId,
+      //     environment,
+      //     action,
+      //     false
+      //   );
+      // }
+      // if (Platform.OS === 'ios') {
+        // console.log(
+        //   'IAP: llamo confirmReceipt de QsoScreen action: ' +
+        //     purchase.transactionId
+        // );
         // console.log('flag que recien compro: '+this.props.presspurchaseputton);
         // RNIap.finishTransactionIOS(purchase.transactionId);
-        this.props.confirmReceiptiOS(
-          this.props.qra,
-          purchase.originalTransactionIdentifierIOS,
-          purchase.transactionReceipt,
-          purchase.transactionId,
-          this.props.env,
-          'BUY'
-        );
+        // this.props.confirmReceiptiOS(
+        //   this.props.qra,
+        //   purchase.originalTransactionIdentifierIOS,
+        //   purchase.transactionReceipt,
+        //   purchase.transactionId,
+        //   this.props.env,
+        //   'BUY'
+        // );
 
         //   this.props.confirmReceipt();
         //  RNIap.finishTransactionIOS(purchase.transactionId);
-      }
+      // }
       //   this.setState({ receipt: purchase.transactionReceipt }, () => this.goNext());
-    });
+    // });
 
-    purchaseErrorSubscription = purchaseErrorListener((error) => {
-      console.log('purchaseErrorListener QsoScreen', error);
-      // this.props.manageLocationPermissions("iapshowed",0);
-      // Alert.alert('purchase error', JSON.stringify(error));
-    });
+    // purchaseErrorSubscription = purchaseErrorListener((error) => {
+    //   console.log('purchaseErrorListener QsoScreen', error);
+    //   // this.props.manageLocationPermissions("iapshowed",0);
+    //   // Alert.alert('purchase error', JSON.stringify(error));
+    // });
 
     AppState.addEventListener('change', this._handleAppStateChange);
 
@@ -375,17 +375,17 @@ class QsoScreen extends React.PureComponent {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
 
-    if (purchaseUpdateSubscription) {
-      console.log('remuevo purchaseUpdateSubscription QsoScreen');
+    // if (purchaseUpdateSubscription) {
+    //   console.log('remuevo purchaseUpdateSubscription QsoScreen');
 
-      purchaseUpdateSubscription.remove();
-      purchaseUpdateSubscription = null;
-    }
-    if (purchaseErrorSubscription) {
-      console.log('remuevo purchaseErrorSubscription QsoScreen');
-      purchaseErrorSubscription.remove();
-      purchaseErrorSubscription = null;
-    }
+    //   purchaseUpdateSubscription.remove();
+    //   purchaseUpdateSubscription = null;
+    // }
+    // if (purchaseErrorSubscription) {
+    //   console.log('remuevo purchaseErrorSubscription QsoScreen');
+    //   purchaseErrorSubscription.remove();
+    //   purchaseErrorSubscription = null;
+    // }
 
     BackHandler.removeEventListener(
       'hardwareBackPress',
@@ -418,111 +418,111 @@ class QsoScreen extends React.PureComponent {
     });
   };
 
-  getAvailablePurchase = async () => {
-    try {
-      console.info('Get available purchases for android QsoScreen');
-      //  const purchases = await RNIap.getPurchaseHistory();
-      const purchases = await RNIap.getAvailablePurchases();
+  // getAvailablePurchase = async () => {
+  //   try {
+  //     console.info('Get available purchases for android QsoScreen');
+  //     //  const purchases = await RNIap.getPurchaseHistory();
+  //     const purchases = await RNIap.getAvailablePurchases();
 
-      const sortedAvailablePurchases = purchases.sort(
-        (a, b) => b.transactionDate - a.transactionDate
-      );
-      //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
-      //   console.info('Available purchases :: ', purchases);
-      //  console.log('purchases:');
+  //     const sortedAvailablePurchases = purchases.sort(
+  //       (a, b) => b.transactionDate - a.transactionDate
+  //     );
+  //     //   const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+  //     //   console.info('Available purchases :: ', purchases);
+  //     //  console.log('purchases:');
 
-      console.log('SORTED AVAILABLE purchases QsoScreen:');
-      sortedAvailablePurchases.map((purch2, j) => {
-        console.log('productID:' + purch2.productId);
-        console.log('TransactionID:' + purch2.transactionId);
-        console.log('transactionDate:' + purch2.transactionDate);
-        console.log(
-          'originalTransactionDateIOS:' + purch2.originalTransactionDateIOS
-        );
-        console.log(
-          'originalTransactionIdentifierIOS:' +
-            purch2.originalTransactionIdentifierIOS
-        );
-      });
+  //     console.log('SORTED AVAILABLE purchases QsoScreen:');
+  //     sortedAvailablePurchases.map((purch2, j) => {
+  //       console.log('productID:' + purch2.productId);
+  //       console.log('TransactionID:' + purch2.transactionId);
+  //       console.log('transactionDate:' + purch2.transactionDate);
+  //       console.log(
+  //         'originalTransactionDateIOS:' + purch2.originalTransactionDateIOS
+  //       );
+  //       console.log(
+  //         'originalTransactionIdentifierIOS:' +
+  //           purch2.originalTransactionIdentifierIOS
+  //       );
+  //     });
 
-      if (purchases && purchases.length > 0) {
-        console.log('purchases completo AVAILABLE QsoScreen:');
-        console.log(purchases);
-        console.log('hya compras y la ultima compra fue:');
-        console.log(purchases[0].originalTransactionIdentifierIOS);
-        console.log(purchases[0].transactionId);
-        //   console.log(purchases[0].transactionReceipt);
-        // le tengo que pasar el id original, usuario logueado y receipt
-        // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
-        // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
-        // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
-        // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando
-        // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
-        // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
-        // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
-        // y cambiarlo como PREMIUM al usuario.
+  //     if (purchases && purchases.length > 0) {
+  //       console.log('purchases completo AVAILABLE QsoScreen:');
+  //       console.log(purchases);
+  //       console.log('hya compras y la ultima compra fue:');
+  //       console.log(purchases[0].originalTransactionIdentifierIOS);
+  //       console.log(purchases[0].transactionId);
+  //       //   console.log(purchases[0].transactionReceipt);
+  //       // le tengo que pasar el id original, usuario logueado y receipt
+  //       // para que la API valide con ese ID si existe y no esta vencida la subscrripcion
+  //       // y si el usuario coincide devuele ok y queda todo igual, pero si no coincide debe
+  //       // poner al nuevo QRA como PREMIUM para ese id original de transaccion y al otro dejarlo sin nada.
+  //       // puede pasar que no encuentre el id original en el backend porque nunca lo dio de alta cuando
+  //       // se compro por error de backend o conexion al momento de enviar el receipt, en ese caso
+  //       // debera llamar a la API validadno el RECIPT recibido y seguie el mismo precediemitno de validacion
+  //       // si encuentra para ese receipt/original id un EXPIRE DATE que no haya vencido entonces darlos de alta
+  //       // y cambiarlo como PREMIUM al usuario.
 
-        //       this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
+  //       //       this.props.confirmReceiptiOS(purchases[0].originalTransactionIdentifierIOS,purchases[0].transactionReceipt,purchases[0].transactionId,this.props.env,'restore');
 
-        if (Platform.OS === 'android') {
-          console.log('entro a restore de ANDROID');
+  //       if (Platform.OS === 'android') {
+  //         console.log('entro a restore de ANDROID');
 
-          purchaseJson = JSON.parse(purchases[0].transactionReceipt);
-          console.log('purchase json');
-          console.log(purchaseJson);
+  //         purchaseJson = JSON.parse(purchases[0].transactionReceipt);
+  //         console.log('purchase json');
+  //         console.log(purchaseJson);
 
-          purchaseToken = purchaseJson.purchaseToken;
-          qra = this.props.qra;
-          packageName = purchaseJson.packageName;
-          productId = purchaseJson.productId;
-          environment = this.props.env;
-          action = 'BUY';
-          ack = purchases[0].isAcknowledgedAndroid;
+  //         purchaseToken = purchaseJson.purchaseToken;
+  //         qra = this.props.qra;
+  //         packageName = purchaseJson.packageName;
+  //         productId = purchaseJson.productId;
+  //         environment = this.props.env;
+  //         action = 'BUY';
+  //         ack = purchases[0].isAcknowledgedAndroid;
 
-          console.log('purchasetoken:' + purchaseToken);
-          console.log('qra:' + qra);
-          console.log('packageName:' + packageName);
-          console.log('productId:' + productId);
-          console.log('environment:' + environment);
-          console.log('action:' + action);
+  //         console.log('purchasetoken:' + purchaseToken);
+  //         console.log('qra:' + qra);
+  //         console.log('packageName:' + packageName);
+  //         console.log('productId:' + productId);
+  //         console.log('environment:' + environment);
+  //         console.log('action:' + action);
 
-          // si no se hizo el  AcknowledgedAndroid lo hace.
-          if (!purchases[0].isAcknowledgedAndroid)
-            this.props.confirmReceiptAndroid(
-              qra,
-              packageName,
-              purchaseToken,
-              productId,
-              environment,
-              action,
-              ack
-            );
-        }
+  //         // si no se hizo el  AcknowledgedAndroid lo hace.
+  //         if (!purchases[0].isAcknowledgedAndroid)
+  //           this.props.confirmReceiptAndroid(
+  //             qra,
+  //             packageName,
+  //             purchaseToken,
+  //             productId,
+  //             environment,
+  //             action,
+  //             ack
+  //           );
+  //       }
 
-        // this.setState({
-        //   availableItemsMessage: `Got ${purchases.length} items.`,
-        //   receipt: purchases[0].transactionReceipt,
-        // });
-      } else {
-        console.log('viene vacio el purchaseAvailable');
-        //  if (Platform.OS==='android')
-        //  {
-        //       this.props.manageLocationPermissions("iapshowed",0);
-        //       this.props.restoreCall(true,'Sorry, we did not find any active subscription.')
+  //       // this.setState({
+  //       //   availableItemsMessage: `Got ${purchases.length} items.`,
+  //       //   receipt: purchases[0].transactionReceipt,
+  //       // });
+  //     } else {
+  //       console.log('viene vacio el purchaseAvailable');
+  //       //  if (Platform.OS==='android')
+  //       //  {
+  //       //       this.props.manageLocationPermissions("iapshowed",0);
+  //       //       this.props.restoreCall(true,'Sorry, we did not find any active subscription.')
 
-        //    }
-      }
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err));
-      if (__DEV__)
-        crashlytics().recordError(new Error('QsoAvailablePurch_DEV'));
-      else crashlytics().recordError(new Error('QsoAvailablePurch_PRD'));
+  //       //    }
+  //     }
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err));
+  //     if (__DEV__)
+  //       crashlytics().recordError(new Error('QsoAvailablePurch_DEV'));
+  //     else crashlytics().recordError(new Error('QsoAvailablePurch_PRD'));
 
-      Alert.alert(err.message);
-    }
-  };
+  //     Alert.alert(err.message);
+  //   }
+  // };
 
   _handleAppStateChange = async (nextAppState) => {
     // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
