@@ -10,14 +10,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 // import NativeButton from 'apsl-react-native-button';
-import RNIap, {
-  Product,
-  ProductPurchase,
-  acknowledgePurchaseAndroid,
-  purchaseUpdatedListener,
-  purchaseErrorListener,
-  PurchaseError,
-} from 'react-native-iap';
+// import RNIap, {
+//   Product,
+//   ProductPurchase,
+//   acknowledgePurchaseAndroid,
+//   purchaseUpdatedListener,
+//   purchaseErrorListener,
+//   PurchaseError,
+// } from 'react-native-iap';
 import { connect } from 'react-redux';
 import { confirmReceiptiOS, manageLocationPermissions } from '../../actions';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -68,13 +68,13 @@ class Iap extends React.PureComponent {
     try {
     //  this.props.pressPurchaseButton(true);
     
-      const result = await RNIap.initConnection();
+      // const result = await RNIap.initConnection();
 
-      // busco codigos de subscripcion para iOS sino me falla el GetSubscription
+      // // busco codigos de subscripcion para iOS sino me falla el GetSubscription
             
-      const products = await RNIap.getSubscriptions(itemSubs);
-      console.log('busco codigos de subscripciones');
-      console.log(products);
+      // const products = await RNIap.getSubscriptions(itemSubs);
+      // console.log('busco codigos de subscripciones');
+      // console.log(products);
       // this.setState({localizedPrice: products[0].localizedPrice});
 
 
@@ -156,168 +156,168 @@ class Iap extends React.PureComponent {
   //   Alert.alert('Receipt', this.state.receipt);
   // }
 
-  getItems = async() => {
-    try {
-      const products = await RNIap.getProducts(itemSkus);
-      // const products = await RNIap.getSubscriptions(itemSkus);
-      console.log('Products', products);
-      this.setState({ productList: products });
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('IAPgetItems_DEV'));
-      else
-      crashlytics().recordError(new Error('IAPgetItems_PRD'));
-    }
-  }
+  // getItems = async() => {
+  //   try {
+  //     const products = await RNIap.getProducts(itemSkus);
+  //     // const products = await RNIap.getSubscriptions(itemSkus);
+  //     console.log('Products', products);
+  //     this.setState({ productList: products });
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('IAPgetItems_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('IAPgetItems_PRD'));
+  //   }
+  // }
 
-  getSubscriptions = async() => {
-    try {
-      const products = await RNIap.getSubscriptions(itemSubs);
-      console.log('Products', products);
-      this.setState({ productList: products });
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('IAPgetSubscriptions_DEV'));
-      else
-      crashlytics().recordError(new Error('IAPgetSubscriptions_PRD'));
-    }
-  }
+  // getSubscriptions = async() => {
+  //   try {
+  //     const products = await RNIap.getSubscriptions(itemSubs);
+  //     console.log('Products', products);
+  //     this.setState({ productList: products });
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('IAPgetSubscriptions_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('IAPgetSubscriptions_PRD'));
+  //   }
+  // }
 
-  getAvailablePurchases = async() => {
-    try {
-      console.info('Get available purchases (non-consumable or unconsumed consumable)');
-       const purchases = await RNIap.getPurchaseHistory();
+  // getAvailablePurchases = async() => {
+  //   try {
+  //     console.info('Get available purchases (non-consumable or unconsumed consumable)');
+  //      const purchases = await RNIap.getPurchaseHistory();
     
-      // console.log('purchased HISTORY');
-      // purchasesHisotry.map((purch3, j) => {
-      //   console.log('productID:'+ purch3.productId);
-      //   console.log('TransactionID:'+ purch3.transactionId);
-      //   console.log('transactionDate:'+ purch3.transactionDate);
-      //   console.log('originalTransactionDateIOS:'+ purch3.originalTransactionDateIOS);
-      //   console.log('originalTransactionIdentifierIOS:'+ purch3.originalTransactionIdentifierIOS);
-      //   });
+  //     // console.log('purchased HISTORY');
+  //     // purchasesHisotry.map((purch3, j) => {
+  //     //   console.log('productID:'+ purch3.productId);
+  //     //   console.log('TransactionID:'+ purch3.transactionId);
+  //     //   console.log('transactionDate:'+ purch3.transactionDate);
+  //     //   console.log('originalTransactionDateIOS:'+ purch3.originalTransactionDateIOS);
+  //     //   console.log('originalTransactionIdentifierIOS:'+ purch3.originalTransactionIdentifierIOS);
+  //     //   });
      
      
      
-  //    const purchases = await RNIap.getAvailablePurchases();
+  // //    const purchases = await RNIap.getAvailablePurchases();
 
-      // console.log('UNSORTED purchases:');
-      // purchases.map((purch, i) => {
-      // console.log('productID:'+ purch.productId);
-      // console.log('TransactionID:'+ purch.transactionId);
-      // console.log('transactionDate:'+ purch.transactionDate);
-      // console.log('originalTransactionDateIOS:'+ purch.originalTransactionDateIOS);
-      // console.log('originalTransactionIdentifierIOS:'+ purch.originalTransactionIdentifierIOS);
-      // });
+  //     // console.log('UNSORTED purchases:');
+  //     // purchases.map((purch, i) => {
+  //     // console.log('productID:'+ purch.productId);
+  //     // console.log('TransactionID:'+ purch.transactionId);
+  //     // console.log('transactionDate:'+ purch.transactionDate);
+  //     // console.log('originalTransactionDateIOS:'+ purch.originalTransactionDateIOS);
+  //     // console.log('originalTransactionIdentifierIOS:'+ purch.originalTransactionIdentifierIOS);
+  //     // });
 
-      const sortedAvailablePurchases = purchases.sort(
-        (a, b) => b.transactionDate - a.transactionDate
-      );
-      const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
-   //   console.info('Available purchases :: ', purchases);
-    //  console.log('purchases:');
+  //     const sortedAvailablePurchases = purchases.sort(
+  //       (a, b) => b.transactionDate - a.transactionDate
+  //     );
+  //     const latestAvailableReceipt = sortedAvailablePurchases[0].transactionReceipt;
+  //  //   console.info('Available purchases :: ', purchases);
+  //   //  console.log('purchases:');
 
-      console.log('SORTED purchase HISTORY:');
-      sortedAvailablePurchases.map((purch2, j) => {
-        console.log('productID:'+ purch2.productId);
-        console.log('TransactionID:'+ purch2.transactionId);
-        console.log('transactionDate:'+ purch2.transactionDate);
-        console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
-        console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
-        });
+  //     console.log('SORTED purchase HISTORY:');
+  //     sortedAvailablePurchases.map((purch2, j) => {
+  //       console.log('productID:'+ purch2.productId);
+  //       console.log('TransactionID:'+ purch2.transactionId);
+  //       console.log('transactionDate:'+ purch2.transactionDate);
+  //       console.log('originalTransactionDateIOS:'+ purch2.originalTransactionDateIOS);
+  //       console.log('originalTransactionIdentifierIOS:'+ purch2.originalTransactionIdentifierIOS);
+  //       });
 
 
 
-      console.log("imprimo receipt [1]:");
+  //     console.log("imprimo receipt [1]:");
 
-      console.log(latestAvailableReceipt);
-     const receiptBody = {
-      'receipt-data': latestAvailableReceipt,
-      'password': 'f73fc083d2b94b93bdbd2a1a7402aae5'
-    };
-    const result = await RNIap.validateReceiptIos(receiptBody, true);
-    console.log("imprimo verificacion de receipt [1]:");
-    console.log(result);
+  //     console.log(latestAvailableReceipt);
+  //    const receiptBody = {
+  //     'receipt-data': latestAvailableReceipt,
+  //     'password': 'f73fc083d2b94b93bdbd2a1a7402aae5'
+  //   };
+  //   const result = await RNIap.validateReceiptIos(receiptBody, true);
+  //   console.log("imprimo verificacion de receipt [1]:");
+  //   console.log(result);
     
-    const renewalHistory = result.latest_receipt_info
-   // console.log(renewalHistory);
+  //   const renewalHistory = result.latest_receipt_info
+  //  // console.log(renewalHistory);
     
-    //This returns the expiration date of the latest renewal of the latest purchase
-     const expiration = renewalHistory[renewalHistory.length - 1].expires_date_ms
-    //Boolean for whether it has expired. Can use in your app to enable/disable subscription
-    // console.log(expiration > Date.now())
-    console.log('expires_date: ',expiration);
-    console.log(expiration > Date.now())
+  //   //This returns the expiration date of the latest renewal of the latest purchase
+  //    const expiration = renewalHistory[renewalHistory.length - 1].expires_date_ms
+  //   //Boolean for whether it has expired. Can use in your app to enable/disable subscription
+  //   // console.log(expiration > Date.now())
+  //   console.log('expires_date: ',expiration);
+  //   console.log(expiration > Date.now())
     
     
-    console.log("fin valido receipt [1]:");
+  //   console.log("fin valido receipt [1]:");
 
       
 
-      if (purchases && purchases.length > 0) {
-        this.setState({
-          availableItemsMessage: `Got ${purchases.length} items.`,
-          receipt: purchases[0].transactionReceipt,
-        });
-      }
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('IAPgetAvailablePurc_DEV'));
-      else
-      crashlytics().recordError(new Error('IAPgetAvailablePurc_PRD'));
-       Alert.alert(err.message);
+  //     if (purchases && purchases.length > 0) {
+  //       this.setState({
+  //         availableItemsMessage: `Got ${purchases.length} items.`,
+  //         receipt: purchases[0].transactionReceipt,
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('IAPgetAvailablePurc_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('IAPgetAvailablePurc_PRD'));
+  //      Alert.alert(err.message);
        
-    }
-  }
+  //   }
+  // }
 
   // Version 3 apis
-  requestPurchase = async(sku) => {
-    try {
-      RNIap.requestPurchase(sku);
-    } catch (err) {
-      console.warn(err.code, err.message);
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('IAPrequestPurch_DEV'));
-      else
-      crashlytics().recordError(new Error('IAPrequestPurch_PRD'));
-    }
-  }
+  // requestPurchase = async(sku) => {
+  //   try {
+  //     RNIap.requestPurchase(sku);
+  //   } catch (err) {
+  //     console.warn(err.code, err.message);
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('IAPrequestPurch_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('IAPrequestPurch_PRD'));
+  //   }
+  // }
 
-  requestSubscription = async(sku) => {
-    try {
-      console.log('iapshowed mando TRUE');
+  // requestSubscription = async(sku) => {
+  //   try {
+  //     console.log('iapshowed mando TRUE');
       
-        this.props.manageLocationPermissions("iapshowed",1);
-        RNIap.requestSubscription(sku);   
+  //       this.props.manageLocationPermissions("iapshowed",1);
+  //       RNIap.requestSubscription(sku);   
 
-    } catch (err) {
-      crashlytics().setUserId(this.props.qra);
-      crashlytics().log('error: ' + JSON.stringify(err)) ;
-      if(__DEV__)
-      crashlytics().recordError(new Error('IAPrequestSubs_DEV'));
-      else
-      crashlytics().recordError(new Error('IAPrequestSubs_PRD'));
-      Alert.alert(err.message);
-    }
-  }
+  //   } catch (err) {
+  //     crashlytics().setUserId(this.props.qra);
+  //     crashlytics().log('error: ' + JSON.stringify(err)) ;
+  //     if(__DEV__)
+  //     crashlytics().recordError(new Error('IAPrequestSubs_DEV'));
+  //     else
+  //     crashlytics().recordError(new Error('IAPrequestSubs_PRD'));
+  //     Alert.alert(err.message);
+  //   }
+  // }
 
-  buySubscription = async () => {
-    if (Platform.OS==='android')
-        this.requestSubscription('001')
-      else
-        this.requestSubscription('PremiumMonthly')
-  }
+  // buySubscription = async () => {
+  //   if (Platform.OS==='android')
+  //       this.requestSubscription('001')
+  //     else
+  //       this.requestSubscription('PremiumMonthly')
+  // }
 
 
 

@@ -195,7 +195,7 @@ PODS:
     - RNPermissions
   - PersonalizedAdConsent (1.0.5)
   - PromisesObjC (1.2.12)
-  - Protobuf (3.19.0)
+  - Protobuf (3.19.1)
   - RCTRequired (0.63.2)
   - RCTTypeSafety (0.63.2):
     - FBLazyVector (= 0.63.2)
@@ -506,8 +506,6 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNIap (4.0.7):
-    - React
   - RNImageCropPicker (0.36.2):
     - React-Core
     - React-RCTImage
@@ -619,7 +617,6 @@ DEPENDENCIES:
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -793,8 +790,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNIap:
-    :path: "../node_modules/react-native-iap"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   RNLocalize:
@@ -861,7 +856,7 @@ SPEC CHECKSUMS:
   Permission-PhotoLibrary: 5b198e177c0bc5c91c20e66ae7202d0183c78b87
   PersonalizedAdConsent: dbecabb3467df967c16d9cebc2ef4a8890e4bbd8
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Protobuf: e9b99dd5da72f665ec503b19191f245a22188b4d
+  Protobuf: 3724efa50cb2846d7ccebc8691c574e85fd74471
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
   React: e1c65dd41cb9db13b99f24608e47dd595f28ca9a
@@ -911,7 +906,6 @@ SPEC CHECKSUMS:
   RNFBDynamicLinks: 9e3f6089a4ff522abb6eba2296e1360a84c7449e
   RNFBRemoteConfig: b9b375a55a208239bce1eccd6c752167f8475c3e
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNIap: c54d03f31fe74b1f753580c8111a6394948a7b9e
   RNImageCropPicker: 35a3ceb837446fa11547704709bb22b5fac6d584
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNPermissions: 84ffe5ee7d608e037d9ed1db846ffb1d5d4e1dba
