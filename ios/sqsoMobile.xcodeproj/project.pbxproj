@@ -132,6 +132,8 @@
 		67A7B9C72614F2E500538B79 /* sqsoMobileRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = sqsoMobileRelease.entitlements; path = sqsoMobile/sqsoMobileRelease.entitlements; sourceTree = "<group>"; };
 		67ADC8BD2555D0320073BE0D /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		67AE5C052721B543002E6108 /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
+		67D141102728384B00FF7B0F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		67D141112728384B00FF7B0F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7A52F819B97441E297F89003 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		803E696069C4431D7428B474 /* Pods-sqsoMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sqsoMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-sqsoMobile-tvOS/Pods-sqsoMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		808D9A00AB0D707A05E9C4FC /* libPods-sqsoMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sqsoMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -546,6 +548,7 @@
 				en,
 				Base,
 				es,
+				ja,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1058,6 +1061,7 @@
 			children = (
 				675923F7249BFD9900E75612 /* en */,
 				675923F9249BFE0200E75612 /* es */,
+				67D141112728384B00FF7B0F /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1066,6 +1070,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6764767425405C9500963A7B /* Base */,
+				67D141102728384B00FF7B0F /* ja */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";

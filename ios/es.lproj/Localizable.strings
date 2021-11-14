@@ -25,9 +25,9 @@
 "PUSH_NEWFLDDAY_MESSAGE" =  "Mira los detalles aquí";
 "PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ te etiquetó en su Activación";
 "PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "Mira los detalles aquí";
-"PUSH_NEWQAP_TITLE" = "%@ publicó que esta QAP";
+"PUSH_NEWQAP_TITLE" = "%@ esta llamando CQ";
 "PUSH_NEWQAP_MESSAGE" =  "Mirá los detalles aquí";
-"PUSH_TAGYOUNEWQAP_TITLE" = "%@ te etiquetó en su publ. QAP";
+"PUSH_TAGYOUNEWQAP_TITLE" = "%@ te etiquetó en su publ. CQ";
 "PUSH_TAGYOUNEWQAP_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTQSO_TITLE" = "%@ republicó un QSO";
 "PUSH_REPOSTQSO_MESSAGE" =  "Mirá los detalles aquí";
@@ -37,7 +37,7 @@
 "PUSH_REPOSTANY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTFLDDAY_TITLE" = "%@ republicó una activación";
 "PUSH_REPOSTFLDDAY_MESSAGE" =  "Mirá los detalles aquí";
-"PUSH_REPOSTQAP_TITLE" = "%@ republicó un QAP";
+"PUSH_REPOSTQAP_TITLE" = "%@ republicó un CQ";
 "PUSH_REPOSTQAP_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_MARKETING_TITLE" = "%@";
 "PUSH_MARKETING_MESSAGE" =  "%@";
