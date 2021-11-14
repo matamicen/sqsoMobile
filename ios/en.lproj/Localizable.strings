@@ -21,9 +21,9 @@
 "PUSH_LISTENEDQSO_MESSAGE" = "Mode: %@ Band: %@ UTC: %@";
 "PUSH_LISTENEDYOUQSO_TITLE" = "%@ listened you in a QSO";
 "PUSH_LISTENEDYOUQSO_MESSAGE" =  "Mode: %@ Band: %@";
-"PUSH_NEWFLDDAY_TITLE" = "%@ promoted a Field Day";
+"PUSH_NEWFLDDAY_TITLE" = "%@ promoted an Activitiy";
 "PUSH_NEWFLDDAY_MESSAGE" =  "See more details here";
-"PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ tagged you in a Field Day post";
+"PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ tagged you in an Activity post";
 "PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "See more details here";
 "PUSH_NEWQAP_TITLE" = "%@ is calling CQ";
 "PUSH_NEWQAP_MESSAGE" =  "See more details here";
@@ -35,7 +35,7 @@
 "PUSH_REPOSTLISTEN_MESSAGE" =  "See more details here";
 "PUSH_REPOSTANY_TITLE" = "%@ repost a post";
 "PUSH_REPOSTANY_MESSAGE" =  "See more details here";
-"PUSH_REPOSTFLDDAY_TITLE" = "%@ repost a Field Day";
+"PUSH_REPOSTFLDDAY_TITLE" = "%@ repost an Activity";
 "PUSH_REPOSTFLDDAY_MESSAGE" =  "See more details here";
 "PUSH_REPOSTQAP_TITLE" = "%@ repost a CQ";
 "PUSH_REPOSTQAP_MESSAGE" =  "See more details here";

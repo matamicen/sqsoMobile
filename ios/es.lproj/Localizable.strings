@@ -21,9 +21,9 @@
 "PUSH_LISTENEDQSO_MESSAGE" = "Modo: %@ Banda: %@ UTC: %@";
 "PUSH_LISTENEDYOUQSO_TITLE" = "%@ te escuchó a tí en un QSO";
 "PUSH_LISTENEDYOUQSO_MESSAGE" =  "Modo: %@ Banda: %@";
-"PUSH_NEWFLDDAY_TITLE" = "%@ promociono una Activación";
+"PUSH_NEWFLDDAY_TITLE" = "%@ promociono una Actividad";
 "PUSH_NEWFLDDAY_MESSAGE" =  "Mira los detalles aquí";
-"PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ te etiquetó en su Activación";
+"PUSH_TAGYOUNEWFLDDAY_TITLE" = "%@ te etiquetó en su Actividad";
 "PUSH_TAGYOUNEWFLDDAY_MESSAGE" =  "Mira los detalles aquí";
 "PUSH_NEWQAP_TITLE" = "%@ esta llamando CQ";
 "PUSH_NEWQAP_MESSAGE" =  "Mirá los detalles aquí";
@@ -35,7 +35,7 @@
 "PUSH_REPOSTLISTEN_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTANY_TITLE" = "%@ republicó una publicación";
 "PUSH_REPOSTANY_MESSAGE" =  "Mirá los detalles aquí";
-"PUSH_REPOSTFLDDAY_TITLE" = "%@ republicó una activación";
+"PUSH_REPOSTFLDDAY_TITLE" = "%@ republicó una actividad";
 "PUSH_REPOSTFLDDAY_MESSAGE" =  "Mirá los detalles aquí";
 "PUSH_REPOSTQAP_TITLE" = "%@ republicó un CQ";
 "PUSH_REPOSTQAP_MESSAGE" =  "Mirá los detalles aquí";
