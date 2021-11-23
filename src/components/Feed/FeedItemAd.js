@@ -1,6 +1,6 @@
 import { BannerAd, BannerAdSize } from '@react-native-firebase/admob';
 import React from 'react';
-import { Platform, View, Linking } from 'react-native';
+import { Platform, View, Linking, Dimensions } from 'react-native';
 import global_config from '../../global_config.json';
 import { Image } from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
@@ -12,6 +12,9 @@ export default function FeedItemAdd(props) {
   } else {
     adUnitId = 'ca-app-pub-1064314468310203/8095250311';
   }
+
+  const screenWidth = Dimensions.get('window').width;
+  console.log('Dimension Width:'+screenWidth)
 
   const adNumber = (String(Date.now()).substr(12, 1) % 2);
   // console.log('INTERNET CHECK NOW: ' + fechaEnMiliseg);
@@ -184,10 +187,12 @@ export default function FeedItemAdd(props) {
                <Image
           style={{
           
-            height: Platform.OS === 'ios' ? 390: 395,
+            // height: Platform.OS === 'ios' ? 390: 395,
+            height: screenWidth,
             padding: 0,
             margin: 0,
-            width: Platform.OS === 'ios' ? 390: 395,
+            // width: Platform.OS === 'ios' ? 390: 395,
+            width: screenWidth
             // width: 415
           }}
           onPress={() => {
