@@ -26,7 +26,7 @@ export default {
   signupFoundingDate: 'Date of founding (optional)',
   signupCountry: 'country',
   callsignTaken:
-    'The callSign is taken. Please send us a copy of your callsign license issued by your country to info@superqso.com',
+    'CallSign taken.Please send us your callsign license to info@superqso.com',
   signupPhone: 'phone (optional)',
   signupPassword: 'password',
   signupPasswordConfirm: 'password confirm',

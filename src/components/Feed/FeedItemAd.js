@@ -25,27 +25,80 @@ export default function FeedItemAdd(props) {
   // const adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
    let adToshow = ''
    let urllink = ''
+   let newIndex = 0;
 
-  if (props.feed === 'GLOBAL'){
-       adToshow = props.userinfo.ads.feedGlobal[props.currentIndex].adimageurl
-       urllink = props.userinfo.ads.feedGlobal[props.currentIndex].urllink 
+  if (props.feed === 'GLOBAL' && props.feedType !== 'DETAIL'){
+    // este algoritmo busca la publicidad mas cercana para atras porque la publicidad aparece cada % 5 = 0 
+    // y al agegarle dinamicamente en la posicion 3 el Carousel cambian todas las posiciones de la publicidad
+    until = props.currentIndex - 7;
+    for(i = props.currentIndex;i > until; i--)
+    {
+      if (props.userinfo.ads.feedRegional[i].adimageurl)
+       { newIndex = i;
+        break;
+       }
+    }
+      //  adToshow = props.userinfo.ads.feedGlobal[props.currentIndex].adimageurl
+      //  urllink = props.userinfo.ads.feedGlobal[props.currentIndex].urllink 
+      adToshow = props.userinfo.ads.feedGlobal[newIndex].adimageurl
+      urllink = props.userinfo.ads.feedGlobal[newIndex].urllink 
   }
-  if (props.feed === 'REGIONAL'){
-       adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
-       urllink = props.userinfo.ads.feedRegional[props.currentIndex].urllink 
+  if (props.feed === 'REGIONAL' && props.feedType !== 'DETAIL'){
+        until = props.currentIndex - 7;
+        for(i = props.currentIndex;i > until; i--)
+        {
+          if (props.userinfo.ads.feedRegional[i].adimageurl)
+           { newIndex = i;
+            break;
+           }
+        }
+      //  adToshow = props.userinfo.ads.feedRegional[props.currentIndex].adimageurl
+      //  urllink = props.userinfo.ads.feedRegional[props.currentIndex].urllink 
+      adToshow = props.userinfo.ads.feedRegional[newIndex].adimageurl
+      urllink = props.userinfo.ads.feedRegional[newIndex].urllink 
       }
-  if (props.feed === 'FOLLOWING'){
-       adToshow = props.userinfo.ads.feedFollowing[props.currentIndex].adimageurl
-       urllink = props.userinfo.ads.feedFollowing[props.currentIndex].urllink 
+  if (props.feed === 'FOLLOWING' && props.feedType !== 'DETAIL'){
+    until = props.currentIndex - 7;
+    for(i = props.currentIndex;i > until; i--)
+    {
+      if (props.userinfo.ads.feedRegional[i].adimageurl)
+       { newIndex = i;
+        break;
+       }
+    }
+      //  adToshow = props.userinfo.ads.feedFollowing[props.currentIndex].adimageurl
+      //  urllink = props.userinfo.ads.feedFollowing[props.currentIndex].urllink 
+      adToshow = props.userinfo.ads.feedFollowing[newIndex].adimageurl
+      urllink = props.userinfo.ads.feedFollowing[newIndex].urllink 
       }
-  if (props.feed === 'QAP'){
-      adToshow = props.userinfo.ads.feedCQ[props.currentIndex].adimageurl
-      urllink = props.userinfo.ads.feedCQ[props.currentIndex].urllink 
+  if (props.feed === 'QAP' && props.feedType !== 'DETAIL'){
+    until = props.currentIndex - 7;
+    for(i = props.currentIndex;i > until; i--)
+    {
+      if (props.userinfo.ads.feedRegional[i].adimageurl)
+       { newIndex = i;
+        break;
+       }
+    }
+      // adToshow = props.userinfo.ads.feedCQ[props.currentIndex].adimageurl
+      // urllink = props.userinfo.ads.feedCQ[props.currentIndex].urllink 
+      adToshow = props.userinfo.ads.feedCQ[newIndex].adimageurl
+      urllink = props.userinfo.ads.feedCQ[newIndex].urllink 
   }
   
-      if (props.feedType === 'PROFILE'){
-        adToshow = props.userinfo.ads.feedProfile[props.currentIndex].adimageurl
-        urllink = props.userinfo.ads.feedProfile[props.currentIndex].urllink
+      if (props.feedType === 'PROFILE' && props.feedType !== 'DETAIL'){
+        until = props.currentIndex - 7;
+        for(i = props.currentIndex;i > until; i--)
+        {
+          if (props.userinfo.ads.feedRegional[i].adimageurl)
+           { newIndex = i;
+            break;
+           }
+        }
+        // adToshow = props.userinfo.ads.feedProfile[props.currentIndex].adimageurl
+        // urllink = props.userinfo.ads.feedProfile[props.currentIndex].urllink
+        adToshow = props.userinfo.ads.feedProfile[newIndex].adimageurl
+        urllink = props.userinfo.ads.feedProfile[newIndex].urllink
       }
 
 

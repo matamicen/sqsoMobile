@@ -580,49 +580,7 @@ class InitialScreen extends React.PureComponent {
               // </TouchableOpacity>
             }
           </View>
-          <View style={{ flex: 0.5, alignItems: 'flex-end', marginRight: 17 }}>
-            <TouchableOpacity
-              style={{}}
-              onPress={() => {
-                this.props.doClearFeed(this.props.publicFeed);
-                if (this.props.publicFeed==='REGIONAL' && !this.props.isfetchingregionalfeed) this.props.actions.doFetchRegionalFeed(false,this.props.blockedusers);
-                if (this.props.publicFeed==='GLOBAL') this.props.doFetchPublicFeed(false,this.props.blockedusers);
-                if (this.props.publicFeed==='FOLLOWING') this.props.doFetchUserFeed(this.props.currentQRA,true,this.props.blockedusers);
-                if (this.props.publicFeed==='QAP') this.props.doFetchPublicQAPfeed(true,this.props.blockedusers);                 
-                // if (this.props.publicFeed) this.props.doFetchPublicFeed();
-                // else this.props.doFetchUserFeed(this.props.currentQRA);
-                this.props.doFetchFieldDaysFeed(this.props.blockedusers);
-                this.props.doFollowFetch();
-                this.props.doLatestUsersFetch(this.props.currentQRA,this.props.blockedusers);
-
-                this.props.getUserInfo(this.props.jwtToken);
-              }}>
-              <Image
-                source={require('../../images/reload.png')}
-                style={{
-                  width: 20,
-                  height: 20,
-                  marginLeft: I18n.locale.substring(0, 2) === 'es' ? 15 : 12
-                }}
-                resizeMode="contain"
-              />
-              {/* <TouchableOpacity style={{marginTop: 15}} onPress={ () => this.signOut()} > */}
-              <Text style={{ fontSize: 13, color: '#999' }}>
-                {I18n.t('InitialScreenRefrescar')}
-              </Text>
-            </TouchableOpacity>
-
-            {/* <TouchableOpacity style={styles.FollowingsText}
-                          onPress={() => this.props.getUserInfo(this.props.jwtToken)}>
-                          <Text
-                            style={styles.FollowingsText}
-                          >
-                            REFRESH
-                          </Text>
-                        </TouchableOpacity> */}
-          </View>
-
-          {/* </View>       */}
+    
         </View>
 
         <View style={{ flex: 0.605, width: this.width - 15, marginBottom: 10 }}>

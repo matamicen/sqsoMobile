@@ -74,31 +74,34 @@ class FeedItem extends React.Component {
              && this.props.feedType !== 'SEARCH')
           
             return (
-              <View>
+              // <View>
                  <ActivitiesCarousel /> 
                   
-                              <View
-                  style={{
-                    height: 20,
-                    width: '100%',
-                    backgroundColor: '#CED0CE'
-                    // marginLeft: '14%'
-                  }}
-                />
-                <FeedItemAd
-                  feedType={this.props.feedType}
-                  country={this.props.country}
-                  currentIndex={this.props.currentIndex}
-                  userinfo={this.props.userinfo}
-                  feed={this.props.publicFeed}
-                />
+                //               <View
+                //   style={{
+                //     height: 20,
+                //     width: '100%',
+                //     backgroundColor: '#CED0CE'
+                //     // marginLeft: '14%'
+                //   }}
+                // />
+              //  <FeedItemAd
+              //     feedType={this.props.feedType}
+              //     country={this.props.country}
+              //     currentIndex={this.props.currentIndex}
+              //     userinfo={this.props.userinfo}
+              //     feed={this.props.publicFeed}
+              //   /> 
                
-            </View>
+            // </View>
             );
-          else if (
-            (this.props.currentIndex === 8 || this.props.currentIndex % 16 === 0) && this.props.feedType !== 'PROFILE'
-              && this.props.feedType !== 'SEARCH')
+          // else if (
+          //   (this.props.currentIndex === 8 || this.props.currentIndex % 16 === 0) && this.props.feedType !== 'PROFILE'
+          //     && this.props.feedType !== 'SEARCH')
+          else if (this.props.currentIndex == 7 && this.props.feedType !== 'PROFILE'
+              && this.props.feedType !== 'SEARCH' )
            {
+             console.log('follow: '+this.props.currentIndex)
             return (
               <View>
                  <FeedItemFollow

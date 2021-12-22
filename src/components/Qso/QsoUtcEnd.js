@@ -216,7 +216,8 @@ class QsoUtcEnd extends React.PureComponent {
                   }}>
         <RNDateTimePicker mode="time" 
                   value={this.state.date}
-                  style={{width:'100%',marginLeft: 220,marginTop:20}}
+                  // style={{width:'100%',marginLeft: 220,marginTop:20}}
+                  style={{width:'100%', marginLeft: Platform.Version <= '14' ? 220: 0,marginRight: Platform.Version > '14' ? 180:0, marginTop:20}}
                     display="default"
                     is24Hour={true}
                    onChange={this.onChange}
