@@ -253,7 +253,8 @@ class QsoDateBegin extends React.PureComponent {
                   }}>
          <DateTimePicker
           testID="dateTimePicker"
-          style={{width:'100%', marginLeft: 170,marginTop:20}}
+          // style={{width:'100%', marginLeft: 170,marginTop:20}}
+          style={{width:'100%', marginLeft: Platform.Version <= '14' ? 170: 0,marginRight: Platform.Version > '14' ? 180:0, marginTop:20}}
           value={this.state.date}
           mode={this.state.mode}
           is24Hour={true}

@@ -919,7 +919,7 @@ class LoginForm extends React.PureComponent {
     this.setState({ indicator: 1, loginerror: 0 });
 
     //if(this.internet){
-    if (await hasAPIConnection()) {
+    // if (await hasAPIConnection()) {
       //this.setState({indicator: 1, loginerror: 0});
       this.state.username = this.state.username.trim();
       console.log(
@@ -1225,10 +1225,10 @@ class LoginForm extends React.PureComponent {
       // Keyboard.dismiss();
 
       // }
-    } else {
-      this.setState({ indicator: 0 });
-      this.setState({ nointernet: true });
-    }
+    // } else {
+    //   this.setState({ indicator: 0 });
+    //   this.setState({ nointernet: true });
+    // }
   };
 
   SignUpForm = async () => {
